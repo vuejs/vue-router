@@ -1,14 +1,22 @@
 var Recognizer = require('route-recognizer')
 var location = window.location
+var history = window.history
+var hasPushState = history && history.pushState
 
 /**
  * Router constructor
+ *
+ * @param {Object} [options]
+ *                 - {Boolean} hashbang  (default: true)
+ *                 - {Boolean} pushstate (default: false)
  */
 function VueRouter (options) {
   this._recognizer = new Recognizer()
   this._root = null
-  this._hashbang = options && !!options.hashbang
-  this._history = options && !!options.html5history
+  this._currentPath = null
+  this._notfoundHandler = null
+  this._hashbang = !(options && options.hashbang === false)
+  this._pushstate = !!(hasPushState && options && options.pushstate)
 }
 
 var p = VueRouter.prototype
@@ -32,22 +40,27 @@ p.on = function (rootPath, config) {
   this._addRoute(rootPath, config, [])
 }
 
-p.notfound = function () {
-
+p.notfound = function (handler) {
+  this._notfoundHandler = [{ handler: handler }]
 }
 
-p.redirect = function () {
-  
+p.redirect = function (map) {
+  // TODO
+  // use another recognizer to recognize redirects
 }
 
 p.go = function (path) {
-  if (this._history) {
+  if (this._pushstate) {
 
   } else {
     window.location.hash = this._hashbang
       ? '!' + path
       : path
   }
+}
+
+p.back = function () {
+  
 }
 
 /**
@@ -61,7 +74,7 @@ p.init = function (root) {
     return
   }
   this._root = root
-  if (this._history) {
+  if (this._pushstate) {
     this.initHistoryMode()
   } else {
     this.initHashMode()
@@ -71,6 +84,15 @@ p.init = function (root) {
 p.initHashMode = function () {
   var self = this
   function onHashChange () {
+    // format hashbang
+    if (
+      self._hashbang &&
+      location.hash &&
+      location.hash.charAt(1) !== '!'
+    ) {
+      location.hash = '!' + location.hash.slice(1)
+      return
+    }
     var hash = location.hash.replace(/^#!?/, '')
     var url = hash + location.search
     self._match(url)
@@ -80,7 +102,13 @@ p.initHashMode = function () {
 }
 
 p.initHistoryMode = function () {
-
+  var self = this
+  function onPopState () {
+    
+    self._match(url)
+  }
+  window.addEventListener('popstate', onPopState)
+  onPopState()
 }
 
 p.stop = function () {
@@ -121,20 +149,39 @@ p._addRoute = function (path, config, segments) {
 }
 
 /**
- * Match a URL path and set the routeContext on root,
+ * Match a URL path and set the route context on root,
  * triggering view updates.
  *
  * @param {String} path
  */
 p._match = function (path) {
+  if (path === this._currentPath) {
+    return
+  }
+  this._currentPath = path
   var matched = this._recognizer.recognize(path)
+  // aggregate params
+  var params
+  if (matched) {
+    params = [].reduce.call(matched, function (prev, cur) {
+      if (cur.params) {
+        for (var key in cur.params) {
+          prev[key] = cur.params[key]
+        }
+      }
+      return prev
+    }, {})
+  }
+  // construct route context
   var context = {
-    _path: path,
-    _matched: matched,
+    path: path,
+    params: params,
+    query: matched && matched.queryParams,
+    _matched: matched || this._notfoundHandler,
     _matchedCount: 0,
     _router: this
   }
-  this._root.$set('routeContext', context)
+  this._root.$set('route', context)
 }
 
 VueRouter.install = function (Vue) {

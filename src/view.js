@@ -17,7 +17,7 @@ module.exports = function (Vue) {
       // using v-with
       this.el.setAttribute(
         Vue.config.prefix + 'with',
-        'routeContext:routeContext'
+        'route:route'
       )
       // set currentView ref
       this.el.setAttribute(
@@ -27,63 +27,55 @@ module.exports = function (Vue) {
       // force dynamic directive
       this._isDynamicLiteral = true
       // react to route change
-      this.currentContext = null
       this.currentRoute = null
       this.currentComponentId = null
       this.onRouteChange = _.bind(this.onRouteChange, this)
-      this.unwatch = this.vm.$watch('routeContext', this.onRouteChange)
+      this.unwatch = this.vm.$watch('route', this.onRouteChange)
       // finally, init by delegating to v-component
       component.bind.call(this)
-      if (this.vm.routeContext) {
-        this.onRouteChange(this.vm.routeContext)
+      if (this.vm.route) {
+        this.onRouteChange(this.vm.route)
       }
     },
 
-    onRouteChange: function (context) {
-      this.currentContext = context
-      if (!context._matched) {
+    onRouteChange: function (route) {
+      this.currentRoute = route
+      if (!route._matched) {
         // route not found, this outlet is invalidated
         return this.invalidate()
       }
-      var route = this.currentRoute =
-        context._matched[context._matchedCount]
-      if (!route) {
-        // no sub-route that matches this outlet
+      var segment = route._matched[route._matchedCount]
+      if (!segment) {
+        // no segment that matches this outlet
         return this.invalidate()
       }
-      // mutate the context as we pass it further down the
+      // mutate the route as we pass it further down the
       // chain. this series of mutation is done exactly once
-      // for every context as we match the components to render.
-      context._matchedCount++
+      // for every route as we match the components to render.
+      route._matchedCount++
       // trigger component switch
-      if (route.handler.component !== this.currentComponentId ||
-          route.handler.alwaysRefresh) {
+      if (segment.handler.component !== this.currentComponentId ||
+          segment.handler.alwaysRefresh) {
         // TODO: handle before/after hooks
-        this.currentComponentId = route.handler.component
-        this.update(route.handler.component)
+        this.currentComponentId = segment.handler.component
+        this.update(segment.handler.component)
       } else if (this.childVM) {
         // possible params change
-        this.childVM.route.path = context._path
-        this.childVM.route.query = context._matched.queryParams
-        this.childVM.route.params = route.params
+        this.childVM.route = route
       }
     },
 
     invalidate: function () {
       this.currentComponentId = null
-      this.currentRoute = null
       this.update(null)
     },
 
     build: function () {
-      var context = this.currentContext
       var route = this.currentRoute
       if (this.keepAlive) {
         var cached = this.cache[this.ctorId]
         if (cached) {
-          cached.route.path = context._path
-          cached.route.query = context._matched.queryParams
-          cached.route.params = route.params
+          cached.route = route
           return cached
         }
       }
@@ -96,12 +88,7 @@ module.exports = function (Vue) {
           _asComponent: true,
           _host: this._host,
           data: {
-            routeContext: null,
-            route: {
-              path: context._path,
-              query: context._matched.queryParams,
-              params: route.params
-            }
+            route: route
           }
         }, this.Ctor)
         if (this.keepAlive) {
