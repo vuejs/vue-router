@@ -49,7 +49,8 @@ p.redirect = function (map) {
 
 p.go = function (path) {
   if (this._pushstate) {
-
+    history.pushState({}, '', path)
+    this._match(path)
   } else {
     location.hash = this._hashbang
       ? '!' + path
@@ -102,8 +103,8 @@ p.initHashMode = function () {
 p.initHistoryMode = function () {
   var self = this
   function onPopState () {
-    // TODO
-    // self._match(url)
+    var url = location.pathname + location.search
+    self._match(url)
   }
   window.addEventListener('popstate', onPopState)
   onPopState()
