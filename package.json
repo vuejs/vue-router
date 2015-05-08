@@ -1,0 +1,38 @@
+{
+  "name": "vue-router",
+  "version": "0.1.0",
+  "description": "A router for Vue.js",
+  "main": "src/index.js",
+  "scripts": {
+    "dev": "webpack --watch",
+    "build": "webpack",
+    "test": "webpack --config webpack.test.config.js && ./node_modules/karma/bin/karma start"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vuejs/vue-router.git"
+  },
+  "keywords": [
+    "vue",
+    "vuejs",
+    "router",
+    "mvvm"
+  ],
+  "author": "Evan You",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/vuejs/vue-router/issues"
+  },
+  "homepage": "https://github.com/vuejs/vue-router#readme",
+  "devDependencies": {
+    "jasmine-core": "^2.3.2",
+    "karma": "^0.12.31",
+    "karma-jasmine": "^0.3.5",
+    "karma-phantomjs-launcher": "^0.1.4",
+    "vue": "^0.11.10",
+    "webpack": "^1.8.11"
+  },
+  "dependencies": {
+    "route-recognizer": "^0.1.5"
+  }
+}
