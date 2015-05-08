@@ -1,6 +1,4 @@
 var Recognizer = require('route-recognizer')
-var location = window.location
-var history = window.history
 var hasPushState = history && history.pushState
 
 /**
@@ -53,7 +51,7 @@ p.go = function (path) {
   if (this._pushstate) {
 
   } else {
-    window.location.hash = this._hashbang
+    location.hash = this._hashbang
       ? '!' + path
       : path
   }
@@ -104,8 +102,8 @@ p.initHashMode = function () {
 p.initHistoryMode = function () {
   var self = this
   function onPopState () {
-    
-    self._match(url)
+    // TODO
+    // self._match(url)
   }
   window.addEventListener('popstate', onPopState)
   onPopState()
