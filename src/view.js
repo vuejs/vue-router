@@ -13,24 +13,14 @@ module.exports = function (Vue) {
   _.extend(viewDef, {
 
     bind: function () {
-      // implicitly pass down route context
-      // using v-with
-      this.el.setAttribute(
-        Vue.config.prefix + 'with',
-        'route:route'
-      )
-      // set currentView ref
-      this.el.setAttribute(
-        Vue.config.prefix + 'ref',
-        'currentView'
-      )
-      // force dynamic directive
-      this._isDynamicLiteral = true
       // react to route change
       this.currentRoute = null
       this.currentComponentId = null
       this.onRouteChange = _.bind(this.onRouteChange, this)
       this.unwatch = this.vm.$watch('route', this.onRouteChange)
+      // force dynamic directive so v-component doesn't
+      // attempt to build right now
+      this._isDynamicLiteral = true
       // finally, init by delegating to v-component
       component.bind.call(this)
       if (this.vm.route) {
@@ -60,7 +50,7 @@ module.exports = function (Vue) {
         this.currentComponentId = segment.handler.component
         this.update(segment.handler.component)
       } else if (this.childVM) {
-        // possible params change
+        // update route context
         this.childVM.route = route
       }
     },

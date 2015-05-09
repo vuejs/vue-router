@@ -7,15 +7,13 @@ module.exports = function (Vue) {
 
     bind: function () {
       var vm = this.vm
-      // normalize leading slash
-      var href = '/' + this.expression.replace(/^\//, '')
+      var href = this.expression
       if (this.el.tagName === 'A') {
         this.el.href = href
       }
       this.handler = function (e) {
         e.preventDefault()
-        var router = vm.route._router
-        router.go((router._root || '') + href)
+        router.go(href)
       }
       this.el.addEventListener('click', this.handler)
     },

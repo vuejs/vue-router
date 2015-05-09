@@ -69,6 +69,10 @@ p.redirect = function (map) {
  */
 p.go = function (path) {
   if (this._pushstate) {
+    // make it relative to root
+    path = this._root
+      ? this._root + '/' + path.replace(/^\//, '')
+      : path
     history.pushState({}, '', path)
     this._match(path)
   } else {
@@ -183,7 +187,11 @@ p._match = function (path) {
   }
   this._currentPath = path
   // normalize against root
-  if (this._root && path.indexOf(this._root) === 0) {
+  if (
+    this._pushstate &&
+    this._root &&
+    path.indexOf(this._root) === 0
+  ) {
     path = path.slice(this._root.length)
   }
   var matched = this._recognizer.recognize(path)
