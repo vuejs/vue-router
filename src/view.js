@@ -105,4 +105,5 @@ module.exports = function (Vue) {
   })
 
   Vue.directive('view', viewDef)
+  Vue.config._terminalDirectives.push('view')
 }

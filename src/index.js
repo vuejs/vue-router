@@ -5,14 +5,26 @@ var hasPushState = history && history.pushState
  * Router constructor
  *
  * @param {Object} [options]
+ *                 - {String} root
  *                 - {Boolean} hashbang  (default: true)
  *                 - {Boolean} pushstate (default: false)
  */
 function VueRouter (options) {
   this._recognizer = new Recognizer()
-  this._root = null
+  this._started = false
+  this._vm = null
   this._currentPath = null
   this._notfoundHandler = null
+  this._root = null
+  var root = options && options.root
+  if (root) {
+    // make sure there's the starting slash
+    if (root.charAt(0) !== '/') {
+      root = '/' + root
+    }
+    // remove trailing slash
+    this._root = root.replace(/\/$/, '')
+  }
   this._hashbang = !(options && options.hashbang === false)
   this._pushstate = !!(hasPushState && options && options.pushstate)
 }
@@ -38,8 +50,13 @@ p.on = function (rootPath, config) {
   this._addRoute(rootPath, config, [])
 }
 
-p.notfound = function (handler) {
-  this._notfoundHandler = [{ handler: handler }]
+/**
+ * Set the notfound route config.
+ *
+ * @param {Object} config
+ */
+p.notfound = function (config) {
+  this._notfoundHandler = [{ handler: config }]
 }
 
 p.redirect = function (map) {
@@ -47,32 +64,32 @@ p.redirect = function (map) {
   // use another recognizer to recognize redirects
 }
 
+/**
+ * Navigate to a given path
+ */
 p.go = function (path) {
   if (this._pushstate) {
     history.pushState({}, '', path)
     this._match(path)
   } else {
+    path = path.replace(/^#!?/, '')
     location.hash = this._hashbang
       ? '!' + path
       : path
   }
 }
 
-p.back = function () {
-  
-}
-
 /**
- * Initiate the router.
+ * Start the router.
  *
- * @param {Vue} root
+ * @param {Vue} vm
  */
-p.init = function (root) {
-  if (this._root) {
-    console.warn('[vue-router] cannot init twice.')
+p.start = function (vm) {
+  if (this._started) {
     return
   }
-  this._root = root
+  this._started = true
+  this._vm = vm
   if (this._pushstate) {
     this.initHistoryMode()
   } else {
@@ -82,7 +99,7 @@ p.init = function (root) {
 
 p.initHashMode = function () {
   var self = this
-  function onHashChange () {
+  this.onRouteChange = function () {
     // format hashbang
     if (
       self._hashbang &&
@@ -94,24 +111,31 @@ p.initHashMode = function () {
     }
     var hash = location.hash.replace(/^#!?/, '')
     var url = hash + location.search
+    url = decodeURI(url)
     self._match(url)
   }
-  window.addEventListener('hashchange', onHashChange)
-  onHashChange()
+  window.addEventListener('hashchange', this.onRouteChange)
+  this.onRouteChange()
 }
 
 p.initHistoryMode = function () {
   var self = this
-  function onPopState () {
+  this.onRouteChange = function () {
     var url = location.pathname + location.search
+    url = decodeURI(url)
     self._match(url)
   }
-  window.addEventListener('popstate', onPopState)
-  onPopState()
+  window.addEventListener('popstate', this.onRouteChange)
+  this.onRouteChange()
 }
 
 p.stop = function () {
-
+  var event = this._pushstate
+    ? 'popstate'
+    : 'hashchange'
+  window.removeEventListener(event, this.onRouteChange)
+  this._vm.route = null
+  this._started = false
 }
 
 //
@@ -148,7 +172,7 @@ p._addRoute = function (path, config, segments) {
 }
 
 /**
- * Match a URL path and set the route context on root,
+ * Match a URL path and set the route context on vm,
  * triggering view updates.
  *
  * @param {String} path
@@ -158,6 +182,10 @@ p._match = function (path) {
     return
   }
   this._currentPath = path
+  // normalize against root
+  if (this._root && path.indexOf(this._root) === 0) {
+    path = path.slice(this._root.length)
+  }
   var matched = this._recognizer.recognize(path)
   // aggregate params
   var params
@@ -180,12 +208,12 @@ p._match = function (path) {
     _matchedCount: 0,
     _router: this
   }
-  this._root.$set('route', context)
+  this._vm.$set('route', context)
 }
 
 VueRouter.install = function (Vue) {
   require('./view')(Vue)
-  require('./link')(Vue)
+  require('./href')(Vue)
 }
 
 module.exports = VueRouter
