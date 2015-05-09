@@ -60,6 +60,8 @@ module.exports = function (Vue) {
       this.update(null)
     },
 
+    // currently duplicating some logic from v-component
+    // TODO: make it cleaner
     build: function () {
       var route = this.currentRoute
       if (this.keepAlive) {

@@ -9,6 +9,7 @@ var hasPushState = history && history.pushState
  *                 - {Boolean} hashbang  (default: true)
  *                 - {Boolean} pushstate (default: false)
  */
+
 function VueRouter (options) {
   this._recognizer = new Recognizer()
   this._started = false
@@ -46,6 +47,7 @@ var p = VueRouter.prototype
  *                 - {Function} [before]
  *                 - {Function} [after]
  */
+
 p.on = function (rootPath, config) {
   this._addRoute(rootPath, config, [])
 }
@@ -55,9 +57,16 @@ p.on = function (rootPath, config) {
  *
  * @param {Object} config
  */
+
 p.notfound = function (config) {
   this._notfoundHandler = [{ handler: config }]
 }
+
+/**
+ * Set redirects.
+ *
+ * @param {Object} map
+ */
 
 p.redirect = function (map) {
   // TODO
@@ -65,8 +74,13 @@ p.redirect = function (map) {
 }
 
 /**
- * Navigate to a given path
+ * Navigate to a given path.
+ * The path is assumed to be already decoded, and will
+ * be resolved against root (if provided)
+ *
+ * @param {String} path
  */
+
 p.go = function (path) {
   if (this._pushstate) {
     // make it relative to root
@@ -88,18 +102,28 @@ p.go = function (path) {
  *
  * @param {Vue} vm
  */
+
 p.start = function (vm) {
   if (this._started) {
     return
   }
   this._started = true
-  this._vm = vm
+  this._vm = this._vm || vm
+  if (!this._vm) {
+    throw new Error(
+      'vue-router must be started with a root Vue instance.'
+    )
+  }
   if (this._pushstate) {
     this.initHistoryMode()
   } else {
     this.initHashMode()
   }
 }
+
+/**
+ * Initialize hash mode.
+ */
 
 p.initHashMode = function () {
   var self = this
@@ -122,6 +146,10 @@ p.initHashMode = function () {
   this.onRouteChange()
 }
 
+/**
+ * Initialize HTML5 history mode.
+ */
+
 p.initHistoryMode = function () {
   var self = this
   this.onRouteChange = function () {
@@ -132,6 +160,10 @@ p.initHistoryMode = function () {
   window.addEventListener('popstate', this.onRouteChange)
   this.onRouteChange()
 }
+
+/**
+ * Stop listening to route changes.
+ */
 
 p.stop = function () {
   var event = this._pushstate
@@ -218,6 +250,11 @@ p._match = function (path) {
   }
   this._vm.$set('route', context)
 }
+
+/**
+ * Installation interface.
+ * Install the necessary directives.
+ */
 
 VueRouter.install = function (Vue) {
   require('./view')(Vue)
