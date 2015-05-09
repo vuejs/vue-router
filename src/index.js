@@ -213,7 +213,7 @@ p._match = function (path) {
 
 VueRouter.install = function (Vue) {
   require('./view')(Vue)
-  require('./href')(Vue)
+  require('./link')(Vue)
 }
 
 module.exports = VueRouter

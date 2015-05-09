@@ -2,19 +2,28 @@
 // HTML5 history mode
 
 module.exports = function (Vue) {
-  Vue.directive('href', {
+
+  Vue.directive('link', {
+
     bind: function () {
       var vm = this.vm
-      var href = this.expression.replace(/^\//, '')
+      // normalize leading slash
+      var href = '/' + this.expression.replace(/^\//, '')
+      if (this.el.tagName === 'A') {
+        this.el.href = href
+      }
       this.handler = function (e) {
         e.preventDefault()
         var router = vm.route._router
-        router.go((router._root || '') + '/' + href)
+        router.go((router._root || '') + href)
       }
       this.el.addEventListener('click', this.handler)
     },
+
     unbind: function () {
       this.el.removeEventListener('click', this.handler)
     }
+
   })
+
 }
