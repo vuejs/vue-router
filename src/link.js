@@ -13,7 +13,7 @@ module.exports = function (Vue) {
       }
       this.handler = function (e) {
         e.preventDefault()
-        router.go(href)
+        vm.route._router.go(href)
       }
       this.el.addEventListener('click', this.handler)
     },
