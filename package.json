@@ -4,9 +4,9 @@
   "description": "A router for Vue.js",
   "main": "src/index.js",
   "scripts": {
-    "dev": "webpack --watch",
-    "build": "webpack",
-    "test": "webpack --config webpack.test.config.js && ./node_modules/karma/bin/karma start"
+    "dev": "node example/serve.js & webpack --watch --config build/webpack.example.config.js",
+    "build": "webpack --config build/webpack.build.config.js",
+    "test": "webpack --config build/webpack.test.config.js && ./node_modules/karma/bin/karma start build/karma.config.js"
   },
   "repository": {
     "type": "git",
@@ -25,11 +25,12 @@
   },
   "homepage": "https://github.com/vuejs/vue-router#readme",
   "devDependencies": {
+    "express": "^4.12.3",
     "jasmine-core": "^2.3.2",
     "karma": "^0.12.31",
     "karma-jasmine": "^0.3.5",
     "karma-phantomjs-launcher": "^0.1.4",
-    "vue": "^0.11.10",
+    "vue": "yyx990803/vue#dev",
     "webpack": "^1.8.11"
   },
   "dependencies": {

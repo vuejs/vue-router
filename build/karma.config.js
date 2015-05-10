@@ -3,7 +3,7 @@ module.exports = function (config) {
     browsers: ['PhantomJS'],
     reporters: ['progress'],
     frameworks: ['jasmine'],
-    files: ['test/test.build.js'],
+    files: [__dirname + '/../test/test.build.js'],
     singleRun: true
   })
 }

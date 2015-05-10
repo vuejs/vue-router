@@ -2,3 +2,5 @@
 node_modules
 test/test.build.js
 test/test.html
+example/example.build.js
+TODOS.md
