@@ -49,44 +49,43 @@ var root = new Vue({
   }
 })
 
-router.on('/inbox', {
-  name: 'inbox',
-  component: 'inbox',
-  subRoutes: {
-    '/message/:messageId': {
-      name: 'message',
-      component: 'message',
-      alwaysRefresh: true
-    },
-    '/archived': {
-      name: 'archive',
-      component: 'archive'
+router.map({
+  '/inbox': {
+    name: 'inbox',
+    component: 'inbox',
+    subRoutes: {
+      '/message/:messageId': {
+        name: 'message',
+        component: 'message',
+        alwaysRefresh: true
+      },
+      '/archived': {
+        name: 'archive',
+        component: 'archive'
+      }
     }
-  }
-})
-
-router.on('/user/:userId', {
-  name: 'user',
-  component: 'user',
-  subRoutes: {
-    'profile/:something': {
-      component: 'user-profile'
-    },
-    'posts': {
-      component: 'user-posts'
-    },
-    'settings': {
-      component: 'user-settings'
+  },
+  '/user/:userId': {
+    name: 'user',
+    component: 'user',
+    subRoutes: {
+      'profile/:something': {
+        component: 'user-profile'
+      },
+      'posts': {
+        component: 'user-posts'
+      },
+      'settings': {
+        component: 'user-settings'
+      }
     }
+  },
+  '/about': {
+    component: 'about'
+  },
+  '*': {
+    component: 'not-found'
   }
-})
-
-router.on('/about', {
-  component: 'about',
-})
-
-router.notfound({
-  component: 'not-found'
 })
 
 router.redirect({

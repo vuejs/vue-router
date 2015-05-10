@@ -35,9 +35,20 @@ var p = VueRouter.prototype
 //
 // Public API
 //
+//
 
 /**
- * Register a root-level path
+ * Register a map of top-level paths.
+ */
+
+p.map = function (map) {
+  for (var route in map) {
+    this.on(route, map[route])
+  }
+}
+
+/**
+ * Register a single root-level path
  *
  * @param {String} rootPath
  * @param {Object} config
@@ -49,7 +60,11 @@ var p = VueRouter.prototype
  */
 
 p.on = function (rootPath, config) {
-  this._addRoute(rootPath, config, [])
+  if (rootPath === '*') {
+    this.notfound(config)
+  } else {
+    this._addRoute(rootPath, config, [])
+  }
 }
 
 /**
