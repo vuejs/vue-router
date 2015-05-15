@@ -2,8 +2,12 @@
 
 module.exports = function (Vue) {
 
+  // insert global css to make sure router-view has
+  // display:block so that transitions work properly
+  require('insert-css')('router-view{display:block;}')
+
   var _ = Vue.util
-  var component = Vue.directive('component')
+  var component = Vue.directive('_component')
   var templateParser = Vue.parsers.template
 
   // v-view extends v-component
@@ -96,6 +100,5 @@ module.exports = function (Vue) {
 
   })
 
-  Vue.directive('view', viewDef)
-  Vue.config._terminalDirectives.push('view')
+  Vue.elementDirective('router-view', viewDef)
 }

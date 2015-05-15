@@ -12,7 +12,7 @@ var root = new Vue({
   el: '#app',
   components: {
     inbox: {
-      template: '<div><h2>inbox!</h2><div v-view></div></div>',
+      template: '<div><h2>inbox!</h2><router-view></router-view>',
       replace: true,
       components: {
         message: {
@@ -26,7 +26,7 @@ var root = new Vue({
       }
     },
     user: {
-      template: '<h2>User yo</h2><div v-view></div>',
+      template: '<h2>User yo</h2><router-view></router-view>',
       components: {
         'user-profile': {
           template: 'user profile {{route.params.userId}} {{route.params.something}}'
