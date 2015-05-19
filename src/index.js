@@ -1,5 +1,5 @@
 var Recognizer = require('route-recognizer')
-var hasPushState = history && history.pushState
+var hasPushState = typeof history !== 'undefined' && history.pushState
 
 /**
  * Router constructor
@@ -17,6 +17,7 @@ function VueRouter (options) {
   this._currentPath = null
   this._notfoundHandler = null
   this._root = null
+  this._hasPushState = hasPushState
   var root = options && options.root
   if (root) {
     // make sure there's the starting slash
@@ -94,15 +95,20 @@ p.redirect = function (map) {
  * be resolved against root (if provided)
  *
  * @param {String} path
+ * @param {Object} [options]
  */
 
-p.go = function (path) {
+p.go = function (path, options) {
   if (this._pushstate) {
     // make it relative to root
     path = this._root
       ? this._root + '/' + path.replace(/^\//, '')
       : path
-    history.pushState({}, '', path)
+    if (options && options.replace) {
+      history.replaceState({}, '', path)
+    } else {
+      history.pushState({}, '', path)
+    }
     this._match(path)
   } else {
     path = path.replace(/^#!?/, '')

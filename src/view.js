@@ -33,26 +33,48 @@ module.exports = function (Vue) {
     },
 
     onRouteChange: function (route) {
+      var previousRoute = this.currentRoute
       this.currentRoute = route
+
       if (!route._matched) {
         // route not found, this outlet is invalidated
         return this.invalidate()
       }
+
       var segment = route._matched[route._matchedCount]
       if (!segment) {
         // no segment that matches this outlet
         return this.invalidate()
       }
+
       // mutate the route as we pass it further down the
       // chain. this series of mutation is done exactly once
       // for every route as we match the components to render.
       route._matchedCount++
       // trigger component switch
-      if (segment.handler.component !== this.currentComponentId ||
-          segment.handler.alwaysRefresh) {
-        // TODO: handle before/after hooks
-        this.currentComponentId = segment.handler.component
-        this.update(segment.handler.component)
+      var handler = segment.handler
+      if (handler.component !== this.currentComponentId ||
+          handler.alwaysRefresh) {
+        // call before hook
+        if (handler.before) {
+          var beforeResult = handler.before(route, previousRoute)
+          if (beforeResult === false) {
+            if (route._router._hasPushState) {
+              history.back()
+            } else if (previousRoute) {
+              route._router.go(previousRoute.path)
+            }
+            return
+          }
+        }
+        this.currentComponentId = handler.component
+        // actually switch component
+        this.realUpdate(handler.component, function () {
+          // call after hook
+          if (handler.after) {
+            handler.after(route, previousRoute)
+          }
+        })
       } else if (this.childVM) {
         // update route context
         this.childVM.route = route
@@ -61,7 +83,7 @@ module.exports = function (Vue) {
 
     invalidate: function () {
       this.currentComponentId = null
-      this.update(null)
+      this.realUpdate(null)
     },
 
     // currently duplicating some logic from v-component
@@ -96,6 +118,7 @@ module.exports = function (Vue) {
 
     unbind: function () {
       this.unwatch()
+      component.unbind.call(this)
     }
 
   })

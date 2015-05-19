@@ -4,12 +4,11 @@ var VueRouter = require('../src')
 Vue.use(VueRouter)
 
 var router = new VueRouter({
-  pushstate: true,
+  // pushstate: true,
   root: '/hello'
 })
 
 var root = new Vue({
-  el: '#app',
   components: {
     inbox: {
       template: '<div><h2>inbox!</h2><router-view></router-view>',
@@ -51,22 +50,30 @@ var root = new Vue({
 
 router.map({
   '/inbox': {
-    name: 'inbox',
     component: 'inbox',
+    before: function (to, from) {
+      console.log('before')
+      console.log(to.path, from && from.path)
+      if (from && from.path === '/about') {
+        alert('not allowed')
+        return false
+      }
+    },
+    after: function (to, from) {
+      console.log('after')
+      console.log(to.path, from && from.path)
+    },
     subRoutes: {
       '/message/:messageId': {
-        name: 'message',
         component: 'message',
         alwaysRefresh: true
       },
       '/archived': {
-        name: 'archive',
         component: 'archive'
       }
     }
   },
   '/user/:userId': {
-    name: 'user',
     component: 'user',
     subRoutes: {
       'profile/:something': {
@@ -93,3 +100,4 @@ router.redirect({
 })
 
 router.start(root)
+root.$mount('#app')
