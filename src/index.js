@@ -99,12 +99,13 @@ p.redirect = function (map) {
  */
 
 p.go = function (path, options) {
+  var replace = options && options.replace
   if (this._pushstate) {
     // make it relative to root
     path = this._root
       ? this._root + '/' + path.replace(/^\//, '')
       : path
-    if (options && options.replace) {
+    if (replace) {
       history.replaceState({}, '', path)
     } else {
       history.pushState({}, '', path)
@@ -112,9 +113,10 @@ p.go = function (path, options) {
     this._match(path)
   } else {
     path = path.replace(/^#!?/, '')
-    location.hash = this._hashbang
+    var hash = this._hashbang
       ? '!' + path
       : path
+    setHash(hash, replace)
   }
 }
 
@@ -150,15 +152,16 @@ p.initHashMode = function () {
   var self = this
   this.onRouteChange = function () {
     // format hashbang
-    if (
-      self._hashbang &&
-      location.hash &&
-      location.hash.charAt(1) !== '!'
-    ) {
-      location.hash = '!' + location.hash.slice(1)
+    var hash = location.hash
+    if (self._hashbang && hash && hash.charAt(1) !== '!') {
+      setHash('!' + hash.slice(1), true)
       return
     }
-    var hash = location.hash.replace(/^#!?/, '')
+    if (!self._hashbang && hash && hash.charAt(1) === '!') {
+      setHash(hash.slice(1), true)
+      return
+    }
+    hash = hash.replace(/^#!?/, '')
     var url = hash + location.search
     url = decodeURI(url)
     self._match(url)
@@ -280,6 +283,22 @@ p._match = function (path) {
 VueRouter.install = function (Vue) {
   require('./view')(Vue)
   require('./link')(Vue)
+}
+
+/**
+ * Set current hash
+ *
+ * @param {String} hash
+ * @param {Boolean} replace
+ */
+function setHash (hash, replace) {
+  if (replace) {
+    var urlLength = location.href.length - location.hash.length
+    var fullURL = location.href.slice(0, urlLength) + '#' + hash
+    location.replace(fullURL)
+  } else {
+    location.hash = hash
+  }
 }
 
 module.exports = VueRouter
