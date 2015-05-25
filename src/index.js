@@ -158,7 +158,7 @@ p.initHashMode = function () {
       return
     }
     if (!self._hashbang && hash && hash.charAt(1) === '!') {
-      setHash(hash.slice(1), true)
+      setHash(hash.slice(2), true)
       return
     }
     hash = hash.replace(/^#!?/, '')
