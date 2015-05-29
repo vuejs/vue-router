@@ -131,7 +131,7 @@ p.start = function (vm) {
     return
   }
   this._started = true
-  this._vm = this._vm || vm
+  this._vm = this._vm || vm.$root
   if (!this._vm) {
     throw new Error(
       'vue-router must be started with a root Vue instance.'
