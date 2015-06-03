@@ -8,6 +8,7 @@ var hasPushState = typeof history !== 'undefined' && history.pushState
  *                 - {String} root
  *                 - {Boolean} hashbang  (default: true)
  *                 - {Boolean} pushstate (default: false)
+ *                 - {Function} before
  */
 
 function VueRouter (options) {
@@ -29,6 +30,7 @@ function VueRouter (options) {
   }
   this._hashbang = !(options && options.hashbang === false)
   this._pushstate = !!(hasPushState && options && options.pushstate)
+  this._before = options && options.before
 }
 
 var p = VueRouter.prototype

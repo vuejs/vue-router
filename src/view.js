@@ -47,6 +47,11 @@ module.exports = function (Vue) {
         return this.invalidate()
       }
 
+      // for every route run global before function
+      if(route._router._before) {
+        route._router._before(route, previousRoute)
+      }
+
       // mutate the route as we pass it further down the
       // chain. this series of mutation is done exactly once
       // for every route as we match the components to render.
