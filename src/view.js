@@ -49,7 +49,17 @@ module.exports = function (Vue) {
 
       // for every route run global before function
       if(route._router._before) {
-        route._router._before(route, previousRoute)
+        var beforeResult = route._router._before(route, previousRoute)
+        if (beforeResult === false) {
+          if (route._router._hasPushState) {
+            history.back()
+          } else if (previousRoute) {
+            route._router.go(previousRoute.path, {
+              replace: true
+            })
+          }
+          return
+        }
       }
 
       // mutate the route as we pass it further down the
