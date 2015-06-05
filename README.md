@@ -1,4 +1,4 @@
-# Work in Progress!
+# DON'T USE YET - Work in Progress!
 
 Note: `vue-router` only supports Vue 0.12+.
 
