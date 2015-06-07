@@ -276,16 +276,6 @@ p._match = function (path) {
 }
 
 /**
- * Installation interface.
- * Install the necessary directives.
- */
-
-VueRouter.install = function (Vue) {
-  require('./view')(Vue)
-  require('./link')(Vue)
-}
-
-/**
  * Set current hash
  *
  * @param {String} hash
@@ -299,6 +289,29 @@ function setHash (hash, replace) {
   } else {
     location.hash = hash
   }
+}
+
+/**
+ * Installation interface.
+ * Install the necessary directives.
+ */
+
+var installed = false
+VueRouter.install = function (Vue) {
+  if (installed) {
+    Vue.util.warn && Vue.util.warn(
+      'vue-router has already been installed.'
+    )
+    return
+  }
+  installed = true
+  require('./view')(Vue)
+  require('./link')(Vue)
+}
+
+// Auto-install if loaded
+if (typeof Vue !== 'undefined') {
+  Vue.use(VueRouter)
 }
 
 module.exports = VueRouter
