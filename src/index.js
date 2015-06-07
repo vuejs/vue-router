@@ -1,5 +1,7 @@
 var Recognizer = require('route-recognizer')
 var hasPushState = typeof history !== 'undefined' && history.pushState
+var installed = false
+var Vue
 
 /**
  * Router constructor
@@ -11,9 +13,9 @@ var hasPushState = typeof history !== 'undefined' && history.pushState
  */
 
 function VueRouter (options) {
+  this.app = null
   this._recognizer = new Recognizer()
   this._started = false
-  this._vm = null
   this._currentPath = null
   this._notfoundHandler = null
   this._root = null
@@ -31,12 +33,28 @@ function VueRouter (options) {
   this._pushstate = !!(hasPushState && options && options.pushstate)
 }
 
-var p = VueRouter.prototype
+/**
+ * Installation interface.
+ * Install the necessary directives.
+ */
+
+VueRouter.install = function (ExternalVue) {
+  if (installed) {
+    warn('vue-router has already been installed.')
+    return
+  }
+  Vue = ExternalVue
+  installed = true
+  require('./view')(Vue)
+  require('./link')(Vue)
+}
 
 //
 // Public API
 //
 //
+
+var p = VueRouter.prototype
 
 /**
  * Register a map of top-level paths.
@@ -123,34 +141,64 @@ p.go = function (path, options) {
 /**
  * Start the router.
  *
- * @param {Vue} vm
+ * @param {VueConstructor} App
+ * @param {String|Element} container
  */
 
-p.start = function (vm) {
+p.start = function (App, container) {
+  if (!installed) {
+    throw new Error(
+      'Please install vue-router with Vue.use() before ' +
+      'starting the router.'
+    )
+  }
   if (this._started) {
+    warn('vue-router has already been started.')
     return
   }
   this._started = true
-  this._vm = this._vm || vm
-  if (!this._vm) {
-    throw new Error(
-      'vue-router must be started with a root Vue instance.'
-    )
+  if (!this.app) {
+    if (!App || !container) {
+      throw new Error(
+        'Must start vue-router with a component and a ' +
+        'root container.'
+      )
+    }
+    this._appContainer = container
+    this._appConstructor = typeof App === 'function'
+      ? App
+      : Vue.extend(App)
   }
   if (this._pushstate) {
-    this.initHistoryMode()
+    this._initHistoryMode()
   } else {
-    this.initHashMode()
+    this._initHashMode()
   }
 }
+
+/**
+ * Stop listening to route changes.
+ */
+
+p.stop = function () {
+  var event = this._pushstate
+    ? 'popstate'
+    : 'hashchange'
+  window.removeEventListener(event, this._onRouteChange)
+  this._started = false
+}
+
+//
+// Private Methods
+//
 
 /**
  * Initialize hash mode.
  */
 
-p.initHashMode = function () {
+p._initHashMode = function () {
   var self = this
-  this.onRouteChange = function () {
+  this._onRouteChange = function () {
     // format hashbang
     var hash = location.hash
     if (self._hashbang && hash && hash.charAt(1) !== '!') {
@@ -166,41 +214,24 @@ p.initHashMode = function () {
     url = decodeURI(url)
     self._match(url)
   }
-  window.addEventListener('hashchange', this.onRouteChange)
-  this.onRouteChange()
+  window.addEventListener('hashchange', this._onRouteChange)
+  this._onRouteChange()
 }
 
 /**
  * Initialize HTML5 history mode.
  */
 
-p.initHistoryMode = function () {
+p._initHistoryMode = function () {
   var self = this
-  this.onRouteChange = function () {
+  this._onRouteChange = function () {
     var url = location.pathname + location.search
     url = decodeURI(url)
     self._match(url)
   }
-  window.addEventListener('popstate', this.onRouteChange)
-  this.onRouteChange()
+  window.addEventListener('popstate', this._onRouteChange)
+  this._onRouteChange()
 }
-
-/**
- * Stop listening to route changes.
- */
-
-p.stop = function () {
-  var event = this._pushstate
-    ? 'popstate'
-    : 'hashchange'
-  window.removeEventListener(event, this.onRouteChange)
-  this._vm.route = null
-  this._started = false
-}
-
-//
-// Private Methods
-//
 
 /**
  * Add a route containing a list of segments to the internal
@@ -211,6 +242,7 @@ p.stop = function () {
  * @param {Object} config
  * @param {Array} segments
  */
+
 p._addRoute = function (path, config, segments) {
   segments.push({
     path: path,
@@ -237,6 +269,7 @@ p._addRoute = function (path, config, segments) {
  *
  * @param {String} path
  */
+
 p._match = function (path) {
   if (path === this._currentPath) {
     return
@@ -272,7 +305,16 @@ p._match = function (path) {
     _matchedCount: 0,
     _router: this
   }
-  this._vm.$set('route', context)
+  if (!this.app) {
+    this.app = new this._appConstructor({
+      el: this._appContainer,
+      data: {
+        route: context
+      }
+    })
+  } else {
+    this.app.route = context
+  }
 }
 
 /**
@@ -281,6 +323,7 @@ p._match = function (path) {
  * @param {String} hash
  * @param {Boolean} replace
  */
+
 function setHash (hash, replace) {
   if (replace) {
     var urlLength = location.href.length - location.hash.length
@@ -292,26 +335,15 @@ function setHash (hash, replace) {
 }
 
 /**
- * Installation interface.
- * Install the necessary directives.
+ * Warning (check console for IE9)
+ *
+ * @param {String} msg
  */
 
-var installed = false
-VueRouter.install = function (Vue) {
-  if (installed) {
-    Vue.util.warn && Vue.util.warn(
-      'vue-router has already been installed.'
-    )
-    return
+function warn (msg) {
+  if (typeof console !== 'undefined') {
+    console.warn(msg)
   }
-  installed = true
-  require('./view')(Vue)
-  require('./link')(Vue)
-}
-
-// Auto-install if loaded
-if (typeof Vue !== 'undefined') {
-  Vue.use(VueRouter)
 }
 
 module.exports = VueRouter
