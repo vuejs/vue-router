@@ -85,36 +85,6 @@ module.exports = function (Vue) {
       this.realUpdate(null)
     },
 
-    // // currently duplicating some logic from v-component
-    // // TODO: make it cleaner
-    // build: function () {
-    //   var route = this.currentRoute
-    //   if (this.keepAlive) {
-    //     var cached = this.cache[this.ctorId]
-    //     if (cached) {
-    //       cached.route = route
-    //       return cached
-    //     }
-    //   }
-    //   var vm = this.vm
-    //   var el = templateParser.clone(this.el)
-    //   if (this.Ctor) {
-    //     var child = vm.$addChild({
-    //       el: el,
-    //       template: this.template,
-    //       _asComponent: true,
-    //       _host: this._host,
-    //       data: {
-    //         route: route
-    //       }
-    //     }, this.Ctor)
-    //     if (this.keepAlive) {
-    //       this.cache[this.ctorId] = child
-    //     }
-    //     return child
-    //   }
-    // },
-
     unbind: function () {
       this.unwatch()
       component.unbind.call(this)
