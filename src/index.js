@@ -12,8 +12,9 @@ var Vue
  *                 - {Boolean} pushstate (default: false)
  */
 
-function VueRouter (options) {
+function Router (options) {
   this.app = null
+  this._children = []
   this._recognizer = new Recognizer()
   this._started = false
   this._currentPath = null
@@ -38,7 +39,7 @@ function VueRouter (options) {
  * Install the necessary directives.
  */
 
-VueRouter.install = function (ExternalVue) {
+Router.install = function (ExternalVue) {
   if (installed) {
     warn('vue-router has already been installed.')
     return
@@ -47,6 +48,7 @@ VueRouter.install = function (ExternalVue) {
   installed = true
   require('./view')(Vue)
   require('./link')(Vue)
+  require('./override')(Vue, Router)
 }
 
 //
@@ -54,7 +56,7 @@ VueRouter.install = function (ExternalVue) {
 //
 //
 
-var p = VueRouter.prototype
+var p = Router.prototype
 
 /**
  * Register a map of top-level paths.
@@ -297,7 +299,7 @@ p._match = function (path) {
     }, {})
   }
   // construct route context
-  var context = {
+  var route = {
     path: path,
     params: params,
     query: matched && matched.queryParams,
@@ -309,11 +311,14 @@ p._match = function (path) {
     this.app = new this._appConstructor({
       el: this._appContainer,
       data: {
-        route: context
+        route: route
       }
     })
   } else {
-    this.app.route = context
+    this.app.route = route
+    this._children.forEach(function (child) {
+      child.route = route
+    })
   }
 }
 
@@ -346,4 +351,4 @@ function warn (msg) {
   }
 }
 
-module.exports = VueRouter
+module.exports = Router

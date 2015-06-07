@@ -3,15 +3,25 @@
 
 module.exports = function (Vue) {
 
+  var _ = Vue.util
+
   Vue.directive('link', {
 
     isLiteral: true,
 
     bind: function () {
+      var vm = this.vm
+      if (!vm.route) {
+        _.warn && _.warn(
+          'v-link can only be used inside a ' +
+          'router-enabled app.'
+        )
+        return
+      }
       var self = this
       this.handler = function (e) {
         e.preventDefault()
-        self.vm.$root.route._router.go(self.destination)
+        vm.route._router.go(self.destination)
       }
       this.el.addEventListener('click', this.handler)
       if (!this._isDynamicLiteral) {
