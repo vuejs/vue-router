@@ -5,21 +5,26 @@ module.exports = function (Vue) {
 
   Vue.directive('link', {
 
+    isLiteral: true,
+
     bind: function () {
-      var vm = this.vm
-      var href = this.expression
-      if (this.el.tagName === 'A') {
-        this.el.href = href
-      }
+      var self = this
       this.handler = function (e) {
         e.preventDefault()
-        vm.route._router.go(href)
+        self.vm.$root.route._router.go(self.destination)
       }
       this.el.addEventListener('click', this.handler)
     },
 
     unbind: function () {
       this.el.removeEventListener('click', this.handler)
+    },
+
+    update: function (value) {
+      this.destination = value
+      if (this.el.tagName === 'A') {
+        this.el.href = value
+      }
     }
 
   })
