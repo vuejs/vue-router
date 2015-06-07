@@ -14,6 +14,9 @@ module.exports = function (Vue) {
         self.vm.$root.route._router.go(self.destination)
       }
       this.el.addEventListener('click', this.handler)
+      if (!this._isDynamicLiteral) {
+        this.update(this.expression)
+      }
     },
 
     unbind: function () {
