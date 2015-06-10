@@ -12,11 +12,9 @@ module.exports = function (Vue, Router) {
     var isRouterEnabled = router instanceof Router
 
     if (isRouterEnabled) {
-      opts = Vue.util.mergeOptions(opts || {}, {
-        data: {
-          route: route
-        }
-      }, true)
+      opts = opts || {}
+      opts.data = opts.data || {}
+      opts.data.route = route
     }
 
     var child = addChild.call(this, opts, Ctor)
