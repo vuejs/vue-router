@@ -10,7 +10,7 @@ var Router = require('vue-router')
 
 Vue.use(Router)
 
-var app = new Vue({
+var App = Vue.extend({
   template:
     '<h1>App</h1>' +
     '<router-view></router-view>', // <-- outlet
@@ -46,5 +46,5 @@ router.map({
   }
 })
 
-router.start(app)
+router.start(App, '#app')
 ```
