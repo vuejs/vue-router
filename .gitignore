@@ -3,4 +3,5 @@ node_modules
 test/test.build.js
 test/test.html
 example/example.build.js
+example/example.build.js.map
 TODOS.md

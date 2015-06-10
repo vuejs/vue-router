@@ -6,6 +6,10 @@ app.get('/example.build.js', function (req, res) {
   res.sendFile(__dirname + '/example.build.js')
 })
 
+app.get('/example.build.js.map', function (req, res) {
+  res.sendFile(__dirname + '/example.build.js.map')
+})
+
 app.get('*', function (req, res) {
   res.sendFile(__dirname + '/index.html')
 })

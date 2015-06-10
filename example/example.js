@@ -8,7 +8,7 @@ var router = new VueRouter({
   root: '/hello'
 })
 
-var root = new Vue({
+var App = Vue.extend({
   components: {
     inbox: {
       template: '<div><h2>inbox!</h2><router-view></router-view>',
@@ -99,5 +99,4 @@ router.redirect({
   '/info': '/about'
 })
 
-router.start(root)
-root.$mount('#app')
+router.start(App, '#app')
