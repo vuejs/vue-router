@@ -1,4 +1,4 @@
-// install the v-view directive
+// install the <router-view> element directive
 
 module.exports = function (Vue) {
 
