@@ -47,6 +47,21 @@ module.exports = function (Vue) {
         return this.invalidate()
       }
 
+      // for every route run global before function
+      if(route._router._before) {
+        var beforeResult = route._router._before(route, previousRoute)
+        if (beforeResult === false) {
+          if (route._router._hasPushState) {
+            history.back()
+          } else if (previousRoute) {
+            route._router.go(previousRoute.path, {
+              replace: true
+            })
+          }
+          return
+        }
+      }
+
       // mutate the route as we pass it further down the
       // chain. this series of mutation is done exactly once
       // for every route as we match the components to render.

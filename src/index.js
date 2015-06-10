@@ -10,6 +10,7 @@ var Vue
  *                 - {String} root
  *                 - {Boolean} hashbang  (default: true)
  *                 - {Boolean} pushstate (default: false)
+ *                 - {Function} before
  */
 
 function Router (options) {
@@ -32,6 +33,7 @@ function Router (options) {
   }
   this._hashbang = !(options && options.hashbang === false)
   this._pushstate = !!(hasPushState && options && options.pushstate)
+  this._before = options && options.before
 }
 
 /**

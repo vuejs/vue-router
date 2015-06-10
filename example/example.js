@@ -5,7 +5,11 @@ Vue.use(VueRouter)
 
 var router = new VueRouter({
   // pushstate: true,
-  root: '/hello'
+  root: '/hello',
+  before: function(to, from) {
+    console.log("global before")
+    console.log(to.path, from && from.path)
+  }
 })
 
 var root = new Vue({
