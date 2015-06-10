@@ -1,4 +1,5 @@
 var Recognizer = require('route-recognizer')
+var Route = require('./route')
 var installed = false
 var Vue
 
@@ -337,30 +338,8 @@ p._match = function (path) {
     path = path.slice(this._root.length)
   }
 
-  var matched = this._recognizer.recognize(path)
-
-  // aggregate params
-  var params
-  if (matched) {
-    params = [].reduce.call(matched, function (prev, cur) {
-      if (cur.params) {
-        for (var key in cur.params) {
-          prev[key] = cur.params[key]
-        }
-      }
-      return prev
-    }, {})
-  }
-
   // construct route context
-  var route = {
-    path: path,
-    params: params,
-    query: matched && matched.queryParams,
-    _matched: matched || this._notFoundHandler,
-    _matchedCount: 0,
-    _router: this
-  }
+  var route = new Route(path, this)
 
   // check gloal before hook
   if (this._beforeEachHook) {
