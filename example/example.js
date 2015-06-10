@@ -99,4 +99,15 @@ router.redirect({
   '/info': '/about'
 })
 
+router.beforeEach(function (from, to) {
+  if (to.path === '/forbidden') {
+    alert('this route is forbidden by a global before hook')
+    return false
+  }
+})
+
+router.afterEach(function (from, to) {
+  console.log('global after')
+})
+
 router.start(App, '#app')

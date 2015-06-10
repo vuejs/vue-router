@@ -62,9 +62,7 @@ module.exports = function (Vue) {
             if (route._router._hasPushState) {
               history.back()
             } else if (previousRoute) {
-              route._router.go(previousRoute.path, {
-                replace: true
-              })
+              route._router.replace(previousRoute.path)
             }
             return
           }

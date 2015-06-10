@@ -1,5 +1,4 @@
 var Recognizer = require('route-recognizer')
-var hasPushState = typeof history !== 'undefined' && history.pushState
 var installed = false
 var Vue
 
@@ -13,14 +12,28 @@ var Vue
  */
 
 function Router (options) {
+  options = options || {}
+
+  // Vue instances
   this.app = null
   this._children = []
+
+  // route recognizer
   this._recognizer = new Recognizer()
+
+  // state
   this._started = false
-  this._currentPath = null
-  this._notFoundHandler = null
-  this._root = null
-  this._hasPushState = hasPushState
+  this._currentRoute = { path: '' }
+
+  // feature detection
+  this._hasPushState = typeof history !== 'undefined' && history.pushState
+
+  // global handler/hooks
+  this._notFoundHandler = options.notFound || null
+  this._beforeEachHook = options.beforeEach || null
+  this._afterEachHook = options.afterEach || null
+
+  // resolve root path
   var root = options && options.root
   if (root) {
     // make sure there's the starting slash
@@ -29,9 +42,13 @@ function Router (options) {
     }
     // remove trailing slash
     this._root = root.replace(/\/$/, '')
+  } else {
+    this._root = null
   }
-  this._hashbang = !(options && options.hashbang === false)
-  this._pushstate = !!(hasPushState && options && options.pushstate)
+
+  // mode
+  this._hashbang = options.hashbang !== false
+  this._pushstate = !!(this._hasPushState && options.pushstate)
 }
 
 /**
@@ -110,6 +127,26 @@ p.redirect = function (map) {
 }
 
 /**
+ * Set global before hook.
+ *
+ * @param {Function} fn
+ */
+
+p.beforeEach = function (fn) {
+  this._beforeEachHook = fn
+}
+
+/**
+ * Set global after hook.
+ *
+ * @param {Function} fn
+ */
+
+p.afterEach = function (fn) {
+  this._afterEachHook = fn  
+}
+
+/**
  * Navigate to a given path.
  * The path is assumed to be already decoded, and will
  * be resolved against root (if provided)
@@ -138,6 +175,18 @@ p.go = function (path, options) {
       : path
     setHash(hash, replace)
   }
+}
+
+/**
+ * Short hand for replacing current path
+ *
+ * @param {String} path
+ */
+
+p.replace = function (path) {
+  this.go(path, {
+    replace: true
+  })
 }
 
 /**
@@ -273,10 +322,12 @@ p._addRoute = function (path, config, segments) {
  */
 
 p._match = function (path) {
-  if (path === this._currentPath) {
+
+  var currentRoute = this._currentRoute
+  if (this.app && path === currentRoute.path) {
     return
   }
-  this._currentPath = path
+
   // normalize against root
   if (
     this._pushstate &&
@@ -285,7 +336,9 @@ p._match = function (path) {
   ) {
     path = path.slice(this._root.length)
   }
+
   var matched = this._recognizer.recognize(path)
+
   // aggregate params
   var params
   if (matched) {
@@ -298,6 +351,7 @@ p._match = function (path) {
       return prev
     }, {})
   }
+
   // construct route context
   var route = {
     path: path,
@@ -307,7 +361,18 @@ p._match = function (path) {
     _matchedCount: 0,
     _router: this
   }
+
+  // check gloal before hook
+  if (this._beforeEachHook) {
+    var res = this._beforeEachHook.call(null, currentRoute, route)
+    if (res === false) {
+      this.replace(currentRoute.path)
+      return
+    }
+  }
+
   if (!this.app) {
+    // initial render
     this.app = new this._appConstructor({
       el: this._appContainer,
       data: {
@@ -315,11 +380,19 @@ p._match = function (path) {
       }
     })
   } else {
+    // route change
     this.app.route = route
     this._children.forEach(function (child) {
       child.route = route
     })
   }
+
+  // check global after hook
+  if (this._afterEachHook) {
+    this._afterEachHook.call(null, currentRoute, route)
+  }
+
+  this._currentRoute = route
 }
 
 /**
