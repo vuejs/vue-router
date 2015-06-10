@@ -18,7 +18,7 @@ function Router (options) {
   this._recognizer = new Recognizer()
   this._started = false
   this._currentPath = null
-  this._notfoundHandler = null
+  this._notFoundHandler = null
   this._root = null
   this._hasPushState = hasPushState
   var root = options && options.root
@@ -82,20 +82,20 @@ p.map = function (map) {
 
 p.on = function (rootPath, config) {
   if (rootPath === '*') {
-    this.notfound(config)
+    this.notFound(config)
   } else {
     this._addRoute(rootPath, config, [])
   }
 }
 
 /**
- * Set the notfound route config.
+ * Set the notFound route config.
  *
  * @param {Object} config
  */
 
-p.notfound = function (config) {
-  this._notfoundHandler = [{ handler: config }]
+p.notFound = function (config) {
+  this._notFoundHandler = [{ handler: config }]
 }
 
 /**
@@ -303,7 +303,7 @@ p._match = function (path) {
     path: path,
     params: params,
     query: matched && matched.queryParams,
-    _matched: matched || this._notfoundHandler,
+    _matched: matched || this._notFoundHandler,
     _matchedCount: 0,
     _router: this
   }
