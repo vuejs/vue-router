@@ -21,6 +21,7 @@ function Router (options) {
 
   // route recognizer
   this._recognizer = new Recognizer()
+  this._redirectRecognizer = new Recognizer()
 
   // state
   this._started = false
@@ -123,8 +124,9 @@ p.notFound = function (config) {
  */
 
 p.redirect = function (map) {
-  // TODO
-  // use another recognizer to recognize redirects
+  for (var path in map) {
+    this._addRedirect(path, map[path])
+  }
 }
 
 /**
@@ -291,27 +293,68 @@ p._initHistoryMode = function () {
  * possible sub-routes.
  *
  * @param {String} path
- * @param {Object} config
+ * @param {Object} handler
  * @param {Array} segments
  */
 
-p._addRoute = function (path, config, segments) {
+p._addRoute = function (path, handler, segments) {
   segments.push({
     path: path,
-    handler: config
+    handler: handler
   })
   this._recognizer.add(segments)
-  if (config.subRoutes) {
-    for (var subPath in config.subRoutes) {
+  if (handler.subRoutes) {
+    for (var subPath in handler.subRoutes) {
       // recursively walk all sub routes
       this._addRoute(
         subPath,
-        config.subRoutes[subPath],
+        handler.subRoutes[subPath],
         // pass a copy in recursion to avoid mutating
         // across branches
         segments.slice()
       )
     }
+  }
+}
+
+/**
+ * Add a redirect record.
+ *
+ * @param {String} path
+ * @param {String} redirectPath
+ */
+
+p._addRedirect = function (path, redirectPath) {
+  var router = this
+  this._redirectRecognizer.add([{
+    path: path,
+    handler: function (match) {
+      var realPath = redirectPath
+      if (match.isDynamic) {
+        var realPath = redirectPath
+        for (var key in match.params) {
+          var regex = new RegExp(':' + key + '(\\/|$)')
+          var value = match.params[key]
+          realPath = realPath.replace(regex, value)
+        } 
+      }
+      router.replace(realPath)
+    }
+  }])
+}
+
+/**
+ * Check if a path matches any redirect records.
+ *
+ * @param {String} path
+ * @return {Boolean} - if true, will skip normal match.
+ */
+
+p._checkRedirect = function (path) {
+  var matched = this._redirectRecognizer.recognize(path)
+  if (matched) {
+    matched[0].handler(matched[0])
+    return true
   }
 }
 
@@ -323,6 +366,10 @@ p._addRoute = function (path, config, segments) {
  */
 
 p._match = function (path) {
+
+  if (this._checkRedirect(path)) {
+    return
+  }
 
   var currentRoute = this._currentRoute
   if (this.app && path === currentRoute.path) {

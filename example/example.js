@@ -22,7 +22,7 @@ var App = Vue.extend({
           },
           template: '<div>' +
             '<div v-if="loading">Loading data...</div>' +
-            '<div v-if="!loading">message! {{id}}</div>',
+            '<div v-if="!loading">message! {{id}} {{route.params.messageId}}</div>',
           replace: true
         },
         archive: {
@@ -110,7 +110,8 @@ router.map({
 })
 
 router.redirect({
-  '/info': '/about'
+  '/info': '/about',
+  '/hello/:userId': '/user/:userId'
 })
 
 router.beforeEach(function (from, to) {
