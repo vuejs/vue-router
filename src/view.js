@@ -143,6 +143,10 @@ module.exports = function (Vue) {
       }
 
       function setData (vm, data) {
+        // if the view switched again before the data
+        // returned, the previous view could be already
+        // destroyed.
+        if (vm._isDestroyed) return
         for (var key in data) {
           vm.$set(key, data[key])
         }
