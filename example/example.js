@@ -15,11 +15,18 @@ var App = Vue.extend({
       replace: true,
       components: {
         message: {
-          template: '<div>message! {{route.params.messageId}}</div>',
+          data: function () {
+            return {
+              id: null
+            }
+          },
+          template: '<div>' +
+            '<div v-if="loading">Loading data...</div>' +
+            '<div v-if="!loading">message! {{id}}</div>',
           replace: true
         },
         archive: {
-          template: '<div>archive lol</div>',
+          template: '<div>archive lol {{route.params.messageId}}</div>',
           replace: true
         }
       }
@@ -51,6 +58,7 @@ var App = Vue.extend({
 router.map({
   '/inbox': {
     component: 'inbox',
+    alwaysRefresh: true,
     before: function (to, from) {
       console.log('before')
       console.log(to.path, from && from.path)
@@ -66,7 +74,13 @@ router.map({
     subRoutes: {
       '/message/:messageId': {
         component: 'message',
-        alwaysRefresh: true
+        data: function (route, resolve, reject) {
+          setTimeout(function () {
+            resolve({
+              id: route.params.messageId
+            })
+          }, 1000)
+        }
       },
       '/archived': {
         component: 'archive'
