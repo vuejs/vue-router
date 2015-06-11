@@ -22,7 +22,15 @@ module.exports = function (Vue) {
       // react to route change
       this.currentRoute = null
       this.currentComponentId = null
-      this.unwatch = this.vm.$watch('route', _.bind(this.onRouteChange, this))
+      this.unwatch = this.vm.$watch(
+        'route',
+        _.bind(this.onRouteChange, this),
+        // important as this makes the watcher execute
+        // in the internal queue instead of the user queue,
+        // so that the callback fires before the view is
+        // affected by the route change.
+        { user: false }
+      )
       // force dynamic directive so v-component doesn't
       // attempt to build right now
       this._isDynamicLiteral = true
