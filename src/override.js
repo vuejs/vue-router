@@ -13,8 +13,11 @@ module.exports = function (Vue, Router) {
 
     if (isRouterEnabled) {
       opts = opts || {}
-      opts.data = opts.data || {}
-      opts.data.route = route
+      var data = opts.data = opts.data || {}
+      data.route = route
+      if (opts._isRouterView) {
+        data.loading = data.loading || false
+      }
     }
 
     var child = addChild.call(this, opts, Ctor)

@@ -22,17 +22,25 @@ module.exports = function (Vue) {
       // react to route change
       this.currentRoute = null
       this.currentComponentId = null
-      this.onRouteChange = _.bind(this.onRouteChange, this)
-      this.unwatch = this.vm.$watch('route', this.onRouteChange)
+      this.unwatch = this.vm.$watch('route', _.bind(this.onRouteChange, this))
       // force dynamic directive so v-component doesn't
       // attempt to build right now
       this._isDynamicLiteral = true
       // finally, init by delegating to v-component
       component.bind.call(this)
+      // initial render
       if (this.vm.route) {
         this.onRouteChange(this.vm.route)
       }
     },
+
+    /**
+     * Route change handler. Check match, segment and before
+     * hook to determine whether this view should be
+     * rendered or switched.
+     *
+     * @param {Route} route
+     */
 
     onRouteChange: function (route) {
       var previousRoute = this.currentRoute
@@ -73,66 +81,88 @@ module.exports = function (Vue) {
         }
 
         this.currentComponentId = handler.component
-
-        // call data hook
-        if (handler.data) {
-          if (handler.waitOnData) {
-            handler.data(route, _.bind(function (data) {
-              // actually switch component
-              this.setComponent(handler.component, data, null, after)
-            }, this), onDataError)
-          } else {
-            route.loading = true
-            // async data loading with possible race condition.
-            // the data may load before the component gets
-            // rendered (due to async components), or it could
-            // be the other way around.
-            var _data, _component
-            handler.data(route, function (data) {
-              if (_component) {
-                setData(_component, data)
-              } else {
-                _data = data
-              }
-            }, onDataError)
-            this.setComponent(handler.component, null, function (component) {
-              if (_data) {
-                setData(component, _data)
-              } else {
-                _component = component
-              }
-            }, after)
-          }
-        } else {
-          // no data hook, just set component
-          this.setComponent(handler.component, null, null, after)
-        }
-
-        function setData (vm, data) {
-          for (var key in data) {
-            vm.$set(key, data[key])
-          }
-          route.loading = false
-        }
-
-        function after () {
-          // call after hook
-          if (handler.after) {
-            handler.after(route, previousRoute)
-          }
-        }
-
-        function onDataError (err) {
-          console.warn(
-            'vue-router failed to load data for route: ' +
-            route.path
-          )
-          if (err) {
-            console.warn(err)
-          }
-        }
+        this.switchView(route, previousRoute, handler)
       }
     },
+
+    /**
+     * Switch view from a previous route to a new route.
+     * Handles the async data loading logic, then delegates
+     * to the component directive's setComponent method.
+     *
+     * @param {Route} route
+     * @param {Route} previousRoute
+     * @param {RouteHandler} handler
+     */
+
+    switchView: function (route, previousRoute, handler) {
+
+      var self = this
+      function mount (data) {
+        self.setComponent(handler.component, data, null, afterTransition)
+      }
+
+      // call data hook
+      if (handler.data) {
+        if (handler.waitOnData) {
+          handler.data(route, mount, onDataError)
+        } else {
+          // async data loading with possible race condition.
+          // the data may load before the component gets
+          // rendered (due to async components), or it could
+          // be the other way around.
+          var _data, _vm
+          // send out data request...
+          handler.data(route, function (data) {
+            if (_vm) {
+              setData(_vm, data)
+            } else {
+              _data = data
+            }
+          }, onDataError)
+          // start the component switch...
+          this.setComponent(handler.component, { loading: true }, function (vm) {
+            if (_data) {
+              setData(vm, _data)
+            } else {
+              _vm = vm
+            }
+          }, afterTransition)
+        }
+      } else {
+        // no data hook, just set component
+        mount()
+      }
+
+      function setData (vm, data) {
+        for (var key in data) {
+          vm.$set(key, data[key])
+        }
+        vm.loading = false
+      }
+
+      function afterTransition () {
+        // call after hook
+        if (handler.after) {
+          handler.after(route, previousRoute)
+        }
+      }
+
+      function onDataError (err) {
+        console.warn(
+          'vue-router failed to load data for route: ' +
+          route.path
+        )
+        if (err) {
+          console.warn(err)
+        }
+        mount()
+      }
+    },
+
+    /**
+     * Clears the unmatched view.
+     */
 
     invalidate: function () {
       this.currentComponentId = null

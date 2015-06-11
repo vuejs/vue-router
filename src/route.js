@@ -1,19 +1,21 @@
 function Route (path, router) {
   this.path = path
-  this.loading = false
   var matched = router._recognizer.recognize(path)
-  // aggregate params
-  if (matched) {
-    this.query = matched.queryParams
-    this.params = [].reduce.call(matched, function (prev, cur) {
-      if (cur.params) {
-        for (var key in cur.params) {
-          prev[key] = cur.params[key]
+
+  this.query = matched
+    ? matched.queryParams
+    : null
+
+  this.params = matched
+    ? [].reduce.call(matched, function (prev, cur) {
+        if (cur.params) {
+          for (var key in cur.params) {
+            prev[key] = cur.params[key]
+          }
         }
-      }
-      return prev
-    }, {})
-  }
+        return prev
+      }, {})
+    : null
 
   // private stuff
   def(this, '_matched', matched || router._notFoundHandler)
