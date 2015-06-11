@@ -16,6 +16,8 @@ module.exports = function (Vue) {
   // with some overrides
   _.extend(viewDef, {
 
+    _isRouterView: true,
+
     bind: function () {
       // react to route change
       this.currentRoute = null
@@ -51,10 +53,12 @@ module.exports = function (Vue) {
       // chain. this series of mutation is done exactly once
       // for every route as we match the components to render.
       route._matchedCount++
+
       // trigger component switch
       var handler = segment.handler
       if (handler.component !== this.currentComponentId ||
           handler.alwaysRefresh) {
+
         // call before hook
         if (handler.before) {
           var beforeResult = handler.before(route, previousRoute)
@@ -67,20 +71,72 @@ module.exports = function (Vue) {
             return
           }
         }
+
         this.currentComponentId = handler.component
-        // actually switch component
-        this.realUpdate(handler.component, function () {
+
+        // call data hook
+        if (handler.data) {
+          if (handler.waitOnData) {
+            handler.data(route, _.bind(function (data) {
+              // actually switch component
+              this.setComponent(handler.component, data, null, after)
+            }, this), onDataError)
+          } else {
+            route.loading = true
+            // async data loading with possible race condition.
+            // the data may load before the component gets
+            // rendered (due to async components), or it could
+            // be the other way around.
+            var _data, _component
+            handler.data(route, function (data) {
+              if (_component) {
+                setData(_component, data)
+              } else {
+                _data = data
+              }
+            }, onDataError)
+            this.setComponent(handler.component, null, function (component) {
+              if (_data) {
+                setData(component, _data)
+              } else {
+                _component = component
+              }
+            }, after)
+          }
+        } else {
+          // no data hook, just set component
+          this.setComponent(handler.component, null, null, after)
+        }
+
+        function setData (vm, data) {
+          for (var key in data) {
+            vm.$set(key, data[key])
+          }
+          route.loading = false
+        }
+
+        function after () {
           // call after hook
           if (handler.after) {
             handler.after(route, previousRoute)
           }
-        })
+        }
+
+        function onDataError (err) {
+          console.warn(
+            'vue-router failed to load data for route: ' +
+            route.path
+          )
+          if (err) {
+            console.warn(err)
+          }
+        }
       }
     },
 
     invalidate: function () {
       this.currentComponentId = null
-      this.realUpdate(null)
+      this.setComponent(null)
     },
 
     unbind: function () {

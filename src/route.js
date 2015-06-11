@@ -1,5 +1,6 @@
 function Route (path, router) {
   this.path = path
+  this.loading = false
   var matched = router._recognizer.recognize(path)
   // aggregate params
   if (matched) {
