@@ -403,4 +403,9 @@ function warn (msg) {
   }
 }
 
+// auto install
+if (window.Vue) {
+  Router.install(window.Vue)
+}
+
 module.exports = Router
