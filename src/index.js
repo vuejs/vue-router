@@ -164,10 +164,14 @@ p.go = function (path, options) {
     path = this._root
       ? this._root + '/' + path.replace(/^\//, '')
       : path
+    var pos = {
+      x: window.pageXOffset,
+      y: window.pageYOffset
+    }
     if (replace) {
-      history.replaceState({}, '', path)
+      history.replaceState(pos, '', path)
     } else {
-      history.pushState({}, '', path)
+      history.pushState(pos, '', path)
     }
     this._match(path)
   } else {
@@ -277,7 +281,7 @@ p._initHashMode = function () {
 
 p._initHistoryMode = function () {
   var self = this
-  this._onRouteChange = function () {
+  this._onRouteChange = function (e) {
     var url = location.pathname + location.search
     var base = document.querySelector('base')
     if (base) {
@@ -285,6 +289,13 @@ p._initHistoryMode = function () {
     }
     url = decodeURI(url)
     self._match(url)
+    // restore scroll position if saved
+    var pos = e && e.state
+    if (pos && self._keepScrollPosition) {
+      Vue.nextTick(function () {
+        window.scrollTo(pos.x, pos.y)
+      })
+    }
   }
   window.addEventListener('popstate', this._onRouteChange)
   this._onRouteChange()
