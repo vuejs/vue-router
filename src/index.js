@@ -35,6 +35,11 @@ function Router (options) {
   this._beforeEachHook = options.beforeEach || null
   this._afterEachHook = options.afterEach || null
 
+  // other options
+  this._hashbang = options.hashbang !== false
+  this._history = !!(this._hasPushState && options.history)
+  this._saveScrollPosition = !!options.saveScrollPosition
+
   // resolve root path
   var root = options && options.root
   if (root) {
@@ -47,10 +52,6 @@ function Router (options) {
   } else {
     this._root = null
   }
-
-  // mode
-  this._hashbang = options.hashbang !== false
-  this._pushstate = !!(this._hasPushState && options.pushstate)
 }
 
 /**
@@ -159,27 +160,39 @@ p.afterEach = function (fn) {
 
 p.go = function (path, options) {
   var replace = options && options.replace
-  if (this._pushstate) {
-    // make it relative to root
-    path = this._root
-      ? this._root + '/' + path.replace(/^\//, '')
-      : path
-    var pos = {
-      x: window.pageXOffset,
-      y: window.pageYOffset
+  if (this._hasPushState) {
+    var url
+    if (this._history) {
+      // make path relative to root if specified
+      path = this._root
+        ? this._root + '/' + path.replace(/^\//, '')
+        : path
+      url = path
+    } else {
+      // format path into proper hash and create full url
+      path = path.replace(/^#!?/, '')
+      url = location.pathname + location.search
+      if (path) {
+        url += '#' + (this._hashbang ? '!' + path : path)
+      }
     }
     if (replace) {
-      history.replaceState(pos, '', path)
+      history.replaceState({}, '', url)
     } else {
-      history.pushState(pos, '', path)
+      // record scroll position
+      var pos = {
+        x: window.pageXOffset,
+        y: window.pageYOffset
+      }
+      history.replaceState({ pos: pos }, '', location.href)
+      // actually push new state
+      history.pushState({}, '', url)
     }
     this._match(path)
   } else {
+    // just set hash
     path = path.replace(/^#!?/, '')
-    var hash = this._hashbang
-      ? '!' + path
-      : path
-    setHash(hash, replace)
+    setHash(this._hashbang ? '!' + path : path, replace)
   }
 }
 
@@ -226,7 +239,7 @@ p.start = function (App, container) {
       ? App
       : Vue.extend(App)
   }
-  if (this._pushstate) {
+  if (this._hasPushState) {
     this._initHistoryMode()
   } else {
     this._initHashMode()
@@ -238,7 +251,7 @@ p.start = function (App, container) {
  */
 
 p.stop = function () {
-  var event = this._pushstate
+  var event = this._history
     ? 'popstate'
     : 'hashchange'
   window.removeEventListener(event, this._onRouteChange)
@@ -248,6 +261,38 @@ p.stop = function () {
 //
 // Private Methods
 //
+
+/**
+ * Initialize HTML5 history mode.
+ */
+
+p._initHistoryMode = function () {
+  var self = this
+  this._onRouteChange = function (e) {
+    var url = location.pathname + location.search
+    if (self._history) {
+      url = decodeURI(url)
+      // respet base tag
+      var base = document.querySelector('base')
+      if (base) {
+        url = url.replace(base.getAttribute('href'), '')
+      }
+      self._match(url)
+    } else {
+      // delegate hashbang formatting to router.go
+      self.replace(decodeURI(location.hash))
+    }
+    // restore scroll position if saved
+    var pos = e && e.state.pos
+    if (pos && self._saveScrollPosition) {
+      Vue.nextTick(function () {
+        window.scrollTo(pos.x, pos.y)
+      })
+    }
+  }
+  window.addEventListener('popstate', this._onRouteChange)
+  this._onRouteChange()
+}
 
 /**
  * Initialize hash mode.
@@ -272,32 +317,6 @@ p._initHashMode = function () {
     self._match(url)
   }
   window.addEventListener('hashchange', this._onRouteChange)
-  this._onRouteChange()
-}
-
-/**
- * Initialize HTML5 history mode.
- */
-
-p._initHistoryMode = function () {
-  var self = this
-  this._onRouteChange = function (e) {
-    var url = location.pathname + location.search
-    var base = document.querySelector('base')
-    if (base) {
-      url = url.replace(base.getAttribute('href'), '')
-    }
-    url = decodeURI(url)
-    self._match(url)
-    // restore scroll position if saved
-    var pos = e && e.state
-    if (pos && self._keepScrollPosition) {
-      Vue.nextTick(function () {
-        window.scrollTo(pos.x, pos.y)
-      })
-    }
-  }
-  window.addEventListener('popstate', this._onRouteChange)
   this._onRouteChange()
 }
 
@@ -392,7 +411,7 @@ p._match = function (path) {
 
   // normalize against root
   if (
-    this._pushstate &&
+    this._history &&
     this._root &&
     path.indexOf(this._root) === 0
   ) {
@@ -434,6 +453,10 @@ p._match = function (path) {
 
   this._currentRoute = route
 }
+
+//
+// Helpers
+//
 
 /**
  * Set current hash
