@@ -73,7 +73,6 @@ Router.install = function (ExternalVue) {
 //
 // Public API
 //
-//
 
 var p = Router.prototype
 
@@ -280,6 +279,10 @@ p._initHistoryMode = function () {
   var self = this
   this._onRouteChange = function () {
     var url = location.pathname + location.search
+    var base = document.querySelector('base')
+    if (base) {
+      url = url.replace(base.getAttribute('href'), '')
+    }
     url = decodeURI(url)
     self._match(url)
   }
