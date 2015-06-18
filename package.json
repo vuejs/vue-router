@@ -5,7 +5,8 @@
   "main": "src/index.js",
   "scripts": {
     "dev": "node example/serve.js & webpack --watch --config build/webpack.example.config.js",
-    "build": "webpack --config build/webpack.build.config.js",
+    "min": "uglifyjs dist/vue-router.js -c -m > dist/vue-router.min.js",
+    "build": "webpack --config build/webpack.build.config.js && npm run min",
     "test": "webpack --config build/webpack.test.config.js && ./node_modules/karma/bin/karma start build/karma.config.js"
   },
   "repository": {
@@ -30,6 +31,7 @@
     "karma": "^0.12.31",
     "karma-jasmine": "^0.3.5",
     "karma-phantomjs-launcher": "^0.1.4",
+    "uglify-js": "^2.4.23",
     "vue": "yyx990803/vue#dev",
     "webpack": "^1.8.11"
   },
