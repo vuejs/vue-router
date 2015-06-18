@@ -4,8 +4,7 @@ var VueRouter = require('../src')
 Vue.use(VueRouter)
 
 var router = new VueRouter({
-  // pushstate: true,
-  root: '/hello'
+  pushstate: true
 })
 
 var App = Vue.extend({
