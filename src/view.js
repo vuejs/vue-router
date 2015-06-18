@@ -8,7 +8,6 @@ module.exports = function (Vue) {
 
   var _ = Vue.util
   var component = Vue.directive('_component')
-  var templateParser = Vue.parsers.template
 
   // v-view extends v-component
   var viewDef = _.extend({}, component)

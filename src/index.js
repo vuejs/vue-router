@@ -364,7 +364,6 @@ p._addRedirect = function (path, redirectPath) {
     handler: function (match) {
       var realPath = redirectPath
       if (match.isDynamic) {
-        var realPath = redirectPath
         for (var key in match.params) {
           var regex = new RegExp(':' + key + '(\\/|$)')
           var value = match.params[key]
