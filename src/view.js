@@ -112,7 +112,10 @@ module.exports = function (Vue) {
       // call data hook
       if (handler.data) {
         if (handler.waitOnData) {
-          handler.data(route, mount, onDataError)
+          var res = handler.data(route, mount, onDataError)
+          if (isPromise(res)) {
+            res.then(mount).catch(onDataError)
+          }
         } else {
           // async data loading with possible race condition.
           // the data may load before the component gets
@@ -120,13 +123,17 @@ module.exports = function (Vue) {
           // be the other way around.
           var _data, _vm
           // send out data request...
-          handler.data(route, function (data) {
+          var onDataReceived = function (data) {
             if (_vm) {
               setData(_vm, data)
             } else {
               _data = data
             }
-          }, onDataError)
+          }
+          var res = handler.data(route, onDataReceived, onDataError)
+          if (isPromise(res)) {
+            res.then(onDataReceived).catch(onDataError)
+          }
           // start the component switch...
           this.setComponent(handler.component, { loading: true }, function (vm) {
             if (_data) {
@@ -188,4 +195,16 @@ module.exports = function (Vue) {
   })
 
   Vue.elementDirective('router-view', viewDef)
+}
+
+/**
+ * Forgiving check for a promise
+ *
+ * @param {Object} p
+ */
+
+function isPromise (p) {
+  return p &&
+    typeof p.then === 'function' &&
+    typeof p.catch === 'function'
 }
