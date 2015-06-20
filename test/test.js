@@ -236,6 +236,9 @@ describe('vue-router', function () {
         var prefix = router._hashbang ? '#!' : '#'
         expect(location.hash).toBe(prefix + match[0])
       }
+      if (options.assertPath) {
+        expect(location.pathname + location.search).toBe(match[0])
+      }
       if (matches.length) {
         assertRoutes(options, matches, done)
       } else {
