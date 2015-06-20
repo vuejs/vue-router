@@ -4,7 +4,7 @@ function Route (path, router) {
 
   this.query = matched
     ? matched.queryParams
-    : null
+    : {}
 
   this.params = matched
     ? [].reduce.call(matched, function (prev, cur) {
@@ -15,7 +15,7 @@ function Route (path, router) {
         }
         return prev
       }, {})
-    : null
+    : {}
 
   // private stuff
   def(this, '_matched', matched || router._notFoundHandler)

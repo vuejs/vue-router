@@ -23,12 +23,10 @@ describe('vue-router', function () {
 
   it('matching views', function (done) {
     router = new Router()
-
     router.map({
       '/a': { component: 'view-a' },
       '/b': { component: 'view-b' }
     })
-    
     var App = Vue.extend({
       template: '<div><router-view></router-view></div>',
       components: {
@@ -40,9 +38,7 @@ describe('vue-router', function () {
         }
       }
     })
-
     router.start(App, el)
-
     // PhantomJS triggers the initial popstate
     // asynchronously, so we need to wait a tick
     setTimeout(function () {
@@ -101,7 +97,6 @@ describe('vue-router', function () {
       }
     })
     router.start(App, el)
-
     assertMatches([
       ['/a', 'VIEW A '],
       ['/a/sub-a', 'VIEW A SUB A'],
@@ -110,6 +105,37 @@ describe('vue-router', function () {
       ['/b', 'VIEW B '],
       // no match
       ['/b/sub-a', '']
+    ], done)
+  })
+
+  it('route context', function (done) {
+    router = new Router()
+    router.map({
+      '/a/:id': { component: 'view-a' }
+    })
+    var App = Vue.extend({
+      template:
+        '<div>' +
+          '<router-view></router-view>' +
+          // context should be available in non-router-view
+          // components too.
+          '<view-b></view-b>' +
+        '</div>',
+      components: {
+        'view-a': {
+          template: '{{route.path}} {{route.params.id}} {{route.query.id}}'
+        },
+        'view-b': {
+          template: '{{route.path}} {{route.params.id}} {{route.query.id}}'
+        }
+      }
+    })
+    router.start(App, el)
+    assertMatches([
+      // no param, no match (only view-b)
+      ['/a', '/a  '],
+      ['/a/123', '/a/123 123 /a/123 123 '],
+      ['/a/123?id=123', '/a/123?id=123 123 123/a/123?id=123 123 123']
     ], done)
   })
 
