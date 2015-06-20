@@ -283,7 +283,7 @@ p._initHistoryMode = function () {
       self.replace(decodeURI(location.hash))
     }
     // restore scroll position if saved
-    var pos = e && e.state.pos
+    var pos = e && e.state && e.state.pos
     if (pos && self._saveScrollPosition) {
       Vue.nextTick(function () {
         window.scrollTo(pos.x, pos.y)

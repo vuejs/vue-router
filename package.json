@@ -4,10 +4,10 @@
   "description": "A router for Vue.js",
   "main": "src/index.js",
   "scripts": {
-    "dev": "node example/serve.js & webpack --watch --config build/webpack.example.config.js",
+    "dev": "node example/serve.js & webpack --watch --config build/webpack.dev.config.js & webpack --watch --config build/webpack.test.config.js",
     "min": "uglifyjs dist/vue-router.js -c -m > dist/vue-router.min.js",
     "build": "webpack --config build/webpack.build.config.js && npm run min",
-    "test": "webpack --config build/webpack.test.config.js && ./node_modules/karma/bin/karma start build/karma.config.js"
+    "test": "webpack --config build/webpack.test.config.js > /dev/null && ./node_modules/karma/bin/karma start build/karma.config.js"
   },
   "repository": {
     "type": "git",

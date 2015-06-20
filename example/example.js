@@ -73,12 +73,14 @@ router.map({
     subRoutes: {
       '/message/:messageId': {
         component: 'message',
-        data: function (route, resolve, reject) {
-          setTimeout(function () {
-            resolve({
-              id: route.params.messageId
-            })
-          }, 1000)
+        data: function (route) {
+          return new Promise(function (resolve, reject) {
+            setTimeout(function () {
+              resolve({
+                id: route.params.messageId
+              })
+            }, 1000)
+          })
         }
       },
       '/archived': {
