@@ -123,20 +123,62 @@ describe('vue-router', function () {
         '</div>',
       components: {
         'view-a': {
-          template: '{{route.path}} {{route.params.id}} {{route.query.id}}'
+          template: '{{route.path}},{{route.params.id}},{{route.query.id}}|'
         },
         'view-b': {
-          template: '{{route.path}} {{route.params.id}} {{route.query.id}}'
+          template: '{{route.path}},{{route.params.id}},{{route.query.id}}'
         }
       }
     })
     router.start(App, el)
     assertMatches([
       // no param, no match (only view-b)
-      ['/a', '/a  '],
-      ['/a/123', '/a/123 123 /a/123 123 '],
-      ['/a/123?id=123', '/a/123?id=123 123 123/a/123?id=123 123 123']
+      ['/a', '/a,,'],
+      // params only
+      ['/a/123', '/a/123,123,|/a/123,123,'],
+      // params + query
+      ['/a/123?id=234', '/a/123?id=234,123,234|/a/123?id=234,123,234']
     ], done)
+  })
+
+  it('router.go()', function () {
+    // body...
+  })
+
+  it('v-link', function () {
+    
+  })
+
+  it('before hook', function () {
+    
+  })
+
+  it('after hook', function () {
+    
+  })
+
+  it('data hook (waitForData)', function () {
+    
+  })
+
+  it('data hook (loading)', function () {
+    
+  })
+
+  it('redirect', function () {
+    
+  })
+
+  it('notfound', function () {
+    
+  })
+
+  it('global before', function () {
+    
+  })
+
+  it('global after', function () {
+    
   })
 
   function assertMatches (matches, done) {
