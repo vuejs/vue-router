@@ -42,7 +42,9 @@ describe('vue-router', function () {
     // PhantomJS triggers the initial popstate
     // asynchronously, so we need to wait a tick
     setTimeout(function () {
-      assertMatches([
+      assertRoutes({
+        method: '_match'
+      }, [
         ['/a', 'AAA'],
         ['/b', 'BBB'],
         ['a', 'AAA'],
@@ -97,7 +99,9 @@ describe('vue-router', function () {
       }
     })
     router.start(App, el)
-    assertMatches([
+    assertRoutes({
+      method: '_match'
+    }, [
       ['/a', 'VIEW A '],
       ['/a/sub-a', 'VIEW A SUB A'],
       ['/a/sub-a-2', 'VIEW A SUB A2'],
@@ -131,7 +135,9 @@ describe('vue-router', function () {
       }
     })
     router.start(App, el)
-    assertMatches([
+    assertRoutes({
+      method: '_match'
+    }, [
       // no param, no match (only view-b)
       ['/a', '/a,,'],
       // params only
@@ -141,8 +147,35 @@ describe('vue-router', function () {
     ], done)
   })
 
-  it('router.go()', function () {
-    // body...
+  it('router.go()', function (done) {
+    router = new Router()
+    router.map({
+      '/a': { component: 'view-a' },
+      '/b': { component: 'view-b' }
+    })
+    var App = Vue.extend({
+      template: '<div><router-view></router-view></div>',
+      components: {
+        'view-a': {
+          template: 'AAA'
+        },
+        'view-b': {
+          template: 'BBB'
+        }
+      }
+    })
+    router.start(App, el)
+    assertRoutes({
+      method: 'go',
+      assertHash: true
+    }, [
+      ['/a', 'AAA'],
+      ['/b', 'BBB'],
+      ['a', 'AAA'],
+      ['b', 'BBB'],
+      // no match
+      ['/c', '']
+    ], done)
   })
 
   it('v-link', function () {
@@ -181,14 +214,30 @@ describe('vue-router', function () {
     
   })
 
-  function assertMatches (matches, done) {
+  it('hashbang option', function () {
+    
+  })
+
+  it('root option', function () {
+    
+  })
+
+  it('respect <base>', function () {
+    
+  })
+
+  function assertRoutes (options, matches, done) {
     var match = matches.shift()
-    router._match(match[0])
+    router[options.method](match[0])
     nextTick(function () {
       var text = router.app.$el.textContent
       expect(text).toBe(match[1])
+      if (options.assertHash) {
+        var prefix = router._hashbang ? '#!' : '#'
+        expect(location.hash).toBe(prefix + match[0])
+      }
       if (matches.length) {
-        assertMatches(matches, done)
+        assertRoutes(options, matches, done)
       } else {
         done()
       }
