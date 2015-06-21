@@ -3,6 +3,11 @@
 Note: `vue-router` only supports Vue 0.12+.
 
 ### Basic Example
+```html
+    <div id="app">
+        <router-view></router-view>
+    </div>
+```
 
 ``` js
 var Vue = require('vue')
@@ -10,17 +15,17 @@ var Router = require('vue-router')
 
 Vue.use(Router)
 
-var App = Vue.extend({
-  template:
-    '<h1>App</h1>' +
-    '<router-view></router-view>', // <-- outlet
+var App = new Vue({
+  el: '#app', /* components are rendered in <router-view></router-view> */
   components: {
     'view-a': {
       template:
         '<h2>View A</h2>' +
         '<router-view></router-view>', // <-- nested outlet
       components: {
-        subComponent: { /* ... */ }
+        subComponent: { 
+          template: '<p>a subview of view A</p>'
+        }
       }
     },
     'view-b': { /* ... */ }
@@ -46,5 +51,6 @@ router.map({
   }
 })
 
-router.start(App, '#app')
+router.start(App)
 ```
+
