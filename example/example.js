@@ -1,3 +1,6 @@
+// NOTE: this example is based on 0.12.2 in which the
+// `replace` option defaults to true.
+
 var Vue = require('vue')
 var VueRouter = require('../src')
 
@@ -11,7 +14,6 @@ var App = Vue.extend({
   components: {
     inbox: {
       template: '<div><h2>inbox!</h2><router-view></router-view>',
-      replace: true,
       components: {
         message: {
           data: function () {
@@ -19,37 +21,36 @@ var App = Vue.extend({
               id: null
             }
           },
-          template: '<div>' +
-            '<div v-if="loading">Loading data...</div>' +
-            '<div v-if="!loading">message! {{id}} {{route.params.messageId}}</div>',
-          replace: true
+          template:
+            '<div>' +
+              '<div v-if="loading">Loading data...</div>' +
+              '<div v-if="!loading">message! {{id}} {{route.params.messageId}}</div>' +
+            '</div>'
         },
         archive: {
           template: '<div>archive lol {{route.params.messageId}}</div>',
-          replace: true
         }
       }
     },
     user: {
-      template: '<h2>User yo</h2><router-view></router-view>',
+      template: '<div><h2>User yo</h2><router-view></router-view></div>',
       components: {
         'user-profile': {
-          template: 'user profile {{route.params.userId}} {{route.params.something}}'
+          template: '<div>user profile {{route.params.userId}} {{route.params.something}}</div>'
         },
         'user-posts': {
-          template: 'user posts'
+          template: '<div>user posts</div>'
         },
         'user-settings': {
-          template: 'user settings'
+          template: '<div>user settings</div>'
         }
       }
     },
     about: {
-      template: '<h1>OHHHH ABOUT</h1>',
-      replace: true
+      template: '<h1>OHHHH ABOUT</h1>'
     },
     'not-found': {
-      template: 'FOUR OH FOUR'
+      template: '<p>FOUR OH FOUR</p>'
     }
   }
 })
