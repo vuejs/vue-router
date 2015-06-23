@@ -4,5 +4,10 @@ module.exports = {
     path: './example',
     filename: 'example.build.js'
   },
+  module: {
+    loaders: [
+      { test: /\.vue$/, loader: 'vue' }
+    ]
+  },
   devtool: '#source-map'
 }
