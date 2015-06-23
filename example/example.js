@@ -13,20 +13,8 @@ var router = new VueRouter({
 var App = Vue.extend({
   components: {
     inbox: {
-      template: '<div><h2>inbox!</h2><router-view></router-view>',
+      template: '<div><h2>inbox!</h2><router-view></router-view></div>',
       components: {
-        message: {
-          data: function () {
-            return {
-              id: null
-            }
-          },
-          template:
-            '<div>' +
-              '<div v-if="loading">Loading data...</div>' +
-              '<div v-if="!loading">message! {{id}} {{route.params.messageId}}</div>' +
-            '</div>'
-        },
         archive: {
           template: '<div>archive lol {{route.params.messageId}}</div>',
         }
@@ -73,7 +61,19 @@ router.map({
     },
     subRoutes: {
       '/message/:messageId': {
-        component: 'message',
+        // directly providing a component
+        component: {
+          data: function () {
+            return {
+              id: null
+            }
+          },
+          template:
+            '<div>' +
+              '<div v-if="loading">Loading data...</div>' +
+              '<div v-if="!loading">message! {{id}} {{route.params.messageId}}</div>' +
+            '</div>'
+        },
         data: function (route) {
           return new Promise(function (resolve, reject) {
             setTimeout(function () {
