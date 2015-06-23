@@ -58,7 +58,14 @@ module.exports = {
   },
 
   '/named': {
-    component: require('./components/named.vue')
+    namedViews: {
+      a: {
+        component: require('./components/named/a.vue')
+      },
+      b: {
+        component: require('./components/named/b.vue')
+      }
+    }
   },
 
   '*': {

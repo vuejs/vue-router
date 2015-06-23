@@ -23,6 +23,9 @@
       <a v-link="/forbidden">forbidden</a>
       <a v-link="/named">named views</a>
       <router-view class="test" v-transition="test" transition-mode="out-in"></router-view>
+      <!-- named views only get rendered when `namedComponents` is provided in the matched route -->
+      <router-view name="a"></router-view>
+      <router-view name="b"></router-view>
     </div>
 
     <script src="/example.build.js"></script>

@@ -331,6 +331,15 @@ p._initHashMode = function () {
  */
 
 p._addRoute = function (path, handler, segments) {
+  
+  // guard raw components
+  guardComponent(handler)
+  if (handler.namedViews) {
+    for (var name in handler.namedViews) {
+      guardComponent(handler.namedViews[name])
+    }
+  }
+
   segments.push({
     path: path,
     handler: handler
@@ -483,6 +492,42 @@ function setHash (hash, replace) {
 function warn (msg) {
   if (typeof console !== 'undefined') {
     console.warn(msg)
+  }
+}
+
+/**
+ * Allow directly passing components to a route
+ * definition.
+ *
+ * @param {Object} handler
+ */
+
+function guardComponent (handler) {
+  if (!Vue) {
+    warn('Please install vue-router before defining routes.')
+    return
+  }
+  var comp = handler.component
+  var type = typeof comp
+  if (type !== 'string') {
+    if (type !== 'function') {
+      comp = Vue.extend(comp)
+    }
+    if (!comp.cid) {
+      Vue.warn && Vue.warn(
+        'invalid router component: ' + comp
+      )
+      handler.component = null
+      return
+    }
+    // generate a unique id for the anonymous component
+    // and register it globally
+    var id = 'router-view-' + comp.cid
+    if (!Vue.component(id)) {
+      Vue.component(id, comp)
+    }
+    // overwrite the definition so we don't do this again
+    handler.component = id
   }
 }
 

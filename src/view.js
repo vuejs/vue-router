@@ -21,6 +21,7 @@ module.exports = function (Vue) {
       // react to route change
       this.currentRoute = null
       this.currentComponentId = null
+      this.name = this._checkParam('name')
       this.unwatch = this.vm.$watch(
         'route',
         _.bind(this.onRouteChange, this),
@@ -66,6 +67,19 @@ module.exports = function (Vue) {
 
       // trigger component switch
       var handler = segment.handler
+
+      // check named views
+      if (this.name) {
+        if (handler.namedViews) {
+          handler = handler.namedViews[this.name]
+          if (!handler) {
+            return this.invalidate()
+          }
+        } else {
+          return this.invalidate()
+        }
+      }
+
       if (handler.component !== this.currentComponentId ||
           handler.alwaysRefresh) {
 
@@ -98,10 +112,6 @@ module.exports = function (Vue) {
      */
 
     switchView: function (route, previousRoute, handler) {
-
-      // check for raw component handlers
-      guardComponent(handler)
-
       var self = this
       function mount (data) {
         self.setComponent(handler.component, data, null, afterTransition)
@@ -227,35 +237,5 @@ module.exports = function (Vue) {
     return p &&
       typeof p.then === 'function' &&
       typeof p.catch === 'function'
-  }
-
-  /**
-   * Allow directly passing components to a route
-   * definition.
-   *
-   * @param {Object} handler
-   */
-
-  function guardComponent (handler) {
-    var comp = handler.component
-    var type = typeof comp
-    if (type !== 'string') {
-      if (type !== 'function') {
-        comp = Vue.extend(comp)
-      }
-      if (!comp.cid) {
-        Vue.warn && Vue.warn(
-          'invalid router component: ' + comp
-        )
-        handler.component = null
-        return
-      }
-      // generate a unique id for the anonymous component
-      // and register it globally
-      var id = 'router-view-' + comp.cid
-      Vue.component(id, comp)
-      // overwrite the definition so we don't do this again
-      handler.component = id
-    }
   }
 }
