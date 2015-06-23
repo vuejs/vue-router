@@ -19,15 +19,13 @@ function Route (path, router) {
 
   // private stuff
   def(this, '_matched', matched || router._notFoundHandler)
-  def(this, '_matchedCount', 0, true)
   def(this, '_router', router)
 }
 
-function def (obj, key, val, writable) {
+function def (obj, key, val) {
   Object.defineProperty(obj, key, {
     value: val,
-    enumerable: false,
-    writable: !!writable
+    enumerable: false
   })
 }
 

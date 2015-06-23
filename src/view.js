@@ -58,16 +58,11 @@ module.exports = function (Vue) {
         return this.invalidate()
       }
 
-      var segment = route._matched[route._matchedCount]
+      var segment = route._matched[getViewDepth(this.vm)]
       if (!segment) {
         // no segment that matches this outlet
         return this.invalidate()
       }
-
-      // mutate the route as we pass it further down the
-      // chain. this series of mutation is done exactly once
-      // for every route as we match the components to render.
-      route._matchedCount++
 
       // trigger component switch
       var handler = segment.handler
@@ -198,6 +193,28 @@ module.exports = function (Vue) {
   })
 
   Vue.elementDirective('router-view', viewDef)
+
+  //
+  // Helpers
+  //
+
+  /**
+   * Checked nested view depth of the current view.
+   *
+   * @param {Vue} vm
+   * @return {Number}
+   */
+
+  function getViewDepth (vm) {
+    var depth = 0
+    while (vm.$parent) {
+      if (vm.$options._isRouterView) {
+        depth++
+      }
+      vm = vm.$parent
+    }
+    return depth
+  }
 
   /**
    * Forgiving check for a promise
