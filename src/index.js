@@ -25,7 +25,7 @@ function Router (options) {
 
   // state
   this._started = false
-  this._currentRoute = { path: '' }
+  this._currentRoute = { path: '/' }
 
   // feature detection
   this._hasPushState = typeof history !== 'undefined' && history.pushState
@@ -91,7 +91,7 @@ p.map = function (map) {
  * Register a single root-level path
  *
  * @param {String} rootPath
- * @param {Object} config
+ * @param {Object} handler
  *                 - {String} component
  *                 - {Object} [subRoutes]
  *                 - {Boolean} [forceRefresh]
@@ -99,22 +99,23 @@ p.map = function (map) {
  *                 - {Function} [after]
  */
 
-p.on = function (rootPath, config) {
+p.on = function (rootPath, handler) {
   if (rootPath === '*') {
-    this.notFound(config)
+    this.notFound(handler)
   } else {
-    this._addRoute(rootPath, config, [])
+    this._addRoute(rootPath, handler, [])
   }
 }
 
 /**
- * Set the notFound route config.
+ * Set the notFound route handler.
  *
- * @param {Object} config
+ * @param {Object} handler
  */
 
-p.notFound = function (config) {
-  this._notFoundHandler = [{ handler: config }]
+p.notFound = function (handler) {
+  guardComponent(handler)
+  this._notFoundHandler = [{ handler: handler }]
 }
 
 /**
@@ -331,15 +332,7 @@ p._initHashMode = function () {
  */
 
 p._addRoute = function (path, handler, segments) {
-  
-  // guard raw components
   guardComponent(handler)
-  if (handler.namedViews) {
-    for (var name in handler.namedViews) {
-      guardComponent(handler.namedViews[name])
-    }
-  }
-
   segments.push({
     path: path,
     handler: handler
@@ -407,13 +400,14 @@ p._checkRedirect = function (path) {
  */
 
 p._match = function (path) {
+  var self = this
 
   if (this._checkRedirect(path)) {
     return
   }
 
-  var currentRoute = this._currentRoute
-  if (this.app && path === currentRoute.path) {
+  var previousRoute = this._currentRoute
+  if (this.app && path === previousRoute.path) {
     return
   }
 
@@ -430,14 +424,35 @@ p._match = function (path) {
   var route = new Route(path, this)
 
   // check gloal before hook
-  if (this._beforeEachHook) {
-    var res = this._beforeEachHook.call(null, currentRoute, route)
-    if (res === false) {
-      this.replace(currentRoute.path)
-      return
+  var before = this._beforeEachHook
+  if (before) {
+    var async = before.length > 2
+    if (async) {
+      before.call(null, route, previousRoute, transition)
+    } else {
+      transition(before.call(null, route, previousRoute))
     }
+  } else {
+    transition(true)
   }
 
+  function transition (allowed) {
+    if (allowed === false) {
+      self.replace(previousRoute.path)
+    } else {
+      self._transition(route, previousRoute)
+    }
+  }
+}
+
+/**
+ * Perform a route transition after it is validated.
+ *
+ * @param {Route} route
+ * @param {Route} previousRoute
+ */
+
+p._transition = function (route, previousRoute) {
   if (!this.app) {
     // initial render
     this.app = new this._appConstructor({
@@ -456,7 +471,7 @@ p._match = function (path) {
 
   // check global after hook
   if (this._afterEachHook) {
-    this._afterEachHook.call(null, currentRoute, route)
+    this._afterEachHook.call(null, route, previousRoute)
   }
 
   this._currentRoute = route

@@ -21,7 +21,6 @@ module.exports = function (Vue) {
       // react to route change
       this.currentRoute = null
       this.currentComponentId = null
-      this.name = this._checkParam('name')
       this.unwatch = this.vm.$watch(
         'route',
         _.bind(this.onRouteChange, this),
@@ -51,6 +50,7 @@ module.exports = function (Vue) {
      */
 
     onRouteChange: function (route) {
+      var self = this
       var previousRoute = this.currentRoute
       this.currentRoute = route
 
@@ -67,37 +67,31 @@ module.exports = function (Vue) {
 
       // trigger component switch
       var handler = segment.handler
-
-      // check named views
-      if (this.name) {
-        if (handler.namedViews) {
-          handler = handler.namedViews[this.name]
-          if (!handler) {
-            return this.invalidate()
+      if (handler.component !== this.currentComponentId ||
+          handler.alwaysRefresh) {
+        // call before hook
+        if (handler.before) {
+          var isAsync = handler.before.length > 2
+          if (isAsync) {
+            handler.before(route, previousRoute, transition)
+          } else {
+            transition(handler.before(route, previousRoute))
           }
         } else {
-          return this.invalidate()
+          transition(true)
         }
       }
 
-      if (handler.component !== this.currentComponentId ||
-          handler.alwaysRefresh) {
-
-        // call before hook
-        if (handler.before) {
-          var beforeResult = handler.before(route, previousRoute)
-          if (beforeResult === false) {
-            if (route._router._hasPushState) {
-              history.back()
-            } else if (previousRoute) {
-              route._router.replace(previousRoute.path)
-            }
-            return
-          }
+      function transition (allowed) {
+        if (allowed === false) {
+          var path = previousRoute
+            ? previousRoute.path
+            : '/'
+          route._router.replace(path)
+        } else {
+          self.currentComponentId = handler.component
+          self.switchView(route, previousRoute, handler)
         }
-
-        this.currentComponentId = handler.component
-        this.switchView(route, previousRoute, handler)
       }
     },
 
