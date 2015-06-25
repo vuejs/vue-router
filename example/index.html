@@ -11,11 +11,14 @@
         opacity: 0;
         transform: translate3d(10px, 0, 0);
       }
+      [v-cloak] {
+        display: none;
+      }
     </style>
   </head>
   <body>
 
-    <div id="app">
+    <div id="app" v-cloak>
       <p v-show="authenticating" style="color:red">Authenticating...</p>
       <h1>App Header</h1>
       <a v-link="/inbox/message/123">inbox</a>
