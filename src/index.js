@@ -424,7 +424,16 @@ p._match = function (path) {
   // construct route context
   var route = new Route(path, this)
 
-  // TODO rewrite before hook handling to accept promise
+  // initial render
+  if (!this.app) {
+    // initial render
+    this.app = new this._appConstructor({
+      el: this._appContainer,
+      data: {
+        route: route
+      }
+    })
+  }
 
   // check gloal before hook
   var before = this._beforeEachHook
@@ -451,16 +460,8 @@ p._match = function (path) {
  */
 
 p._transition = function (route, previousRoute) {
-  if (!this.app) {
-    // initial render
-    this.app = new this._appConstructor({
-      el: this._appContainer,
-      data: {
-        route: route
-      }
-    })
-  } else {
-    // route change
+
+  if (this.app.route !== route) {
     this.app.route = route
     this._children.forEach(function (child) {
       child.route = route
