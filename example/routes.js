@@ -5,12 +5,14 @@ module.exports = {
     component: require('./components/inbox/index.vue'),
     alwaysRefresh: true,
 
-    before: function (to, from) {
+    before: function (to, from, allow, deny) {
       console.log('before')
       console.log(to.path, from && from.path)
       if (from && from.path === '/about') {
         alert('not allowed')
-        return false
+        deny()
+      } else {
+        allow()
       }
     },
 
