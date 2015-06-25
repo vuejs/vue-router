@@ -1,5 +1,6 @@
-// install the <router-view> element directive
+var _ = require('./util')
 
+// install the <router-view> element directive
 module.exports = function (Vue) {
 
   // insert global css to make sure router-view has
@@ -115,7 +116,7 @@ module.exports = function (Vue) {
       if (handler.data) {
         if (handler.waitOnData) {
           var res = handler.data(route, mount, onDataError)
-          if (isPromise(res)) {
+          if (_.isPromise(res)) {
             res.then(mount).catch(onDataError)
           }
         } else {
@@ -133,7 +134,7 @@ module.exports = function (Vue) {
             }
           }
           var res = handler.data(route, onDataReceived, onDataError)
-          if (isPromise(res)) {
+          if (_.isPromise(res)) {
             res.then(onDataReceived).catch(onDataError)
           }
           // start the component switch...
@@ -169,13 +170,10 @@ module.exports = function (Vue) {
       }
 
       function onDataError (err) {
-        console.warn(
-          'vue-router failed to load data for route: ' +
-          route.path
+        _.warn(
+          'failed to load data for route: ' +
+          route.path, err
         )
-        if (err) {
-          console.warn(err)
-        }
         mount()
       }
     },
@@ -218,18 +216,5 @@ module.exports = function (Vue) {
       vm = vm.$parent
     }
     return depth
-  }
-
-  /**
-   * Forgiving check for a promise
-   *
-   * @param {Object} p
-   * @return {Boolean}
-   */
-
-  function isPromise (p) {
-    return p &&
-      typeof p.then === 'function' &&
-      typeof p.catch === 'function'
   }
 }

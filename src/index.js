@@ -1,5 +1,6 @@
 var Recognizer = require('route-recognizer')
 var Route = require('./route')
+var _ = require('./util')
 var installed = false
 var Vue
 
@@ -61,7 +62,7 @@ function Router (options) {
 
 Router.install = function (ExternalVue) {
   if (installed) {
-    warn('vue-router has already been installed.')
+    _.warn('already installed.')
     return
   }
   Vue = ExternalVue
@@ -224,7 +225,7 @@ p.start = function (App, container) {
     )
   }
   if (this._started) {
-    warn('vue-router has already been started.')
+    _.warn('already started.')
     return
   }
   this._started = true
@@ -423,6 +424,8 @@ p._match = function (path) {
   // construct route context
   var route = new Route(path, this)
 
+  // TODO rewrite before hook handling to accept promise
+
   // check gloal before hook
   var before = this._beforeEachHook
   if (before) {
@@ -499,18 +502,6 @@ function setHash (hash, replace) {
 }
 
 /**
- * Warning (check console for IE9)
- *
- * @param {String} msg
- */
-
-function warn (msg) {
-  if (typeof console !== 'undefined') {
-    console.warn(msg)
-  }
-}
-
-/**
  * Allow directly passing components to a route
  * definition.
  *
@@ -519,8 +510,9 @@ function warn (msg) {
 
 function guardComponent (handler) {
   if (!Vue) {
-    warn('Please install vue-router before defining routes.')
-    return
+    throw new Error(
+      'Please install vue-router before defining routes.'
+    )
   }
   var comp = handler.component
   var type = typeof comp
@@ -529,9 +521,7 @@ function guardComponent (handler) {
       comp = Vue.extend(comp)
     }
     if (!comp.cid) {
-      Vue.warn && Vue.warn(
-        'invalid router component: ' + comp
-      )
+      _.warn('invalid router component: ' + comp)
       handler.component = null
       return
     }
