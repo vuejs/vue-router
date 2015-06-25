@@ -1,4 +1,4 @@
-var _ = require('./util')
+var routerUtil = require('./util')
 
 // install the <router-view> element directive
 module.exports = function (Vue) {
@@ -72,27 +72,24 @@ module.exports = function (Vue) {
           handler.alwaysRefresh) {
         // call before hook
         if (handler.before) {
-          var isAsync = handler.before.length > 2
-          if (isAsync) {
-            handler.before(route, previousRoute, transition)
-          } else {
-            transition(handler.before(route, previousRoute))
-          }
+          routerUtil.callAsyncFn(handler.before, {
+            args: [route, previousRoute],
+            onResolve: transition,
+            onReject: function () {
+              var path = previousRoute
+                ? previousRoute.path
+                : '/'
+              route._router.replace(path)
+            }
+          })
         } else {
-          transition(true)
+          transition()
         }
       }
 
-      function transition (allowed) {
-        if (allowed === false) {
-          var path = previousRoute
-            ? previousRoute.path
-            : '/'
-          route._router.replace(path)
-        } else {
-          self.currentComponentId = handler.component
-          self.switchView(route, previousRoute, handler)
-        }
+      function transition () {
+        self.currentComponentId = handler.component
+        self.switchView(route, previousRoute, handler)
       }
     },
 
@@ -115,10 +112,11 @@ module.exports = function (Vue) {
       // call data hook
       if (handler.data) {
         if (handler.waitOnData) {
-          var res = handler.data(route, mount, onDataError)
-          if (_.isPromise(res)) {
-            res.then(mount).catch(onDataError)
-          }
+          routerUtil.callAsyncFn(handler.data, {
+            args: [route],
+            onResolve: mount,
+            onReject: onDataError
+          })
         } else {
           // async data loading with possible race condition.
           // the data may load before the component gets
@@ -126,17 +124,17 @@ module.exports = function (Vue) {
           // be the other way around.
           var _data, _vm
           // send out data request...
-          var onDataReceived = function (data) {
-            if (_vm) {
-              setData(_vm, data)
-            } else {
-              _data = data
-            }
-          }
-          var res = handler.data(route, onDataReceived, onDataError)
-          if (_.isPromise(res)) {
-            res.then(onDataReceived).catch(onDataError)
-          }
+          routerUtil.callAsyncFn(handler.data, {
+            args: [route],
+            onResolve: function (data) {
+              if (_vm) {
+                setData(_vm, data)
+              } else {
+                _data = data
+              }
+            },
+            onReject: onDataError
+          })
           // start the component switch...
           this.setComponent(handler.component, { loading: true }, function (vm) {
             if (_data) {
@@ -170,7 +168,7 @@ module.exports = function (Vue) {
       }
 
       function onDataError (err) {
-        _.warn(
+        routerUtil.warn(
           'failed to load data for route: ' +
           route.path, err
         )

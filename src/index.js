@@ -1,6 +1,6 @@
 var Recognizer = require('route-recognizer')
 var Route = require('./route')
-var _ = require('./util')
+var routerUtil = require('./util')
 var installed = false
 var Vue
 
@@ -62,7 +62,7 @@ function Router (options) {
 
 Router.install = function (ExternalVue) {
   if (installed) {
-    _.warn('already installed.')
+    routerUtil.warn('already installed.')
     return
   }
   Vue = ExternalVue
@@ -225,7 +225,7 @@ p.start = function (App, container) {
     )
   }
   if (this._started) {
-    _.warn('already started.')
+    routerUtil.warn('already started.')
     return
   }
   this._started = true
@@ -429,22 +429,17 @@ p._match = function (path) {
   // check gloal before hook
   var before = this._beforeEachHook
   if (before) {
-    var async = before.length > 2
-    if (async) {
-      before.call(null, route, previousRoute, transition)
-    } else {
-      transition(before.call(null, route, previousRoute))
-    }
+    routerUtil.callAsyncFn(before, {
+      args: [route, previousRoute],
+      onResolve: function () {
+        self._transition(route, previousRoute)
+      },
+      onReject: function () {
+        self.replace(previousRoute.path)
+      }
+    })
   } else {
-    transition(true)
-  }
-
-  function transition (allowed) {
-    if (allowed === false) {
-      self.replace(previousRoute.path)
-    } else {
-      self._transition(route, previousRoute)
-    }
+    self._transition(route, previousRoute)
   }
 }
 
@@ -521,7 +516,7 @@ function guardComponent (handler) {
       comp = Vue.extend(comp)
     }
     if (!comp.cid) {
-      _.warn('invalid router component: ' + comp)
+      routerUtil.warn('invalid router component: ' + comp)
       handler.component = null
       return
     }
