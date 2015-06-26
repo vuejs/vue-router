@@ -48,3 +48,6 @@ var App = Vue.extend({
 })
 
 router.start(App, '#app')
+
+// just for debugging
+window.router = router

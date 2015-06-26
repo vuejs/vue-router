@@ -24,6 +24,7 @@ module.exports = {
     subRoutes: {
       '/message/:messageId': {
         component: require('./components/inbox/message.vue'),
+        waitOnData: true,
         data: function (route) {
           return new Promise(function (resolve, reject) {
             setTimeout(function () {

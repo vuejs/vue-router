@@ -104,7 +104,7 @@ module.exports = function (Vue) {
     },
 
     /**
-     * Switch view from a previous route to a new route.
+     * Transition from a previous route to a new route.
      * Handles the async data loading logic, then delegates
      * to the component directive's setComponent method.
      *
@@ -115,8 +115,44 @@ module.exports = function (Vue) {
 
     switchView: function (route, previousRoute, handler) {
       var self = this
-      function mount (data) {
+      var symbol = this.transitionSymbol = {}
+
+      // The component may have been switched before async
+      // callbacks are called. Make sure the callbacks only
+      // execute when the current directive instance is still
+      // active and current transition is still valid.
+      function onlyWhenValid (fn) {
+        return function () {
+          if (self.vm && self.transitionSymbol === symbol) {
+            fn()
+          }
+        }
+      }
+
+      var mount = onlyWhenValid(function (data) {
         self.setComponent(handler.component, data, null, afterTransition)
+      })
+
+      var afterTransition = onlyWhenValid(function () {
+        if (handler.after) {
+          handler.after(route, previousRoute)
+        }
+      })
+
+      var setData = onlyWhenValid(function (vm, data) {
+        for (var key in data) {
+          vm.$set(key, data[key])
+        }
+        vm.loading = false
+      })
+
+      // the error handler doesn't need to cancel.
+      function onDataError (err) {
+        routerUtil.warn(
+          'failed to load data for route: ' +
+          route.path, err
+        )
+        mount()
       }
 
       // call data hook
@@ -158,32 +194,6 @@ module.exports = function (Vue) {
         // no data hook, just set component
         mount()
       }
-
-      function setData (vm, data) {
-        // if the view switched again before the data
-        // returned, the previous view could be already
-        // destroyed.
-        if (vm._isDestroyed) return
-        for (var key in data) {
-          vm.$set(key, data[key])
-        }
-        vm.loading = false
-      }
-
-      function afterTransition () {
-        // call after hook
-        if (handler.after) {
-          handler.after(route, previousRoute)
-        }
-      }
-
-      function onDataError (err) {
-        routerUtil.warn(
-          'failed to load data for route: ' +
-          route.path, err
-        )
-        mount()
-      }
     },
 
     /**
@@ -191,7 +201,7 @@ module.exports = function (Vue) {
      */
 
     invalidate: function () {
-      this.currentComponentId = null
+      this.currentComponentId = this.transitionSymbol = null
       this.setComponent(null)
     },
 
