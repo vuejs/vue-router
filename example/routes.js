@@ -36,6 +36,11 @@ module.exports = {
       },
       '/archived': {
         component: require('./components/inbox/archive.vue')
+      },
+      '*': {
+        component: {
+          template: 'default yo'
+        }
       }
     }
   },

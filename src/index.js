@@ -341,6 +341,13 @@ p._addRoute = function (path, handler, segments) {
   this._recognizer.add(segments)
   if (handler.subRoutes) {
     for (var subPath in handler.subRoutes) {
+      // default handler
+      if (subPath === '*') {
+        var child = handler.subRoutes[subPath]
+        guardComponent(child)
+        handler.defaultChildHandler = child
+        continue
+      }
       // recursively walk all sub routes
       this._addRoute(
         subPath,

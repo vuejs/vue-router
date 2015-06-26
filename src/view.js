@@ -60,14 +60,24 @@ module.exports = function (Vue) {
         return this.invalidate()
       }
 
-      var segment = route._matched[getViewDepth(this.vm)]
+      // determine handler
+      var handler
+      var depth = getViewDepth(this.vm)
+      var segment = route._matched[depth]
       if (!segment) {
-        // no segment that matches this outlet
-        return this.invalidate()
+        // check if the parent view has a default child view
+        var parent = route._matched[depth - 1]
+        if (parent && parent.handler.defaultChildHandler) {
+          handler = parent.handler.defaultChildHandler
+        } else {
+          // no segment that matches this outlet
+          return this.invalidate()
+        }
+      } else {
+        handler = segment.handler
       }
 
       // trigger component switch
-      var handler = segment.handler
       if (handler.component !== this.currentComponentId ||
           handler.alwaysRefresh) {
         // call before hook
