@@ -124,7 +124,7 @@ module.exports = function (Vue) {
       function onlyWhenValid (fn) {
         return function () {
           if (self.vm && self.transitionSymbol === symbol) {
-            fn()
+            fn.apply(this, arguments)
           }
         }
       }
