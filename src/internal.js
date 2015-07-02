@@ -47,11 +47,11 @@ module.exports = function (Vue, Router) {
       // format hashbang
       var hash = location.hash
       if (self._hashbang && hash && hash.charAt(1) !== '!') {
-        setHash('!' + hash.slice(1), true)
+        routerUtil.setHash('!' + hash.slice(1), true)
         return
       }
       if (!self._hashbang && hash && hash.charAt(1) === '!') {
-        setHash(hash.slice(2), true)
+        routerUtil.setHash(hash.slice(2), true)
         return
       }
       hash = hash.replace(/^#!?/, '')
@@ -235,27 +235,6 @@ module.exports = function (Vue, Router) {
     this._currentRoute = route
   }
 
-  //
-  // Helpers
-  //
-
-  /**
-   * Set current hash
-   *
-   * @param {String} hash
-   * @param {Boolean} replace
-   */
-
-  function setHash (hash, replace) {
-    if (replace) {
-      var urlLength = location.href.length - location.hash.length
-      var fullURL = location.href.slice(0, urlLength) + '#' + hash
-      location.replace(fullURL)
-    } else {
-      location.hash = hash
-    }
-  }
-
   /**
    * Allow directly passing components to a route
    * definition.
@@ -264,11 +243,6 @@ module.exports = function (Vue, Router) {
    */
 
   function guardComponent (handler) {
-    if (!Vue) {
-      throw new Error(
-        'Please install vue-router before defining routes.'
-      )
-    }
     var comp = handler.component
     var type = typeof comp
     if (type !== 'string') {

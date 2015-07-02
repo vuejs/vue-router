@@ -22,7 +22,9 @@ module.exports = function (Vue) {
       this.handler = function (e) {
         if (e.button === 0) {
           e.preventDefault()
-          vm.route._router.go(self.destination)
+          if (self.destination != null) {
+            vm.route._router.go(self.destination)
+          }
         }
       }
       this.el.addEventListener('click', this.handler)

@@ -109,7 +109,7 @@ module.exports = function (Vue, Router) {
     } else {
       // just set hash
       path = path.replace(/^#!?/, '')
-      setHash(this._hashbang ? '!' + path : path, replace)
+      routerUtil.setHash(this._hashbang ? '!' + path : path, replace)
     }
   }
 

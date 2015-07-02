@@ -15,6 +15,23 @@ exports.warn = function (msg, err) {
 }
 
 /**
+ * Set current hash
+ *
+ * @param {String} hash
+ * @param {Boolean} replace
+ */
+
+exports.setHash = function (hash, replace) {
+  if (replace) {
+    var urlLength = location.href.length - location.hash.length
+    var fullURL = location.href.slice(0, urlLength) + '#' + hash
+    location.replace(fullURL)
+  } else {
+    location.hash = hash
+  }
+}
+
+/**
  * Call an async hook function with a list of arguments,
  * plus a pair of resolve and reject functions. If the hook
  * returns a promise, or returns a boolean, the resolve and
