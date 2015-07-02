@@ -40,7 +40,11 @@ module.exports = function (Vue) {
     update: function (value) {
       this.destination = value
       if (this.el.tagName === 'A') {
-        this.el.href = value
+        if (value) {
+          this.el.href = value
+        } else {
+          this.el.removeAttribute('href')
+        }
       }
     }
 
