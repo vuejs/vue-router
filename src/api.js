@@ -83,6 +83,7 @@ module.exports = function (Vue, Router) {
         // make path relative to root if specified
         path = url = this._formatPath(path)
       } else {
+        path = path.replace(/^#!?/, '')
         url = this._formatHashPath(path)
       }
       if (replace) {
