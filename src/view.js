@@ -21,6 +21,7 @@ module.exports = function (Vue) {
     bind: function () {
       // react to route change
       this.currentRoute = null
+      this.currentComponentId = null
       this.unwatch = this.vm.$watch(
         'route',
         _.bind(this.onRouteChange, this),
@@ -146,14 +147,52 @@ module.exports = function (Vue) {
         vm.loading = false
       })
 
-      // the error handler doesn't need to cancel.
-      function onDataError (err) {
+      function warnDataError () {
         routerUtil.warn(
           'failed to load data for route: ' +
           route.path, err
         )
+      }
+
+      // the error handler doesn't need to cancel.
+      function onDataError (err) {
+        warnDataError()
         mount()
       }
+
+      // if we are switching into the same component as the
+      // existing one, we only need to update the data and
+      // call after hook.
+      if (
+        this.childVM &&
+        !handler.alwaysRefresh &&
+        handler.component === this.currentComponentId
+      ) {
+        if (handler.data) {
+          var vm = this.childVM
+          vm.loading = true
+          routerUtil.callAsyncFn(handler.data, {
+            args: [route],
+            onResolve: function (data) {
+              setData(vm, data)
+              vm.loading = false
+              if (handler.waitOnData) {
+                afterTransition()
+              }
+            },
+            onReject: warnDataError
+          })
+          if (!handler.waitOnData) {
+            afterTransition()
+          }
+        } else {
+          afterTransition()
+        }
+        return
+      }
+
+      // switching into a new component.
+      this.currentComponentId = handler.component
 
       // call data hook
       if (handler.data) {
@@ -201,7 +240,9 @@ module.exports = function (Vue) {
      */
 
     invalidate: function () {
-      this.currentRoute = this.transitionSymbol = null
+      this.currentRoute =
+      this.currentComponentId =
+      this.transitionSymbol = null
       this.setComponent(null)
     },
 
