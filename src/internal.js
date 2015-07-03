@@ -127,14 +127,32 @@ module.exports = function (Vue, Router) {
         var realPath = redirectPath
         if (match.isDynamic) {
           for (var key in match.params) {
-            var regex = new RegExp(':' + key + '(\\/|$)')
-            var value = match.params[key]
-            realPath = realPath.replace(regex, value)
+            realPath = replaceParam(realPath, match, key)
           } 
         }
         router.replace(realPath)
       }
     }])
+  }
+
+  /**
+   * Replace a param segment with real value in a matched
+   * path.
+   *
+   * @param {String} path
+   * @param {Object} match
+   * @param {String} key
+   * @return {String}
+   */
+
+  function replaceParam (path, match, key) {
+    var regex = new RegExp(':' + key + '(\\/|$)')
+    var value = match.params[key]
+    return path.replace(regex, function (m) {
+      return m.charAt(m.length - 1) === '/'
+        ? value + '/'
+        : value
+    })
   }
 
   /**
