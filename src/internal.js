@@ -249,7 +249,7 @@ module.exports = function (Vue, Router) {
         ? this._root + '/' + path.replace(/^\//, '')
         : path
       // relative path
-      : location.pathname.replace(/\/?$/, '') + '/' + path
+      : routerUtil.resolvePath(location.pathname, path)
   }
 
   /**
@@ -264,9 +264,10 @@ module.exports = function (Vue, Router) {
     var prefix = '#' + (this._hashbang ? '!' : '')
     return path.charAt(0) === '/'
       ? prefix + path
-      : prefix + location.hash
-        .replace(/^#!?/, '')
-        .replace(/\/?$/, '') + '/' + path
+      : prefix + routerUtil.resolvePath(
+          location.hash.replace(/^#!?/, ''),
+          path
+        )
   }
 
   /**

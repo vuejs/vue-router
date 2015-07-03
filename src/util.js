@@ -32,6 +32,30 @@ exports.setHash = function (hash, replace) {
 }
 
 /**
+ * Resolve a relative path.
+ *
+ * @param {String} base
+ * @param {String} relative
+ * @return {String}
+ */
+
+exports.resolvePath = function (base, relative) {
+  var stack = base.replace(/\/?$/, '').split('/')
+  var segments = relative.split('/')
+  for (var i = 0; i < segments.length; i++) {
+    var segment = segments[i]
+    if (segment === '.') {
+      continue
+    } else if (segment === '..') {
+      stack.pop()
+    } else {
+      stack.push(segment)
+    }
+  }
+  return stack.join('/')
+}
+
+/**
  * Call an async hook function with a list of arguments,
  * plus a pair of resolve and reject functions. If the hook
  * returns a promise, or returns a boolean, the resolve and
