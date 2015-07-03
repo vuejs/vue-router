@@ -37,11 +37,16 @@ module.exports = function (Vue) {
       this.el.removeEventListener('click', this.handler)
     },
 
-    update: function (value) {
-      this.destination = value
+    update: function (path) {
+      this.destination = path
+      path = path || ''
+      var router = this.vm.route._router
+      var url = router._history
+        ? router._formatPath(path)
+        : router._formatHashPath(path)
       if (this.el.tagName === 'A') {
-        if (value) {
-          this.el.href = value
+        if (url) {
+          this.el.href = url
         } else {
           this.el.removeAttribute('href')
         }

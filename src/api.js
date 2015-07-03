@@ -77,21 +77,13 @@ module.exports = function (Vue, Router) {
 
   p.go = function (path, options) {
     var replace = options && options.replace
+    var url
     if (this._hasPushState) {
-      var url
       if (this._history) {
         // make path relative to root if specified
-        path = this._root
-          ? this._root + '/' + path.replace(/^\//, '')
-          : path
-        url = path
+        path = url = this._formatPath(path)
       } else {
-        // format path into proper hash and create full url
-        path = path.replace(/^#!?/, '')
-        url = location.pathname + location.search
-        if (path) {
-          url += '#' + (this._hashbang ? '!' + path : path)
-        }
+        url = this._formatHashPath(path)
       }
       if (replace) {
         history.replaceState({}, '', url)
@@ -108,8 +100,7 @@ module.exports = function (Vue, Router) {
       this._match(path)
     } else {
       // just set hash
-      path = path.replace(/^#!?/, '')
-      routerUtil.setHash(this._hashbang ? '!' + path : path, replace)
+      routerUtil.setHash(this._formatHashPath(path), replace)
     }
   }
 

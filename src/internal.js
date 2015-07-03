@@ -236,6 +236,33 @@ module.exports = function (Vue, Router) {
   }
 
   /**
+   * Format a raw path to an actual URL.
+   *
+   * @param {String} path
+   * @return {String}
+   */
+
+  p._formatPath = function (path) {
+    return this._root
+      ? this._root + '/' + path.replace(/^\//, '')
+      : path
+  }
+
+  /**
+   * Format a raw path to a hash fragment.
+   *
+   * @param {String} path
+   * @return {String}
+   */
+
+  p._formatHashPath = function (path) {
+    path = path.replace(/^#!?/, '')
+    return path
+      ? '#' + (this._hashbang ? '!' + path : path)
+      : ''
+  }
+
+  /**
    * Allow directly passing components to a route
    * definition.
    *
