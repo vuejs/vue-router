@@ -21,7 +21,6 @@ module.exports = function (Vue) {
     bind: function () {
       // react to route change
       this.currentRoute = null
-      this.currentComponentId = null
       this.unwatch = this.vm.$watch(
         'route',
         _.bind(this.onRouteChange, this),
@@ -78,19 +77,14 @@ module.exports = function (Vue) {
       }
 
       // trigger component switch
-      if (handler.component !== this.currentComponentId ||
-          handler.alwaysRefresh) {
+      var prevPath = previousRoute && previousRoute.path
+      if (route.path !== prevPath) {
         // call before hook
         if (handler.before) {
           routerUtil.callAsyncFn(handler.before, {
             args: [route, previousRoute],
             onResolve: transition,
-            onReject: function () {
-              var path = previousRoute
-                ? previousRoute.path
-                : '/'
-              route._router.replace(path)
-            }
+            onReject: reject
           })
         } else {
           transition()
@@ -98,8 +92,14 @@ module.exports = function (Vue) {
       }
 
       function transition () {
-        self.currentComponentId = handler.component
         self.switchView(route, previousRoute, handler)
+      }
+
+      function reject () {
+        var path = previousRoute
+          ? previousRoute.path
+          : '/'
+        route._router.replace(path)
       }
     },
 
@@ -201,7 +201,7 @@ module.exports = function (Vue) {
      */
 
     invalidate: function () {
-      this.currentComponentId = this.transitionSymbol = null
+      this.currentRoute = this.transitionSymbol = null
       this.setComponent(null)
     },
 
