@@ -41,7 +41,9 @@ exports.setHash = function (hash, replace) {
 
 exports.resolvePath = function (base, relative) {
   var stack = base.split('/')
+  // remove trailing segment
   stack.pop()
+  // resolve relative path
   var segments = relative.split('/')
   for (var i = 0; i < segments.length; i++) {
     var segment = segments[i]
@@ -53,7 +55,11 @@ exports.resolvePath = function (base, relative) {
       stack.push(segment)
     }
   }
-  return '/' + stack.join('/')
+  // ensure leading slash
+  if (stack[0] !== '') {
+    stack.unshift('')
+  }
+  return stack.join('/')
 }
 
 /**
