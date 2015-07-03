@@ -170,10 +170,8 @@ module.exports = function (Vue, Router) {
         var realPath = aliasPath
         if (match.isDynamic) {
           for (var key in match.params) {
-            var regex = new RegExp(':' + key + '(\\/|$)')
-            var value = match.params[key]
-            realPath = realPath.replace(regex, value)
-          }
+            realPath = replaceParam(realPath, match, key)
+          } 
         }
         router._match(realPath)
       }
