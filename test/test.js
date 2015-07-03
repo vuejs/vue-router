@@ -202,6 +202,38 @@ describe('vue-router', function () {
     
   })
 
+  it('multi-variable redirect', function (done) {
+    router = new Router()
+    router.map({
+      '/a/:foo': {
+        component: 'view-a',
+        subRoutes: {
+          '/b/:bar': { component: 'view-b' },
+        }
+      }
+    })
+    router.redirect({
+      '/c/a/:foo/b/:bar': '/a/:foo/b/:bar'
+    })
+    var App = Vue.extend({
+      template: '<div><router-view></router-view></div>',
+      components: {
+        'view-a': {
+          template: '<router-view></router-view>'
+        },
+        'view-b': {
+          template: '{{route.params.foo}}{{route.params.bar}}'
+        }
+      }
+    })
+    router.start(App, el)
+    assertRoutes({
+      method: '_match'
+    }, [
+      ['/c/a/123/b/456', '123456']
+    ], done)
+  })
+
   it('notfound', function () {
     
   })
