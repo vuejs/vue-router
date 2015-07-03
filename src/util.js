@@ -40,7 +40,8 @@ exports.setHash = function (hash, replace) {
  */
 
 exports.resolvePath = function (base, relative) {
-  var stack = base.replace(/\/?$/, '').split('/')
+  var stack = base.split('/')
+  stack.pop()
   var segments = relative.split('/')
   for (var i = 0; i < segments.length; i++) {
     var segment = segments[i]
@@ -52,7 +53,7 @@ exports.resolvePath = function (base, relative) {
       stack.push(segment)
     }
   }
-  return stack.join('/')
+  return '/' + stack.join('/')
 }
 
 /**
