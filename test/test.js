@@ -171,8 +171,8 @@ describe('vue-router', function () {
     }, [
       ['/a', 'AAA'],
       ['/b', 'BBB'],
-      ['a', 'AAA'],
-      ['b', 'BBB'],
+      ['../a', 'AAA', '/a'],
+      ['./../b', 'BBB', '/b'],
       // no match
       ['/c', '']
     ], done)
@@ -234,7 +234,8 @@ describe('vue-router', function () {
       expect(text).toBe(match[1])
       if (options.assertHash) {
         var prefix = router._hashbang ? '#!' : '#'
-        expect(location.hash).toBe(prefix + match[0])
+        var expected = prefix + (match[2] || match[0])
+        expect(location.hash).toBe(expected)
       }
       if (options.assertPath) {
         expect(location.pathname + location.search).toBe(match[0])
