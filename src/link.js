@@ -41,12 +41,15 @@ module.exports = function (Vue) {
       this.destination = path
       path = path || ''
       var router = this.vm.route._router
-      var url = router._history
-        ? router._formatPath(path)
+      var href = router._history
+        ? path.charAt(0) === '/'
+          // only format the path if it's absolute
+          ? router._formatPath(path)
+          : path
         : router._formatHashPath(path)
       if (this.el.tagName === 'A') {
-        if (url) {
-          this.el.href = url
+        if (href) {
+          this.el.href = href
         } else {
           this.el.removeAttribute('href')
         }

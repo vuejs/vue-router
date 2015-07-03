@@ -243,9 +243,13 @@ module.exports = function (Vue, Router) {
    */
 
   p._formatPath = function (path) {
-    return this._root
-      ? this._root + '/' + path.replace(/^\//, '')
-      : path
+    return path.charAt(0) === '/'
+      // absolute path
+      ? this._root
+        ? this._root + '/' + path.replace(/^\//, '')
+        : path
+      // relative path
+      : location.pathname.replace(/\/?$/, '') + '/' + path
   }
 
   /**
@@ -257,9 +261,12 @@ module.exports = function (Vue, Router) {
 
   p._formatHashPath = function (path) {
     path = path.replace(/^#!?/, '')
-    return path
-      ? '#' + (this._hashbang ? '!' + path : path)
-      : ''
+    var prefix = '#' + (this._hashbang ? '!' : '')
+    return path.charAt(0) === '/'
+      ? prefix + path
+      : prefix + location.hash
+        .replace(/^#!?/, '')
+        .replace(/\/?$/, '') + '/' + path
   }
 
   /**
