@@ -156,6 +156,31 @@ module.exports = function (Vue, Router) {
   }
 
   /**
+   * Add an alias record.
+   *
+   * @param {String} path
+   * @param {String} aliasPath
+   */
+
+  p._addAlias = function (path, aliasPath) {
+    var router = this
+    this._redirectRecognizer.add([{
+      path: path,
+      handler: function (match) {
+        var realPath = aliasPath
+        if (match.isDynamic) {
+          for (var key in match.params) {
+            var regex = new RegExp(':' + key + '(\\/|$)')
+            var value = match.params[key]
+            realPath = realPath.replace(regex, value)
+          }
+        }
+        router._match(realPath)
+      }
+    }])
+  }
+
+  /**
    * Check if a path matches any redirect records.
    *
    * @param {String} path
