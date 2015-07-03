@@ -213,7 +213,7 @@ describe('vue-router', function () {
       }
     })
     router.redirect({
-      'c/a/:foo/b/:bar': '/a/:foo/b/:bar'
+      '/c/a/:foo/b/:bar': '/a/:foo/b/:bar'
     })
     var App = Vue.extend({
       template: '<div><router-view></router-view></div>',
