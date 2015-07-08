@@ -5,8 +5,8 @@
   "main": "src/index.js",
   "scripts": {
     "dev": "node example/serve.js & webpack --watch --config build/webpack.dev.config.js & webpack --watch --config build/webpack.test.config.js",
-    "min": "uglifyjs dist/vue-router.js -c -m > dist/vue-router.min.js",
-    "build": "webpack --config build/webpack.build.config.js && npm run min",
+    "lint": "eslint src && eslint build",
+    "build": "npm run lint && webpack --config build/webpack.build.config.js && webpack --config build/webpack.min.config.js",
     "test": "webpack --config build/webpack.test.config.js > /dev/null && ./node_modules/karma/bin/karma start build/karma.config.js"
   },
   "repository": {
@@ -27,6 +27,7 @@
   "homepage": "https://github.com/vuejs/vue-router#readme",
   "devDependencies": {
     "css-loader": "^0.14.5",
+    "eslint": "^0.24.0",
     "express": "^4.12.3",
     "html-loader": "^0.3.0",
     "jasmine-core": "^2.3.2",

@@ -147,7 +147,7 @@ module.exports = function (Vue) {
         vm.loading = false
       })
 
-      function warnDataError () {
+      function warnDataError (err) {
         routerUtil.warn(
           'failed to load data for route: ' +
           route.path, err
@@ -156,7 +156,7 @@ module.exports = function (Vue) {
 
       // the error handler doesn't need to cancel.
       function onDataError (err) {
-        warnDataError()
+        warnDataError(err)
         mount()
       }
 

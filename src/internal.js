@@ -151,7 +151,7 @@ module.exports = function (Vue, Router) {
         if (match.isDynamic) {
           for (var key in match.params) {
             realPath = replaceParam(realPath, match, key)
-          } 
+          }
         }
         handler.call(router, realPath)
       }

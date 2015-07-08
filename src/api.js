@@ -75,7 +75,7 @@ module.exports = function (Vue, Router) {
    */
 
   p.afterEach = function (fn) {
-    this._afterEachHook = fn  
+    this._afterEachHook = fn
   }
 
   /**

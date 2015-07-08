@@ -5,11 +5,16 @@ module.exports = {
   entry: './src/index.js',
   output: {
     path: './dist',
-    filename: 'vue-router.js',
+    filename: 'vue-router.min.js',
     library: 'VueRouter',
     libraryTarget: 'umd'
   },
   plugins: [
-    new webpack.BannerPlugin(banner)
+    new webpack.BannerPlugin(banner),
+    new webpack.optimize.UglifyJsPlugin({
+      compress: {
+        warnings: false
+      }
+    })
   ]
 }
