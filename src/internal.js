@@ -120,17 +120,40 @@ module.exports = function (Vue, Router) {
    */
 
   p._addRedirect = function (path, redirectPath) {
+    this._addGuard(path, redirectPath, this.replace)
+  }
+
+  /**
+   * Add an alias record.
+   *
+   * @param {String} path
+   * @param {String} aliasPath
+   */
+
+  p._addAlias = function (path, aliasPath) {
+    this._addGuard(path, aliasPath, this._match)
+  }
+
+  /**
+   * Add a path guard.
+   *
+   * @param {String} path
+   * @param {String} mappedPath
+   * @param {Function} handler
+   */
+
+  p._addGuard = function (path, mappedPath, handler) {
     var router = this
-    this._redirectRecognizer.add([{
+    this._guardRecognizer.add([{
       path: path,
       handler: function (match) {
-        var realPath = redirectPath
+        var realPath = mappedPath
         if (match.isDynamic) {
           for (var key in match.params) {
             realPath = replaceParam(realPath, match, key)
           } 
         }
-        router.replace(realPath)
+        handler.call(router, realPath)
       }
     }])
   }
@@ -156,37 +179,14 @@ module.exports = function (Vue, Router) {
   }
 
   /**
-   * Add an alias record.
-   *
-   * @param {String} path
-   * @param {String} aliasPath
-   */
-
-  p._addAlias = function (path, aliasPath) {
-    var router = this
-    this._aliasRecognizer.add([{
-      path: path,
-      handler: function (match) {
-        var realPath = aliasPath
-        if (match.isDynamic) {
-          for (var key in match.params) {
-            realPath = replaceParam(realPath, match, key)
-          } 
-        }
-        router._match(realPath)
-      }
-    }])
-  }
-
-  /**
    * Check if a path matches any redirect records.
    *
    * @param {String} path
    * @return {Boolean} - if true, will skip normal match.
    */
 
-  p._checkRedirectOrAlias = function (path) {
-    var matched = this._redirectRecognizer.recognize(path) || this._aliasRecognizer.recognize(path)
+  p._checkGuard = function (path) {
+    var matched = this._guardRecognizer.recognize(path)
     if (matched) {
       matched[0].handler(matched[0])
       return true
@@ -203,7 +203,7 @@ module.exports = function (Vue, Router) {
   p._match = function (path) {
     var self = this
 
-    if (this._checkRedirectOrAlias(path)) {
+    if (this._checkGuard(path)) {
       return
     }
 
