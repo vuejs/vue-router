@@ -198,6 +198,7 @@ describe('vue-router', function () {
               template:
                 '<div>' +
                   '<a v-link="?id=1234" id="link"></a>' +
+                  // '<a v-link="foo?id=1234" id="link"></a>' +
                   '{{route.query.id}}' +
                 '</div>'
             }
@@ -213,11 +214,13 @@ describe('vue-router', function () {
     router.go('/foo')
     nextTick(function () {
       router.app.$el.querySelector('#link').click()
-      var text = router.app.$el.textContent
-      expect(text).toBe('1234')
-      done();
-    });
-  });
+      nextTick(function () {
+        var text = router.app.$el.textContent
+        expect(text).toBe('1234')
+        done()
+      })
+    })
+  })
 
   it('before hook', function () {
     
