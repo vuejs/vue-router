@@ -156,14 +156,37 @@ module.exports = function (Vue, Router) {
   }
 
   /**
+   * Add an alias record.
+   *
+   * @param {String} path
+   * @param {String} aliasPath
+   */
+
+  p._addAlias = function (path, aliasPath) {
+    var router = this
+    this._aliasRecognizer.add([{
+      path: path,
+      handler: function (match) {
+        var realPath = aliasPath
+        if (match.isDynamic) {
+          for (var key in match.params) {
+            realPath = replaceParam(realPath, match, key)
+          } 
+        }
+        router._match(realPath)
+      }
+    }])
+  }
+
+  /**
    * Check if a path matches any redirect records.
    *
    * @param {String} path
    * @return {Boolean} - if true, will skip normal match.
    */
 
-  p._checkRedirect = function (path) {
-    var matched = this._redirectRecognizer.recognize(path)
+  p._checkRedirectOrAlias = function (path) {
+    var matched = this._redirectRecognizer.recognize(path) || this._aliasRecognizer.recognize(path)
     if (matched) {
       matched[0].handler(matched[0])
       return true
@@ -180,7 +203,7 @@ module.exports = function (Vue, Router) {
   p._match = function (path) {
     var self = this
 
-    if (this._checkRedirect(path)) {
+    if (this._checkRedirectOrAlias(path)) {
       return
     }
 

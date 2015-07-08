@@ -198,6 +198,70 @@ describe('vue-router', function () {
     
   })
 
+  it('alias', function (done) {
+    router = new Router()
+    router.map({
+      '/a': { component: 'view-a' },
+      '/b': { component: 'view-b' }
+    })
+    router.alias({
+      '/c/a': '/a',
+      '/c/b': '/b'
+    })
+    var App = Vue.extend({
+      template: '<div><router-view></router-view></div>',
+      components: {
+        'view-a': {
+          template: 'AAA'
+        },
+        'view-b': {
+          template: 'BBB'
+        }
+      }
+    })
+    router.start(App, el)
+    assertRoutes({
+      method: '_match'
+    }, [
+      ['/a', 'AAA'],
+      ['/b', 'BBB'],
+      ['/c/a', 'AAA'],
+      ['/c/b', 'BBB']
+    ], done)
+  })
+
+  it('multi-variable alias', function (done) {
+      router = new Router()
+      router.map({
+        '/a/:foo': {
+          component: 'view-a',
+          subRoutes: {
+            '/b/:bar': { component: 'view-b' },
+          }
+        }
+      })
+      router.alias({
+        '/c/a/:foo/b/:bar': '/a/:foo/b/:bar'
+      })
+      var App = Vue.extend({
+        template: '<div><router-view></router-view></div>',
+        components: {
+          'view-a': {
+            template: '<router-view></router-view>'
+          },
+          'view-b': {
+            template: '{{route.params.foo}}{{route.params.bar}}'
+          }
+        }
+      })
+      router.start(App, el)
+      assertRoutes({
+        method: '_match'
+      }, [
+        ['/c/a/123/b/456', '123456']
+      ], done)
+    })
+
   it('redirect', function () {
     
   })

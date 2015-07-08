@@ -47,6 +47,18 @@ module.exports = function (Vue, Router) {
   }
 
   /**
+   * Set aliases.
+   *
+   * @param {Object} map
+   */
+
+  p.alias = function (map) {
+    for (var path in map) {
+      this._addAlias(path, map[path])
+    }
+  }
+
+  /**
    * Set global before hook.
    *
    * @param {Function} fn

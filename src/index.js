@@ -28,6 +28,7 @@ function Router (options) {
   // route recognizer
   this._recognizer = new Recognizer()
   this._redirectRecognizer = new Recognizer()
+  this._aliasRecognizer = new Recognizer()
 
   // state
   this._started = false
