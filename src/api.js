@@ -89,10 +89,13 @@ module.exports = function (Vue, Router) {
 
   p.go = function (path, options) {
     var replace = options && options.replace
-    var url
+    var url, hash
     if (this._hasPushState) {
       if (this._history) {
-        path = url = this._formatPath(path)
+        url = this._formatPath(path)
+        path = url.replace(/#.*$/, '')
+        var hashMatch = url.match(/#.*$/)
+        hash = hashMatch && hashMatch[0].slice(1)
       } else {
         url = this._formatHashPath(path)
         path = url.replace(/^#!?/, '')
@@ -110,6 +113,15 @@ module.exports = function (Vue, Router) {
         history.pushState({}, '', url)
       }
       this._match(path)
+      // in history mode, scroll to hash anchor
+      if (hash) {
+        Vue.nextTick(function () {
+          var el = document.getElementById(hash)
+          if (el) {
+            window.scrollTo(window.scrollX, el.offsetTop)
+          }
+        })
+      }
     } else {
       // just set hash
       routerUtil.setHash(this._formatHashPath(path), replace)
