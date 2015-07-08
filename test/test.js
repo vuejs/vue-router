@@ -182,6 +182,43 @@ describe('vue-router', function () {
     
   })
 
+  it('v-link relative querystring', function (done) {
+    router = new Router()
+    router.map({
+      '/': {
+        component: {
+          template:
+            '<div>' +
+              '<router-view></router-view>' +
+            '</div>'
+        },
+        subRoutes: {
+          'foo': {
+            component: {
+              template:
+                '<div>' +
+                  '<a v-link="?id=1234" id="link"></a>' +
+                  '{{route.query.id}}' +
+                '</div>'
+            }
+          }
+        }
+      }
+    })
+    var App = Vue.extend({
+      replace: false,
+      template: '<router-view></router-view>'
+    })
+    router.start(App, 'body')
+    router.go('/foo')
+    nextTick(function () {
+      router.app.$el.querySelector('#link').click()
+      var text = router.app.$el.textContent
+      expect(text).toBe('1234')
+      done();
+    });
+  });
+
   it('before hook', function () {
     
   })
