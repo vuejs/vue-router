@@ -20,6 +20,9 @@ function Route (path, router) {
   // private stuff
   def(this, '_matched', matched || router._notFoundHandler)
   def(this, '_router', router)
+
+  // prohibit mutation
+  Object.freeze(this)
 }
 
 function def (obj, key, val) {

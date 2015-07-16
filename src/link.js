@@ -55,7 +55,5 @@ module.exports = function (Vue) {
         }
       }
     }
-
   })
-
 }

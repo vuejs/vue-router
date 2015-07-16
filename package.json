@@ -6,8 +6,8 @@
   "scripts": {
     "dev": "node example/serve.js & webpack --watch --config build/webpack.dev.config.js & webpack --watch --config build/webpack.test.config.js",
     "lint": "eslint src && eslint build",
-    "build": "npm run lint && webpack --config build/webpack.build.config.js && webpack --config build/webpack.min.config.js",
-    "test": "webpack --config build/webpack.test.config.js > /dev/null && ./node_modules/karma/bin/karma start build/karma.config.js"
+    "build": "webpack --config build/webpack.build.config.js && webpack --config build/webpack.min.config.js",
+    "test": "npm run lint && webpack --config build/webpack.test.config.js > /dev/null && ./node_modules/karma/bin/karma start build/karma.config.js"
   },
   "repository": {
     "type": "git",
