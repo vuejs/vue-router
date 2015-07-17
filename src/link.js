@@ -31,10 +31,20 @@ module.exports = function (Vue) {
       if (!this._isDynamicLiteral) {
         this.update(this.expression)
       }
+      // manage active link class
+      var activeClass = vm.route._router._linkActiveClass
+      this.unwatch = vm.$watch('route.path', function (path) {
+        if (path === self.destination) {
+          _.addClass(self.el, activeClass)
+        } else {
+          _.removeClass(self.el, activeClass)
+        }
+      })
     },
 
     unbind: function () {
       this.el.removeEventListener('click', this.handler)
+      this.unwatch && this.unwatch()
     },
 
     update: function (path) {

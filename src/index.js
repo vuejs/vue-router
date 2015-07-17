@@ -45,6 +45,7 @@ function Router (options) {
   this._hashbang = options.hashbang !== false
   this._history = !!(this._hasPushState && options.history)
   this._saveScrollPosition = !!options.saveScrollPosition
+  this._linkActiveClass = options.linkActiveClass || 'v-link-active'
 
   // resolve root path
   var root = options && options.root
