@@ -19,11 +19,12 @@ module.exports = function (Vue) {
         return
       }
       var self = this
+      var router = vm.route._router
       this.handler = function (e) {
         if (e.button === 0) {
           e.preventDefault()
           if (self.destination != null) {
-            vm.route._router.go(self.destination)
+            router.go(self.destination)
           }
         }
       }
@@ -32,23 +33,33 @@ module.exports = function (Vue) {
         this.update(this.expression)
       }
       // manage active link class
-      var activeClass = vm.route._router._linkActiveClass
-      this.unwatch = vm.$watch('route.path', function (path) {
-        if (path === self.destination) {
-          _.addClass(self.el, activeClass)
-        } else {
-          _.removeClass(self.el, activeClass)
-        }
-      })
+      this.unwatch = vm.$watch(
+        'route.path',
+        _.bind(this.updateClasses, this)
+      )
     },
 
-    unbind: function () {
-      this.el.removeEventListener('click', this.handler)
-      this.unwatch && this.unwatch()
+    updateClasses: function (path) {
+      var el = this.el
+      var dest = this.destination
+      var router = this.vm.route._router
+      var activeClass = router._linkActiveClass
+      var exactClass = activeClass + '-exact'
+      if (path.indexOf(dest) === 0) {
+        _.addClass(el, activeClass)
+      } else {
+        _.removeClass(el, activeClass)
+      }
+      if (path === dest) {
+        _.addClass(el, exactClass)
+      } else {
+        _.removeClass(el, exactClass)
+      }
     },
 
     update: function (path) {
       this.destination = path
+      this.updateClasses(this.vm.route.path)
       path = path || ''
       var router = this.vm.route._router
       var href = router._history
@@ -64,6 +75,11 @@ module.exports = function (Vue) {
           this.el.removeAttribute('href')
         }
       }
+    },
+
+    unbind: function () {
+      this.el.removeEventListener('click', this.handler)
+      this.unwatch && this.unwatch()
     }
   })
 }
