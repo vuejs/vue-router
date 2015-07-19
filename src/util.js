@@ -40,6 +40,15 @@ exports.setHash = function (hash, replace) {
  */
 
 exports.resolvePath = function (base, relative) {
+  var query = base.match(/(\?.*)$/)
+  if (query) {
+    query = query[1]
+    base = base.slice(0, -query.length)
+  }
+  // a query!
+  if (relative.charAt(0) === '?') {
+    return base + relative
+  }
   var stack = base.split('/')
   // remove trailing segment
   stack.pop()
