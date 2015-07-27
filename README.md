@@ -1,5 +1,7 @@
 # Work in Progress - Use at your own risk!
 
+[![Build Status](https://img.shields.io/circleci/project/vuejs/vue-router/master.svg)](https://circleci.com/gh/vuejs/vue-router)
+
 ### Notes
 
 1. `vue-router` only supports Vue 0.12+.
