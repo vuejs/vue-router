@@ -26,7 +26,7 @@
   },
   "homepage": "https://github.com/vuejs/vue-router#readme",
   "devDependencies": {
-    "css-loader": "^0.14.5",
+    "css-loader": "^0.15.4",
     "eslint": "^0.24.0",
     "express": "^4.12.3",
     "html-loader": "^0.3.0",
@@ -43,7 +43,7 @@
     "style-loader": "^0.12.3",
     "uglify-js": "^2.4.23",
     "vue": "yyx990803/vue#dev",
-    "vue-loader": "^2.0.1",
+    "vue-loader": "^2.1.1",
     "webpack": "^1.8.11"
   },
   "dependencies": {
