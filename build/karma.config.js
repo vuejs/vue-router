@@ -7,6 +7,9 @@ module.exports = function (config) {
     preprocessors: {
       '../test/test.js': ['webpack']
     },
+    webpackMiddleware: {
+      noInfo: true
+    },
     singleRun: true
   })
 }
