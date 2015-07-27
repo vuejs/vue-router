@@ -3,7 +3,10 @@ module.exports = function (config) {
     browsers: ['Chrome', 'Firefox'],
     reporters: ['progress'],
     frameworks: ['jasmine'],
-    files: [__dirname + '/../test/test.build.js'],
+    files: ['../test/test.js'],
+    preprocessors: {
+      '../test/test.js': ['webpack']
+    },
     singleRun: true
   })
 }
