@@ -47,7 +47,6 @@
     "webpack": "^1.8.11"
   },
   "dependencies": {
-    "route-recognizer": "^0.1.5",
-    "insert-css": "^0.2.0"
+    "route-recognizer": "^0.1.5"
   }
 }

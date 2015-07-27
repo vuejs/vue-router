@@ -3,10 +3,6 @@ var routerUtil = require('./util')
 // install the <router-view> element directive
 module.exports = function (Vue) {
 
-  // insert global css to make sure router-view has
-  // display:block so that transitions work properly
-  require('insert-css')('router-view{display:block;}')
-
   var _ = Vue.util
   var component = Vue.directive('_component')
 
