@@ -1,50 +1,18 @@
 # Work in Progress - Use at your own risk!
 
-Note: `vue-router` only supports Vue 0.12+.
+### Notes
 
-### Basic Example
+1. `vue-router` only supports Vue 0.12+.
 
-``` js
-var Vue = require('vue')
-var Router = require('vue-router')
+2. No docs yet. Check out the `/examples` folder for example usage.
 
-Vue.use(Router)
+3. Files in `/dist` are out of date. If you are not using Browserify or Webpack you'd have to build the standalone file yourself until an official release is out.
 
-var App = Vue.extend({
-  template:
-    '<h1>App</h1>' +
-    '<router-view></router-view>', // <-- outlet
-  components: {
-    'view-a': {
-      template:
-        '<h2>View A</h2>' +
-        '<router-view></router-view>', // <-- nested outlet
-      components: {
-        subComponent: { /* ... */ }
-      }
-    },
-    'view-b': { /* ... */ }
-  }
-})
+### Build
 
-var router = new Router()
-
-router.map({
-  '/route-a': {
-    component: 'view-a', // <-- rendered to outlet when '/route-a'
-                         //     is matched.
-    subRoutes: {
-      '/sub-route': {
-        component: 'subComponent' // <-- rendered into nested outlet
-                                  //     when '/route-a/sub-route' is
-                                  //     matched.
-      }
-    }
-  },
-  '/route-b': {
-    component: 'view-b'
-  }
-})
-
-router.start(App, '#app')
+``` bash
+npm install
+npm run build
 ```
+
+If you want to contribute, help write the tests!
