@@ -44,18 +44,21 @@ module.exports = function (Vue, Router) {
   p._initHashMode = function () {
     var self = this
     this._onRouteChange = function () {
-      // format hashbang
-      var hash = location.hash
-      if (self._hashbang && hash && hash.charAt(1) !== '!') {
-        routerUtil.setHash('!' + hash.slice(1), true)
+      var path = location.hash.replace(/^#!?/, '')
+      // format hash: add leading slash and hashbang
+      var formattedHash = path
+      if (formattedHash.charAt(0) !== '/') {
+        formattedHash = '/' + formattedHash
+      }
+      if (self._hashbang) {
+        formattedHash = '!' + formattedHash
+      }
+      // replace hash if formatted
+      if (formattedHash !== location.hash.slice(1)) {
+        routerUtil.setHash(formattedHash)
         return
       }
-      if (!self._hashbang && hash && hash.charAt(1) === '!') {
-        routerUtil.setHash(hash.slice(2), true)
-        return
-      }
-      hash = hash.replace(/^#!?/, '')
-      var url = hash + location.search
+      var url = path + location.search
       url = decodeURI(url)
       self._match(url)
     }

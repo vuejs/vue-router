@@ -23,8 +23,11 @@ exports.warn = function (msg, err) {
 
 exports.setHash = function (hash, replace) {
   if (replace) {
+    if (hash.charAt(0) !== '#') {
+      hash = '#' + hash
+    }
     var urlLength = location.href.length - location.hash.length
-    var fullURL = location.href.slice(0, urlLength) + '#' + hash
+    var fullURL = location.href.slice(0, urlLength) + hash
     location.replace(fullURL)
   } else {
     location.hash = hash

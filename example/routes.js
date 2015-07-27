@@ -62,14 +62,14 @@ module.exports = {
         // async data hook: must call resolve/reject
         // or return a Promise.
         data: function (route, resolve, reject) {
-          return new Promise(function (resolve, reject) {
+          // return new Promise(function (resolve, reject) {
             setTimeout(function () {
               resolve({
                 // route params/query are available here
                 id: route.params.messageId
               })
             }, 1000)
-          })
+          // })
         }
       },
       '/archived': {
