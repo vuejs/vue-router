@@ -210,7 +210,7 @@ describe('vue-router', function () {
       replace: false,
       template: '<router-view></router-view>'
     })
-    router.start(App, 'body')
+    router.start(App, el)
     router.go('/foo')
     nextTick(function () {
       router.app.$el.querySelector('#link').click()
