@@ -93,7 +93,7 @@ exports.callAsyncFn = function (fn, options) {
   var onReject = options.onReject
   args.push(onResolve, onReject)
   var res = fn.apply(null, args)
-  if (isPromise(res)) {
+  if (exports.isPromise(res)) {
     res.then(onResolve, onReject)
   } else if (res === true) {
     onResolve()
@@ -109,7 +109,7 @@ exports.callAsyncFn = function (fn, options) {
  * @return {Boolean}
  */
 
-function isPromise (p) {
+exports.isPromise = function (p) {
   return p &&
     typeof p.then === 'function'
 }

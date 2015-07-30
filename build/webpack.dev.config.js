@@ -9,5 +9,5 @@ module.exports = {
       { test: /\.vue$/, loader: 'vue' }
     ]
   },
-  devtool: '#source-map'
+  devtool: 'source-map'
 }

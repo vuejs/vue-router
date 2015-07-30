@@ -18,6 +18,7 @@ function Route (path, router) {
     : {}
 
   // private stuff
+  this._aborted = false
   def(this, '_matched', matched || router._notFoundHandler)
   def(this, '_router', router)
 

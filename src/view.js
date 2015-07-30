@@ -34,7 +34,7 @@ module.exports = function (Vue) {
       component.bind.call(this)
       // initial render
       if (this.vm.route) {
-        this.onRouteChange(this.vm.route)
+        this.onRouteChange(this.vm.route, {})
       }
     },
 
@@ -44,202 +44,160 @@ module.exports = function (Vue) {
      * rendered or switched.
      *
      * @param {Route} route
+     * @param {Route} previousRoute
      */
 
-    onRouteChange: function (route) {
-      var self = this
-      var previousRoute = this.currentRoute
-      this.currentRoute = route
+    onRouteChange: function (route, previousRoute) {
+      previousRoute._aborted = true
+      var transition = {
+        to: route,
+        from: previousRoute,
+        next: null,
+        _aborted: false,
+        _handler: null,
+        _Component: null,
+        abort: function () {
+          // we need to mark the route object as aborted
+          // so that other views receiving the same route
+          // can skip their operations
+          route._aborted = true
+          var path = previousRoute
+            ? previousRoute.path
+            : '/'
+          route._router.replace(path)
+        }
+      }
+      this.canDeactivate(transition)
+    },
 
-      if (!route._matched) {
-        // route not found, this outlet is invalidated
-        return this.invalidate()
+    canDeactivate: function (transition) {
+      if (transition.to._aborted) {
+        return
+      }
+      var fromComponent = this.childVM
+      var self = this
+      var abort = transition.abort
+      var next = transition.next = function () {
+        self.canActivate(transition)
+      }
+      var hook = getHook(fromComponent, 'canDeactivate')
+      if (!hook) {
+        next()
+      } else {
+        var res = hook.call(fromComponent, transition)
+        if (typeof res === 'boolean') {
+          res ? next() : abort()
+        } else if (routerUtil.isPromise(res)) {
+          res.then(function (ok) {
+            ok ? next() : abort()
+          }, abort)
+        }
+      }
+    },
+
+    canActivate: function (transition) {
+      var to = transition.to
+      if (to._aborted) {
+        return
+      }
+      var self = this
+      var abort = transition.abort
+      var next = transition.next = function () {
+        self.deactivate(transition)
+      }
+
+      // route not found
+      if (!to._matched) {
+        return next()
       }
 
       // determine handler
-      var handler
       var depth = getViewDepth(this.vm)
-      var segment = route._matched[depth]
+      var segment = to._matched[depth]
       if (!segment) {
         // check if the parent view has a default child view
-        var parent = route._matched[depth - 1]
+        var parent = to._matched[depth - 1]
         if (parent && parent.handler.defaultChildHandler) {
-          handler = parent.handler.defaultChildHandler
+          transition._componentID = parent.handler.defaultChildHandler.component
         } else {
           // no segment that matches this outlet
-          return this.invalidate()
+          return next()
         }
       } else {
-        handler = segment.handler
+        transition._componentID = segment.handler.component
       }
 
-      // trigger component switch
-      var prevPath = previousRoute && previousRoute.path
-      if (route.path !== prevPath) {
-        // call before hook
-        if (handler.before) {
-          routerUtil.callAsyncFn(handler.before, {
-            args: [route, previousRoute],
-            onResolve: transition,
-            onReject: reject
-          })
+      // resolve async component.
+      // compat <= 0.12.8
+      var resolver = this.resolveCtor || this.resolveComponent
+      resolver.call(this, transition._componentID, function () {
+        transition._Component = self.Ctor || self.Component
+        var hook = getHook(transition._Component, 'canActivate')
+        if (!hook) {
+          next()
         } else {
-          transition()
+          var res = hook.call(null, transition)
+          if (typeof res === 'boolean') {
+            res ? next() : abort()
+          } else if (routerUtil.isPromise(res)) {
+            res.then(function (ok) {
+              ok ? next() : abort()
+            }, abort)
+          }
         }
-      }
-
-      function transition () {
-        self.switchView(route, previousRoute, handler)
-      }
-
-      function reject () {
-        var path = previousRoute
-          ? previousRoute.path
-          : '/'
-        route._router.replace(path)
-      }
+      })
     },
 
-    /**
-     * Transition from a previous route to a new route.
-     * Handles the async data loading logic, then delegates
-     * to the component directive's setComponent method.
-     *
-     * @param {Route} route
-     * @param {Route} previousRoute
-     * @param {RouteHandler} handler
-     */
-
-    switchView: function (route, previousRoute, handler) {
-      var self = this
-      var symbol = this.transitionSymbol = {}
-
-      // The component may have been switched before async
-      // callbacks are called. Make sure the callbacks only
-      // execute when the current directive instance is still
-      // active and current transition is still valid.
-      function onlyWhenValid (fn) {
-        return function () {
-          if (self.vm && self.transitionSymbol === symbol) {
-            fn.apply(this, arguments)
-          }
-        }
-      }
-
-      var mount = onlyWhenValid(function (data) {
-        self.setComponent(handler.component, data, null, afterTransition)
-      })
-
-      var afterTransition = onlyWhenValid(function () {
-        if (handler.after) {
-          handler.after(route, previousRoute)
-        }
-      })
-
-      var setData = onlyWhenValid(function (vm, data) {
-        for (var key in data) {
-          vm.$set(key, data[key])
-        }
-        vm.loading = false
-      })
-
-      function warnDataError (err) {
-        routerUtil.warn(
-          'failed to load data for route: ' +
-          route.path, err
-        )
-      }
-
-      // the error handler doesn't need to cancel.
-      function onDataError (err) {
-        warnDataError(err)
-        mount()
-      }
-
-      // if we are switching into the same component as the
-      // existing one, we only need to update the data and
-      // call after hook.
-      if (
-        this.childVM &&
-        !handler.alwaysRefresh &&
-        handler.component === this.currentComponentId
-      ) {
-        if (handler.data) {
-          var vm = this.childVM
-          vm.loading = true
-          routerUtil.callAsyncFn(handler.data, {
-            args: [route],
-            onResolve: function (data) {
-              setData(vm, data)
-              vm.loading = false
-              if (handler.waitOnData) {
-                afterTransition()
-              }
-            },
-            onReject: warnDataError
-          })
-          if (!handler.waitOnData) {
-            afterTransition()
-          }
-        } else {
-          afterTransition()
-        }
+    deactivate: function (transition) {
+      if (transition.to._aborted) {
         return
       }
-
-      // switching into a new component.
-      this.currentComponentId = handler.component
-
-      // call data hook
-      if (handler.data) {
-        if (handler.waitOnData) {
-          routerUtil.callAsyncFn(handler.data, {
-            args: [route],
-            onResolve: mount,
-            onReject: onDataError
-          })
-        } else {
-          // async data loading with possible race condition.
-          // the data may load before the component gets
-          // rendered (due to async components), or it could
-          // be the other way around.
-          var _data, _vm
-          // send out data request...
-          routerUtil.callAsyncFn(handler.data, {
-            args: [route],
-            onResolve: function (data) {
-              if (_vm) {
-                setData(_vm, data)
-              } else {
-                _data = data
-              }
-            },
-            onReject: onDataError
-          })
-          // start the component switch...
-          this.setComponent(handler.component, { loading: true }, function (vm) {
-            if (_data) {
-              setData(vm, _data)
-            } else {
-              _vm = vm
-            }
-          }, afterTransition)
-        }
+      var fromComponent = this.childVM
+      var self = this
+      var abort = transition.abort
+      var next = transition.next = function () {
+        self.activate(transition)
+      }
+      var hook = getHook(fromComponent, 'deactivate')
+      if (!hook) {
+        next()
       } else {
-        // no data hook, just set component
-        mount()
+        var res = hook.call(fromComponent, transition)
+        if (routerUtil.isPromise(res)) {
+          res.then(next, abort)
+        }
       }
     },
 
-    /**
-     * Clears the unmatched view.
-     */
-
-    invalidate: function () {
-      this.currentRoute =
-      this.currentComponentId =
-      this.transitionSymbol = null
-      this.setComponent(null)
+    activate: function (transition) {
+      if (transition.to._aborted) {
+        return
+      }
+      var id = transition._componentID
+      var Component = transition._Component
+      if (!id || !Component) {
+        return this.setComponent(null)
+      }
+      var hook = getHook(Component, 'activate')
+      if (!hook) {
+        this.setComponent(id)
+      } else {
+        this.setComponent(id, { loading: true }, function (component) {
+          var next = transition.next = function (data) {
+            if (transition.to._aborted) {
+              return
+            }
+            for (var key in data) {
+              component.$set(key, data[key])
+            }
+            component.loading = false
+          }
+          var res = hook.call(component, transition)
+          if (routerUtil.isPromise(res)) {
+            res.then(next, transition.abort)
+          }
+        })
+      }
     },
 
     unbind: function () {
@@ -271,5 +229,14 @@ module.exports = function (Vue) {
       vm = vm.$parent
     }
     return depth
+  }
+
+  function getHook (component, name) {
+    var options =
+      component &&
+      (component.$options || component.options)
+    return options &&
+      options.route &&
+      options.route[name]
   }
 }
