@@ -338,6 +338,41 @@ describe('vue-router', function () {
     ], done)
   })
 
+  it('router-view data binding', function (done) {
+    router = new Router()
+    router.map({
+      '/': {
+        component: {
+          template:
+            '<div>' +
+              '<router-view v-ref="child"></router-view>' +
+              '<div>{{$.child.val}}</div>' +
+            '</div>'
+        },
+        subRoutes: {
+          'foo': {
+            component: {data: function () {return {val: 'foo'}; } }
+          },
+          'bar': {
+            component: {data: function () {return {val: 'bar'}; } }
+          }
+        }
+      }
+    })
+
+    var App = Vue.extend({
+      replace: false,
+      template: '<router-view></router-view>'
+    })
+    router.start(App, el)
+    assertRoutes({
+      method: '_match'
+    }, [
+      ['/foo', 'foo'],
+      ['/bar', 'bar'],
+    ], done)
+  })
+
   it('notfound', function () {
     
   })
