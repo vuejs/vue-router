@@ -17,6 +17,7 @@ module.exports = {
     // 3. explicitly call transition.next() or abort()
     canActivate: function (transition) {
       if (transition.from.path === '/about') {
+        alert('cannot navigate from /about to /inbox')
         transition.abort()
       } else {
         transition.next()
