@@ -1,5 +1,5 @@
 module.exports = {
-  entry: './example/example.js',
+  entry: './example/index.js',
   output: {
     path: './example',
     filename: 'example.build.js'
