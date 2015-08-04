@@ -34,10 +34,6 @@ module.exports = {
 
   // advanced example
   '/inbox': {
-    // always reload the component when the route changes,
-    // even if this segment remains the same.
-    // e.g. /inbox/message/123 -> /inbox/message/234
-    alwaysRefresh: true,
     component: require('./components/inbox/index.vue'),
     subRoutes: {
       '/message/:messageId': {
