@@ -1,7 +1,7 @@
 <template>
   <div>
-    <div v-if="loading">Loading data...</div>
-    <div v-if="!loading">message #{{message.id}}: {{message.text}}</div>
+    <div v-if="routeLoading">Loading data...</div>
+    <div v-if="!routeLoading">message #{{message.id}}: {{message.text}}</div>
   </div>
 </template>
 
@@ -10,9 +10,12 @@ var messagesSerivce = require('../../services/messages')
 
 module.exports = {
   route: {
+    // always reload the component when the path changes
     reload: true,
-    // for async data loading.
-    // sets the component's "$loading" meta property to true when called,
+
+    // Activate hook
+    // Useful for doing async data loading.
+    // sets the component's "routeLoading" property to true when called,
     // and sets it to false when resolved.
     // two options:
     // 1. return a promise
@@ -40,6 +43,9 @@ module.exports = {
       //   .get(params)
       //   .then(message => ({ message }))
     },
+
+    // insert component after activate hook resolves?
+    // waitForActivate: true
   },
 
   // default state
