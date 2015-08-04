@@ -4,7 +4,7 @@ module.exports = {
     setTimeout(function () {
       cb(null, {
         id: params.id,
-        text: 'Hello'
+        text: 'Hello this is a message'
       })
     }, 1000)
   }

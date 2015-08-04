@@ -39,38 +39,9 @@ module.exports = {
     // e.g. /inbox/message/123 -> /inbox/message/234
     alwaysRefresh: true,
     component: require('./components/inbox/index.vue'),
-    // async before hook.
-    // must call allow/deny or return a Promise.
-    before: function (to, from, allow, deny) {
-      console.log('before')
-      console.log(to.path, from && from.path)
-      if (from && from.path === '/about') {
-        alert('not allowed')
-        deny()
-      } else {
-        allow()
-      }
-    },
-    // sync after hook.
-    after: function (to, from) {
-      console.log('after')
-      console.log(to.path, from && from.path)
-    },
     subRoutes: {
       '/message/:messageId': {
-        component: require('./components/inbox/message.vue'),
-        // async data hook: must call resolve/reject
-        // or return a Promise.
-        data: function (route, resolve, reject) {
-          // return new Promise(function (resolve, reject) {
-            setTimeout(function () {
-              resolve({
-                // route params/query are available here
-                id: route.params.messageId
-              })
-            }, 1000)
-          // })
-        }
+        component: require('./components/inbox/message.vue')
       },
       '/archived': {
         component: require('./components/inbox/archive.vue')
