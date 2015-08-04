@@ -10,6 +10,7 @@ var messagesSerivce = require('../../services/messages')
 
 module.exports = {
   route: {
+    reload: true,
     // for async data loading.
     // sets the component's "$loading" meta property to true when called,
     // and sets it to false when resolved.

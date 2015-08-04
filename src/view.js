@@ -61,14 +61,23 @@ module.exports = function (Vue) {
           // so that other views receiving the same route
           // can skip their operations
           route._aborted = true
-          var path = previousRoute
-            ? previousRoute.path
-            : '/'
-          route._router.replace(path)
+          route._router.replace(previousRoute.path || '/')
         }
       }
       this.canDeactivate(transition)
     },
+
+    // A router view transition happens in the following
+    // order, assuming we are transitioning from
+    // component A => component B:
+    // 
+    // 1. check A.canDeactivate
+    // 2. check B.canActivate
+    // 3. call A.decactivate
+    // 4. call B.activate
+    // 
+    // Each of these steps can be asynchronous, and any
+    // step can potentially abort the transition.
 
     canDeactivate: function (transition) {
       if (transition.to._aborted) {
@@ -80,7 +89,7 @@ module.exports = function (Vue) {
       var next = transition.next = function () {
         self.canActivate(transition)
       }
-      var hook = getHook(fromComponent, 'canDeactivate')
+      var hook = getRouteConfig(fromComponent, 'canDeactivate')
       if (!hook) {
         next()
       } else {
@@ -103,6 +112,7 @@ module.exports = function (Vue) {
       var self = this
       var abort = transition.abort
       var next = transition.next = function () {
+        self._componentID = transition._componentID
         self.deactivate(transition)
       }
 
@@ -130,22 +140,40 @@ module.exports = function (Vue) {
       // resolve async component.
       // compat <= 0.12.8
       var resolver = this.resolveCtor || this.resolveComponent
-      resolver.call(this, transition._componentID, function () {
-        transition._Component = self.Ctor || self.Component
-        var hook = getHook(transition._Component, 'canActivate')
-        if (!hook) {
-          next()
-        } else {
-          var res = hook.call(null, transition)
-          if (typeof res === 'boolean') {
-            res ? next() : abort()
-          } else if (routerUtil.isPromise(res)) {
-            res.then(function (ok) {
-              ok ? next() : abort()
-            }, abort)
+      resolver.call(
+        this,
+        transition._componentID,
+        function onComponentResolved () {
+          var Component =
+            transition._Component =
+            // compat <= 0.12.8
+            self.Ctor || self.Component
+
+          // if it's the same component, do nothing unless
+          // the 'reload' route config is set to true.
+          if (
+            transition._componentID === self._componentID &&
+            !getRouteConfig(Component, 'reload')
+          ) {
+            return
+          }
+
+          // determine if this component can be activated
+          var hook = getRouteConfig(Component, 'canActivate')
+          if (!hook) {
+            next()
+          } else {
+            var res = hook.call(null, transition)
+            if (typeof res === 'boolean') {
+              res ? next() : abort()
+            } else if (routerUtil.isPromise(res)) {
+              res.then(function (ok) {
+                ok ? next() : abort()
+              }, abort)
+            }
           }
         }
-      })
+      )
     },
 
     deactivate: function (transition) {
@@ -158,7 +186,7 @@ module.exports = function (Vue) {
       var next = transition.next = function () {
         self.activate(transition)
       }
-      var hook = getHook(fromComponent, 'deactivate')
+      var hook = getRouteConfig(fromComponent, 'deactivate')
       if (!hook) {
         next()
       } else {
@@ -178,7 +206,7 @@ module.exports = function (Vue) {
       if (!id || !Component) {
         return this.setComponent(null)
       }
-      var hook = getHook(Component, 'activate')
+      var hook = getRouteConfig(Component, 'activate')
       if (!hook) {
         this.setComponent(id)
       } else {
@@ -231,7 +259,16 @@ module.exports = function (Vue) {
     return depth
   }
 
-  function getHook (component, name) {
+  /**
+   * Retrive a route config field from a component instance
+   * OR a component contructor.
+   *
+   * @param {Function|Vue} component
+   * @param {String} name
+   * @return {*}
+   */
+
+  function getRouteConfig (component, name) {
     var options =
       component &&
       (component.$options || component.options)
