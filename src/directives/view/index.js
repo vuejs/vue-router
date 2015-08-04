@@ -1,5 +1,3 @@
-var routerUtil = require('../../util')
-
 // install the <router-view> element directive
 module.exports = function (Vue) {
 
@@ -70,12 +68,12 @@ module.exports = function (Vue) {
     // A router view transition happens in the following
     // order, assuming we are transitioning from
     // component A => component B:
-    // 
+    //
     // 1. check A.canDeactivate
     // 2. check B.canActivate
     // 3. call A.decactivate
     // 4. call B.activate
-    // 
+    //
     // Each of these steps can be asynchronous, and any
     // step can potentially abort the transition.
     canDeactivate: require('./can-deactivate'),
