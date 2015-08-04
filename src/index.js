@@ -73,8 +73,8 @@ Router.install = function (Vue) {
   }
   require('./api')(Vue, Router)
   require('./internal')(Vue, Router)
-  require('./view')(Vue)
-  require('./link')(Vue)
+  require('./directives/view')(Vue)
+  require('./directives/link')(Vue)
   require('./override')(Vue, Router)
   installed = true
 }

@@ -113,3 +113,21 @@ exports.isPromise = function (p) {
   return p &&
     typeof p.then === 'function'
 }
+
+/**
+ * Retrive a route config field from a component instance
+ * OR a component contructor.
+ *
+ * @param {Function|Vue} component
+ * @param {String} name
+ * @return {*}
+ */
+
+exports.getRouteConfig = function (component, name) {
+  var options =
+    component &&
+    (component.$options || component.options)
+  return options &&
+    options.route &&
+    options.route[name]
+}
