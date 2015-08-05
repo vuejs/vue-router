@@ -444,10 +444,6 @@ describe('vue-router', function () {
     
   })
 
-  it('respect <base>', function () {
-    
-  })
-
   // TODO route lifecycle
 
   function assertRoutes (options, matches, done) {
