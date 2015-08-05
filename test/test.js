@@ -298,22 +298,6 @@ describe('vue-router', function () {
     })
   })
 
-  it('before hook', function () {
-    
-  })
-
-  it('after hook', function () {
-    
-  })
-
-  it('data hook (waitForData)', function () {
-    
-  })
-
-  it('data hook (loading)', function () {
-    
-  })
-
   it('alias', function (done) {
     router = new Router({ abstract: true })
     router.map({
@@ -378,8 +362,34 @@ describe('vue-router', function () {
       ], done)
     })
 
-  it('redirect', function () {
-    
+  it('redirect', function (done) {
+    router = new Router({ abstract: true })
+    router.map({
+      '/a': {
+        component: {
+          template: '<router-view></router-view>'
+        },
+        subRoutes: {
+          '/b': {
+            component: {
+              template: 'hello'
+            }
+          }
+        }
+      }
+    })
+    router.redirect({
+      '/whatever': '/a/b'
+    })
+    var App = Vue.extend({
+      template: '<div><router-view></router-view></div>'
+    })
+    router.start(App, el)
+    assertRoutes({
+      method: '_match'
+    }, [
+      ['/whatever', 'hello']
+    ], done)
   })
 
   it('multi-variable redirect', function (done) {
@@ -437,6 +447,8 @@ describe('vue-router', function () {
   it('respect <base>', function () {
     
   })
+
+  // TODO route lifecycle
 
   function assertRoutes (options, matches, done) {
     var match = matches.shift()
