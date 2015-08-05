@@ -89,43 +89,6 @@ module.exports = function (Vue, Router) {
 
   p.go = function (path, replace) {
     this.history.go(path, replace)
-    // var replace = options && options.replace
-    // var url, hash
-    // if (this._hasPushState) {
-    //   if (this._history) {
-    //     url = this._formatPath(path)
-    //     var hashMatch = url.match(/#.*$/)
-    //     hash = hashMatch && hashMatch[0].slice(1)
-    //   } else {
-    //     url = this._formatHashPath(path)
-    //     path = url.replace(/^#!?/, '')
-    //   }
-    //   if (replace) {
-    //     history.replaceState({}, '', url)
-    //   } else {
-    //     // record scroll position
-    //     var pos = {
-    //       x: window.pageXOffset,
-    //       y: window.pageYOffset
-    //     }
-    //     history.replaceState({ pos: pos }, '', location.href)
-    //     // actually push new state
-    //     history.pushState({}, '', url)
-    //   }
-    //   this._match(path)
-    //   // in history mode, scroll to hash anchor
-    //   if (hash) {
-    //     Vue.nextTick(function () {
-    //       var el = document.getElementById(hash)
-    //       if (el) {
-    //         window.scrollTo(window.scrollX, el.offsetTop)
-    //       }
-    //     })
-    //   }
-    // } else {
-    //   // just set hash
-    //   routerUtil.setHash(this._formatHashPath(path), replace)
-    // }
   }
 
   /**

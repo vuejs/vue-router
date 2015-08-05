@@ -1,4 +1,5 @@
 var util = require('../util')
+var hashRE = /#.*$/
 
 function HTML5History (options) {
   var root = options.root
@@ -12,7 +13,7 @@ function HTML5History (options) {
   } else {
     this.root = null
   }
-  this.onChange = options.onChange || function () {}
+  this.onChange = options.onChange
 }
 
 var p = HTML5History.prototype
@@ -51,13 +52,11 @@ p.go = function (path, replace) {
     // then push new state
     history.pushState({}, '', url)
   }
-  var hashMatch = path.match(/#.*$/)
+  var hashMatch = path.match(hashRE)
   var hash = hashMatch && hashMatch[0]
+  // strip hash so it doesn't mess up params
+  path = url.replace(hashRE, '')
   this.onChange(path, null, hash)
-}
-
-p.replace = function (path) {
-  this.go(path, true)
 }
 
 p.formatPath = function (path) {

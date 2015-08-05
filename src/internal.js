@@ -6,67 +6,6 @@ module.exports = function (Vue, Router) {
   var p = Router.prototype
 
   /**
-   * Initialize HTML5 history mode.
-   */
-
-  p._initHistoryMode = function () {
-    var self = this
-    this._onRouteChange = function (e) {
-      var url = location.pathname + location.search
-      if (self._history) {
-        url = decodeURI(url)
-        // respet base tag
-        var base = document.querySelector('base')
-        if (base) {
-          url = url.replace(base.getAttribute('href'), '')
-        }
-        self._match(url)
-      } else {
-        // delegate hashbang formatting to router.go
-        self.replace(decodeURI(location.hash))
-      }
-      // restore scroll position if saved
-      var pos = e && e.state && e.state.pos
-      if (pos && self._saveScrollPosition) {
-        Vue.nextTick(function () {
-          window.scrollTo(pos.x, pos.y)
-        })
-      }
-    }
-    window.addEventListener('popstate', this._onRouteChange)
-    this._onRouteChange()
-  }
-
-  /**
-   * Initialize hash mode.
-   */
-
-  p._initHashMode = function () {
-    var self = this
-    this._onRouteChange = function () {
-      var path = location.hash.replace(/^#!?/, '')
-      // format hash: add leading slash and hashbang
-      var formattedHash = path
-      if (formattedHash.charAt(0) !== '/') {
-        formattedHash = '/' + formattedHash
-      }
-      if (self._hashbang) {
-        formattedHash = '!' + formattedHash
-      }
-      // replace hash if formatted
-      if (formattedHash !== location.hash.slice(1)) {
-        routerUtil.setHash(formattedHash)
-        return
-      }
-      var url = path + location.search
-      url = decodeURI(url)
-      self._match(url)
-    }
-    window.addEventListener('hashchange', this._onRouteChange)
-    this._onRouteChange()
-  }
-
-  /**
    * Add a route containing a list of segments to the internal
    * route recognizer. Will be called recursively to add all
    * possible sub-routes.
@@ -239,18 +178,22 @@ module.exports = function (Vue, Router) {
 
     // check gloal before hook
     var before = this._beforeEachHook
-    var transition = function () {
+
+    function transition () {
       self._transition(route, previousRoute, state, anchor)
     }
-    var reject = function () {
+
+    function reject () {
       self.replace(previousRoute.path)
     }
+
     if (before) {
-      routerUtil.callAsyncFn(before, {
-        args: [route, previousRoute],
-        onResolve: transition,
-        onReject: reject
-      })
+      var res = before(route, previousRoute, transition, reject)
+      if (routerUtil.isPromise(res)) {
+        res.then(transition, reject)
+      } else if (typeof res === 'boolean') {
+        res ? transition() : reject()
+      }
     } else {
       transition()
     }
@@ -290,7 +233,7 @@ module.exports = function (Vue, Router) {
       })
     } else if (anchor) {
       Vue.nextTick(function () {
-        var el = document.querySelector(anchor)
+        var el = document.getElementById(anchor.slice(1))
         if (el) {
           window.scrollTo(window.scrollX, el.offsetTop)
         }

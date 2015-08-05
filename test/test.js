@@ -22,7 +22,7 @@ describe('vue-router', function () {
   })
 
   it('matching views', function (done) {
-    router = new Router()
+    router = new Router({ abstract: true })
     router.map({
       '/a': { component: 'view-a' },
       '/b': { component: 'view-b' }
@@ -56,7 +56,7 @@ describe('vue-router', function () {
   })
 
   it('matching nested views', function (done) {
-    router = new Router()
+    router = new Router({ abstract: true })
     router.map({
       '/a': {
         component: 'view-a',
@@ -113,7 +113,7 @@ describe('vue-router', function () {
   })
 
   it('route context', function (done) {
-    router = new Router()
+    router = new Router({ abstract: true })
     router.map({
       '/a/:id': { component: 'view-a' }
     })
@@ -148,7 +148,7 @@ describe('vue-router', function () {
   })
 
   it('router.go()', function (done) {
-    router = new Router()
+    router = new Router({ abstract: true })
     router.map({
       '/a': { component: 'view-a' },
       '/b': { component: 'view-b' }
@@ -166,8 +166,7 @@ describe('vue-router', function () {
     })
     router.start(App, el)
     assertRoutes({
-      method: 'go',
-      assertHash: true
+      method: 'go'
     }, [
       ['/a', 'AAA'],
       ['/b', 'BBB'],
@@ -183,7 +182,7 @@ describe('vue-router', function () {
   })
 
   it('v-link relative querystring', function (done) {
-    router = new Router()
+    router = new Router({ abstract: true })
     router.map({
       '/': {
         component: {
@@ -239,7 +238,7 @@ describe('vue-router', function () {
   })
 
   it('alias', function (done) {
-    router = new Router()
+    router = new Router({ abstract: true })
     router.map({
       '/a': { component: 'view-a' },
       '/b': { component: 'view-b' }
@@ -271,7 +270,7 @@ describe('vue-router', function () {
   })
 
   it('multi-variable alias', function (done) {
-      router = new Router()
+      router = new Router({ abstract: true })
       router.map({
         '/a/:foo': {
           component: 'view-a',
@@ -307,7 +306,7 @@ describe('vue-router', function () {
   })
 
   it('multi-variable redirect', function (done) {
-    router = new Router()
+    router = new Router({ abstract: true })
     router.map({
       '/a/:foo': {
         component: 'view-a',
@@ -368,14 +367,6 @@ describe('vue-router', function () {
     nextTick(function () {
       var text = router.app.$el.textContent
       expect(text).toBe(match[1])
-      if (options.assertHash) {
-        var prefix = router._hashbang ? '#!' : '#'
-        var expected = prefix + (match[2] || match[0])
-        expect(location.hash).toBe(expected)
-      }
-      if (options.assertPath) {
-        expect(location.pathname + location.search).toBe(match[0])
-      }
       if (matches.length) {
         assertRoutes(options, matches, done)
       } else {

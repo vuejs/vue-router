@@ -7,7 +7,7 @@
     "dev": "node example/serve.js & webpack --watch --config example/webpack.config.js",
     "lint": "eslint src && eslint build",
     "build": "webpack --config build/webpack.build.dev.config.js && webpack --config build/webpack.build.min.config.js",
-    "build-test": "webpack --config build/webpack.test.config.js",
+    "build-test": "webpack test/test.js test/test.build.js",
     "test": "npm run lint && ./node_modules/karma/bin/karma start build/karma.config.js"
   },
   "repository": {

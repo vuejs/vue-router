@@ -2,6 +2,7 @@ var routerUtil = require('./util')
 var Recognizer = require('route-recognizer')
 var HTML5History = require('./history/html5')
 var HashHistory = require('./history/hash')
+var AbstractHistory = require('./history/abstract')
 var installed = false
 
 /**
@@ -44,6 +45,7 @@ function Router (options) {
   this._afterEachHook = options.afterEach || null
 
   // other options
+  this._abstract = !!options.abstract
   this._hashbang = options.hashbang !== false
   this._history = !!(this._hasPushState && options.history)
   this._saveScrollPosition = !!options.saveScrollPosition
@@ -51,9 +53,12 @@ function Router (options) {
 
   // create history object
   var self = this
-  var History = this._history
-    ? HTML5History
-    : HashHistory
+  var History = this._abstract
+    ? AbstractHistory
+    : this._history
+      ? HTML5History
+      : HashHistory
+
   this.history = new History({
     root: options.root,
     hashbang: this._hashbang,
