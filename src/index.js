@@ -1,9 +1,12 @@
 var routerUtil = require('./util')
 var Recognizer = require('route-recognizer')
-var HTML5History = require('./history/html5')
-var HashHistory = require('./history/hash')
-var AbstractHistory = require('./history/abstract')
 var installed = false
+
+var historyBackends = {
+  abstract: require('./history/abstract'),
+  hash: require('./history/hash'),
+  html5: require('./history/html5')
+}
 
 /**
  * Router constructor
@@ -52,13 +55,14 @@ function Router (options) {
   this._linkActiveClass = options.linkActiveClass || 'v-link-active'
 
   // create history object
-  var self = this
-  var History = this._abstract
-    ? AbstractHistory
+  this.mode = this._abstract
+    ? 'abstract'
     : this._history
-      ? HTML5History
-      : HashHistory
+      ? 'history'
+      : 'hash'
 
+  var History = historyBackends[this.mode]
+  var self = this
   this.history = new History({
     root: options.root,
     hashbang: this._hashbang,

@@ -62,12 +62,11 @@ module.exports = function (Vue) {
       this.updateClasses(this.vm.route.path)
       path = path || ''
       var router = this.vm.route._router
-      var href = router._history
-        ? path.charAt(0) === '/'
-          // only format the path if it's absolute
-          ? router.history.formatPath(path)
-          : path
-        : router.history.formatPath(path)
+      var isAbsolute = path.charAt(0) === '/'
+      // do not format non-hash relative paths
+      var href = router.mode === 'hash' || isAbsolute
+        ? router.history.formatPath(path)
+        : path
       if (this.el.tagName === 'A') {
         if (href) {
           this.el.href = href

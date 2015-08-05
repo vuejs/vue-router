@@ -177,8 +177,86 @@ describe('vue-router', function () {
     ], done)
   })
 
-  it('v-link', function () {
-    
+  it('v-link', function (done) {
+    router = new Router({ abstract: true })
+    router.map({
+      '/a': {
+        component: {
+          template:
+            '<div>' +
+              '<a id="link-a" v-link="b">Link A</a>' +
+            '</div>'
+        }
+      },
+      '/b': {
+        component: {
+          template:
+            '<div>' +
+              '<a id="link-b" v-link="/a">Link B</a>' +
+            '</div>'
+        }
+      }
+    })
+    var App = Vue.extend({
+      replace: false,
+      template: '<router-view></router-view>'
+    })
+    router.start(App, el)
+    router.go('/a')
+    el = router.app.$el
+    nextTick(function () {
+      expect(el.textContent).toBe('Link A')
+      var link = el.querySelector('#link-a')
+      expect(link.getAttribute('href')).toBe('b')
+      link.click()
+      nextTick(function () {
+        expect(el.textContent).toBe('Link B')
+        var link = el.querySelector('#link-b')
+        expect(link.getAttribute('href')).toBe('/a')
+        link.click()
+        nextTick(function () {
+          expect(el.textContent).toBe('Link A')
+          done()
+        })
+      })
+    })
+  })
+
+  it('v-link active classes', function (done) {
+    router = new Router({
+      abstract: true,
+      linkActiveClass: 'active'
+    })
+    var App = Vue.extend({
+      replace: false,
+      template:
+        '<a id="link-a" v-link="/a">Link A</a>' +
+        '<a id="link-b" v-link="/b">Link B</a>' +
+        '<router-view></router-view>'
+    })
+    router.start(App, el)
+    router.go('/a')
+    el = router.app.$el
+    var linkA = el.querySelector('#link-a')
+    var linkB = el.querySelector('#link-b')
+    expect(linkA.className).toBe('active active-exact')
+    expect(linkB.className).toBe('')
+    router.go('/a/b/c')
+    nextTick(function () {
+      expect(linkA.className).toBe('active')
+      expect(linkB.className).toBe('')
+      router.go('/b')
+      nextTick(function () {
+        expect(linkA.className).toBe('')
+        expect(linkB.className).toBe('active active-exact')
+        router.go('/b/c/d')
+        nextTick(function () {
+          expect(linkA.className).toBe('')
+          expect(linkB.className).toBe('active')
+          done()
+        })
+      })
+    })
   })
 
   it('v-link relative querystring', function (done) {
@@ -197,7 +275,6 @@ describe('vue-router', function () {
               template:
                 '<div>' +
                   '<a v-link="?id=1234" id="link"></a>' +
-                  // '<a v-link="foo?id=1234" id="link"></a>' +
                   '{{route.query.id}}' +
                 '</div>'
             }
