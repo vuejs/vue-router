@@ -84,48 +84,48 @@ module.exports = function (Vue, Router) {
    * be resolved against root (if provided)
    *
    * @param {String} path
-   * @param {Object} [options]
+   * @param {Boolean} [replace]
    */
 
-  p.go = function (path, options) {
-    var replace = options && options.replace
-    var url, hash
-    if (this._hasPushState) {
-      if (this._history) {
-        url = this._formatPath(path)
-        path = url.replace(/#.*$/, '')
-        var hashMatch = url.match(/#.*$/)
-        hash = hashMatch && hashMatch[0].slice(1)
-      } else {
-        url = this._formatHashPath(path)
-        path = url.replace(/^#!?/, '')
-      }
-      if (replace) {
-        history.replaceState({}, '', url)
-      } else {
-        // record scroll position
-        var pos = {
-          x: window.pageXOffset,
-          y: window.pageYOffset
-        }
-        history.replaceState({ pos: pos }, '', location.href)
-        // actually push new state
-        history.pushState({}, '', url)
-      }
-      this._match(path)
-      // in history mode, scroll to hash anchor
-      if (hash) {
-        Vue.nextTick(function () {
-          var el = document.getElementById(hash)
-          if (el) {
-            window.scrollTo(window.scrollX, el.offsetTop)
-          }
-        })
-      }
-    } else {
-      // just set hash
-      routerUtil.setHash(this._formatHashPath(path), replace)
-    }
+  p.go = function (path, replace) {
+    this.history.go(path, replace)
+    // var replace = options && options.replace
+    // var url, hash
+    // if (this._hasPushState) {
+    //   if (this._history) {
+    //     url = this._formatPath(path)
+    //     var hashMatch = url.match(/#.*$/)
+    //     hash = hashMatch && hashMatch[0].slice(1)
+    //   } else {
+    //     url = this._formatHashPath(path)
+    //     path = url.replace(/^#!?/, '')
+    //   }
+    //   if (replace) {
+    //     history.replaceState({}, '', url)
+    //   } else {
+    //     // record scroll position
+    //     var pos = {
+    //       x: window.pageXOffset,
+    //       y: window.pageYOffset
+    //     }
+    //     history.replaceState({ pos: pos }, '', location.href)
+    //     // actually push new state
+    //     history.pushState({}, '', url)
+    //   }
+    //   this._match(path)
+    //   // in history mode, scroll to hash anchor
+    //   if (hash) {
+    //     Vue.nextTick(function () {
+    //       var el = document.getElementById(hash)
+    //       if (el) {
+    //         window.scrollTo(window.scrollX, el.offsetTop)
+    //       }
+    //     })
+    //   }
+    // } else {
+    //   // just set hash
+    //   routerUtil.setHash(this._formatHashPath(path), replace)
+    // }
   }
 
   /**
@@ -135,9 +135,7 @@ module.exports = function (Vue, Router) {
    */
 
   p.replace = function (path) {
-    this.go(path, {
-      replace: true
-    })
+    this.go(path, true)
   }
 
   /**
@@ -165,11 +163,7 @@ module.exports = function (Vue, Router) {
         ? App
         : Vue.extend(App)
     }
-    if (this._hasPushState) {
-      this._initHistoryMode()
-    } else {
-      this._initHashMode()
-    }
+    this.history.start()
   }
 
   /**
@@ -177,10 +171,7 @@ module.exports = function (Vue, Router) {
    */
 
   p.stop = function () {
-    var event = this._history
-      ? 'popstate'
-      : 'hashchange'
-    window.removeEventListener(event, this._onRouteChange)
+    this.history.stop()
     this._started = false
   }
 }

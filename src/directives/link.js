@@ -65,9 +65,9 @@ module.exports = function (Vue) {
       var href = router._history
         ? path.charAt(0) === '/'
           // only format the path if it's absolute
-          ? router._formatPath(path)
+          ? router.history.formatPath(path)
           : path
-        : router._formatHashPath(path)
+        : router.history.formatPath(path)
       if (this.el.tagName === 'A') {
         if (href) {
           this.el.href = href

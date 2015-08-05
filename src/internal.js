@@ -201,9 +201,11 @@ module.exports = function (Vue, Router) {
    * triggering view updates.
    *
    * @param {String} path
+   * @param {Object} [state]
+   * @param {String} [anchor]
    */
 
-  p._match = function (path) {
+  p._match = function (path, state, anchor) {
     var self = this
 
     if (this._checkGuard(path)) {
@@ -216,12 +218,9 @@ module.exports = function (Vue, Router) {
     }
 
     // normalize against root
-    if (
-      this._history &&
-      this._root &&
-      path.indexOf(this._root) === 0
-    ) {
-      path = path.slice(this._root.length)
+    var root = this.history.root
+    if (root && path.indexOf(root) === 0) {
+      path = path.slice(root.length)
     }
 
     // construct route context
@@ -240,18 +239,20 @@ module.exports = function (Vue, Router) {
 
     // check gloal before hook
     var before = this._beforeEachHook
+    var transition = function () {
+      self._transition(route, previousRoute, state, anchor)
+    }
+    var reject = function () {
+      self.replace(previousRoute.path)
+    }
     if (before) {
       routerUtil.callAsyncFn(before, {
         args: [route, previousRoute],
-        onResolve: function () {
-          self._transition(route, previousRoute)
-        },
-        onReject: function () {
-          self.replace(previousRoute.path)
-        }
+        onResolve: transition,
+        onReject: reject
       })
     } else {
-      self._transition(route, previousRoute)
+      transition()
     }
   }
 
@@ -262,8 +263,9 @@ module.exports = function (Vue, Router) {
    * @param {Route} previousRoute
    */
 
-  p._transition = function (route, previousRoute) {
+  p._transition = function (route, previousRoute, state, anchor) {
 
+    // update route context for all children
     if (this.app.route !== route) {
       this.app.route = route
       this._children.forEach(function (child) {
@@ -277,41 +279,23 @@ module.exports = function (Vue, Router) {
     }
 
     this._currentRoute = route
-  }
 
-  /**
-   * Format a raw path to an actual URL.
-   *
-   * @param {String} path
-   * @return {String}
-   */
-
-  p._formatPath = function (path) {
-    return path.charAt(0) === '/'
-      // absolute path
-      ? this._root
-        ? this._root + '/' + path.replace(/^\//, '')
-        : path
-      // relative path
-      : routerUtil.resolvePath(location.pathname, path)
-  }
-
-  /**
-   * Format a raw path to a hash fragment.
-   *
-   * @param {String} path
-   * @return {String}
-   */
-
-  p._formatHashPath = function (path) {
-    path = path.replace(/^#!?/, '')
-    var prefix = '#' + (this._hashbang ? '!' : '')
-    return path.charAt(0) === '/'
-      ? prefix + path
-      : prefix + routerUtil.resolvePath(
-          location.hash.replace(/^#!?/, ''),
-          path
-        )
+    // handle scroll positions
+    // saved scroll positions take priority
+    // then we check if the path has an anchor
+    var pos = state && state.pos
+    if (pos && this._saveScrollPosition) {
+      Vue.nextTick(function () {
+        window.scrollTo(pos.x, pos.y)
+      })
+    } else if (anchor) {
+      Vue.nextTick(function () {
+        var el = document.querySelector(anchor)
+        if (el) {
+          window.scrollTo(window.scrollX, el.offsetTop)
+        }
+      })
+    }
   }
 
   /**

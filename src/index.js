@@ -1,5 +1,7 @@
 var routerUtil = require('./util')
 var Recognizer = require('route-recognizer')
+var HTML5History = require('./history/html5')
+var HashHistory = require('./history/hash')
 var installed = false
 
 /**
@@ -47,18 +49,18 @@ function Router (options) {
   this._saveScrollPosition = !!options.saveScrollPosition
   this._linkActiveClass = options.linkActiveClass || 'v-link-active'
 
-  // resolve root path
-  var root = options && options.root
-  if (root) {
-    // make sure there's the starting slash
-    if (root.charAt(0) !== '/') {
-      root = '/' + root
+  // create history object
+  var self = this
+  var History = this._history
+    ? HTML5History
+    : HashHistory
+  this.history = new History({
+    root: options.root,
+    hashbang: this._hashbang,
+    onChange: function (path, state, anchor) {
+      self._match(path, state, anchor)
     }
-    // remove trailing slash
-    this._root = root.replace(/\/$/, '')
-  } else {
-    this._root = null
-  }
+  })
 }
 
 /**
