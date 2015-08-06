@@ -1,5 +1,4 @@
 var RouteTransition = require('../../transition')
-var getRouteConfig = require('../../util').getRouteConfig
 
 // install the <router-view> element directive
 module.exports = function (Vue) {
