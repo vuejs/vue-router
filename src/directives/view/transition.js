@@ -1,5 +1,14 @@
 var isPromise = require('../../util').isPromise
 
+/**
+ * A RouteTransition object represents the pipeline of a
+ * router-view switching process. This is also the object
+ * passed into user route hooks.
+ *
+ * @param {Route} route
+ * @param {Route} previousRoute
+ */
+
 function RouteTransition (route, previousRoute) {
   this.to = route
   this.from = previousRoute
@@ -14,10 +23,24 @@ function RouteTransition (route, previousRoute) {
 
 var p = RouteTransition.prototype
 
+/**
+ * Abort an ongoing transition and return to previous
+ * location.
+ */
+
 p.abort = function () {
   this.to._aborted = true
   this.to._router.replace(this.from.path || '/')
 }
+
+/**
+ * Resolve the router-view component to render based on
+ * the owner of the current transition.
+ * Sets this._componentID and returns the value.
+ *
+ * @param {Vue} ownerComponent
+ * @return {String|null}
+ */
 
 p.resolveComponentID = function (ownerComponent) {
   var matched = this.to._matched
@@ -37,6 +60,16 @@ p.resolveComponentID = function (ownerComponent) {
   }
   return this._componentID
 }
+
+/**
+ * Call a user provided route transition hook and handle
+ * the response (e.g. if the user returns a promise).
+ *
+ * @param {Function} hook
+ * @param {Vue} [component]
+ * @param {Function} [cb]
+ * @param {Boolean} [expectBoolean]
+ */
 
 p.callHook = function (hook, component, cb, expectBoolean) {
   var transition = this
@@ -79,6 +112,5 @@ function getViewDepth (vm) {
   }
   return depth
 }
-
 
 module.exports = RouteTransition
