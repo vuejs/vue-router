@@ -60,13 +60,21 @@ module.exports = function (Vue) {
 
     onRouteChange: function (route, previousRoute) {
       var transition = new RouteTransition(route, previousRoute)
+
       // determine reusability
       var fromComponent = this.childVM
       var toComponentID = transition.resolveComponentID(this.vm)
-      if (
-        toComponentID === this._routeComponentID &&
-        getRouteConfig(fromComponent, 'canReuse') !== false
-      ) {
+
+      function canReuse () {
+        var canReuseFn = getRouteConfig(fromComponent, 'canReuse')
+        return typeof canReuseFn === 'boolean'
+          ? canReuseFn
+          : canReuseFn
+            ? canReuseFn.call(fromComponent, transition)
+            : true // defaults to true
+      }
+
+      if (toComponentID === this._routeComponentID && canReuse()) {
         // can reuse, just re-activate
         transition._canReuse = true
         transition._Component = this.Ctor || this.Component
