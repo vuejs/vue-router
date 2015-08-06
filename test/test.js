@@ -39,20 +39,14 @@ describe('vue-router', function () {
       }
     })
     router.start(App, el)
-    // PhantomJS triggers the initial popstate
-    // asynchronously, so we need to wait a tick
-    setTimeout(function () {
-      assertRoutes({
-        method: '_match'
-      }, [
-        ['/a', 'AAA'],
-        ['/b', 'BBB'],
-        ['a', 'AAA'],
-        ['b', 'BBB'],
-        // no match
-        ['/c', '']
-      ], done)
-    }, 0)
+    assertRoutes([
+      ['/a', 'AAA'],
+      ['/b', 'BBB'],
+      ['a', 'AAA'],
+      ['b', 'BBB'],
+      // no match
+      ['/c', '']
+    ], done)
   })
 
   it('matching nested views', function (done) {
@@ -99,9 +93,7 @@ describe('vue-router', function () {
       }
     })
     router.start(App, el)
-    assertRoutes({
-      method: '_match'
-    }, [
+    assertRoutes([
       ['/a', 'VIEW A '],
       ['/a/sub-a', 'VIEW A SUB A'],
       ['/a/sub-a-2', 'VIEW A SUB A2'],
@@ -135,9 +127,7 @@ describe('vue-router', function () {
       }
     })
     router.start(App, el)
-    assertRoutes({
-      method: '_match'
-    }, [
+    assertRoutes([
       // no param, no match (only view-b)
       ['/a', '/a,,'],
       // params only
@@ -165,16 +155,14 @@ describe('vue-router', function () {
       }
     })
     router.start(App, el)
-    assertRoutes({
-      method: 'go'
-    }, [
+    assertRoutes([
       ['/a', 'AAA'],
       ['/b', 'BBB'],
       ['../a', 'AAA', '/a'],
       ['./../b', 'BBB', '/b'],
       // no match
       ['/c', '']
-    ], done)
+    ], { method: 'go' }, done)
   })
 
   it('v-link', function (done) {
@@ -320,9 +308,7 @@ describe('vue-router', function () {
       }
     })
     router.start(App, el)
-    assertRoutes({
-      method: '_match'
-    }, [
+    assertRoutes([
       ['/a', 'AAA'],
       ['/b', 'BBB'],
       ['/c/a', 'AAA'],
@@ -355,10 +341,9 @@ describe('vue-router', function () {
         }
       })
       router.start(App, el)
-      assertRoutes({
-        method: '_match'
-      }, [
-        ['/c/a/123/b/456', '123456']
+      assertRoutes([
+        ['/c/a/123/b/456', '123456'],
+        ['/c/a/234/b/567', '234567']
       ], done)
     })
 
@@ -374,21 +359,26 @@ describe('vue-router', function () {
             component: {
               template: 'hello'
             }
+          },
+          '/c': {
+            component: {
+              template: 'world'
+            }
           }
         }
       }
     })
     router.redirect({
-      '/whatever': '/a/b'
+      '/whatever': '/a/b',
+      '/ok': '/a/c'
     })
     var App = Vue.extend({
       template: '<div><router-view></router-view></div>'
     })
     router.start(App, el)
-    assertRoutes({
-      method: '_match'
-    }, [
-      ['/whatever', 'hello']
+    assertRoutes([
+      ['/whatever', 'hello'],
+      ['/ok', 'world']
     ], done)
   })
 
@@ -417,15 +407,29 @@ describe('vue-router', function () {
       }
     })
     router.start(App, el)
-    assertRoutes({
-      method: '_match'
-    }, [
-      ['/c/a/123/b/456', '123456']
+    assertRoutes([
+      ['/c/a/123/b/456', '123456'],
+      ['/c/a/234/b/567', '234567']
     ], done)
   })
 
-  it('notfound', function () {
-    
+  it('notfound', function (done) {
+    router = new Router({ abstract: true })
+    router.map({
+      '*': {
+        component: {
+          template: 'Whaaat'
+        }
+      }
+    })
+    var App = Vue.extend({
+      template: '<div><router-view></router-view></div>'
+    })
+    router.start(App, el)
+    assertRoutes([
+      ['/notfound', 'Whaaat'],
+      ['/notagain', 'Whaaat']
+    ], done)
   })
 
   it('global before', function () {
@@ -446,14 +450,19 @@ describe('vue-router', function () {
 
   // TODO route lifecycle
 
-  function assertRoutes (options, matches, done) {
+  function assertRoutes (matches, options, done) {
+    if (typeof options === 'function') {
+      done = options
+      options = {}
+    }
     var match = matches.shift()
-    router[options.method](match[0])
+    var method = options.method || '_match'
+    router[method](match[0])
     nextTick(function () {
       var text = router.app.$el.textContent
       expect(text).toBe(match[1])
       if (matches.length) {
-        assertRoutes(options, matches, done)
+        assertRoutes(matches, options, done)
       } else {
         done()
       }

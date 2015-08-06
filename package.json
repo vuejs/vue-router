@@ -8,7 +8,7 @@
     "lint": "eslint src && eslint build",
     "test": "npm run lint && ./node_modules/karma/bin/karma start build/karma.config.js",
     "build": "webpack --config build/webpack.build.dev.config.js && webpack --config build/webpack.build.min.config.js",
-    "serve": "webpack-dev-server --quiet --config example/webpack.config.js --content-base example --history-api-fallback",
+    "serve": "webpack-dev-server --host 0.0.0.0 --quiet --config example/webpack.config.js --content-base example --history-api-fallback",
     "watch-test": "webpack --watch test/test.js test/test.build.js"
   },
   "repository": {
