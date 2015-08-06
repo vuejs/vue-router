@@ -204,6 +204,8 @@ module.exports = function (Vue, Router) {
    *
    * @param {Route} route
    * @param {Route} previousRoute
+   * @param {Object} [state]
+   * @param {String} [anchor]
    */
 
   p._transition = function (route, previousRoute, state, anchor) {

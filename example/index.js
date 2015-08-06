@@ -7,7 +7,8 @@ var VueRouter = require('../src')
 Vue.use(VueRouter)
 
 var router = new VueRouter({
-  history: true
+  history: true,
+  saveScrollPosition: true
 })
 
 // define routes
