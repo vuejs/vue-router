@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <title></title>
     <style>
-      .test {
+      .view {
         transition: all .5s ease;
       }
       .test-enter, .test-leave {
@@ -28,7 +28,7 @@
       <a v-link="/about">about</a>
       <a v-link="/user/1234/profile/what">user</a>
       <a v-link="/forbidden">forbidden</a>
-      <router-view class="test" v-transition="test" transition-mode="out-in"></router-view>
+      <router-view class="view" v-transition="test" transition-mode="out-in"></router-view>
     </div>
 
     <script src="/example.build.js"></script>

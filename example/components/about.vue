@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1>ABOUT US...</h1>
+    <h2>ABOUT US...</h2>
     <div style="height:1000px; border: 1px solid #f00">
       This long div is for testing { saveScrollPosition: true } in html5 mode
     </div>

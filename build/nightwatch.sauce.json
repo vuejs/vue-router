@@ -1,0 +1,47 @@
+{
+  "src_folders" : ["test/e2e"],
+
+  "test_settings" : {
+    "default" : {
+      "selenium_port": 80,
+      "selenium_host": "ondemand.saucelabs.com",
+      "username": "vuejs",
+      "access_key": "${SAUCE_ACCESS_KEY}",
+      "silent": true
+    },
+
+    "firefox": {
+      "desiredCapabilities": {
+        "browserName": "firefox",
+        "javascriptEnabled": true,
+        "acceptSslCerts": true
+      }
+    },
+
+    "chrome" : {
+      "desiredCapabilities": {
+        "browserName": "chrome",
+        "javascriptEnabled": true,
+        "acceptSslCerts": true
+      }
+    },
+
+    "ie10": {
+      "desiredCapabilities": {
+        "browserName": "internet explorer",
+        "version": 10,
+        "javascriptEnabled": true,
+        "acceptSslCerts": true
+      }
+    },
+
+    "ie11": {
+      "desiredCapabilities": {
+        "browserName": "internet explorer",
+        "version": 11,
+        "javascriptEnabled": true,
+        "acceptSslCerts": true
+      }
+    }
+  }
+}

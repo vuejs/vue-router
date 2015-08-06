@@ -8,8 +8,10 @@
     "lint": "eslint src && eslint build",
     "test": "npm run lint && ./node_modules/karma/bin/karma start build/karma.config.js",
     "build": "webpack --config build/webpack.build.dev.config.js && webpack --config build/webpack.build.min.config.js",
-    "serve": "webpack-dev-server --host 0.0.0.0 --quiet --config example/webpack.config.js --content-base example --history-api-fallback",
-    "watch-test": "webpack --watch test/test.js test/test.build.js"
+    "serve": "webpack-dev-server --quiet --config example/webpack.config.js --content-base example --history-api-fallback",
+    "watch-test": "webpack --watch test/test.js test/test.build.js",
+    "e2e-local": "nightwatch -c build/nightwatch.local.json -e chrome,firefox",
+    "e2e-sauce": "nightwatch -c build/nightwatch.sauce.json -e chrome,firefox,ie10,ie11"
   },
   "repository": {
     "type": "git",
@@ -41,6 +43,7 @@
     "karma-sauce-launcher": "^0.2.10",
     "karma-spec-reporter": "0.0.20",
     "karma-webpack": "^1.6.0",
+    "nightwatch": "^0.7.9",
     "style-loader": "^0.12.3",
     "vue": "yyx990803/vue#dev",
     "vue-loader": "^2.1.1",

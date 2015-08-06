@@ -1,0 +1,23 @@
+general:
+  branches:
+    ignore:
+      - dev
+
+dependencies:
+  post:
+    - wget https://saucelabs.com/downloads/sc-latest-linux.tar.gz
+    - tar -xzf sc-latest-linux.tar.gz
+
+test:
+  override:
+    - cd sc-*-linux && ./bin/sc -u $SAUCE_USERNAME -k $SAUCE_ACCESS_KEY -f ~/sc_ready:
+        background: true
+    # Wait for tunnel to be ready
+    - while [ ! -e ~/sc_ready ]; do sleep 1; done
+    # serve example app
+    - npm run serve:
+        background: true
+    # Run selenium tests
+    - npm run e2e-sauce
+    # Run unit tests
+    - npm test
