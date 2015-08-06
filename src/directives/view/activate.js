@@ -18,8 +18,12 @@ module.exports = function (transition) {
   var hook = routerUtil.getRouteConfig(Component, 'activate')
   var wait = routerUtil.getRouteConfig(Component, 'waitForActivate')
 
+  // TODO: separate activate and data hooks.
+  // activate is only called when the component has changed or been reloaded
+  // data is called whenever the route has changed and this component is active
+
   // reusing existing instance, just set new data
-  if (transition._reuse) {
+  if (transition._canReuse) {
     var component = this.childVM
     if (hook && component) {
       component.routeLoading = true

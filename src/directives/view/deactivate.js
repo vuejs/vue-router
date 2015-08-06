@@ -12,10 +12,6 @@ module.exports = function (transition) {
     self.activate(transition)
   }
 
-  if (transition._reuse) {
-    return next()
-  }
-
   var hook = routerUtil.getRouteConfig(fromComponent, 'deactivate')
   if (!hook) {
     next()

@@ -10,8 +10,10 @@ var messagesSerivce = require('../../services/messages')
 
 module.exports = {
   route: {
-    // always reload the component when the path changes
-    // reload: true,
+    // can we reuse this component when the path changes?
+    canReuse: function () {
+      return true
+    },
 
     // Activate hook
     // Useful for doing async data loading.
@@ -19,7 +21,7 @@ module.exports = {
     // and sets it to false when resolved.
     // two options:
     // 1. return a promise
-    // 2. explicitly call transition.resolve() or
+    // 2. explicitly call transition.next() or
     //     transition.abort(reason)
     activate: function (transition) {
       // "this" is available
