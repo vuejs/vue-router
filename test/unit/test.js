@@ -178,9 +178,12 @@ describe('vue-router', function () {
       },
       '/b': {
         component: {
+          data: function () {
+            return { a: 'a' }
+          },
           template:
             '<div>' +
-              '<a id="link-b" v-link="/a">Link B</a>' +
+              '<a id="link-b" v-link="/{{a}}">Link B</a>' +
             '</div>'
         }
       }
@@ -322,7 +325,7 @@ describe('vue-router', function () {
         '/a/:foo': {
           component: 'view-a',
           subRoutes: {
-            '/b/:bar': { component: 'view-b' },
+            '/b/:bar': { component: 'view-b' }
           }
         }
       })
@@ -388,7 +391,7 @@ describe('vue-router', function () {
       '/a/:foo': {
         component: 'view-a',
         subRoutes: {
-          '/b/:bar': { component: 'view-b' },
+          '/b/:bar': { component: 'view-b' }
         }
       }
     })
@@ -433,19 +436,19 @@ describe('vue-router', function () {
   })
 
   it('global before', function () {
-    
+
   })
 
   it('global after', function () {
-    
+
   })
 
   it('hashbang option', function () {
-    
+
   })
 
   it('root option', function () {
-    
+
   })
 
   // TODO route lifecycle
