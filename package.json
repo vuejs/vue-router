@@ -51,6 +51,6 @@
     "webpack-dev-server": "^1.10.1"
   },
   "dependencies": {
-    "route-recognizer": "^0.1.5"
+    "route-recognizer": "0.1.9"
   }
 }
