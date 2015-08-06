@@ -69,16 +69,6 @@ module.exports = function (Vue, Router) {
   }
 
   /**
-   * Set global after hook.
-   *
-   * @param {Function} fn
-   */
-
-  p.afterEach = function (fn) {
-    this._afterEachHook = fn
-  }
-
-  /**
    * Navigate to a given path.
    * The path is assumed to be already decoded, and will
    * be resolved against root (if provided)

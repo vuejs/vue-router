@@ -16,6 +16,6 @@ module.exports = function (transition) {
   if (!hook) {
     next()
   } else {
-    transition.callHook(hook, fromComponent, next, true)
+    transition._callHook(hook, fromComponent, next, true)
   }
 }

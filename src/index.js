@@ -45,7 +45,6 @@ function Router (options) {
   // global handler/hooks
   this._notFoundHandler = options.notFound || null
   this._beforeEachHook = options.beforeEach || null
-  this._afterEachHook = options.afterEach || null
 
   // other options
   this._abstract = !!options.abstract

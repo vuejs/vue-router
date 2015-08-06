@@ -1,4 +1,4 @@
-var isPromise = require('../../util').isPromise
+var util = require('./util')
 
 /**
  * A RouteTransition object represents the pipeline of a
@@ -34,6 +34,35 @@ p.abort = function () {
 }
 
 /**
+ * Abort the current transition and redirect to a new one.
+ */
+
+p.redirect = function () {
+  // TODO
+}
+
+/**
+ * Determine the reusability of a from component.
+ *
+ * @param {Vue} component
+ * @return {Boolean}
+ */
+
+p._resolveReusability = function (component) {
+  var canReuseFn = util.getRouteConfig(component, 'canReuse')
+  var canReuse = typeof canReuseFn === 'boolean'
+    ? canReuseFn
+    : canReuseFn
+      ? canReuseFn.call(component, this)
+      : true // defaults to true
+  this._canReuse = canReuse
+  this._Component = canReuse
+    ? component.constructor
+    : null
+  return canReuse
+}
+
+/**
  * Resolve the router-view component to render based on
  * the owner of the current transition.
  * Sets this._componentID and returns the value.
@@ -42,7 +71,7 @@ p.abort = function () {
  * @return {String|null}
  */
 
-p.resolveComponentID = function (ownerComponent) {
+p._resolveComponentID = function (ownerComponent) {
   var matched = this.to._matched
   if (!matched) {
     return null
@@ -71,9 +100,11 @@ p.resolveComponentID = function (ownerComponent) {
  * @param {Boolean} [expectBoolean]
  */
 
-p.callHook = function (hook, component, cb, expectBoolean) {
+p._callHook = function (hook, component, cb, expectBoolean) {
   var transition = this
-  var abort = transition.abort
+  var abort = function () {
+    transition.abort()
+  }
   var next = transition.next = function () {
     if (!cb || transition.to._aborted) {
       return
@@ -81,7 +112,7 @@ p.callHook = function (hook, component, cb, expectBoolean) {
     cb.apply(null, arguments)
   }
   var res = hook.call(component, transition)
-  var promise = isPromise(res)
+  var promise = util.isPromise(res)
   if (expectBoolean) {
     if (typeof res === 'boolean') {
       res ? next() : abort()
@@ -90,7 +121,7 @@ p.callHook = function (hook, component, cb, expectBoolean) {
         ok ? next() : abort()
       }, abort)
     }
-  } else if (isPromise(res)) {
+  } else if (promise) {
     res.then(next, abort)
   }
 }

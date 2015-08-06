@@ -26,9 +26,14 @@ module.exports = {
 
     // same deal with beforeActicate
     canDeactivate: function (transition) {
-      console.log('inbox canDeactivate?')
-      console.log('yes')
-      return true
+      return confirm('Are you sure you want to leave inbox?')
+    },
+
+    activate: function (transition) {
+      console.log('activating inbox...')
+      setTimeout(function () {
+        transition.next()
+      }, 500)
     },
 
     // for doing cleanups

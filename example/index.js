@@ -22,22 +22,17 @@ router.redirect({
 
 // global before
 // you can perform async rejection here
-router.beforeEach(function (to, from, allow, deny) {
-  if (to.path === '/forbidden') {
+router.beforeEach(function (transition) {
+  if (transition.to.path === '/forbidden') {
     router.app.authenticating = true
     setTimeout(function () {
       router.app.authenticating = false
       alert('this route is forbidden by a global before hook')
-      deny()
+      transition.abort()
     }, 500)
   } else {
-    allow()
+    transition.next()
   }
-})
-
-// global after
-router.afterEach(function (to, from) {
-  console.log('global after')
 })
 
 var App = Vue.extend({

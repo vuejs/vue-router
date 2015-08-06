@@ -1,4 +1,4 @@
-var RouteTransition = require('./transition')
+var RouteTransition = require('../../transition')
 var getRouteConfig = require('../../util').getRouteConfig
 
 // install the <router-view> element directive
@@ -60,24 +60,11 @@ module.exports = function (Vue) {
 
     onRouteChange: function (route, previousRoute) {
       var transition = new RouteTransition(route, previousRoute)
-
       // determine reusability
-      var fromComponent = this.childVM
-      var toComponentID = transition.resolveComponentID(this.vm)
-
-      function canReuse () {
-        var canReuseFn = getRouteConfig(fromComponent, 'canReuse')
-        return typeof canReuseFn === 'boolean'
-          ? canReuseFn
-          : canReuseFn
-            ? canReuseFn.call(fromComponent, transition)
-            : true // defaults to true
-      }
-
-      if (toComponentID === this._routeComponentID && canReuse()) {
+      var toComponentID = transition._resolveComponentID(this.vm)
+      if (toComponentID === this._routeComponentID &&
+          transition._resolveReusability(this.childVM)) {
         // can reuse, just re-activate
-        transition._canReuse = true
-        transition._Component = this.Ctor || this.Component
         this.activate(transition)
       } else {
         // cannot reuse, start the full transition pipeline

@@ -1,5 +1,6 @@
 var routerUtil = require('./util')
 var Route = require('./route')
+var RouteTransition = require('./transition')
 
 module.exports = function (Vue, Router) {
 
@@ -178,24 +179,15 @@ module.exports = function (Vue, Router) {
 
     // check gloal before hook
     var before = this._beforeEachHook
-
-    function transition () {
-      self._transition(route, previousRoute, state, anchor)
-    }
-
-    function reject () {
-      self.replace(previousRoute.path)
-    }
-
     if (before) {
-      var res = before(route, previousRoute, transition, reject)
-      if (routerUtil.isPromise(res)) {
-        res.then(transition, reject)
-      } else if (typeof res === 'boolean') {
-        res ? transition() : reject()
-      }
+      var transition = new RouteTransition(route, previousRoute)
+      transition._callHook(before, null, next, true)
     } else {
-      transition()
+      next()
+    }
+
+    function next () {
+      self._performTransition(route, previousRoute, state, anchor)
     }
   }
 
@@ -208,7 +200,7 @@ module.exports = function (Vue, Router) {
    * @param {String} [anchor]
    */
 
-  p._transition = function (route, previousRoute, state, anchor) {
+  p._performTransition = function (route, previousRoute, state, anchor) {
 
     // update route context for all children
     if (this.app.route !== route) {
@@ -216,11 +208,6 @@ module.exports = function (Vue, Router) {
       this._children.forEach(function (child) {
         child.route = route
       })
-    }
-
-    // check global after hook
-    if (this._afterEachHook) {
-      this._afterEachHook.call(null, route, previousRoute)
     }
 
     this._currentRoute = route

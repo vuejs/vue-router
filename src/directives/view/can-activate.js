@@ -29,7 +29,7 @@ module.exports = function (transition) {
     if (!hook) {
       next()
     } else {
-      transition.callHook(hook, null, next, true)
+      transition._callHook(hook, null, next, true)
     }
   })
 }

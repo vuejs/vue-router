@@ -1,7 +1,7 @@
 <template>
   <div>
-    <div v-if="routeLoading">Loading data...</div>
-    <div v-if="!routeLoading">message #{{message.id}}: {{message.text}}</div>
+    <div v-if="loadingRouteData">Loading data...</div>
+    <div v-if="!loadingRouteData">message #{{message.id}}: {{message.text}}</div>
   </div>
 </template>
 
@@ -15,15 +15,15 @@ module.exports = {
       return true
     },
 
-    // Activate hook
+    // data hook
     // Useful for doing async data loading.
-    // sets the component's "routeLoading" property to true when called,
-    // and sets it to false when resolved.
+    // sets the component's "loadingRouteData" property to
+    // true when called, and sets it to false when resolved.
     // two options:
     // 1. return a promise
     // 2. explicitly call transition.next() or
     //     transition.abort(reason)
-    activate: function (transition) {
+    data: function (transition) {
       // "this" is available
       var params = {
         id: transition.to.params.messageId

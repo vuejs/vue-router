@@ -1,4 +1,4 @@
-var routerUtil = require('../../util')
+var getRouteConfig = require('../../util').getRouteConfig
 
 module.exports = function (transition) {
   if (transition.to._aborted) {
@@ -15,49 +15,43 @@ module.exports = function (transition) {
   }
 
   var self = this
-  var hook = routerUtil.getRouteConfig(Component, 'activate')
-  var wait = routerUtil.getRouteConfig(Component, 'waitForActivate')
+  var activateHook = getRouteConfig(Component, 'activate')
+  var dataHook = getRouteConfig(Component, 'data')
 
-  // TODO: separate activate and data hooks.
-  // activate is only called when the component has changed or been reloaded
-  // data is called whenever the route has changed and this component is active
+  function build () {
+    var initialData = dataHook
+      ? { loadingRouteData: true }
+      : null
+    self.setComponent(id, initialData, function (component) {
+      loadData(component)
+    })
+  }
 
-  // reusing existing instance, just set new data
-  if (transition._canReuse) {
-    var component = this.childVM
-    if (hook && component) {
-      component.routeLoading = true
-      transition.callHook(hook, component, function (data) {
-        if (data) {
-          for (var key in data) {
-            component.$set(key, data[key])
-          }
-        }
-        component.routeLoading = false
-      })
+  function loadData (component) {
+    if (!dataHook || !component) {
+      return
     }
-  } else if (!hook) {
-    // no hook, just switch component
-    this.setComponent(id)
-  } else if (wait) {
-    // wait for async hook to finish before
-    // switching component
-    transition.callHook(hook, null, function (data) {
-      self.setComponent(id, data)
-    })
-  } else {
-    // switch component now with routeLoading flag set to
-    // true, and add data to component after the hook is
-    // resolved.
-    this.setComponent(id, { routeLoading: true }, function (component) {
-      transition.callHook(hook, component, function (data) {
-        if (data) {
-          for (var key in data) {
-            component.$set(key, data[key])
-          }
+    component.loadingRouteData = true
+    transition._callHook(dataHook, component, function (data) {
+      if (data) {
+        for (var key in data) {
+          component.$set(key, data[key])
         }
-        component.routeLoading = false
-      })
+      }
+      component.loadingRouteData = false
     })
+  }
+
+  if (transition._canReuse) {
+    if (transition.to.path !== transition.from.path) {
+      // reload data if necessary
+      loadData(this.childVM)
+    }
+  } else if (activateHook) {
+    // call activate hook first
+    transition._callHook(activateHook, null, build)
+  } else {
+    // no activate hook, just build
+    build()
   }
 }
