@@ -1,3 +1,5 @@
+var RouteTransition = require('./transition')
+
 // install the <router-view> element directive
 module.exports = function (Vue) {
 
@@ -46,22 +48,7 @@ module.exports = function (Vue) {
      */
 
     onRouteChange: function (route, previousRoute) {
-      previousRoute._aborted = true
-      var transition = {
-        to: route,
-        from: previousRoute,
-        next: null,
-        _aborted: false,
-        _handler: null,
-        _Component: null,
-        abort: function () {
-          // we need to mark the route object as aborted
-          // so that other views receiving the same route
-          // can skip their operations
-          route._aborted = true
-          route._router.replace(previousRoute.path || '/')
-        }
-      }
+      var transition = new RouteTransition(route, previousRoute)
       this.canDeactivate(transition)
     },
 

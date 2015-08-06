@@ -4,19 +4,22 @@ module.exports = function (transition) {
   if (transition.to._aborted) {
     return
   }
-  var fromComponent = this.childVM
+
   var self = this
-  var abort = transition.abort
-  var next = transition.next = function () {
+  var fromComponent = this.childVM
+
+  function next () {
     self.activate(transition)
   }
+
+  if (transition._reuse) {
+    return next()
+  }
+
   var hook = routerUtil.getRouteConfig(fromComponent, 'deactivate')
   if (!hook) {
     next()
   } else {
-    var res = hook.call(fromComponent, transition)
-    if (routerUtil.isPromise(res)) {
-      res.then(next, abort)
-    }
+    transition.callHook(hook, fromComponent, next)
   }
 }

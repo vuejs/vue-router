@@ -11,7 +11,7 @@ var messagesSerivce = require('../../services/messages')
 module.exports = {
   route: {
     // always reload the component when the path changes
-    reload: true,
+    // reload: true,
 
     // Activate hook
     // Useful for doing async data loading.

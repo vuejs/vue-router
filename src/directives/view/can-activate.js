@@ -5,10 +5,9 @@ module.exports = function (transition) {
   if (to._aborted) {
     return
   }
+
   var self = this
-  var abort = transition.abort
-  var next = transition.next = function () {
-    self._componentID = transition._componentID
+  function next () {
     self.deactivate(transition)
   }
 
@@ -33,25 +32,26 @@ module.exports = function (transition) {
     transition._componentID = segment.handler.component
   }
 
+  // determine reusability
+  transition._reuse = transition._componentID === this._routeComponentID
+
   // resolve async component.
-  // compat <= 0.12.8
+  // this.resolveCtor for compat <= 0.12.8
   var resolver = this.resolveCtor || this.resolveComponent
   resolver.call(
     this,
     transition._componentID,
     function onComponentResolved () {
-      var Component =
-        transition._Component =
-        // compat <= 0.12.8
-        self.Ctor || self.Component
-
-      // if it's the same component, do nothing unless
-      // the 'reload' route config is set to true.
-      if (
-        transition._componentID === self._componentID &&
-        !routerUtil.getRouteConfig(Component, 'reload')
-      ) {
+      if (to._aborted) {
         return
+      }
+
+      // self.Ctor for compat <= 0.12.8
+      var Component = transition._Component = self.Ctor || self.Component
+
+      // check force reload
+      if (routerUtil.getRouteConfig(Component, 'reload')) {
+        transition._reuse = false
       }
 
       // determine if this component can be activated
@@ -59,14 +59,7 @@ module.exports = function (transition) {
       if (!hook) {
         next()
       } else {
-        var res = hook.call(null, transition)
-        if (typeof res === 'boolean') {
-          res ? next() : abort()
-        } else if (routerUtil.isPromise(res)) {
-          res.then(function (ok) {
-            ok ? next() : abort()
-          }, abort)
-        }
+        transition.callHook(hook, null, next, true)
       }
     }
   )
