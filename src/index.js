@@ -58,7 +58,7 @@ function Router (options) {
   this.mode = this._abstract
     ? 'abstract'
     : this._history
-      ? 'history'
+      ? 'html5'
       : 'hash'
 
   var History = historyBackends[this.mode]

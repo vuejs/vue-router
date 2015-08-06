@@ -4,12 +4,12 @@
   "description": "A router for Vue.js",
   "main": "src/index.js",
   "scripts": {
-    "dev": "node example/serve.js & webpack --watch --config example/webpack.config.js",
+    "dev": "npm run serve & npm run watch-test",
     "lint": "eslint src && eslint build",
+    "test": "npm run lint && ./node_modules/karma/bin/karma start build/karma.config.js",
     "build": "webpack --config build/webpack.build.dev.config.js && webpack --config build/webpack.build.min.config.js",
-    "build-test": "webpack test/test.js test/test.build.js",
-    "watch-test": "webpack --watch test/test.js test/test.build.js",
-    "test": "npm run lint && ./node_modules/karma/bin/karma start build/karma.config.js"
+    "serve": "webpack-dev-server --quiet --config example/webpack.config.js --content-base example --history-api-fallback",
+    "watch-test": "webpack --watch test/test.js test/test.build.js"
   },
   "repository": {
     "type": "git",
@@ -44,7 +44,8 @@
     "style-loader": "^0.12.3",
     "vue": "yyx990803/vue#dev",
     "vue-loader": "^2.1.1",
-    "webpack": "^1.10.5"
+    "webpack": "^1.10.5",
+    "webpack-dev-server": "^1.10.1"
   },
   "dependencies": {
     "route-recognizer": "^0.1.5"
