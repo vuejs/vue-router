@@ -56,7 +56,7 @@ p._resolveReusability = function (component) {
       ? canReuseFn.call(component, this)
       : true // defaults to true
   this._canReuse = canReuse
-  this._Component = canReuse
+  this._Component = component && canReuse
     ? component.constructor
     : null
   return canReuse

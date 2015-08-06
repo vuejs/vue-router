@@ -1,4 +1,4 @@
-var routerUtil = require('../../util')
+var util = require('../../util')
 
 module.exports = function (transition) {
   if (transition.to._aborted) {
@@ -7,12 +7,11 @@ module.exports = function (transition) {
 
   var self = this
   var fromComponent = this.childVM
-
-  function next () {
+  var hook = util.getRouteConfig(fromComponent, 'canDeactivate')
+  var next = function () {
     self.canActivate(transition)
   }
 
-  var hook = routerUtil.getRouteConfig(fromComponent, 'canDeactivate')
   if (!hook) {
     next()
   } else {

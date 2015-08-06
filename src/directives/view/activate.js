@@ -18,7 +18,13 @@ module.exports = function (transition) {
   var activateHook = getRouteConfig(Component, 'activate')
   var dataHook = getRouteConfig(Component, 'data')
 
-  function build () {
+  /**
+   * Build new instance, either caused by siwtching to a
+   * different component, or because canReuse is false and
+   * we need to reload current component.
+   */
+
+  var build = function () {
     var initialData = dataHook
       ? { loadingRouteData: true }
       : null
@@ -27,7 +33,13 @@ module.exports = function (transition) {
     })
   }
 
-  function loadData (component) {
+  /**
+   * Asynchronously load and apply data.
+   *
+   * @param {Vue} component
+   */
+
+  var loadData = function (component) {
     if (!dataHook || !component) {
       return
     }

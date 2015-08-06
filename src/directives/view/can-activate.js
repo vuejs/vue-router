@@ -6,7 +6,7 @@ module.exports = function (transition) {
   }
 
   var self = this
-  function next () {
+  var next = function () {
     self.deactivate(transition)
   }
 
