@@ -1,5 +1,5 @@
 var Vue = require('vue')
-var Router = require('../src')
+var Router = require('../../src')
 var nextTick = Vue.nextTick
 
 Vue.use(Router)

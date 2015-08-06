@@ -9,7 +9,7 @@
     "test": "npm run lint && ./node_modules/karma/bin/karma start build/karma.config.js",
     "build": "webpack --config build/webpack.build.dev.config.js && webpack --config build/webpack.build.min.config.js",
     "serve": "webpack-dev-server --quiet --config example/webpack.config.js --content-base example --history-api-fallback",
-    "watch-test": "webpack --watch test/test.js test/test.build.js",
+    "watch-test": "webpack --watch test/unit/test.js test/unit/test.build.js",
     "e2e-local": "nightwatch -c build/nightwatch.local.json -e chrome,firefox",
     "e2e-sauce": "nightwatch -c build/nightwatch.sauce.json -e chrome,firefox,ie10,ie11"
   },
