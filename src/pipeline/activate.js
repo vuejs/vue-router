@@ -16,6 +16,7 @@ module.exports = function (transition, Component, next) {
    * we need to reload current component.
    */
 
+  var id = 123
   var build = function () {
     var initialData = dataHook
       ? { loadingRouteData: true }

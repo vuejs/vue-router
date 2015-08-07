@@ -1,7 +1,8 @@
 var util = require('./util')
+var pipeline = require('./pipeline')
 
 /**
- * A RouteTransition object manages the pipeline of a
+ * A Transition object manages the pipeline of a
  * router-view switching process. This is also the object
  * passed into user route hooks.
  *
@@ -10,7 +11,7 @@ var util = require('./util')
  * @param {Route} from
  */
 
-function RouteTransition (router, to, from) {
+function Transition (router, to, from) {
   // mark previous route as aborted
   if (from) {
     from._aborted = true
@@ -43,15 +44,14 @@ function RouteTransition (router, to, from) {
     })
   }
 
-  // the activate queue is an array of component
-  // constructors OR async component factories
+  // the activate queue is an array of route handlers
   // that need to be activated
   this._activateQueue = matched.map(function (match) {
-    return match.handler.component
+    return match.handler
   })
 }
 
-var p = RouteTransition.prototype
+var p = Transition.prototype
 
 // API -----------------------------------------------------
 
@@ -94,7 +94,7 @@ p._start = function (cb) {
   var before = this.router._beforeEachHook
   if (before) {
     this._callHook(before, null, function () {
-      transition._runPipeline(done)      
+      transition._runPipeline(done)
     }, true)
   } else {
     transition._runPipeline(done)
@@ -105,25 +105,26 @@ p._start = function (cb) {
  * A router view transition's pipeline can be described as
  * follows, assuming we are transitioning from an existing
  * <router-view> chain [Component A, Component B] to a new
- * chain [Component C, Component D]:
+ * chain [Component A, Component C]:
  *
- *  A    C
+ *  A    A
  *  | => |
- *  B    D
+ *  B    C
  *
- * --- Validation phase ---
+ * 1. Reusablity phase:
+ *   -> canReuse(A, A)
+ *   -> canReuse(B, C)
+ *   -> determine new queues:
+ *      - deactivation: [B]
+ *      - activation: [C]
  *
- * -> B.canDeactivate
- * -> A.canDeactivate
- * -> C.canActivate
- * -> D.canActivate
+ * 2. Validation phase:
+ *   -> canDeactivate(B)
+ *   -> canActivate(C)
  *
- * --- Activation phase ---
- *
- * -> B.deactivate
- * -> A.deactivate
- * -> C.activate
- * -> D.activate
+ * 3. Activation phase:
+ *   -> deactivate(B)
+ *   -> activate(C)
  *
  * Each of these steps can be asynchronous, and any
  * step can potentially abort the transition.
@@ -135,9 +136,22 @@ p._runPipeline = function (cb) {
   var transition = this
   var daq = this._deactivateQueue
   var aq = this._activateQueue
-  transition._runQueue(daq, canDeactivate, function () {
-    transition._runQueue(aq, canActivate, function () {
-      transition._runQueue(daq, deactivate, cb)
+
+  // check reusability
+  var rdaq = daq.slice().reverse()
+  for (var i = 0; i < rdaq.length; i++) {
+    if (!pipeline.canReuse(transition, rdaq[i], aq[i])) {
+      break
+    }
+  }
+  if (i > 0) {
+    daq = daq.slice(-i)
+    aq = aq.slice(i)
+  }
+
+  transition._runQueue(daq, pipeline.canDeactivate, function () {
+    transition._runQueue(aq, pipeline.canActivate, function () {
+      transition._runQueue(daq, pipeline.deactivate, cb)
       // the activation is handled by updating the $route
       // context and creating new <router-view> instances.
     })
@@ -165,27 +179,6 @@ p._runQueue = function (queue, fn, cb) {
       })
     }
   }
-}
-
-/**
- * Determine the reusability of a from component.
- *
- * @param {Vue} component
- * @return {Boolean}
- */
-
-p._resolveReusability = function (component) {
-  var canReuseFn = util.getRouteConfig(component, 'canReuse')
-  var canReuse = typeof canReuseFn === 'boolean'
-    ? canReuseFn
-    : canReuseFn
-      ? canReuseFn.call(component, this)
-      : true // defaults to true
-  this._canReuse = canReuse
-  this._Component = component && canReuse
-    ? component.constructor
-    : null
-  return canReuse
 }
 
 /**
@@ -224,66 +217,4 @@ p._callHook = function (hook, context, cb, expectBoolean) {
   }
 }
 
-// Pipeline ------------------------------------------------
-
-/**
- * Check if a component can deactivate.
- *
- * @param {Transition} transition
- * @param {Directive} view
- * @param {Function} next
- */
-
-function canDeactivate (transition, view, next) {
-  var fromComponent = view.childVM
-  var hook = util.getRouteConfig(fromComponent, 'canDeactivate')
-  if (!hook) {
-    next()
-  } else {
-    transition._callHook(hook, fromComponent, next, true)
-  }
-}
-
-/**
- * Check if a component can activate.
- *
- * @param {Transition} transition
- * @param {Function} Component
- * @param {Function} next
- */
-
-function canActivate (transition, Component, next) {
-  util.resolveAsyncComponent(Component, function (Component) {
-    // have to check due to async-ness
-    if (transition.to._aborted) {
-      return
-    }
-    // determine if this component can be activated
-    var hook = util.getRouteConfig(Component, 'canActivate')
-    if (!hook) {
-      next()
-    } else {
-      transition._callHook(hook, null, next, true)
-    }
-  })
-}
-
-/**
- * Call deactivate hooks for existing router-views.
- *
- * @param {Transition} transition
- * @param {Directive} view
- * @param {Function} next
- */
-
-function deactivate (transition, view, next) {
-  var fromComponent = view.childVM
-  var hook = util.getRouteConfig(fromComponent, 'deactivate')
-  if (!hook) {
-    next()
-  } else {
-    transition._callHook(hook, fromComponent, next)
-  }
-}
-
-module.exports = RouteTransition
+module.exports = Transition
