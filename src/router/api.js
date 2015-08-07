@@ -1,4 +1,4 @@
-var routerUtil = require('./util')
+var routerUtil = require('../util')
 
 module.exports = function (Vue, Router) {
 

@@ -1,6 +1,6 @@
-var routerUtil = require('./util')
-var Route = require('./route')
-var RouteTransition = require('./transition')
+var routerUtil = require('../util')
+var Route = require('../route')
+var RouteTransition = require('../transition')
 
 module.exports = function (Vue, Router) {
 
