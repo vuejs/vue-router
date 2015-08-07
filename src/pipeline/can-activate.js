@@ -1,31 +1,17 @@
 var getRouteConfig = require('../util').getRouteConfig
 
-module.exports = function (transition) {
-  if (transition.to._aborted) {
-    return
-  }
-
-  var self = this
-  var next = function () {
-    self.deactivate(transition)
-  }
-
-  // no matched component for this outlet
-  if (!transition._componentID) {
-    return next()
-  }
-
+module.exports = function (transition, componentID, next) {
   // resolve async component.
   // this.resolveCtor for compat <= 0.12.8
-  var resolver = this.resolveCtor || this.resolveComponent
-  resolver.call(this, transition._componentID, function () {
+  var resolver = view.resolveCtor || view.resolveComponent
+  resolver.call(view, componentID, function () {
     if (transition.to._aborted) {
       return
     }
     // self.Ctor for compat <= 0.12.8
-    transition._Component = self.Ctor || self.Component
+    var Component = self.Ctor || self.Component
     // determine if this component can be activated
-    var hook = getRouteConfig(transition._Component, 'canActivate')
+    var hook = getRouteConfig(Component, 'canActivate')
     if (!hook) {
       next()
     } else {

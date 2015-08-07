@@ -177,7 +177,9 @@ module.exports = function (Vue, Router) {
       })
     }
 
-    var transition = new RouteTransition(this, route, previousRoute)
+    new RouteTransition(this, route, previousRoute)._start(function () {
+      console.log('done')      
+    })
 
     // check gloal before hook
     // var before = this._beforeEachHook

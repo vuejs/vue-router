@@ -5,9 +5,35 @@ var canActivate = require('./pipeline/can-activate')
 var canDeactivate = require('./pipeline/can-deactivate')
 
 /**
- * A RouteTransition object represents the pipeline of a
+ * A RouteTransition object manages the pipeline of a
  * router-view switching process. This is also the object
  * passed into user route hooks.
+ *
+ * A router view transition's pipeline can be described as
+ * follows, assuming we are transitioning from an existing
+ * <router-view> chain [Component A, Component B] to a new
+ * chain [Component C, Component D]:
+ *
+ *  A    C
+ *  | => |
+ *  B    D
+ *
+ * --- Validation phase ---
+ *
+ * -> B.canDeactivate
+ * -> A.canDeactivate
+ * -> C.canActivate
+ * -> D.canActivate
+ *
+ * --- Activation phase ---
+ *
+ * -> B.deactivate
+ * -> A.deactivate
+ * -> C.activate
+ * -> D.activate
+ *
+ * Each of these steps can be asynchronous, and any
+ * step can potentially abort the transition.
  *
  * @param {Router} router
  * @param {Route} to
@@ -23,13 +49,17 @@ function RouteTransition (router, to, from) {
   this.router = router
   this.to = to
   this.from = from
+  this.next = null
+
+  // callback for the while pipeline
+  this._cb = null
 
   // start by determine the queues
 
   // the deactivate queue is an array of router-view
   // directive instances that need to be deactivated,
   // deepest first.
-  this.deactivateQueue = router._views
+  this._deactivateQueue = router._views
 
   // check the default handler of the deepest match
   var matched = [].slice.call(to._matched)
@@ -42,25 +72,14 @@ function RouteTransition (router, to, from) {
 
   // the activate queue is an array of component IDs
   // that need to be activated
-  this.activateQueue = matched.map(function (match) {
+  this._activateQueue = matched.map(function (match) {
     return match.handler.component
   })
-
-  console.log(this.deactivateQueue)
-  console.log(this.activateQueue)
 }
 
 var p = RouteTransition.prototype
 
-/**
- * Progress to the next step in the transition pipeline.
- */
-
-p.next = function () {
-  if (this.to._aborted) {
-    return
-  }
-}
+// --- API exposed to users ---
 
 /**
  * Abort current transition and return to previous location.
@@ -69,6 +88,9 @@ p.next = function () {
 p.abort = function () {
   this.to._aborted = true
   this.router.replace(this.from.path || '/')
+  if (this._cb) {
+    this._cb()
+  }
 }
 
 /**
@@ -77,6 +99,39 @@ p.abort = function () {
 
 p.redirect = function () {
   // TODO
+}
+
+// --- Internal ---
+
+p._start = function (cb) {
+  var transition = this
+  var daq = this._deactivateQueue
+  var aq = this._activateQueue
+  var done = transition._cb = function () {
+    cb && cb()
+    transition._cb = null
+  }
+  transition._runQueue(daq, canDeactivate, function () {
+    transition._runQueue(aq, canActivate, function () {
+      transition._runQueue(daq, deactivate, function () {
+        transition._runQueue(aq, activate, done)
+      })
+    })
+  })
+}
+
+p._runQueue = function (queue, fn, cb) {
+  var transition = this
+  step(0)
+  function step (index) {
+    if (index >= queue.length) {
+      cb()
+    } else {
+      fn(transition, queue[index], function () {
+        step(index + 1)
+      })
+    }
+  }
 }
 
 /**
