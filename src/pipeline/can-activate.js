@@ -1,17 +1,13 @@
-var getRouteConfig = require('../util').getRouteConfig
+var util = require('../util')
 
-module.exports = function (transition, componentID, next) {
-  // resolve async component.
-  // this.resolveCtor for compat <= 0.12.8
-  var resolver = view.resolveCtor || view.resolveComponent
-  resolver.call(view, componentID, function () {
+module.exports = function (transition, Component, next) {
+  util.resolveAsyncComponent(Component, function (Component) {
+    // have to check due to async-ness
     if (transition.to._aborted) {
       return
     }
-    // self.Ctor for compat <= 0.12.8
-    var Component = self.Ctor || self.Component
     // determine if this component can be activated
-    var hook = getRouteConfig(Component, 'canActivate')
+    var hook = util.getRouteConfig(Component, 'canActivate')
     if (!hook) {
       next()
     } else {

@@ -1,5 +1,3 @@
-var RouteTransition = require('../transition')
-
 module.exports = function (Vue) {
 
   var _ = Vue.util

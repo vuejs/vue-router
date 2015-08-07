@@ -4,6 +4,7 @@ var RouteTransition = require('../transition')
 
 module.exports = function (Vue, Router) {
 
+  var _ = Vue.util
   var p = Router.prototype
 
   /**
@@ -178,34 +179,19 @@ module.exports = function (Vue, Router) {
     }
 
     new RouteTransition(this, route, previousRoute)._start(function () {
-      console.log('done')      
+      self._postTransition(state, anchor)
     })
-
-    // check gloal before hook
-    // var before = this._beforeEachHook
-    // if (before) {
-    //   var transition = new RouteTransition(route, previousRoute)
-    //   transition._callHook(before, null, next, true)
-    // } else {
-    //   next()
-    // }
-
-    // function next () {
-    //   self._performTransition(route, previousRoute, state, anchor)
-    // }
   }
 
   /**
-   * Perform a route transition after it is validated.
+   * Handle stuff after the transition.
    *
    * @param {Route} route
-   * @param {Route} previousRoute
    * @param {Object} [state]
    * @param {String} [anchor]
    */
 
-  p._performTransition = function (route, previousRoute, state, anchor) {
-
+  p._postTransition = function (route, state, anchor) {
     // update route context for all children
     if (this.app.$route !== route) {
       this.app.$route = route
@@ -243,24 +229,14 @@ module.exports = function (Vue, Router) {
 
   function guardComponent (handler) {
     var comp = handler.component
-    var type = typeof comp
-    if (type !== 'string') {
-      if (type !== 'function') {
-        comp = Vue.extend(comp)
-      }
-      if (!comp.cid) {
-        routerUtil.warn('invalid router component: ' + comp)
-        handler.component = null
-        return
-      }
-      // generate a unique id for the anonymous component
-      // and register it globally
-      var id = 'router-view-' + comp.cid
-      if (!Vue.component(id)) {
-        Vue.component(id, comp)
-      }
-      // overwrite the definition so we don't do this again
-      handler.component = id
+    if (_.isPlainObject(comp)) {
+      comp = handler.component = Vue.extend(comp)
+    }
+    if (typeof comp !== 'function' || !comp.cid) {
+      handler.component = null
+      routerUtil.warn(
+        'invalid component for route "' + handler.path + '"'
+      )
     }
   }
 }

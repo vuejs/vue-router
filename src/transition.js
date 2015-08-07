@@ -70,7 +70,8 @@ function RouteTransition (router, to, from) {
     })
   }
 
-  // the activate queue is an array of component IDs
+  // the activate queue is an array of component
+  // constructors OR async component factories
   // that need to be activated
   this._activateQueue = matched.map(function (match) {
     return match.handler.component

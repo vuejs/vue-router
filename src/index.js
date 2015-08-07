@@ -16,6 +16,7 @@ Router.install = function (Vue) {
   require('./directives/view')(Vue)
   require('./directives/link')(Vue)
   require('./override')(Vue, Router)
+  routerUtil.Vue = Vue
   Router.installed = true
 }
 

@@ -83,3 +83,26 @@ exports.getRouteConfig = function (component, name) {
     options.route &&
     options.route[name]
 }
+
+/**
+ * Resolve an async component factory. Have to do a dirty
+ * mock here because of Vue core's internal API depends on
+ * an ID check.
+ */
+
+var resolver
+exports.resolveAsyncComponent = function (factory, cb) {
+  if (!resolver) {
+    resolver = {
+      resolve: exports.Vue.prototype._resolveComponent,
+      $options: {
+        components: {
+          _: factory
+        }
+      }
+    }
+  } else {
+    resolver.$options.components._ = factory
+  }
+  resolver.resolve('_', cb)
+}
