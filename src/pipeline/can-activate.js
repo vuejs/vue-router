@@ -1,4 +1,4 @@
-var getRouteConfig = require('../../util').getRouteConfig
+var getRouteConfig = require('../util').getRouteConfig
 
 module.exports = function (transition) {
   if (transition.to._aborted) {

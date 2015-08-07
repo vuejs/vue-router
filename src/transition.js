@@ -1,40 +1,78 @@
 var util = require('./util')
+var activate = require('./pipeline/activate')
+var deactivate = require('./pipeline/deactivate')
+var canActivate = require('./pipeline/can-activate')
+var canDeactivate = require('./pipeline/can-deactivate')
 
 /**
  * A RouteTransition object represents the pipeline of a
  * router-view switching process. This is also the object
  * passed into user route hooks.
  *
- * @param {Route} route
- * @param {Route} previousRoute
+ * @param {Router} router
+ * @param {Route} to
+ * @param {Route} from
  */
 
-function RouteTransition (route, previousRoute) {
-  this.to = route
-  this.from = previousRoute
-  this.next = null
-  this._handler = null
-  this._Component = null
-  this._componentID = null
-  this._canReuse = false
+function RouteTransition (router, to, from) {
   // mark previous route as aborted
-  this.from._aborted = true
+  if (from) {
+    from._aborted = true
+  }
+
+  this.router = router
+  this.to = to
+  this.from = from
+
+  // start by determine the queues
+
+  // the deactivate queue is an array of router-view
+  // directive instances that need to be deactivated,
+  // deepest first.
+  this.deactivateQueue = router._views
+
+  // check the default handler of the deepest match
+  var matched = [].slice.call(to._matched)
+  var deepest = matched[matched.length - 1]
+  if (deepest.handler.defaultChildHandler) {
+    matched.push({
+      handler: deepest.handler.defaultChildHandler
+    })
+  }
+
+  // the activate queue is an array of component IDs
+  // that need to be activated
+  this.activateQueue = matched.map(function (match) {
+    return match.handler.component
+  })
+
+  console.log(this.deactivateQueue)
+  console.log(this.activateQueue)
 }
 
 var p = RouteTransition.prototype
 
 /**
- * Abort an ongoing transition and return to previous
- * location.
+ * Progress to the next step in the transition pipeline.
+ */
+
+p.next = function () {
+  if (this.to._aborted) {
+    return
+  }
+}
+
+/**
+ * Abort current transition and return to previous location.
  */
 
 p.abort = function () {
   this.to._aborted = true
-  this.to._router.replace(this.from.path || '/')
+  this.router.replace(this.from.path || '/')
 }
 
 /**
- * Abort the current transition and redirect to a new one.
+ * Abort current transition and redirect to a new location.
  */
 
 p.redirect = function () {

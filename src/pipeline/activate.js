@@ -1,4 +1,4 @@
-var getRouteConfig = require('../../util').getRouteConfig
+var getRouteConfig = require('../util').getRouteConfig
 
 module.exports = function (transition) {
   if (transition.to._aborted) {
@@ -25,8 +25,10 @@ module.exports = function (transition) {
    */
 
   var build = function () {
-    self.setComponent(id, null, function (component) {
-      component.$loading = true
+    var initialData = dataHook
+      ? { loadingRouteData: true }
+      : null
+    self.setComponent(id, initialData, function (component) {
       loadData(component)
     })
   }
@@ -41,14 +43,14 @@ module.exports = function (transition) {
     if (!dataHook || !component) {
       return
     }
-    component.$loading = true
+    component.loadingRouteData = true
     transition._callHook(dataHook, component, function (data) {
       if (data) {
         for (var key in data) {
           component.$set(key, data[key])
         }
       }
-      component.$loading = false
+      component.loadingRouteData = false
     })
   }
 

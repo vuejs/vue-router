@@ -26,6 +26,7 @@ function Router (options) {
 
   // Vue instances
   this.app = null
+  this._views = []
   this._children = []
 
   // route recognizer

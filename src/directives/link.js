@@ -4,6 +4,7 @@
 module.exports = function (Vue) {
 
   var _ = Vue.util
+  var routerUtil = require('../util')
 
   Vue.directive('link', {
 
@@ -11,8 +12,8 @@ module.exports = function (Vue) {
 
     bind: function () {
       var vm = this.vm
-      if (!vm.$route && _.warn) {
-        _.warn(
+      if (!vm.$route) {
+        routerUtil.warn(
           'v-link can only be used inside a ' +
           'router-enabled app.'
         )

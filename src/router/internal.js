@@ -177,20 +177,20 @@ module.exports = function (Vue, Router) {
       })
     }
 
-    // new Pipeline(this, route, previousRoute)
+    var transition = new RouteTransition(this, route, previousRoute)
 
     // check gloal before hook
-    var before = this._beforeEachHook
-    if (before) {
-      var transition = new RouteTransition(route, previousRoute)
-      transition._callHook(before, null, next, true)
-    } else {
-      next()
-    }
+    // var before = this._beforeEachHook
+    // if (before) {
+    //   var transition = new RouteTransition(route, previousRoute)
+    //   transition._callHook(before, null, next, true)
+    // } else {
+    //   next()
+    // }
 
-    function next () {
-      self._performTransition(route, previousRoute, state, anchor)
-    }
+    // function next () {
+    //   self._performTransition(route, previousRoute, state, anchor)
+    // }
   }
 
   /**

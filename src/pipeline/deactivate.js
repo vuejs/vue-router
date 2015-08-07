@@ -1,4 +1,4 @@
-var util = require('../../util')
+var util = require('../util')
 
 module.exports = function (transition) {
   if (transition.to._aborted) {
