@@ -171,11 +171,13 @@ module.exports = function (Vue, Router) {
       // initial render
       this.app = new this._appConstructor({
         el: this._appContainer,
-        data: {
-          route: route
+        _meta: {
+          $route: route
         }
       })
     }
+
+    // new Pipeline(this, route, previousRoute)
 
     // check gloal before hook
     var before = this._beforeEachHook
@@ -203,10 +205,10 @@ module.exports = function (Vue, Router) {
   p._performTransition = function (route, previousRoute, state, anchor) {
 
     // update route context for all children
-    if (this.app.route !== route) {
-      this.app.route = route
+    if (this.app.$route !== route) {
+      this.app.$route = route
       this._children.forEach(function (child) {
-        child.route = route
+        child.$route = route
       })
     }
 

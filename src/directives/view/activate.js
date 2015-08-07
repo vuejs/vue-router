@@ -25,10 +25,8 @@ module.exports = function (transition) {
    */
 
   var build = function () {
-    var initialData = dataHook
-      ? { loadingRouteData: true }
-      : null
-    self.setComponent(id, initialData, function (component) {
+    self.setComponent(id, null, function (component) {
+      component.$loading = true
       loadData(component)
     })
   }
@@ -43,14 +41,14 @@ module.exports = function (transition) {
     if (!dataHook || !component) {
       return
     }
-    component.loadingRouteData = true
+    component.$loading = true
     transition._callHook(dataHook, component, function (data) {
       if (data) {
         for (var key in data) {
           component.$set(key, data[key])
         }
       }
-      component.loadingRouteData = false
+      component.$loading = false
     })
   }
 

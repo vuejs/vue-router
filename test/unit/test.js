@@ -119,10 +119,10 @@ describe('vue-router', function () {
         '</div>',
       components: {
         'view-a': {
-          template: '{{route.path}},{{route.params.id}},{{route.query.id}}|'
+          template: '{{$route.path}},{{$route.params.id}},{{$route.query.id}}|'
         },
         'view-b': {
-          template: '{{route.path}},{{route.params.id}},{{route.query.id}}'
+          template: '{{$route.path}},{{$route.params.id}},{{$route.query.id}}'
         }
       }
     })
@@ -266,7 +266,7 @@ describe('vue-router', function () {
               template:
                 '<div>' +
                   '<a v-link="?id=1234" id="link"></a>' +
-                  '{{route.query.id}}' +
+                  '{{$route.query.id}}' +
                 '</div>'
             }
           }
@@ -339,7 +339,7 @@ describe('vue-router', function () {
             template: '<router-view></router-view>'
           },
           'view-b': {
-            template: '{{route.params.foo}}{{route.params.bar}}'
+            template: '{{$route.params.foo}}{{$route.params.bar}}'
           }
         }
       })
@@ -405,7 +405,7 @@ describe('vue-router', function () {
           template: '<router-view></router-view>'
         },
         'view-b': {
-          template: '{{route.params.foo}}{{route.params.bar}}'
+          template: '{{$route.params.foo}}{{$route.params.bar}}'
         }
       }
     })

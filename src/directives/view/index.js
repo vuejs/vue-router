@@ -19,7 +19,7 @@ module.exports = function (Vue) {
       this.currentRoute = null
       this.currentComponentId = null
       this.unwatch = this.vm.$watch(
-        'route',
+        '$route',
         _.bind(this.onRouteChange, this),
         // important as this makes the watcher execute
         // in the internal queue instead of the user queue,
@@ -33,8 +33,8 @@ module.exports = function (Vue) {
       // finally, init by delegating to v-component
       component.bind.call(this)
       // initial render
-      if (this.vm.route) {
-        this.onRouteChange(this.vm.route, {})
+      if (this.vm.$route) {
+        this.onRouteChange(this.vm.$route, {})
       }
     },
 

@@ -1,7 +1,7 @@
 <template>
   <div>
-    <div v-if="loadingRouteData">Loading data...</div>
-    <div v-if="!loadingRouteData">message #{{message.id}}: {{message.text}}</div>
+    <div v-if="$loading">Loading data...</div>
+    <div v-if="!$loading">message #{{message.id}}: {{message.text}}</div>
   </div>
 </template>
 
@@ -17,7 +17,7 @@ module.exports = {
 
     // data hook
     // Useful for doing async data loading.
-    // sets the component's "loadingRouteData" property to
+    // sets the component's "$loading" property to
     // true when called, and sets it to false when resolved.
     // two options:
     // 1. return a promise

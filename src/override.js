@@ -7,16 +7,17 @@ module.exports = function (Vue, Router) {
 
   Vue.prototype.$addChild = function (opts, Ctor) {
 
-    var route = this.route
+    var route = this.$route
     var router = route && route._router
     var isRouterEnabled = router instanceof Router
 
+    // inject meta
     if (isRouterEnabled) {
       opts = opts || {}
-      var data = opts.data = opts.data || {}
-      data.route = route
+      var meta = opts._meta = opts._meta || {}
+      meta.$route = route
       if (opts._isRouterView) {
-        data.loading = data.loading || false
+        meta.$loading = meta.$loading || false
       }
     }
 
