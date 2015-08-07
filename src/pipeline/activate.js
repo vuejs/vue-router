@@ -1,16 +1,8 @@
 var getRouteConfig = require('../util').getRouteConfig
 
-module.exports = function (transition) {
-  if (transition.to._aborted) {
-    return
-  }
-
-  // update current route component id
-  var id = this._routeComponentID = transition._componentID
-  var Component = transition._Component
-
+module.exports = function (transition, Component, next) {
   // no component
-  if (!id || !Component) {
+  if (!Component) {
     return this.setComponent(null)
   }
 

@@ -36,6 +36,7 @@ function Router (options) {
   // state
   this._started = false
   this._currentRoute = { path: '/' }
+  this._currentTransition = null
 
   // feature detection
   this._hasPushState = typeof history !== 'undefined' && history.pushState

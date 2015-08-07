@@ -178,9 +178,11 @@ module.exports = function (Vue, Router) {
       })
     }
 
-    new RouteTransition(this, route, previousRoute)._start(function () {
-      self._postTransition(state, anchor)
-    })
+    // start a new transition
+    new RouteTransition(this, route, previousRoute)
+      ._start(function () {
+        self._postTransition(route, state, anchor)
+      })
   }
 
   /**
