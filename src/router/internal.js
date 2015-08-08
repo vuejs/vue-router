@@ -166,6 +166,8 @@ module.exports = function (Vue, Router) {
 
     // construct route context
     var route = new Route(path, this)
+    var transition = this._currentTransition =
+      new RouteTransition(this, route, previousRoute)
 
     // initial render
     if (!this.app) {
@@ -178,11 +180,10 @@ module.exports = function (Vue, Router) {
       })
     }
 
-    // start a new transition
-    new RouteTransition(this, route, previousRoute)
-      ._start(function () {
-        self._postTransition(route, state, anchor)
-      })
+    // start the transition
+    transition._start(function () {
+      self._postTransition(route, state, anchor)
+    })
   }
 
   /**

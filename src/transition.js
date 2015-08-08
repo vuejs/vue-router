@@ -16,8 +16,6 @@ function Transition (router, to, from) {
   if (from) {
     from._aborted = true
   }
-  // mark current route's owner
-  to._ownerTransition = this
 
   this.router = router
   this.to = to
@@ -26,7 +24,7 @@ function Transition (router, to, from) {
 
   // callback for the while pipeline
   this._cb = null
-  this._done = false
+  this._aborted = false
 
   // start by determine the queues
 
@@ -60,10 +58,10 @@ var p = Transition.prototype
  */
 
 p.abort = function () {
-  if (this._done) return
+  if (this._aborted) return
   this.to._aborted = true
   this.router.replace(this.from.path || '/')
-  this._cb()
+  this._aborted = true
 }
 
 /**
@@ -83,21 +81,15 @@ p.redirect = function () {
  */
 
 p._start = function (cb) {
-  var transition = this
-  var done = transition._cb = function () {
-    if (!transition._done) {
-      cb()
-      transition._done = true
-    }
-  }
   // check the global before hook
+  var transition = this
   var before = this.router._beforeEachHook
   if (before) {
     this._callHook(before, null, function () {
-      transition._runPipeline(done)
+      transition._runPipeline(cb)
     }, true)
   } else {
-    transition._runPipeline(done)
+    transition._runPipeline(cb)
   }
 }
 
@@ -203,13 +195,19 @@ p._callHook = function (hook, context, cb, expectBoolean) {
   var abort = function () {
     transition.abort()
   }
-  var next = transition.next = function () {
+  var next = function (data) {
     if (!cb || transition.to._aborted) {
       return
     }
-    cb.apply(null, arguments)
+    cb(data)
   }
-  var res = hook.call(context, transition)
+  var exposed = {
+    to: transition.to,
+    from: transition.from,
+    abort: abort,
+    next: next
+  }
+  var res = hook.call(context, exposed)
   var promise = util.isPromise(res)
   if (expectBoolean) {
     if (typeof res === 'boolean') {
