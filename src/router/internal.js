@@ -181,7 +181,7 @@ module.exports = function (Vue, Router) {
     }
 
     // start the transition
-    transition._start(function () {
+    transition.start(function () {
       self._postTransition(route, state, anchor)
     })
   }

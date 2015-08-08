@@ -37,7 +37,7 @@ module.exports = function (Vue) {
 
     activate: function () {
       var transition = this.router._currentTransition
-      var Component = transition._activateQueue[this.depth].component
+      var Component = transition.activateQueue[this.depth].component
       if (!Component) {
         return this.setComponent(null)
       }
@@ -58,7 +58,7 @@ module.exports = function (Vue) {
       }
 
       if (activateHook) {
-        transition._callHook(activateHook, null, build)
+        transition.callHook(activateHook, null, build)
       } else {
         build()
       }
@@ -74,7 +74,7 @@ module.exports = function (Vue) {
     },
 
     unbind: function () {
-      this.routeState.router._views.$remove(this)
+      this.router._views.$remove(this)
       componentDef.unbind.call(this)
     }
   })
@@ -84,7 +84,7 @@ module.exports = function (Vue) {
 
 function loadData (transition, hook, component) {
   component.$loading = true
-  transition._callHook(hook, component, function (data) {
+  transition.callHook(hook, component, function (data) {
     if (data) {
       for (var key in data) {
         component.$set(key, data[key])

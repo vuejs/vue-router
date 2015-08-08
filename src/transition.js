@@ -21,17 +21,14 @@ function Transition (router, to, from) {
   this.to = to
   this.from = from
   this.next = null
-
-  // callback for the while pipeline
-  this._cb = null
-  this._aborted = false
+  this.aborted = false
 
   // start by determine the queues
 
   // the deactivate queue is an array of router-view
   // directive instances that need to be deactivated,
   // deepest first.
-  this._deactivateQueue = router._views
+  this.deactivateQueue = router._views
 
   // check the default handler of the deepest match
   var matched = [].slice.call(to._matched)
@@ -44,7 +41,7 @@ function Transition (router, to, from) {
 
   // the activate queue is an array of route handlers
   // that need to be activated
-  this._activateQueue = matched.map(function (match) {
+  this.activateQueue = matched.map(function (match) {
     return match.handler
   })
 }
@@ -58,10 +55,10 @@ var p = Transition.prototype
  */
 
 p.abort = function () {
-  if (this._aborted) return
+  if (this.aborted) return
   this.to._aborted = true
   this.router.replace(this.from.path || '/')
-  this._aborted = true
+  this.aborted = true
 }
 
 /**
@@ -80,16 +77,16 @@ p.redirect = function () {
  * @param {Function} cb
  */
 
-p._start = function (cb) {
+p.start = function (cb) {
   // check the global before hook
   var transition = this
   var before = this.router._beforeEachHook
   if (before) {
-    this._callHook(before, null, function () {
-      transition._runPipeline(cb)
+    this.callHook(before, null, function () {
+      transition.runPipeline(cb)
     }, true)
   } else {
-    transition._runPipeline(cb)
+    transition.runPipeline(cb)
   }
 }
 
@@ -124,10 +121,10 @@ p._start = function (cb) {
  * @param {Function} cb
  */
 
-p._runPipeline = function (cb) {
+p.runPipeline = function (cb) {
   var transition = this
-  var daq = this._deactivateQueue
-  var aq = this._activateQueue
+  var daq = this.deactivateQueue
+  var aq = this.activateQueue
   var rdaq = daq.slice().reverse()
   var reuseQueue
 
@@ -138,19 +135,22 @@ p._runPipeline = function (cb) {
     }
   }
   if (i > 0) {
-    reuseQueue = daq.slice(i)
-    daq = daq.slice(daq.length - i)
+    reuseQueue = rdaq.slice(0, i)
+    daq = rdaq.slice(i).reverse()
     aq = aq.slice(i)
   }
 
-  transition._runQueue(daq, pipeline.canDeactivate, function () {
-    transition._runQueue(aq, pipeline.canActivate, function () {
-      transition._runQueue(daq, pipeline.deactivate, function () {
+  transition.runQueue(daq, pipeline.canDeactivate, function () {
+    transition.runQueue(aq, pipeline.canActivate, function () {
+      transition.runQueue(daq, pipeline.deactivate, function () {
         reuseQueue && reuseQueue.forEach(function (view) {
           view.reuse()
         })
-        // the activation is handled by updating the $route
-        // context and creating new <router-view> instances.
+        // just need the top-most non-reusable view to
+        // switch
+        if (daq.length) {
+          daq[daq.length - 1].activate()
+        }
         cb()
       })
     })
@@ -166,7 +166,7 @@ p._runPipeline = function (cb) {
  * @param {Function} cb
  */
 
-p._runQueue = function (queue, fn, cb) {
+p.runQueue = function (queue, fn, cb) {
   var transition = this
   step(0)
   function step (index) {
@@ -190,7 +190,7 @@ p._runQueue = function (queue, fn, cb) {
  * @param {Boolean} [expectBoolean]
  */
 
-p._callHook = function (hook, context, cb, expectBoolean) {
+p.callHook = function (hook, context, cb, expectBoolean) {
   var transition = this
   var abort = function () {
     transition.abort()
@@ -201,6 +201,7 @@ p._callHook = function (hook, context, cb, expectBoolean) {
     }
     cb(data)
   }
+  // the actual "transition" object exposed to the user
   var exposed = {
     to: transition.to,
     from: transition.from,

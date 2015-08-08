@@ -38,7 +38,7 @@ exports.canDeactivate = function (transition, view, next) {
   if (!hook) {
     next()
   } else {
-    transition._callHook(hook, fromComponent, next, true)
+    transition.callHook(hook, fromComponent, next, true)
   }
 }
 
@@ -61,7 +61,7 @@ exports.canActivate = function (transition, handler, next) {
     if (!hook) {
       next()
     } else {
-      transition._callHook(hook, null, next, true)
+      transition.callHook(hook, null, next, true)
     }
   })
 }
@@ -80,6 +80,6 @@ exports.deactivate = function (transition, view, next) {
   if (!hook) {
     next()
   } else {
-    transition._callHook(hook, fromComponent, next)
+    transition.callHook(hook, fromComponent, next)
   }
 }

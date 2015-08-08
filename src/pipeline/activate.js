@@ -37,7 +37,7 @@ module.exports = function (transition, Component, next) {
       return
     }
     component.loadingRouteData = true
-    transition._callHook(dataHook, component, function (data) {
+    transition.callHook(dataHook, component, function (data) {
       if (data) {
         for (var key in data) {
           component.$set(key, data[key])
@@ -54,7 +54,7 @@ module.exports = function (transition, Component, next) {
     }
   } else if (activateHook) {
     // call activate hook first
-    transition._callHook(activateHook, null, build)
+    transition.callHook(activateHook, null, build)
   } else {
     // no activate hook, just build
     build()
