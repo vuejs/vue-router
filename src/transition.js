@@ -136,24 +136,31 @@ p._runPipeline = function (cb) {
   var transition = this
   var daq = this._deactivateQueue
   var aq = this._activateQueue
+  var rdaq = daq.slice().reverse()
+  var reuseQueue
 
   // check reusability
-  var rdaq = daq.slice().reverse()
   for (var i = 0; i < rdaq.length; i++) {
     if (!pipeline.canReuse(transition, rdaq[i], aq[i])) {
       break
     }
   }
   if (i > 0) {
-    daq = daq.slice(-i)
+    reuseQueue = daq.slice(i)
+    daq = daq.slice(daq.length - i)
     aq = aq.slice(i)
   }
 
   transition._runQueue(daq, pipeline.canDeactivate, function () {
     transition._runQueue(aq, pipeline.canActivate, function () {
-      transition._runQueue(daq, pipeline.deactivate, cb)
-      // the activation is handled by updating the $route
-      // context and creating new <router-view> instances.
+      transition._runQueue(daq, pipeline.deactivate, function () {
+        reuseQueue && reuseQueue.forEach(function (view) {
+          view.reuse()
+        })
+        // the activation is handled by updating the $route
+        // context and creating new <router-view> instances.
+        cb()
+      })
     })
   })
 }

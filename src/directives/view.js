@@ -35,6 +35,15 @@ module.exports = function (Vue) {
       this._isDynamicLiteral = true
       // finally, init by delegating to v-component
       componentDef.bind.call(this)
+      this.activate()
+    },
+
+    activate: function (Component) {
+      console.log('activate')
+    },
+
+    reuse: function () {
+      console.log('reuse')  
     },
 
     unbind: function () {
