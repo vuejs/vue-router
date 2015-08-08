@@ -10,6 +10,9 @@ dependencies:
 
 test:
   override:
+    # Run unit tests
+    - npm test
+    # start sauce connect
     - cd sc-*-linux && ./bin/sc -u $SAUCE_USERNAME -k $SAUCE_ACCESS_KEY -f ~/sc_ready:
         background: true
     # Wait for tunnel to be ready
@@ -19,5 +22,3 @@ test:
         background: true
     # Run selenium tests
     - npm run e2e-sauce
-    # Run unit tests
-    - npm test
