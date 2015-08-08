@@ -3,12 +3,12 @@ var util = require('./util')
 /**
  * Determine the reusability of an existing router view.
  *
- * @param {Transition} transition
  * @param {Directive} view
  * @param {Object} handler
+ * @param {Transition} transition
  */
 
-exports.canReuse = function (transition, view, handler) {
+exports.canReuse = function (view, handler, transition) {
   var component = view.childVM
   if (!component || !handler) {
     return false
@@ -27,12 +27,12 @@ exports.canReuse = function (transition, view, handler) {
 /**
  * Check if a component can deactivate.
  *
- * @param {Transition} transition
  * @param {Directive} view
+ * @param {Transition} transition
  * @param {Function} next
  */
 
-exports.canDeactivate = function (transition, view, next) {
+exports.canDeactivate = function (view, transition, next) {
   var fromComponent = view.childVM
   var hook = util.getRouteConfig(fromComponent, 'canDeactivate')
   if (!hook) {
@@ -45,12 +45,12 @@ exports.canDeactivate = function (transition, view, next) {
 /**
  * Check if a component can activate.
  *
- * @param {Transition} transition
  * @param {Object} handler
+ * @param {Transition} transition
  * @param {Function} next
  */
 
-exports.canActivate = function (transition, handler, next) {
+exports.canActivate = function (handler, transition, next) {
   util.resolveAsyncComponent(handler, function (Component) {
     // have to check due to async-ness
     if (transition.to._aborted) {
@@ -69,17 +69,90 @@ exports.canActivate = function (transition, handler, next) {
 /**
  * Call deactivate hooks for existing router-views.
  *
- * @param {Transition} transition
  * @param {Directive} view
+ * @param {Transition} transition
  * @param {Function} next
  */
 
-exports.deactivate = function (transition, view, next) {
-  var fromComponent = view.childVM
-  var hook = util.getRouteConfig(fromComponent, 'deactivate')
+exports.deactivate = function (view, transition, next) {
+  var component = view.childVM
+  var hook = util.getRouteConfig(component, 'deactivate')
   if (!hook) {
     next()
   } else {
-    transition.callHook(hook, fromComponent, next)
+    transition.callHook(hook, component, next)
   }
+}
+
+/**
+ * Activate / switch component for a router-view.
+ *
+ * @param {Directive} view
+ * @param {Transition} transition
+ * @param {Function} [cb]
+ */
+
+exports.activate = function (view, transition, cb) {
+  var Component = transition.activateQueue[view.depth].component
+  if (!Component) {
+    view.setComponent(null)
+    cb && cb()
+    return
+  }
+
+  var activateHook = util.getRouteConfig(Component, 'activate')
+  var dataHook = util.getRouteConfig(Component, 'data')
+
+  // partially duplicated logic from v-component
+  var build = function () {
+    view.unbuild(true)
+    view.Ctor = view.Component = Component
+    var component = view.build()
+    if (dataHook) {
+      loadData(component, transition, dataHook)
+    }
+    view.transition(component)
+    cb && cb()
+  }
+
+  if (activateHook) {
+    transition.callHook(activateHook, null, build)
+  } else {
+    build()
+  }
+}
+
+/**
+ * Reuse a view, just reload data if necessary.
+ *
+ * @param {Directive} view
+ * @param {Transition} transition
+ */
+
+exports.reuse = function (view, transition) {
+  var component = view.childVM
+  var dataHook = util.getRouteConfig(component)
+  if (dataHook) {
+    loadData(component, transition, dataHook)
+  }
+}
+
+/**
+ * Asynchronously load and apply data to component.
+ *
+ * @param {Vue} component
+ * @param {Transition} transition
+ * @param {Function} hook
+ */
+
+function loadData (component, transition, hook) {
+  component.$loading = true
+  transition.callHook(hook, component, function (data) {
+    if (data) {
+      for (var key in data) {
+        component.$set(key, data[key])
+      }
+    }
+    component.$loading = false
+  })
 }

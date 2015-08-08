@@ -48,8 +48,6 @@ function Transition (router, to, from) {
 
 var p = Transition.prototype
 
-// API -----------------------------------------------------
-
 /**
  * Abort current transition and return to previous location.
  */
@@ -68,8 +66,6 @@ p.abort = function () {
 p.redirect = function () {
   // TODO
 }
-
-// Internal ------------------------------------------------
 
 /**
  * Start the transition pipeline.
@@ -130,7 +126,7 @@ p.runPipeline = function (cb) {
 
   // check reusability
   for (var i = 0; i < rdaq.length; i++) {
-    if (!pipeline.canReuse(transition, rdaq[i], aq[i])) {
+    if (!pipeline.canReuse(rdaq[i], aq[i], transition)) {
       break
     }
   }
@@ -143,15 +139,17 @@ p.runPipeline = function (cb) {
   transition.runQueue(daq, pipeline.canDeactivate, function () {
     transition.runQueue(aq, pipeline.canActivate, function () {
       transition.runQueue(daq, pipeline.deactivate, function () {
+        // trigger reuse for all reused views
         reuseQueue && reuseQueue.forEach(function (view) {
-          view.reuse()
+          pipeline.reuse(view, transition)
         })
-        // just need the top-most non-reusable view to
-        // switch
+        // the root of the chain that needs to be replaced
+        // is the top-most non-reusable view.
         if (daq.length) {
-          daq[daq.length - 1].activate()
+          pipeline.activate(daq[daq.length - 1], transition, cb)
+        } else {
+          cb()
         }
-        cb()
       })
     })
   })
@@ -173,7 +171,7 @@ p.runQueue = function (queue, fn, cb) {
     if (index >= queue.length) {
       cb()
     } else {
-      fn(transition, queue[index], function () {
+      fn(queue[index], transition, function () {
         step(index + 1)
       })
     }
@@ -192,21 +190,30 @@ p.runQueue = function (queue, fn, cb) {
 
 p.callHook = function (hook, context, cb, expectBoolean) {
   var transition = this
-  var abort = function () {
-    transition.abort()
-  }
+  var nextCalled = false
   var next = function (data) {
+    if (nextCalled) {
+      util.warn('transition.next() should be called only once.')
+      return
+    }
+    nextCalled = true
     if (!cb || transition.to._aborted) {
       return
     }
     cb(data)
   }
-  // the actual "transition" object exposed to the user
+  var abort = function () {
+    transition.abort()
+  }
+  // the copied transition object passed to the user.
   var exposed = {
     to: transition.to,
     from: transition.from,
     abort: abort,
-    next: next
+    next: next,
+    redirect: function () {
+      transition.redirect.apply(transition, arguments)
+    }
   }
   var res = hook.call(context, exposed)
   var promise = util.isPromise(res)
