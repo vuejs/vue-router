@@ -132,7 +132,7 @@ exports.activate = function (view, transition, cb) {
 
 exports.reuse = function (view, transition) {
   var component = view.childVM
-  var dataHook = util.getRouteConfig(component)
+  var dataHook = util.getRouteConfig(component, 'data')
   if (dataHook) {
     loadData(component, transition, dataHook)
   }
