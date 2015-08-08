@@ -93,13 +93,14 @@ exports.deactivate = function (view, transition, next) {
  */
 
 exports.activate = function (view, transition, cb) {
-  var Component = transition.activateQueue[view.depth].component
-  if (!Component) {
+  var handler = transition.activateQueue[view.depth]
+  if (!handler) {
     view.setComponent(null)
     cb && cb()
     return
   }
 
+  var Component = handler.component
   var activateHook = util.getRouteConfig(Component, 'activate')
   var dataHook = util.getRouteConfig(Component, 'data')
 

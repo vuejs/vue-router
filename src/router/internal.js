@@ -169,7 +169,6 @@ module.exports = function (Vue, Router) {
     var transition = this._currentTransition =
       new RouteTransition(this, route, previousRoute)
 
-    // initial render
     if (!this.app) {
       // initial render
       this.app = new this._appConstructor({
@@ -178,12 +177,12 @@ module.exports = function (Vue, Router) {
           $route: route
         }
       })
+    } else {
+      // start the transition
+      transition.start(function () {
+        self._postTransition(route, state, anchor)
+      })
     }
-
-    // start the transition
-    transition.start(function () {
-      self._postTransition(route, state, anchor)
-    })
   }
 
   /**

@@ -24,19 +24,11 @@ describe('vue-router', function () {
   it('matching views', function (done) {
     router = new Router({ abstract: true })
     router.map({
-      '/a': { component: 'view-a' },
-      '/b': { component: 'view-b' }
+      '/a': { component: { template: 'AAA' }},
+      '/b': { component: { template: 'BBB' }}
     })
     var App = Vue.extend({
-      template: '<div><router-view></router-view></div>',
-      components: {
-        'view-a': {
-          template: 'AAA'
-        },
-        'view-b': {
-          template: 'BBB'
-        }
-      }
+      template: '<div><router-view></router-view></div>'
     })
     router.start(App, el)
     assertRoutes([
@@ -53,44 +45,37 @@ describe('vue-router', function () {
     router = new Router({ abstract: true })
     router.map({
       '/a': {
-        component: 'view-a',
+        component: {
+          template: 'VIEW A <router-view></router-view>'
+        },
         subRoutes: {
           '/sub-a': {
-            component: 'sub-view-a'
+            component: {
+              template: 'SUB A'
+            }
           },
           '/sub-a-2': {
-            component: 'sub-view-a-2'
+            component: {
+              template: 'SUB A2'
+            }
           }
         }
       },
       '/b': {
-        component: 'view-b',
+        component: {
+          template: 'VIEW B <router-view></router-view>'
+        },
         subRoutes: {
           '/sub-b': {
-            component: 'sub-view-b'
+            component: {
+              template: 'SUB B'
+            }
           }
         }
       }
     })
     var App = Vue.extend({
-      template: '<div><router-view></router-view></div>',
-      components: {
-        'view-a': {
-          template: 'VIEW A <router-view></router-view>'
-        },
-        'view-b': {
-          template: 'VIEW B <router-view></router-view>'
-        },
-        'sub-view-a': {
-          template: 'SUB A'
-        },
-        'sub-view-a-2': {
-          template: 'SUB A2'
-        },
-        'sub-view-b': {
-          template: 'SUB B'
-        }
-      }
+      template: '<div><router-view></router-view></div>'
     })
     router.start(App, el)
     assertRoutes([
@@ -107,7 +92,11 @@ describe('vue-router', function () {
   it('route context', function (done) {
     router = new Router({ abstract: true })
     router.map({
-      '/a/:id': { component: 'view-a' }
+      '/a/:id': {
+        component: {
+          template: '{{$route.path}},{{$route.params.id}},{{$route.query.id}}|'
+        }
+      }
     })
     var App = Vue.extend({
       template:
@@ -118,9 +107,6 @@ describe('vue-router', function () {
           '<view-b></view-b>' +
         '</div>',
       components: {
-        'view-a': {
-          template: '{{$route.path}},{{$route.params.id}},{{$route.query.id}}|'
-        },
         'view-b': {
           template: '{{$route.path}},{{$route.params.id}},{{$route.query.id}}'
         }
@@ -140,19 +126,11 @@ describe('vue-router', function () {
   it('router.go()', function (done) {
     router = new Router({ abstract: true })
     router.map({
-      '/a': { component: 'view-a' },
-      '/b': { component: 'view-b' }
+      '/a': { component: { template: 'AAA' }},
+      '/b': { component: { template: 'BBB' }}
     })
     var App = Vue.extend({
-      template: '<div><router-view></router-view></div>',
-      components: {
-        'view-a': {
-          template: 'AAA'
-        },
-        'view-b': {
-          template: 'BBB'
-        }
-      }
+      template: '<div><router-view></router-view></div>'
     })
     router.start(App, el)
     assertRoutes([
@@ -292,23 +270,15 @@ describe('vue-router', function () {
   it('alias', function (done) {
     router = new Router({ abstract: true })
     router.map({
-      '/a': { component: 'view-a' },
-      '/b': { component: 'view-b' }
+      '/a': { component: { template: 'AAA' }},
+      '/b': { component: { template: 'BBB' }}
     })
     router.alias({
       '/c/a': '/a',
       '/c/b': '/b'
     })
     var App = Vue.extend({
-      template: '<div><router-view></router-view></div>',
-      components: {
-        'view-a': {
-          template: 'AAA'
-        },
-        'view-b': {
-          template: 'BBB'
-        }
-      }
+      template: '<div><router-view></router-view></div>'
     })
     router.start(App, el)
     assertRoutes([
@@ -323,9 +293,15 @@ describe('vue-router', function () {
       router = new Router({ abstract: true })
       router.map({
         '/a/:foo': {
-          component: 'view-a',
+          component: {
+            template: '<router-view></router-view>'
+          },
           subRoutes: {
-            '/b/:bar': { component: 'view-b' }
+            '/b/:bar': {
+              component: {
+                template: '{{$route.params.foo}}{{$route.params.bar}}'
+              }
+            }
           }
         }
       })
@@ -333,15 +309,7 @@ describe('vue-router', function () {
         '/c/a/:foo/b/:bar': '/a/:foo/b/:bar'
       })
       var App = Vue.extend({
-        template: '<div><router-view></router-view></div>',
-        components: {
-          'view-a': {
-            template: '<router-view></router-view>'
-          },
-          'view-b': {
-            template: '{{$route.params.foo}}{{$route.params.bar}}'
-          }
-        }
+        template: '<div><router-view></router-view></div>'
       })
       router.start(App, el)
       assertRoutes([
@@ -389,9 +357,15 @@ describe('vue-router', function () {
     router = new Router({ abstract: true })
     router.map({
       '/a/:foo': {
-        component: 'view-a',
+        component: {
+          template: '<router-view></router-view>'
+        },
         subRoutes: {
-          '/b/:bar': { component: 'view-b' }
+          '/b/:bar': {
+            component: {
+              template: '{{$route.params.foo}}{{$route.params.bar}}'
+            }
+          }
         }
       }
     })
@@ -399,15 +373,7 @@ describe('vue-router', function () {
       '/c/a/:foo/b/:bar': '/a/:foo/b/:bar'
     })
     var App = Vue.extend({
-      template: '<div><router-view></router-view></div>',
-      components: {
-        'view-a': {
-          template: '<router-view></router-view>'
-        },
-        'view-b': {
-          template: '{{$route.params.foo}}{{$route.params.bar}}'
-        }
-      }
+      template: '<div><router-view></router-view></div>'
     })
     router.start(App, el)
     assertRoutes([

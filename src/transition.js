@@ -31,9 +31,11 @@ function Transition (router, to, from) {
   this.deactivateQueue = router._views
 
   // check the default handler of the deepest match
-  var matched = [].slice.call(to._matched)
+  var matched = to._matched
+    ? Array.prototype.slice.call(to._matched)
+    : []
   var deepest = matched[matched.length - 1]
-  if (deepest.handler.defaultChildHandler) {
+  if (deepest && deepest.handler.defaultChildHandler) {
     matched.push({
       handler: deepest.handler.defaultChildHandler
     })
@@ -136,9 +138,9 @@ p.runPipeline = function (cb) {
     aq = aq.slice(i)
   }
 
-  transition.runQueue(daq, pipeline.canDeactivate, function () {
-    transition.runQueue(aq, pipeline.canActivate, function () {
-      transition.runQueue(daq, pipeline.deactivate, function () {
+  transition.runQueue(daq, pipeline.canDeactivate, function canActivatePhase () {
+    transition.runQueue(aq, pipeline.canActivate, function deactivatePhase () {
+      transition.runQueue(daq, pipeline.deactivate, function activatePhase () {
         // trigger reuse for all reused views
         reuseQueue && reuseQueue.forEach(function (view) {
           pipeline.reuse(view, transition)
@@ -171,7 +173,7 @@ p.runQueue = function (queue, fn, cb) {
     if (index >= queue.length) {
       cb()
     } else {
-      fn(queue[index], transition, function () {
+      fn(queue[index], transition, function nextStep () {
         step(index + 1)
       })
     }
