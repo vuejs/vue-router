@@ -110,8 +110,12 @@ exports.activate = function (view, transition, cb) {
   // partially duplicated logic from v-component
   var build = function () {
     view.unbuild(true)
-    view.Ctor = view.Component = Component
-    var component = view.build()
+    view.Component = Component
+    var component = view.build({
+      _meta: {
+        $loading: !!dataHook
+      }
+    })
     if (dataHook) {
       loadData(component, transition, dataHook)
     }
