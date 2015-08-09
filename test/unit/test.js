@@ -204,25 +204,27 @@ describe('vue-router', function () {
         '<router-view></router-view>'
     })
     router.start(App, el)
-    router.go('/a')
     el = router.app.$el
     var linkA = el.querySelector('#link-a')
     var linkB = el.querySelector('#link-b')
-    expect(linkA.className).toBe('active active-exact')
-    expect(linkB.className).toBe('')
-    router.go('/a/b/c')
+    router.go('/a')
     nextTick(function () {
-      expect(linkA.className).toBe('active')
+      expect(linkA.className).toBe('active active-exact')
       expect(linkB.className).toBe('')
-      router.go('/b')
+      router.go('/a/b/c')
       nextTick(function () {
-        expect(linkA.className).toBe('')
-        expect(linkB.className).toBe('active active-exact')
-        router.go('/b/c/d')
+        expect(linkA.className).toBe('active')
+        expect(linkB.className).toBe('')
+        router.go('/b')
         nextTick(function () {
           expect(linkA.className).toBe('')
-          expect(linkB.className).toBe('active')
-          done()
+          expect(linkB.className).toBe('active active-exact')
+          router.go('/b/c/d')
+          nextTick(function () {
+            expect(linkA.className).toBe('')
+            expect(linkB.className).toBe('active')
+            done()
+          })
         })
       })
     })
@@ -395,6 +397,7 @@ describe('vue-router', function () {
       template: '<div><router-view></router-view></div>'
     })
     router.start(App, el)
+    expect(router.app.$el.textContent).toBe('Whaaat')
     assertRoutes([
       ['/notfound', 'Whaaat'],
       ['/notagain', 'Whaaat']
@@ -402,7 +405,16 @@ describe('vue-router', function () {
   })
 
   it('global before', function () {
-
+    router = new Router({ abstract: true })
+    var App = Vue.extend({
+      template: '<div><router-view></router-view></div>'
+    })
+    var spy = jasmine.createSpy()
+    router.beforeEach(function (transition) {
+      spy()
+      expect(transition.to.toBe(''))
+    })
+    router.start(App, el)
   })
 
   it('global after', function () {

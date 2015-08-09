@@ -7,7 +7,10 @@ function AbstractHistory (options) {
 
 var p = AbstractHistory.prototype
 
-p.start = function () {}
+p.start = function () {
+  this.onChange('/')
+}
+
 p.stop = function () {}
 
 p.go = function (path) {
