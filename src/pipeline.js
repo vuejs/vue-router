@@ -20,7 +20,10 @@ exports.canReuse = function (view, handler, transition) {
   return typeof canReuseFn === 'boolean'
     ? canReuseFn
     : canReuseFn
-      ? canReuseFn.call(component, transition)
+      ? canReuseFn.call(component, {
+          to: transition.to,
+          from: transition.from
+        })
       : true // defaults to true
 }
 
