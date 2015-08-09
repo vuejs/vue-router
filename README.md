@@ -4,11 +4,11 @@
 
 ### Notes
 
-1. `vue-router` only supports Vue 0.12+.
+1. This project is in active development. No guarantee on API stability until an offical release is out. Don't use in production. If you are adventurous enough to try it out, be prepared for undocumented breaking changes. If something goes wrong, consult the `example` folder which will always contain a working demo using the latest API.
 
-2. No docs yet. Check out [`/example`](https://github.com/vuejs/vue-router/tree/master/example) for example usage.
+2. `vue-router` is developed against the `dev` branch of Vue core. The official release will only be compatible with Vue 0.12.10+.
 
-3. Files in `/dist` are out of date. If you are not using Browserify or Webpack you'd have to build the standalone file yourself until an official release is out.
+3. Files in `/dist` are not guaranteed to be up-to-date with src. If you are not using Browserify or Webpack you will have to build the standalone file yourself until an official release is out.
 
 ### Build
 
