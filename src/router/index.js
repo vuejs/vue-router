@@ -15,6 +15,7 @@ var historyBackends = {
  */
 
 function Router (options) {
+  /* istanbul ignore if */
   if (!Router.installed) {
     throw new Error(
       'Please install the Router with Vue.use() before ' +

@@ -15,6 +15,7 @@ module.exports = function (Vue) {
 
     bind: function () {
       var route = this.vm.$route
+      /* istanbul ignore if */
       if (!route) {
         util.warn(
           '<router-view> can only be used inside a ' +

@@ -34,8 +34,12 @@ describe('vue-router', function () {
     assertRoutes([
       ['/a', 'AAA'],
       ['/b', 'BBB'],
+      // relative
       ['a', 'AAA'],
       ['b', 'BBB'],
+      // relative with traversal
+      ['../a', 'AAA', '/a'],
+      ['./../b', 'BBB', '/b'],
       // no match
       ['/c', '']
     ], done)
@@ -124,28 +128,10 @@ describe('vue-router', function () {
       // params only
       ['/a/123', '/a/123,123,|/a/123,123,'],
       // params + query
-      ['/a/123?id=234', '/a/123?id=234,123,234|/a/123?id=234,123,234']
+      ['/a/123?id=234', '/a/123?id=234,123,234|/a/123?id=234,123,234'],
+      // relative query
+      ['?id=345', '/a/123?id=345,123,345|/a/123?id=345,123,345']
     ], done)
-  })
-
-  it('router.go()', function (done) {
-    router = new Router({ abstract: true })
-    router.map({
-      '/a': { component: { template: 'AAA' }},
-      '/b': { component: { template: 'BBB' }}
-    })
-    var App = Vue.extend({
-      template: '<div><router-view></router-view></div>'
-    })
-    router.start(App, el)
-    assertRoutes([
-      ['/a', 'AAA'],
-      ['/b', 'BBB'],
-      ['../a', 'AAA', '/a'],
-      ['./../b', 'BBB', '/b'],
-      // no match
-      ['/c', '']
-    ], { method: 'go' }, done)
   })
 
   it('v-link', function (done) {
@@ -167,6 +153,7 @@ describe('vue-router', function () {
           template:
             '<div>' +
               '<a id="link-b" v-link="/{{a}}">Link B</a>' +
+              '<a id="link-c" v-link="{{c}}"></c>' +
             '</div>'
         }
       }
@@ -187,6 +174,8 @@ describe('vue-router', function () {
         expect(el.textContent).toBe('Link B')
         var link = el.querySelector('#link-b')
         expect(link.getAttribute('href')).toBe('/a')
+        // falsy expressions should not set href
+        expect(el.querySelector('#link-c').hasAttribute('href')).toBe(false)
         link.click()
         nextTick(function () {
           expect(el.textContent).toBe('Link A')
@@ -463,8 +452,7 @@ describe('vue-router', function () {
       options = {}
     }
     var match = matches.shift()
-    var method = options.method || '_match'
-    router[method](match[0])
+    router.go(match[0])
     nextTick(function () {
       var text = router.app.$el.textContent
       expect(text).toBe(match[1])

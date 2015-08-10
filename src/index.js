@@ -7,6 +7,7 @@ var Router = require('./router')
  */
 
 Router.install = function (Vue) {
+  /* istanbul ignore if */
   if (Router.installed) {
     routerUtil.warn('already installed.')
     return
@@ -21,6 +22,7 @@ Router.install = function (Vue) {
 }
 
 // auto install
+/* istanbul ignore if */
 if (window.Vue) {
   Router.install(window.Vue)
 }

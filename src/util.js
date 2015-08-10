@@ -6,6 +6,7 @@
  */
 
 exports.warn = function (msg, err) {
+  /* istanbul ignore next */
   if (window.console) {
     console.warn('[vue-router] ' + msg)
     if (err) {

@@ -241,6 +241,7 @@ module.exports = function (Vue, Router) {
     if (_.isPlainObject(comp)) {
       comp = handler.component = Vue.extend(comp)
     }
+    /* istanbul ignore if */
     if (typeof comp !== 'function' || !comp.cid) {
       handler.component = null
       routerUtil.warn(

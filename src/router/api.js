@@ -99,12 +99,14 @@ module.exports = function (Vue, Router) {
    */
 
   p.start = function (App, container) {
+    /* istanbul ignore if */
     if (this._started) {
       routerUtil.warn('already started.')
       return
     }
     this._started = true
     if (!this.app) {
+      /* istanbul ignore if */
       if (!App || !container) {
         throw new Error(
           'Must start vue-router with a component and a ' +

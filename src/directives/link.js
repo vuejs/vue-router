@@ -12,6 +12,7 @@ module.exports = function (Vue) {
 
     bind: function () {
       var vm = this.vm
+      /* istanbul ignore if */
       if (!vm.$route) {
         routerUtil.warn(
           'v-link can only be used inside a ' +
