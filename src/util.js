@@ -110,6 +110,6 @@ exports.resolveAsyncComponent = function (handler, cb) {
   }
   resolver.resolve('_', function (Component) {
     handler.component = Component
-    cb()
+    cb(Component)
   })
 }
