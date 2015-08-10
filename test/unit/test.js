@@ -432,18 +432,6 @@ describe('vue-router', function () {
     }
   })
 
-  it('global after', function () {
-
-  })
-
-  it('hashbang option', function () {
-
-  })
-
-  it('root option', function () {
-
-  })
-
   // TODO route lifecycle
 
   function assertRoutes (matches, options, done) {

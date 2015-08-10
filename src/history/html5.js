@@ -10,6 +10,7 @@ function HTML5History (options) {
     }
     // remove trailing slash
     this.root = root.replace(/\/$/, '')
+    this.rootRE = new RegExp('^\\' + this.root + '\\/')
   } else {
     this.root = null
   }
@@ -38,7 +39,8 @@ p.stop = function () {
 }
 
 p.go = function (path, replace) {
-  var url = this.formatPath(path, this.root)
+  var root = this.root
+  var url = this.formatPath(path, root)
   if (replace) {
     history.replaceState({}, '', url)
   } else {
@@ -54,8 +56,11 @@ p.go = function (path, replace) {
   }
   var hashMatch = path.match(hashRE)
   var hash = hashMatch && hashMatch[0]
-  // strip hash so it doesn't mess up params
-  path = url.replace(hashRE, '')
+  path = url
+    // strip hash so it doesn't mess up params
+    .replace(hashRE, '')
+    // remove root before matching
+    .replace(this.rootRE, '')
   this.onChange(path, null, hash)
 }
 

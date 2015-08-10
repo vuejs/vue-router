@@ -158,12 +158,6 @@ module.exports = function (Vue, Router) {
       return
     }
 
-    // normalize against root
-    var root = this.history.root
-    if (root && path.indexOf(root) === 0) {
-      path = path.slice(root.length)
-    }
-
     // construct route context
     var route = new Route(path, this)
     var transition = this._currentTransition =
