@@ -177,11 +177,18 @@ module.exports = function (Vue, Router) {
           $route: route
         }
       })
-    } else {
-      // start the transition
+    }
+
+    var before = this._beforeEachHook
+    var startTransition = function () {
       transition.start(function () {
         self._postTransition(route, state, anchor)
       })
+    }
+    if (before) {
+      transition.callHook(before, null, startTransition, true)
+    } else {
+      startTransition()
     }
   }
 

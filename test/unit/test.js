@@ -58,6 +58,11 @@ describe('vue-router', function () {
             component: {
               template: 'SUB A2'
             }
+          },
+          '*': {
+            component: {
+              template: 'SUB A DEFAULT'
+            }
           }
         }
       },
@@ -79,7 +84,7 @@ describe('vue-router', function () {
     })
     router.start(App, el)
     assertRoutes([
-      ['/a', 'VIEW A '],
+      ['/a', 'VIEW A SUB A DEFAULT'],
       ['/a/sub-a', 'VIEW A SUB A'],
       ['/a/sub-a-2', 'VIEW A SUB A2'],
       ['/b/sub-b', 'VIEW B SUB B'],
@@ -404,17 +409,38 @@ describe('vue-router', function () {
     ], done)
   })
 
-  it('global before', function () {
+  it('global before', function (done) {
     router = new Router({ abstract: true })
     var App = Vue.extend({
       template: '<div><router-view></router-view></div>'
     })
+    router.map({
+      '*': {
+        component: {
+          template: '<p>default</p>'
+        }
+      }
+    })
     var spy = jasmine.createSpy()
     router.beforeEach(function (transition) {
       spy()
-      expect(transition.to.toBe(''))
+      if (transition.to.path === '/no') {
+        setTimeout(function () {
+          transition.abort()
+          next()
+        }, 100)
+      } else {
+        transition.next()
+      }
     })
     router.start(App, el)
+    expect(spy).toHaveBeenCalled()
+    expect(router.app.$el.textContent).toBe('default')
+    router.go('/no')
+    function next () {
+      expect(router.app.$el.textContent).toBe('default')
+      done()
+    }
   })
 
   it('global after', function () {

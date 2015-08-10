@@ -70,25 +70,6 @@ p.redirect = function () {
 }
 
 /**
- * Start the transition pipeline.
- *
- * @param {Function} cb
- */
-
-p.start = function (cb) {
-  // check the global before hook
-  var transition = this
-  var before = this.router._beforeEachHook
-  if (before) {
-    this.callHook(before, null, function () {
-      transition.runPipeline(cb)
-    }, true)
-  } else {
-    transition.runPipeline(cb)
-  }
-}
-
-/**
  * A router view transition's pipeline can be described as
  * follows, assuming we are transitioning from an existing
  * <router-view> chain [Component A, Component B] to a new
@@ -119,7 +100,7 @@ p.start = function (cb) {
  * @param {Function} cb
  */
 
-p.runPipeline = function (cb) {
+p.start = function (cb) {
   var transition = this
   var daq = this.deactivateQueue
   var aq = this.activateQueue
