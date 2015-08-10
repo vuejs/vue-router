@@ -113,7 +113,7 @@ exports.activate = function (view, transition, cb) {
     view.Component = Component
     var component = view.build({
       _meta: {
-        $loading: !!dataHook
+        $loadingRouteData: !!dataHook
       }
     })
     if (dataHook) {
@@ -154,13 +154,13 @@ exports.reuse = function (view, transition) {
  */
 
 function loadData (component, transition, hook) {
-  component.$loading = true
+  component.$loadingRouteData = true
   transition.callHook(hook, component, function (data) {
     if (data) {
       for (var key in data) {
         component.$set(key, data[key])
       }
     }
-    component.$loading = false
+    component.$loadingRouteData = false
   })
 }

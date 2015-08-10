@@ -1,7 +1,7 @@
 <template>
   <div>
-    <div v-if="$loading">Loading data...</div>
-    <div v-if="!$loading">message #{{message.id}}: {{message.text}}</div>
+    <div v-if="$loadingRouteData">Loading data...</div>
+    <div v-if="!$loadingRouteData">message #{{message.id}}: {{message.text}}</div>
   </div>
 </template>
 
