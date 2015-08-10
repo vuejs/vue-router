@@ -5,7 +5,7 @@
   "main": "src/index.js",
   "scripts": {
     "dev": "npm run serve & npm run watch-test",
-    "lint": "eslint src build test/e2e test/unit/test.js",
+    "lint": "eslint src build test/e2e test/unit/specs",
     "test": "npm run lint && ./node_modules/karma/bin/karma start build/karma.config.js",
     "build": "webpack --config build/webpack.build.dev.config.js && webpack --config build/webpack.build.min.config.js",
     "serve": "webpack-dev-server --quiet --config example/webpack.config.js --content-base example --history-api-fallback",
