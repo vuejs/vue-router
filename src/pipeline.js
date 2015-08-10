@@ -106,27 +106,37 @@ exports.activate = function (view, transition, cb) {
   var Component = handler.component
   var activateHook = util.getRouteConfig(Component, 'activate')
   var dataHook = util.getRouteConfig(Component, 'data')
+  var waitForData = util.getRouteConfig(Component, 'waitForData')
 
-  // partially duplicated logic from v-component
-  var build = function () {
+  var build = function (data) {
     view.unbuild(true)
     view.Component = Component
+    var shouldLoadData = dataHook && !waitForData
     var component = view.build({
+      data: data,
       _meta: {
-        $loadingRouteData: !!dataHook
+        $loadingRouteData: shouldLoadData
       }
     })
-    if (dataHook) {
+    if (shouldLoadData) {
       loadData(component, transition, dataHook)
     }
     view.transition(component)
     cb && cb()
   }
 
+  var activate = function () {
+    if (dataHook && waitForData) {
+      loadData(null, transition, dataHook, build)
+    } else {
+      build()
+    }
+  }
+
   if (activateHook) {
-    transition.callHook(activateHook, null, build)
+    transition.callHook(activateHook, null, activate)
   } else {
-    build()
+    activate()
   }
 }
 
@@ -151,16 +161,23 @@ exports.reuse = function (view, transition) {
  * @param {Vue} component
  * @param {Transition} transition
  * @param {Function} hook
+ * @param {Function} cb
  */
 
-function loadData (component, transition, hook) {
-  component.$loadingRouteData = true
+function loadData (component, transition, hook, cb) {
+  if (component) {
+    component.$loadingRouteData = true
+  }
   transition.callHook(hook, component, function (data) {
-    if (data) {
-      for (var key in data) {
-        component.$set(key, data[key])
+    if (component) {
+      if (data) {
+        for (var key in data) {
+          component.$set(key, data[key])
+        }
       }
+      component.$loadingRouteData = false
+    } else {
+      cb(data)
     }
-    component.$loadingRouteData = false
   })
 }

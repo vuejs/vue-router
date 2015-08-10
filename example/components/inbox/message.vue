@@ -10,11 +10,6 @@ var messagesSerivce = require('../../services/messages')
 
 module.exports = {
   route: {
-    // can we reuse this component when the path changes?
-    canReuse: function () {
-      return true
-    },
-
     // data hook
     // Useful for doing async data loading.
     // sets the component's "$loading" property to
@@ -44,10 +39,7 @@ module.exports = {
       // return messagesSerivce
       //   .get(params)
       //   .then(message => ({ message }))
-    },
-
-    // insert component after activate hook resolves?
-    // waitForActivate: true
+    }
   },
 
   // default state

@@ -78,7 +78,7 @@ module.exports = function (Vue, Router) {
    */
 
   p.go = function (path, replace) {
-    this.history.go(path, replace)
+    this.history.go(path + '', replace)
   }
 
   /**

@@ -16,7 +16,7 @@ module.exports = function (Vue) {
       var meta = opts._meta = opts._meta || {}
       meta.$route = route
       if (opts._isRouterView) {
-        meta.$loading = meta.$loading || false
+        meta.$loadingRouteData = meta.$loadingRouteData || false
       }
     }
 
