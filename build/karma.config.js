@@ -3,9 +3,9 @@ module.exports = function (config) {
     browsers: ['Chrome'],
     reporters: ['spec', 'coverage'],
     frameworks: ['jasmine'],
-    files: ['../test/unit/test.js'],
+    files: ['../test/unit/specs/index.js'],
     preprocessors: {
-      '../test/unit/test.js': ['webpack']
+      '../test/unit/specs/index.js': ['webpack']
     },
     webpack: {
       module: {
