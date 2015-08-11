@@ -426,6 +426,41 @@ describe('Core', function () {
     }
   })
 
+  it('transitionOnLoad option', function (done) {
+    router = new Router({
+      abstract: true,
+      transitionOnLoad: true
+    })
+    router.map({
+      '/': {
+        component: {
+          template: '<p>whatever</p>'
+        }
+      }
+    })
+    var spy = jasmine.createSpy()
+    var App = Vue.extend({
+      template: '<div><router-view v-transition="test"></router-view></div>',
+      transitions: {
+        test: {
+          enter: function (el, cb) {
+            expect(el.tagName).toBe('P')
+            spy()
+            cb()
+          }
+        }
+      }
+    })
+    // ensure el is inDoc otherwise transition won't trigger
+    document.body.appendChild(el)
+    router.start(App, el)
+    nextTick(function () {
+      expect(spy).toHaveBeenCalled()
+      router.app.$destroy(true)
+      done()
+    })
+  })
+
   it('saveScrollPosition', function (done) {
     router = new Router({
       history: true,
@@ -435,13 +470,42 @@ describe('Core', function () {
       '/a': { component: { template: 'hi' }}
     })
     router.start(Vue.extend({}), el)
+    // record
+    var x = window.pageXOffset
+    var y = window.pageYOffset
     router.go('/a')
     nextTick(function () {
-      window.addEventListener('popstate', function () {
-        expect(window.scrollTo).toHaveBeenCalledWith(0, 0)
+      window.addEventListener('popstate', function onPop () {
+        expect(window.scrollTo).toHaveBeenCalledWith(x, y)
+        window.removeEventListener('popstate', onPop)
+        router.stop()
         done()
       })
       history.back()
+    })
+  })
+
+  it('slide to anchor', function (done) {
+    router = new Router({
+      history: true
+    })
+    router.map({
+      '/a': { component: { template: '<a id="anchor">link</a>' }}
+    })
+    document.body.appendChild(el)
+    router.start(Vue.extend({
+      template: '<router-view></router-view>'
+    }), el)
+    router.go('/a#anchor')
+    nextTick(function () {
+      var anchor = document.getElementById('anchor')
+      var x = window.scrollX
+      var y = anchor.offsetTop
+      expect(window.scrollTo).toHaveBeenCalledWith(x, y)
+      router.stop()
+      router.app.$destroy(true)
+      history.back()
+      done()
     })
   })
 
