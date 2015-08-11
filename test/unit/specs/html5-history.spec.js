@@ -22,6 +22,7 @@ describe('HTML5 History', function () {
     }
     // root path & hash
     function step2 (path, state, hash) {
+      expect(location.pathname).toBe('/what/the')
       expect(path).toBe('/what/the')
       expect(state).toBeNull()
       expect(hash).toBe('#lol')
@@ -30,6 +31,7 @@ describe('HTML5 History', function () {
     }
     // relative path
     function step3 (path) {
+      expect(location.pathname).toBe('/what/huh')
       expect(path).toBe('/what/huh')
       done()
     }
@@ -66,6 +68,7 @@ describe('HTML5 History', function () {
       history.go('test')
     }
     function step2 (path) {
+      expect(location.pathname).toBe('/base/test')
       expect(path).toBe('/base/test')
       document.head.removeChild(base)
       done()
