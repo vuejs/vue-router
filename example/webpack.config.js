@@ -1,5 +1,7 @@
 module.exports = {
-  entry: './example/index.js',
+  entry: {
+    app: ['webpack/hot/dev-server', './example/index.js']
+  },
   output: {
     path: './example',
     filename: 'example.build.js'
