@@ -179,11 +179,18 @@ module.exports = function (Vue, Router) {
         self._postTransition(route, state, anchor)
       })
     }
+
     if (before) {
       transition.callHook(before, null, startTransition, true)
     } else {
       startTransition()
     }
+
+    // HACK:
+    // set rendered to true after the transition start, so
+    // that components that are acitvated synchronously know
+    // whether it is the initial render.
+    this._rendered = true
   }
 
   /**

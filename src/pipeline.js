@@ -121,7 +121,14 @@ exports.activate = function (view, transition, cb) {
     if (shouldLoadData) {
       loadData(component, transition, dataHook)
     }
-    view.transition(component)
+    var router = transition.router
+    if (router._rendered || router._transitionOnLoad) {
+      view.transition(component)
+    } else {
+      // no transition on first render, manual transition
+      view.setCurrent(component)
+      component.$before(view.anchor, null, false)
+    }
     cb && cb()
   }
 

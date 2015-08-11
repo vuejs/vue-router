@@ -34,8 +34,11 @@ module.exports = function (Vue) {
       this._isDynamicLiteral = true
       // finally, init by delegating to v-component
       componentDef.bind.call(this)
-      // activate initial render
-      pipeline.activate(this, router._currentTransition)
+      // only activate on create if this is not the
+      // initial render.
+      if (router.app) {
+        pipeline.activate(this, router._currentTransition)
+      }
     },
 
     unbind: function () {

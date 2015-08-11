@@ -9,9 +9,13 @@ var historyBackends = {
  * Router constructor
  *
  * @param {Object} [options]
- *                 - {String} root
  *                 - {Boolean} hashbang  (default: true)
  *                 - {Boolean} pushstate (default: false)
+ *                 - {Boolean} abstract (default: false)
+ *                 - {Boolean} saveScrollPosition (default: false)
+ *                 - {Boolean} transitionOnLoad (default: false)
+ *                 - {String} root (default: null)
+ *                 - {String} linkActiveClass (default: 'v-link-active')
  */
 
 function Router (options) {
@@ -36,20 +40,24 @@ function Router (options) {
 
   // state
   this._started = false
-  this._currentRoute = { path: '/' }
+  this._currentRoute = {}
   this._currentTransition = null
+  this._notFoundHandler = null
+  this._beforeEachHook = null
 
   // feature detection
   this._hasPushState = typeof history !== 'undefined' && history.pushState
 
-  // global handler/hooks
-  this._notFoundHandler = options.notFound || null
-  this._beforeEachHook = options.beforeEach || null
+  // trigger transition on initial render?
+  this._rendered = false
+  this._transitionOnLoad = options.transitionOnLoad
 
-  // other options
+  // history mode
   this._abstract = !!options.abstract
   this._hashbang = options.hashbang !== false
   this._history = !!(this._hasPushState && options.history)
+
+  // other options
   this._saveScrollPosition = !!options.saveScrollPosition
   this._linkActiveClass = options.linkActiveClass || 'v-link-active'
 
