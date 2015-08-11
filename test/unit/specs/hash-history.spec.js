@@ -19,7 +19,7 @@ describe('Hash History', function () {
       expect(location.hash).toBe('#/what/the')
       expect(path).toBe('/what/the')
       history.onChange = step3
-      history.go('huh')
+      history.go('huh', true)
     }
     // relative path
     function step3 (path) {
@@ -51,7 +51,7 @@ describe('Hash History', function () {
       expect(location.hash).toBe('#!/what/the')
       expect(path).toBe('/what/the')
       history.onChange = step3
-      history.go('huh')
+      history.go('huh', true)
     }
     // relative path
     function step3 (path) {

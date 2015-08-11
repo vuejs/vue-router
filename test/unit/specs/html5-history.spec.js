@@ -27,7 +27,7 @@ describe('HTML5 History', function () {
       expect(state).toBeNull()
       expect(hash).toBe('#lol')
       history.onChange = step3
-      history.go('huh')
+      history.go('huh', true)
     }
     // relative path
     function step3 (path) {
