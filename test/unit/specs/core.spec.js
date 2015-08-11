@@ -504,8 +504,11 @@ describe('Core', function () {
       expect(window.scrollTo).toHaveBeenCalledWith(x, y)
       router.stop()
       router.app.$destroy(true)
+      window.addEventListener('popstate', function onPop () {
+        window.removeEventListener('popstate', onPop)
+        done()
+      })
       history.back()
-      done()
     })
   })
 

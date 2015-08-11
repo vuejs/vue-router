@@ -10,23 +10,24 @@ function HTML5History (options) {
     }
     // remove trailing slash
     this.root = root.replace(/\/$/, '')
-    this.rootRE = new RegExp('^\\' + this.root + '\\/')
+    this.rootRE = new RegExp('^\\' + this.root)
   } else {
     this.root = null
   }
   this.onChange = options.onChange
+  // check base tag
+  var baseEl = document.querySelector('base')
+  this.base = baseEl && baseEl.getAttribute('href')
 }
 
 var p = HTML5History.prototype
 
 p.start = function () {
   var self = this
-  var baseEl = document.querySelector('base')
-  var base = baseEl && baseEl.getAttribute('href')
   this.listener = function (e) {
     var url = decodeURI(location.pathname + location.search)
-    if (base) {
-      url = url.replace(base, '')
+    if (this.root) {
+      url = url.replace(this.rootRE, '')
     }
     self.onChange(url, e && e.state, location.hash)
   }
@@ -70,7 +71,7 @@ p.formatPath = function (path) {
     ? this.root
       ? this.root + '/' + path.replace(/^\//, '')
       : path
-    : util.resolvePath(location.pathname, path)
+    : util.resolvePath(this.base || location.pathname, path)
 }
 
 module.exports = HTML5History
