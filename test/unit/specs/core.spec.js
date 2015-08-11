@@ -12,13 +12,7 @@ describe('Core', function () {
 
   beforeEach(function () {
     el = document.createElement('div')
-  })
-
-  afterEach(function () {
-    if (router) {
-      router.stop()
-      router = null
-    }
+    spyOn(window, 'scrollTo')
   })
 
   it('matching views', function (done) {
@@ -430,6 +424,25 @@ describe('Core', function () {
       expect(router.app.$el.textContent).toBe('default')
       done()
     }
+  })
+
+  it('saveScrollPosition', function (done) {
+    router = new Router({
+      history: true,
+      saveScrollPosition: true
+    })
+    router.map({
+      '/a': { component: { template: 'hi' }}
+    })
+    router.start(Vue.extend({}), el)
+    router.go('/a')
+    nextTick(function () {
+      window.addEventListener('popstate', function () {
+        expect(window.scrollTo).toHaveBeenCalledWith(0, 0)
+        done()
+      })
+      history.back()
+    })
   })
 
   function assertRoutes (matches, options, done) {

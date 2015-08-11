@@ -10,7 +10,8 @@
     "it": true,
     "beforeEach": true,
     "afterEach": true,
-    "expect": true
+    "expect": true,
+    "spyOn": true
   },
 
   "rules": {

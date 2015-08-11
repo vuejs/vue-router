@@ -10,7 +10,7 @@ var historyBackends = {
  *
  * @param {Object} [options]
  *                 - {Boolean} hashbang  (default: true)
- *                 - {Boolean} pushstate (default: false)
+ *                 - {Boolean} history (default: false)
  *                 - {Boolean} abstract (default: false)
  *                 - {Boolean} saveScrollPosition (default: false)
  *                 - {Boolean} transitionOnLoad (default: false)
