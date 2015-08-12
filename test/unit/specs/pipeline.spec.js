@@ -1,7 +1,6 @@
 var Vue = require('vue')
 var Router = require('../../../src')
 var Emitter = require('events').EventEmitter
-var nextTick = Vue.nextTick
 
 describe('Pipeline', function () {
 
@@ -32,22 +31,22 @@ describe('Pipeline', function () {
       expect(router.app.$el.textContent).toBe('A B')
       assertCalls(calls, [
         // initial render
-        "a.canActivate", "b.canActivate", "a.activate", "b.activate"
+        'a.canActivate', 'b.canActivate', 'a.activate', 'b.activate'
       ])
       // switch
       router.go('/c/d')
       expect(router.app.$el.textContent).toBe('C D')
       assertCalls(calls, [
         // initial render
-        "a.canActivate", "b.canActivate", "a.activate", "b.activate",
+        'a.canActivate', 'b.canActivate', 'a.activate', 'b.activate',
         // check can deactivate current views from bottom up
-        "b.canDeactivate", "a.canDeactivate",
+        'b.canDeactivate', 'a.canDeactivate',
         // check can activate new views from top down
-        "c.canActivate", "d.canActivate",
+        'c.canActivate', 'd.canActivate',
         // deactivate old views from bottom up
-        "b.deactivate", "a.deactivate",
+        'b.deactivate', 'a.deactivate',
         // activate new views from top down
-        "c.activate", "d.activate"
+        'c.activate', 'd.activate'
       ])
       done()
     })
@@ -64,23 +63,23 @@ describe('Pipeline', function () {
   })
 
   describe('canActivate', function () {
-    
+    // TODO
   })
 
   describe('canDeactivate', function () {
-    
+    // TODO
   })
 
   describe('canReuse', function () {
-    
+    // TODO
   })
 
   describe('data', function () {
-    
+    // TODO
   })
 
   describe('waitForData', function () {
-    
+    // TODO
   })
 
   /**
