@@ -34,6 +34,12 @@ module.exports = function (Vue) {
       this._isDynamicLiteral = true
       // finally, init by delegating to v-component
       componentDef.bind.call(this)
+      // does not support keep-alive.
+      /* istanbul ignore if */
+      if (this.keepAlive) {
+        this.keepAlive = false
+        util.warn('<router-view> does not support keep-alive.')
+      }
       // only activate on create if this is not the
       // initial render.
       if (router.app) {
