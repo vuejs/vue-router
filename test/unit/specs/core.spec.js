@@ -2,10 +2,6 @@ var Vue = require('vue')
 var Router = require('../../../src')
 var nextTick = Vue.nextTick
 
-Vue.use(Router)
-// default replace to true
-Vue.options.replace = true
-
 describe('Core', function () {
 
   var router, el
