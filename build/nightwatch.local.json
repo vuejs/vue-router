@@ -1,6 +1,6 @@
 {
   "src_folders" : ["test/e2e"],
-  "output_folder": "/dev/null",
+  "output_folder": "coverage/e2e",
 
   "selenium" : {
     "start_process" : true,
