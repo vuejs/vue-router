@@ -27,7 +27,7 @@ describe('Hash History', function () {
       expect(path).toBe('/what/huh')
       history.stop()
       window.addEventListener('hashchange', function onChange () {
-        window.removeEventListener('hashbang', onChange)
+        window.removeEventListener('hashchange', onChange)
         done()
       })
       location.hash = ''
@@ -57,6 +57,8 @@ describe('Hash History', function () {
     function step3 (path) {
       expect(location.hash).toBe('#!/what/huh')
       expect(path).toBe('/what/huh')
+      history.stop()
+      location.hash = ''
       done()
     }
   })
