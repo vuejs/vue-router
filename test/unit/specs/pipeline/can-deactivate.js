@@ -108,7 +108,7 @@ describe('canDeactivate', function () {
         expect(router.app.$el.textContent).toBe('C ')
         expect(router.history.currentPath).toBe('/c')
         done()
-      }, wait)
+      }, wait * 2)
     })
   })
 
@@ -136,7 +136,7 @@ describe('canDeactivate', function () {
         expect(router.app.$el.textContent).toBe('A ')
         expect(router.history.currentPath).toBe('/a')
         done()
-      }, wait)
+      }, wait * 2)
     })
   })
 
@@ -162,7 +162,7 @@ describe('canDeactivate', function () {
         expect(router.app.$el.textContent).toBe('A ')
         expect(router.history.currentPath).toBe('/a')
         done()
-      }, wait)
+      }, wait * 2)
     })
   })
 })

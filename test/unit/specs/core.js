@@ -473,10 +473,12 @@ describe('Core', function () {
       router.go('/a')
       nextTick(function () {
         window.addEventListener('popstate', function onPop () {
-          expect(window.scrollTo).toHaveBeenCalledWith(x, y)
-          window.removeEventListener('popstate', onPop)
-          router.stop()
-          done()
+          nextTick(function () {
+            expect(window.scrollTo).toHaveBeenCalledWith(x, y)
+            window.removeEventListener('popstate', onPop)
+            router.stop()
+            done()
+          })
         })
         history.back()
       })

@@ -97,7 +97,7 @@ describe('canActivate', function () {
         assertCalls(calls, ['a.canActivate'])
         expect(router.app.$el.textContent).toBe('A ')
         done()
-      }, wait)
+      }, wait * 2)
     })
   })
 
@@ -123,7 +123,7 @@ describe('canActivate', function () {
         expect(router.app.$el.textContent).toBe('')
         expect(router.history.currentPath).toBe('/')
         done()
-      }, wait)
+      }, wait * 2)
     })
   })
 
@@ -147,7 +147,7 @@ describe('canActivate', function () {
         expect(router.app.$el.textContent).toBe('')
         expect(router.history.currentPath).toBe('/')
         done()
-      }, wait)
+      }, wait * 2)
     })
   })
 })

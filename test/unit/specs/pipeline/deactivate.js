@@ -107,7 +107,7 @@ describe('deactivate', function () {
         assertCalls(calls, ['a.deactivate'])
         expect(router.app.$el.textContent).toBe('')
         done()
-      }, wait)
+      }, wait * 2)
     })
   })
 
@@ -134,7 +134,7 @@ describe('deactivate', function () {
         expect(router.app.$el.textContent).toBe('A ')
         expect(router.history.currentPath).toBe('/a')
         done()
-      }, wait)
+      }, wait * 2)
     })
   })
 })

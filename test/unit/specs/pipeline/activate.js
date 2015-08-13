@@ -97,7 +97,7 @@ describe('activate', function () {
         assertCalls(calls, ['a.activate'])
         expect(router.app.$el.textContent).toBe('A ')
         done()
-      }, wait)
+      }, wait * 2)
     })
   })
 
@@ -121,7 +121,7 @@ describe('activate', function () {
         expect(router.app.$el.textContent).toBe('')
         expect(router.history.currentPath).toBe('/')
         done()
-      }, wait)
+      }, wait * 2)
     })
   })
 })

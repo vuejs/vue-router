@@ -22,7 +22,7 @@ describe('data', function () {
       setTimeout(function () {
         expect(router.app.$el.textContent).toBe('hello')
         done()
-      }, wait)
+      }, wait * 2)
     })
   })
 
@@ -50,9 +50,9 @@ describe('data', function () {
           setTimeout(function () {
             expect(router.app.$el.textContent).toBe('reload')
             done()
-          }, wait)
+          }, wait * 2)
         })
-      }, wait)
+      }, wait * 2)
     })
   })
 
@@ -81,9 +81,9 @@ describe('data', function () {
           setTimeout(function () {
             expect(router.app.$el.textContent).toBe('reload')
             done()
-          }, wait)
+          }, wait * 2)
         })
-      }, wait)
+      }, wait * 2)
     })
   })
 
