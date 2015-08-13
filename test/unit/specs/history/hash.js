@@ -1,4 +1,4 @@
-var History = require('../../../src/history/hash')
+var History = require('../../../../src/history/hash')
 
 describe('Hash History', function () {
 

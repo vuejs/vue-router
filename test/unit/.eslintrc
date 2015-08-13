@@ -12,7 +12,8 @@
     "beforeEach": true,
     "afterEach": true,
     "expect": true,
-    "spyOn": true
+    "spyOn": true,
+    "wait": true
   },
 
   "rules": {

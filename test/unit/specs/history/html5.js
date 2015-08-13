@@ -1,4 +1,4 @@
-var History = require('../../../src/history/html5')
+var History = require('../../../../src/history/html5')
 
 if (!isIE9) {
   describe('HTML5 History', function () {
