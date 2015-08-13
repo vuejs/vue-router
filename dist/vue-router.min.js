@@ -1,5 +1,5 @@
 /*!
- * vue-router v0.2.0
+ * vue-router v0.4.0
  * (c) 2015 Evan You
  * Released under the MIT License.
  */

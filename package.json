@@ -12,7 +12,7 @@
     "watch-test": "webpack --watch test/unit/specs/index.js test/unit/test.build.js",
     "e2e-local": "nightwatch -c build/nightwatch.local.json -e chrome,firefox",
     "e2e-sauce": "nightwatch -c build/nightwatch.sauce.json -e chrome,firefox,ie10,ie11",
-    "release": "npm run test && npm run e2e-local && bash ./build/release.sh"
+    "release": "npm run serve & npm run test && npm run e2e-local && bash ./build/release.sh"
   },
   "repository": {
     "type": "git",
