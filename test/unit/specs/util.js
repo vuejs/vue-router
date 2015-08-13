@@ -1,7 +1,6 @@
 var Vue = require('vue')
 var Router = require('../../../src')
 var Emitter = require('events').EventEmitter
-var wait = 16
 
 /**
  * Setup a router app for testing with two nested routes:

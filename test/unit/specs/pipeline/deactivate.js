@@ -62,7 +62,6 @@ describe('deactivate', function () {
     })
   })
 
-
   it('abort async', function (done) {
     test({
       a: {

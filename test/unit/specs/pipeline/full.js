@@ -1,9 +1,7 @@
-var wait = 16
 var testUtils = require('../util')
 var test = testUtils.test
 var assertCalls = testUtils.assertCalls
 var util = require('../../../../src/util')
-
 
 describe('full', function () {
 
