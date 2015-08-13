@@ -1,11 +1,10 @@
-// NOTE: this example is based on 0.12.2 in which the
-// `replace` option defaults to true.
-
+// warning: vue-router requires Vue 0.12.10+
 var Vue = require('vue')
 var VueRouter = require('../src')
 
 Vue.use(VueRouter)
 
+// create router
 var router = new VueRouter({
   history: true,
   saveScrollPosition: true
@@ -21,7 +20,10 @@ router.redirect({
 })
 
 // global before
-// you can perform async rejection here
+// 3 options:
+// 1. return a boolean
+// 2. return a Promise that resolves to a boolean
+// 3. call transition.next() or transition.abort()
 router.beforeEach(function (transition) {
   if (transition.to.path === '/forbidden') {
     router.app.authenticating = true
@@ -35,14 +37,8 @@ router.beforeEach(function (transition) {
   }
 })
 
-var App = Vue.extend({
-  data: function () {
-    return {
-      authenticating: false
-    }
-  }
-})
-
+// boostrap the app
+var App = Vue.extend(require('./app.vue'))
 router.start(App, '#app')
 
 // just for debugging
