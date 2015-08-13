@@ -1,6 +1,7 @@
 var Vue = require('vue')
 var Router = require('../../../src')
 var Emitter = require('events').EventEmitter
+var wait = 16
 
 describe('Pipeline', function () {
 
@@ -8,16 +9,28 @@ describe('Pipeline', function () {
     function makeConfig () {
       return {
         canActivate: function () {
+          // sync boolean
           return true
         },
         activate: function (transition) {
-          transition.next()
+          // async call next()
+          setTimeout(function () {
+            transition.next()
+          }, wait)
         },
         canDeactivate: function () {
-          return true
+          // promise boolean
+          return new Promise(function (resolve, reject) {
+            setTimeout(function () {
+              resolve(true)
+            }, wait)
+          })
         },
         deactivate: function (transition) {
-          transition.next()
+          // promise next
+          return new Promise(function (resolve, reject) {
+            setTimeout(resolve, wait)
+          })
         }
       }
     }
@@ -26,29 +39,44 @@ describe('Pipeline', function () {
       b: makeConfig(),
       c: makeConfig(),
       d: makeConfig()
-    }, function (router, calls) {
+    }, function (router, calls, emitter) {
+
       router.go('/a/b')
-      expect(router.app.$el.textContent).toBe('A B')
-      assertCalls(calls, [
-        // initial render
-        'a.canActivate', 'b.canActivate', 'a.activate', 'b.activate'
-      ])
-      // switch
-      router.go('/c/d')
-      expect(router.app.$el.textContent).toBe('C D')
-      assertCalls(calls, [
-        // initial render
-        'a.canActivate', 'b.canActivate', 'a.activate', 'b.activate',
-        // check can deactivate current views from bottom up
-        'b.canDeactivate', 'a.canDeactivate',
-        // check can activate new views from top down
-        'c.canActivate', 'd.canActivate',
-        // deactivate old views from bottom up
-        'b.deactivate', 'a.deactivate',
-        // activate new views from top down
-        'c.activate', 'd.activate'
-      ])
-      done()
+      emitter.once('b.activate', function () {
+        assertCalls(calls, [
+          // initial render
+          'a.canActivate', 'b.canActivate', 'a.activate', 'b.activate'
+        ])
+        // should not render yet
+        expect(router.app.$el.textContent).toBe('')
+        // wait until activation to assert render content
+        setTimeout(function () {
+          expect(router.app.$el.textContent).toBe('A B')
+          router.go('/c/d')
+        }, wait)
+      })
+
+      emitter.once('d.activate', function () {
+        assertCalls(calls, [
+          // initial render
+          'a.canActivate', 'b.canActivate', 'a.activate', 'b.activate',
+          // check can deactivate current views from bottom up
+          'b.canDeactivate', 'a.canDeactivate',
+          // check can activate new views from top down
+          'c.canActivate', 'd.canActivate',
+          // deactivate old views from bottom up
+          'b.deactivate', 'a.deactivate',
+          // activate new views from top down
+          'c.activate', 'd.activate'
+        ])
+        // should not switch yet
+        expect(router.app.$el.textContent).toBe('A B')
+        // wait until activation to assert render content
+        setTimeout(function () {
+          expect(router.app.$el.textContent).toBe('C D')
+          done()
+        }, wait)
+      })
     })
   })
 
@@ -105,10 +133,11 @@ describe('Pipeline', function () {
       Object.keys(config).forEach(function (hook) {
         var fn = config[hook]
         config[hook] = function (transition) {
+          var res = fn(transition)
           var event = route + '.' + hook
-          emitter.emit(event)
           calls.push(event)
-          return fn(transition)
+          emitter.emit(event)
+          return res
         }
       })
     })
@@ -147,5 +176,4 @@ describe('Pipeline', function () {
       expect(calls[i]).toBe(e)
     })
   }
-
 })
