@@ -11,7 +11,7 @@ describe('canActivate', function () {
           return true
         }
       }
-    }, function (router, calls, emitter) {
+    }, function (router, calls) {
       router.go('/a')
       expect(router.app.$el.textContent).toBe('A ')
       assertCalls(calls, ['a.canActivate'])
@@ -28,7 +28,7 @@ describe('canActivate', function () {
           }, wait)
         }
       }
-    }, function (router, calls, emitter) {
+    }, function (router, calls) {
       router.go('/a')
       expect(router.app.$el.textContent).toBe('')
       setTimeout(function () {
@@ -46,7 +46,7 @@ describe('canActivate', function () {
           return false
         }
       }
-    }, function (router, calls, canActivate) {
+    }, function (router, calls) {
       router.go('/a')
       assertCalls(calls, ['a.canActivate'])
       expect(router.app.$el.textContent).toBe('')
@@ -64,7 +64,7 @@ describe('canActivate', function () {
           }, wait)
         }
       }
-    }, function (router, calls, emitter) {
+    }, function (router, calls) {
       router.go('/a')
       assertCalls(calls, ['a.canActivate'])
       expect(router.app.$el.textContent).toBe('')
@@ -90,7 +90,7 @@ describe('canActivate', function () {
           })
         }
       }
-    }, function (router, calls, emitter) {
+    }, function (router, calls) {
       router.go('/a')
       expect(router.app.$el.textContent).toBe('')
       setTimeout(function () {
@@ -112,7 +112,7 @@ describe('canActivate', function () {
           })
         }
       }
-    }, function (router, calls, emitter) {
+    }, function (router, calls) {
       router.go('/a')
       assertCalls(calls, ['a.canActivate'])
       expect(router.app.$el.textContent).toBe('')
@@ -136,7 +136,7 @@ describe('canActivate', function () {
           })
         }
       }
-    }, function (router, calls, emitter) {
+    }, function (router, calls) {
       router.go('/a')
       assertCalls(calls, ['a.canActivate'])
       expect(router.app.$el.textContent).toBe('')
