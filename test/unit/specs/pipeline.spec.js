@@ -1,9 +1,14 @@
 var Vue = require('vue')
 var Router = require('../../../src')
+var util = require('../../../src/util')
 var Emitter = require('events').EventEmitter
 var wait = 16
 
 describe('Pipeline', function () {
+
+  beforeEach(function () {
+    spyOn(util, 'warn')
+  })
 
   it('should invoke hooks in correct order', function (done) {
     function makeConfig () {
@@ -15,6 +20,9 @@ describe('Pipeline', function () {
         activate: function (transition) {
           // async call next()
           setTimeout(function () {
+            transition.next()
+            // multiple call should warn and not mess up
+            // the flow
             transition.next()
           }, wait)
         },
@@ -51,6 +59,8 @@ describe('Pipeline', function () {
         expect(router.app.$el.textContent).toBe('')
         // wait until activation to assert render content
         setTimeout(function () {
+          expect(util.warn.calls.count()).toBe(2)
+          expect(util.warn).toHaveBeenCalledWith('transition.next() should be called only once.')
           expect(router.app.$el.textContent).toBe('A B')
           router.go('/c/d')
         }, wait)
@@ -73,6 +83,7 @@ describe('Pipeline', function () {
         expect(router.app.$el.textContent).toBe('A B')
         // wait until activation to assert render content
         setTimeout(function () {
+          expect(util.warn.calls.count()).toBe(4)
           expect(router.app.$el.textContent).toBe('C D')
           done()
         }, wait)
