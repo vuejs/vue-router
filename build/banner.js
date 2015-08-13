@@ -1,5 +1,5 @@
 var version =
-  process.env.VUE_ROUTER_VERSION ||
+  process.env.VERSION ||
   require('../package.json').version
 
 module.exports =
