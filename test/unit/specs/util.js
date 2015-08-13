@@ -68,6 +68,19 @@ exports.test = function (configs, cb) {
           }
         }
       }
+    },
+    '/data/:msg': {
+      component: {
+        route: configs.data,
+        template:
+          '<span v-if="$loadingRouteData">loading...</span>' +
+          '<span v-if="!$loadingRouteData">{{msg}}</span>',
+        data: function () {
+          return {
+            msg: 'default'
+          }
+        }
+      }
     }
   })
   router.start(App, el)
