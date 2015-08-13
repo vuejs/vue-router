@@ -210,8 +210,6 @@ module.exports = function (Vue, Router) {
       })
     }
 
-    this._currentRoute = route
-
     // handle scroll positions
     // saved scroll positions take priority
     // then we check if the path has an anchor

@@ -54,19 +54,14 @@ module.exports = {
     // inbox
     .url(base + '/inbox')
       .waitForElementVisible('h1', 1000)
-      .assert.elementNotPresent('.view h2')
-      // wait for inbox's activation hook
-      .pause(600)
       .assert.containsText('.view h2', 'inbox!')
       .assert.containsText('.view', 'default yo')
 
     .url(base + '/inbox/message/123')
       .waitForElementVisible('h1', 1000)
-      .assert.elementNotPresent('.view h2')
-      .pause(600)
-      .assert.containsText('.view h2', 'inbox!')
       .assert.containsText('.view div', 'Loading data')
-      .pause(600)
+      .assert.containsText('.view h2', 'inbox!')
+      .pause(1500)
       .assert.containsText('.view div', 'message #123: Hello this is a message')
       // confirm navigation
       .click('a[href^="/user"]')
@@ -91,7 +86,7 @@ module.exports = {
       .waitForElementVisible('h1', 1000)
       .assert.visible('#app > p')
       .assert.containsText('#app > p', 'Authenticating')
-      .pause(600)
+      .pause(1500)
       .getAlertText(function (text) {
         this.assert.ok(/forbidden by a global before hook/.test(text.value))
       })

@@ -6,6 +6,6 @@ module.exports = {
         id: params.id,
         text: 'Hello this is a message'
       })
-    }, 1000)
+    }, 1500)
   }
 }

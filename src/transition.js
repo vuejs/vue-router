@@ -123,6 +123,8 @@ p.start = function (cb) {
   transition.runQueue(daq, pipeline.canDeactivate, function canActivatePhase () {
     transition.runQueue(aq, pipeline.canActivate, function deactivatePhase () {
       transition.runQueue(daq, pipeline.deactivate, function activatePhase () {
+        // validation complete. change the current route.
+        transition.router._currentRoute = transition.to
         // trigger reuse for all reused views
         reuseQueue && reuseQueue.forEach(function (view) {
           pipeline.reuse(view, transition)

@@ -31,9 +31,7 @@ module.exports = {
 
     activate: function (transition) {
       console.log('activating inbox...')
-      setTimeout(function () {
-        transition.next()
-      }, 500)
+      transition.next()
     },
 
     // for doing cleanups

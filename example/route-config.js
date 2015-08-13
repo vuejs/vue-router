@@ -75,7 +75,7 @@ module.exports = function (router) {
         router.app.authenticating = false
         alert('this route is forbidden by a global before hook')
         transition.abort()
-      }, 500)
+      }, 1500)
     } else {
       transition.next()
     }
