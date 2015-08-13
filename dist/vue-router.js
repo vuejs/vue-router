@@ -1,5 +1,5 @@
 /*!
- * vue-router v0.1.0
+ * vue-router v0.2.0
  * (c) 2015 Evan You
  * Released under the MIT License.
  */
@@ -60,67 +60,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ function(module, exports, __webpack_require__) {
 
 	var routerUtil = __webpack_require__(1)
-	var Recognizer = __webpack_require__(2)
-	var installed = false
-
-	/**
-	 * Router constructor
-	 *
-	 * @param {Object} [options]
-	 *                 - {String} root
-	 *                 - {Boolean} hashbang  (default: true)
-	 *                 - {Boolean} pushstate (default: false)
-	 */
-
-	function Router (options) {
-	  if (!installed) {
-	    throw new Error(
-	      'Please install the Router with Vue.use() before ' +
-	      'creating an instance.'
-	    )
-	  }
-
-	  options = options || {}
-
-	  // Vue instances
-	  this.app = null
-	  this._children = []
-
-	  // route recognizer
-	  this._recognizer = new Recognizer()
-	  this._guardRecognizer = new Recognizer()
-
-	  // state
-	  this._started = false
-	  this._currentRoute = { path: '/' }
-
-	  // feature detection
-	  this._hasPushState = typeof history !== 'undefined' && history.pushState
-
-	  // global handler/hooks
-	  this._notFoundHandler = options.notFound || null
-	  this._beforeEachHook = options.beforeEach || null
-	  this._afterEachHook = options.afterEach || null
-
-	  // other options
-	  this._hashbang = options.hashbang !== false
-	  this._history = !!(this._hasPushState && options.history)
-	  this._saveScrollPosition = !!options.saveScrollPosition
-	  this._linkActiveClass = options.linkActiveClass || 'v-link-active'
-
-	  // resolve root path
-	  var root = options && options.root
-	  if (root) {
-	    // make sure there's the starting slash
-	    if (root.charAt(0) !== '/') {
-	      root = '/' + root
-	    }
-	    // remove trailing slash
-	    this._root = root.replace(/\/$/, '')
-	  } else {
-	    this._root = null
-	  }
-	}
+	var Router = __webpack_require__(2)
 
 	/**
 	 * Installation interface.
@@ -128,19 +68,22 @@ return /******/ (function(modules) { // webpackBootstrap
 	 */
 
 	Router.install = function (Vue) {
-	  if (installed) {
+	  /* istanbul ignore if */
+	  if (Router.installed) {
 	    routerUtil.warn('already installed.')
 	    return
 	  }
-	  __webpack_require__(5)(Vue, Router)
-	  __webpack_require__(6)(Vue, Router)
-	  __webpack_require__(8)(Vue)
-	  __webpack_require__(13)(Vue)
-	  __webpack_require__(14)(Vue, Router)
-	  installed = true
+	  __webpack_require__(9)(Vue, Router)
+	  __webpack_require__(10)(Vue, Router)
+	  __webpack_require__(14)(Vue)
+	  __webpack_require__(15)(Vue)
+	  __webpack_require__(16)(Vue)
+	  routerUtil.Vue = Vue
+	  Router.installed = true
 	}
 
 	// auto install
+	/* istanbul ignore if */
 	if (window.Vue) {
 	  Router.install(window.Vue)
 	}
@@ -160,31 +103,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	 */
 
 	exports.warn = function (msg, err) {
+	  /* istanbul ignore next */
 	  if (window.console) {
 	    console.warn('[vue-router] ' + msg)
 	    if (err) {
 	      console.warn(err.stack)
 	    }
-	  }
-	}
-
-	/**
-	 * Set current hash
-	 *
-	 * @param {String} hash
-	 * @param {Boolean} replace
-	 */
-
-	exports.setHash = function (hash, replace) {
-	  if (replace) {
-	    if (hash.charAt(0) !== '#') {
-	      hash = '#' + hash
-	    }
-	    var urlLength = location.href.length - location.hash.length
-	    var fullURL = location.href.slice(0, urlLength) + hash
-	    location.replace(fullURL)
-	  } else {
-	    location.hash = hash
 	  }
 	}
 
@@ -229,34 +153,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 	/**
-	 * Call an async hook function with a list of arguments,
-	 * plus a pair of resolve and reject functions. If the hook
-	 * returns a promise, or returns a boolean, the resolve and
-	 * reject functions will be handled accordingly.
-	 *
-	 * @param {Function} fn
-	 * @param {Object} options
-	 *                 - {Array} [args]
-	 *                 - {Function} onResolve
-	 *                 - {Function} onReject
-	 */
-
-	exports.callAsyncFn = function (fn, options) {
-	  var args = options.args || []
-	  var onResolve = options.onResolve
-	  var onReject = options.onReject
-	  args.push(onResolve, onReject)
-	  var res = fn.apply(null, args)
-	  if (exports.isPromise(res)) {
-	    res.then(onResolve, onReject)
-	  } else if (res === true) {
-	    onResolve()
-	  } else if (res === false) {
-	    onReject()
-	  }
-	}
-
-	/**
 	 * Forgiving check for a promise
 	 *
 	 * @param {Object} p
@@ -286,9 +182,127 @@ return /******/ (function(modules) { // webpackBootstrap
 	    options.route[name]
 	}
 
+	/**
+	 * Resolve an async component factory. Have to do a dirty
+	 * mock here because of Vue core's internal API depends on
+	 * an ID check.
+	 *
+	 * @param {Object} handler
+	 * @param {Function} cb
+	 */
+
+	var resolver
+	exports.resolveAsyncComponent = function (handler, cb) {
+	  if (!resolver) {
+	    resolver = {
+	      resolve: exports.Vue.prototype._resolveComponent,
+	      $options: {
+	        components: {
+	          _: handler.component
+	        }
+	      }
+	    }
+	  } else {
+	    resolver.$options.components._ = handler.component
+	  }
+	  resolver.resolve('_', function (Component) {
+	    handler.component = Component
+	    cb(Component)
+	  })
+	}
+
 
 /***/ },
 /* 2 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var Recognizer = __webpack_require__(3)
+	var historyBackends = {
+	  abstract: __webpack_require__(6),
+	  hash: __webpack_require__(7),
+	  html5: __webpack_require__(8)
+	}
+
+	/**
+	 * Router constructor
+	 *
+	 * @param {Object} [options]
+	 *                 - {Boolean} hashbang  (default: true)
+	 *                 - {Boolean} history (default: false)
+	 *                 - {Boolean} abstract (default: false)
+	 *                 - {Boolean} saveScrollPosition (default: false)
+	 *                 - {Boolean} transitionOnLoad (default: false)
+	 *                 - {String} root (default: null)
+	 *                 - {String} linkActiveClass (default: 'v-link-active')
+	 */
+
+	function Router (options) {
+	  /* istanbul ignore if */
+	  if (!Router.installed) {
+	    throw new Error(
+	      'Please install the Router with Vue.use() before ' +
+	      'creating an instance.'
+	    )
+	  }
+
+	  options = options || {}
+
+	  // Vue instances
+	  this.app = null
+	  this._views = []
+	  this._children = []
+
+	  // route recognizer
+	  this._recognizer = new Recognizer()
+	  this._guardRecognizer = new Recognizer()
+
+	  // state
+	  this._started = false
+	  this._currentRoute = {}
+	  this._currentTransition = null
+	  this._notFoundHandler = null
+	  this._beforeEachHook = null
+
+	  // feature detection
+	  this._hasPushState = typeof history !== 'undefined' && history.pushState
+
+	  // trigger transition on initial render?
+	  this._rendered = false
+	  this._transitionOnLoad = options.transitionOnLoad
+
+	  // history mode
+	  this._abstract = !!options.abstract
+	  this._hashbang = options.hashbang !== false
+	  this._history = !!(this._hasPushState && options.history)
+
+	  // other options
+	  this._saveScrollPosition = !!options.saveScrollPosition
+	  this._linkActiveClass = options.linkActiveClass || 'v-link-active'
+
+	  // create history object
+	  this.mode = this._abstract
+	    ? 'abstract'
+	    : this._history
+	      ? 'html5'
+	      : 'hash'
+
+	  var History = historyBackends[this.mode]
+	  var self = this
+	  this.history = new History({
+	    root: options.root,
+	    hashbang: this._hashbang,
+	    onChange: function (path, state, anchor) {
+	      self._match(path, state, anchor)
+	    }
+	  })
+	}
+
+	Router.installed = false
+	module.exports = Router
+
+
+/***/ },
+/* 3 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;/* WEBPACK VAR INJECTION */(function(module) {(function() {
@@ -478,12 +492,33 @@ return /******/ (function(modules) { // webpackBootstrap
 	      generate: function() { return ""; }
 	    };
 
-	    function $$route$recognizer$$parse(route, names, types) {
+	    function $$route$recognizer$$parse(route, names, specificity) {
 	      // normalize route as not starting with a "/". Recognition will
 	      // also normalize.
 	      if (route.charAt(0) === "/") { route = route.substr(1); }
 
 	      var segments = route.split("/"), results = [];
+
+	      // A routes has specificity determined by the order that its different segments
+	      // appear in. This system mirrors how the magnitude of numbers written as strings
+	      // works.
+	      // Consider a number written as: "abc". An example would be "200". Any other number written
+	      // "xyz" will be smaller than "abc" so long as `a > z`. For instance, "199" is smaller
+	      // then "200", even though "y" and "z" (which are both 9) are larger than "0" (the value
+	      // of (`b` and `c`). This is because the leading symbol, "2", is larger than the other
+	      // leading symbol, "1".
+	      // The rule is that symbols to the left carry more weight than symbols to the right
+	      // when a number is written out as a string. In the above strings, the leading digit
+	      // represents how many 100's are in the number, and it carries more weight than the middle
+	      // number which represents how many 10's are in the number.
+	      // This system of number magnitude works well for route specificity, too. A route written as
+	      // `a/b/c` will be more specific than `x/y/z` as long as `a` is more specific than
+	      // `x`, irrespective of the other parts.
+	      // Because of this similarity, we assign each type of segment a number value written as a
+	      // string. We can find the specificity of compound routes by concatenating these strings
+	      // together, from left to right. After we have looped through all of the segments,
+	      // we convert the string to a number.
+	      specificity.val = '';
 
 	      for (var i=0, l=segments.length; i<l; i++) {
 	        var segment = segments[i], match;
@@ -491,18 +526,21 @@ return /******/ (function(modules) { // webpackBootstrap
 	        if (match = segment.match(/^:([^\/]+)$/)) {
 	          results.push(new $$route$recognizer$$DynamicSegment(match[1]));
 	          names.push(match[1]);
-	          types.dynamics++;
+	          specificity.val += '3';
 	        } else if (match = segment.match(/^\*([^\/]+)$/)) {
 	          results.push(new $$route$recognizer$$StarSegment(match[1]));
+	          specificity.val += '2';
 	          names.push(match[1]);
-	          types.stars++;
 	        } else if(segment === "") {
 	          results.push(new $$route$recognizer$$EpsilonSegment());
+	          specificity.val += '1';
 	        } else {
 	          results.push(new $$route$recognizer$$StaticSegment(segment));
-	          types.statics++;
+	          specificity.val += '4';
 	        }
 	      }
+
+	      specificity.val = +specificity.val;
 
 	      return results;
 	    }
@@ -621,29 +659,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 	    END IF **/
 
-	    // This is a somewhat naive strategy, but should work in a lot of cases
-	    // A better strategy would properly resolve /posts/:id/new and /posts/edit/:id.
-	    //
-	    // This strategy generally prefers more static and less dynamic matching.
-	    // Specifically, it
-	    //
-	    //  * prefers fewer stars to more, then
-	    //  * prefers using stars for less of the match to more, then
-	    //  * prefers fewer dynamic segments to more, then
-	    //  * prefers more static segments to more
+	    // Sort the routes by specificity
 	    function $$route$recognizer$$sortSolutions(states) {
 	      return states.sort(function(a, b) {
-	        if (a.types.stars !== b.types.stars) { return a.types.stars - b.types.stars; }
-
-	        if (a.types.stars) {
-	          if (a.types.statics !== b.types.statics) { return b.types.statics - a.types.statics; }
-	          if (a.types.dynamics !== b.types.dynamics) { return b.types.dynamics - a.types.dynamics; }
-	        }
-
-	        if (a.types.dynamics !== b.types.dynamics) { return a.types.dynamics - b.types.dynamics; }
-	        if (a.types.statics !== b.types.statics) { return b.types.statics - a.types.statics; }
-
-	        return 0;
+	        return b.specificity.val - a.specificity.val;
 	      });
 	    }
 
@@ -721,7 +740,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    $$route$recognizer$$RouteRecognizer.prototype = {
 	      add: function(routes, options) {
 	        var currentState = this.rootState, regex = "^",
-	            types = { statics: 0, dynamics: 0, stars: 0 },
+	            specificity = {},
 	            handlers = [], allSegments = [], name;
 
 	        var isEmpty = true;
@@ -729,7 +748,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        for (var i=0, l=routes.length; i<l; i++) {
 	          var route = routes[i], names = [];
 
-	          var segments = $$route$recognizer$$parse(route.path, names, types);
+	          var segments = $$route$recognizer$$parse(route.path, names, specificity);
 
 	          allSegments = allSegments.concat(segments);
 
@@ -760,7 +779,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	        currentState.handlers = handlers;
 	        currentState.regex = new RegExp(regex + "$");
-	        currentState.types = types;
+	        currentState.specificity = specificity;
 
 	        if (name = options && options.as) {
 	          this.names[name] = {
@@ -924,12 +943,12 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	    $$route$recognizer$$RouteRecognizer.prototype.map = $$route$recognizer$dsl$$default;
 
-	    $$route$recognizer$$RouteRecognizer.VERSION = '0.1.5';
+	    $$route$recognizer$$RouteRecognizer.VERSION = '0.1.9';
 
 	    var $$route$recognizer$$default = $$route$recognizer$$RouteRecognizer;
 
 	    /* global define:true module:true window: true */
-	    if ("function" === 'function' && __webpack_require__(4)['amd']) {
+	    if ("function" === 'function' && __webpack_require__(5)['amd']) {
 	      !(__WEBPACK_AMD_DEFINE_RESULT__ = function() { return $$route$recognizer$$default; }.call(exports, __webpack_require__, exports, module), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
 	    } else if (typeof module !== 'undefined' && module['exports']) {
 	      module['exports'] = $$route$recognizer$$default;
@@ -939,10 +958,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	}).call(this);
 
 	//# sourceMappingURL=route-recognizer.js.map
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)(module)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)(module)))
 
 /***/ },
-/* 3 */
+/* 4 */
 /***/ function(module, exports) {
 
 	module.exports = function(module) {
@@ -958,14 +977,192 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 4 */
+/* 5 */
 /***/ function(module, exports) {
 
 	module.exports = function() { throw new Error("define cannot be used indirect"); };
 
 
 /***/ },
-/* 5 */
+/* 6 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var util = __webpack_require__(1)
+
+	function AbstractHistory (options) {
+	  this.onChange = options.onChange
+	  this.currentPath = '/'
+	}
+
+	var p = AbstractHistory.prototype
+
+	p.start = function () {
+	  this.onChange('/')
+	}
+
+	p.stop = function () {}
+
+	p.go = function (path) {
+	  path = this.currentPath = this.formatPath(path)
+	  this.onChange(path)
+	}
+
+	p.formatPath = function (path) {
+	  return path.charAt(0) === '/'
+	    ? path
+	    : util.resolvePath(this.currentPath, path)
+	}
+
+	module.exports = AbstractHistory
+
+
+/***/ },
+/* 7 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var util = __webpack_require__(1)
+
+	function HashHistory (options) {
+	  this.hashbang = options.hashbang
+	  this.onChange = options.onChange
+	}
+
+	var p = HashHistory.prototype
+
+	p.start = function () {
+	  var self = this
+	  this.listener = function () {
+	    var path = location.hash
+	    var formattedPath = self.formatPath(path, true)
+	    if (formattedPath !== path) {
+	      location.replace(formattedPath)
+	      return
+	    }
+	    var pathToMatch = decodeURI(
+	      path.replace(/^#!?/, '') + location.search
+	    )
+	    self.onChange(pathToMatch)
+	  }
+	  window.addEventListener('hashchange', this.listener)
+	  this.listener()
+	}
+
+	p.stop = function () {
+	  window.removeEventListener('hashchange', this.listener)
+	}
+
+	p.go = function (path, replace) {
+	  path = this.formatPath(path)
+	  if (replace) {
+	    location.replace(path)
+	  } else {
+	    location.hash = path
+	  }
+	}
+
+	p.formatPath = function (path, expectAbsolute) {
+	  path = path.replace(/^#!?/, '')
+	  var isAbsoloute = path.charAt(0) === '/'
+	  if (expectAbsolute && !isAbsoloute) {
+	    path = '/' + path
+	  }
+	  var prefix = '#' + (this.hashbang ? '!' : '')
+	  return isAbsoloute || expectAbsolute
+	    ? prefix + path
+	    : prefix + util.resolvePath(
+	        location.hash.replace(/^#!?/, ''),
+	        path
+	      )
+	}
+
+	module.exports = HashHistory
+
+
+/***/ },
+/* 8 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var util = __webpack_require__(1)
+	var hashRE = /#.*$/
+
+	function HTML5History (options) {
+	  var root = options.root
+	  if (root) {
+	    // make sure there's the starting slash
+	    if (root.charAt(0) !== '/') {
+	      root = '/' + root
+	    }
+	    // remove trailing slash
+	    this.root = root.replace(/\/$/, '')
+	    this.rootRE = new RegExp('^\\' + this.root)
+	  } else {
+	    this.root = null
+	  }
+	  this.onChange = options.onChange
+	  // check base tag
+	  var baseEl = document.querySelector('base')
+	  this.base = baseEl && baseEl.getAttribute('href')
+	}
+
+	var p = HTML5History.prototype
+
+	p.start = function () {
+	  var self = this
+	  this.listener = function (e) {
+	    var url = decodeURI(location.pathname + location.search)
+	    if (this.root) {
+	      url = url.replace(this.rootRE, '')
+	    }
+	    self.onChange(url, e && e.state, location.hash)
+	  }
+	  window.addEventListener('popstate', this.listener)
+	  this.listener()
+	}
+
+	p.stop = function () {
+	  window.removeEventListener('popstate', this.listener)
+	}
+
+	p.go = function (path, replace) {
+	  var root = this.root
+	  var url = this.formatPath(path, root)
+	  if (replace) {
+	    history.replaceState({}, '', url)
+	  } else {
+	    // record scroll position by replacing current state
+	    history.replaceState({
+	      pos: {
+	        x: window.pageXOffset,
+	        y: window.pageYOffset
+	      }
+	    }, '')
+	    // then push new state
+	    history.pushState({}, '', url)
+	  }
+	  var hashMatch = path.match(hashRE)
+	  var hash = hashMatch && hashMatch[0]
+	  path = url
+	    // strip hash so it doesn't mess up params
+	    .replace(hashRE, '')
+	    // remove root before matching
+	    .replace(this.rootRE, '')
+	  this.onChange(path, null, hash)
+	}
+
+	p.formatPath = function (path) {
+	  return path.charAt(0) === '/'
+	    // absolute path
+	    ? this.root
+	      ? this.root + '/' + path.replace(/^\//, '')
+	      : path
+	    : util.resolvePath(this.base || location.pathname, path)
+	}
+
+	module.exports = HTML5History
+
+
+/***/ },
+/* 9 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var routerUtil = __webpack_require__(1)
@@ -1039,63 +1236,16 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }
 
 	  /**
-	   * Set global after hook.
-	   *
-	   * @param {Function} fn
-	   */
-
-	  p.afterEach = function (fn) {
-	    this._afterEachHook = fn
-	  }
-
-	  /**
 	   * Navigate to a given path.
 	   * The path is assumed to be already decoded, and will
 	   * be resolved against root (if provided)
 	   *
 	   * @param {String} path
-	   * @param {Object} [options]
+	   * @param {Boolean} [replace]
 	   */
 
-	  p.go = function (path, options) {
-	    var replace = options && options.replace
-	    var url, hash
-	    if (this._hasPushState) {
-	      if (this._history) {
-	        url = this._formatPath(path)
-	        path = url.replace(/#.*$/, '')
-	        var hashMatch = url.match(/#.*$/)
-	        hash = hashMatch && hashMatch[0].slice(1)
-	      } else {
-	        url = this._formatHashPath(path)
-	        path = url.replace(/^#!?/, '')
-	      }
-	      if (replace) {
-	        history.replaceState({}, '', url)
-	      } else {
-	        // record scroll position
-	        var pos = {
-	          x: window.pageXOffset,
-	          y: window.pageYOffset
-	        }
-	        history.replaceState({ pos: pos }, '', location.href)
-	        // actually push new state
-	        history.pushState({}, '', url)
-	      }
-	      this._match(path)
-	      // in history mode, scroll to hash anchor
-	      if (hash) {
-	        Vue.nextTick(function () {
-	          var el = document.getElementById(hash)
-	          if (el) {
-	            window.scrollTo(window.scrollX, el.offsetTop)
-	          }
-	        })
-	      }
-	    } else {
-	      // just set hash
-	      routerUtil.setHash(this._formatHashPath(path), replace)
-	    }
+	  p.go = function (path, replace) {
+	    this.history.go(path + '', replace)
 	  }
 
 	  /**
@@ -1105,9 +1255,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	   */
 
 	  p.replace = function (path) {
-	    this.go(path, {
-	      replace: true
-	    })
+	    this.go(path, true)
 	  }
 
 	  /**
@@ -1118,12 +1266,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	   */
 
 	  p.start = function (App, container) {
+	    /* istanbul ignore if */
 	    if (this._started) {
 	      routerUtil.warn('already started.')
 	      return
 	    }
 	    this._started = true
 	    if (!this.app) {
+	      /* istanbul ignore if */
 	      if (!App || !container) {
 	        throw new Error(
 	          'Must start vue-router with a component and a ' +
@@ -1135,11 +1285,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        ? App
 	        : Vue.extend(App)
 	    }
-	    if (this._hasPushState) {
-	      this._initHistoryMode()
-	    } else {
-	      this._initHashMode()
-	    }
+	    this.history.start()
 	  }
 
 	  /**
@@ -1147,86 +1293,24 @@ return /******/ (function(modules) { // webpackBootstrap
 	   */
 
 	  p.stop = function () {
-	    var event = this._history
-	      ? 'popstate'
-	      : 'hashchange'
-	    window.removeEventListener(event, this._onRouteChange)
+	    this.history.stop()
 	    this._started = false
 	  }
 	}
 
 
 /***/ },
-/* 6 */
+/* 10 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var routerUtil = __webpack_require__(1)
-	var Route = __webpack_require__(7)
+	var Route = __webpack_require__(11)
+	var RouteTransition = __webpack_require__(12)
 
 	module.exports = function (Vue, Router) {
 
+	  var _ = Vue.util
 	  var p = Router.prototype
-
-	  /**
-	   * Initialize HTML5 history mode.
-	   */
-
-	  p._initHistoryMode = function () {
-	    var self = this
-	    this._onRouteChange = function (e) {
-	      var url = location.pathname + location.search
-	      if (self._history) {
-	        url = decodeURI(url)
-	        // respet base tag
-	        var base = document.querySelector('base')
-	        if (base) {
-	          url = url.replace(base.getAttribute('href'), '')
-	        }
-	        self._match(url)
-	      } else {
-	        // delegate hashbang formatting to router.go
-	        self.replace(decodeURI(location.hash))
-	      }
-	      // restore scroll position if saved
-	      var pos = e && e.state && e.state.pos
-	      if (pos && self._saveScrollPosition) {
-	        Vue.nextTick(function () {
-	          window.scrollTo(pos.x, pos.y)
-	        })
-	      }
-	    }
-	    window.addEventListener('popstate', this._onRouteChange)
-	    this._onRouteChange()
-	  }
-
-	  /**
-	   * Initialize hash mode.
-	   */
-
-	  p._initHashMode = function () {
-	    var self = this
-	    this._onRouteChange = function () {
-	      var path = location.hash.replace(/^#!?/, '')
-	      // format hash: add leading slash and hashbang
-	      var formattedHash = path
-	      if (formattedHash.charAt(0) !== '/') {
-	        formattedHash = '/' + formattedHash
-	      }
-	      if (self._hashbang) {
-	        formattedHash = '!' + formattedHash
-	      }
-	      // replace hash if formatted
-	      if (formattedHash !== location.hash.slice(1)) {
-	        routerUtil.setHash(formattedHash)
-	        return
-	      }
-	      var url = path + location.search
-	      url = decodeURI(url)
-	      self._match(url)
-	    }
-	    window.addEventListener('hashchange', this._onRouteChange)
-	    this._onRouteChange()
-	  }
 
 	  /**
 	   * Add a route containing a list of segments to the internal
@@ -1363,9 +1447,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	   * triggering view updates.
 	   *
 	   * @param {String} path
+	   * @param {Object} [state]
+	   * @param {String} [anchor]
 	   */
 
-	  p._match = function (path) {
+	  p._match = function (path, state, anchor) {
 	    var self = this
 
 	    if (this._checkGuard(path)) {
@@ -1377,103 +1463,74 @@ return /******/ (function(modules) { // webpackBootstrap
 	      return
 	    }
 
-	    // normalize against root
-	    if (
-	      this._history &&
-	      this._root &&
-	      path.indexOf(this._root) === 0
-	    ) {
-	      path = path.slice(this._root.length)
-	    }
-
 	    // construct route context
 	    var route = new Route(path, this)
+	    var transition = this._currentTransition =
+	      new RouteTransition(this, route, previousRoute)
 
-	    // initial render
 	    if (!this.app) {
 	      // initial render
 	      this.app = new this._appConstructor({
 	        el: this._appContainer,
-	        data: {
-	          route: route
+	        _meta: {
+	          $route: route
 	        }
 	      })
 	    }
 
-	    // check gloal before hook
 	    var before = this._beforeEachHook
-	    if (before) {
-	      routerUtil.callAsyncFn(before, {
-	        args: [route, previousRoute],
-	        onResolve: function () {
-	          self._transition(route, previousRoute)
-	        },
-	        onReject: function () {
-	          self.replace(previousRoute.path)
-	        }
+	    var startTransition = function () {
+	      transition.start(function () {
+	        self._postTransition(route, state, anchor)
 	      })
-	    } else {
-	      self._transition(route, previousRoute)
 	    }
+
+	    if (before) {
+	      transition.callHook(before, null, startTransition, true)
+	    } else {
+	      startTransition()
+	    }
+
+	    // HACK:
+	    // set rendered to true after the transition start, so
+	    // that components that are acitvated synchronously know
+	    // whether it is the initial render.
+	    this._rendered = true
 	  }
 
 	  /**
-	   * Perform a route transition after it is validated.
+	   * Handle stuff after the transition.
 	   *
 	   * @param {Route} route
-	   * @param {Route} previousRoute
+	   * @param {Object} [state]
+	   * @param {String} [anchor]
 	   */
 
-	  p._transition = function (route, previousRoute) {
-
-	    if (this.app.route !== route) {
-	      this.app.route = route
+	  p._postTransition = function (route, state, anchor) {
+	    // update route context for all children
+	    if (this.app.$route !== route) {
+	      this.app.$route = route
 	      this._children.forEach(function (child) {
-	        child.route = route
+	        child.$route = route
 	      })
 	    }
 
-	    // check global after hook
-	    if (this._afterEachHook) {
-	      this._afterEachHook.call(null, route, previousRoute)
+	    // handle scroll positions
+	    // saved scroll positions take priority
+	    // then we check if the path has an anchor
+	    var pos = state && state.pos
+	    if (pos && this._saveScrollPosition) {
+	      Vue.nextTick(function () {
+	        window.scrollTo(pos.x, pos.y)
+	      })
+	    } else if (anchor) {
+	      Vue.nextTick(function () {
+	        var el = document.getElementById(anchor.slice(1))
+	        if (el) {
+	          window.scrollTo(window.scrollX, el.offsetTop)
+	        }
+	      })
 	    }
-
-	    this._currentRoute = route
-	  }
-
-	  /**
-	   * Format a raw path to an actual URL.
-	   *
-	   * @param {String} path
-	   * @return {String}
-	   */
-
-	  p._formatPath = function (path) {
-	    return path.charAt(0) === '/'
-	      // absolute path
-	      ? this._root
-	        ? this._root + '/' + path.replace(/^\//, '')
-	        : path
-	      // relative path
-	      : routerUtil.resolvePath(location.pathname, path)
-	  }
-
-	  /**
-	   * Format a raw path to a hash fragment.
-	   *
-	   * @param {String} path
-	   * @return {String}
-	   */
-
-	  p._formatHashPath = function (path) {
-	    path = path.replace(/^#!?/, '')
-	    var prefix = '#' + (this._hashbang ? '!' : '')
-	    return path.charAt(0) === '/'
-	      ? prefix + path
-	      : prefix + routerUtil.resolvePath(
-	          location.hash.replace(/^#!?/, ''),
-	          path
-	        )
 	  }
 
 	  /**
@@ -1485,31 +1542,22 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	  function guardComponent (handler) {
 	    var comp = handler.component
-	    var type = typeof comp
-	    if (type !== 'string') {
-	      if (type !== 'function') {
-	        comp = Vue.extend(comp)
-	      }
-	      if (!comp.cid) {
-	        routerUtil.warn('invalid router component: ' + comp)
-	        handler.component = null
-	        return
-	      }
-	      // generate a unique id for the anonymous component
-	      // and register it globally
-	      var id = 'router-view-' + comp.cid
-	      if (!Vue.component(id)) {
-	        Vue.component(id, comp)
-	      }
-	      // overwrite the definition so we don't do this again
-	      handler.component = id
+	    if (_.isPlainObject(comp)) {
+	      comp = handler.component = Vue.extend(comp)
+	    }
+	    /* istanbul ignore if */
+	    if (typeof comp !== 'function' || !comp.cid) {
+	      handler.component = null
+	      routerUtil.warn(
+	        'invalid component for route "' + handler.path + '"'
+	      )
 	    }
 	  }
 	}
 
 
 /***/ },
-/* 7 */
+/* 11 */
 /***/ function(module, exports) {
 
 	function Route (path, router) {
@@ -1535,9 +1583,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	  this._aborted = false
 	  def(this, '_matched', matched || router._notFoundHandler)
 	  def(this, '_router', router)
-
-	  // prohibit mutation
-	  Object.freeze(this)
 	}
 
 	function def (obj, key, val) {
@@ -1551,17 +1596,439 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 8 */
+/* 12 */
 /***/ function(module, exports, __webpack_require__) {
 
-	// install the <router-view> element directive
+	var util = __webpack_require__(1)
+	var pipeline = __webpack_require__(13)
+
+	/**
+	 * A Transition object manages the pipeline of a
+	 * router-view switching process. This is also the object
+	 * passed into user route hooks.
+	 *
+	 * @param {Router} router
+	 * @param {Route} to
+	 * @param {Route} from
+	 */
+
+	function Transition (router, to, from) {
+	  // mark previous route as aborted
+	  if (from) {
+	    from._aborted = true
+	  }
+
+	  this.router = router
+	  this.to = to
+	  this.from = from
+	  this.next = null
+	  this.aborted = false
+
+	  // start by determine the queues
+
+	  // the deactivate queue is an array of router-view
+	  // directive instances that need to be deactivated,
+	  // deepest first.
+	  this.deactivateQueue = router._views
+
+	  // check the default handler of the deepest match
+	  var matched = to._matched
+	    ? Array.prototype.slice.call(to._matched)
+	    : []
+	  var deepest = matched[matched.length - 1]
+	  if (deepest && deepest.handler.defaultChildHandler) {
+	    matched.push({
+	      handler: deepest.handler.defaultChildHandler
+	    })
+	  }
+
+	  // the activate queue is an array of route handlers
+	  // that need to be activated
+	  this.activateQueue = matched.map(function (match) {
+	    return match.handler
+	  })
+	}
+
+	var p = Transition.prototype
+
+	/**
+	 * Abort current transition and return to previous location.
+	 */
+
+	p.abort = function () {
+	  if (!this.aborted) {
+	    this.aborted = true
+	    this.to._aborted = true
+	    this.router.replace(this.from.path || '/')
+	  }
+	}
+
+	/**
+	 * Abort current transition and redirect to a new location.
+	 */
+
+	p.redirect = function () {
+	  // TODO
+	}
+
+	/**
+	 * A router view transition's pipeline can be described as
+	 * follows, assuming we are transitioning from an existing
+	 * <router-view> chain [Component A, Component B] to a new
+	 * chain [Component A, Component C]:
+	 *
+	 *  A    A
+	 *  | => |
+	 *  B    C
+	 *
+	 * 1. Reusablity phase:
+	 *   -> canReuse(A, A)
+	 *   -> canReuse(B, C)
+	 *   -> determine new queues:
+	 *      - deactivation: [B]
+	 *      - activation: [C]
+	 *
+	 * 2. Validation phase:
+	 *   -> canDeactivate(B)
+	 *   -> canActivate(C)
+	 *
+	 * 3. Activation phase:
+	 *   -> deactivate(B)
+	 *   -> activate(C)
+	 *
+	 * Each of these steps can be asynchronous, and any
+	 * step can potentially abort the transition.
+	 *
+	 * @param {Function} cb
+	 */
+
+	p.start = function (cb) {
+	  var transition = this
+	  var daq = this.deactivateQueue
+	  var aq = this.activateQueue
+	  var rdaq = daq.slice().reverse()
+	  var reuseQueue
+
+	  // check reusability
+	  for (var i = 0; i < rdaq.length; i++) {
+	    if (!pipeline.canReuse(rdaq[i], aq[i], transition)) {
+	      break
+	    }
+	  }
+	  if (i > 0) {
+	    reuseQueue = rdaq.slice(0, i)
+	    daq = rdaq.slice(i).reverse()
+	    aq = aq.slice(i)
+	  }
+
+	  transition.runQueue(daq, pipeline.canDeactivate, function canActivatePhase () {
+	    transition.runQueue(aq, pipeline.canActivate, function deactivatePhase () {
+	      transition.runQueue(daq, pipeline.deactivate, function activatePhase () {
+	        // validation complete. change the current route.
+	        transition.router._currentRoute = transition.to
+	        // trigger reuse for all reused views
+	        reuseQueue && reuseQueue.forEach(function (view) {
+	          pipeline.reuse(view, transition)
+	        })
+	        // the root of the chain that needs to be replaced
+	        // is the top-most non-reusable view.
+	        if (daq.length) {
+	          pipeline.activate(daq[daq.length - 1], transition, cb)
+	        } else {
+	          cb()
+	        }
+	      })
+	    })
+	  })
+	}
+
+	/**
+	 * Asynchronously and sequentially apply a function to a
+	 * queue.
+	 *
+	 * @param {Array} queue
+	 * @param {Function} fn
+	 * @param {Function} cb
+	 */
+
+	p.runQueue = function (queue, fn, cb) {
+	  var transition = this
+	  step(0)
+	  function step (index) {
+	    if (index >= queue.length) {
+	      cb()
+	    } else {
+	      fn(queue[index], transition, function nextStep () {
+	        step(index + 1)
+	      })
+	    }
+	  }
+	}
+
+	/**
+	 * Call a user provided route transition hook and handle
+	 * the response (e.g. if the user returns a promise).
+	 *
+	 * @param {Function} hook
+	 * @param {*} [context]
+	 * @param {Function} [cb]
+	 * @param {Boolean} [expectBoolean]
+	 */
+
+	p.callHook = function (hook, context, cb, expectBoolean) {
+	  var transition = this
+	  var nextCalled = false
+	  var next = function (data) {
+	    if (nextCalled) {
+	      util.warn('transition.next() should be called only once.')
+	      return
+	    }
+	    nextCalled = true
+	    if (!cb || transition.to._aborted) {
+	      return
+	    }
+	    cb(data)
+	  }
+	  var abort = function () {
+	    transition.abort()
+	  }
+	  // the copied transition object passed to the user.
+	  var exposed = {
+	    to: transition.to,
+	    from: transition.from,
+	    abort: abort,
+	    next: next,
+	    redirect: function () {
+	      transition.redirect.apply(transition, arguments)
+	    }
+	  }
+	  var res = hook.call(context, exposed)
+	  var promise = util.isPromise(res)
+	  if (expectBoolean) {
+	    if (typeof res === 'boolean') {
+	      res ? next() : abort()
+	    } else if (promise) {
+	      res.then(function (ok) {
+	        ok ? next() : abort()
+	      }, abort)
+	    }
+	  } else if (promise) {
+	    res.then(next, abort)
+	  }
+	}
+
+	module.exports = Transition
+
+
+/***/ },
+/* 13 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var util = __webpack_require__(1)
+
+	/**
+	 * Determine the reusability of an existing router view.
+	 *
+	 * @param {Directive} view
+	 * @param {Object} handler
+	 * @param {Transition} transition
+	 */
+
+	exports.canReuse = function (view, handler, transition) {
+	  var component = view.childVM
+	  if (!component || !handler) {
+	    return false
+	  }
+	  if (component.constructor !== handler.component) {
+	    return false
+	  }
+	  var canReuseFn = util.getRouteConfig(component, 'canReuse')
+	  return typeof canReuseFn === 'boolean'
+	    ? canReuseFn
+	    : canReuseFn
+	      ? canReuseFn.call(component, {
+	          to: transition.to,
+	          from: transition.from
+	        })
+	      : true // defaults to true
+	}
+
+	/**
+	 * Check if a component can deactivate.
+	 *
+	 * @param {Directive} view
+	 * @param {Transition} transition
+	 * @param {Function} next
+	 */
+
+	exports.canDeactivate = function (view, transition, next) {
+	  var fromComponent = view.childVM
+	  var hook = util.getRouteConfig(fromComponent, 'canDeactivate')
+	  if (!hook) {
+	    next()
+	  } else {
+	    transition.callHook(hook, fromComponent, next, true)
+	  }
+	}
+
+	/**
+	 * Check if a component can activate.
+	 *
+	 * @param {Object} handler
+	 * @param {Transition} transition
+	 * @param {Function} next
+	 */
+
+	exports.canActivate = function (handler, transition, next) {
+	  util.resolveAsyncComponent(handler, function (Component) {
+	    // have to check due to async-ness
+	    if (transition.to._aborted) {
+	      return
+	    }
+	    // determine if this component can be activated
+	    var hook = util.getRouteConfig(Component, 'canActivate')
+	    if (!hook) {
+	      next()
+	    } else {
+	      transition.callHook(hook, null, next, true)
+	    }
+	  })
+	}
+
+	/**
+	 * Call deactivate hooks for existing router-views.
+	 *
+	 * @param {Directive} view
+	 * @param {Transition} transition
+	 * @param {Function} next
+	 */
+
+	exports.deactivate = function (view, transition, next) {
+	  var component = view.childVM
+	  var hook = util.getRouteConfig(component, 'deactivate')
+	  if (!hook) {
+	    next()
+	  } else {
+	    transition.callHook(hook, component, next)
+	  }
+	}
+
+	/**
+	 * Activate / switch component for a router-view.
+	 *
+	 * @param {Directive} view
+	 * @param {Transition} transition
+	 * @param {Function} [cb]
+	 */
+
+	exports.activate = function (view, transition, cb) {
+	  var handler = transition.activateQueue[view.depth]
+	  if (!handler) {
+	    view.setComponent(null)
+	    cb && cb()
+	    return
+	  }
+
+	  var Component = handler.component
+	  var activateHook = util.getRouteConfig(Component, 'activate')
+	  var dataHook = util.getRouteConfig(Component, 'data')
+	  var waitForData = util.getRouteConfig(Component, 'waitForData')
+
+	  var build = function (data) {
+	    view.unbuild(true)
+	    view.Component = Component
+	    var shouldLoadData = dataHook && !waitForData
+	    var component = view.build({
+	      data: data,
+	      _meta: {
+	        $loadingRouteData: shouldLoadData
+	      }
+	    })
+	    if (shouldLoadData) {
+	      loadData(component, transition, dataHook)
+	    }
+	    var router = transition.router
+	    if (router._rendered || router._transitionOnLoad) {
+	      view.transition(component)
+	    } else {
+	      // no transition on first render, manual transition
+	      view.setCurrent(component)
+	      component.$before(view.anchor, null, false)
+	    }
+	    cb && cb()
+	  }
+
+	  var activate = function () {
+	    if (dataHook && waitForData) {
+	      loadData(null, transition, dataHook, build)
+	    } else {
+	      build()
+	    }
+	  }
+
+	  if (activateHook) {
+	    transition.callHook(activateHook, null, activate)
+	  } else {
+	    activate()
+	  }
+	}
+
+	/**
+	 * Reuse a view, just reload data if necessary.
+	 *
+	 * @param {Directive} view
+	 * @param {Transition} transition
+	 */
+
+	exports.reuse = function (view, transition) {
+	  var component = view.childVM
+	  var dataHook = util.getRouteConfig(component, 'data')
+	  if (dataHook) {
+	    loadData(component, transition, dataHook)
+	  }
+	}
+
+	/**
+	 * Asynchronously load and apply data to component.
+	 *
+	 * @param {Vue} component
+	 * @param {Transition} transition
+	 * @param {Function} hook
+	 * @param {Function} cb
+	 */
+
+	function loadData (component, transition, hook, cb) {
+	  if (component) {
+	    component.$loadingRouteData = true
+	  }
+	  transition.callHook(hook, component, function (data) {
+	    if (component) {
+	      if (data) {
+	        for (var key in data) {
+	          component.$set(key, data[key])
+	        }
+	      }
+	      component.$loadingRouteData = false
+	    } else {
+	      cb(data)
+	    }
+	  })
+	}
+
+
+/***/ },
+/* 14 */
+/***/ function(module, exports, __webpack_require__) {
+
 	module.exports = function (Vue) {
 
 	  var _ = Vue.util
-	  var component = Vue.directive('_component')
+	  var util = __webpack_require__(1)
+	  var pipeline = __webpack_require__(13)
+	  var componentDef = Vue.directive('_component')
 
-	  // v-view extends v-component
-	  var viewDef = _.extend({}, component)
+	  // <router-view> extends the internal component directive
+	  var viewDef = _.extend({}, componentDef)
 
 	  // with some overrides
 	  _.extend(viewDef, {
@@ -1569,77 +2036,42 @@ return /******/ (function(modules) { // webpackBootstrap
 	    _isRouterView: true,
 
 	    bind: function () {
-	      // react to route change
-	      this.currentRoute = null
-	      this.currentComponentId = null
-	      this.unwatch = this.vm.$watch(
-	        'route',
-	        _.bind(this.onRouteChange, this),
-	        // important as this makes the watcher execute
-	        // in the internal queue instead of the user queue,
-	        // so that the callback fires before the view is
-	        // affected by the route change.
-	        { user: false }
-	      )
+	      var route = this.vm.$route
+	      /* istanbul ignore if */
+	      if (!route) {
+	        util.warn(
+	          '<router-view> can only be used inside a ' +
+	          'router-enabled app.'
+	        )
+	        return
+	      }
+	      // all we need to do here is registering this view
+	      // in the router. actual component switching will be
+	      // managed by the pipeline.
+	      var router = this.router = route._router
+	      this.depth = router._views.length
+	      router._views.unshift(this)
 	      // force dynamic directive so v-component doesn't
 	      // attempt to build right now
 	      this._isDynamicLiteral = true
 	      // finally, init by delegating to v-component
-	      component.bind.call(this)
-	      // initial render
-	      if (this.vm.route) {
-	        this.onRouteChange(this.vm.route, {})
+	      componentDef.bind.call(this)
+	      // does not support keep-alive.
+	      /* istanbul ignore if */
+	      if (this.keepAlive) {
+	        this.keepAlive = false
+	        util.warn('<router-view> does not support keep-alive.')
+	      }
+	      // only activate on create if this is not the
+	      // initial render.
+	      if (router.app) {
+	        pipeline.activate(this, router._currentTransition)
 	      }
 	    },
-
-	    /**
-	     * Route change handler. Check match, segment and before
-	     * hook to determine whether this view should be
-	     * rendered or switched.
-	     *
-	     * @param {Route} route
-	     * @param {Route} previousRoute
-	     */
-
-	    onRouteChange: function (route, previousRoute) {
-	      previousRoute._aborted = true
-	      var transition = {
-	        to: route,
-	        from: previousRoute,
-	        next: null,
-	        _aborted: false,
-	        _handler: null,
-	        _Component: null,
-	        abort: function () {
-	          // we need to mark the route object as aborted
-	          // so that other views receiving the same route
-	          // can skip their operations
-	          route._aborted = true
-	          route._router.replace(previousRoute.path || '/')
-	        }
-	      }
-	      this.canDeactivate(transition)
-	    },
-
-	    // A router view transition happens in the following
-	    // order, assuming we are transitioning from
-	    // component A => component B:
-	    //
-	    // 1. check A.canDeactivate
-	    // 2. check B.canActivate
-	    // 3. call A.decactivate
-	    // 4. call B.activate
-	    //
-	    // Each of these steps can be asynchronous, and any
-	    // step can potentially abort the transition.
-	    canDeactivate: __webpack_require__(9),
-	    canActivate: __webpack_require__(10),
-	    deactivate: __webpack_require__(11),
-	    activate: __webpack_require__(12),
 
 	    unbind: function () {
-	      this.unwatch()
-	      component.unbind.call(this)
+	      this.router._views.$remove(this)
+	      componentDef.unbind.call(this)
 	    }
 	  })
 
@@ -1648,227 +2080,8 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 9 */
+/* 15 */
 /***/ function(module, exports, __webpack_require__) {
-
-	var routerUtil = __webpack_require__(1)
-
-	module.exports = function (transition) {
-	  if (transition.to._aborted) {
-	    return
-	  }
-	  var fromComponent = this.childVM
-	  var self = this
-	  var abort = transition.abort
-	  var next = transition.next = function () {
-	    self.canActivate(transition)
-	  }
-	  var hook = routerUtil.getRouteConfig(fromComponent, 'canDeactivate')
-	  if (!hook) {
-	    next()
-	  } else {
-	    var res = hook.call(fromComponent, transition)
-	    if (typeof res === 'boolean') {
-	      res ? next() : abort()
-	    } else if (routerUtil.isPromise(res)) {
-	      res.then(function (ok) {
-	        ok ? next() : abort()
-	      }, abort)
-	    }
-	  }
-	}
-
-
-/***/ },
-/* 10 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var routerUtil = __webpack_require__(1)
-
-	module.exports = function (transition) {
-	  var to = transition.to
-	  if (to._aborted) {
-	    return
-	  }
-	  var self = this
-	  var abort = transition.abort
-	  var next = transition.next = function () {
-	    self._componentID = transition._componentID
-	    self.deactivate(transition)
-	  }
-
-	  // route not found
-	  if (!to._matched) {
-	    return next()
-	  }
-
-	  // determine handler
-	  var depth = getViewDepth(this.vm)
-	  var segment = to._matched[depth]
-	  if (!segment) {
-	    // check if the parent view has a default child view
-	    var parent = to._matched[depth - 1]
-	    if (parent && parent.handler.defaultChildHandler) {
-	      transition._componentID = parent.handler.defaultChildHandler.component
-	    } else {
-	      // no segment that matches this outlet
-	      return next()
-	    }
-	  } else {
-	    transition._componentID = segment.handler.component
-	  }
-
-	  // resolve async component.
-	  // compat <= 0.12.8
-	  var resolver = this.resolveCtor || this.resolveComponent
-	  resolver.call(
-	    this,
-	    transition._componentID,
-	    function onComponentResolved () {
-	      var Component =
-	        transition._Component =
-	        // compat <= 0.12.8
-	        self.Ctor || self.Component
-
-	      // if it's the same component, do nothing unless
-	      // the 'reload' route config is set to true.
-	      if (
-	        transition._componentID === self._componentID &&
-	        !routerUtil.getRouteConfig(Component, 'reload')
-	      ) {
-	        return
-	      }
-
-	      // determine if this component can be activated
-	      var hook = routerUtil.getRouteConfig(Component, 'canActivate')
-	      if (!hook) {
-	        next()
-	      } else {
-	        var res = hook.call(null, transition)
-	        if (typeof res === 'boolean') {
-	          res ? next() : abort()
-	        } else if (routerUtil.isPromise(res)) {
-	          res.then(function (ok) {
-	            ok ? next() : abort()
-	          }, abort)
-	        }
-	      }
-	    }
-	  )
-	}
-
-	/**
-	 * Checked nested view depth of the current view.
-	 *
-	 * @param {Vue} vm
-	 * @return {Number}
-	 */
-
-	function getViewDepth (vm) {
-	  var depth = 0
-	  while (vm.$parent) {
-	    if (vm.$options._isRouterView) {
-	      depth++
-	    }
-	    vm = vm.$parent
-	  }
-	  return depth
-	}
-
-
-/***/ },
-/* 11 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var routerUtil = __webpack_require__(1)
-
-	module.exports = function (transition) {
-	  if (transition.to._aborted) {
-	    return
-	  }
-	  var fromComponent = this.childVM
-	  var self = this
-	  var abort = transition.abort
-	  var next = transition.next = function () {
-	    self.activate(transition)
-	  }
-	  var hook = routerUtil.getRouteConfig(fromComponent, 'deactivate')
-	  if (!hook) {
-	    next()
-	  } else {
-	    var res = hook.call(fromComponent, transition)
-	    if (routerUtil.isPromise(res)) {
-	      res.then(next, abort)
-	    }
-	  }
-	}
-
-
-/***/ },
-/* 12 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var routerUtil = __webpack_require__(1)
-
-	module.exports = function (transition) {
-	  if (transition.to._aborted) {
-	    return
-	  }
-
-	  // no component
-	  var id = transition._componentID
-	  var Component = transition._Component
-	  if (!id || !Component) {
-	    return this.setComponent(null)
-	  }
-
-	  var hook = routerUtil.getRouteConfig(Component, 'activate')
-	  var wait = routerUtil.getRouteConfig(Component, 'waitForActivate')
-	  if (!hook) {
-	    // no hook, just switch component
-	    this.setComponent(id)
-	  } else if (wait) {
-	    // wait for async hook to finish before
-	    // switching component
-	    var self = this
-	    var next = transition.next = function (data) {
-	      if (transition.to._aborted) {
-	        return
-	      }
-	      self.setComponent(id, data)
-	    }
-	    var res = hook.call(null, transition)
-	    if (routerUtil.isPromise(res)) {
-	      res.then(next, transition.abort)
-	    }
-	  } else {
-	    // switch component now with routeLoading flag set to
-	    // true, and add data to component after the hook is
-	    // resolved.
-	    this.setComponent(id, { routeLoading: true }, function (component) {
-	      var next = transition.next = function (data) {
-	        if (transition.to._aborted) {
-	          return
-	        }
-	        if (data) {
-	          for (var key in data) {
-	            component.$set(key, data[key])
-	          }
-	        }
-	        component.routeLoading = false
-	      }
-	      var res = hook.call(component, transition)
-	      if (routerUtil.isPromise(res)) {
-	        res.then(next, transition.abort)
-	      }
-	    })
-	  }
-	}
-
-
-/***/ },
-/* 13 */
-/***/ function(module, exports) {
 
 	// install v-link, which provides navigation support for
 	// HTML5 history mode
@@ -1876,6 +2089,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = function (Vue) {
 
 	  var _ = Vue.util
+	  var routerUtil = __webpack_require__(1)
 
 	  Vue.directive('link', {
 
@@ -1883,15 +2097,16 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	    bind: function () {
 	      var vm = this.vm
-	      if (!vm.route && _.warn) {
-	        _.warn(
+	      /* istanbul ignore if */
+	      if (!vm.$route) {
+	        routerUtil.warn(
 	          'v-link can only be used inside a ' +
 	          'router-enabled app.'
 	        )
 	        return
 	      }
 	      var self = this
-	      var router = vm.route._router
+	      var router = vm.$route._router
 	      this.handler = function (e) {
 	        if (e.button === 0) {
 	          e.preventDefault()
@@ -1906,7 +2121,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	      }
 	      // manage active link class
 	      this.unwatch = vm.$watch(
-	        'route.path',
+	        '$route.path',
 	        _.bind(this.updateClasses, this)
 	      )
 	    },
@@ -1914,7 +2129,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    updateClasses: function (path) {
 	      var el = this.el
 	      var dest = this.destination
-	      var router = this.vm.route._router
+	      var router = this.vm.$route._router
 	      var activeClass = router._linkActiveClass
 	      var exactClass = activeClass + '-exact'
 	      if (path.indexOf(dest) === 0) {
@@ -1931,15 +2146,14 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	    update: function (path) {
 	      this.destination = path
-	      this.updateClasses(this.vm.route.path)
+	      this.updateClasses(this.vm.$route.path)
 	      path = path || ''
-	      var router = this.vm.route._router
-	      var href = router._history
-	        ? path.charAt(0) === '/'
-	          // only format the path if it's absolute
-	          ? router._formatPath(path)
-	          : path
-	        : router._formatHashPath(path)
+	      var router = this.vm.$route._router
+	      var isAbsolute = path.charAt(0) === '/'
+	      // do not format non-hash relative paths
+	      var href = router.mode === 'hash' || isAbsolute
+	        ? router.history.formatPath(path)
+	        : path
 	      if (this.el.tagName === 'A') {
 	        if (href) {
 	          this.el.href = href
@@ -1958,34 +2172,34 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 14 */
+/* 16 */
 /***/ function(module, exports) {
 
 	// overriding Vue's $addChild method, so that every child
 	// instance inherits the route data
 
-	module.exports = function (Vue, Router) {
+	module.exports = function (Vue) {
 
 	  var addChild = Vue.prototype.$addChild
 
 	  Vue.prototype.$addChild = function (opts, Ctor) {
 
-	    var route = this.route
+	    var route = this.$route
 	    var router = route && route._router
-	    var isRouterEnabled = router instanceof Router
 
-	    if (isRouterEnabled) {
+	    // inject meta
+	    if (router) {
 	      opts = opts || {}
-	      var data = opts.data = opts.data || {}
-	      data.route = route
+	      var meta = opts._meta = opts._meta || {}
+	      meta.$route = route
 	      if (opts._isRouterView) {
-	        data.loading = data.loading || false
+	        meta.$loadingRouteData = meta.$loadingRouteData || false
 	      }
 	    }
 
 	    var child = addChild.call(this, opts, Ctor)
 
-	    if (isRouterEnabled) {
+	    if (router) {
 	      // keep track of all children created so we can
 	      // update the routes
 	      router._children.push(child)
