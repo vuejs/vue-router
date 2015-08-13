@@ -1,0 +1,9 @@
+build
+test
+coverage
+example
+explorations
+.*
+*.yml
+*.log
+*.md
