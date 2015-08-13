@@ -21,9 +21,6 @@ function Route (path, router) {
   this._aborted = false
   def(this, '_matched', matched || router._notFoundHandler)
   def(this, '_router', router)
-
-  // prohibit mutation
-  Object.freeze(this)
 }
 
 function def (obj, key, val) {

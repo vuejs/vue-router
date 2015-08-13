@@ -1,3 +1,5 @@
+window.isIE9 = navigator.userAgent.toLowerCase().indexOf('msie 9.0') > 0
+
 require('es6-promise').polyfill()
 
 var Vue = require('vue')

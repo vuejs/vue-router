@@ -457,56 +457,58 @@ describe('Core', function () {
     })
   })
 
-  it('saveScrollPosition', function (done) {
-    router = new Router({
-      history: true,
-      saveScrollPosition: true
-    })
-    router.map({
-      '/a': { component: { template: 'hi' }}
-    })
-    router.start(Vue.extend({}), el)
-    // record
-    var x = window.pageXOffset
-    var y = window.pageYOffset
-    router.go('/a')
-    nextTick(function () {
-      window.addEventListener('popstate', function onPop () {
-        expect(window.scrollTo).toHaveBeenCalledWith(x, y)
-        window.removeEventListener('popstate', onPop)
-        router.stop()
-        done()
+  if (!isIE9) {
+    it('saveScrollPosition', function (done) {
+      router = new Router({
+        history: true,
+        saveScrollPosition: true
       })
-      history.back()
+      router.map({
+        '/a': { component: { template: 'hi' }}
+      })
+      router.start(Vue.extend({}), el)
+      // record
+      var x = window.pageXOffset
+      var y = window.pageYOffset
+      router.go('/a')
+      nextTick(function () {
+        window.addEventListener('popstate', function onPop () {
+          expect(window.scrollTo).toHaveBeenCalledWith(x, y)
+          window.removeEventListener('popstate', onPop)
+          router.stop()
+          done()
+        })
+        history.back()
+      })
     })
-  })
 
-  it('slide to anchor', function (done) {
-    router = new Router({
-      history: true
-    })
-    router.map({
-      '/a': { component: { template: '<a id="anchor">link</a>' }}
-    })
-    document.body.appendChild(el)
-    router.start(Vue.extend({
-      template: '<router-view></router-view>'
-    }), el)
-    router.go('/a#anchor')
-    nextTick(function () {
-      var anchor = document.getElementById('anchor')
-      var x = window.scrollX
-      var y = anchor.offsetTop
-      expect(window.scrollTo).toHaveBeenCalledWith(x, y)
-      router.stop()
-      router.app.$destroy(true)
-      window.addEventListener('popstate', function onPop () {
-        window.removeEventListener('popstate', onPop)
-        done()
+    it('slide to anchor', function (done) {
+      router = new Router({
+        history: true
       })
-      history.back()
+      router.map({
+        '/a': { component: { template: '<a id="anchor">link</a>' }}
+      })
+      document.body.appendChild(el)
+      router.start(Vue.extend({
+        template: '<router-view></router-view>'
+      }), el)
+      router.go('/a#anchor')
+      nextTick(function () {
+        var anchor = document.getElementById('anchor')
+        var x = window.scrollX
+        var y = anchor.offsetTop
+        expect(window.scrollTo).toHaveBeenCalledWith(x, y)
+        router.stop()
+        router.app.$destroy(true)
+        window.addEventListener('popstate', function onPop () {
+          window.removeEventListener('popstate', onPop)
+          done()
+        })
+        history.back()
+      })
     })
-  })
+  }
 
   function assertRoutes (matches, options, done) {
     if (typeof options === 'function') {

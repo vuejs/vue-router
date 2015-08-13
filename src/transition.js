@@ -56,9 +56,9 @@ var p = Transition.prototype
 
 p.abort = function () {
   if (!this.aborted) {
+    this.aborted = true
     this.to._aborted = true
     this.router.replace(this.from.path || '/')
-    this.aborted = true
   }
 }
 
