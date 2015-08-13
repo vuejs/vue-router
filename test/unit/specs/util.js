@@ -26,7 +26,9 @@ exports.test = function (configs, cb) {
     Object.keys(config).forEach(function (hook) {
       var fn = config[hook]
       config[hook] = function (transition) {
-        var res = fn(transition)
+        var res = typeof fn === 'function'
+          ? fn(transition)
+          : fn
         var event = route + '.' + hook
         calls.push(event)
         emitter.emit(event)
@@ -41,10 +43,17 @@ exports.test = function (configs, cb) {
         route: configs.a
       },
       subRoutes: {
-        '/b': { component: {
-          template: 'B',
-          route: configs.b
-        }}
+        '/b': {
+          component: {
+            template: 'B',
+            route: configs.b
+          }
+        },
+        '/e': {
+          component: {
+            template: 'E'
+          }
+        }
       }
     },
     '/c': {
@@ -53,10 +62,12 @@ exports.test = function (configs, cb) {
         route: configs.c
       },
       subRoutes: {
-        '/d': { component: {
-          template: 'D',
-          route: configs.d
-        }}
+        '/d': {
+          component: {
+            template: 'D',
+            route: configs.d
+          }
+        }
       }
     }
   })
