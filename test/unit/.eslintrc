@@ -5,6 +5,7 @@
   },
 
   "globals": {
+    "isIE": true,
     "isIE9": true,
     "jasmine": true,
     "describe": true,

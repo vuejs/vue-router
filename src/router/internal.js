@@ -194,6 +194,25 @@ module.exports = function (Vue, Router) {
   }
 
   /**
+   * Switch the current route to a new one.
+   * This is called by the transition object when the
+   * validation of a route has succeeded.
+   *
+   * @param {Route} route
+   */
+
+  p._updateRoute = function (route) {
+    this._currentRoute = route
+    // update route context for all children
+    if (this.app.$route !== route) {
+      this.app.$route = route
+      this._children.forEach(function (child) {
+        child.$route = route
+      })
+    }
+  }
+
+  /**
    * Handle stuff after the transition.
    *
    * @param {Route} route
@@ -202,14 +221,6 @@ module.exports = function (Vue, Router) {
    */
 
   p._postTransition = function (route, state, anchor) {
-    // update route context for all children
-    if (this.app.$route !== route) {
-      this.app.$route = route
-      this._children.forEach(function (child) {
-        child.$route = route
-      })
-    }
-
     // handle scroll positions
     // saved scroll positions take priority
     // then we check if the path has an anchor
