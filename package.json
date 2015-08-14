@@ -12,7 +12,8 @@
     "serve-test": "webpack-dev-server --quiet --config test/unit/webpack.config.js --content-base test/unit --history-api-fallback --host 0.0.0.0 --port 8081",
     "e2e-sauce": "nightwatch -c build/nightwatch.sauce.json -e chrome,firefox,ie10,ie11",
     "e2e-local": "bash ./build/e2e.sh",
-    "release": "bash ./build/release.sh"
+    "release": "bash ./build/release.sh",
+    "docs": "bash ./build/update-docs.sh"
   },
   "repository": {
     "type": "git",
