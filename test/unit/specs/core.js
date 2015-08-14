@@ -159,14 +159,14 @@ describe('Core', function () {
       expect(el.textContent).toBe('Link A')
       var link = el.querySelector('#link-a')
       expect(link.getAttribute('href')).toBe('b')
-      link.click()
+      click(link)
       nextTick(function () {
         expect(el.textContent).toBe('Link B')
         var link = el.querySelector('#link-b')
         expect(link.getAttribute('href')).toBe('/a')
         // falsy expressions should not set href
         expect(el.querySelector('#link-c').hasAttribute('href')).toBe(false)
-        link.click()
+        click(link)
         nextTick(function () {
           expect(el.textContent).toBe('Link A')
           done()
@@ -244,7 +244,7 @@ describe('Core', function () {
     router.start(App, el)
     router.go('/foo')
     nextTick(function () {
-      router.app.$el.querySelector('#link').click()
+      click(router.app.$el.querySelector('#link'))
       nextTick(function () {
         var text = router.app.$el.textContent
         expect(text).toBe('1234')
@@ -528,5 +528,12 @@ describe('Core', function () {
         done()
       }
     })
+  }
+
+  function click (target) {
+    var e = document.createEvent('HTMLEvents')
+    e.initEvent('click', true, true)
+    e.button = 0
+    target.dispatchEvent(e)
   }
 })
