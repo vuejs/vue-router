@@ -31,6 +31,7 @@
   },
   "homepage": "https://github.com/vuejs/vue-router#readme",
   "devDependencies": {
+    "chromedriver": "2.16.0",
     "css-loader": "^0.15.4",
     "es6-promise": "^3.0.2",
     "eslint": "^0.24.0",
@@ -46,6 +47,7 @@
     "karma-spec-reporter": "0.0.20",
     "karma-webpack": "^1.7.0",
     "nightwatch": "^0.7.9",
+    "selenium-server": "2.47.1",
     "style-loader": "^0.12.3",
     "vue": "yyx990803/vue#dev",
     "vue-loader": "^2.1.1",
