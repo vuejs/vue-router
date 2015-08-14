@@ -1,0 +1,24 @@
+{
+  "name": "vue-router",
+  "homepage": "https://github.com/vuejs/vue-router",
+  "authors": [
+    "Evan You <yyx990803@gmail.com>"
+  ],
+  "description": "router for Vue.js",
+  "main": "dist/vue-router.js",
+  "keywords": [
+    "vue",
+    "router"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "test",
+    "build",
+    "example",
+    "src",
+    "*.yml",
+    "package.json"
+  ]
+}
