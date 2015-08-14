@@ -176,9 +176,10 @@ p.runQueue = function (queue, fn, cb) {
  * @param {*} [context]
  * @param {Function} [cb]
  * @param {Boolean} [expectBoolean]
+ * @param {Function} [cleanup]
  */
 
-p.callHook = function (hook, context, cb, expectBoolean) {
+p.callHook = function (hook, context, cb, expectBoolean, cleanup) {
   var transition = this
   var nextCalled = false
   var next = function (data) {
@@ -194,6 +195,7 @@ p.callHook = function (hook, context, cb, expectBoolean) {
   }
   var abort = function () {
     transition.abort()
+    cleanup && cleanup()
   }
   // the copied transition object passed to the user.
   var exposed = {

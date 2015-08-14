@@ -103,24 +103,31 @@ exports.activate = function (view, transition, cb) {
     return
   }
 
-  var Component = handler.component
+  var Component = view.Component = handler.component
   var activateHook = util.getRouteConfig(Component, 'activate')
   var dataHook = util.getRouteConfig(Component, 'data')
   var waitForData = util.getRouteConfig(Component, 'waitForData')
 
-  var build = function (data) {
-    view.unbuild(true)
-    view.Component = Component
-    var shouldLoadData = dataHook && !waitForData
-    var component = view.build({
-      data: data,
-      _meta: {
-        $loadingRouteData: shouldLoadData
-      }
-    })
-    if (shouldLoadData) {
-      loadData(component, transition, dataHook)
+  // unbuild current component. this step also destroys
+  // and removes all nested child views.
+  view.unbuild(true)
+  // build the new component. this will also create the
+  // direct child view of the current one. it will register
+  // itself as view.childView.
+  var component = view.build({
+    _meta: {
+      $loadingRouteData: !!(dataHook && !waitForData)
     }
+  })
+
+  // cleanup the component in case the transition is aborted
+  // before the component is ever inserted.
+  var cleanup = function () {
+    component.$destroy()
+  }
+
+  // actually insert the component and trigger transition
+  var insert = function () {
     var router = transition.router
     if (router._rendered || router._transitionOnLoad) {
       view.transition(component)
@@ -132,18 +139,28 @@ exports.activate = function (view, transition, cb) {
     cb && cb()
   }
 
-  var activate = function () {
+  // called after activation hook is resolved
+  var afterActivate = function () {
+    // activate the child view
+    if (view.childView) {
+      exports.activate(view.childView, transition)
+    }
     if (dataHook && waitForData) {
-      loadData(null, transition, dataHook, build)
+      // wait until data loaded to insert
+      loadData(component, transition, dataHook, insert, cleanup)
     } else {
-      build()
+      // load data and insert at the same time
+      if (dataHook) {
+        loadData(component, transition, dataHook)
+      }
+      insert()
     }
   }
 
   if (activateHook) {
-    transition.callHook(activateHook, null, activate)
+    transition.callHook(activateHook, component, afterActivate, false, cleanup)
   } else {
-    activate()
+    afterActivate()
   }
 }
 
@@ -169,22 +186,16 @@ exports.reuse = function (view, transition) {
  * @param {Transition} transition
  * @param {Function} hook
  * @param {Function} cb
+ * @param {Function} cleanup
  */
 
-function loadData (component, transition, hook, cb) {
-  if (component) {
-    component.$loadingRouteData = true
-  }
+function loadData (component, transition, hook, cb, cleanup) {
+  component.$loadingRouteData = true
   transition.callHook(hook, component, function (data) {
-    if (component) {
-      if (data) {
-        for (var key in data) {
-          component.$set(key, data[key])
-        }
-      }
-      component.$loadingRouteData = false
-    } else {
-      cb(data)
+    for (var key in data) {
+      component.$set(key, data[key])
     }
-  })
+    component.$loadingRouteData = false
+    cb && cb(data)
+  }, false, cleanup)
 }
