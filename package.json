@@ -4,12 +4,12 @@
   "description": "A router for Vue.js",
   "main": "src/index.js",
   "scripts": {
-    "dev": "npm run serve & npm run watch-test",
+    "dev": "npm run serve & npm run serve-test",
     "lint": "eslint src build test/e2e test/unit/specs",
     "test": "npm run lint && ./node_modules/karma/bin/karma start build/karma.config.js",
     "build": "webpack --config build/webpack.build.dev.config.js && webpack --config build/webpack.build.min.config.js",
     "serve": "webpack-dev-server --quiet --hot --config example/webpack.config.js --content-base example --history-api-fallback --host 0.0.0.0",
-    "watch-test": "webpack --watch test/unit/specs/index.js test/unit/test.build.js",
+    "serve-test": "webpack-dev-server --quiet --config test/unit/webpack.config.js --content-base test/unit --history-api-fallback --host 0.0.0.0 --port 8081",
     "e2e-local": "nightwatch -c build/nightwatch.local.json -e chrome,firefox",
     "e2e-sauce": "nightwatch -c build/nightwatch.sauce.json -e chrome,firefox,ie10,ie11",
     "release": "npm run test && npm run e2e-local && bash ./build/release.sh"

@@ -1,6 +1,5 @@
 .DS_Store
 node_modules
-test/unit/test.build.js
 coverage
 explorations
 TODOS.md
