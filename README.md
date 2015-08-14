@@ -15,7 +15,7 @@
 - HTML5 history mode or hash mode, with auto-fallback in IE9
 - Restore scroll position when going back in history mode
 
-Get started with the [documentation](http://vuejs.github.io/vue-router).
+Get started with the [documentation](http://vuejs.github.io/vue-router) (WIP).
 
 ### Development Setup
 
