@@ -1,6 +1,6 @@
 /* global router */
 
-var base = 'http://localhost:8080'
+var base = 'http://localhost:' + (process.env.PORT || 8080)
 
 module.exports = {
   'vue-router e2e tests': function (browser) {

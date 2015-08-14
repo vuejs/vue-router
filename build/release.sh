@@ -6,10 +6,21 @@ echo    # (optional) move to a new line
 if [[ $REPLY =~ ^[Yy]$ ]]
 then
     echo "Releasing $VERSION ..."
+    # unit tests
+    npm run test 2>/dev/null
+
+    # e2e tests
+    npm run e2e-local 2>/dev/null
+
+    # build
     VERSION=$VERSION npm run build
+
+    # # commit
     git add -A
     git commit -m "[build] $VERSION"
     npm version $VERSION --message "[release] $VERSION"
+
+    # # publish
     git push origin refs/tags/v$VERSION
     git push
     npm publish
