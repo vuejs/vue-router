@@ -1,6 +1,7 @@
 cd docs
 rm -rf _book
 gitbook build
+cp _circle.yml _book/circle.yml
 cd _book
 git init
 git add -A
