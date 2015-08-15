@@ -1,5 +1,5 @@
 /*!
- * vue-router v0.4.0
+ * vue-router v0.5.0
  * (c) 2015 Evan You
  * Released under the MIT License.
  */
@@ -60,7 +60,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ function(module, exports, __webpack_require__) {
 
 	var routerUtil = __webpack_require__(1)
-	var Router = __webpack_require__(2)
+	var Router = __webpack_require__(5)
 
 	/**
 	 * Installation interface.
@@ -93,7 +93,10 @@ return /******/ (function(modules) { // webpackBootstrap
 
 /***/ },
 /* 1 */
-/***/ function(module, exports) {
+/***/ function(module, exports, __webpack_require__) {
+
+	var RouteRecognizer = __webpack_require__(2)
+	var genQuery = RouteRecognizer.prototype.generateQueryString
 
 	/**
 	 * Warn stuff.
@@ -211,98 +214,47 @@ return /******/ (function(modules) { // webpackBootstrap
 	  })
 	}
 
+	/**
+	 * Map the dynamic segments in a path to params.
+	 *
+	 * @param {String} path
+	 * @param {Object} params
+	 * @param {Object} query
+	 */
 
-/***/ },
-/* 2 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var Recognizer = __webpack_require__(3)
-	var historyBackends = {
-	  abstract: __webpack_require__(6),
-	  hash: __webpack_require__(7),
-	  html5: __webpack_require__(8)
+	exports.mapParams = function (path, params, query) {
+	  for (var key in params) {
+	    path = replaceParam(path, params, key)
+	  }
+	  if (query) {
+	    path += genQuery(query)
+	  }
+	  return path
 	}
 
 	/**
-	 * Router constructor
+	 * Replace a param segment with real value in a matched
+	 * path.
 	 *
-	 * @param {Object} [options]
-	 *                 - {Boolean} hashbang  (default: true)
-	 *                 - {Boolean} history (default: false)
-	 *                 - {Boolean} abstract (default: false)
-	 *                 - {Boolean} saveScrollPosition (default: false)
-	 *                 - {Boolean} transitionOnLoad (default: false)
-	 *                 - {String} root (default: null)
-	 *                 - {String} linkActiveClass (default: 'v-link-active')
+	 * @param {String} path
+	 * @param {Object} params
+	 * @param {String} key
+	 * @return {String}
 	 */
 
-	function Router (options) {
-	  /* istanbul ignore if */
-	  if (!Router.installed) {
-	    throw new Error(
-	      'Please install the Router with Vue.use() before ' +
-	      'creating an instance.'
-	    )
-	  }
-
-	  options = options || {}
-
-	  // Vue instances
-	  this.app = null
-	  this._views = []
-	  this._children = []
-
-	  // route recognizer
-	  this._recognizer = new Recognizer()
-	  this._guardRecognizer = new Recognizer()
-
-	  // state
-	  this._started = false
-	  this._currentRoute = {}
-	  this._currentTransition = null
-	  this._notFoundHandler = null
-	  this._beforeEachHook = null
-
-	  // feature detection
-	  this._hasPushState = typeof history !== 'undefined' && history.pushState
-
-	  // trigger transition on initial render?
-	  this._rendered = false
-	  this._transitionOnLoad = options.transitionOnLoad
-
-	  // history mode
-	  this._abstract = !!options.abstract
-	  this._hashbang = options.hashbang !== false
-	  this._history = !!(this._hasPushState && options.history)
-
-	  // other options
-	  this._saveScrollPosition = !!options.saveScrollPosition
-	  this._linkActiveClass = options.linkActiveClass || 'v-link-active'
-
-	  // create history object
-	  this.mode = this._abstract
-	    ? 'abstract'
-	    : this._history
-	      ? 'html5'
-	      : 'hash'
-
-	  var History = historyBackends[this.mode]
-	  var self = this
-	  this.history = new History({
-	    root: options.root,
-	    hashbang: this._hashbang,
-	    onChange: function (path, state, anchor) {
-	      self._match(path, state, anchor)
-	    }
+	function replaceParam (path, params, key) {
+	  var regex = new RegExp(':' + key + '(\\/|$)')
+	  var value = params[key]
+	  return path.replace(regex, function (m) {
+	    return m.charAt(m.length - 1) === '/'
+	      ? value + '/'
+	      : value
 	  })
 	}
 
-	Router.installed = false
-	module.exports = Router
-
 
 /***/ },
-/* 3 */
+/* 2 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;/* WEBPACK VAR INJECTION */(function(module) {(function() {
@@ -948,7 +900,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    var $$route$recognizer$$default = $$route$recognizer$$RouteRecognizer;
 
 	    /* global define:true module:true window: true */
-	    if ("function" === 'function' && __webpack_require__(5)['amd']) {
+	    if ("function" === 'function' && __webpack_require__(4)['amd']) {
 	      !(__WEBPACK_AMD_DEFINE_RESULT__ = function() { return $$route$recognizer$$default; }.call(exports, __webpack_require__, exports, module), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
 	    } else if (typeof module !== 'undefined' && module['exports']) {
 	      module['exports'] = $$route$recognizer$$default;
@@ -958,10 +910,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	}).call(this);
 
 	//# sourceMappingURL=route-recognizer.js.map
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)(module)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)(module)))
 
 /***/ },
-/* 4 */
+/* 3 */
 /***/ function(module, exports) {
 
 	module.exports = function(module) {
@@ -977,10 +929,101 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 5 */
+/* 4 */
 /***/ function(module, exports) {
 
 	module.exports = function() { throw new Error("define cannot be used indirect"); };
+
+
+/***/ },
+/* 5 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var Recognizer = __webpack_require__(2)
+	var historyBackends = {
+	  abstract: __webpack_require__(6),
+	  hash: __webpack_require__(7),
+	  html5: __webpack_require__(8)
+	}
+
+	/**
+	 * Router constructor
+	 *
+	 * @param {Object} [options]
+	 *                 - {Boolean} hashbang  (default: true)
+	 *                 - {Boolean} history (default: false)
+	 *                 - {Boolean} abstract (default: false)
+	 *                 - {Boolean} saveScrollPosition (default: false)
+	 *                 - {Boolean} transitionOnLoad (default: false)
+	 *                 - {Boolean} suppressTransitionError (default: false)
+	 *                 - {String} root (default: null)
+	 *                 - {String} linkActiveClass (default: 'v-link-active')
+	 */
+
+	function Router (options) {
+	  /* istanbul ignore if */
+	  if (!Router.installed) {
+	    throw new Error(
+	      'Please install the Router with Vue.use() before ' +
+	      'creating an instance.'
+	    )
+	  }
+
+	  options = options || {}
+
+	  // Vue instances
+	  this.app = null
+	  this._views = []
+	  this._children = []
+
+	  // route recognizer
+	  this._recognizer = new Recognizer()
+	  this._guardRecognizer = new Recognizer()
+
+	  // state
+	  this._started = false
+	  this._currentRoute = {}
+	  this._currentTransition = null
+	  this._notFoundHandler = null
+	  this._beforeEachHook = null
+
+	  // feature detection
+	  this._hasPushState = typeof history !== 'undefined' && history.pushState
+
+	  // trigger transition on initial render?
+	  this._rendered = false
+	  this._transitionOnLoad = options.transitionOnLoad
+
+	  // history mode
+	  this._abstract = !!options.abstract
+	  this._hashbang = options.hashbang !== false
+	  this._history = !!(this._hasPushState && options.history)
+
+	  // other options
+	  this._saveScrollPosition = !!options.saveScrollPosition
+	  this._linkActiveClass = options.linkActiveClass || 'v-link-active'
+	  this._suppress = !!options.suppressTransitionError
+
+	  // create history object
+	  this.mode = this._abstract
+	    ? 'abstract'
+	    : this._history
+	      ? 'html5'
+	      : 'hash'
+
+	  var History = historyBackends[this.mode]
+	  var self = this
+	  this.history = new History({
+	    root: options.root,
+	    hashbang: this._hashbang,
+	    onChange: function (path, state, anchor) {
+	      self._match(path, state, anchor)
+	    }
+	  })
+	}
+
+	Router.installed = false
+	module.exports = Router
 
 
 /***/ },
@@ -1395,36 +1438,15 @@ return /******/ (function(modules) { // webpackBootstrap
 	    var router = this
 	    this._guardRecognizer.add([{
 	      path: path,
-	      handler: function (match) {
-	        var realPath = mappedPath
-	        if (match.isDynamic) {
-	          for (var key in match.params) {
-	            realPath = replaceParam(realPath, match, key)
-	          }
-	        }
+	      handler: function (match, query) {
+	        var realPath = routerUtil.mapParams(
+	          mappedPath,
+	          match.params,
+	          query
+	        )
 	        handler.call(router, realPath)
 	      }
 	    }])
-	  }
-
-	  /**
-	   * Replace a param segment with real value in a matched
-	   * path.
-	   *
-	   * @param {String} path
-	   * @param {Object} match
-	   * @param {String} key
-	   * @return {String}
-	   */
-
-	  function replaceParam (path, match, key) {
-	    var regex = new RegExp(':' + key + '(\\/|$)')
-	    var value = match.params[key]
-	    return path.replace(regex, function (m) {
-	      return m.charAt(m.length - 1) === '/'
-	        ? value + '/'
-	        : value
-	    })
 	  }
 
 	  /**
@@ -1437,7 +1459,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  p._checkGuard = function (path) {
 	    var matched = this._guardRecognizer.recognize(path)
 	    if (matched) {
-	      matched[0].handler(matched[0])
+	      matched[0].handler(matched[0], matched.queryParams)
 	      return true
 	    }
 	  }
@@ -1458,15 +1480,27 @@ return /******/ (function(modules) { // webpackBootstrap
 	      return
 	    }
 
-	    var previousRoute = this._currentRoute
-	    if (this.app && path === previousRoute.path) {
+	    var prevRoute = this._currentRoute
+	    var prevTransition = this._currentTransition
+
+	    // abort ongoing transition
+	    if (prevTransition && path !== prevTransition.to.path) {
+	      prevTransition.aborted = true
+	    }
+
+	    // do nothing if going to the same route.
+	    // the route only changes when a transition successfully
+	    // reaches activation; we don't need to do anything
+	    // if an ongoing transition is aborted during validation
+	    // phase.
+	    if (prevTransition && path === prevRoute.path) {
 	      return
 	    }
 
-	    // construct route context
+	    // construct new route and transition context
 	    var route = new Route(path, this)
 	    var transition = this._currentTransition =
-	      new RouteTransition(this, route, previousRoute)
+	      new RouteTransition(this, route, prevRoute)
 
 	    if (!this.app) {
 	      // initial render
@@ -1478,6 +1512,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	      })
 	    }
 
+	    // check global before hook
 	    var before = this._beforeEachHook
 	    var startTransition = function () {
 	      transition.start(function () {
@@ -1499,6 +1534,25 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }
 
 	  /**
+	   * Switch the current route to a new one.
+	   * This is called by the transition object when the
+	   * validation of a route has succeeded.
+	   *
+	   * @param {Route} route
+	   */
+
+	  p._updateRoute = function (route) {
+	    this._currentRoute = route
+	    // update route context for all children
+	    if (this.app.$route !== route) {
+	      this.app.$route = route
+	      this._children.forEach(function (child) {
+	        child.$route = route
+	      })
+	    }
+	  }
+
+	  /**
 	   * Handle stuff after the transition.
 	   *
 	   * @param {Route} route
@@ -1507,14 +1561,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	   */
 
 	  p._postTransition = function (route, state, anchor) {
-	    // update route context for all children
-	    if (this.app.$route !== route) {
-	      this.app.$route = route
-	      this._children.forEach(function (child) {
-	        child.$route = route
-	      })
-	    }
-
 	    // handle scroll positions
 	    // saved scroll positions take priority
 	    // then we check if the path has an anchor
@@ -1546,7 +1592,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	      comp = handler.component = Vue.extend(comp)
 	    }
 	    /* istanbul ignore if */
-	    if (typeof comp !== 'function' || !comp.cid) {
+	    if (typeof comp !== 'function') {
 	      handler.component = null
 	      routerUtil.warn(
 	        'invalid component for route "' + handler.path + '"'
@@ -1613,11 +1659,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	 */
 
 	function Transition (router, to, from) {
-	  // mark previous route as aborted
-	  if (from) {
-	    from._aborted = true
-	  }
-
 	  this.router = router
 	  this.to = to
 	  this.from = from
@@ -1658,17 +1699,22 @@ return /******/ (function(modules) { // webpackBootstrap
 	p.abort = function () {
 	  if (!this.aborted) {
 	    this.aborted = true
-	    this.to._aborted = true
 	    this.router.replace(this.from.path || '/')
 	  }
 	}
 
 	/**
 	 * Abort current transition and redirect to a new location.
+	 *
+	 * @param {String} path
 	 */
 
-	p.redirect = function () {
-	  // TODO
+	p.redirect = function (path) {
+	  if (!this.aborted) {
+	    this.aborted = true
+	    path = util.mapParams(path, this.to.params, this.to.query)
+	    this.router.replace(path)
+	  }
 	}
 
 	/**
@@ -1724,16 +1770,22 @@ return /******/ (function(modules) { // webpackBootstrap
 	  transition.runQueue(daq, pipeline.canDeactivate, function canActivatePhase () {
 	    transition.runQueue(aq, pipeline.canActivate, function deactivatePhase () {
 	      transition.runQueue(daq, pipeline.deactivate, function activatePhase () {
-	        // validation complete. change the current route.
-	        transition.router._currentRoute = transition.to
+	        // Validation phase is now over! The new route is valid.
+
+	        // Update router current route
+	        transition.router._updateRoute(transition.to)
+
 	        // trigger reuse for all reused views
 	        reuseQueue && reuseQueue.forEach(function (view) {
 	          pipeline.reuse(view, transition)
 	        })
+
 	        // the root of the chain that needs to be replaced
 	        // is the top-most non-reusable view.
 	        if (daq.length) {
-	          pipeline.activate(daq[daq.length - 1], transition, cb)
+	          var view = daq[daq.length - 1]
+	          var depth = reuseQueue ? reuseQueue.length : 0
+	          pipeline.activate(view, transition, depth, cb)
 	        } else {
 	          cb()
 	        }
@@ -1773,25 +1825,41 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * @param {*} [context]
 	 * @param {Function} [cb]
 	 * @param {Boolean} [expectBoolean]
+	 * @param {Function} [cleanup]
 	 */
 
-	p.callHook = function (hook, context, cb, expectBoolean) {
+	p.callHook = function (hook, context, cb, expectBoolean, cleanup) {
 	  var transition = this
 	  var nextCalled = false
+
 	  var next = function (data) {
 	    if (nextCalled) {
 	      util.warn('transition.next() should be called only once.')
 	      return
 	    }
 	    nextCalled = true
-	    if (!cb || transition.to._aborted) {
+	    if (!cb || transition.aborted) {
 	      return
 	    }
 	    cb(data)
 	  }
+
 	  var abort = function () {
+	    cleanup && cleanup()
 	    transition.abort()
 	  }
+
+	  var onError = function (err) {
+	    // cleanup indicates an after-activation hook,
+	    // so instead of aborting we just let the transition
+	    // finish.
+	    cleanup ? next() : abort()
+	    if (err && !transition.router._suppress) {
+	      util.warn('Uncaught error during transition: ')
+	      throw err instanceof Error ? err : new Error(err)
+	    }
+	  }
+
 	  // the copied transition object passed to the user.
 	  var exposed = {
 	    to: transition.to,
@@ -1802,7 +1870,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	      transition.redirect.apply(transition, arguments)
 	    }
 	  }
-	  var res = hook.call(context, exposed)
+	  var res
+	  try {
+	    res = hook.call(context, exposed)
+	  } catch (err) {
+	    return onError(err)
+	  }
 	  var promise = util.isPromise(res)
 	  if (expectBoolean) {
 	    if (typeof res === 'boolean') {
@@ -1810,10 +1883,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	    } else if (promise) {
 	      res.then(function (ok) {
 	        ok ? next() : abort()
-	      }, abort)
+	      }, onError)
 	    }
 	  } else if (promise) {
-	    res.then(next, abort)
+	    res.then(next, onError)
 	  }
 	}
 
@@ -1839,7 +1912,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	  if (!component || !handler) {
 	    return false
 	  }
-	  if (component.constructor !== handler.component) {
+	  // important: check view.Component here because it may
+	  // have been changed in activate hook
+	  if (view.Component !== handler.component) {
 	    return false
 	  }
 	  var canReuseFn = util.getRouteConfig(component, 'canReuse')
@@ -1882,7 +1957,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.canActivate = function (handler, transition, next) {
 	  util.resolveAsyncComponent(handler, function (Component) {
 	    // have to check due to async-ness
-	    if (transition.to._aborted) {
+	    if (transition.aborted) {
 	      return
 	    }
 	    // determine if this component can be activated
@@ -1918,35 +1993,43 @@ return /******/ (function(modules) { // webpackBootstrap
 	 *
 	 * @param {Directive} view
 	 * @param {Transition} transition
+	 * @param {Number} depth
 	 * @param {Function} [cb]
 	 */
 
-	exports.activate = function (view, transition, cb) {
-	  var handler = transition.activateQueue[view.depth]
+	exports.activate = function (view, transition, depth, cb) {
+	  var handler = transition.activateQueue[depth]
 	  if (!handler) {
 	    view.setComponent(null)
 	    cb && cb()
 	    return
 	  }
 
-	  var Component = handler.component
+	  var Component = view.Component = handler.component
 	  var activateHook = util.getRouteConfig(Component, 'activate')
 	  var dataHook = util.getRouteConfig(Component, 'data')
 	  var waitForData = util.getRouteConfig(Component, 'waitForData')
 
-	  var build = function (data) {
-	    view.unbuild(true)
-	    view.Component = Component
-	    var shouldLoadData = dataHook && !waitForData
-	    var component = view.build({
-	      data: data,
-	      _meta: {
-	        $loadingRouteData: shouldLoadData
-	      }
-	    })
-	    if (shouldLoadData) {
-	      loadData(component, transition, dataHook)
+	  // unbuild current component. this step also destroys
+	  // and removes all nested child views.
+	  view.unbuild(true)
+	  // build the new component. this will also create the
+	  // direct child view of the current one. it will register
+	  // itself as view.childView.
+	  var component = view.build({
+	    _meta: {
+	      $loadingRouteData: !!(dataHook && !waitForData)
 	    }
+	  })
+
+	  // cleanup the component in case the transition is aborted
+	  // before the component is ever inserted.
+	  var cleanup = function () {
+	    component.$destroy()
+	  }
+
+	  // actually insert the component and trigger transition
+	  var insert = function () {
 	    var router = transition.router
 	    if (router._rendered || router._transitionOnLoad) {
 	      view.transition(component)
@@ -1958,18 +2041,28 @@ return /******/ (function(modules) { // webpackBootstrap
 	    cb && cb()
 	  }
 
-	  var activate = function () {
+	  // called after activation hook is resolved
+	  var afterActivate = function () {
+	    // activate the child view
+	    if (view.childView) {
+	      exports.activate(view.childView, transition, depth + 1)
+	    }
 	    if (dataHook && waitForData) {
-	      loadData(null, transition, dataHook, build)
+	      // wait until data loaded to insert
+	      loadData(component, transition, dataHook, insert, cleanup)
 	    } else {
-	      build()
+	      // load data and insert at the same time
+	      if (dataHook) {
+	        loadData(component, transition, dataHook)
+	      }
+	      insert()
 	    }
 	  }
 
 	  if (activateHook) {
-	    transition.callHook(activateHook, null, activate)
+	    transition.callHook(activateHook, component, afterActivate, false, cleanup)
 	  } else {
-	    activate()
+	    afterActivate()
 	  }
 	}
 
@@ -1995,24 +2088,18 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * @param {Transition} transition
 	 * @param {Function} hook
 	 * @param {Function} cb
+	 * @param {Function} cleanup
 	 */
 
-	function loadData (component, transition, hook, cb) {
-	  if (component) {
-	    component.$loadingRouteData = true
-	  }
+	function loadData (component, transition, hook, cb, cleanup) {
+	  component.$loadingRouteData = true
 	  transition.callHook(hook, component, function (data) {
-	    if (component) {
-	      if (data) {
-	        for (var key in data) {
-	          component.$set(key, data[key])
-	        }
-	      }
-	      component.$loadingRouteData = false
-	    } else {
-	      cb(data)
+	    for (var key in data) {
+	      component.$set(key, data[key])
 	    }
-	  })
+	    component.$loadingRouteData = false
+	    cb && cb(data)
+	  }, false, cleanup)
 	}
 
 
@@ -2024,7 +2111,6 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	  var _ = Vue.util
 	  var util = __webpack_require__(1)
-	  var pipeline = __webpack_require__(13)
 	  var componentDef = Vue.directive('_component')
 
 	  // <router-view> extends the internal component directive
@@ -2045,12 +2131,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	        )
 	        return
 	      }
-	      // all we need to do here is registering this view
-	      // in the router. actual component switching will be
-	      // managed by the pipeline.
-	      var router = this.router = route._router
-	      this.depth = router._views.length
-	      router._views.unshift(this)
 	      // force dynamic directive so v-component doesn't
 	      // attempt to build right now
 	      this._isDynamicLiteral = true
@@ -2062,10 +2142,21 @@ return /******/ (function(modules) { // webpackBootstrap
 	        this.keepAlive = false
 	        util.warn('<router-view> does not support keep-alive.')
 	      }
-	      // only activate on create if this is not the
-	      // initial render.
-	      if (router.app) {
-	        pipeline.activate(this, router._currentTransition)
+
+	      // all we need to do here is registering this view
+	      // in the router. actual component switching will be
+	      // managed by the pipeline.
+	      var router = this.router = route._router
+	      router._views.unshift(this)
+
+	      // note the views are in reverse order.
+	      var parentView = router._views[1]
+	      if (parentView) {
+	        // register self as a child of the parent view,
+	        // instead of activating now. This is so that the
+	        // child's activate hook is called after the
+	        // parent's has resolved.
+	        parentView.childView = this
 	      }
 	    },
 
