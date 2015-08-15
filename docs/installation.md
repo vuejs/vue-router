@@ -12,6 +12,17 @@ npm install vue-router
 npm install vuejs/vue-router#dev
 ```
 
+When used in CommonJS, you must explicitly install the router via `Vue.use()`:
+
+``` js
+var Vue = require('vue')
+var VueRouter = require('vue-router')
+
+Vue.use(VueRouter)
+```
+
+You don't need to do this when using the standalone build because it installs itself automatically.
+
 ### Bower
 
 ``` bash
