@@ -6,11 +6,9 @@ echo    # (optional) move to a new line
 if [[ $REPLY =~ ^[Yy]$ ]]
 then
     echo "Releasing $VERSION ..."
-    # unit tests
-    npm run test 2>/dev/null
 
-    # e2e tests
-    npm run e2e-local 2>/dev/null
+    # run tests
+    npm test 2>/dev/null
 
     # build
     VERSION=$VERSION npm run build
