@@ -1,6 +1,6 @@
 // warning: vue-router requires Vue 0.12.10+
 var Vue = require('vue')
-var VueRouter = require('../src')
+var VueRouter = require('../../')
 
 // install router
 Vue.use(VueRouter)

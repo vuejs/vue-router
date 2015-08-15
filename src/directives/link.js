@@ -47,7 +47,7 @@ module.exports = function (Vue) {
       var router = this.vm.$route._router
       var activeClass = router._linkActiveClass
       var exactClass = activeClass + '-exact'
-      if (path.indexOf(dest) === 0) {
+      if (path.indexOf(dest) === 0 && path !== '/') {
         _.addClass(el, activeClass)
       } else {
         _.removeClass(el, activeClass)

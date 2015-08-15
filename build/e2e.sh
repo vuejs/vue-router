@@ -4,8 +4,8 @@ PORT=8082
 # serve example
 ./node_modules/.bin/webpack-dev-server \
   --quiet --hot --history-api-fallback\
-  --config example/webpack.config.js \
-  --content-base example \
+  --config example/advanced/webpack.config.js \
+  --content-base example/advanced \
   --host 0.0.0.0 \
   --port $PORT &
 

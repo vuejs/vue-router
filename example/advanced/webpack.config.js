@@ -1,9 +1,9 @@
 module.exports = {
   entry: {
-    app: ['webpack/hot/dev-server', './example/index.js']
+    app: ['webpack/hot/dev-server', './example/advanced/index.js']
   },
   output: {
-    path: './example',
+    path: './example/advanced',
     filename: 'example.build.js'
   },
   module: {

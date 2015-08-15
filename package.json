@@ -8,7 +8,7 @@
     "lint": "eslint src build test/e2e test/unit/specs",
     "unit": "./node_modules/karma/bin/karma start build/karma.config.js",
     "build": "webpack --config build/webpack.build.dev.config.js && webpack --config build/webpack.build.min.config.js",
-    "serve": "webpack-dev-server --hot --config example/webpack.config.js --content-base example --history-api-fallback --host 0.0.0.0",
+    "serve": "webpack-dev-server --hot --config example/advanced/webpack.config.js --content-base example/advanced --history-api-fallback --host 0.0.0.0",
     "serve-test": "webpack-dev-server --quiet --config test/unit/webpack.config.js --content-base test/unit --history-api-fallback --host 0.0.0.0 --port 8081",
     "e2e-sauce": "nightwatch -c build/nightwatch.sauce.json -e chrome,firefox,ie10,ie11",
     "e2e-local": "bash ./build/e2e.sh",

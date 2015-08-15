@@ -4,6 +4,7 @@
 - [Basic Usage](basic.md)
 - [Nested Routes](nested.md)
 - [Route Context](route.md)
+- [router-view](view.md)
 - [v-link](link.md)
 - [Router Options](options.md)
 - Transition Pipeline
