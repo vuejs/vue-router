@@ -132,20 +132,27 @@ module.exports = function (Vue, Router) {
       return
     }
 
-    var previousRoute = this._currentRoute
-    if (this.app && path === previousRoute.path) {
-      return
+    var prevRoute = this._currentRoute
+    var prevTransition = this._currentTransition
+
+    // abort ongoing transition
+    if (prevTransition && path !== prevTransition.to.path) {
+      prevTransition.aborted = true
     }
 
-    // abort previous transition
-    if (this._currentTransition) {
-      this._currentTransition.aborted = true
+    // do nothing if going to the same route.
+    // the route only changes when a transition successfully
+    // reaches activation; we don't need to do anything
+    // if an ongoing transition is aborted during validation
+    // phase.
+    if (prevTransition && path === prevRoute.path) {
+      return
     }
 
     // construct new route and transition context
     var route = new Route(path, this)
     var transition = this._currentTransition =
-      new RouteTransition(this, route, previousRoute)
+      new RouteTransition(this, route, prevRoute)
 
     if (!this.app) {
       // initial render
