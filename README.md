@@ -30,9 +30,12 @@ npm run build
 # and unit tests at localhost:8081
 npm run dev
 
-# lint & run unit tests with coverage report
+# lint & run all tests
 npm test
 
-# run e2e tests for example app in Chrome & Firefox
+# run unit tests only
+npm run unit
+
+# run e2e tests only
 npm run e2e-local
 ```

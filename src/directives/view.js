@@ -38,7 +38,6 @@ module.exports = function (Vue) {
       // in the router. actual component switching will be
       // managed by the pipeline.
       var router = this.router = route._router
-      this.depth = router._views.length
       router._views.unshift(this)
 
       // note the views are in reverse order.

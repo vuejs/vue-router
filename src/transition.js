@@ -136,7 +136,9 @@ p.start = function (cb) {
         // the root of the chain that needs to be replaced
         // is the top-most non-reusable view.
         if (daq.length) {
-          pipeline.activate(daq[daq.length - 1], transition, cb)
+          var view = daq[daq.length - 1]
+          var depth = reuseQueue ? reuseQueue.length : 0
+          pipeline.activate(view, transition, depth, cb)
         } else {
           cb()
         }
@@ -194,8 +196,8 @@ p.callHook = function (hook, context, cb, expectBoolean, cleanup) {
     cb(data)
   }
   var abort = function () {
-    transition.abort()
     cleanup && cleanup()
+    transition.abort()
   }
   // the copied transition object passed to the user.
   var exposed = {

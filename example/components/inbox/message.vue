@@ -27,7 +27,7 @@ module.exports = {
       // callback based
       messagesSerivce.get(params, function (err, message) {
         if (err) {
-          transition.abort(err)
+          // handle error, e.g. display a warning
         } else {
           transition.next({
             message: message

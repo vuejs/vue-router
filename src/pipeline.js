@@ -13,7 +13,9 @@ exports.canReuse = function (view, handler, transition) {
   if (!component || !handler) {
     return false
   }
-  if (component.constructor !== handler.component) {
+  // important: check view.Component here because it may
+  // have been changed in activate hook
+  if (view.Component !== handler.component) {
     return false
   }
   var canReuseFn = util.getRouteConfig(component, 'canReuse')
@@ -92,11 +94,12 @@ exports.deactivate = function (view, transition, next) {
  *
  * @param {Directive} view
  * @param {Transition} transition
+ * @param {Number} depth
  * @param {Function} [cb]
  */
 
-exports.activate = function (view, transition, cb) {
-  var handler = transition.activateQueue[view.depth]
+exports.activate = function (view, transition, depth, cb) {
+  var handler = transition.activateQueue[depth]
   if (!handler) {
     view.setComponent(null)
     cb && cb()
@@ -143,7 +146,7 @@ exports.activate = function (view, transition, cb) {
   var afterActivate = function () {
     // activate the child view
     if (view.childView) {
-      exports.activate(view.childView, transition)
+      exports.activate(view.childView, transition, depth + 1)
     }
     if (dataHook && waitForData) {
       // wait until data loaded to insert
