@@ -12,11 +12,6 @@ var pipeline = require('./pipeline')
  */
 
 function Transition (router, to, from) {
-  // mark previous route as aborted
-  if (from) {
-    from._aborted = true
-  }
-
   this.router = router
   this.to = to
   this.from = from
@@ -57,7 +52,6 @@ var p = Transition.prototype
 p.abort = function () {
   if (!this.aborted) {
     this.aborted = true
-    this.to._aborted = true
     this.router.replace(this.from.path || '/')
   }
 }
@@ -69,16 +63,10 @@ p.abort = function () {
  */
 
 p.redirect = function (path) {
-  /* istanbul ignore else */
   if (!this.aborted) {
     this.aborted = true
-    this.to._aborted = true
     path = util.mapParams(path, this.to.params, this.to.query)
     this.router.replace(path)
-  } else {
-    util.warn(
-      'Don\'t call redirect() on an already aborted transition.'
-    )
   }
 }
 
@@ -203,7 +191,7 @@ p.callHook = function (hook, context, cb, expectBoolean, cleanup) {
       return
     }
     nextCalled = true
-    if (!cb || transition.to._aborted) {
+    if (!cb || transition.aborted) {
       return
     }
     cb(data)

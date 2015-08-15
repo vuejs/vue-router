@@ -137,7 +137,12 @@ module.exports = function (Vue, Router) {
       return
     }
 
-    // construct route context
+    // abort previous transition
+    if (this._currentTransition) {
+      this._currentTransition.aborted = true
+    }
+
+    // construct new route and transition context
     var route = new Route(path, this)
     var transition = this._currentTransition =
       new RouteTransition(this, route, previousRoute)
@@ -152,6 +157,7 @@ module.exports = function (Vue, Router) {
       })
     }
 
+    // check global before hook
     var before = this._beforeEachHook
     var startTransition = function () {
       transition.start(function () {
@@ -231,7 +237,7 @@ module.exports = function (Vue, Router) {
       comp = handler.component = Vue.extend(comp)
     }
     /* istanbul ignore if */
-    if (typeof comp !== 'function' || !comp.cid) {
+    if (typeof comp !== 'function') {
       handler.component = null
       routerUtil.warn(
         'invalid component for route "' + handler.path + '"'

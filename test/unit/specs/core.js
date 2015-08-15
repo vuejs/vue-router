@@ -534,6 +534,69 @@ describe('Core', function () {
         history.back()
       })
     })
+
+    it('async component', function (done) {
+      router = new Router({
+        abstract: true
+      })
+      router.map({
+        '/a': {
+          component: function (resolve) {
+            setTimeout(function () {
+              resolve({
+                template: 'hello!'
+              })
+            }, wait)
+          }
+        }
+      })
+      router.start(Vue.extend({
+        template: '<div><router-view></router-view></div>'
+      }), el)
+      router.go('/a')
+      expect(router.app.$el.textContent).toBe('')
+      setTimeout(function () {
+        expect(router.app.$el.textContent).toBe('hello!')
+        done()
+      }, wait * 2)
+    })
+
+    it('async component abort', function (done) {
+      var spy = jasmine.createSpy('async-component-abort')
+      router = new Router({
+        abstract: true
+      })
+      router.map({
+        '/a': {
+          component: function (resolve) {
+            setTimeout(function () {
+              resolve({
+                template: 'hello!',
+                created: spy
+              })
+            }, wait)
+          }
+        },
+        '/b': {
+          component: {
+            template: 'B'
+          }
+        }
+      })
+      router.start(Vue.extend({
+        template: '<div><router-view></router-view></div>'
+      }), el)
+      router.go('/a')
+      expect(router.app.$el.textContent).toBe('')
+      setTimeout(function () {
+        router.go('/b')
+        setTimeout(function () {
+          expect(router.app.$el.textContent).toBe('B')
+          expect(spy).not.toHaveBeenCalled()
+          done()
+        }, wait * 2)
+      }, 0)
+    })
   }
 
   function assertRoutes (matches, options, done) {
