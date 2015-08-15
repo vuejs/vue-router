@@ -64,10 +64,22 @@ p.abort = function () {
 
 /**
  * Abort current transition and redirect to a new location.
+ *
+ * @param {String} path
  */
 
-p.redirect = function () {
-  // TODO
+p.redirect = function (path) {
+  /* istanbul ignore else */
+  if (!this.aborted) {
+    this.aborted = true
+    this.to._aborted = true
+    path = util.mapParams(path, this.to.params, this.to.query)
+    this.router.replace(path)
+  } else {
+    util.warn(
+      'Don\'t call redirect() on an already aborted transition.'
+    )
+  }
 }
 
 /**

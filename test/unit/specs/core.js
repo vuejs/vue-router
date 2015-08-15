@@ -394,6 +394,21 @@ describe('Core', function () {
       template: '<div><router-view></router-view></div>'
     })
     router.map({
+      '/no': {
+        component: {
+          template: '<p>NO</p>'
+        }
+      },
+      'redirect/:id': {
+        component: {
+          template: 'should never show'
+        }
+      },
+      '/to/:id': {
+        component: {
+          template: 'to {{$route.params.id}}'
+        }
+      },
       '*': {
         component: {
           template: '<p>default</p>'
@@ -408,6 +423,11 @@ describe('Core', function () {
           transition.abort()
           next()
         }, 100)
+      } else if (transition.to.path.indexOf('/redirect') > -1) {
+        setTimeout(function () {
+          transition.redirect('/to/:id')
+          next2()
+        }, 100)
       } else {
         transition.next()
       }
@@ -418,6 +438,10 @@ describe('Core', function () {
     router.go('/no')
     function next () {
       expect(router.app.$el.textContent).toBe('default')
+      router.go('/redirect/12345')
+    }
+    function next2 () {
+      expect(router.app.$el.textContent).toBe('to 12345')
       done()
     }
   })
