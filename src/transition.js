@@ -184,6 +184,7 @@ p.runQueue = function (queue, fn, cb) {
 p.callHook = function (hook, context, cb, expectBoolean, cleanup) {
   var transition = this
   var nextCalled = false
+
   var next = function (data) {
     if (nextCalled) {
       util.warn('transition.next() should be called only once.')
@@ -195,10 +196,23 @@ p.callHook = function (hook, context, cb, expectBoolean, cleanup) {
     }
     cb(data)
   }
+
   var abort = function () {
     cleanup && cleanup()
     transition.abort()
   }
+
+  var onError = function (err) {
+    // cleanup indicates an after-activation hook,
+    // so instead of aborting we just let the transition
+    // finish.
+    cleanup ? next() : abort()
+    if (err && !transition.router._suppress) {
+      util.warn('Uncaught error during transition: ')
+      throw err instanceof Error ? err : new Error(err)
+    }
+  }
+
   // the copied transition object passed to the user.
   var exposed = {
     to: transition.to,
@@ -209,7 +223,12 @@ p.callHook = function (hook, context, cb, expectBoolean, cleanup) {
       transition.redirect.apply(transition, arguments)
     }
   }
-  var res = hook.call(context, exposed)
+  var res
+  try {
+    res = hook.call(context, exposed)
+  } catch (err) {
+    return onError(err)
+  }
   var promise = util.isPromise(res)
   if (expectBoolean) {
     if (typeof res === 'boolean') {
@@ -217,10 +236,10 @@ p.callHook = function (hook, context, cb, expectBoolean, cleanup) {
     } else if (promise) {
       res.then(function (ok) {
         ok ? next() : abort()
-      }, abort)
+      }, onError)
     }
   } else if (promise) {
-    res.then(next, abort)
+    res.then(next, onError)
   }
 }
 

@@ -1,8 +1,13 @@
 var testUtils = require('../util')
 var test = testUtils.test
 var assertCalls = testUtils.assertCalls
+var routerUtil = require('../../../../src/util')
 
 describe('activate', function () {
+
+  beforeEach(function () {
+    spyOn(routerUtil, 'warn')
+  })
 
   it('sync', function (done) {
     test({
@@ -117,11 +122,35 @@ describe('activate', function () {
       // path changes during validation phase
       expect(router.history.currentPath).toBe('/a')
       setTimeout(function () {
-        // but gets reset when validation fails
-        expect(router.app.$el.textContent).toBe('')
-        expect(router.history.currentPath).toBe('/')
+        // activation error should continue transition
+        expect(router.app.$el.textContent).toBe('A ')
+        expect(router.history.currentPath).toBe('/a')
         done()
       }, wait * 2)
+    })
+  })
+
+  it('error', function (done) {
+    test({
+      a: {
+        activate: function (transition) {
+          throw new Error('oh no')
+        }
+      }
+    }, function (router, calls, emitter) {
+      var errorThrown = jasmine.createSpy()
+      try {
+        router.go('/a')
+      } catch (e) {
+        errorThrown()
+      }
+      expect(routerUtil.warn).toHaveBeenCalled()
+      expect(errorThrown).toHaveBeenCalled()
+      // should complete the transition despite error
+      assertCalls(calls, ['a.activate'])
+      expect(router.app.$el.textContent).toBe('A ')
+      expect(router.history.currentPath).toBe('/a')
+      done()
     })
   })
 })

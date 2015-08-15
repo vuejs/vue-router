@@ -25,11 +25,11 @@ exports.test = function (configs, cb) {
     Object.keys(config).forEach(function (hook) {
       var fn = config[hook]
       config[hook] = function (transition) {
+        var event = route + '.' + hook
+        calls.push(event)
         var res = typeof fn === 'function'
           ? fn(transition)
           : fn
-        var event = route + '.' + hook
-        calls.push(event)
         emitter.emit(event)
         return res
       }

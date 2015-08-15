@@ -14,6 +14,7 @@ var historyBackends = {
  *                 - {Boolean} abstract (default: false)
  *                 - {Boolean} saveScrollPosition (default: false)
  *                 - {Boolean} transitionOnLoad (default: false)
+ *                 - {Boolean} suppressTransitionError (default: false)
  *                 - {String} root (default: null)
  *                 - {String} linkActiveClass (default: 'v-link-active')
  */
@@ -60,6 +61,7 @@ function Router (options) {
   // other options
   this._saveScrollPosition = !!options.saveScrollPosition
   this._linkActiveClass = options.linkActiveClass || 'v-link-active'
+  this._suppress = !!options.suppressTransitionError
 
   // create history object
   this.mode = this._abstract

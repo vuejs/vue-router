@@ -1,8 +1,13 @@
 var testUtils = require('../util')
 var test = testUtils.test
 var assertCalls = testUtils.assertCalls
+var routerUtil = require('../../../../src/util')
 
 describe('data', function () {
+
+  beforeEach(function () {
+    spyOn(routerUtil, 'warn')
+  })
 
   it('initial load', function (done) {
     test({
@@ -87,4 +92,26 @@ describe('data', function () {
     })
   })
 
+  it('promise error', function (done) {
+    test({
+      data: {
+        data: function () {
+          return new Promise(function (resolve, reject) {
+            setTimeout(function () {
+              reject()
+            }, wait)
+          })
+        }
+      }
+    }, function (router, calls, emitter) {
+      router.go('/data/hello')
+      assertCalls(calls, ['data.data'])
+      expect(router.app.$el.textContent).toBe('loading...')
+      setTimeout(function () {
+        // should complete the transition despite error
+        expect(router.app.$el.textContent).toBe('')
+        done()
+      }, wait * 2)
+    })
+  })
 })
