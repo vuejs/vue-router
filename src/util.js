@@ -1,3 +1,6 @@
+var RouteRecognizer = require('route-recognizer')
+var genQuery = RouteRecognizer.prototype.generateQueryString
+
 /**
  * Warn stuff.
  *
@@ -111,5 +114,43 @@ exports.resolveAsyncComponent = function (handler, cb) {
   resolver.resolve('_', function (Component) {
     handler.component = Component
     cb(Component)
+  })
+}
+
+/**
+ * Map the dynamic segments in a path to params.
+ *
+ * @param {String} path
+ * @param {Object} params
+ * @param {Object} query
+ */
+
+exports.mapParams = function (path, params, query) {
+  for (var key in params) {
+    path = replaceParam(path, params, key)
+  }
+  if (query) {
+    path += genQuery(query)
+  }
+  return path
+}
+
+/**
+ * Replace a param segment with real value in a matched
+ * path.
+ *
+ * @param {String} path
+ * @param {Object} params
+ * @param {String} key
+ * @return {String}
+ */
+
+function replaceParam (path, params, key) {
+  var regex = new RegExp(':' + key + '(\\/|$)')
+  var value = params[key]
+  return path.replace(regex, function (m) {
+    return m.charAt(m.length - 1) === '/'
+      ? value + '/'
+      : value
   })
 }

@@ -319,7 +319,7 @@ describe('Core', function () {
           },
           '/c': {
             component: {
-              template: 'world'
+              template: '{{$route.query.msg}}'
             }
           }
         }
@@ -335,7 +335,7 @@ describe('Core', function () {
     router.start(App, el)
     assertRoutes([
       ['/whatever', 'hello'],
-      ['/ok', 'world']
+      ['/ok?msg=world', 'world']
     ], done)
   })
 

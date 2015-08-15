@@ -90,36 +90,15 @@ module.exports = function (Vue, Router) {
     var router = this
     this._guardRecognizer.add([{
       path: path,
-      handler: function (match) {
-        var realPath = mappedPath
-        if (match.isDynamic) {
-          for (var key in match.params) {
-            realPath = replaceParam(realPath, match, key)
-          }
-        }
+      handler: function (match, query) {
+        var realPath = routerUtil.mapParams(
+          mappedPath,
+          match.params,
+          query
+        )
         handler.call(router, realPath)
       }
     }])
-  }
-
-  /**
-   * Replace a param segment with real value in a matched
-   * path.
-   *
-   * @param {String} path
-   * @param {Object} match
-   * @param {String} key
-   * @return {String}
-   */
-
-  function replaceParam (path, match, key) {
-    var regex = new RegExp(':' + key + '(\\/|$)')
-    var value = match.params[key]
-    return path.replace(regex, function (m) {
-      return m.charAt(m.length - 1) === '/'
-        ? value + '/'
-        : value
-    })
   }
 
   /**
@@ -132,7 +111,7 @@ module.exports = function (Vue, Router) {
   p._checkGuard = function (path) {
     var matched = this._guardRecognizer.recognize(path)
     if (matched) {
-      matched[0].handler(matched[0])
+      matched[0].handler(matched[0], matched.queryParams)
       return true
     }
   }
