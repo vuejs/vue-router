@@ -6,6 +6,7 @@
   ],
   "description": "router for Vue.js",
   "main": "dist/vue-router.js",
+  "moduleType": ["globals", "node", "amd"],
   "keywords": [
     "vue",
     "router"
@@ -17,7 +18,6 @@
     "test",
     "build",
     "example",
-    "src",
     "*.yml",
     "package.json"
   ]
