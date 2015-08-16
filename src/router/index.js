@@ -1,3 +1,4 @@
+var util = require('../util')
 var Recognizer = require('route-recognizer')
 var historyBackends = {
   abstract: require('../history/abstract'),
@@ -64,7 +65,8 @@ function Router (options) {
   this._suppress = !!options.suppressTransitionError
 
   // create history object
-  this.mode = this._abstract
+  var inBrowser = util.Vue.util.inBrowser
+  this.mode = (!inBrowser || this._abstract)
     ? 'abstract'
     : this._history
       ? 'html5'
