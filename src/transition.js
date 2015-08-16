@@ -29,12 +29,6 @@ function Transition (router, to, from) {
   var matched = to._matched
     ? Array.prototype.slice.call(to._matched)
     : []
-  var deepest = matched[matched.length - 1]
-  if (deepest && deepest.handler.defaultChildHandler) {
-    matched.push({
-      handler: deepest.handler.defaultChildHandler
-    })
-  }
 
   // the activate queue is an array of route handlers
   // that need to be activated

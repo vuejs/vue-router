@@ -47,7 +47,7 @@ module.exports = function (router) {
         // default component to render into the nested outlet
         // when the parent route is matched but there's no
         // nested segment. In this case, "/inbox".
-        '*': {
+        '/': {
           // inline component
           component: {
             template: 'default yo'

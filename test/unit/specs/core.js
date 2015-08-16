@@ -43,6 +43,11 @@ describe('Core', function () {
           template: 'VIEW A <router-view></router-view>'
         },
         subRoutes: {
+          '/': {
+            component: {
+              template: 'SUB A DEFAULT'
+            }
+          },
           '/sub-a': {
             component: {
               template: 'SUB A'
@@ -51,11 +56,6 @@ describe('Core', function () {
           '/sub-a-2': {
             component: {
               template: 'SUB A2'
-            }
-          },
-          '*': {
-            component: {
-              template: 'SUB A DEFAULT'
             }
           }
         }
