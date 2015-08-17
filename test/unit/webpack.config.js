@@ -8,7 +8,7 @@ module.exports = {
     loaders: [
       {
         test: /\.js$/,
-        exclude: /node_modules|vue\/src/,
+        exclude: /test|node_modules|vue\/src/,
         loader: 'babel'
       }
     ]
