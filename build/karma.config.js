@@ -9,10 +9,17 @@ module.exports = function (config) {
     },
     webpack: {
       module: {
+        loaders: [
+          {
+            test: /\.js$/,
+            exclude: /test|node_modules|vue\/src/,
+            loader: 'babel'
+          }
+        ],
         postLoaders: [
           {
             test: /\.js$/,
-            exclude: /(test|node_modules|vue\/src)\//,
+            exclude: /test|node_modules|vue\/src/,
             loader: 'istanbul-instrumenter'
           }
         ]

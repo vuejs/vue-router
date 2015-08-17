@@ -1,3 +1,5 @@
+var vue = require('vue-loader')
+
 module.exports = {
   entry: {
     app: ['webpack/hot/dev-server', './example/advanced/index.js']
@@ -8,7 +10,17 @@ module.exports = {
   },
   module: {
     loaders: [
-      { test: /\.vue$/, loader: 'vue' }
+      {
+        test: /\.vue$/,
+        loader: vue.withLoaders({
+          script: 'babel'
+        })
+      },
+      {
+        test: /\.js$/,
+        exclude: /node_modules|vue\/src/,
+        loader: 'babel'
+      }
     ]
   },
   devtool: 'source-map'

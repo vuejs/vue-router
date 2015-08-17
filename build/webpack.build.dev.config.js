@@ -2,7 +2,7 @@ var webpack = require('webpack')
 var banner = require('./banner')
 
 module.exports = {
-  entry: './src/index.js',
+  entry: './lib/index.js',
   output: {
     path: './dist',
     filename: 'vue-router.js',

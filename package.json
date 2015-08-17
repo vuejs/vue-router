@@ -2,7 +2,7 @@
   "name": "vue-router",
   "version": "0.5.0",
   "description": "A router for Vue.js",
-  "main": "src/index.js",
+  "main": "lib/index.js",
   "scripts": {
     "dev": "npm run serve & npm run serve-test",
     "lint": "eslint src build test/e2e test/unit/specs",
@@ -14,7 +14,8 @@
     "e2e-local": "bash ./build/e2e.sh",
     "release": "bash ./build/release.sh",
     "docs": "bash ./build/update-docs.sh",
-    "test": "npm run lint && npm run unit && npm run e2e-local"
+    "test": "npm run lint && npm run unit && npm run e2e-local",
+    "prepublish": "babel ./src --optional runtime --out-dir lib"
   },
   "repository": {
     "type": "git",
@@ -33,6 +34,8 @@
   },
   "homepage": "https://github.com/vuejs/vue-router#readme",
   "devDependencies": {
+    "babel": "^5.8.21",
+    "babel-loader": "^5.3.2",
     "chromedriver": "2.16.0",
     "css-loader": "^0.15.4",
     "es6-promise": "^3.0.2",
@@ -57,6 +60,7 @@
     "webpack-dev-server": "^1.10.1"
   },
   "dependencies": {
+    "babel-runtime": "^5.8.20",
     "route-recognizer": "0.1.9"
   }
 }
