@@ -18,18 +18,18 @@ module.exports = {
     // 1. return a promise
     // 2. explicitly call transition.next() or
     //     transition.abort(reason)
-    data: function (transition) {
+    data ({ to, next }) {
       // "this" is available
       var params = {
-        id: transition.to.params.messageId
+        id: to.params.messageId
       }
 
       // callback based
-      messagesSerivce.get(params, function (err, message) {
+      messagesSerivce.get(params, (err, message) => {
         if (err) {
           // handle error, e.g. display a warning
         } else {
-          transition.next({
+          next({
             message: message
           })
         }
@@ -43,7 +43,7 @@ module.exports = {
   },
 
   // default state
-  data: function () {
+  data () {
     return {
       message: {}
     }

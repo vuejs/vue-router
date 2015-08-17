@@ -13,13 +13,13 @@ module.exports = {
       {
         test: /\.vue$/,
         loader: vue.withLoaders({
-          script: 'babel'
+          js: 'babel?optional[]=runtime'
         })
       },
       {
         test: /\.js$/,
         exclude: /node_modules|vue\/src/,
-        loader: 'babel'
+        loader: 'babel?optional[]=runtime'
       }
     ]
   },

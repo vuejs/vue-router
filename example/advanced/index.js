@@ -1,21 +1,23 @@
 // warning: vue-router requires Vue 0.12.10+
-var Vue = require('vue')
-var VueRouter = require('../../src')
+import Vue from 'vue'
+import VueRouter from '../../src'
+import { configRouter } from './route-config'
+require('es6-promise').polyfill()
 
 // install router
 Vue.use(VueRouter)
 
 // create router
-var router = new VueRouter({
+const router = new VueRouter({
   history: true,
   saveScrollPosition: true
 })
 
 // configure router
-require('./route-config')(router)
+configRouter(router)
 
 // boostrap the app
-var App = Vue.extend(require('./app.vue'))
+const App = Vue.extend(require('./app.vue'))
 router.start(App, '#app')
 
 // just for debugging

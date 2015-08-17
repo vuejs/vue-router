@@ -2,8 +2,8 @@ import { resolvePath } from '../util'
 
 export default class AbstractHistory {
 
-  constructor (options) {
-    this.onChange = options.onChange
+  constructor ({ onChange }) {
+    this.onChange = onChange
     this.currentPath = '/'
   }
 

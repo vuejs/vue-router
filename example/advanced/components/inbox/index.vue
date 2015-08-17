@@ -13,7 +13,7 @@ module.exports = {
     // 1. return a boolean
     // 2. return a promise that resolves to a boolean
     // 3. explicitly call transition.next() or abort()
-    canActivate: function (transition) {
+    canActivate (transition) {
       console.log('inbox canActivate?')
       if (transition.from.path === '/about') {
         alert('cannot navigate from /about to /inbox')
@@ -25,23 +25,32 @@ module.exports = {
     },
 
     // same deal with beforeActicate
-    canDeactivate: function (transition) {
+    canDeactivate (transition) {
       return confirm('Are you sure you want to leave inbox?')
     },
 
-    activate: function (transition) {
+    // activate hook is called when the route is matched
+    // and the component has been created.
+    // this hook controls the timing of the component
+    // switching - the switching won't start until this
+    // hook is resolved.
+    activate () {
       console.log('activating inbox...')
-      transition.next()
+      return new Promise((resolve) => {
+        console.log('inbox activated.')
+        resolve()
+      })
     },
 
     // for doing cleanups
-    deactivate: function (transition) {
-      console.log('inbox deactivate')
-      transition.next()
+    // destructuring can make hooks cleaner
+    deactivate ({ next }) {
+      console.log('inbox deactivated.')
+      next()
     }
   },
 
-  data: function () {
+  data () {
     return {
       message: {}
     }

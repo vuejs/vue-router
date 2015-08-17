@@ -2,9 +2,9 @@ import { resolvePath } from '../util'
 
 export default class HashHistory {
 
-  constructor (options) {
-    this.hashbang = options.hashbang
-    this.onChange = options.onChange
+  constructor ({ hashbang, onChange }) {
+    this.hashbang = hashbang
+    this.onChange = onChange
   }
 
   start () {

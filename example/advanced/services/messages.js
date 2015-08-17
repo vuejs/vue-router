@@ -1,7 +1,7 @@
 // just a mock
-module.exports = {
-  get: function (params, cb) {
-    setTimeout(function () {
+export default {
+  get (params, cb) {
+    setTimeout(() => {
       cb(null, {
         id: params.id,
         text: 'Hello this is a message'

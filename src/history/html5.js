@@ -3,8 +3,7 @@ const hashRE = /#.*$/
 
 export default class HTML5History {
 
-  constructor (options) {
-    let root = options.root
+  constructor ({ root, onChange }) {
     if (root) {
       // make sure there's the starting slash
       if (root.charAt(0) !== '/') {
@@ -16,7 +15,7 @@ export default class HTML5History {
     } else {
       this.root = null
     }
-    this.onChange = options.onChange
+    this.onChange = onChange
     // check base tag
     let baseEl = document.querySelector('base')
     this.base = baseEl && baseEl.getAttribute('href')
