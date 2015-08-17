@@ -5,9 +5,7 @@ function HashHistory (options) {
   this.onChange = options.onChange
 }
 
-var p = HashHistory.prototype
-
-p.start = function () {
+HashHistory.prototype.start = function () {
   var self = this
   this.listener = function () {
     var path = location.hash
@@ -25,11 +23,11 @@ p.start = function () {
   this.listener()
 }
 
-p.stop = function () {
+HashHistory.prototype.stop = function () {
   window.removeEventListener('hashchange', this.listener)
 }
 
-p.go = function (path, replace) {
+HashHistory.prototype.go = function (path, replace) {
   path = this.formatPath(path)
   if (replace) {
     location.replace(path)
@@ -38,7 +36,7 @@ p.go = function (path, replace) {
   }
 }
 
-p.formatPath = function (path, expectAbsolute) {
+HashHistory.prototype.formatPath = function (path, expectAbsolute) {
   path = path.replace(/^#!?/, '')
   var isAbsoloute = path.charAt(0) === '/'
   if (expectAbsolute && !isAbsoloute) {

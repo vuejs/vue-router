@@ -2,13 +2,11 @@ var routerUtil = require('../util')
 
 module.exports = function (Vue, Router) {
 
-  var p = Router.prototype
-
   /**
    * Register a map of top-level paths.
    */
 
-  p.map = function (map) {
+  Router.prototype.map = function (map) {
     for (var route in map) {
       this.on(route, map[route])
     }
@@ -26,7 +24,7 @@ module.exports = function (Vue, Router) {
    *                 - {Function} [after]
    */
 
-  p.on = function (rootPath, handler) {
+  Router.prototype.on = function (rootPath, handler) {
     if (rootPath === '*') {
       this._notFound(handler)
     } else {
@@ -40,7 +38,7 @@ module.exports = function (Vue, Router) {
    * @param {Object} map
    */
 
-  p.redirect = function (map) {
+  Router.prototype.redirect = function (map) {
     for (var path in map) {
       this._addRedirect(path, map[path])
     }
@@ -52,7 +50,7 @@ module.exports = function (Vue, Router) {
    * @param {Object} map
    */
 
-  p.alias = function (map) {
+  Router.prototype.alias = function (map) {
     for (var path in map) {
       this._addAlias(path, map[path])
     }
@@ -64,7 +62,7 @@ module.exports = function (Vue, Router) {
    * @param {Function} fn
    */
 
-  p.beforeEach = function (fn) {
+  Router.prototype.beforeEach = function (fn) {
     this._beforeEachHook = fn
   }
 
@@ -77,7 +75,7 @@ module.exports = function (Vue, Router) {
    * @param {Boolean} [replace]
    */
 
-  p.go = function (path, replace) {
+  Router.prototype.go = function (path, replace) {
     this.history.go(path + '', replace)
   }
 
@@ -87,7 +85,7 @@ module.exports = function (Vue, Router) {
    * @param {String} path
    */
 
-  p.replace = function (path) {
+  Router.prototype.replace = function (path) {
     this.go(path, true)
   }
 
@@ -98,7 +96,7 @@ module.exports = function (Vue, Router) {
    * @param {String|Element} container
    */
 
-  p.start = function (App, container) {
+  Router.prototype.start = function (App, container) {
     /* istanbul ignore if */
     if (this._started) {
       routerUtil.warn('already started.')
@@ -125,7 +123,7 @@ module.exports = function (Vue, Router) {
    * Stop listening to route changes.
    */
 
-  p.stop = function () {
+  Router.prototype.stop = function () {
     this.history.stop()
     this._started = false
   }

@@ -20,9 +20,7 @@ function HTML5History (options) {
   this.base = baseEl && baseEl.getAttribute('href')
 }
 
-var p = HTML5History.prototype
-
-p.start = function () {
+HTML5History.prototype.start = function () {
   var self = this
   this.listener = function (e) {
     var url = decodeURI(location.pathname + location.search)
@@ -35,11 +33,11 @@ p.start = function () {
   this.listener()
 }
 
-p.stop = function () {
+HTML5History.prototype.stop = function () {
   window.removeEventListener('popstate', this.listener)
 }
 
-p.go = function (path, replace) {
+HTML5History.prototype.go = function (path, replace) {
   var root = this.root
   var url = this.formatPath(path, root)
   if (replace) {
@@ -65,7 +63,7 @@ p.go = function (path, replace) {
   this.onChange(path, null, hash)
 }
 
-p.formatPath = function (path) {
+HTML5History.prototype.formatPath = function (path) {
   return path.charAt(0) === '/'
     // absolute path
     ? this.root

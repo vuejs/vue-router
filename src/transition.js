@@ -2,7 +2,7 @@ var util = require('./util')
 var pipeline = require('./pipeline')
 
 /**
- * A Transition object manages the pipeline of a
+ * A RouteTransition object manages the pipeline of a
  * router-view switching process. This is also the object
  * passed into user route hooks.
  *
@@ -11,7 +11,7 @@ var pipeline = require('./pipeline')
  * @param {Route} from
  */
 
-function Transition (router, to, from) {
+function RouteTransition (router, to, from) {
   this.router = router
   this.to = to
   this.from = from
@@ -37,13 +37,11 @@ function Transition (router, to, from) {
   })
 }
 
-var p = Transition.prototype
-
 /**
  * Abort current transition and return to previous location.
  */
 
-p.abort = function () {
+RouteTransition.prototype.abort = function () {
   if (!this.aborted) {
     this.aborted = true
     this.router.replace(this.from.path || '/')
@@ -56,7 +54,7 @@ p.abort = function () {
  * @param {String} path
  */
 
-p.redirect = function (path) {
+RouteTransition.prototype.redirect = function (path) {
   if (!this.aborted) {
     this.aborted = true
     path = util.mapParams(path, this.to.params, this.to.query)
@@ -95,14 +93,14 @@ p.redirect = function (path) {
  * @param {Function} cb
  */
 
-p.start = function (cb) {
+RouteTransition.prototype.start = function (cb) {
   var transition = this
   var daq = this.deactivateQueue
   var aq = this.activateQueue
   var rdaq = daq.slice().reverse()
   var reuseQueue
 
-  // check reusability
+  // 1. Reusability phase
   for (var i = 0; i < rdaq.length; i++) {
     if (!pipeline.canReuse(rdaq[i], aq[i], transition)) {
       break
@@ -114,10 +112,11 @@ p.start = function (cb) {
     aq = aq.slice(i)
   }
 
+  // 2. Validation phase
   transition.runQueue(daq, pipeline.canDeactivate, function canActivatePhase () {
     transition.runQueue(aq, pipeline.canActivate, function deactivatePhase () {
       transition.runQueue(daq, pipeline.deactivate, function activatePhase () {
-        // Validation phase is now over! The new route is valid.
+        // 3. Activation phase
 
         // Update router current route
         transition.router._updateRoute(transition.to)
@@ -150,7 +149,7 @@ p.start = function (cb) {
  * @param {Function} cb
  */
 
-p.runQueue = function (queue, fn, cb) {
+RouteTransition.prototype.runQueue = function (queue, fn, cb) {
   var transition = this
   step(0)
   function step (index) {
@@ -175,10 +174,11 @@ p.runQueue = function (queue, fn, cb) {
  * @param {Function} [cleanup]
  */
 
-p.callHook = function (hook, context, cb, expectBoolean, cleanup) {
+RouteTransition.prototype.callHook = function (hook, context, cb, expectBoolean, cleanup) {
   var transition = this
   var nextCalled = false
 
+  // advance the transition to the next step
   var next = function (data) {
     if (nextCalled) {
       util.warn('transition.next() should be called only once.')
@@ -191,11 +191,13 @@ p.callHook = function (hook, context, cb, expectBoolean, cleanup) {
     cb(data)
   }
 
+  // abort the transition
   var abort = function () {
     cleanup && cleanup()
     transition.abort()
   }
 
+  // handle errors
   var onError = function (err) {
     // cleanup indicates an after-activation hook,
     // so instead of aborting we just let the transition
@@ -207,7 +209,9 @@ p.callHook = function (hook, context, cb, expectBoolean, cleanup) {
     }
   }
 
-  // the copied transition object passed to the user.
+  // expose a clone of the transition object, so that each
+  // hook gets a clean copy and prevent the user from
+  // messing with the internals.
   var exposed = {
     to: transition.to,
     from: transition.from,
@@ -217,24 +221,28 @@ p.callHook = function (hook, context, cb, expectBoolean, cleanup) {
       transition.redirect.apply(transition, arguments)
     }
   }
+
+  // actually call the hook
   var res
   try {
     res = hook.call(context, exposed)
   } catch (err) {
     return onError(err)
   }
-  var promise = util.isPromise(res)
+
+  // handle boolean/promise return values
+  var isPromise = util.isPromise(res)
   if (expectBoolean) {
     if (typeof res === 'boolean') {
       res ? next() : abort()
-    } else if (promise) {
+    } else if (isPromise) {
       res.then(function (ok) {
         ok ? next() : abort()
       }, onError)
     }
-  } else if (promise) {
+  } else if (isPromise) {
     res.then(next, onError)
   }
 }
 
-module.exports = Transition
+module.exports = RouteTransition

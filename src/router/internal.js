@@ -5,7 +5,6 @@ var RouteTransition = require('../transition')
 module.exports = function (Vue, Router) {
 
   var _ = Vue.util
-  var p = Router.prototype
 
   /**
    * Add a route containing a list of segments to the internal
@@ -17,7 +16,7 @@ module.exports = function (Vue, Router) {
    * @param {Array} segments
    */
 
-  p._addRoute = function (path, handler, segments) {
+  Router.prototype._addRoute = function (path, handler, segments) {
     guardComponent(handler)
     segments.push({
       path: path,
@@ -44,7 +43,7 @@ module.exports = function (Vue, Router) {
    * @param {Object} handler
    */
 
-  p._notFound = function (handler) {
+  Router.prototype._notFound = function (handler) {
     guardComponent(handler)
     this._notFoundHandler = [{ handler: handler }]
   }
@@ -56,7 +55,7 @@ module.exports = function (Vue, Router) {
    * @param {String} redirectPath
    */
 
-  p._addRedirect = function (path, redirectPath) {
+  Router.prototype._addRedirect = function (path, redirectPath) {
     this._addGuard(path, redirectPath, this.replace)
   }
 
@@ -67,7 +66,7 @@ module.exports = function (Vue, Router) {
    * @param {String} aliasPath
    */
 
-  p._addAlias = function (path, aliasPath) {
+  Router.prototype._addAlias = function (path, aliasPath) {
     this._addGuard(path, aliasPath, this._match)
   }
 
@@ -79,7 +78,7 @@ module.exports = function (Vue, Router) {
    * @param {Function} handler
    */
 
-  p._addGuard = function (path, mappedPath, handler) {
+  Router.prototype._addGuard = function (path, mappedPath, handler) {
     var router = this
     this._guardRecognizer.add([{
       path: path,
@@ -101,7 +100,7 @@ module.exports = function (Vue, Router) {
    * @return {Boolean} - if true, will skip normal match.
    */
 
-  p._checkGuard = function (path) {
+  Router.prototype._checkGuard = function (path) {
     var matched = this._guardRecognizer.recognize(path)
     if (matched) {
       matched[0].handler(matched[0], matched.queryParams)
@@ -118,7 +117,7 @@ module.exports = function (Vue, Router) {
    * @param {String} [anchor]
    */
 
-  p._match = function (path, state, anchor) {
+  Router.prototype._match = function (path, state, anchor) {
     var self = this
 
     if (this._checkGuard(path)) {
@@ -186,7 +185,7 @@ module.exports = function (Vue, Router) {
    * @param {Route} route
    */
 
-  p._updateRoute = function (route) {
+  Router.prototype._updateRoute = function (route) {
     this._currentRoute = route
     // update route context for all children
     if (this.app.$route !== route) {
@@ -205,7 +204,7 @@ module.exports = function (Vue, Router) {
    * @param {String} [anchor]
    */
 
-  p._postTransition = function (route, state, anchor) {
+  Router.prototype._postTransition = function (route, state, anchor) {
     // handle scroll positions
     // saved scroll positions take priority
     // then we check if the path has an anchor

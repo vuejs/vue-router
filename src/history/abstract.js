@@ -5,20 +5,20 @@ function AbstractHistory (options) {
   this.currentPath = '/'
 }
 
-var p = AbstractHistory.prototype
-
-p.start = function () {
+AbstractHistory.prototype.start = function () {
   this.onChange('/')
 }
 
-p.stop = function () {}
+AbstractHistory.prototype.stop = function () {
+  // noop
+}
 
-p.go = function (path) {
+AbstractHistory.prototype.go = function (path) {
   path = this.currentPath = this.formatPath(path)
   this.onChange(path)
 }
 
-p.formatPath = function (path) {
+AbstractHistory.prototype.formatPath = function (path) {
   return path.charAt(0) === '/'
     ? path
     : util.resolvePath(this.currentPath, path)
