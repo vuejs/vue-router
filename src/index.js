@@ -24,7 +24,7 @@ Router.install = function (Vue) {
 // auto install
 /* istanbul ignore if */
 if (typeof window !== 'undefined' && window.Vue) {
-  Router.install(window.Vue)
+  window.Vue.use(Router)
 }
 
 module.exports = Router
