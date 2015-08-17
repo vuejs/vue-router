@@ -1,5 +1,5 @@
-var RouteRecognizer = require('route-recognizer')
-var genQuery = RouteRecognizer.prototype.generateQueryString
+import RouteRecognizer from 'route-recognizer'
+const genQuery = RouteRecognizer.prototype.generateQueryString
 
 /**
  * Warn stuff.
@@ -8,7 +8,7 @@ var genQuery = RouteRecognizer.prototype.generateQueryString
  * @param {Error} [err]
  */
 
-exports.warn = function (msg, err) {
+export function warn (msg, err) {
   /* istanbul ignore next */
   if (window.console) {
     console.warn('[vue-router] ' + msg)
@@ -26,8 +26,8 @@ exports.warn = function (msg, err) {
  * @return {String}
  */
 
-exports.resolvePath = function (base, relative) {
-  var query = base.match(/(\?.*)$/)
+export function resolvePath (base, relative) {
+  let query = base.match(/(\?.*)$/)
   if (query) {
     query = query[1]
     base = base.slice(0, -query.length)
@@ -36,13 +36,13 @@ exports.resolvePath = function (base, relative) {
   if (relative.charAt(0) === '?') {
     return base + relative
   }
-  var stack = base.split('/')
+  let stack = base.split('/')
   // remove trailing segment
   stack.pop()
   // resolve relative path
-  var segments = relative.split('/')
-  for (var i = 0; i < segments.length; i++) {
-    var segment = segments[i]
+  let segments = relative.split('/')
+  for (let i = 0; i < segments.length; i++) {
+    let segment = segments[i]
     if (segment === '.') {
       continue
     } else if (segment === '..') {
@@ -65,7 +65,7 @@ exports.resolvePath = function (base, relative) {
  * @return {Boolean}
  */
 
-exports.isPromise = function (p) {
+export function isPromise (p) {
   return p &&
     typeof p.then === 'function'
 }
@@ -79,8 +79,8 @@ exports.isPromise = function (p) {
  * @return {*}
  */
 
-exports.getRouteConfig = function (component, name) {
-  var options =
+export function getRouteConfig (component, name) {
+  let options =
     component &&
     (component.$options || component.options)
   return options &&
@@ -97,11 +97,12 @@ exports.getRouteConfig = function (component, name) {
  * @param {Function} cb
  */
 
-var resolver
-exports.resolveAsyncComponent = function (handler, cb) {
+let resolver
+export function resolveAsyncComponent (handler, cb) {
   if (!resolver) {
     resolver = {
-      resolve: exports.Vue.prototype._resolveComponent,
+      // HACK
+      resolve: require('./router').Vue.prototype._resolveComponent,
       $options: {
         components: {
           _: handler.component
@@ -125,8 +126,8 @@ exports.resolveAsyncComponent = function (handler, cb) {
  * @param {Object} query
  */
 
-exports.mapParams = function (path, params, query) {
-  for (var key in params) {
+export function mapParams (path, params, query) {
+  for (let key in params) {
     path = replaceParam(path, params, key)
   }
   if (query) {
@@ -146,11 +147,11 @@ exports.mapParams = function (path, params, query) {
  */
 
 function replaceParam (path, params, key) {
-  var regex = new RegExp(':' + key + '(\\/|$)')
-  var value = params[key]
-  return path.replace(regex, function (m) {
-    return m.charAt(m.length - 1) === '/'
+  let regex = new RegExp(':' + key + '(\\/|$)')
+  let value = params[key]
+  return path.replace(regex, m =>
+    m.charAt(m.length - 1) === '/'
       ? value + '/'
       : value
-  })
+  )
 }

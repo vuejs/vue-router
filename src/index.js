@@ -1,5 +1,5 @@
-var routerUtil = require('./util')
-var Router = require('./router')
+import { warn } from './util'
+import Router from './router'
 
 /**
  * Installation interface.
@@ -9,7 +9,7 @@ var Router = require('./router')
 Router.install = function (Vue) {
   /* istanbul ignore if */
   if (Router.installed) {
-    routerUtil.warn('already installed.')
+    warn('already installed.')
     return
   }
   require('./router/api')(Vue, Router)
@@ -17,7 +17,7 @@ Router.install = function (Vue) {
   require('./directives/view')(Vue)
   require('./directives/link')(Vue)
   require('./override')(Vue)
-  routerUtil.Vue = Vue
+  Router.Vue = Vue
   Router.installed = true
 }
 
@@ -27,4 +27,4 @@ if (typeof window !== 'undefined' && window.Vue) {
   Router.install(window.Vue)
 }
 
-module.exports = Router
+export default Router

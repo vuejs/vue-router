@@ -1,32 +1,31 @@
+import { warn } from '../util'
+
 // install v-link, which provides navigation support for
 // HTML5 history mode
+export default function (Vue) {
 
-module.exports = function (Vue) {
-
-  var _ = Vue.util
-  var routerUtil = require('../util')
+  let _ = Vue.util
 
   Vue.directive('link', {
 
     isLiteral: true,
 
     bind: function () {
-      var vm = this.vm
+      let vm = this.vm
       /* istanbul ignore if */
       if (!vm.$route) {
-        routerUtil.warn(
+        warn(
           'v-link can only be used inside a ' +
           'router-enabled app.'
         )
         return
       }
-      var self = this
-      var router = vm.$route._router
-      this.handler = function (e) {
+      let router = vm.$route._router
+      this.handler = (e) => {
         if (e.button === 0) {
           e.preventDefault()
-          if (self.destination != null) {
-            router.go(self.destination)
+          if (this.destination != null) {
+            router.go(this.destination)
           }
         }
       }
@@ -42,11 +41,11 @@ module.exports = function (Vue) {
     },
 
     updateClasses: function (path) {
-      var el = this.el
-      var dest = this.destination
-      var router = this.vm.$route._router
-      var activeClass = router._linkActiveClass
-      var exactClass = activeClass + '-exact'
+      let el = this.el
+      let dest = this.destination
+      let router = this.vm.$route._router
+      let activeClass = router._linkActiveClass
+      let exactClass = activeClass + '-exact'
       if (path.indexOf(dest) === 0 && path !== '/') {
         _.addClass(el, activeClass)
       } else {
@@ -63,10 +62,10 @@ module.exports = function (Vue) {
       this.destination = path
       this.updateClasses(this.vm.$route.path)
       path = path || ''
-      var router = this.vm.$route._router
-      var isAbsolute = path.charAt(0) === '/'
+      let router = this.vm.$route._router
+      let isAbsolute = path.charAt(0) === '/'
       // do not format non-hash relative paths
-      var href = router.mode === 'hash' || isAbsolute
+      let href = router.mode === 'hash' || isAbsolute
         ? router.history.formatPath(path)
         : path
       if (this.el.tagName === 'A') {

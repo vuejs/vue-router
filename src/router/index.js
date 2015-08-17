@@ -1,6 +1,6 @@
-var util = require('../util')
-var Recognizer = require('route-recognizer')
-var historyBackends = {
+import Recognizer from 'route-recognizer'
+
+const historyBackends = {
   abstract: require('../history/abstract'),
   hash: require('../history/hash'),
   html5: require('../history/html5')
@@ -65,15 +65,15 @@ function Router (options) {
   this._suppress = !!options.suppressTransitionError
 
   // create history object
-  var inBrowser = util.Vue.util.inBrowser
+  let inBrowser = Router.Vue.util.inBrowser
   this.mode = (!inBrowser || this._abstract)
     ? 'abstract'
     : this._history
       ? 'html5'
       : 'hash'
 
-  var History = historyBackends[this.mode]
-  var self = this
+  let History = historyBackends[this.mode]
+  let self = this
   this.history = new History({
     root: options.root,
     hashbang: this._hashbang,

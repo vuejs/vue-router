@@ -1,27 +1,28 @@
-var util = require('../util')
+import { resolvePath } from '../util'
 
-function AbstractHistory (options) {
-  this.onChange = options.onChange
-  this.currentPath = '/'
+export default class AbstractHistory {
+
+  constructor (options) {
+    this.onChange = options.onChange
+    this.currentPath = '/'
+  }
+
+  start () {
+    this.onChange('/')
+  }
+
+  stop () {
+    // noop
+  }
+
+  go (path) {
+    path = this.currentPath = this.formatPath(path)
+    this.onChange(path)
+  }
+
+  formatPath (path) {
+    return path.charAt(0) === '/'
+      ? path
+      : resolvePath(this.currentPath, path)
+  }
 }
-
-AbstractHistory.prototype.start = function () {
-  this.onChange('/')
-}
-
-AbstractHistory.prototype.stop = function () {
-  // noop
-}
-
-AbstractHistory.prototype.go = function (path) {
-  path = this.currentPath = this.formatPath(path)
-  this.onChange(path)
-}
-
-AbstractHistory.prototype.formatPath = function (path) {
-  return path.charAt(0) === '/'
-    ? path
-    : util.resolvePath(this.currentPath, path)
-}
-
-module.exports = AbstractHistory

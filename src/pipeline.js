@@ -1,4 +1,4 @@
-var util = require('./util')
+import { getRouteConfig, resolveAsyncComponent } from './util'
 
 /**
  * Determine the reusability of an existing router view.
@@ -8,8 +8,8 @@ var util = require('./util')
  * @param {Transition} transition
  */
 
-exports.canReuse = function (view, handler, transition) {
-  var component = view.childVM
+export function canReuse (view, handler, transition) {
+  let component = view.childVM
   if (!component || !handler) {
     return false
   }
@@ -18,7 +18,7 @@ exports.canReuse = function (view, handler, transition) {
   if (view.Component !== handler.component) {
     return false
   }
-  var canReuseFn = util.getRouteConfig(component, 'canReuse')
+  let canReuseFn = getRouteConfig(component, 'canReuse')
   return typeof canReuseFn === 'boolean'
     ? canReuseFn
     : canReuseFn
@@ -37,9 +37,9 @@ exports.canReuse = function (view, handler, transition) {
  * @param {Function} next
  */
 
-exports.canDeactivate = function (view, transition, next) {
-  var fromComponent = view.childVM
-  var hook = util.getRouteConfig(fromComponent, 'canDeactivate')
+export function canDeactivate (view, transition, next) {
+  let fromComponent = view.childVM
+  let hook = getRouteConfig(fromComponent, 'canDeactivate')
   if (!hook) {
     next()
   } else {
@@ -55,14 +55,14 @@ exports.canDeactivate = function (view, transition, next) {
  * @param {Function} next
  */
 
-exports.canActivate = function (handler, transition, next) {
-  util.resolveAsyncComponent(handler, function (Component) {
+export function canActivate (handler, transition, next) {
+  resolveAsyncComponent(handler, (Component) => {
     // have to check due to async-ness
     if (transition.aborted) {
       return
     }
     // determine if this component can be activated
-    var hook = util.getRouteConfig(Component, 'canActivate')
+    let hook = getRouteConfig(Component, 'canActivate')
     if (!hook) {
       next()
     } else {
@@ -79,9 +79,9 @@ exports.canActivate = function (handler, transition, next) {
  * @param {Function} next
  */
 
-exports.deactivate = function (view, transition, next) {
-  var component = view.childVM
-  var hook = util.getRouteConfig(component, 'deactivate')
+export function deactivate (view, transition, next) {
+  let component = view.childVM
+  let hook = getRouteConfig(component, 'deactivate')
   if (!hook) {
     next()
   } else {
@@ -98,18 +98,18 @@ exports.deactivate = function (view, transition, next) {
  * @param {Function} [cb]
  */
 
-exports.activate = function (view, transition, depth, cb) {
-  var handler = transition.activateQueue[depth]
+export function activate (view, transition, depth, cb) {
+  let handler = transition.activateQueue[depth]
   if (!handler) {
     view.setComponent(null)
     cb && cb()
     return
   }
 
-  var Component = view.Component = handler.component
-  var activateHook = util.getRouteConfig(Component, 'activate')
-  var dataHook = util.getRouteConfig(Component, 'data')
-  var waitForData = util.getRouteConfig(Component, 'waitForData')
+  let Component = view.Component = handler.component
+  let activateHook = getRouteConfig(Component, 'activate')
+  let dataHook = getRouteConfig(Component, 'data')
+  let waitForData = getRouteConfig(Component, 'waitForData')
 
   // unbuild current component. this step also destroys
   // and removes all nested child views.
@@ -117,7 +117,7 @@ exports.activate = function (view, transition, depth, cb) {
   // build the new component. this will also create the
   // direct child view of the current one. it will register
   // itself as view.childView.
-  var component = view.build({
+  let component = view.build({
     _meta: {
       $loadingRouteData: !!(dataHook && !waitForData)
     }
@@ -125,13 +125,13 @@ exports.activate = function (view, transition, depth, cb) {
 
   // cleanup the component in case the transition is aborted
   // before the component is ever inserted.
-  var cleanup = function () {
+  let cleanup = () => {
     component.$destroy()
   }
 
   // actually insert the component and trigger transition
-  var insert = function () {
-    var router = transition.router
+  let insert = () => {
+    let router = transition.router
     if (router._rendered || router._transitionOnLoad) {
       view.transition(component)
     } else {
@@ -143,7 +143,7 @@ exports.activate = function (view, transition, depth, cb) {
   }
 
   // called after activation hook is resolved
-  var afterActivate = function () {
+  let afterActivate = () => {
     // activate the child view
     if (view.childView) {
       exports.activate(view.childView, transition, depth + 1)
@@ -174,9 +174,9 @@ exports.activate = function (view, transition, depth, cb) {
  * @param {Transition} transition
  */
 
-exports.reuse = function (view, transition) {
-  var component = view.childVM
-  var dataHook = util.getRouteConfig(component, 'data')
+export function reuse (view, transition) {
+  let component = view.childVM
+  let dataHook = getRouteConfig(component, 'data')
   if (dataHook) {
     loadData(component, transition, dataHook)
   }
@@ -194,8 +194,8 @@ exports.reuse = function (view, transition) {
 
 function loadData (component, transition, hook, cb, cleanup) {
   component.$loadingRouteData = true
-  transition.callHook(hook, component, function (data) {
-    for (var key in data) {
+  transition.callHook(hook, component, (data) => {
+    for (let key in data) {
       component.$set(key, data[key])
     }
     component.$loadingRouteData = false
