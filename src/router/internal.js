@@ -1,10 +1,10 @@
-var routerUtil = require('../util')
-var Route = require('../route')
-var RouteTransition = require('../transition')
+import { warn, mapParams } from '../util'
+import Route from '../route'
+import RouteTransition from '../transition'
 
-module.exports = function (Vue, Router) {
+export default function (Vue, Router) {
 
-  var _ = Vue.util
+  let _ = Vue.util
 
   /**
    * Add a route containing a list of segments to the internal
@@ -24,7 +24,7 @@ module.exports = function (Vue, Router) {
     })
     this._recognizer.add(segments)
     if (handler.subRoutes) {
-      for (var subPath in handler.subRoutes) {
+      for (let subPath in handler.subRoutes) {
         // recursively walk all sub routes
         this._addRoute(
           subPath,
@@ -79,16 +79,15 @@ module.exports = function (Vue, Router) {
    */
 
   Router.prototype._addGuard = function (path, mappedPath, handler) {
-    var router = this
     this._guardRecognizer.add([{
       path: path,
-      handler: function (match, query) {
-        var realPath = routerUtil.mapParams(
+      handler: (match, query) => {
+        let realPath = mapParams(
           mappedPath,
           match.params,
           query
         )
-        handler.call(router, realPath)
+        handler.call(this, realPath)
       }
     }])
   }
@@ -101,7 +100,7 @@ module.exports = function (Vue, Router) {
    */
 
   Router.prototype._checkGuard = function (path) {
-    var matched = this._guardRecognizer.recognize(path)
+    let matched = this._guardRecognizer.recognize(path)
     if (matched) {
       matched[0].handler(matched[0], matched.queryParams)
       return true
@@ -118,14 +117,12 @@ module.exports = function (Vue, Router) {
    */
 
   Router.prototype._match = function (path, state, anchor) {
-    var self = this
-
     if (this._checkGuard(path)) {
       return
     }
 
-    var prevRoute = this._currentRoute
-    var prevTransition = this._currentTransition
+    let prevRoute = this._currentRoute
+    let prevTransition = this._currentTransition
 
     // abort ongoing transition
     if (prevTransition && path !== prevTransition.to.path) {
@@ -142,8 +139,8 @@ module.exports = function (Vue, Router) {
     }
 
     // construct new route and transition context
-    var route = new Route(path, this)
-    var transition = this._currentTransition =
+    let route = new Route(path, this)
+    let transition = this._currentTransition =
       new RouteTransition(this, route, prevRoute)
 
     if (!this.app) {
@@ -157,10 +154,10 @@ module.exports = function (Vue, Router) {
     }
 
     // check global before hook
-    var before = this._beforeEachHook
-    var startTransition = function () {
-      transition.start(function () {
-        self._postTransition(route, state, anchor)
+    let before = this._beforeEachHook
+    let startTransition = () => {
+      transition.start(() => {
+        this._postTransition(route, state, anchor)
       })
     }
 
@@ -190,7 +187,7 @@ module.exports = function (Vue, Router) {
     // update route context for all children
     if (this.app.$route !== route) {
       this.app.$route = route
-      this._children.forEach(function (child) {
+      this._children.forEach((child) => {
         child.$route = route
       })
     }
@@ -208,14 +205,14 @@ module.exports = function (Vue, Router) {
     // handle scroll positions
     // saved scroll positions take priority
     // then we check if the path has an anchor
-    var pos = state && state.pos
+    let pos = state && state.pos
     if (pos && this._saveScrollPosition) {
-      Vue.nextTick(function () {
+      Vue.nextTick(() => {
         window.scrollTo(pos.x, pos.y)
       })
     } else if (anchor) {
-      Vue.nextTick(function () {
-        var el = document.getElementById(anchor.slice(1))
+      Vue.nextTick(() => {
+        let el = document.getElementById(anchor.slice(1))
         if (el) {
           window.scrollTo(window.scrollX, el.offsetTop)
         }
@@ -231,14 +228,14 @@ module.exports = function (Vue, Router) {
    */
 
   function guardComponent (handler) {
-    var comp = handler.component
+    let comp = handler.component
     if (_.isPlainObject(comp)) {
       comp = handler.component = Vue.extend(comp)
     }
     /* istanbul ignore if */
     if (typeof comp !== 'function') {
       handler.component = null
-      routerUtil.warn(
+      warn(
         'invalid component for route "' + handler.path + '"'
       )
     }

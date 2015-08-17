@@ -1,13 +1,13 @@
-var routerUtil = require('../util')
+import { warn } from '../util'
 
-module.exports = function (Vue, Router) {
+export default function (Vue, Router) {
 
   /**
    * Register a map of top-level paths.
    */
 
   Router.prototype.map = function (map) {
-    for (var route in map) {
+    for (let route in map) {
       this.on(route, map[route])
     }
   }
@@ -39,7 +39,7 @@ module.exports = function (Vue, Router) {
    */
 
   Router.prototype.redirect = function (map) {
-    for (var path in map) {
+    for (let path in map) {
       this._addRedirect(path, map[path])
     }
   }
@@ -51,7 +51,7 @@ module.exports = function (Vue, Router) {
    */
 
   Router.prototype.alias = function (map) {
-    for (var path in map) {
+    for (let path in map) {
       this._addAlias(path, map[path])
     }
   }
@@ -99,7 +99,7 @@ module.exports = function (Vue, Router) {
   Router.prototype.start = function (App, container) {
     /* istanbul ignore if */
     if (this._started) {
-      routerUtil.warn('already started.')
+      warn('already started.')
       return
     }
     this._started = true

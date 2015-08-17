@@ -10,78 +10,83 @@ const historyBackends = {
  * Router constructor
  *
  * @param {Object} [options]
- *                 - {Boolean} hashbang  (default: true)
- *                 - {Boolean} history (default: false)
- *                 - {Boolean} abstract (default: false)
- *                 - {Boolean} saveScrollPosition (default: false)
- *                 - {Boolean} transitionOnLoad (default: false)
- *                 - {Boolean} suppressTransitionError (default: false)
- *                 - {String} root (default: null)
- *                 - {String} linkActiveClass (default: 'v-link-active')
  */
 
-function Router (options) {
-  /* istanbul ignore if */
-  if (!Router.installed) {
-    throw new Error(
-      'Please install the Router with Vue.use() before ' +
-      'creating an instance.'
-    )
-  }
+export default class Router {
 
-  options = options || {}
+  constructor ({
+    hashbang = true,
+    abstract = false,
+    history = false,
+    saveScrollPosition = false,
+    transitionOnLoad = false,
+    suppressTransitionError = false,
+    root = null,
+    linkActiveClass = 'v-link-active'
+  } = {}) {
 
-  // Vue instances
-  this.app = null
-  this._views = []
-  this._children = []
-
-  // route recognizer
-  this._recognizer = new Recognizer()
-  this._guardRecognizer = new Recognizer()
-
-  // state
-  this._started = false
-  this._currentRoute = {}
-  this._currentTransition = null
-  this._notFoundHandler = null
-  this._beforeEachHook = null
-
-  // feature detection
-  this._hasPushState = typeof history !== 'undefined' && history.pushState
-
-  // trigger transition on initial render?
-  this._rendered = false
-  this._transitionOnLoad = options.transitionOnLoad
-
-  // history mode
-  this._abstract = !!options.abstract
-  this._hashbang = options.hashbang !== false
-  this._history = !!(this._hasPushState && options.history)
-
-  // other options
-  this._saveScrollPosition = !!options.saveScrollPosition
-  this._linkActiveClass = options.linkActiveClass || 'v-link-active'
-  this._suppress = !!options.suppressTransitionError
-
-  // create history object
-  let inBrowser = Router.Vue.util.inBrowser
-  this.mode = (!inBrowser || this._abstract)
-    ? 'abstract'
-    : this._history
-      ? 'html5'
-      : 'hash'
-
-  let History = historyBackends[this.mode]
-  let self = this
-  this.history = new History({
-    root: options.root,
-    hashbang: this._hashbang,
-    onChange: function (path, state, anchor) {
-      self._match(path, state, anchor)
+    /* istanbul ignore if */
+    if (!Router.installed) {
+      throw new Error(
+        'Please install the Router with Vue.use() before ' +
+        'creating an instance.'
+      )
     }
-  })
+
+    // Vue instances
+    this.app = null
+    this._views = []
+    this._children = []
+
+    // route recognizer
+    this._recognizer = new Recognizer()
+    this._guardRecognizer = new Recognizer()
+
+    // state
+    this._started = false
+    this._currentRoute = {}
+    this._currentTransition = null
+    this._notFoundHandler = null
+    this._beforeEachHook = null
+
+    // feature detection
+    this._hasPushState =
+      typeof window !== 'undefined' &&
+      window.history &&
+      window.history.pushState
+
+    // trigger transition on initial render?
+    this._rendered = false
+    this._transitionOnLoad = transitionOnLoad
+
+    // history mode
+    this._abstract = abstract
+    this._hashbang = hashbang
+    this._history = this._hasPushState && history
+
+    // other options
+    this._saveScrollPosition = saveScrollPosition
+    this._linkActiveClass = linkActiveClass
+    this._suppress = suppressTransitionError
+
+    // create history object
+    let inBrowser = Router.Vue.util.inBrowser
+    this.mode = (!inBrowser || this._abstract)
+      ? 'abstract'
+      : this._history
+        ? 'html5'
+        : 'hash'
+
+    let History = historyBackends[this.mode]
+    let self = this
+    this.history = new History({
+      root: root,
+      hashbang: this._hashbang,
+      onChange: function (path, state, anchor) {
+        self._match(path, state, anchor)
+      }
+    })
+  }
 }
 
 Router.installed = false
-module.exports = Router

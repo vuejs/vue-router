@@ -1,75 +1,76 @@
-var util = require('../util')
-var hashRE = /#.*$/
+import { resolvePath } from '../util'
+const hashRE = /#.*$/
 
-function HTML5History (options) {
-  var root = options.root
-  if (root) {
-    // make sure there's the starting slash
-    if (root.charAt(0) !== '/') {
-      root = '/' + root
-    }
-    // remove trailing slash
-    this.root = root.replace(/\/$/, '')
-    this.rootRE = new RegExp('^\\' + this.root)
-  } else {
-    this.root = null
-  }
-  this.onChange = options.onChange
-  // check base tag
-  var baseEl = document.querySelector('base')
-  this.base = baseEl && baseEl.getAttribute('href')
-}
+export default class HTML5History {
 
-HTML5History.prototype.start = function () {
-  var self = this
-  this.listener = function (e) {
-    var url = decodeURI(location.pathname + location.search)
-    if (this.root) {
-      url = url.replace(this.rootRE, '')
-    }
-    self.onChange(url, e && e.state, location.hash)
-  }
-  window.addEventListener('popstate', this.listener)
-  this.listener()
-}
-
-HTML5History.prototype.stop = function () {
-  window.removeEventListener('popstate', this.listener)
-}
-
-HTML5History.prototype.go = function (path, replace) {
-  var root = this.root
-  var url = this.formatPath(path, root)
-  if (replace) {
-    history.replaceState({}, '', url)
-  } else {
-    // record scroll position by replacing current state
-    history.replaceState({
-      pos: {
-        x: window.pageXOffset,
-        y: window.pageYOffset
+  constructor (options) {
+    let root = options.root
+    if (root) {
+      // make sure there's the starting slash
+      if (root.charAt(0) !== '/') {
+        root = '/' + root
       }
-    }, '')
-    // then push new state
-    history.pushState({}, '', url)
+      // remove trailing slash
+      this.root = root.replace(/\/$/, '')
+      this.rootRE = new RegExp('^\\' + this.root)
+    } else {
+      this.root = null
+    }
+    this.onChange = options.onChange
+    // check base tag
+    let baseEl = document.querySelector('base')
+    this.base = baseEl && baseEl.getAttribute('href')
   }
-  var hashMatch = path.match(hashRE)
-  var hash = hashMatch && hashMatch[0]
-  path = url
-    // strip hash so it doesn't mess up params
-    .replace(hashRE, '')
-    // remove root before matching
-    .replace(this.rootRE, '')
-  this.onChange(path, null, hash)
-}
 
-HTML5History.prototype.formatPath = function (path) {
-  return path.charAt(0) === '/'
-    // absolute path
-    ? this.root
-      ? this.root + '/' + path.replace(/^\//, '')
-      : path
-    : util.resolvePath(this.base || location.pathname, path)
-}
+  start () {
+    let self = this
+    this.listener = function (e) {
+      let url = decodeURI(location.pathname + location.search)
+      if (this.root) {
+        url = url.replace(this.rootRE, '')
+      }
+      self.onChange(url, e && e.state, location.hash)
+    }
+    window.addEventListener('popstate', this.listener)
+    this.listener()
+  }
 
-module.exports = HTML5History
+  stop () {
+    window.removeEventListener('popstate', this.listener)
+  }
+
+  go (path, replace) {
+    let root = this.root
+    let url = this.formatPath(path, root)
+    if (replace) {
+      history.replaceState({}, '', url)
+    } else {
+      // record scroll position by replacing current state
+      history.replaceState({
+        pos: {
+          x: window.pageXOffset,
+          y: window.pageYOffset
+        }
+      }, '')
+      // then push new state
+      history.pushState({}, '', url)
+    }
+    let hashMatch = path.match(hashRE)
+    let hash = hashMatch && hashMatch[0]
+    path = url
+      // strip hash so it doesn't mess up params
+      .replace(hashRE, '')
+      // remove root before matching
+      .replace(this.rootRE, '')
+    this.onChange(path, null, hash)
+  }
+
+  formatPath (path) {
+    return path.charAt(0) === '/'
+      // absolute path
+      ? this.root
+        ? this.root + '/' + path.replace(/^\//, '')
+        : path
+      : resolvePath(this.base || location.pathname, path)
+  }
+}

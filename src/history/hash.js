@@ -1,54 +1,55 @@
-var util = require('../util')
+import { resolvePath } from '../util'
 
-function HashHistory (options) {
-  this.hashbang = options.hashbang
-  this.onChange = options.onChange
-}
+export default class HashHistory {
 
-HashHistory.prototype.start = function () {
-  var self = this
-  this.listener = function () {
-    var path = location.hash
-    var formattedPath = self.formatPath(path, true)
-    if (formattedPath !== path) {
-      location.replace(formattedPath)
-      return
-    }
-    var pathToMatch = decodeURI(
-      path.replace(/^#!?/, '') + location.search
-    )
-    self.onChange(pathToMatch)
+  constructor (options) {
+    this.hashbang = options.hashbang
+    this.onChange = options.onChange
   }
-  window.addEventListener('hashchange', this.listener)
-  this.listener()
-}
 
-HashHistory.prototype.stop = function () {
-  window.removeEventListener('hashchange', this.listener)
-}
-
-HashHistory.prototype.go = function (path, replace) {
-  path = this.formatPath(path)
-  if (replace) {
-    location.replace(path)
-  } else {
-    location.hash = path
-  }
-}
-
-HashHistory.prototype.formatPath = function (path, expectAbsolute) {
-  path = path.replace(/^#!?/, '')
-  var isAbsoloute = path.charAt(0) === '/'
-  if (expectAbsolute && !isAbsoloute) {
-    path = '/' + path
-  }
-  var prefix = '#' + (this.hashbang ? '!' : '')
-  return isAbsoloute || expectAbsolute
-    ? prefix + path
-    : prefix + util.resolvePath(
-        location.hash.replace(/^#!?/, ''),
-        path
+  start () {
+    let self = this
+    this.listener = function () {
+      let path = location.hash
+      let formattedPath = self.formatPath(path, true)
+      if (formattedPath !== path) {
+        location.replace(formattedPath)
+        return
+      }
+      let pathToMatch = decodeURI(
+        path.replace(/^#!?/, '') + location.search
       )
-}
+      self.onChange(pathToMatch)
+    }
+    window.addEventListener('hashchange', this.listener)
+    this.listener()
+  }
 
-module.exports = HashHistory
+  stop () {
+    window.removeEventListener('hashchange', this.listener)
+  }
+
+  go (path, replace) {
+    path = this.formatPath(path)
+    if (replace) {
+      location.replace(path)
+    } else {
+      location.hash = path
+    }
+  }
+
+  formatPath (path, expectAbsolute) {
+    path = path.replace(/^#!?/, '')
+    let isAbsoloute = path.charAt(0) === '/'
+    if (expectAbsolute && !isAbsoloute) {
+      path = '/' + path
+    }
+    let prefix = '#' + (this.hashbang ? '!' : '')
+    return isAbsoloute || expectAbsolute
+      ? prefix + path
+      : prefix + resolvePath(
+          location.hash.replace(/^#!?/, ''),
+          path
+        )
+  }
+}

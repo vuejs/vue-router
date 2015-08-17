@@ -1,4 +1,12 @@
+/**
+ * Route Context Object
+ *
+ * @param {String} path
+ * @param {Router} router
+ */
+
 export default class Route {
+
   constructor (path, router) {
     this.path = path
     let matched = router._recognizer.recognize(path)
