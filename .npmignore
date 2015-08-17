@@ -7,3 +7,6 @@ explorations
 *.yml
 *.log
 *.md
+*.json
+src
+docs
