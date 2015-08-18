@@ -5,13 +5,15 @@ if (!isIE9) {
 
     var url = location.href
     var pathname = location.pathname
+    var history
     afterEach(function (done) {
-      history.replaceState({}, '', url)
+      history.stop()
+      window.history.replaceState({}, '', url)
       setTimeout(done, 0)
     })
 
     it('notify change', function (done) {
-      var history = new History({
+      history = new History({
         onChange: step1
       })
       history.start()
@@ -39,7 +41,7 @@ if (!isIE9) {
     })
 
     it('root option', function (done) {
-      var history = new History({
+      history = new History({
         onChange: step1,
         root: 'root/'
       })
@@ -56,8 +58,8 @@ if (!isIE9) {
       }
     })
 
-    it('popstate with root', function () {
-      var history = new History({
+    it('popstate with root', function (done) {
+      history = new History({
         onChange: step1,
         root: 'root/'
       })
@@ -90,7 +92,7 @@ if (!isIE9) {
       var base = document.createElement('base')
       base.setAttribute('href', '/base/')
       document.head.appendChild(base)
-      var history = new History({
+      history = new History({
         onChange: step1
       })
       history.start()
