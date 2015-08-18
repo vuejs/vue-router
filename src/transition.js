@@ -4,10 +4,6 @@ import {
   canActivate, canDeactivate, canReuse
 } from './pipeline'
 
-// avoid infinite redirect loops on error
-const MAX_ERROR_REDIRECTS = 10
-let errorCount = 0
-
 /**
  * A RouteTransition object manages the pipeline of a
  * router-view switching process. This is also the object
@@ -48,14 +44,15 @@ export default class RouteTransition {
 
   /**
    * Abort current transition and return to previous location.
-   *
-   * @param {Boolean} back
    */
 
-  abort (back) {
+  abort () {
     if (!this.aborted) {
       this.aborted = true
-      if (back !== false) {
+      // if the root path throws an error during validation
+      // on initial load, it gets caught in an infinite loop.
+      let abortingOnLoad = !this.from.path && this.to.path === '/'
+      if (!abortingOnLoad) {
         this.router.replace(this.from.path || '/')
       }
     }
@@ -133,7 +130,7 @@ export default class RouteTransition {
           // 3. Activation phase
 
           // Update router current route
-          transition.router._updateRoute(transition.to)
+          transition.router._onTransitionValidated(transition)
 
           // trigger reuse for all reused views
           reuseQueue && reuseQueue.forEach(function (view) {
@@ -213,16 +210,10 @@ export default class RouteTransition {
 
     // handle errors
     let onError = (err) => {
-      // prevent infinite error redirects
-      errorCount++
-      let canGoBack = errorCount < MAX_ERROR_REDIRECTS
-      if (!canGoBack) {
-        errorCount = 0
-      }
       // cleanup indicates an after-activation hook,
       // so instead of aborting we just let the transition
       // finish.
-      cleanup ? next() : abort(canGoBack)
+      cleanup ? next() : abort()
       if (err && !transition.router._suppress) {
         warn('Uncaught error during transition: ')
         throw err instanceof Error ? err : new Error(err)

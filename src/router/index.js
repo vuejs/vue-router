@@ -46,6 +46,7 @@ export default class Router {
     this._started = false
     this._currentRoute = {}
     this._currentTransition = null
+    this._previousTransition = null
     this._notFoundHandler = null
     this._beforeEachHook = null
 

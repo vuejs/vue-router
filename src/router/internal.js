@@ -124,11 +124,6 @@ export default function (Vue, Router) {
     let prevRoute = this._currentRoute
     let prevTransition = this._currentTransition
 
-    // abort ongoing transition
-    if (prevTransition && path !== prevTransition.to.path) {
-      prevTransition.aborted = true
-    }
-
     // do nothing if going to the same route.
     // the route only changes when a transition successfully
     // reaches activation; we don't need to do anything
@@ -140,8 +135,9 @@ export default function (Vue, Router) {
 
     // construct new route and transition context
     let route = new Route(path, this)
-    let transition = this._currentTransition =
-      new RouteTransition(this, route, prevRoute)
+    let transition = new RouteTransition(this, route, prevRoute)
+    this._prevTransition = prevTransition
+    this._currentTransition = transition
 
     if (!this.app) {
       // initial render
@@ -175,15 +171,22 @@ export default function (Vue, Router) {
   }
 
   /**
-   * Switch the current route to a new one.
+   * Set current to the new transition.
    * This is called by the transition object when the
    * validation of a route has succeeded.
    *
-   * @param {Route} route
+   * @param {RouteTransition} transition
    */
 
-  Router.prototype._updateRoute = function (route) {
-    this._currentRoute = route
+  Router.prototype._onTransitionValidated = function (transition) {
+    // now that this one is validated, we can abort
+    // the previous transition.
+    let prevTransition = this._prevTransition
+    if (prevTransition) {
+      prevTransition.aborted = true
+    }
+    // set current route
+    let route = this._currentRoute = transition.to
     // update route context for all children
     if (this.app.$route !== route) {
       this.app.$route = route
