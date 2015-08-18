@@ -9,6 +9,8 @@ export default class Route {
 
   constructor (path, router) {
     this.path = path
+    this.router = router
+
     let matched = router._recognizer.recognize(path)
 
     this.query = matched
@@ -27,15 +29,6 @@ export default class Route {
       : {}
 
     // private stuff
-    this._aborted = false
-    def(this, '_matched', matched || router._notFoundHandler)
-    def(this, '_router', router)
+    this._matched = matched || router._notFoundHandler
   }
-}
-
-function def (obj, key, val) {
-  Object.defineProperty(obj, key, {
-    value: val,
-    enumerable: false
-  })
 }

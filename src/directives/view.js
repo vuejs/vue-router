@@ -37,7 +37,7 @@ export default function (Vue) {
       // all we need to do here is registering this view
       // in the router. actual component switching will be
       // managed by the pipeline.
-      let router = this.router = route._router
+      let router = this.router = route.router
       router._views.unshift(this)
 
       // note the views are in reverse order.

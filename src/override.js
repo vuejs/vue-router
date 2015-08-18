@@ -8,7 +8,7 @@ export default function (Vue) {
   Vue.prototype.$addChild = function (opts, Ctor) {
 
     let route = this.$route
-    let router = route && route._router
+    let router = route && route.router
 
     // inject meta
     if (router) {

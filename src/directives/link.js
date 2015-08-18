@@ -20,7 +20,7 @@ export default function (Vue) {
         )
         return
       }
-      let router = vm.$route._router
+      let router = vm.$route.router
       this.handler = (e) => {
         if (e.button === 0) {
           e.preventDefault()
@@ -43,7 +43,7 @@ export default function (Vue) {
     updateClasses: function (path) {
       let el = this.el
       let dest = this.destination
-      let router = this.vm.$route._router
+      let router = this.vm.$route.router
       let activeClass = router._linkActiveClass
       let exactClass = activeClass + '-exact'
       if (path.indexOf(dest) === 0 && path !== '/') {
@@ -62,7 +62,7 @@ export default function (Vue) {
       this.destination = path
       this.updateClasses(this.vm.$route.path)
       path = path || ''
-      let router = this.vm.$route._router
+      let router = this.vm.$route.router
       let isAbsolute = path.charAt(0) === '/'
       // do not format non-hash relative paths
       let href = router.mode === 'hash' || isAbsolute
