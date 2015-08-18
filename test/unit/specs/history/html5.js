@@ -56,6 +56,36 @@ if (!isIE9) {
       }
     })
 
+    it('popstate with root', function () {
+      var history = new History({
+        onChange: step1,
+        root: 'root/'
+      })
+      expect(history.root).toBe('/root')
+      history.start()
+      function step1 () {
+        history.onChange = step2
+        history.go('/')
+      }
+      function step2 (path) {
+        expect(location.pathname).toBe('/root/')
+        expect(path).toBe('/')
+        history.onChange = step3
+        history.go('/haha')
+      }
+      function step3 (path) {
+        expect(location.pathname).toBe('/root/haha')
+        expect(path).toBe('/haha')
+        history.onChange = step4
+        window.history.back()
+      }
+      function step4 (path) {
+        expect(location.pathname).toBe('/root/')
+        expect(path).toBe('/')
+        done()
+      }
+    })
+
     it('respect <base>', function (done) {
       var base = document.createElement('base')
       base.setAttribute('href', '/base/')

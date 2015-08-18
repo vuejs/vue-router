@@ -22,13 +22,12 @@ export default class HTML5History {
   }
 
   start () {
-    let self = this
-    this.listener = function (e) {
+    this.listener = (e) => {
       let url = decodeURI(location.pathname + location.search)
       if (this.root) {
         url = url.replace(this.rootRE, '')
       }
-      self.onChange(url, e && e.state, location.hash)
+      this.onChange(url, e && e.state, location.hash)
     }
     window.addEventListener('popstate', this.listener)
     this.listener()
