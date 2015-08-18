@@ -1,4 +1,4 @@
-# Route Object
+# Route Object & Route Matching
 
 Vue-router supports matching paths that contain dynamic segments, star segments and query strings. All these information of a parsed route will be accessible on the exposed **Route Context Objects** (we will just call them "route" objects from now on). The route object will be injected into every component in a vue-router-enabled app as `this.$route`, and will be updated whenever a route transition is performed.
 

@@ -3,10 +3,10 @@
 - [Installation](installation.md)
 - [Basic Usage](basic.md)
 - [Nested Routes](nested.md)
-- [Route Object](route.md)
+- [Route Object & Route Matching](route.md)
+- [Router Options](options.md)
 - [router-view](view.md)
 - [v-link](link.md)
-- [Router Options](options.md)
 - Transition Pipeline
   - [Overview](pipeline/README.md)
   - [Transition Object](pipeline/transition.md)
