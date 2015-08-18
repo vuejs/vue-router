@@ -14,11 +14,12 @@
   "license": "MIT",
   "ignore": [
     "**/.*",
-    "node_modules",
-    "test",
     "build",
+    "docs",
     "example",
+    "src",
+    "test",
     "*.yml",
-    "package.json"
+    "*.json"
   ]
 }
