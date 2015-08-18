@@ -23,10 +23,9 @@ export function canReuse (view, handler, transition) {
     ? canReuseFn
     : canReuseFn
       ? canReuseFn.call(component, {
-          to: transition.to,
-          from: transition.from
-        })
-      : true // defaults to true
+        to: transition.to,
+        from: transition.from
+      }) : true // defaults to true
 }
 
 /**
