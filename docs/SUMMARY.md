@@ -3,7 +3,7 @@
 - [Installation](installation.md)
 - [Basic Usage](basic.md)
 - [Nested Routes](nested.md)
-- [Route Context](route.md)
+- [Route Object](route.md)
 - [router-view](view.md)
 - [v-link](link.md)
 - [Router Options](options.md)
