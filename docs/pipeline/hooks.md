@@ -96,7 +96,7 @@ We are asynchronously fetching data in the `activate` hook here just for the sak
 
 ``` js
 route: {
-  acitvate ({ next }) {
+  activate ({ next }) {
     // when done:
     next()
   }
