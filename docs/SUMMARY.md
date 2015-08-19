@@ -1,4 +1,4 @@
-# Summary
+# Table of Contents
 
 - [Installation](installation.md)
 - [Basic Usage](basic.md)
@@ -7,8 +7,7 @@
 - [Router Options](options.md)
 - [router-view](view.md)
 - [v-link](link.md)
-- Transition Pipeline
-  - [Overview](pipeline/README.md)
+- [Transition Pipeline](pipeline/README.md)
   - [Transition Object](pipeline/transition.md)
   - [data](pipeline/data.md)
   - [activate](pipeline/activate.md)
@@ -16,7 +15,8 @@
   - [canActivate](pipeline/can-activate.md)
   - [canDeactivate](pipeline/can-deactivate.md)
   - [canReuse](pipeline/can-reuse.md)
-- API Reference
+- [API Reference](api/README.md)
+  - [Router instance properties](api/properties.md)
   - [router.map](api/map.md)
   - [router.on](api/on.md)
   - [router.redirect](api/redirect.md)

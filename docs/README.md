@@ -1,1 +1,1 @@
-../README.md
+SUMMARY.md
