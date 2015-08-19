@@ -1,5 +1,7 @@
 # `data(transition) [-> Promise]`
 
+Called on an incoming component during the activation phase, after the `activation` hook has been resolved. Load and set data on the current component.
+
 ### Arguments
 
 - `transition`
@@ -8,7 +10,9 @@
 
 ### Return Value
 
-- optionally return a Promise that resolves to the data to be set on the component.
+- optionally return a Promise.
+  - `resolve(data)` -> `transition.next(data)`
+  - `reject(reason)` -> `transition.abort(reason)`
 
 ### Details
 
@@ -27,6 +31,8 @@ The `data` hook is different from `activate` in that:
   - If we wait for the data to be fetched before displaying the new component, the user will feel like the interface is "stuck" for a split second before the view switches.
 
   - Instead, we can react to user input instantly and start switching the view, while displaying the new component with a "loading" state. If we have a CSS transition in between, the animation time can overlap nicely with the data wait time.
+
+With that said, if you still wish to wait until data is loaded before switching the view, you can add **`waitForData: true`** inside your component's `route` option.
 
 ### Examples
 
