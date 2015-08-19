@@ -46,7 +46,7 @@ We can divide a route transition pipeline into three phases:
 
   ![activation phase](05.png)
 
-  These hooks are called in the same order of the validation hooks, but their purpose is to give you the chance to do cleanup / preparation work before the visible component switching is executed. The interface will not update until all of the affected components' `deactivate` and `activate` hooks have resolved.
+  These hooks are called in the same order of the validation hooks, but their purpose is to give you the chance to do cleanup / preparation work before the visible component switching is executed. The interface will not update until all of the affected components' `deactivate` and `activate` hooks have been resolved.
 
   The `data` hook is called right after `activate` is resolved, and is also called when a component is reused.
 

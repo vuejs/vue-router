@@ -24,7 +24,7 @@ The `data` hook is different from `activate` in that:
 
   Imagine we have a component for the route `/message/:id`, and we are currently on `/message/1`. When the user navigates to `/message/2`, the current component can be reused, so the `activate` hook will not get called. But we do want to fetch and update the data based on the new `id` param, so in most cases it makes sense to do data fetching in `data` instead of `activate`.
 
-2. `activate`'s respondibility is controlling the timing of switching to the new component. In comparison, `data` is called right after `activate` is resolved and right before the view switching happens, so the data fetching and the new component's entering animation will go in parallel, and the component will be in a "loading" state before `data` is resolved.
+2. `activate`'s responsibility is controlling the timing of switching to the new component. In comparison, `data` is called right after `activate` is resolved and right before the view switching happens, so the data fetching and the new component's entering animation will go in parallel, and the component will be in a "loading" state before `data` is resolved.
 
   Let's consider the difference in the User Experience here:
 
