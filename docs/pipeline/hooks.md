@@ -61,7 +61,7 @@ All transition hooks are considered asynchronous by default. In order to signal 
 
 ### Returning Promise in Hooks
 
-When you return a Promise in a transition hook, `transition.next` will be called for you when the Primise resolves. If the Promise is rejected during validation phase, it will call `transition.abort`; if it is rejected during activation phase, it will call `transition.next`.
+When you return a Promise in a transition hook, `transition.next` will be called for you when the Promise resolves. If the Promise is rejected during validation phase, it will call `transition.abort`; if it is rejected during activation phase, it will call `transition.next`.
 
 For validation hooks (`canActivate` and `canDeactivate`), if the Promise's resolved value is falsy, it will also abort the transition.
 
