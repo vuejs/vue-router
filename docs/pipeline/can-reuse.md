@@ -1,4 +1,4 @@
-# `canReuse {Boolean} | canReuse(transition) -> Boolean`
+# `canReuse: Boolean | canReuse(transition) -> Boolean`
 
 Determines whether a component can be reused. If a component cannot be reused, the current instance will be replaced by a new one and it will go through the normal validation and activation phase.
 
