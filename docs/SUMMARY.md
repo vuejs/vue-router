@@ -1,4 +1,4 @@
-# Table of Contents
+# vue-router documentation
 
 - [Installation](installation.md)
 - [Basic Usage](basic.md)
@@ -8,7 +8,7 @@
 - [router-view](view.md)
 - [v-link](link.md)
 - [Transition Pipeline](pipeline/README.md)
-  - [Transition Object](pipeline/transition.md)
+  - [Transition Hooks](pipeline/hooks.md)
   - [data](pipeline/data.md)
   - [activate](pipeline/activate.md)
   - [deactivate](pipeline/deactivate.md)
