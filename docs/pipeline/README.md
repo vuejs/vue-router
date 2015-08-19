@@ -18,13 +18,15 @@ How would we go about that? There are a few things we need to do here:
 
 4. Before we actually perform step 2 & 3, we also want to make sure this transition is valid - that is, to make sure that all components involved in this transition **can** be deactivated/activated as desired.
 
+With vue-router, you can control these steps by implementing optional transition hooks. But before we go into details on how to do that, let's take a look at the bigger picture.
+
 ### Transition Phases
 
-With these in mind, we can divide a route transition pipeline into three phases:
+We can divide a route transition pipeline into three phases:
 
 1. **Reusability phase:**
 
-  Check if any component in the current view hierarchy can be reused in the new one. This is done by comparing the two component trees, find out common components, and then check their reusability. By default, every component is reusable unless configured otherwise.
+  Check if any component in the current view hierarchy can be reused in the new one. This is done by comparing the two component trees, find out common components, and then check their reusability (via the `canReuse` option). By default, every component is reusable unless configured otherwise.
 
   ![reusability phase](03.png)
 
@@ -45,5 +47,7 @@ With these in mind, we can divide a route transition pipeline into three phases:
   ![activation phase](05.png)
 
   These hooks are called in the same order of the validation hooks, but their purpose is to give you the chance to do cleanup / preparation work before the visible component switching is executed. The interface will not update until all of the affected components' `deactivate` and `activate` hooks have resolved.
+
+  The `data` hook is called right after `activate` is resolved, and is also called when a component is reused.
 
 We will talk about transition hooks in detail next.

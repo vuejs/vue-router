@@ -91,3 +91,16 @@ route: {
 ```
 
 We are asynchronously fetching data in the `activate` hook here just for the sake of an example; Note that we also have the [`data` hook](data.html) which is in general more appropriate for this purpose.
+
+**TIP:** if you are using ES6 you can use argument destructuring to make your hooks cleaner:
+
+``` js
+route: {
+  acitvate ({ next }) {
+    // when done:
+    next()
+  }
+}
+```
+
+Check out the [advanced example](https://github.com/vuejs/vue-router/tree/dev/example/advanced) in the vue-router repo.

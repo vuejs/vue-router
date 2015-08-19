@@ -1,0 +1,103 @@
+# `data(transition) [-> Promise]`
+
+### Arguments
+
+- `transition`
+
+  Calling `transition.next(data)` will set each property in `data` on the component. For example, with `{ a: 1, b: 2 }`, the router will call `component.$set('a', 1)` and `component.$set('b', 2)`.
+
+### Return Value
+
+- optionally return a Promise that resolves to the data to be set on the component.
+
+### Details
+
+The `data` transition hook is called immediately after the `activate` hook is resolved, and right before the view switching is executed. The entering component gets a **`$loadingRouteData`** meta property, which starts with value `false` and set to `true` when the `data` hook is resolved. This property can be used to display a loading state for the entering component.
+
+The `data` hook is different from `activate` in that:
+
+1. `data` is also called every time the route changes, even if the current component is reused, while `activate` is only called when component is newly created.
+
+  Imagine we have a component for the route `/message/:id`, and we are currently on `/message/1`. When the user navigates to `/message/2`, the current component can be reused, so the `activate` hook will not get called. But we do want to fetch and update the data based on the new `id` param, so in most cases it makes sense to do data fetching in `data` instead of `activate`.
+
+2. `activate`'s respondibility is controlling the timing of switching to the new component. In comparison, `data` is called right after `activate` is resolved and right before the view switching happens, so the data fetching and the new component's entering animation will go in parallel, and the component will be in a "loading" state before `data` is resolved.
+
+  Let's consider the difference in the User Experience here:
+
+  - If we wait for the data to be fetched before displaying the new component, the user will feel like the interface is "stuck" for a split second before the view switches.
+
+  - Instead, we can react to user input instantly and start switching the view, while displaying the new component with a "loading" state. If we have a CSS transition in between, the animation time can overlap nicely with the data wait time.
+
+### Examples
+
+By calling `transition.next`:
+
+``` js
+route: {
+  data: function (transition) {
+    setTimeout(function () {
+      transition.next({
+        message: 'data fetched!'
+      })
+    }, 1000)
+  }
+}
+```
+
+By returning a Promise:
+
+``` js
+route: {
+  data: function () {
+    return messageService
+      .fetch(transition.to.params.messageId)
+      .then(function (message) {
+        return { message: message }
+      })
+  }
+}
+```
+
+Parallel requests, with Promise & ES6:
+
+``` js
+route: {
+  data ({ to: { params: { userId }}}) {
+    return Promise.all([
+      userService.get(userId),
+      postsService.getForUser(userId)
+    ]).then(([user, post]) => ({ user, post }))
+  }
+}
+```
+
+Equivalent of above in ES5:
+
+``` js
+route: {
+  data (transition) {
+    var userId = transition.to.params.userId
+    return Promise.all([
+      userService.get(id),
+      postsService.getForUser(id)
+    ]).then(function (data) {
+      return {
+        user: data[0],
+        posts: data[1]
+      }
+    })
+  }
+}
+```
+
+Using `$loadingRouteData` in templates:
+
+``` html
+<div class="view">
+  <div v-if="$loadingRouteData">Loading ...</div>
+  <div v-if="!$loadingRouteData">
+    <user-profile user="{{user}}"></user-profile>
+    <user-post v-repeat="post in posts"></user-post>
+  </div>
+</div>
+```
