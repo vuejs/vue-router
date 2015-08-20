@@ -84,8 +84,8 @@ route: {
   data (transition) {
     var userId = transition.to.params.userId
     return Promise.all([
-      userService.get(id),
-      postsService.getForUser(id)
+      userService.get(userId),
+      postsService.getForUser(userId)
     ]).then(function (data) {
       return {
         user: data[0],
