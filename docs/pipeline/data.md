@@ -1,6 +1,6 @@
 # `data(transition) [-> Promise]`
 
-Called on an incoming component during the activation phase, after the `activation` hook has been resolved. Load and set data on the current component.
+Called on an incoming component during the activation phase, after the `activate` hook has been resolved. Load and set data on the current component.
 
 ### Arguments
 
