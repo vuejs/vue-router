@@ -4,6 +4,10 @@
 
 See [dist folder](https://github.com/vuejs/vue-router/tree/dev/dist). Note the dist files are always the latest stable - it's not update-to-date with the `dev` branch source.
 
+### CDN
+
+[jsdelivr](https://cdn.jsdelivr.net/vue.router/0.5.2/vue-router.min.js)
+
 ### NPM
 
 ``` bash
