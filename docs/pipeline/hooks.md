@@ -33,7 +33,7 @@ Each transition hook will receive a `transition` object as the only argument. Th
 
 - **transition.from**
 
-  A [route object](../route.html) representing the route we are transitioning from.
+  A [route object](../route.md) representing the route we are transitioning from.
 
 - **transition.to**
 
@@ -90,7 +90,7 @@ route: {
 }
 ```
 
-We are asynchronously fetching data in the `activate` hook here just for the sake of an example; Note that we also have the [`data` hook](data.html) which is in general more appropriate for this purpose.
+We are asynchronously fetching data in the `activate` hook here just for the sake of an example; Note that we also have the [`data` hook](data.md) which is in general more appropriate for this purpose.
 
 **TIP:** if you are using ES6 you can use argument destructuring to make your hooks cleaner:
 

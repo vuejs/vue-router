@@ -5,7 +5,7 @@ Add a single root-level route configuration. Internally, `router.map()` simply c
 ### Arguments
 
 - `path: String` - see [Route Matching](../route.md#route-matching)
-- `config: Object` - see [Route Config Object](map.html#route-config-object).
+- `config: Object` - see [Route Config Object](map.md#route-config-object).
 
 ### Example
 

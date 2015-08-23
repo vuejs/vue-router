@@ -10,3 +10,4 @@
 - [router.redirect](redirect.md)
 - [router.alias](alias.md)
 - [router.beforeEach](before-each.md)
+- [router.afterEach](after-each.md)

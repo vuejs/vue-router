@@ -4,7 +4,7 @@ Called on a leaving component the activation phase when it is about to be deacti
 
 ### Arguments
 
-- [`transition {Transition}`](hooks.html#transition-object)
+- [`transition {Transition}`](hooks.md#transition-object)
 
   Call `transition.next()` to resolve the hook. Note calling `transition.abort()` here will not take the app back to the previous route because the transition has already been validated.
 

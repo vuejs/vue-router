@@ -13,7 +13,8 @@
     "e2e-sauce": "nightwatch -c build/nightwatch.sauce.json -e chrome,firefox,ie10,ie11",
     "e2e-local": "bash ./build/e2e.sh",
     "release": "bash ./build/release.sh",
-    "docs": "bash ./build/update-docs.sh",
+    "docs": "cd docs && gitbook serve",
+    "deploy-docs": "bash ./build/update-docs.sh",
     "test": "npm run lint && npm run unit && npm run e2e-local"
   },
   "repository": {

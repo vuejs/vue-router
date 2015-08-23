@@ -26,3 +26,4 @@
   - [router.redirect](api/redirect.md)
   - [router.alias](api/alias.md)
   - [router.beforeEach](api/before-each.md)
+  - [router.afterEach](api/after-each.md)
