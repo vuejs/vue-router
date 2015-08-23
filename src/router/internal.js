@@ -194,6 +194,13 @@ export default function (Vue, Router) {
         child.$route = route
       })
     }
+    // call global after hook
+    if (this._afterEachHook) {
+      this._afterEachHook.call(null, {
+        to: transition.to,
+        from: transition.from
+      })
+    }
   }
 
   /**

@@ -446,6 +446,36 @@ describe('Core', function () {
     }
   })
 
+  it('global after', function (done) {
+    router = new Router({ abstract: true })
+    var App = Vue.extend({
+      template: '<div><router-view></router-view></div>'
+    })
+    router.map({
+      '/a': {
+        component: {
+          template: '<p>a</p>'
+        }
+      }
+    })
+    var callCount = 0
+    router.afterEach(function (transition) {
+      if (callCount === 0) {
+        // initial match
+        expect(transition.from.path).toBeUndefined()
+        expect(transition.to.path).toBe('/')
+      } else {
+        // second match
+        expect(transition.from.path).toBe('/')
+        expect(transition.to.path).toBe('/a')
+        done()
+      }
+      callCount++
+    })
+    router.start(App, el)
+    router.go('/a')
+  })
+
   it('transitionOnLoad option', function (done) {
     router = new Router({
       abstract: true,

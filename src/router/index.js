@@ -49,6 +49,7 @@ export default class Router {
     this._previousTransition = null
     this._notFoundHandler = null
     this._beforeEachHook = null
+    this._afterEachHook = null
 
     // feature detection
     this._hasPushState =
