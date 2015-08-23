@@ -27,7 +27,7 @@ Vue.component('hook-example', {
 })
 ```
 
-### The Transition Object
+### Transition Object
 
 Each transition hook will receive a `transition` object as the only argument. The transition object exposes the following properties & methods:
 

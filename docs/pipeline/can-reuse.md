@@ -6,7 +6,7 @@ This route options can either be a plain Boolean value, or a function that synch
 
 ### Arguments
 
-- `transition`
+- [`transition {Transition}`](hooks.html#transition-object)
 
   You can only access `transition.to` and `transition.from` in a `canReuse` hook.
 

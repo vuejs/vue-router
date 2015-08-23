@@ -4,7 +4,7 @@ Called on an incoming component during the activation phase, after the `activate
 
 ### Arguments
 
-- `transition`
+- [`transition {Transition}`](hooks.html#transition-object)
 
   Calling `transition.next(data)` will set each property in `data` on the component. For example, with `{ a: 1, b: 2 }`, the router will call `component.$set('a', 1)` and `component.$set('b', 2)`.
 

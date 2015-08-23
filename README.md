@@ -1,4 +1,4 @@
-# vue-router [![Build Status](https://img.shields.io/circleci/project/vuejs/vue-router/master.svg)](https://circleci.com/gh/vuejs/vue-router)
+# vue-router [![Build Status](https://img.shields.io/circleci/project/vuejs/vue-router/master.svg)](https://circleci.com/gh/vuejs/vue-router) [![npm package](https://img.shields.io/npm/v/vue-router.svg)](https://www.npmjs.com/package/vue-router)
 
 **Compatibility Note:** `vue-router` requires Vue.js 0.12.10+
 

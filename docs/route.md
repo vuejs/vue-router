@@ -16,6 +16,10 @@ A route object exposes the following properties:
 
   An object that contains key/value pairs of the query string. For example, for a path `/foo?user=1`, we get `$route.query.user == 1`.
 
+- **$route.router**
+
+  The router instance that is managing this route (and its owner component).
+
 ### Using in Templates
 
 You can directly bind to the `$route` object inside your component templates. For example:
@@ -27,7 +31,9 @@ You can directly bind to the `$route` object inside your component templates. Fo
 </div>
 ```
 
-### Dynamic Segments
+### Route Matching
+
+#### Dynamic Segments
 
 Dynamic segments can be defined in the form of path segments with a leading colon, e.g. in `user/:username`, `:username` is the dynamic segment. It will match paths like `/user/foo` or `/user/bar`. When a path containing a dynamic segment is matched, the dynamic segments will be available inside `$route.params`.
 
@@ -52,7 +58,7 @@ Examples:
 | /user/:username | /user/evan | `{ username: 'evan' }` |
 | /user/:username/post/:post_id | /user/evan/post/123 | `{ username: 'evan', post_id: 123 }` |
 
-### Star Segments
+#### Star Segments
 
 While dynamic segments can correspond to only a single segment in a path, star segments is basically the "greedy" version of it. For example `/foo/*bar` will match anything that starts with `/foo/`. The part matched by the star segment will also be available in `$route.params`.
 

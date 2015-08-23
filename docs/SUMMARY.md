@@ -1,4 +1,4 @@
-# vue-router documentation
+# vue-router documentation [![npm package](https://img.shields.io/npm/v/vue-router.svg)](https://www.npmjs.com/package/vue-router)
 
 - [Installation](installation.md)
 - [Basic Usage](basic.md)
@@ -17,12 +17,12 @@
   - [canReuse](pipeline/can-reuse.md)
 - [API Reference](api/README.md)
   - [Router instance properties](api/properties.md)
+  - [router.start](api/start.md)
+  - [router.stop](api/stop.md)
   - [router.map](api/map.md)
   - [router.on](api/on.md)
+  - [router.go](api/go.md)
+  - [router.replace](api/replace.md)
   - [router.redirect](api/redirect.md)
   - [router.alias](api/alias.md)
   - [router.beforeEach](api/before-each.md)
-  - [router.go](api/go.md)
-  - [router.replace](api/replace.md)
-  - [router.start](api/start.md)
-  - [router.stop](api/stop.md)

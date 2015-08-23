@@ -4,7 +4,7 @@ Called on a leaving component during the validation phase.
 
 ### Arguments
 
-- `transition`
+- [`transition {Transition}`](hooks.html#transition-object)
 
   Call `transition.next()` to resolve the hook. Calling `transition.abort()` will invalidate and cancel the transition.
 
