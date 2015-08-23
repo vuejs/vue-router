@@ -1,5 +1,5 @@
 /*!
- * vue-router v0.5.1
+ * vue-router v0.5.2
  * (c) 2015 Evan You
  * Released under the MIT License.
  */
@@ -96,7 +96,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	// auto install
 	/* istanbul ignore if */
 	if (typeof window !== 'undefined' && window.Vue) {
-	  _router2['default'].install(window.Vue);
+	  window.Vue.use(_router2['default']);
 	}
 
 	exports['default'] = _router2['default'];
@@ -1044,6 +1044,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  this._previousTransition = null;
 	  this._notFoundHandler = null;
 	  this._beforeEachHook = null;
+	  this._afterEachHook = null;
 
 	  // feature detection
 	  this._hasPushState = typeof window !== 'undefined' && window.history && window.history.pushState;
@@ -1336,13 +1337,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	  _createClass(HTML5History, [{
 	    key: 'start',
 	    value: function start() {
-	      var self = this;
+	      var _this = this;
+
 	      this.listener = function (e) {
 	        var url = decodeURI(location.pathname + location.search);
-	        if (this.root) {
-	          url = url.replace(this.rootRE, '');
+	        if (_this.root) {
+	          url = url.replace(_this.rootRE, '');
 	        }
-	        self.onChange(url, e && e.state, location.hash);
+	        _this.onChange(url, e && e.state, location.hash);
 	      };
 	      window.addEventListener('popstate', this.listener);
 	      this.listener();
@@ -1470,6 +1472,16 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	  Router.prototype.beforeEach = function (fn) {
 	    this._beforeEachHook = fn;
+	  };
+
+	  /**
+	   * Set global after hook.
+	   *
+	   * @param {Function} fn
+	   */
+
+	  Router.prototype.afterEach = function (fn) {
+	    this._afterEachHook = fn;
 	  };
 
 	  /**
@@ -1743,6 +1755,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	        child.$route = route;
 	      });
 	    }
+	    // call global after hook
+	    if (this._afterEachHook) {
+	      this._afterEachHook.call(null, {
+	        to: transition.to,
+	        from: transition.from
+	      });
+	    }
 	  };
 
 	  /**
@@ -1805,13 +1824,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * @param {Router} router
 	 */
 
-	'use strict';
+	"use strict";
 
-	var _classCallCheck = __webpack_require__(7)['default'];
+	var _classCallCheck = __webpack_require__(7)["default"];
 
-	var _Object$defineProperty = __webpack_require__(10)['default'];
-
-	Object.defineProperty(exports, '__esModule', {
+	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
 
@@ -1819,6 +1836,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	  _classCallCheck(this, Route);
 
 	  this.path = path;
+	  this.router = router;
+
 	  var matched = router._recognizer.recognize(path);
 
 	  this.query = matched ? matched.queryParams : {};
@@ -1833,20 +1852,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }, {}) : {};
 
 	  // private stuff
-	  this._aborted = false;
-	  def(this, '_matched', matched || router._notFoundHandler);
-	  def(this, '_router', router);
+	  this._matched = matched || router._notFoundHandler;
 	};
 
-	exports['default'] = Route;
-
-	function def(obj, key, val) {
-	  _Object$defineProperty(obj, key, {
-	    value: val,
-	    enumerable: false
-	  });
-	}
-	module.exports = exports['default'];
+	exports["default"] = Route;
+	module.exports = exports["default"];
 
 /***/ },
 /* 18 */
@@ -2397,7 +2407,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	      // all we need to do here is registering this view
 	      // in the router. actual component switching will be
 	      // managed by the pipeline.
-	      var router = this.router = route._router;
+	      var router = this.router = route.router;
 	      router._views.unshift(this);
 
 	      // note the views are in reverse order.
@@ -2454,7 +2464,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        (0, _util.warn)('v-link can only be used inside a ' + 'router-enabled app.');
 	        return;
 	      }
-	      var router = vm.$route._router;
+	      var router = vm.$route.router;
 	      this.handler = function (e) {
 	        if (e.button === 0) {
 	          e.preventDefault();
@@ -2474,7 +2484,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    updateClasses: function updateClasses(path) {
 	      var el = this.el;
 	      var dest = this.destination;
-	      var router = this.vm.$route._router;
+	      var router = this.vm.$route.router;
 	      var activeClass = router._linkActiveClass;
 	      var exactClass = activeClass + '-exact';
 	      if (path.indexOf(dest) === 0 && path !== '/') {
@@ -2493,7 +2503,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	      this.destination = path;
 	      this.updateClasses(this.vm.$route.path);
 	      path = path || '';
-	      var router = this.vm.$route._router;
+	      var router = this.vm.$route.router;
 	      var isAbsolute = path.charAt(0) === '/';
 	      // do not format non-hash relative paths
 	      var href = router.mode === 'hash' || isAbsolute ? router.history.formatPath(path) : path;
@@ -2533,7 +2543,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  Vue.prototype.$addChild = function (opts, Ctor) {
 
 	    var route = this.$route;
-	    var router = route && route._router;
+	    var router = route && route.router;
 
 	    // inject meta
 	    if (router) {
