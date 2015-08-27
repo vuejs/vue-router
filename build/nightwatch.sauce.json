@@ -5,7 +5,7 @@
     "default" : {
       "selenium_port": 80,
       "selenium_host": "ondemand.saucelabs.com",
-      "username": "vuejs",
+      "username": "${SAUCE_USERNAME}",
       "access_key": "${SAUCE_ACCESS_KEY}",
       "silent": true
     },
