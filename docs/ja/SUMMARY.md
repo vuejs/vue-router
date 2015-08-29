@@ -2,7 +2,7 @@
 
 - [インストール](installation.md)
 - [基本的な使い方](basic.md)
-- [ネストされたルート](nested.md)
+- [Nested Routes](nested.md)
 - [Route オブジェクト & Route マッチング](route.md)
 - [Router オプション](options.md)
 - [router-view](view.md)
