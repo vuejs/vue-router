@@ -1,8 +1,8 @@
 # Nested Routes
 
-Mapping nested routes to nested components is a common need, and it is also very simple with vue-router.
+ネストされた routes をネストされたコンポーネントにマッピングすることは共通の要求であり、そしてそれは vue-router では非常に簡単です。
 
-Suppose we have the following app:
+以下の app があると仮定します:
 
 ``` html
 <div id="app">
@@ -10,18 +10,18 @@ Suppose we have the following app:
 </div>
 ```
 
-The `<router-view>` here is a top-level outlet. It renders the component matched by a top level route:
+`<router-view>` はここではトップレベルの outlet です。トップレベルの route でマッチしたコンポーネントでレンダリングします:
 
 ``` js
 router.map({
   '/foo': {
-    // Foo is rendered when /foo is matched
+    // Foo は /foo がマッチしたとき、レンダリングされます
     component: Foo
   }
 })
 ```
 
-Similarly, a rendered component can also contain its own, nested `<router-view>`. For example, if we add one inside the `Foo` component's template:
+同様に、レンダリングされたコンポーネントは、独自のネストされた `<router-view>` を含むことができます。例えば、もし `Foo` コンポーネントのテンプレート内部に1つ追加する場合:
 
 ``` js
 var Foo = Vue.extend({
@@ -33,21 +33,21 @@ var Foo = Vue.extend({
 })
 ```
 
-To render components into this nested outlet, we need to update our route config:
+このネストされた outlet でコンポーネントをレンダリングするため、我々の route 設定を更新する必要あります:
 
 ``` js
 router.map({
   '/foo': {
     component: Foo,
-    // add a subRoutes map under /foo
+    // /foo のもとに subRoutes マップを追加
     subRoutes: {
       '/bar': {
-        // Bar will be rendered inside Foo's <router-view>
-        // when /foo/bar is matched
+        // /foo/bar がマッチしたとき、
+        // Bar は Foo の <router-view> 内部でレンダリングされます
         component: Bar
       },
       '/baz': {
-        // Same for Baz, but only when /foo/baz is matched
+        // Baz に対しても同じですが、/foo/baz がマッチしたときです
         component: Baz
       }
     }
@@ -55,7 +55,7 @@ router.map({
 })
 ```
 
-Now, with the above configuration, when you visit `/foo`, nothing will be rendered inside `Foo`'s outlet, because no sub route is matched. Maybe you do want to render something there. In such case you can provide a `/` subroute in this case:
+今、上記設定で、`/foo` にアクセスするとき、サブ route がマッチされないため、`Foo` の outlet 内部では何もレンダリングされません。恐らく、そこに何かレンダリングしたいです。このようなケースは、このケースの `/` サブ route 提供することができます。
 
 ``` js
 router.map({
@@ -63,17 +63,17 @@ router.map({
     component: Foo,
     subRoutes: {
       '/': {
-        // This component will be rendered into Foo's <router-view>
-        // when /foo is matched. Using an inline component definition
-        // here for convenience.
+        // このコンポーネントは /foo がマッチされるとき、
+        // Foo の <router-view> でレンダリングされます。
+        // 便宜上、ここでインラインコンポーネント定義を使用します。
         component: {
           template: '<p>Default sub view for Foo</p>'
         }
       },
-      // other sub routes...
+      // 他のサブ routes ...
     }
   }
 })
 ```
 
-A working demo of this example can be found [here](http://jsfiddle.net/yyx990803/naeg67da/).
+この例の動作デモは[ここ](http://jsfiddle.net/yyx990803/naeg67da/)で見つけることができます。
