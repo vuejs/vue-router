@@ -1,6 +1,6 @@
-# Basic Usage
+# 基本的な使い方
 
-Creating a Single-page Application with Vue.js + vue-router is dead simple. With Vue.js, we are already breaking our application into components. When adding vue-router to the mix, all we need to do is map our components to the routes and let vue-router know where to render them. Here's a basic example:
+Vue.js + vue-router でシングルページアプリケーションを作成するのは極めてシンプルです。Vue.js で、we are already breaking our application into components. ミックスするため vue-router を追加する時、全ての我々のコンポーネントを routes に変換し、そして、vue-router がそれらをレンダリングするのを知らせたりする必要があります。ここでは基本的な例を示します:
 
 ### HTML
 
@@ -8,7 +8,7 @@ Creating a Single-page Application with Vue.js + vue-router is dead simple. With
 <div id="app">
   <h1>Hello App!</h1>
   <p>
-    <!-- use v-link directive for navigation. -->
+    <!-- ナビゲーション向けに v-link ディレクティブを使用 -->
     <a v-link="/foo">Go to Foo</a>
     <a v-link="/bar">Go to Bar</a>
   </p>
@@ -20,7 +20,7 @@ Creating a Single-page Application with Vue.js + vue-router is dead simple. With
 ### JavaScript
 
 ``` js
-// Define some components
+// いくつかのコンポーネントを定義。
 var Foo = Vue.extend({
     template: '<p>This is foo!</p>'
 })
@@ -29,21 +29,19 @@ var Bar = Vue.extend({
     template: '<p>This is bar!</p>'
 })
 
-// The router needs a root component to render.
-// For demo purposes, we will just use an empty one
-// because we are using the HTML as the app template.
+// router は、レンダリングするために1つの root コンポーネントが必要です。
+// デモ目的向けで、app テンプレートとして HTML を使用しているため、空を使用します。
 var App = Vue.extend({})
 
-// Create a router instance.
-// You can pass in additional options here, but let's
-// keep it simple for now.
+// router インスタンスを作成。
+// ここでは追加的なオプションで渡すことができますが、今はシンプルに保っています。
 var router = new VueRouter()
 
-// Define some routes.
-// Each route should map to a component. The "component" can
-// either be an actual component constructor created via
-// Vue.extend(), or just a component options object.
-// We'll talk about nested routes later.
+// いくつかの routes を定義。
+// route 毎、コンポーネントにマップが必要です。
+// "component" は 事実上コンポーネントコンストラクタは Vue.extend() 経由で作成されるか、
+// または適切なコンポーネントオプションオブジェクトでできます。
+// nested routes については後で話します。
 router.map({
     '/foo': {
         component: Foo
@@ -53,10 +51,10 @@ router.map({
     }
 })
 
-// Now we can start the app!
-// The router will create an instance of App and mount to
-// the element matching the selector #app.
+// 今 app を開始することが出来ます！
+// router は App のインスタンスを作成し、
+// そして #app セレクタでマッチングした要素にマウントします。
 router.start(App, '#app')
 ```
 
-You can also checkout this example [live](http://jsfiddle.net/yyx990803/xyu276sa/).
+[live](http://jsfiddle.net/yyx990803/xyu276sa/) の例もチェックアウトできます。
