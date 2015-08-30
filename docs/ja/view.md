@@ -1,13 +1,13 @@
 # `<router-view>`
 
-The `<router-view>` element is used as outlets for rendering matched components. It is based upon Vue's dynamic component system, and therefore inherits many features from a normal dyanmic component:
+`<router-view>` 要素は、マッチしたコンポーネントをレンダリングするための outlets として使用されます。これは、Vue の動的コンポーネントシステムに基づいており、そしてそれゆえに通常の動的コンポーネントから多くの機能を継承しています:
 
-- You can pass props to it.
-- HTML content inside the `<router-view>` will be used for content insertion in the rendered component.
-- `v-transition` and `transition-mode` are fully supported. Note: for transition effects to work, your route component must not be a [fragment instance](http://vuejs.org/guide/best-practices.html#Fragment_Instance).
-- `v-ref` is also supported; The rendered component will be registered in the parent component's `this.$` object.
+- props をそれに渡すことができます。
+- `<router-view>` 内部の HTML コンテンツはレンダリングされたコンポーネントのコンテンツ挿入のために使用されます。
+- `v-transition` と `transition-mode` が完全にサポートされています。Note: トランジションエフェクトが機能するために、あなたの route コンポーネントは[フラグメントインスタンス](http://vuejs.org/guide/best-practices.html#Fragment_Instance)であってはいけません。
+- `v-ref` もサポートされています。レンダリングされたコンポーネントは、親コンポーネントの `this.$` オブジェクトに登録されます。
 
-However, there are also a few limitations:
+しかしながら、いくつか制限があります:
 
-- `keep-alive` is not supported as of now.
-- `wait-for` is not supported. You should be using the [`activate` transition hook](pipeline/activate.html) to control the timing of the transition.
+- `keep-alive` は現在サポートされていません。
+- `wait-for` はサポートされていません。トランジションのタイミングを制御するためには [`activate` transition hook](pipeline/activate.html) を使用する必要があります。
