@@ -1,53 +1,53 @@
-# Transition Pipeline
+# トランジションパイプライン
 
-To better understand the pipeline of a route transition, let's imagine we have a router-enabled app, already rendered with three nested `<router-view>` with the path `/a/b/c`:
+route トランジションのパイプラインをよく理解するために、パス `/a/b/c` によって3つネストされて `<router-view>` で既にレンダリングされた、ルーターが使用可能なアプリケーションをイメージしてみましょう:
 
 ![](01.png)
 
-And then, the user navigates to a new path, `/a/d/e`, which requires us to update our rendered component tree to a new one:
+そして、私達のレンダリングされたコンポーネントツリーを新しいものに更新することを必要とする新しいパス `/a/d/e` にナビゲートします:
 
 ![](02.png)
 
-How would we go about that? There are a few things we need to do here:
+どうやって私達はそれについて行けるでしょうか？私達はここでする必要があるいくつかの事があります:
 
-1. We can potentially reuse component A, because it remains the same in the post-transition component tree.
+1. 潜在的にコンポーネント A を再利用することができます。なぜなら、トランジション後のコンポーネントツリーは同じであるためです。
 
-2. We need to deactivate and remove component B and C.
+2. 非活性化化し、そしてコンポーネント B と C を削除する必要があります。 
 
-3. We need to create and activate component D and E.
+3. 作成し、コンポーネント D と E を活性化する必要があります。
 
-4. Before we actually perform step 2 & 3, we also want to make sure this transition is valid - that is, to make sure that all components involved in this transition **can** be deactivated/activated as desired.
+4. ステップ2 とステップ3 を実際に実行する前に、このトランジションが有効であることを確認したい、つまり、必要に応じてこのトランジションが deactivated/activated **できる** ことを全てのコンポーネントが関与していることを確認したいです。
 
-With vue-router, you can control these steps by implementing optional transition hooks. But before we go into details on how to do that, let's take a look at the bigger picture.
+vue-router で、任意のトランジションフックで実装することによってこれらのステップを制御することができます。しかし、どうやってそれをするのか詳細に入る前に、大きな画像を見てみましょう。
 
-### Transition Phases
+### トランジションフェーズ
 
-We can divide a route transition pipeline into three phases:
+3つのフェーズで route のトランジションパイプラインを分けることができます:
 
-1. **Reusability phase:**
+1. **再利用性フェーズ (Reusability phase):**
 
-  Check if any component in the current view hierarchy can be reused in the new one. This is done by comparing the two component trees, find out common components, and then check their reusability (via the `canReuse` option). By default, every component is reusable unless configured otherwise.
+  現状の view 階層内の全てのコンポーネントが、新しいものに再利用できるかどうかチェックします。これは2つのコンポーネントツリーを比較することによって行われます。共通のコンポーネントを見つけて、そしてそれからそれらの再利用性 (`canReuse` オプション経由) をチェックします。デフォルトでは、全てのコンポーネントは他の方法で設定しない限り再利用可能です。
 
-  ![reusability phase](03.png)
+  ![再利用性フェーズ(reusability phase)](03.png)
 
-2. **Validation phase:**
+2. **検証フェーズ (Validation phase):**
 
-  Check if all current components can be deactivated, and if all new components can be activated. This is by checking and calling their `canDeactivate` and `canActivate` route config hooks.
+  全て現状のコンポーネントが非活性化できるかどうかチェックし、全ての新しいコンポーネントが活性化できます。これは、`canDeactivate` と `canActivate` の route 設定のフックを呼び出しとチェックで可能です。
 
-  ![validation phase](04.png)
+  ![検証フェーズ(validation phase)](04.png)
 
-  Note the `canDeactivate` check bubbles bottom-up, while the `canActivate` check is top-down.
+  `canActivate` チェックはトップダウンですが、`canDeactivate` チェックはボトムアップなバブルであることに注意してください。
 
-  Any of these hooks can potentially abort the transition. If a transition is aborted during the validation phase, the router preserve current app state and restore the previous path.
+  これらの全てのフックが潜在的にトランジションを中止することができます。もしトランジションが検証フェーズの間で中止される場合は、ルーターは現状のアプリケーション状態を保存し、前のパスを復元します。
 
-3. **Activation phase:**
+3. **活性化フェーズ (Activation phase):**
 
-  Once all validation hooks have been called and none of them aborts the transition, the transition is now said to be valid. The router will now deactivate current components and activate new components.
+  一度全ての検証フックが呼び出され、それらのトランジションの中止がない場合、トランジションは現在有効であると言われます。ルーターは現状のコンポーネントを非活性化し、新しいコンポーネントを活性化します。
 
-  ![activation phase](05.png)
+  ![活性化フェーズ(activation phase)](05.png)
 
-  These hooks are called in the same order of the validation hooks, but their purpose is to give you the chance to do cleanup / preparation work before the visible component switching is executed. The interface will not update until all of the affected components' `deactivate` and `activate` hooks have been resolved.
+  これらのフックは検証フックの同じ順序で呼び出されますが、これらの目的は、目に見えるコンポーネントの切り替えが実行される前に、クリーンアップ/準備 作業をするための機会を与えるためです。インターフェイスは影響を受けるコンポーネントの `deactivate` フックと `activate` フックの全てが解決されるまで更新されません。
 
-  The `data` hook is called right after `activate` is resolved, and is also called when a component is reused.
+  `data` フックは `activate` フックが解決された直後に呼び出され、コンポーネントが再利用されるときも呼び出されます。
 
-We will talk about transition hooks in detail next.
+次の詳細では、トランジションフックについて話します。
