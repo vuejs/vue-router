@@ -1,21 +1,21 @@
 # `activate(transition) [-> Promise]`
 
-Called on an incoming component during the activation phase when it is created and about to get transitioned in.
+作成されて移行した時、活性化フェーズの間に入ってくるコンポーネントに呼び出されます。
 
-### Arguments
+### 引数
 
 - [`transition {Transition}`](hooks.md#transition-object)
 
-  Call `transition.next()` to resolve the hook. Note calling `transition.abort()` here will not take the app back to the previous route because the transition has already been validated.
+  フックを解決するために `transition.next()` を呼び出します。ここで `transition.abort()` を呼び出すと、トランジションは既に検証されているため、アプリケーションは以前のルートへ戻りません。
 
-### Return Value
+### 戻り値
 
-- Optionally return a Promise.
+- 任意で Promise を返します。
   - `resolve` -> `transition.next()`
   - `reject(reason)` -> `transition.abort(reason)`
 
-### Details
+### 詳細
 
-In most cases this hook is used to control the timing of the view switching, because the view switching will not happen until this hook is resolved.
+ほとんどの場合、このフックは view の切り替えのタイミングで制御するために使用されます。view の切り替えはこのフックは解決されるまで起こりません。
 
-This hook is called top-down. A child view's `activate` will only get called when its parent view's `activate` has been resolved.
+このフックはトップダウンで呼ばれます。子の view の `activate` は親の view の `activate` が解決された時にのみ呼び出されます。
