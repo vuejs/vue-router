@@ -1,28 +1,28 @@
-# Route Object & Route Matching
+# Route オブジェクト & Route マッチング
 
-Vue-router supports matching paths that contain dynamic segments, star segments and query strings. All these information of a parsed route will be accessible on the exposed **Route Context Objects** (we will just call them "route" objects from now on). The route object will be injected into every component in a vue-router-enabled app as `this.$route`, and will be updated whenever a route transition is performed.
+Vue-router は動的セグメントを含んだマッチングしたパス、スターセグメント、そしてクエリ文字列をサポートします。全てのパースされた route のこれらの情報は、公開された **Route コンテキストオブジェクト** (以降でそれらを "route" オブジェクトと呼びます) で利用できます。route オブジェクトは `this.$route` として vue-router が使用可能になったアプリケーションにおいて全てのコンポーネントに導入され、そして route トランジションが実行されるたびに更新されます。
 
-A route object exposes the following properties:
+route オブジェクトは以下のプロパティを公開します:
 
 - **$route.path**
 
-  A string that equals the path of the current route, always resolved as an absolute path. e.g. `"/foo/bar"`.
+  現在の route のパスと等しい文字列、常に絶対パスで解決されます。例: `"/foo/bar"`
 
 - **$route.params**
 
-  An object that contains key/value pairs of dynamic segments and star segments. More details below.
+  動的セグメントの key/value のペアまたはスターセグメントを含んだオブジェクト。より詳細は以下で説明します。
 
 - **$route.query**
 
-  An object that contains key/value pairs of the query string. For example, for a path `/foo?user=1`, we get `$route.query.user == 1`.
+  query 文字列の key/value のペアを含んだオブジェクト。例えば、`/foo?user=1` のようなパスに対しては、`$route.query.user == 1` を取得します。
 
 - **$route.router**
 
-  The router instance that is managing this route (and its owner component).
+  この route (そしてそのオーナー自身のコンポーネント) を管理しているルーターインスタンス。
 
-### Using in Templates
+### テンプレートでの使用
 
-You can directly bind to the `$route` object inside your component templates. For example:
+あなたのコンポーネントのテンプレート内部で、直接 `$route` オブジェクトにバインドできます。例えば:
 
 ``` html
 <div>
@@ -31,13 +31,13 @@ You can directly bind to the `$route` object inside your component templates. Fo
 </div>
 ```
 
-### Route Matching
+### Route マッチング
 
-#### Dynamic Segments
+#### 動的セグメント
 
-Dynamic segments can be defined in the form of path segments with a leading colon, e.g. in `user/:username`, `:username` is the dynamic segment. It will match paths like `/user/foo` or `/user/bar`. When a path containing a dynamic segment is matched, the dynamic segments will be available inside `$route.params`.
+動的セグメントは先頭のコロン(:) とパスセグメントの形で定義することができます。`user/:username` での例では、`:username` は動的セグメントです。`/user/foo` または `/user/bar` のようなパスにマッチします。動的セグメントを含んでいるパスとマッチされたとき、動的セグメントは `$route.params` 内部で利用できるようになります。
 
-Example Usage:
+使用例:
 
 ``` js
 router.map({
@@ -49,22 +49,22 @@ router.map({
 })
 ```
 
-A path can contain multiple dynamic segments, and each of them will be stored as a key/value pair in `$route.params`.
+パスは複数の動的セグメントを含むことができ、そしてそれらごとに `$route.params` に key/value のペアとして保存されます。
 
-Examples:
+例:
 
-| pattern | matched path | $route.params |
-|---------|------|--------|
+| パターン | マッチしたパス | $route.params |
+| -------- | -------------- | ------------- |
 | /user/:username | /user/evan | `{ username: 'evan' }` |
 | /user/:username/post/:post_id | /user/evan/post/123 | `{ username: 'evan', post_id: 123 }` |
 
-#### Star Segments
+#### スターセグメント
 
-While dynamic segments can correspond to only a single segment in a path, star segments is basically the "greedy" version of it. For example `/foo/*bar` will match anything that starts with `/foo/`. The part matched by the star segment will also be available in `$route.params`.
+動的セグメントはパスで単一のセグメントのみ対応することができるものの、スターセグメントは基本的にそれの"貪欲(greedy)"バージョンです。例えば、`/foo/*bar` は `/foo` で開始される全てのものマッチします。スターセグメントによって一致した部分は、`$route.params` で利用できるようになります。
 
-Examples:
+例:
 
-| pattern | matched path | $route.params |
-|---------|------|--------|
+| パターン | マッチしたパス | $route.params |
+| -------- | -------------- | ------------- |
 | /user/*any | /user/a/b/c | `{ any: 'a/b/c' }` |
 | /foo/*any/bar | /foo/a/b/bar | `{ any: 'a/b' }` |
