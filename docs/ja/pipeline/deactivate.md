@@ -1,21 +1,21 @@
 # `deactivate(transition) [-> Promise]`
 
-Called on a leaving component the activation phase when it is about to be deactivated and removed.
+非活性されて削除した時、活性化フェーズのコンポーネントから離れるときに呼び出されます。
 
-### Arguments
+### 引数
 
 - [`transition {Transition}`](hooks.md#transition-object)
 
-  Call `transition.next()` to resolve the hook. Note calling `transition.abort()` here will not take the app back to the previous route because the transition has already been validated.
+  フックを解決するために `transition.next()` を呼び出します。ここで `transition.abort()` を呼び出すと、トランジションは既に検証されているため、アプリケーションは以前のルートへ戻りません。
 
-### Return Value
+### 戻り値
 
-- Optionally return a Promise.
+- 任意で Promise を返します。
   - `resolve` -> `transition.next()`
   - `reject(reason)` -> `transition.abort(reason)`
 
-### Details
+### 詳細
 
-This hook is called from bottom-up. A parent view component's `deactivate` only gets called when its child's `deactivate` has resolved.
+このフックはボトムアップから呼ばれます。子の `deactivate` が解決された時にのみ、親 の view コンポーネントの `deactivate` が呼び出されます。
 
-New components' `activate` hooks will only get called when all current components' `deactivate` hooks have been resolved.
+新しいコンポーネントの `activate` フックは、現状のコンポーネントの `deactivate` フック全て解決された時にのみ、呼び出されます。
