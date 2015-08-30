@@ -1,21 +1,21 @@
-# Router Instance Properties
+# Router インスタンスプロパティ
 
-> Only public properties are documented here.
+> パブリックなプロパティのみがここに記載されています。
 
 ### `router.app`
 
-- type: `Vue`
+- 型: `Vue`
 
-  The root Vue instance managed by the router instance. This instance is created from the Vue component contructor you passed into `router.start()`.
+  root Vue インスタンスはルーターインスタンスによって管理されます。このインスタンスは `router.start()` に渡した Vue コンポーネントのコンストラクタから作成されます。
 
 ### `router.mode`
 
-- type: `String`
+- 型: `String`
 
-  One of `html5`, `hash` or `abstract`.
+  `html5` 、`hash` または `abstract` のいずれか。
 
-  - **`html5`**: uses HTML5 history API and listens to `popstate` events. Supports [`saveScrollPosition`](../options.html#savescrollposition).
+  - **`html5`**: HTML5 history API を使用し、`popstate`イベントをリッスンします。[`saveScrollPosition`](../options.html#savescrollposition) をサポートします。
 
-  - **`hash`**: uses `location.hash` and listens to `hashchange` events. When you specify `history: true` when creating the router, it will fallback into hash mode in browsers that do not support the history API.
+  - **`hash`**: `location.hash` と `hashchange` イベントをリッスンして使用します。ルーターを作成するときに、`history: true` を指定するとき、history API をサポートしていないブラウザでは hash モードにフォールバックします。
 
-  - **`abstract`**: does not listen to any events. Will auto-fallback into this mode if `window` is not present.
+  - **`abstract`**: 全てのイベントをリッスンしません。`window` が存在しない場合、このモードに自動でフォールバックします。
