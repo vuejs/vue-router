@@ -1,25 +1,25 @@
 # v-link
 
-You should use the `v-link` directive for handling navigations inside a vue-router-enabled app for the following reasons:
+以下の理由のため、vue-router が使用可能になったアプリケーション内部でナビゲーションをハンドリングするために `v-link` ディレクティブを使用する必要があります:
 
-- It works the same way in both HTML5 history mode and hash mode, so if you ever decide to switch mode, or when the router falls back to hash mode in IE9, nothing needs to be changed.
+- HTML5 history モード と hash モード両方で同じように動作するため、もしいつかモードを切り替えることに決めた場合、または、ルーターは IE9 では hash モードにフォールバックするとき、何も変更する必要はありません。
 
-- In HTML5 history mode, `v-link` will intercept the click event so that the browser doesn't try to reload the page.
+- HTML5 history モードでは、`v-link` はブラウザがページのリロードするのを試行しないようにするために、クリックイベントに割り込みます。
 
-- When you are using the `root` option in HTML5 history mode, you don't need to include it in `v-link` URLs.
+- HTML5 history モードで `root` オプションを使用しているとき、`v-link` の URL にそれを含める必要はありません。
 
-#### Active Link Class
+#### アクティブリンククラス
 
-Elements with `v-link` will automatically get corresponding class names when the current path matches its `v-link` URL:
+`v-link` を利用する要素で、現在のパスが `v-link` の URL にマッチするとき、自動的に対応する クラス名を取得します:
 
-- The `.v-link-active` class is applied to the element when the current path starts with the `v-link` URL. For example, an element with `v-link="/a"` will get this class as long as the current path starts with `/a`.
+- `.v-link-active` クラスは、現在のパスが `v-link` の URL で開始するとき、要素に適用されます。例えば、`v-link="/a"` による要素は、現在のパスが `/a` で開始する限り、このクラスを取得します。
 
-- The `.v-link-active-exact` class is applied when the current path is an exact match of the `v-link` URL.
+- `.v-link-active-exact` クラスは、現在のパスが `v-link` の URL の正確にマッチするとき、適用されます。
 
-The active link class name can be configured with the `activeLinkClass` option when creating the router instance. The exact match class simply appends `-exact` postfix to the provided class name.
+アクティブリンククラス名はルーターインスタンスを作成するとき、`activeLinkClass` オプションで設定することができます。正確にマッチするクラスは、単に提供されたクラス名に `-exact` 接尾辞(postfix) を追加します。
 
-#### Additional Notes
+#### その他の注意事項
 
-- `v-link` automatically sets the `href` attribute when used on an `<a>` element.
+- `v-link` は `<a>` 要素で使用するとき、自動的に `href` 属性に設定します。
 
-- Because `v-link` is a [literal directive](http://vuejs.org/guide/directives.html#Literal_Directives), it can contain mustache tags, e.g. `v-link="/user/{% raw %}{{user.name}}{% endraw %}"`.
+- `v-link` は[リテラルディレクティブ](http://vuejs.org/guide/directives.html#Literal_Directives)のため、mustache タグを含むことができます。例: `v-link="/user/{% raw %}{{user.name}}{% endraw %}"`
