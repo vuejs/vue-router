@@ -1,13 +1,13 @@
 # `router.start(App, el)`
 
-Start the router-enabled app. Creates an instance of `App` and mounts it to `el`.
+ルーターが使用可能なアプリケーションを開始します。`App` のインスタンスを作成し、それを `el` にマウントします。
 
-### Arguments
+### 引数
 
 - `App: Function|Object`
 
-  The `App` can be a Vue component constructor or a component options object. If it's an object, the router will implicitly call `Vue.extend` on it. This component will be used to create the root Vue instance for the app.
+  `App` は Vue コンポーネントのコンストラクタ または コンポーネントオプションオブジェクトです。 もしオブジェクトの場合は、ルーターは暗黙的に `Vue.extend` を呼び出します。このコンポーネントはアプリケーションの root な Vue インスタンスを作成するために使用されます。
 
 - `el: String|Element`
 
-  The element to mount the app on. Can be a CSS selector string or an actual element.
+  要素はアプリ上にマウントします。CSS セレクタ文字列または実際の要素を指定することができます。
