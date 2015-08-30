@@ -1,6 +1,6 @@
-# API Reference
+# API リファレンス
 
-- [Router instance properties](properties.md)
+- [Router インスタンスプロパティ](properties.md)
 - [router.start](start.md)
 - [router.stop](stop.md)
 - [router.map](map.md)
