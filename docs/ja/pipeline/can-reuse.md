@@ -1,21 +1,21 @@
 # `canReuse: Boolean | canReuse(transition) -> Boolean`
 
-Determines whether a component can be reused. If a component cannot be reused, the current instance will be replaced by a new one and it will go through the normal validation and activation phase.
+コンポーネントを再利用できるかどうか決定します。もしコンポーネントが再利用することが出来ない場合は、現状のインスタンスは新しいものによって置換され、そして通常、検証フェーズと活性化フェーズを通貨します。
 
-This route options can either be a plain Boolean value, or a function that synchronously returns a Boolean. **Defaults to `true`**.
+この route オプションは純粋な Boolean 値、または同期的に Boolean を返す関数のどちらかにすることができます。**デフォルトは `true` **　です。
 
-### Arguments
+### 引数
 
 - [`transition {Transition}`](hooks.md#transition-object)
 
-  You can only access `transition.to` and `transition.from` in a `canReuse` hook.
+  `canResue` フックでは `transition.to` と `transition.from` のみアクセスできます。
 
-### Return Value
+### 戻り値
 
-- Must return a Boolean. Falsy values are treated as `false`.
+- Boolean を返す必要があります。偽となりうる値は、`false` として扱われます。
 
-### Details
+### 詳細
 
-`canReuse` is called synchronously, top-down for all potentially reusable components.
+`canReuse` 潜在的に再利用可能なコンポーネント全てに対してトップダウンで、同期的に呼び出されます。
 
-If a component is reused, its `data` hook will still get called during the activation phase.
+もし、コンポーネントが再利用可能な場合、`data` フックはまだ活性化フェーズの間で呼び出されます。
