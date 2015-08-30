@@ -1,26 +1,26 @@
 # `canDeactivate(transition) [-> Promise | Boolean]`
 
-Called on a leaving component during the validation phase.
+検証フェーズの間でコンポーネントから離れるときに呼び出されます。
 
-### Arguments
+### 引数
 
 - [`transition {Transition}`](hooks.md#transition-object)
 
-  Call `transition.next()` to resolve the hook. Calling `transition.abort()` will invalidate and cancel the transition.
+  フックを解決するために、`transition.next()` を呼び出します。`transition.abort()` を呼び出すと、無効とトランジションをキャンセルします。
 
-### Return Value
+### 戻り値
 
-- Optionally return a Promise:
+- 任意で Promise を返します。
 
   - `resolve(true)` -> `transition.next()`
   - `resolve(false)` -> `transition.abort()`
   - `reject(reason)` -> `transition.abort(reason)`
 
-- Optionally return a Boolean:
+- 任意で Boolean を返します。
 
   - `true` -> `transition.next()`
   - `false` -> `transition.abort()`
 
-### Details
+### 詳細
 
-This hook is called from bottom-up. A parent view component's `canDeactivate` only gets called when its child's `canDeactivate` has resolved.
+このフックはボトムアップから呼ばれます。親の view コンポーネント の `canDeactivate` は、子の `canDeactivate` が解決された時にのみ、呼び出されます。
