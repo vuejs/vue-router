@@ -10,7 +10,7 @@
 
 ### 戻り値
 
-- 任意で Promise を返す。
+- 任意で Promise を返します。
   - `resolve(data)` -> `transition.next(data)`
   - `reject(reason)` -> `transition.abort(reason)`
 
