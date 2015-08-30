@@ -1,42 +1,42 @@
 # `data(transition) [-> Promise]`
 
-Called on an incoming component during the activation phase, after the `activate` hook has been resolved. Load and set data on the current component.
+`activate` フックが解決された後、活性化フェーズの間に入ってくるコンポーネントに呼び出されます。ロードして現在のコンポーネントでデータを設定します。
 
-### Arguments
+### 引数
 
 - [`transition {Transition}`](hooks.md#transition-object)
 
-  Calling `transition.next(data)` will set each property in `data` on the component. For example, with `{ a: 1, b: 2 }`, the router will call `component.$set('a', 1)` and `component.$set('b', 2)`.
+  `transition.next(data)` の呼び出しはコンポーネントの `data` にプロパティ毎に設定します。例えば `{ a: 1, b: 2 }` が引数に指定される場合、ルーターは `component.$set('a', 1)` と `component.$set('b', 2)` を呼びます。
 
-### Return Value
+### 戻り値
 
-- optionally return a Promise.
+- 任意で Promise を返す。
   - `resolve(data)` -> `transition.next(data)`
   - `reject(reason)` -> `transition.abort(reason)`
 
-### Details
+### 詳細
 
-The `data` transition hook is called immediately after the `activate` hook is resolved, and right before the view switching is executed. The entering component gets a **`$loadingRouteData`** meta property, which starts with value `false` and set to `true` when the `data` hook is resolved. This property can be used to display a loading state for the entering component.
+`data` トランジションフックは、`activate` フックが解決された直後に呼び出され、直前に view の切り替えが実行されます。entering なコンポーネントは、**`$loadingRouteData`** メタプロパティを取得します。そのプロパティは `false` 値で開始し、`data` フックが解決されるとき、`true` に設定します。このプロパティは entering なコンポーネントに対してローディング状態を表示するために使用することができます。
 
-The `data` hook is different from `activate` in that:
+`data` フックは `activate` とは以下が異なります:
 
-1. `data` is also called every time the route changes, even if the current component is reused, while `activate` is only called when component is newly created.
+1. たとえ現状のコンポーネントが再利用される場合でも、`data` は毎回 route が変更する度に呼ばれるのに対し、`activate` はコンポーネントが新しく作成されるときだけ呼ばれます。
 
-  Imagine we have a component for the route `/message/:id`, and we are currently on `/message/1`. When the user navigates to `/message/2`, the current component can be reused, so the `activate` hook will not get called. But we do want to fetch and update the data based on the new `id` param, so in most cases it makes sense to do data fetching in `data` instead of `activate`.
+  route が `/message/:id` に対してコンポーネントがあり、現在 `/message/1` のパスであると想像してください。ユーザーが `/message/2` にナビゲートするとき、現状のコンポーネントは再利用できますが、`activate` フックは呼ばれません。しかし、フェッチしたくて新しい `id` パラメータに基づいたデータを更新したい場合、ほとんどの場合は `activate` の代わりに `data` でデータをフェッチするのは道理にかないます。
 
-2. `activate`'s responsibility is controlling the timing of switching to the new component. In comparison, `data` is called right after `activate` is resolved and right before the view switching happens, so the data fetching and the new component's entering animation will go in parallel, and the component will be in a "loading" state before `data` is resolved.
+2. `activate` の債務は新しいコンポーネントへの切り替えのタイミングを制御しています。比較して、`data` は `activate` が解決される直後と view の切り替えが起こる直前に呼びされるため、データのフェッチと新しいコンポーネントが入ってくるアニメーションは並行して行い、`data` が解決される前に "loading" 状態になります。
 
-  Let's consider the difference in the User Experience here:
+  それではここでユーザーエクスペリエンスの違いを考えてみましょう:
 
-  - If we wait for the data to be fetched before displaying the new component, the user will feel like the interface is "stuck" for a split second before the view switches.
+  - もし新しいコンポーネントを表示する前にデータがフェッチされるまで待つ場合は、ユーザーはインターフェイスが view の切り替え前に一瞬 "行き詰まらせる" ような感じになります。
 
-  - Instead, we can react to user input instantly and start switching the view, while displaying the new component with a "loading" state. If we have a CSS transition in between, the animation time can overlap nicely with the data wait time.
+  - 代わりに、"loading" 状態で新しいコンポーネントを表示している間、すぐにユーザー入力に反応し view の切り替えを開始することができます。もし合間で CSS トランジションを使用している場合、アニメーション時間はデータ待ち時間とうまく重なり合うことができます。
 
-With that said, if you still wish to wait until data is loaded before switching the view, you can add **`waitForData: true`** inside your component's `route` option.
+そうは言っても、view を切り替える前、データがロードされるまでにまだ待つのを希望するならば、あなたのコンポーネントの `route` オプション内部で **`waitfordata: true`** を追加することができます。
 
-### Examples
+### 例
 
-By calling `transition.next`:
+`transition.next` 呼び出すことによって:
 
 ``` js
 route: {
@@ -50,7 +50,7 @@ route: {
 }
 ```
 
-By returning a Promise:
+Promise を返すことによって:
 
 ``` js
 route: {
@@ -64,7 +64,7 @@ route: {
 }
 ```
 
-Parallel requests, with Promise & ES6:
+Promise & ES6 で並行なリクエスト:
 
 ``` js
 route: {
@@ -77,7 +77,7 @@ route: {
 }
 ```
 
-Equivalent of above in ES5:
+ES5 による上記と等価:
 
 ``` js
 route: {
@@ -96,7 +96,7 @@ route: {
 }
 ```
 
-Using `$loadingRouteData` in templates:
+テンプレートで `loadingRouteData` を使用する:
 
 ``` html
 <div class="view">
