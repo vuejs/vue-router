@@ -1,6 +1,6 @@
-# Transition Hooks
+# トランジションフック
 
-A `<router-view>` component involved in a transition can control / react to the transition by implementing appropriate transition pipeline hooks. These hooks include:
+`<router-view>` コンポーネントは、適切なトランジションパイプラインフックを実装することによってトランジションを制御する(に反応する)ことができます。これらのフックが含まれます:
 
 - `data`
 - `activate`
@@ -9,11 +9,11 @@ A `<router-view>` component involved in a transition can control / react to the 
 - `canDeactivate`
 - `canReuse`
 
-You can implement these hooks under your component's `route` option:
+あなたのコンポーネントの下で `route` オプションをこれらのフックで実装することができます:
 
 ``` js
 Vue.component('hook-example', {
-  // ... other options
+  // ... 他のオプション
   route: {
     activate: function (transition) {
       console.log('hook-example activated!')
@@ -27,80 +27,79 @@ Vue.component('hook-example', {
 })
 ```
 
-### Transition Object
+### トランジションオブジェクト
 
-Each transition hook will receive a `transition` object as the only argument. The transition object exposes the following properties & methods:
+トランジションフックごとに唯一引数として `transition` オブジェクトを受け取ります。トランジションオブジェクトは以下のプロパティとメソッドを公開します:
 
 - **transition.from**
 
-  A [route object](../route.md) representing the route we are transitioning from.
+  from からトランジションしている route を表す [route オブジェクト](../route.md)。
 
 - **transition.to**
 
-  A route object representing the target path.
+  ターゲットパスを表す route オブジェクト。
 
 - **transition.next()**
 
-  Call this method to progress to the next step of the transition.
+  トランジションの次のステップに進むためにこのメソッドを呼び出します。
 
 - **transition.abort([reason])**
 
-  Call this method to cancel / reject the transition.
+  トランジションをキャンセル/拒否するにはこのメソッドを呼び出します。
 
 - **transition.redirect(path)**
 
-  Cancel current transition and redirect to a different target route instead.
+  現状のトランジションをキャンセルして、代わりに別のターゲット route にリダイレクトします。
 
-All transition hooks are considered asynchronous by default. In order to signal the transition to progress, you have three options:
+全てのトランジションフックはデフォルトで非同期と見なされます。トランジションの進行を通知するために、3つのオプションがあります:
 
-1. Explicitly call one of `next`, `abort` or `redirect`.
+1. 明示的に `next` 、`abort` または `redirect` のいずれかを呼び出します。
 
-2. Return a Promise. Details below.
+2. Promise を返します。詳細は以下で説明します。
 
-3. For validation hooks (`canActivate` and `canDeactivate`), you can synchronously return a Boolean value.
+3. 検証フック (`canActivate` と `canDeactivate`) で、同期的に Boolean 値を返します。
 
-### Returning Promise in Hooks
+### フックで Promise を返す
 
-When you return a Promise in a transition hook, `transition.next` will be called for you when the Promise resolves. If the Promise is rejected during validation phase, it will call `transition.abort`; if it is rejected during activation phase, it will call `transition.next`.
+トランジションフックで Promise を返すとき、`transition.next` は Promise が解決するときに呼び出されます。もし、Promise が検証フェーズの間で拒否された場合は、`transition.abort` を呼びます。もし、活性化フェーズの間で拒否された場合は、`transition.next` を呼びます。
 
-For validation hooks (`canActivate` and `canDeactivate`), if the Promise's resolved value is falsy, it will also abort the transition.
+検証フック (`canActivate` と `canDeactivate`)で、もし Promise が偽となりうる値で解決される場合、トランジションを中止します。
 
-If a rejected promise has an uncaught error, it will be thrown unless you suppress it with the `suppressTransitionError` option when creating the router.
+もし、Promise がキャッチされていないエラーを拒否した場合は、ルーターを作成するとき `suppressTransitionError` オプションで抑制しない限りスローされます。
 
-**Example:**
+**例:**
 
 ``` js
-// inside component definition
+// コンポーネント定義内部
 route: {
   canActivate: function () {
-    // assuming the service returns a Promise that
-    // resolve to either `true` or `false`.
+    // `true` または `false` のどちらかで解決する
+    // Promise を返すサービスと仮定します。
     return authenticationService.isLoggedIn()
   },
   activate: function (transition) {
     return messageService
       .fetch(transition.to.params.messageId)
       .then((message) => {
-        // set the data once it arrives.
-        // the component will not display until this
-        // is done.
+        // それが届いたら、一度だけデータを設定します。
+        // コンポーネントはこれが終わるまで表示されません。
         this.message = message
       })
   }
 }
 ```
 
-We are asynchronously fetching data in the `activate` hook here just for the sake of an example; Note that we also have the [`data` hook](data.md) which is in general more appropriate for this purpose.
+ここではちょうど例のため `activate` フックで非同期的にデータをフェッチしています。一般的にはこの目的のために、より適切な [`data` フック](data.md)があることに注意してください。
 
-**TIP:** if you are using ES6 you can use argument destructuring to make your hooks cleaner:
+**TIP:** もし、ES6 を使用している場合、あなたのフックをクリーンなものにするために、argument destructuring を使用することができます:
 
 ``` js
 route: {
   activate ({ next }) {
-    // when done:
+    // するとき:
     next()
   }
 }
 ```
 
-Check out the [advanced example](https://github.com/vuejs/vue-router/tree/dev/example/advanced) in the vue-router repo.
+vue-router レポジトリの [advanced example](https://github.com/vuejs/vue-router/tree/dev/example/advanced) をチェックしてください。
