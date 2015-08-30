@@ -1,60 +1,60 @@
-# Route Options
+# Route オプション
 
-There are a number of options you can use to customize the router behavior when creating a router instance.
+ルーターインスタンスを作成するときにルーターの動作をカスタマイズして使用できるオプションがいくつかあります。
 
 #### hashbang
 
-- default: true
-- only used in hash mode
+- デフォルト: true
+- hash モードでのみ使用される
 
-  When the hashbang option is true, all hash paths will be formated to start with `#!`. For example `router.go('/foo/bar')` will set the browser URL to `example.com/#!/foo/bar`.
+  hashbang オプションが true のとき、全ての hash パスは `#!` で開始するフォーマットになります。例えば、`route.go('/foo/bar')` はブラウザの URL を `example.com/#!/foo/bar` に設定します。
 
 #### history
 
-- default: false
+- デフォルト: false
 
-  Enables HTML5 history mode. Leverages `history.pushState()` and `history.replaceState()` for history management.
+  HTML5 history モードを有効にします。履歴管理のために `history.pushState()` と `history.replaceState()` を活用します。
 
-  **Note**: when using the history mode, the server needs to be [properly configured](http://readystate4.com/2012/05/17/nginx-and-apache-rewrite-to-support-html5-pushstate/) so that a user directly visiting a deep link on your site doesn't get a 404.
+  **Note**: history モードを使用するとき、サーバーは、あなたのサイトの深いリンクに直接訪問しているユーザーが 404 を取得しないよう、[適切に設定](http://readystate4.com/2012/05/17/nginx-and-apache-rewrite-to-support-html5-pushstate/)する必要があります。
 
 ####  abstract
 
-- default: false
+- デフォルト: false
 
-  Use an abstract history backend that doesn't rely on the browser. The abstract mode is useful in testing or in environments where actual URLs doesn't matter, for example in Electron or Cordova apps. The router will also fallback into abstract mode if loaded in a non-browser environment.
+  ブラウザに依存しない abstract history backend を使用します。abstract モードでは実際の URL が重要ではないテストなどの環境で役に立ちます。例えば、Electron または Cordova のようなアプリケーションです。ルーターはもし、ブラウザ以外の環境でロードした場合、abstract モードにフォールバックします。
 
 #### root
 
-- default: null
-- only used in HTML5 history mode
+- デフォルト: null
+- HTML5 history モードのみ使用される
 
-  Define a root path for all router navigations. All paths used in route configurations, `router.go()`, `v-link` and exposed on route objects will be resolved relative to this root path, and the root path will always be included in the actual browser URL.
+  全てのルーターナビゲーションに対して root パスを定義します。route 設定で使用される全てのパス、`router.go()`、`v-link`、そしてこの root パスに相対解決された route オブジェクトが公開され、さらに root パスは実際のブラウザ URL に常に含まれています。
 
-  For example, with `root: '/foo'`, `v-link="/bar"` will set the browser URL to `/foo/bar`. Directly visiting `/foo/bar` will match against `/bar` in your route config.
+  例えば、`root: '/foo'` では、`v-link="/bar"` はブラウザ URL に `/foo/bar` に設定します。直接的に `/foo/bar` へのアクセスは、あなたの route 設定で `/bar` に対してマッチします。
 
-  In most cases, `root` is set-and-forget: you don't have to worry about it in your application code.
+  ほとんどの場合、`root` は設定するだけです: あなたのアプリケーションのコードで心配する必要はありません。
 
 #### linkActiveClass
 
-- default: `"v-link-active"`
+- デフォルト: `"v-link-active"`
 
-  Configures the class to be applied to `v-link` elements when the current path matches its URL. The base class is applied as long as the current path starts with the `v-link` URL; when the current path matches the `v-link` URL exactly, an additional class with the `-exact` postfix will also be applied,the default being `v-link-active-exact`. So if you configure the class to be `my-custom-active`, the exact match class will be `my-custom-active-exact`.
+  現在のパスがその URL とマッチするとき、class は `v-link` 要素に適用されるように設定します。基底 class は、現在のパスが `v-link` の URL で開始する限り適用されます。現在のパスが正確に `v-link` の URL にマッチするとき、`-exact` ポストフィックスを持つ追加の class が適用され、デフォルトは `v-link-active-exact` になります。もし class を `my-custom-active` に設定する場合、正確にマッチする class は `my-custom-active-exact` になります。
 
 #### saveScrollPosition
 
-- default: false
-- only used in HTML5 history mode
+- デフォルト: false
+- HTML5 history モードのみ使用される
 
-  This option leverages the state associated with an HTML5 history `popstate` event to restore the scroll position when the user hits the back button. Note this might not work as expected if your `<router-view>` has transition effects.
+  このオプションは、ユーザーが[戻る]ボタンを使ったときスクロール位置を復元するために、HTML5 history `popstate` イベントに関連付けられている状態を利用します。これは、あなたの `<router-view>` がトランジションのエフェクトを持っている場合、期待された動作がしない場合があります。
 
 #### transitionOnLoad
 
-- default: false
+- デフォルト: false
 
-  Whether to apply transition effect for `<router-view>`s on initial load. By default the components matched on initial load are rendered instantly.
+  初期ロードの `<router-view>` に対してトランジションのエフェクトを適用するかどうか。デフォルトでは、初期ロードでマッチしたコンポーネントが即座にレンダリングされます。
 
 #### suppressTransitionError
 
-- default: false
+- デフォルト: false
 
-  If set to `true`, uncaught errors inside transition hooks will be suppressed.
+  もし `true` に設定する場合、トランジションフック内部でキャッチされていないエラーが抑えられます。
