@@ -5,7 +5,7 @@
 #### hashbang
 
 - デフォルト: true
-- hash モードでのみ使用される
+- hash モードでのみ使用されます
 
   hashbang オプションが true のとき、全ての hash パスは `#!` で開始するフォーマットになります。例えば、`route.go('/foo/bar')` はブラウザの URL を `example.com/#!/foo/bar` に設定します。
 
@@ -26,7 +26,7 @@
 #### root
 
 - デフォルト: null
-- HTML5 history モードのみ使用される
+- HTML5 history モードのみ使用されます
 
   全てのルーターナビゲーションに対して root パスを定義します。route 設定で使用される全てのパス、`router.go()`、`v-link`、そしてこの root パスに相対解決された route オブジェクトが公開され、さらに root パスは実際のブラウザ URL に常に含まれています。
 
@@ -38,14 +38,14 @@
 
 - デフォルト: `"v-link-active"`
 
-  現在のパスがその URL とマッチするとき、class は `v-link` 要素に適用されるように設定します。基底 class は、現在のパスが `v-link` の URL で開始する限り適用されます。現在のパスが正確に `v-link` の URL にマッチするとき、`-exact` ポストフィックスを持つ追加の class が適用され、デフォルトは `v-link-active-exact` になります。もし class を `my-custom-active` に設定する場合、正確にマッチする class は `my-custom-active-exact` になります。
+  現在のパスがその URL とマッチするとき、クラスは `v-link` 要素に適用されるように設定します。基底クラスは、現在のパスが `v-link` の URL で開始する限り適用されます。現在のパスが正確に `v-link` の URL にマッチするとき、`-exact` 接尾辞(postfix) を持つ追加のクラスが適用され、デフォルトは `v-link-active-exact` になります。もしクラスを `my-custom-active` に設定する場合、正確にマッチするクラスは `my-custom-active-exact` になります。
 
 #### saveScrollPosition
 
 - デフォルト: false
-- HTML5 history モードのみ使用される
+- HTML5 history モードのみ使用されます
 
-  このオプションは、ユーザーが[戻る]ボタンを使ったときスクロール位置を復元するために、HTML5 history `popstate` イベントに関連付けられている状態を利用します。これは、あなたの `<router-view>` がトランジションのエフェクトを持っている場合、期待された動作がしない場合があります。
+  このオプションは、ユーザーがブラウザの"戻る"ボタンを使ったときスクロール位置を復元するために、HTML5 history `popstate` イベントに関連付けられている状態を利用します。これは、あなたの `<router-view>` がトランジションのエフェクトを持っている場合、期待された動作がしない場合があります。
 
 #### transitionOnLoad
 
