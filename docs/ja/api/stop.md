@@ -1,5 +1,5 @@
 # `router.stop()`
 
-Stop listening to `popstate` and `hashchange` events.
+`popstate` と `hashchange` イベントのリスニングを停止します。
 
-Note that when a router is in stopped state, `router.app` is not destroyed and you can still navigate around using `router.go(path)`. You can also restart the router by calling `router.start()` again with no arguments.
+ルーターが停止された状態であるとき、`router.app` は破壊されず、まだ `router.go(path)` を使用してナビゲートできることに注意してください。引数なしでまた `router.start()` を呼び出すことによってルーターを再開始もできます。
