@@ -1,6 +1,6 @@
 # `<router-view>`
 
-The `<router-view>` element is used as outlets for rendering matched components. It is based upon Vue's dynamic component system, and therefore inherits many features from a normal dyanmic component:
+The `<router-view>` element is used as outlets for rendering matched components. It is based upon Vue's dynamic component system, and therefore inherits many features from a normal dynamic component:
 
 - You can pass props to it.
 - HTML content inside the `<router-view>` will be used for content insertion in the rendered component.
