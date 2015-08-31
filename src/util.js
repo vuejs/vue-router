@@ -1,4 +1,4 @@
-import Router from './router'
+import Router from './index'
 import RouteRecognizer from 'route-recognizer'
 const genQuery = RouteRecognizer.prototype.generateQueryString
 
