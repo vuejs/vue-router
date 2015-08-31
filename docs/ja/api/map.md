@@ -1,30 +1,30 @@
 # `router.map(routeMap)`
 
-The main method to define route mappings for the router.
+主に、ルーターに対して route マッピングを定義するメソッドです。
 
-### Arguments
+### 引数
 
 - `routeMap: Object`
 
-  An object whose keys are paths and values are route config objects. For path matching rules, see [Route Matching](../route.html#route-matching).
+  キーはパスで、値は route 設定オブジェクトです。パスのマッチングルールは、[Route マッチング](../route.html#route-matching)を参照してください。
 
-### Route Config Object
+### Route 設定オブジェクト
 
-A route config object can contain two fields:
+route 設定オブジェクトは2つのフィールドを含むことができます:
 
-- `component`: The Vue component to render into the top-level `<router-view>` outlet when this path is matched. The value could either be a constructor returned by calling `Vue.extend`, or a plain component options object. In the latter case the router will implicitly call `Vue.extend` for you.
+- `component`: パスがマッチされるときにトップレベルの `<router-view>` outlet にレンダリングする Vue コンポーネント。値は `Vue.extend` の呼び出しによって返されたコンストラクタ、または純粋なコンポーネントオプションオブジェクトのいずれか可能です。後者の場合はルーターが暗黙的に `Vue.extend` を呼び出します。
 
-- `subRoutes`: You can nest another sub route-map here. For each sub path in the `routeRoutes` map, the router will match it against the full path by appending it to the parent path. The matched component will be rendered into the parent route component's `<router-view>` outlet.
+- `subRoutes`: ここには他のサブ route マップをネストすることができます。`routeRoutes` マップ内の各サブパスついて、ルーターは親パスを追加することによって完全なパスに対してマッチします。マッチしたコンポーネントは親の route コンポーネントの `<router-view>` outlet にレンダリングされます。
 
-### Example
+### 例
 
 ``` js
 router.map({
-  // component constructor
+  // コンポーネントコンストラクタ
   '/a': {
     component: Vue.extend({ /* ... */ })
   },
-  // plain component options object
+  // 純粋なコンポーネントオプションオブジェクト
   '/b': {
     component: {
       template: '<p>Hello from /b</p>'
@@ -33,13 +33,13 @@ router.map({
   // nested routes
   '/c': {
     component: {
-      // simply render the child view
+      // 単純に子の view をレンダリング
       template: '<router-view></router-view>'
     },
     subRoutes: {
-      // rendered when the path is /c/d
+      // パスが /c/d であるときにレンダリング
       '/d': { component: { template: 'D' }},
-      // rendered when the path is /c/e
+      // パスが /c/e であるときにレンダリング
       '/e': { component: { template: 'E' }}
     }
   }
