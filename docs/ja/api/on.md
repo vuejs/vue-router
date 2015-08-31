@@ -1,13 +1,13 @@
 # `router.on(path, config)`
 
-Add a single root-level route configuration. Internally, `router.map()` simply calls `router.on()` for each key-value pair in the router map object it receives.
+単一の root レベルの route 設定を追加します。内部的に、`router.map()` は単に 受信したルーターマップオブジェクトで各 key-value ペアに対して `router.on()` を呼びまします。
 
-### Arguments
+### 引数
 
-- `path: String` - see [Route Matching](../route.md#route-matching)
-- `config: Object` - see [Route Config Object](map.md#route-config-object).
+- `path: String` - [Route マッチング](../route.md#route-matching)を参照してください。
+- `config: Object` - [Route 設定オブジェクト](map.md#route-config-object)を参照してください。
 
-### Example
+### 例
 
 ``` js
 router.on('/user/:userId', {
