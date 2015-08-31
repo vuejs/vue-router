@@ -1,23 +1,23 @@
 # `router.redirect(redirectMap)`
 
-Configures global redirection rules for the router. Global redirections are performed before matching the current path. If a redirection is found, the originally visited path will simply be skipped and will not leave a record in the history.
+ルーターに対してグローバルリダイレクションのルールを設定します。グローバルリダイレクションは現在のパスにマッチする前に実行されます。リダイレクションが見つかった場合、元々のアクセスパスは単にスキップされ、ブラウザの履歴にレコードを残すことはありません。
 
-### Arguments
+### 引数
 
 - `redirectMap: Object`
 
-  The redirect map object should be in the form of `{ fromPath: toPath, ... }`. The paths can contain dynamic segments.
+  リダイレクトマップオブジェクトは `{ fromPath: toPath, ... }` の形にする必要があります。パスは動的セグメントを含むことができます。
 
-### Example
+### 例
 
 ``` js
 router.rediect({
 
-  // redirect any navigation to /a to /b
+  // /a への全てのナビゲーションを /b にリダイレクト
   '/a': '/b',
 
-  // redirect can contian dynamic segments
-  // the dynamic segment names must match
+  // リダイレクトは動的セグメント名がマッチする必要がある
+  // 動的セグメントを含むことができます
   '/user/:userId': '/profile/:userId'
 })
 ```
