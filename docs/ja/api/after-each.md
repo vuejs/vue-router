@@ -1,18 +1,18 @@
 # `router.afterEach(hook)`
 
-Set the global after hook, which will be called every time when a route transition successfully **enters the activation phase**.
+route トランジションが正常に**活性化フェーズに入る**とき毎回呼び出されるグローバルアフターフック (global after hook) を設定します。
 
-Note this hook being called only means the transition has been validated, i.e. all `canDeactivate` and `canActivate` hooks have successfully resolved and the browser URL has been updated. It does not guarantee that all `activate` hooks have been resolved.
+このフックが唯一トランジションが検証されたという意味を表すとき呼ぼれるのを注意してください。すなわち、全ての `canDeactivate` と `canActivate` フックが正常に解決し、ブラウザ URL　が更新されます。これは、全ての `activate` フックが解決されたことを保証しません。
 
-You can only have one global after hook at a time; however you can implement your own middleware system inside this hook.
+一度フックする前の唯一のグローバルです。しかしながら、このフック内部であなた自身のミドルウェアシステムを実装することができます。
 
-### Arguments
+### 引数
 
 - `hook {Function}`
 
-  The hook function receives a single argument which is a [Transition Object](../pipeline/hooks.html#transition-object), but you can only access its `to` and `from` properties, which are route objects. You **cannot** call transition methods in the global after hook.
+  hook 関数は[トランジションオブジェクト](../pipeline/hooks.html#transition-object)な単一の引数を受信します。しかし、route オブジェクトは `to` と `from` プロパティ のみだけアクセスすることができます。フック後、グローバルではトランジションメソッドを呼び出すことは**できません**。
 
-### Example
+### 例
 
 ``` js
 router.afterEach(function (transition) {
