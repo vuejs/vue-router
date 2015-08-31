@@ -1,6 +1,6 @@
 # `router.redirect(redirectMap)`
 
-Configures global redirection rules for the router. Global redirections are performed before matching the current path. If a redirection is found, the originally visited path will simply be skipped and will not leave a record in the history.
+Configures global redirection rules for the router. Global redirections are performed before matching the current path. If a redirection is found, the originally visited path will simply be skipped and will not leave a record in the browser history.
 
 ### Arguments
 
