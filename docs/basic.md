@@ -1,6 +1,6 @@
 # Basic Usage
 
-Creating a Single-page Application with Vue.js + vue-router is dead simple. With Vue.js, we are already breaking our application into components. When adding vue-router to the mix, all we need to do is map our components to the routes and let vue-router know where to render them. Here's a basic example:
+Creating a Single-page Application with Vue.js + vue-router is dead simple. With Vue.js, we are already dividing our application into components. When adding vue-router to the mix, all we need to do is map our components to the routes and let vue-router know where to render them. Here's a basic example:
 
 ### HTML
 
