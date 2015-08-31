@@ -1,25 +1,25 @@
 # `router.alias(aliasMap)`
 
-Configures global alias rules for the router. The difference between alias and redirect is that instead of replacing the `fromPath` with `toPath`, an alias will preserve `fromPath` while matching it as `toPath`.
+ルーターに対してグローバルエイリアスのルールを設定します。エイリアスとリダイレクトとの違いは、リダイレクトは `toPath` で `fromPath` を置換する代わり、エイリアスは `toPath` としてマッチしている限り、`fromPath` を維持します。
 
-For example, if we alias `/a` to `/a/b/c`, when we visit `/a`, the browser URL will display `/a`. However, the router will match the path as if we are visiting `/a/b/c` instead.
+例えば、`/a` を `/a/b/c` にエイリアスする場合、`/a` にアクセスするとき、ブラウザ URL は `/a` を表示します。しかしながら、ルーターは代わりに `/a/b/c` にアクセスするかのようなパスをマッチします。
 
-### Arguments
+### 引数
 
 - `aliasMap {Object}`
 
-  The alias map object should be in the form of { fromPath: toPath, ... }. The paths can contain dynamic segments.
+  エイリアスマップオブジェクトは `{ fromPath: toPath, ... }` の形にする必要があります。パスは動的セグメントを含むことができます。
 
-### Example
+### 例
 
 ``` js
 router.alias({
 
-  // match /a as if it is /a/b/c
+  // /a/b/c であるかのように /a にマッチします
   '/a': '/a/b/c',
 
-  // alias can contian dynamic segments
-  // the dynamic segment names must match
+  // エイリアスは動的セグメント名がマッチする必要がある
+  // 動的セグメントを含むことができます
   '/user/:userId': '/user/profile/:userId'
 })
 ```
