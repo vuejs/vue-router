@@ -16,7 +16,7 @@ const historyBackends = {
  * @param {Object} [options]
  */
 
-export default class Router {
+class Router {
 
   constructor ({
     hashbang = true,
@@ -96,3 +96,5 @@ export default class Router {
 }
 
 Router.installed = false
+
+export default Router
