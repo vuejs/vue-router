@@ -18,7 +18,7 @@ router.alias({
   // match /a as if it is /a/b/c
   '/a': '/a/b/c',
 
-  // alias can contian dynamic segments
+  // alias can contain dynamic segments
   // the dynamic segment names must match
   '/user/:userId': '/user/profile/:userId'
 })
