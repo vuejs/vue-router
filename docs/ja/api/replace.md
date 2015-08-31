@@ -1,9 +1,9 @@
 # `router.replace(path)`
 
-Similar to `router.go(path)`, but doesn't create a new record in browser history.
+`router.go(path)` に似ていますが、ブラウザの履歴に新しいレコードを作成しません。
 
-### Arguments
+### 引数
 
 - `path: String`
 
-  The path must be a plain path (i.e. no dynamic segments or star segments). The the path doesn't start with `/`, it will be resolved relative to the current active path.
+  パスは純粋なパスの必要があります(すなわち、動的セグメントではない、またはスターセグメント)。パスは `/` で開始されず、現在のアクティブなパスの相対パスで解決されます。
