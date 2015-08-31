@@ -7,7 +7,7 @@
 `vue-router` is the official router for [Vue.js](http://vuejs.org). It deeply integrates with Vue.js core to make building Single Page Applications with Vue.js a breeze. Features include:
 
 - Nested route/view mapping
-- Modular, component-based router configuaration
+- Modular, component-based router configuration
 - Route params, query, wildcards
 - View transition effects powered by Vue.js' transition system
 - Fine-grained navigation control
