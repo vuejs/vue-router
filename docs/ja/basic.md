@@ -1,6 +1,6 @@
 # 基本的な使い方
 
-Vue.js + vue-router でシングルページアプリケーションを作成するのは極めてシンプルです。Vue.js で、we are already breaking our application into components. ミックスするため vue-router を追加する時、全ての我々のコンポーネントを routes に変換し、そして、vue-router がそれらをレンダリングするのを知らせたりする必要があります。ここでは基本的な例を示します:
+Vue.js + vue-router でシングルページアプリケーションを作成するのは極めてシンプルです。Vue.js で、既にコンポーネントに我々のアプリケーションを分割しています。ミックスするため vue-router を追加する時、全ての我々のコンポーネントを routes に変換し、そして、vue-router がそれらをレンダリングするのを知らせたりする必要があります。ここでは基本的な例を示します:
 
 ### HTML
 
