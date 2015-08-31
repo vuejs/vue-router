@@ -1,3 +1,4 @@
+import Router from './router'
 import RouteRecognizer from 'route-recognizer'
 const genQuery = RouteRecognizer.prototype.generateQueryString
 
@@ -102,7 +103,7 @@ export function resolveAsyncComponent (handler, cb) {
   if (!resolver) {
     resolver = {
       // HACK
-      resolve: require('./router').Vue.prototype._resolveComponent,
+      resolve: Router.Vue.prototype._resolveComponent,
       $options: {
         components: {
           _: handler.component
