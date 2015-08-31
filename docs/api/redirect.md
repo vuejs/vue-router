@@ -16,7 +16,7 @@ router.rediect({
   // redirect any navigation to /a to /b
   '/a': '/b',
 
-  // redirect can contian dynamic segments
+  // redirect can contain dynamic segments
   // the dynamic segment names must match
   '/user/:userId': '/profile/:userId'
 })
