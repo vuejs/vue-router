@@ -1,9 +1,13 @@
 import Recognizer from 'route-recognizer'
 
+import abstract from './history/abstract'
+import hash from './history/hash'
+import html5 from './history/html5'
+
 const historyBackends = {
-  abstract: require('../history/abstract'),
-  hash: require('../history/hash'),
-  html5: require('../history/html5')
+  abstract: abstract,
+  hash: hash,
+  html5: html5
 }
 
 /**

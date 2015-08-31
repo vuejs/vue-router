@@ -1,6 +1,12 @@
 import { warn } from './util'
 import Router from './router'
 
+import RouterApi from './router/api'
+import RouterInternal from './router/internal'
+import View from './directives/view'
+import Link from './directives/link'
+import Override from './override'
+
 /**
  * Installation interface.
  * Install the necessary directives.
@@ -12,11 +18,11 @@ Router.install = function (Vue) {
     warn('already installed.')
     return
   }
-  require('./router/api')(Vue, Router)
-  require('./router/internal')(Vue, Router)
-  require('./directives/view')(Vue)
-  require('./directives/link')(Vue)
-  require('./override')(Vue)
+  RouterApi(Vue, Router)
+  RouterInternal(Vue, Router)
+  View(Vue)
+  Link(Vue)
+  Override(Vue)
   Router.Vue = Vue
   Router.installed = true
 }
