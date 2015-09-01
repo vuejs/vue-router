@@ -1,0 +1,13 @@
+# `<router-view>`
+
+`<router-view>` 要素は、マッチしたコンポーネントをレンダリングするための outlets として使用されます。これは、Vue の動的コンポーネントシステムに基づいており、そしてそれゆえに通常の動的コンポーネントから多くの機能を継承しています:
+
+- props をそれに渡すことができます。
+- `<router-view>` 内部の HTML コンテンツはレンダリングされたコンポーネントのコンテンツ挿入のために使用されます。
+- `v-transition` と `transition-mode` が完全にサポートされています。Note: トランジションエフェクトが機能するために、あなたの route コンポーネントは[フラグメントインスタンス](http://vuejs.org/guide/best-practices.html#Fragment_Instance)であってはいけません。
+- `v-ref` もサポートされています。レンダリングされたコンポーネントは、親コンポーネントの `this.$` オブジェクトに登録されます。
+
+しかしながら、いくつか制限があります:
+
+- `keep-alive` は現在サポートされていません。
+- `wait-for` はサポートされていません。トランジションのタイミングを制御するためには [`activate` transition hook](pipeline/activate.html) を使用する必要があります。
