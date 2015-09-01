@@ -6,7 +6,7 @@
 
 - [`transition {Transition}`](hooks.md#transition-object)
 
-  フックを解決するために、`transition.next()` を呼び出します。`transition.abort()` を呼び出すと、無効とトランジションをキャンセルします。
+  フックを解決するために、`transition.next()` を呼び出します。`transition.abort()` を呼び出すと無効となり、トランジションをキャンセルします。
 
 ### 戻り値
 

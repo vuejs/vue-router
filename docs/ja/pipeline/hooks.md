@@ -51,7 +51,7 @@ Vue.component('hook-example', {
 
   現状のトランジションをキャンセルして、代わりに別のターゲット route にリダイレクトします。
 
-全てのトランジションフックはデフォルトで非同期と見なされます。トランジションの進行を通知するために、3つのオプションがあります:
+全てのトランジションフックはデフォルトで非同期に実行されます。トランジションの進行を通知するために、3つのオプションがあります:
 
 1. 明示的に `next` 、`abort` または `redirect` のいずれかを呼び出します。
 
@@ -73,16 +73,16 @@ Vue.component('hook-example', {
 // コンポーネント定義内部
 route: {
   canActivate: function () {
-    // `true` または `false` のどちらかで解決する
-    // Promise を返すサービスと仮定します。
+    // `true` または `false` のどちらかで解決します
+    // Promise を返すサービスと仮定します
     return authenticationService.isLoggedIn()
   },
   activate: function (transition) {
     return messageService
       .fetch(transition.to.params.messageId)
       .then((message) => {
-        // それが届いたら、一度だけデータを設定します。
-        // コンポーネントはこれが終わるまで表示されません。
+        // それが届いたら、一度だけデータを設定します
+        // コンポーネントはこれが終わるまで表示されません
         this.message = message
       })
   }

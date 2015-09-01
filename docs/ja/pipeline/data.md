@@ -6,7 +6,7 @@
 
 - [`transition {Transition}`](hooks.md#transition-object)
 
-  `transition.next(data)` の呼び出しはコンポーネントの `data` にプロパティ毎に設定します。例えば `{ a: 1, b: 2 }` が引数に指定される場合、ルーターは `component.$set('a', 1)` と `component.$set('b', 2)` を呼びます。
+  `transition.next(data)` の呼び出しはコンポーネントの `data` の各プロパティに設定します。例えば `{ a: 1, b: 2 }` が引数に指定される場合、ルーターは `component.$set('a', 1)` と `component.$set('b', 2)` を呼びます。
 
 ### 戻り値
 
@@ -24,7 +24,7 @@
 
   route が `/message/:id` に対してコンポーネントがあり、現在 `/message/1` のパスであると想像してください。ユーザーが `/message/2` にナビゲートするとき、現状のコンポーネントは再利用できますが、`activate` フックは呼ばれません。しかし、フェッチしたくて新しい `id` パラメータに基づいたデータを更新したい場合、ほとんどの場合は `activate` の代わりに `data` でデータをフェッチするのは道理にかないます。
 
-2. `activate` の債務は新しいコンポーネントへの切り替えのタイミングを制御しています。比較して、`data` は `activate` が解決される直後と view の切り替えが起こる直前に呼びされるため、データのフェッチと新しいコンポーネントが入ってくるアニメーションは並行して行い、`data` が解決される前に "loading" 状態になります。
+2. `activate` の債務は新しいコンポーネントへの切り替えのタイミングを制御しています。比較して、`data` は `activate` が解決される直後と view の切り替えが起こる直前に呼びされるため、データのフェッチと新しいコンポーネントが入ってくるアニメーションを並行して行い、`data` が解決される前に "loading" 状態になります。
 
   それではここでユーザーエクスペリエンスの違いを考えてみましょう:
 
@@ -36,7 +36,7 @@
 
 ### 例
 
-`transition.next` 呼び出すことによって:
+`transition.next` による呼び出し:
 
 ``` js
 route: {
@@ -50,7 +50,7 @@ route: {
 }
 ```
 
-Promise を返すことによって:
+Promise による呼び出し:
 
 ``` js
 route: {
@@ -96,7 +96,7 @@ route: {
 }
 ```
 
-テンプレートで `loadingRouteData` を使用する:
+テンプレートで `loadingRouteData` を使用:
 
 ``` html
 <div class="view">
