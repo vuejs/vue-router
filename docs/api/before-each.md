@@ -1,18 +1,18 @@
 # `router.beforeEach(hook)`
 
-全ての route トランジションが開始する前に呼ばれるグローバルビフォーフック (global before hook) を設定します。これは、トランジションパイプライン全体の前で、もし、フックがトランジションで拒否する場合、パイプラインは本当に開始されません。
+Set the global before hook, which will be called before every route transition starts. This is before the entire transition pipeline; if the hook rejects the transition, the pipeline won't even be started.
 
-一度フックする前の唯一のグローバルであることに注意してください。しかしながら、このフック内部であなた自身のミドルウェアシステムを実装することができます。
+Note you can only have one global before hook at a time; however you can implement your own middleware system inside this hook.
 
-### 引数
+### Arguments
 
 - `hook {Function}`
 
-  hook 関数は[トランジションオブジェクト](../pipeline/hooks.html#transition-object)な単一の引数を受信します。
+  The hook function receives a single argument which is a [Transition Object](../pipeline/hooks.html#transition-object).
 
-### 例
+### Example
 
-基本
+Basic
 
 ``` js
 router.beforeEach(function (transition) {
@@ -29,7 +29,7 @@ Promise + ES6
 ``` js
 router.beforeEach(function ({ to, next }) {
   if (to.path === '/auth-required') {
-    // true または false で解決する Promise を返します
+    // return a Promise that resolves to true or false
     return AuthService.isLoggedIn()
   } else {
     next()
