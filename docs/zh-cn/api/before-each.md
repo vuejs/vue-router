@@ -12,7 +12,7 @@
 
 ### Example
 
-Basic
+简单示例
 
 ``` js
 router.beforeEach(function (transition) {
@@ -24,12 +24,12 @@ router.beforeEach(function (transition) {
 })
 ```
 
-Promise + ES6
+使用 Promise 和 ES6
 
 ``` js
 router.beforeEach(function ({ to, next }) {
   if (to.path === '/auth-required') {
-    // 返回一个断定会true或者false的Promise
+    // 返回一个断定会 true 或者 false 的 Promise
     return AuthService.isLoggedIn()
   } else {
     next()

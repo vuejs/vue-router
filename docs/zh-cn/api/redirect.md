@@ -6,14 +6,14 @@
 
 - `redirectMap: Object`
 
-  重定向映射对象的格式应该为`{ fromPath: toPath, ... }`。路径中可以包含动态片段。
+  重定向映射对象的格式应该为 `{ fromPath: toPath, ... }` 。路径中可以包含动态片段。
 
 ### Example
 
 ``` js
 router.rediect({
 
-  // 重定向/a到/b
+  // 重定向 /a 到 /b
   '/a': '/b',
 
   // 重定向可以包含动态片段

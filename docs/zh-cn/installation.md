@@ -2,7 +2,7 @@
 
 ### 直接下载
 
-查看 [dist目录](https://github.com/vuejs/vue-router/tree/dev/dist). 注意，dist目录下的文件是最新稳定版，不会同步更新到`dev`分支上的最新代码
+查看 [dist 目录](https://github.com/vuejs/vue-router/tree/dev/dist). 注意，dist 目录下的文件是最新稳定版，不会同步更新到 `dev` 分支上的最新代码
 
 ### CDN
 
@@ -16,7 +16,7 @@ npm install vue-router
 npm install vuejs/vue-router#dev
 ```
 
-如果使用CommonJS模块规范, 需要显示的使用`Vue.use()`安装路由模块：
+如果使用 CommonJS 模块规范, 需要显示的使用 `Vue.use()` 安装路由模块：
 
 ``` js
 var Vue = require('vue')
