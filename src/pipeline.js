@@ -100,7 +100,10 @@ export function deactivate (view, transition, next) {
 export function activate (view, transition, depth, cb) {
   let handler = transition.activateQueue[depth]
   if (!handler) {
-    view.setComponent(null)
+    // fix 1.0.0-alpha.3 compat
+    if (view._bound) {
+      view.setComponent(null)
+    }
     cb && cb()
     return
   }
@@ -135,7 +138,13 @@ export function activate (view, transition, depth, cb) {
       view.transition(component)
     } else {
       // no transition on first render, manual transition
-      view.setCurrent(component)
+      if (view.setCurrent) {
+        // 0.12 compat
+        view.setCurrent(component)
+      } else {
+        // 1.0
+        view.childVM = component
+      }
       component.$before(view.anchor, null, false)
     }
     cb && cb()

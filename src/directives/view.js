@@ -27,11 +27,20 @@ export default function (Vue) {
       this._isDynamicLiteral = true
       // finally, init by delegating to v-component
       componentDef.bind.call(this)
+
       // does not support keep-alive.
       /* istanbul ignore if */
       if (this.keepAlive) {
         this.keepAlive = false
         warn('<router-view> does not support keep-alive.')
+      }
+      /* istanbul ignore if */
+      if (this.waitForEvent) {
+        this.waitForEvent = null
+        warn(
+          '<router-view> does not support wait-for. Use ' +
+          'the acitvate route hook instead.'
+        )
       }
 
       // all we need to do here is registering this view
