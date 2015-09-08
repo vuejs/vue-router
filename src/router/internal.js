@@ -150,15 +150,19 @@ export default function (Vue, Router) {
     }
 
     // check global before hook
-    let before = this._beforeEachHook
+    let beforeHooks = this._beforeEachHooks
     let startTransition = () => {
       transition.start(() => {
         this._postTransition(route, state, anchor)
       })
     }
 
-    if (before) {
-      transition.callHook(before, null, startTransition, true)
+    if (beforeHooks.length) {
+      transition.runQueue(beforeHooks, (hook, _, next) => {
+        if (transition === this._currentTransition) {
+          transition.callHook(hook, null, next, true)
+        }
+      }, startTransition)
     } else {
       startTransition()
     }
@@ -195,11 +199,11 @@ export default function (Vue, Router) {
       })
     }
     // call global after hook
-    if (this._afterEachHook) {
-      this._afterEachHook.call(null, {
+    if (this._afterEachHooks.length) {
+      this._afterEachHooks.forEach(hook => hook.call(null, {
         to: transition.to,
         from: transition.from
-      })
+      }))
     }
   }
 

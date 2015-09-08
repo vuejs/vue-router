@@ -65,7 +65,7 @@ export default function (Vue, Router) {
    */
 
   Router.prototype.beforeEach = function (fn) {
-    this._beforeEachHook = fn
+    this._beforeEachHooks.push(fn)
   }
 
   /**
@@ -75,7 +75,7 @@ export default function (Vue, Router) {
    */
 
   Router.prototype.afterEach = function (fn) {
-    this._afterEachHook = fn
+    this._afterEachHooks.push(fn)
   }
 
   /**

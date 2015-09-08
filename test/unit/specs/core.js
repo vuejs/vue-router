@@ -416,34 +416,55 @@ describe('Core', function () {
         }
       }
     })
-    var spy = jasmine.createSpy()
+
+    var spy1 = jasmine.createSpy('before hook 1')
     router.beforeEach(function (transition) {
-      spy()
+      spy1()
+      setTimeout(function () {
+        transition.next()
+      }, wait)
+    })
+
+    var spy2 = jasmine.createSpy('before hook 2')
+    router.beforeEach(function (transition) {
+      spy2()
       if (transition.to.path === '/no') {
         setTimeout(function () {
           transition.abort()
           next()
-        }, 100)
+        }, wait)
       } else if (transition.to.path.indexOf('/redirect') > -1) {
         setTimeout(function () {
           transition.redirect('/to/:id')
           next2()
-        }, 100)
+        }, wait)
       } else {
         transition.next()
       }
     })
+
     router.start(App, el)
-    expect(spy).toHaveBeenCalled()
-    expect(router.app.$el.textContent).toBe('default')
-    router.go('/no')
+    expect(spy1).toHaveBeenCalled()
+    expect(spy2).not.toHaveBeenCalled()
+    expect(router.app.$el.textContent).toBe('')
+    setTimeout(function () {
+      expect(spy2).toHaveBeenCalled()
+      expect(router.app.$el.textContent).toBe('default')
+      router.go('/no')
+    }, wait * 2)
     function next () {
+      expect(spy1.calls.count()).toBe(2)
+      expect(spy2.calls.count()).toBe(2)
       expect(router.app.$el.textContent).toBe('default')
       router.go('/redirect/12345')
     }
     function next2 () {
-      expect(router.app.$el.textContent).toBe('to 12345')
-      done()
+      expect(spy1.calls.count()).toBe(4) // go + redirect
+      expect(spy2.calls.count()).toBe(3) // only go at this moment
+      setTimeout(function () {
+        expect(router.app.$el.textContent).toBe('to 12345')
+        done()
+      }, wait * 2)
     }
   })
 
