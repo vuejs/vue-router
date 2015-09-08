@@ -92,8 +92,9 @@ describe('Core', function () {
     router = new Router({ abstract: true })
     router.map({
       '/a/:id': {
+        customField: 'custom',
         component: {
-          template: '{{$route.path}},{{$route.params.id}},{{$route.query.id}}|'
+          template: '{{$route.path}},{{$route.params.id}},{{$route.query.id}},{{$route.customField}}|'
         }
       }
     })
@@ -107,20 +108,20 @@ describe('Core', function () {
         '</div>',
       components: {
         'view-b': {
-          template: '{{$route.path}},{{$route.params.id}},{{$route.query.id}}'
+          template: '{{$route.path}},{{$route.params.id}},{{$route.query.id}},{{$route.customField}}'
         }
       }
     })
     router.start(App, el)
     assertRoutes([
       // no param, no match (only view-b)
-      ['/a', '/a,,'],
+      ['/a', '/a,,,'],
       // params only
-      ['/a/123', '/a/123,123,|/a/123,123,'],
+      ['/a/123', '/a/123,123,,custom|/a/123,123,,custom'],
       // params + query
-      ['/a/123?id=234', '/a/123?id=234,123,234|/a/123?id=234,123,234'],
+      ['/a/123?id=234', '/a/123?id=234,123,234,custom|/a/123?id=234,123,234,custom'],
       // relative query
-      ['?id=345', '/a/123?id=345,123,345|/a/123?id=345,123,345']
+      ['?id=345', '/a/123?id=345,123,345,custom|/a/123?id=345,123,345,custom']
     ], done)
   })
 

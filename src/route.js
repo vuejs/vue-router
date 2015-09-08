@@ -11,9 +11,8 @@ export default class Route {
 
   constructor (path, router) {
     let matched = router._recognizer.recognize(path)
-
-    // copy all custom fields from route configs
     if (matched) {
+      // copy all custom fields from route configs
       [].forEach.call(matched, match => {
         for (let key in match.handler) {
           if (!internalKeysRE.test(key)) {
@@ -21,25 +20,21 @@ export default class Route {
           }
         }
       })
+      // set query and params
+      this.query = matched.queryParams
+      this.params = [].reduce.call(matched, (prev, cur) => {
+        if (cur.params) {
+          for (let key in cur.params) {
+            prev[key] = cur.params[key]
+          }
+        }
+        return prev
+      }, {})
     }
-
+    // expose path and router
     this.path = path
     this.router = router
-    this.query = matched
-      ? matched.queryParams
-      : {}
-    this.params = matched
-      ? [].reduce.call(matched, (prev, cur) => {
-          if (cur.params) {
-            for (let key in cur.params) {
-              prev[key] = cur.params[key]
-            }
-          }
-          return prev
-        }, {})
-      : {}
-
-    // private stuff
+    // for internal use
     this._matched = matched || router._notFoundHandler
   }
 }
