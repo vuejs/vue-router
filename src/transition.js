@@ -22,6 +22,7 @@ export default class RouteTransition {
     this.from = from
     this.next = null
     this.aborted = false
+    this.done = false
 
     // start by determine the queues
 

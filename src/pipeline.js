@@ -113,6 +113,9 @@ export function activate (view, transition, depth, cb) {
   let dataHook = getRouteConfig(Component, 'data')
   let waitForData = getRouteConfig(Component, 'waitForData')
 
+  view.depth = depth
+  view.activated = false
+
   // unbuild current component. this step also destroys
   // and removes all nested child views.
   view.unbuild(true)
@@ -152,6 +155,7 @@ export function activate (view, transition, depth, cb) {
 
   // called after activation hook is resolved
   let afterActivate = () => {
+    view.activated = true
     // activate the child view
     if (view.childView) {
       exports.activate(view.childView, transition, depth + 1)

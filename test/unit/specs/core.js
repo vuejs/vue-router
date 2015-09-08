@@ -681,6 +681,47 @@ describe('Core', function () {
         }, wait * 2)
       }, 0)
     })
+
+    it('late-rendered view inside conditional blocks', function (done) {
+      var component = {
+        template:
+          '<div>' +
+            '<div v-if="show">' +
+              '<router-view></router-view>' +
+            '</div>' +
+          '</div>',
+        data: function () {
+          return { show: false }
+        },
+        compiled: function () {
+          var self = this
+          setTimeout(function () {
+            self.show = true
+          }, wait)
+        }
+      }
+      router = new Router({
+        abstract: true
+      })
+      router.map({
+        '/a': {
+          component: component,
+          subRoutes: {
+            '/b': {
+              component: {
+                template: 'Rendered!'
+              }
+            }
+          }
+        }
+      })
+      router.start(Vue.extend(component), el)
+      router.go('/a/b')
+      setTimeout(function () {
+        expect(router.app.$el.textContent).toBe('Rendered!')
+        done()
+      }, wait * 3)
+    })
   }
 
   function assertRoutes (matches, options, done) {

@@ -208,6 +208,7 @@ export default function (Vue, Router) {
         from: transition.from
       }))
     }
+    this._currentTransition.done = true
   }
 
   /**
