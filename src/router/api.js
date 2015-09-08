@@ -4,6 +4,8 @@ export default function (Vue, Router) {
 
   /**
    * Register a map of top-level paths.
+   *
+   * @param {Object} map
    */
 
   Router.prototype.map = function (map) {

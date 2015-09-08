@@ -1,3 +1,5 @@
+const internalKeysRE = /^(component|subRoutes)$/
+
 /**
  * Route Context Object
  *
@@ -8,17 +10,26 @@
 export default class Route {
 
   constructor (path, router) {
-    this.path = path
-    this.router = router
-
     let matched = router._recognizer.recognize(path)
 
+    // copy all custom fields from route configs
+    if (matched) {
+      [].forEach.call(matched, match => {
+        for (let key in match.handler) {
+          if (!internalKeysRE.test(key)) {
+            this[key] = match.handler[key]
+          }
+        }
+      })
+    }
+
+    this.path = path
+    this.router = router
     this.query = matched
       ? matched.queryParams
       : {}
-
     this.params = matched
-      ? [].reduce.call(matched, function (prev, cur) {
+      ? [].reduce.call(matched, (prev, cur) => {
           if (cur.params) {
             for (let key in cur.params) {
               prev[key] = cur.params[key]
