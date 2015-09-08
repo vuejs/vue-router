@@ -35,6 +35,34 @@ describe('Core', function () {
     ], done)
   })
 
+  it('go() with object', function (done) {
+    router = new Router({ abstract: true })
+    router.map({
+      '/a/:msg': {
+        name: 'a',
+        component: { template: 'A{{$route.params.msg}}' }
+      },
+      '/b/:msg': {
+        name: 'b',
+        component: { template: 'B{{$route.params.msg}}{{$route.query.msg}}' }
+      }
+    })
+    var App = Vue.extend({
+      template: '<div><router-view></router-view></div>'
+    })
+    router.start(App, el)
+    assertRoutes([
+      [{ path: '/a/A' }, 'AA'],
+      [{ path: '/b/B' }, 'BB'],
+      // relative
+      [{ path: '../a/A' }, 'AA'],
+      [{ path: '../b/B' }, 'BB'],
+      // named routes
+      [{ name: 'a', params: {msg: 'A'}}, 'AA'],
+      [{ name: 'b', params: {msg: 'B'}, query: {msg: 'B'}}, 'BBB']
+    ], done)
+  })
+
   it('matching nested views', function (done) {
     router = new Router({ abstract: true })
     router.map({
@@ -89,6 +117,7 @@ describe('Core', function () {
   })
 
   it('route context', function (done) {
+    Vue.config.silent = true
     router = new Router({ abstract: true })
     router.map({
       '/a/:id': {
@@ -122,7 +151,10 @@ describe('Core', function () {
       ['/a/123?id=234', '/a/123?id=234,123,234,custom|/a/123?id=234,123,234,custom'],
       // relative query
       ['?id=345', '/a/123?id=345,123,345,custom|/a/123?id=345,123,345,custom']
-    ], done)
+    ], function () {
+      Vue.config.silent = false
+      done()
+    })
   })
 
   it('v-link', function (done) {
