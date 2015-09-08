@@ -1,4 +1,4 @@
-const internalKeysRE = /^(component|subRoutes)$/
+const internalKeysRE = /^(component|subRoutes|name|fullPath)$/
 
 /**
  * Route Context Object

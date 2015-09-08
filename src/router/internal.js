@@ -22,7 +22,10 @@ export default function (Vue, Router) {
       path: path,
       handler: handler
     })
-    this._recognizer.add(segments)
+    this._recognizer.add(segments, {
+      as: handler.name
+    })
+    // add sub routes
     if (handler.subRoutes) {
       for (let subPath in handler.subRoutes) {
         // recursively walk all sub routes
