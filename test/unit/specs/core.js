@@ -240,7 +240,13 @@ describe('Core', function () {
           nextTick(function () {
             expect(linkA.className).toBe('')
             expect(linkB.className).toBe('active')
-            done()
+            router.go('/bcd')
+            nextTick(function () {
+              // #114 should not match
+              expect(linkA.className).toBe('')
+              expect(linkB.className).toBe('')
+              done()
+            })
           })
         })
       })

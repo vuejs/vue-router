@@ -1,4 +1,5 @@
 import { warn } from '../util'
+const regexEscapeRE = /[-.*+?^${}()|[\]\/\\]/g
 
 // install v-link, which provides navigation support for
 // HTML5 history mode
@@ -46,7 +47,9 @@ export default function (Vue) {
       let router = this.vm.$route.router
       let activeClass = router._linkActiveClass
       let exactClass = activeClass + '-exact'
-      if (path.indexOf(dest) === 0 && path !== '/') {
+      if (this.activeRE &&
+          this.activeRE.test(path) &&
+          path !== '/') {
         _.addClass(el, activeClass)
       } else {
         _.removeClass(el, activeClass)
@@ -60,6 +63,9 @@ export default function (Vue) {
 
     update: function (path) {
       this.destination = path
+      this.activeRE = path
+        ? new RegExp('^' + path.replace(regexEscapeRE, '\\$&') + '\\b')
+        : null
       this.updateClasses(this.vm.$route.path)
       path = path || ''
       let router = this.vm.$route.router
