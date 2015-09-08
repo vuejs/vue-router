@@ -67,7 +67,12 @@ export default class RouteTransition {
   redirect (path) {
     if (!this.aborted) {
       this.aborted = true
-      path = mapParams(path, this.to.params, this.to.query)
+      if (typeof path === 'string') {
+        path = mapParams(path, this.to.params, this.to.query)
+      } else {
+        path.params = this.to.params
+        path.query = this.to.query
+      }
       this.router.replace(path)
     }
   }
