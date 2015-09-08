@@ -119,6 +119,12 @@ Router.install = function (Vue) {
   Link(Vue)
   Override(Vue)
   util.Vue = Vue
+  // 1.0 only: enable route mixins
+  var strats = Vue.config.optionMergeStrategies
+  if (strats) {
+    // use the same merge strategy as methods (object hash)
+    strats.route = strats.methods
+  }
   Router.installed = true
 }
 
