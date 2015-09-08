@@ -1,6 +1,9 @@
-import Router from './index'
 import RouteRecognizer from 'route-recognizer'
 const genQuery = RouteRecognizer.prototype.generateQueryString
+
+// export default for holding the Vue reference
+const exports = {}
+export default exports
 
 /**
  * Warn stuff.
@@ -102,8 +105,7 @@ let resolver
 export function resolveAsyncComponent (handler, cb) {
   if (!resolver) {
     resolver = {
-      // HACK
-      resolve: Router.Vue.prototype._resolveComponent,
+      resolve: exports.Vue.prototype._resolveComponent,
       $options: {
         components: {
           _: handler.component

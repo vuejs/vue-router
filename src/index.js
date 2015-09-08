@@ -1,4 +1,4 @@
-import { warn } from './util'
+import util, { warn } from './util'
 import Recognizer from 'route-recognizer'
 import RouterApi from './router/api'
 import RouterInternal from './router/internal'
@@ -81,7 +81,7 @@ export default class Router {
     this._suppress = suppressTransitionError
 
     // create history object
-    let inBrowser = Router.Vue.util.inBrowser
+    let inBrowser = util.Vue.util.inBrowser
     this.mode = (!inBrowser || this._abstract)
       ? 'abstract'
       : this._history
@@ -118,7 +118,7 @@ Router.install = function (Vue) {
   View(Vue)
   Link(Vue)
   Override(Vue)
-  Router.Vue = Vue
+  util.Vue = Vue
   Router.installed = true
 }
 
