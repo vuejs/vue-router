@@ -114,4 +114,53 @@ describe('data', function () {
       }, wait * 2)
     })
   })
+
+  it('return object containing promises', function (done) {
+    test({
+      data: {
+        data: function (transition) {
+          return {
+            msg: new Promise(function (resolve) {
+              setTimeout(function () {
+                resolve(transition.to.params.msg)
+              }, wait)
+            })
+          }
+        }
+      }
+    }, function (router, calls, emitter) {
+      router.go('/data/hello')
+      assertCalls(calls, ['data.data'])
+      expect(router.app.$el.textContent).toBe('loading...')
+      setTimeout(function () {
+        expect(router.app.$el.textContent).toBe('hello')
+        done()
+      }, wait * 2)
+    })
+  })
+
+  it('return object containing promises reject', function (done) {
+    test({
+      data: {
+        data: function (transition) {
+          return {
+            msg: new Promise(function (resolve, reject) {
+              setTimeout(function () {
+                reject()
+              }, wait)
+            })
+          }
+        }
+      }
+    }, function (router, calls, emitter) {
+      router.go('/data/hello')
+      assertCalls(calls, ['data.data'])
+      expect(router.app.$el.textContent).toBe('loading...')
+      setTimeout(function () {
+        // should complete the transition despite error
+        expect(router.app.$el.textContent).toBe('')
+        done()
+      }, wait * 2)
+    })
+  })
 })

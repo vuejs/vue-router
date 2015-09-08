@@ -187,26 +187,20 @@ export default class RouteTransition {
    * @param {Function} hook
    * @param {*} [context]
    * @param {Function} [cb]
-   * @param {Boolean} [expectBoolean]
-   * @param {Function} [cleanup]
+   * @param {Object} [options]
+   *                 - {Boolean} expectBoolean
+   *                 - {Boolean} expectData
+   *                 - {Function} cleanup
    */
 
-  callHook (hook, context, cb, expectBoolean, cleanup) {
+  callHook (hook, context, cb, {
+    expectBoolean = false,
+    expectData = false,
+    cleanup
+  } = {}) {
+
     let transition = this
     let nextCalled = false
-
-    // advance the transition to the next step
-    let next = (data) => {
-      if (nextCalled) {
-        warn('transition.next() should be called only once.')
-        return
-      }
-      nextCalled = true
-      if (!cb || transition.aborted) {
-        return
-      }
-      cb(data)
-    }
 
     // abort the transition
     let abort = (back) => {
@@ -224,6 +218,19 @@ export default class RouteTransition {
         warn('Uncaught error during transition: ')
         throw err instanceof Error ? err : new Error(err)
       }
+    }
+
+    // advance the transition to the next step
+    let next = (data) => {
+      if (nextCalled) {
+        warn('transition.next() should be called only once.')
+        return
+      }
+      nextCalled = true
+      if (!cb || transition.aborted) {
+        return
+      }
+      cb(data, onError)
     }
 
     // expose a clone of the transition object, so that each
@@ -259,6 +266,12 @@ export default class RouteTransition {
       }
     } else if (resIsPromise) {
       res.then(next, onError)
+    } else if (expectData && isPlainOjbect(res)) {
+      next(res)
     }
   }
+}
+
+function isPlainOjbect (val) {
+  return Object.prototype.toString.call(val) === '[object Object]'
 }
