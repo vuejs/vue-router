@@ -20,6 +20,31 @@ A route object exposes the following properties:
 
   The router instance that is managing this route (and its owner component).
 
+### Custom Fields
+
+In addition to the built-in properties, custom fields defined in the route config will also be merged on to the route object. For example:
+
+``` js
+router.map({
+  '/a': {
+    component: { ... },
+    auth: true
+  }
+})
+```
+
+When `/a` is matched, `$route.auth` will be `true`. This allows us to perform authentication checks in global hooks:
+
+``` js
+router.beforeEach(function (transition) {
+  if (transition.to.auth) {
+    // do authentication...
+  }
+})
+```
+
+When a nested route is matched, all custom fields will be merged on to the same `$route` object. When a sub route and a parent route has the same custom field, the sub route's value will overwrite the parent's.
+
 ### Using in Templates
 
 You can directly bind to the `$route` object inside your component templates. For example:
