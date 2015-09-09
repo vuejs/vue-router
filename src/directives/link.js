@@ -9,9 +9,7 @@ export default function (Vue) {
 
   Vue.directive('link', {
 
-    isLiteral: true,
-
-    bind: function () {
+    bind () {
       let vm = this.vm
       /* istanbul ignore if */
       if (!vm.$route) {
@@ -31,9 +29,6 @@ export default function (Vue) {
         }
       }
       this.el.addEventListener('click', this.handler)
-      if (!this._isDynamicLiteral) {
-        this.update(this.expression)
-      }
       // manage active link class
       this.unwatch = vm.$watch(
         '$route.path',
@@ -41,7 +36,29 @@ export default function (Vue) {
       )
     },
 
-    updateClasses: function (path) {
+    update (path) {
+      let router = this.vm.$route.router
+      path = router._normalizePath(path)
+      this.destination = path
+      this.activeRE = path
+        ? new RegExp('^' + path.replace(regexEscapeRE, '\\$&') + '\\b')
+        : null
+      this.updateClasses(this.vm.$route.path)
+      let isAbsolute = path.charAt(0) === '/'
+      // do not format non-hash relative paths
+      let href = router.mode === 'hash' || isAbsolute
+        ? router.history.formatPath(path)
+        : path
+      if (this.el.tagName === 'A') {
+        if (href) {
+          this.el.href = href
+        } else {
+          this.el.removeAttribute('href')
+        }
+      }
+    },
+
+    updateClasses (path) {
       let el = this.el
       let dest = this.destination
       let router = this.vm.$route.router
@@ -61,29 +78,7 @@ export default function (Vue) {
       }
     },
 
-    update: function (path) {
-      this.destination = path
-      this.activeRE = path
-        ? new RegExp('^' + path.replace(regexEscapeRE, '\\$&') + '\\b')
-        : null
-      this.updateClasses(this.vm.$route.path)
-      path = path || ''
-      let router = this.vm.$route.router
-      let isAbsolute = path.charAt(0) === '/'
-      // do not format non-hash relative paths
-      let href = router.mode === 'hash' || isAbsolute
-        ? router.history.formatPath(path)
-        : path
-      if (this.el.tagName === 'A') {
-        if (href) {
-          this.el.href = href
-        } else {
-          this.el.removeAttribute('href')
-        }
-      }
-    },
-
-    unbind: function () {
+    unbind () {
       this.el.removeEventListener('click', this.handler)
       this.unwatch && this.unwatch()
     }

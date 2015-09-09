@@ -239,6 +239,32 @@ export default function (Vue, Router) {
   }
 
   /**
+   * Normalize named route object / string paths into
+   * a string.
+   *
+   * @param {Object|String|Number} path
+   * @return {String}
+   */
+
+  Router.prototype._normalizePath = function (path) {
+    if (typeof path === 'object') {
+      if (path.name) {
+        var params = path.params || {}
+        if (path.query) {
+          params.queryParams = path.query
+        }
+        return this._recognizer.generate(path.name, params)
+      } else if (path.path) {
+        return path.path
+      } else {
+        return ''
+      }
+    } else {
+      return path + ''
+    }
+  }
+
+  /**
    * Allow directly passing components to a route
    * definition.
    *

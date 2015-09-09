@@ -13,7 +13,7 @@ export default function (Vue) {
 
     _isRouterView: true,
 
-    bind: function () {
+    bind () {
       let route = this.vm.$route
       /* istanbul ignore if */
       if (!route) {
@@ -74,7 +74,7 @@ export default function (Vue) {
       }
     },
 
-    unbind: function () {
+    unbind () {
       this.router._views.$remove(this)
       componentDef.unbind.call(this)
     }

@@ -164,7 +164,7 @@ describe('Core', function () {
         component: {
           template:
             '<div>' +
-              '<a id="link-a" v-link="b">Link A</a>' +
+              '<a id="link-a" v-link="{ path: \'b\' }">Link A</a>' +
             '</div>'
         }
       },
@@ -175,8 +175,8 @@ describe('Core', function () {
           },
           template:
             '<div>' +
-              '<a id="link-b" v-link="/{{a}}">Link B</a>' +
-              '<a id="link-c" v-link="{{c}}"></c>' +
+              '<a id="link-b" v-link="{ path: \'/\' + a }">Link B</a>' +
+              '<a id="link-c" v-link="{ path: c }"></c>' +
             '</div>'
         }
       }
@@ -216,8 +216,8 @@ describe('Core', function () {
     var App = Vue.extend({
       replace: false,
       template:
-        '<a id="link-a" v-link="/a">Link A</a>' +
-        '<a id="link-b" v-link="/b">Link B</a>' +
+        '<a id="link-a" v-link="{ path: \'/a\' }">Link A</a>' +
+        '<a id="link-b" v-link="{ path: \'/b\' }">Link B</a>' +
         '<router-view></router-view>'
     })
     router.start(App, el)
@@ -268,7 +268,7 @@ describe('Core', function () {
             component: {
               template:
                 '<div>' +
-                  '<a v-link="?id=1234" id="link"></a>' +
+                  '<a v-link="{ path: \'?id=1234\' }" id="link"></a>' +
                   '{{$route.query.id}}' +
                 '</div>'
             }
