@@ -1,5 +1,5 @@
 /*!
- * vue-router v0.5.2
+ * vue-router v0.6.0
  * (c) 2015 Evan You
  * Released under the MIT License.
  */
@@ -7,7 +7,7 @@
 	if(typeof exports === 'object' && typeof module === 'object')
 		module.exports = factory();
 	else if(typeof define === 'function' && define.amd)
-		define(factory);
+		define([], factory);
 	else if(typeof exports === 'object')
 		exports["VueRouter"] = factory();
 	else
@@ -61,49 +61,196 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	'use strict';
 
-	var _interopRequireDefault = __webpack_require__(1)['default'];
+	var _classCallCheck = __webpack_require__(1)['default'];
+
+	var _interopRequireDefault = __webpack_require__(2)['default'];
 
 	Object.defineProperty(exports, '__esModule', {
 	  value: true
 	});
 
-	var _util = __webpack_require__(2);
+	var _util = __webpack_require__(3);
 
-	var _router = __webpack_require__(6);
+	var _util2 = _interopRequireDefault(_util);
 
-	var _router2 = _interopRequireDefault(_router);
+	var _routeRecognizer = __webpack_require__(4);
+
+	var _routeRecognizer2 = _interopRequireDefault(_routeRecognizer);
+
+	var _routerApi = __webpack_require__(7);
+
+	var _routerApi2 = _interopRequireDefault(_routerApi);
+
+	var _routerInternal = __webpack_require__(8);
+
+	var _routerInternal2 = _interopRequireDefault(_routerInternal);
+
+	var _directivesView = __webpack_require__(26);
+
+	var _directivesView2 = _interopRequireDefault(_directivesView);
+
+	var _directivesLink = __webpack_require__(27);
+
+	var _directivesLink2 = _interopRequireDefault(_directivesLink);
+
+	var _override = __webpack_require__(28);
+
+	var _override2 = _interopRequireDefault(_override);
+
+	var _historyAbstract = __webpack_require__(29);
+
+	var _historyAbstract2 = _interopRequireDefault(_historyAbstract);
+
+	var _historyHash = __webpack_require__(30);
+
+	var _historyHash2 = _interopRequireDefault(_historyHash);
+
+	var _historyHtml5 = __webpack_require__(31);
+
+	var _historyHtml52 = _interopRequireDefault(_historyHtml5);
+
+	var historyBackends = {
+	  abstract: _historyAbstract2['default'],
+	  hash: _historyHash2['default'],
+	  html5: _historyHtml52['default']
+	};
+
+	/**
+	 * Router constructor
+	 *
+	 * @param {Object} [options]
+	 */
+
+	var Router = function Router() {
+	  var _ref = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+
+	  var _ref$hashbang = _ref.hashbang;
+	  var hashbang = _ref$hashbang === undefined ? true : _ref$hashbang;
+	  var _ref$abstract = _ref.abstract;
+	  var abstract = _ref$abstract === undefined ? false : _ref$abstract;
+	  var _ref$history = _ref.history;
+	  var history = _ref$history === undefined ? false : _ref$history;
+	  var _ref$saveScrollPosition = _ref.saveScrollPosition;
+	  var saveScrollPosition = _ref$saveScrollPosition === undefined ? false : _ref$saveScrollPosition;
+	  var _ref$transitionOnLoad = _ref.transitionOnLoad;
+	  var transitionOnLoad = _ref$transitionOnLoad === undefined ? false : _ref$transitionOnLoad;
+	  var _ref$suppressTransitionError = _ref.suppressTransitionError;
+	  var suppressTransitionError = _ref$suppressTransitionError === undefined ? false : _ref$suppressTransitionError;
+	  var _ref$root = _ref.root;
+	  var root = _ref$root === undefined ? null : _ref$root;
+	  var _ref$linkActiveClass = _ref.linkActiveClass;
+	  var linkActiveClass = _ref$linkActiveClass === undefined ? 'v-link-active' : _ref$linkActiveClass;
+
+	  _classCallCheck(this, Router);
+
+	  /* istanbul ignore if */
+	  if (!Router.installed) {
+	    throw new Error('Please install the Router with Vue.use() before ' + 'creating an instance.');
+	  }
+
+	  // Vue instances
+	  this.app = null;
+	  this._views = [];
+	  this._children = [];
+
+	  // route recognizer
+	  this._recognizer = new _routeRecognizer2['default']();
+	  this._guardRecognizer = new _routeRecognizer2['default']();
+
+	  // state
+	  this._started = false;
+	  this._currentRoute = {};
+	  this._currentTransition = null;
+	  this._previousTransition = null;
+	  this._notFoundHandler = null;
+	  this._beforeEachHooks = [];
+	  this._afterEachHooks = [];
+
+	  // feature detection
+	  this._hasPushState = typeof window !== 'undefined' && window.history && window.history.pushState;
+
+	  // trigger transition on initial render?
+	  this._rendered = false;
+	  this._transitionOnLoad = transitionOnLoad;
+
+	  // history mode
+	  this._abstract = abstract;
+	  this._hashbang = hashbang;
+	  this._history = this._hasPushState && history;
+
+	  // other options
+	  this._saveScrollPosition = saveScrollPosition;
+	  this._linkActiveClass = linkActiveClass;
+	  this._suppress = suppressTransitionError;
+
+	  // create history object
+	  var inBrowser = _util2['default'].Vue.util.inBrowser;
+	  this.mode = !inBrowser || this._abstract ? 'abstract' : this._history ? 'html5' : 'hash';
+
+	  var History = historyBackends[this.mode];
+	  var self = this;
+	  this.history = new History({
+	    root: root,
+	    hashbang: this._hashbang,
+	    onChange: function onChange(path, state, anchor) {
+	      self._match(path, state, anchor);
+	    }
+	  });
+	};
+
+	exports['default'] = Router;
+
+	Router.installed = false;
 
 	/**
 	 * Installation interface.
 	 * Install the necessary directives.
 	 */
 
-	_router2['default'].install = function (Vue) {
+	Router.install = function (Vue) {
 	  /* istanbul ignore if */
-	  if (_router2['default'].installed) {
+	  if (Router.installed) {
 	    (0, _util.warn)('already installed.');
 	    return;
 	  }
-	  __webpack_require__(15)(Vue, _router2['default']);
-	  __webpack_require__(16)(Vue, _router2['default']);
-	  __webpack_require__(20)(Vue);
-	  __webpack_require__(21)(Vue);
-	  __webpack_require__(22)(Vue);
-	  _router2['default'].Vue = Vue;
-	  _router2['default'].installed = true;
+	  (0, _routerApi2['default'])(Vue, Router);
+	  (0, _routerInternal2['default'])(Vue, Router);
+	  (0, _directivesView2['default'])(Vue);
+	  (0, _directivesLink2['default'])(Vue);
+	  (0, _override2['default'])(Vue);
+	  _util2['default'].Vue = Vue;
+	  // 1.0 only: enable route mixins
+	  var strats = Vue.config.optionMergeStrategies;
+	  if (strats) {
+	    // use the same merge strategy as methods (object hash)
+	    strats.route = strats.methods;
+	  }
+	  Router.installed = true;
 	};
 
 	// auto install
 	/* istanbul ignore if */
 	if (typeof window !== 'undefined' && window.Vue) {
-	  window.Vue.use(_router2['default']);
+	  window.Vue.use(Router);
 	}
-
-	exports['default'] = _router2['default'];
 	module.exports = exports['default'];
 
 /***/ },
 /* 1 */
+/***/ function(module, exports) {
+
+	"use strict";
+
+	exports["default"] = function (instance, Constructor) {
+	  if (!(instance instanceof Constructor)) {
+	    throw new TypeError("Cannot call a class as a function");
+	  }
+	};
+
+	exports.__esModule = true;
+
+/***/ },
+/* 2 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -117,12 +264,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.__esModule = true;
 
 /***/ },
-/* 2 */
+/* 3 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var _interopRequireDefault = __webpack_require__(1)['default'];
+	var _interopRequireDefault = __webpack_require__(2)['default'];
 
 	Object.defineProperty(exports, '__esModule', {
 	  value: true
@@ -134,11 +281,15 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.resolveAsyncComponent = resolveAsyncComponent;
 	exports.mapParams = mapParams;
 
-	var _routeRecognizer = __webpack_require__(3);
+	var _routeRecognizer = __webpack_require__(4);
 
 	var _routeRecognizer2 = _interopRequireDefault(_routeRecognizer);
 
 	var genQuery = _routeRecognizer2['default'].prototype.generateQueryString;
+
+	// export default for holding the Vue reference
+	var _exports = {};
+	exports['default'] = _exports;
 
 	/**
 	 * Warn stuff.
@@ -236,8 +387,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	function resolveAsyncComponent(handler, cb) {
 	  if (!resolver) {
 	    resolver = {
-	      // HACK
-	      resolve: __webpack_require__(6).Vue.prototype._resolveComponent,
+	      resolve: _exports.Vue.prototype._resolveComponent,
 	      $options: {
 	        components: {
 	          _: handler.component
@@ -290,7 +440,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 /***/ },
-/* 3 */
+/* 4 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;/* WEBPACK VAR INJECTION */(function(module) {(function() {
@@ -936,7 +1086,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    var $$route$recognizer$$default = $$route$recognizer$$RouteRecognizer;
 
 	    /* global define:true module:true window: true */
-	    if ("function" === 'function' && __webpack_require__(5)['amd']) {
+	    if ("function" === 'function' && __webpack_require__(6)['amd']) {
 	      !(__WEBPACK_AMD_DEFINE_RESULT__ = function() { return $$route$recognizer$$default; }.call(exports, __webpack_require__, exports, module), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
 	    } else if (typeof module !== 'undefined' && module['exports']) {
 	      module['exports'] = $$route$recognizer$$default;
@@ -946,10 +1096,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	}).call(this);
 
 	//# sourceMappingURL=route-recognizer.js.map
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)(module)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(5)(module)))
 
 /***/ },
-/* 4 */
+/* 5 */
 /***/ function(module, exports) {
 
 	module.exports = function(module) {
@@ -965,439 +1115,14 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 5 */
+/* 6 */
 /***/ function(module, exports) {
 
 	module.exports = function() { throw new Error("define cannot be used indirect"); };
 
 
 /***/ },
-/* 6 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	var _classCallCheck = __webpack_require__(7)['default'];
-
-	var _interopRequireDefault = __webpack_require__(1)['default'];
-
-	Object.defineProperty(exports, '__esModule', {
-	  value: true
-	});
-
-	var _routeRecognizer = __webpack_require__(3);
-
-	var _routeRecognizer2 = _interopRequireDefault(_routeRecognizer);
-
-	var historyBackends = {
-	  abstract: __webpack_require__(8),
-	  hash: __webpack_require__(13),
-	  html5: __webpack_require__(14)
-	};
-
-	/**
-	 * Router constructor
-	 *
-	 * @param {Object} [options]
-	 */
-
-	var Router = function Router() {
-	  var _ref = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
-
-	  var _ref$hashbang = _ref.hashbang;
-	  var hashbang = _ref$hashbang === undefined ? true : _ref$hashbang;
-	  var _ref$abstract = _ref.abstract;
-	  var abstract = _ref$abstract === undefined ? false : _ref$abstract;
-	  var _ref$history = _ref.history;
-	  var history = _ref$history === undefined ? false : _ref$history;
-	  var _ref$saveScrollPosition = _ref.saveScrollPosition;
-	  var saveScrollPosition = _ref$saveScrollPosition === undefined ? false : _ref$saveScrollPosition;
-	  var _ref$transitionOnLoad = _ref.transitionOnLoad;
-	  var transitionOnLoad = _ref$transitionOnLoad === undefined ? false : _ref$transitionOnLoad;
-	  var _ref$suppressTransitionError = _ref.suppressTransitionError;
-	  var suppressTransitionError = _ref$suppressTransitionError === undefined ? false : _ref$suppressTransitionError;
-	  var _ref$root = _ref.root;
-	  var root = _ref$root === undefined ? null : _ref$root;
-	  var _ref$linkActiveClass = _ref.linkActiveClass;
-	  var linkActiveClass = _ref$linkActiveClass === undefined ? 'v-link-active' : _ref$linkActiveClass;
-
-	  _classCallCheck(this, Router);
-
-	  /* istanbul ignore if */
-	  if (!Router.installed) {
-	    throw new Error('Please install the Router with Vue.use() before ' + 'creating an instance.');
-	  }
-
-	  // Vue instances
-	  this.app = null;
-	  this._views = [];
-	  this._children = [];
-
-	  // route recognizer
-	  this._recognizer = new _routeRecognizer2['default']();
-	  this._guardRecognizer = new _routeRecognizer2['default']();
-
-	  // state
-	  this._started = false;
-	  this._currentRoute = {};
-	  this._currentTransition = null;
-	  this._previousTransition = null;
-	  this._notFoundHandler = null;
-	  this._beforeEachHook = null;
-	  this._afterEachHook = null;
-
-	  // feature detection
-	  this._hasPushState = typeof window !== 'undefined' && window.history && window.history.pushState;
-
-	  // trigger transition on initial render?
-	  this._rendered = false;
-	  this._transitionOnLoad = transitionOnLoad;
-
-	  // history mode
-	  this._abstract = abstract;
-	  this._hashbang = hashbang;
-	  this._history = this._hasPushState && history;
-
-	  // other options
-	  this._saveScrollPosition = saveScrollPosition;
-	  this._linkActiveClass = linkActiveClass;
-	  this._suppress = suppressTransitionError;
-
-	  // create history object
-	  var inBrowser = Router.Vue.util.inBrowser;
-	  this.mode = !inBrowser || this._abstract ? 'abstract' : this._history ? 'html5' : 'hash';
-
-	  var History = historyBackends[this.mode];
-	  var self = this;
-	  this.history = new History({
-	    root: root,
-	    hashbang: this._hashbang,
-	    onChange: function onChange(path, state, anchor) {
-	      self._match(path, state, anchor);
-	    }
-	  });
-	};
-
-	exports['default'] = Router;
-
-	Router.installed = false;
-	module.exports = exports['default'];
-
-/***/ },
 /* 7 */
-/***/ function(module, exports) {
-
-	"use strict";
-
-	exports["default"] = function (instance, Constructor) {
-	  if (!(instance instanceof Constructor)) {
-	    throw new TypeError("Cannot call a class as a function");
-	  }
-	};
-
-	exports.__esModule = true;
-
-/***/ },
-/* 8 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	var _createClass = __webpack_require__(9)['default'];
-
-	var _classCallCheck = __webpack_require__(7)['default'];
-
-	Object.defineProperty(exports, '__esModule', {
-	  value: true
-	});
-
-	var _util = __webpack_require__(2);
-
-	var AbstractHistory = (function () {
-	  function AbstractHistory(_ref) {
-	    var onChange = _ref.onChange;
-
-	    _classCallCheck(this, AbstractHistory);
-
-	    this.onChange = onChange;
-	    this.currentPath = '/';
-	  }
-
-	  _createClass(AbstractHistory, [{
-	    key: 'start',
-	    value: function start() {
-	      this.onChange('/');
-	    }
-	  }, {
-	    key: 'stop',
-	    value: function stop() {
-	      // noop
-	    }
-	  }, {
-	    key: 'go',
-	    value: function go(path) {
-	      path = this.currentPath = this.formatPath(path);
-	      this.onChange(path);
-	    }
-	  }, {
-	    key: 'formatPath',
-	    value: function formatPath(path) {
-	      return path.charAt(0) === '/' ? path : (0, _util.resolvePath)(this.currentPath, path);
-	    }
-	  }]);
-
-	  return AbstractHistory;
-	})();
-
-	exports['default'] = AbstractHistory;
-	module.exports = exports['default'];
-
-/***/ },
-/* 9 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-
-	var _Object$defineProperty = __webpack_require__(10)["default"];
-
-	exports["default"] = (function () {
-	  function defineProperties(target, props) {
-	    for (var i = 0; i < props.length; i++) {
-	      var descriptor = props[i];
-	      descriptor.enumerable = descriptor.enumerable || false;
-	      descriptor.configurable = true;
-	      if ("value" in descriptor) descriptor.writable = true;
-
-	      _Object$defineProperty(target, descriptor.key, descriptor);
-	    }
-	  }
-
-	  return function (Constructor, protoProps, staticProps) {
-	    if (protoProps) defineProperties(Constructor.prototype, protoProps);
-	    if (staticProps) defineProperties(Constructor, staticProps);
-	    return Constructor;
-	  };
-	})();
-
-	exports.__esModule = true;
-
-/***/ },
-/* 10 */
-/***/ function(module, exports, __webpack_require__) {
-
-	module.exports = { "default": __webpack_require__(11), __esModule: true };
-
-/***/ },
-/* 11 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var $ = __webpack_require__(12);
-	module.exports = function defineProperty(it, key, desc){
-	  return $.setDesc(it, key, desc);
-	};
-
-/***/ },
-/* 12 */
-/***/ function(module, exports) {
-
-	var $Object = Object;
-	module.exports = {
-	  create:     $Object.create,
-	  getProto:   $Object.getPrototypeOf,
-	  isEnum:     {}.propertyIsEnumerable,
-	  getDesc:    $Object.getOwnPropertyDescriptor,
-	  setDesc:    $Object.defineProperty,
-	  setDescs:   $Object.defineProperties,
-	  getKeys:    $Object.keys,
-	  getNames:   $Object.getOwnPropertyNames,
-	  getSymbols: $Object.getOwnPropertySymbols,
-	  each:       [].forEach
-	};
-
-/***/ },
-/* 13 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	var _createClass = __webpack_require__(9)['default'];
-
-	var _classCallCheck = __webpack_require__(7)['default'];
-
-	Object.defineProperty(exports, '__esModule', {
-	  value: true
-	});
-
-	var _util = __webpack_require__(2);
-
-	var HashHistory = (function () {
-	  function HashHistory(_ref) {
-	    var hashbang = _ref.hashbang;
-	    var onChange = _ref.onChange;
-
-	    _classCallCheck(this, HashHistory);
-
-	    this.hashbang = hashbang;
-	    this.onChange = onChange;
-	  }
-
-	  _createClass(HashHistory, [{
-	    key: 'start',
-	    value: function start() {
-	      var self = this;
-	      this.listener = function () {
-	        var path = location.hash;
-	        var formattedPath = self.formatPath(path, true);
-	        if (formattedPath !== path) {
-	          location.replace(formattedPath);
-	          return;
-	        }
-	        var pathToMatch = decodeURI(path.replace(/^#!?/, '') + location.search);
-	        self.onChange(pathToMatch);
-	      };
-	      window.addEventListener('hashchange', this.listener);
-	      this.listener();
-	    }
-	  }, {
-	    key: 'stop',
-	    value: function stop() {
-	      window.removeEventListener('hashchange', this.listener);
-	    }
-	  }, {
-	    key: 'go',
-	    value: function go(path, replace) {
-	      path = this.formatPath(path);
-	      if (replace) {
-	        location.replace(path);
-	      } else {
-	        location.hash = path;
-	      }
-	    }
-	  }, {
-	    key: 'formatPath',
-	    value: function formatPath(path, expectAbsolute) {
-	      path = path.replace(/^#!?/, '');
-	      var isAbsoloute = path.charAt(0) === '/';
-	      if (expectAbsolute && !isAbsoloute) {
-	        path = '/' + path;
-	      }
-	      var prefix = '#' + (this.hashbang ? '!' : '');
-	      return isAbsoloute || expectAbsolute ? prefix + path : prefix + (0, _util.resolvePath)(location.hash.replace(/^#!?/, ''), path);
-	    }
-	  }]);
-
-	  return HashHistory;
-	})();
-
-	exports['default'] = HashHistory;
-	module.exports = exports['default'];
-
-/***/ },
-/* 14 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	var _createClass = __webpack_require__(9)['default'];
-
-	var _classCallCheck = __webpack_require__(7)['default'];
-
-	Object.defineProperty(exports, '__esModule', {
-	  value: true
-	});
-
-	var _util = __webpack_require__(2);
-
-	var hashRE = /#.*$/;
-
-	var HTML5History = (function () {
-	  function HTML5History(_ref) {
-	    var root = _ref.root;
-	    var onChange = _ref.onChange;
-
-	    _classCallCheck(this, HTML5History);
-
-	    if (root) {
-	      // make sure there's the starting slash
-	      if (root.charAt(0) !== '/') {
-	        root = '/' + root;
-	      }
-	      // remove trailing slash
-	      this.root = root.replace(/\/$/, '');
-	      this.rootRE = new RegExp('^\\' + this.root);
-	    } else {
-	      this.root = null;
-	    }
-	    this.onChange = onChange;
-	    // check base tag
-	    var baseEl = document.querySelector('base');
-	    this.base = baseEl && baseEl.getAttribute('href');
-	  }
-
-	  _createClass(HTML5History, [{
-	    key: 'start',
-	    value: function start() {
-	      var _this = this;
-
-	      this.listener = function (e) {
-	        var url = decodeURI(location.pathname + location.search);
-	        if (_this.root) {
-	          url = url.replace(_this.rootRE, '');
-	        }
-	        _this.onChange(url, e && e.state, location.hash);
-	      };
-	      window.addEventListener('popstate', this.listener);
-	      this.listener();
-	    }
-	  }, {
-	    key: 'stop',
-	    value: function stop() {
-	      window.removeEventListener('popstate', this.listener);
-	    }
-	  }, {
-	    key: 'go',
-	    value: function go(path, replace) {
-	      var root = this.root;
-	      var url = this.formatPath(path, root);
-	      if (replace) {
-	        history.replaceState({}, '', url);
-	      } else {
-	        // record scroll position by replacing current state
-	        history.replaceState({
-	          pos: {
-	            x: window.pageXOffset,
-	            y: window.pageYOffset
-	          }
-	        }, '');
-	        // then push new state
-	        history.pushState({}, '', url);
-	      }
-	      var hashMatch = path.match(hashRE);
-	      var hash = hashMatch && hashMatch[0];
-	      path = url
-	      // strip hash so it doesn't mess up params
-	      .replace(hashRE, '')
-	      // remove root before matching
-	      .replace(this.rootRE, '');
-	      this.onChange(path, null, hash);
-	    }
-	  }, {
-	    key: 'formatPath',
-	    value: function formatPath(path) {
-	      return path.charAt(0) === '/'
-	      // absolute path
-	      ? this.root ? this.root + '/' + path.replace(/^\//, '') : path : (0, _util.resolvePath)(this.base || location.pathname, path);
-	    }
-	  }]);
-
-	  return HTML5History;
-	})();
-
-	exports['default'] = HTML5History;
-	module.exports = exports['default'];
-
-/***/ },
-/* 15 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -1406,12 +1131,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	  value: true
 	});
 
-	var _util = __webpack_require__(2);
+	var _util = __webpack_require__(3);
 
 	exports['default'] = function (Vue, Router) {
 
 	  /**
 	   * Register a map of top-level paths.
+	   *
+	   * @param {Object} map
 	   */
 
 	  Router.prototype.map = function (map) {
@@ -1471,7 +1198,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	   */
 
 	  Router.prototype.beforeEach = function (fn) {
-	    this._beforeEachHook = fn;
+	    this._beforeEachHooks.push(fn);
 	  };
 
 	  /**
@@ -1481,20 +1208,23 @@ return /******/ (function(modules) { // webpackBootstrap
 	   */
 
 	  Router.prototype.afterEach = function (fn) {
-	    this._afterEachHook = fn;
+	    this._afterEachHooks.push(fn);
 	  };
 
 	  /**
 	   * Navigate to a given path.
+	   * The path can be an object describing a named path in
+	   * the format of { name: '...', params: {}, query: {}}
 	   * The path is assumed to be already decoded, and will
 	   * be resolved against root (if provided)
 	   *
-	   * @param {String} path
+	   * @param {String|Object} path
 	   * @param {Boolean} [replace]
 	   */
 
 	  Router.prototype.go = function (path, replace) {
-	    this.history.go(path + '', replace);
+	    path = this._normalizePath(path);
+	    this.history.go(path, replace);
 	  };
 
 	  /**
@@ -1545,24 +1275,24 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = exports['default'];
 
 /***/ },
-/* 16 */
+/* 8 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var _interopRequireDefault = __webpack_require__(1)['default'];
+	var _interopRequireDefault = __webpack_require__(2)['default'];
 
 	Object.defineProperty(exports, '__esModule', {
 	  value: true
 	});
 
-	var _util = __webpack_require__(2);
+	var _util = __webpack_require__(3);
 
-	var _route = __webpack_require__(17);
+	var _route = __webpack_require__(9);
 
 	var _route2 = _interopRequireDefault(_route);
 
-	var _transition = __webpack_require__(18);
+	var _transition = __webpack_require__(10);
 
 	var _transition2 = _interopRequireDefault(_transition);
 
@@ -1586,7 +1316,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	      path: path,
 	      handler: handler
 	    });
-	    this._recognizer.add(segments);
+	    this._recognizer.add(segments, {
+	      as: handler.name
+	    });
+	    // add sub routes
 	    if (handler.subRoutes) {
 	      for (var subPath in handler.subRoutes) {
 	        // recursively walk all sub routes
@@ -1711,15 +1444,19 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 
 	    // check global before hook
-	    var before = this._beforeEachHook;
+	    var beforeHooks = this._beforeEachHooks;
 	    var startTransition = function startTransition() {
 	      transition.start(function () {
 	        _this2._postTransition(route, state, anchor);
 	      });
 	    };
 
-	    if (before) {
-	      transition.callHook(before, null, startTransition, true);
+	    if (beforeHooks.length) {
+	      transition.runQueue(beforeHooks, function (hook, _, next) {
+	        if (transition === _this2._currentTransition) {
+	          transition.callHook(hook, null, next, true);
+	        }
+	      }, startTransition);
 	    } else {
 	      startTransition();
 	    }
@@ -1756,12 +1493,15 @@ return /******/ (function(modules) { // webpackBootstrap
 	      });
 	    }
 	    // call global after hook
-	    if (this._afterEachHook) {
-	      this._afterEachHook.call(null, {
-	        to: transition.to,
-	        from: transition.from
+	    if (this._afterEachHooks.length) {
+	      this._afterEachHooks.forEach(function (hook) {
+	        return hook.call(null, {
+	          to: transition.to,
+	          from: transition.from
+	        });
 	      });
 	    }
+	    this._currentTransition.done = true;
 	  };
 
 	  /**
@@ -1792,6 +1532,32 @@ return /******/ (function(modules) { // webpackBootstrap
 	  };
 
 	  /**
+	   * Normalize named route object / string paths into
+	   * a string.
+	   *
+	   * @param {Object|String|Number} path
+	   * @return {String}
+	   */
+
+	  Router.prototype._normalizePath = function (path) {
+	    if (typeof path === 'object') {
+	      if (path.name) {
+	        var params = path.params || {};
+	        if (path.query) {
+	          params.queryParams = path.query;
+	        }
+	        return this._recognizer.generate(path.name, params);
+	      } else if (path.path) {
+	        return path.path;
+	      } else {
+	        return '';
+	      }
+	    } else {
+	      return path + '';
+	    }
+	  };
+
+	  /**
 	   * Allow directly passing components to a route
 	   * definition.
 	   *
@@ -1814,8 +1580,17 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = exports['default'];
 
 /***/ },
-/* 17 */
+/* 9 */
 /***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	var _classCallCheck = __webpack_require__(1)["default"];
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	var internalKeysRE = /^(component|subRoutes|name)$/;
 
 	/**
 	 * Route Context Object
@@ -1824,34 +1599,36 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * @param {Router} router
 	 */
 
-	"use strict";
-
-	var _classCallCheck = __webpack_require__(7)["default"];
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-
 	var Route = function Route(path, router) {
+	  var _this = this;
+
 	  _classCallCheck(this, Route);
 
+	  var matched = router._recognizer.recognize(path);
+	  if (matched) {
+	    // copy all custom fields from route configs
+	    [].forEach.call(matched, function (match) {
+	      for (var key in match.handler) {
+	        if (!internalKeysRE.test(key)) {
+	          _this[key] = match.handler[key];
+	        }
+	      }
+	    });
+	    // set query and params
+	    this.query = matched.queryParams;
+	    this.params = [].reduce.call(matched, function (prev, cur) {
+	      if (cur.params) {
+	        for (var key in cur.params) {
+	          prev[key] = cur.params[key];
+	        }
+	      }
+	      return prev;
+	    }, {});
+	  }
+	  // expose path and router
 	  this.path = path;
 	  this.router = router;
-
-	  var matched = router._recognizer.recognize(path);
-
-	  this.query = matched ? matched.queryParams : {};
-
-	  this.params = matched ? [].reduce.call(matched, function (prev, cur) {
-	    if (cur.params) {
-	      for (var key in cur.params) {
-	        prev[key] = cur.params[key];
-	      }
-	    }
-	    return prev;
-	  }, {}) : {};
-
-	  // private stuff
+	  // for internal use
 	  this._matched = matched || router._notFoundHandler;
 	};
 
@@ -1859,22 +1636,22 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = exports["default"];
 
 /***/ },
-/* 18 */
+/* 10 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var _createClass = __webpack_require__(9)['default'];
+	var _createClass = __webpack_require__(11)['default'];
 
-	var _classCallCheck = __webpack_require__(7)['default'];
+	var _classCallCheck = __webpack_require__(1)['default'];
 
 	Object.defineProperty(exports, '__esModule', {
 	  value: true
 	});
 
-	var _util = __webpack_require__(2);
+	var _util = __webpack_require__(3);
 
-	var _pipeline = __webpack_require__(19);
+	var _pipeline = __webpack_require__(15);
 
 	/**
 	 * A RouteTransition object manages the pipeline of a
@@ -1895,6 +1672,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    this.from = from;
 	    this.next = null;
 	    this.aborted = false;
+	    this.done = false;
 
 	    // start by determine the queues
 
@@ -1942,7 +1720,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	    value: function redirect(path) {
 	      if (!this.aborted) {
 	        this.aborted = true;
-	        path = (0, _util.mapParams)(path, this.to.params, this.to.query);
+	        if (typeof path === 'string') {
+	          path = (0, _util.mapParams)(path, this.to.params, this.to.query);
+	        } else {
+	          path.params = this.to.params;
+	          path.query = this.to.query;
+	        }
 	        this.router.replace(path);
 	      }
 	    }
@@ -2060,28 +1843,25 @@ return /******/ (function(modules) { // webpackBootstrap
 	     * @param {Function} hook
 	     * @param {*} [context]
 	     * @param {Function} [cb]
-	     * @param {Boolean} [expectBoolean]
-	     * @param {Function} [cleanup]
+	     * @param {Object} [options]
+	     *                 - {Boolean} expectBoolean
+	     *                 - {Boolean} expectData
+	     *                 - {Function} cleanup
 	     */
 
 	  }, {
 	    key: 'callHook',
-	    value: function callHook(hook, context, cb, expectBoolean, cleanup) {
+	    value: function callHook(hook, context, cb) {
+	      var _ref = arguments.length <= 3 || arguments[3] === undefined ? {} : arguments[3];
+
+	      var _ref$expectBoolean = _ref.expectBoolean;
+	      var expectBoolean = _ref$expectBoolean === undefined ? false : _ref$expectBoolean;
+	      var _ref$expectData = _ref.expectData;
+	      var expectData = _ref$expectData === undefined ? false : _ref$expectData;
+	      var cleanup = _ref.cleanup;
+
 	      var transition = this;
 	      var nextCalled = false;
-
-	      // advance the transition to the next step
-	      var next = function next(data) {
-	        if (nextCalled) {
-	          (0, _util.warn)('transition.next() should be called only once.');
-	          return;
-	        }
-	        nextCalled = true;
-	        if (!cb || transition.aborted) {
-	          return;
-	        }
-	        cb(data);
-	      };
 
 	      // abort the transition
 	      var abort = function abort(back) {
@@ -2099,6 +1879,19 @@ return /******/ (function(modules) { // webpackBootstrap
 	          (0, _util.warn)('Uncaught error during transition: ');
 	          throw err instanceof Error ? err : new Error(err);
 	        }
+	      };
+
+	      // advance the transition to the next step
+	      var next = function next(data) {
+	        if (nextCalled) {
+	          (0, _util.warn)('transition.next() should be called only once.');
+	          return;
+	        }
+	        nextCalled = true;
+	        if (!cb || transition.aborted) {
+	          return;
+	        }
+	        cb(data, onError);
 	      };
 
 	      // expose a clone of the transition object, so that each
@@ -2134,6 +1927,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	        }
 	      } else if (resIsPromise) {
 	        res.then(next, onError);
+	      } else if (expectData && isPlainOjbect(res)) {
+	        next(res);
 	      }
 	    }
 	  }]);
@@ -2142,13 +1937,81 @@ return /******/ (function(modules) { // webpackBootstrap
 	})();
 
 	exports['default'] = RouteTransition;
+
+	function isPlainOjbect(val) {
+	  return Object.prototype.toString.call(val) === '[object Object]';
+	}
 	module.exports = exports['default'];
 
 /***/ },
-/* 19 */
+/* 11 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	var _Object$defineProperty = __webpack_require__(12)["default"];
+
+	exports["default"] = (function () {
+	  function defineProperties(target, props) {
+	    for (var i = 0; i < props.length; i++) {
+	      var descriptor = props[i];
+	      descriptor.enumerable = descriptor.enumerable || false;
+	      descriptor.configurable = true;
+	      if ("value" in descriptor) descriptor.writable = true;
+
+	      _Object$defineProperty(target, descriptor.key, descriptor);
+	    }
+	  }
+
+	  return function (Constructor, protoProps, staticProps) {
+	    if (protoProps) defineProperties(Constructor.prototype, protoProps);
+	    if (staticProps) defineProperties(Constructor, staticProps);
+	    return Constructor;
+	  };
+	})();
+
+	exports.__esModule = true;
+
+/***/ },
+/* 12 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = { "default": __webpack_require__(13), __esModule: true };
+
+/***/ },
+/* 13 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var $ = __webpack_require__(14);
+	module.exports = function defineProperty(it, key, desc){
+	  return $.setDesc(it, key, desc);
+	};
+
+/***/ },
+/* 14 */
+/***/ function(module, exports) {
+
+	var $Object = Object;
+	module.exports = {
+	  create:     $Object.create,
+	  getProto:   $Object.getPrototypeOf,
+	  isEnum:     {}.propertyIsEnumerable,
+	  getDesc:    $Object.getOwnPropertyDescriptor,
+	  setDesc:    $Object.defineProperty,
+	  setDescs:   $Object.defineProperties,
+	  getKeys:    $Object.keys,
+	  getNames:   $Object.getOwnPropertyNames,
+	  getSymbols: $Object.getOwnPropertySymbols,
+	  each:       [].forEach
+	};
+
+/***/ },
+/* 15 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
+
+	var _Object$keys = __webpack_require__(16)['default'];
 
 	Object.defineProperty(exports, '__esModule', {
 	  value: true
@@ -2160,7 +2023,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.activate = activate;
 	exports.reuse = reuse;
 
-	var _util = __webpack_require__(2);
+	var _util = __webpack_require__(3);
 
 	/**
 	 * Determine the reusability of an existing router view.
@@ -2201,7 +2064,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	  if (!hook) {
 	    next();
 	  } else {
-	    transition.callHook(hook, fromComponent, next, true);
+	    transition.callHook(hook, fromComponent, next, {
+	      expectBoolean: true
+	    });
 	  }
 	}
 
@@ -2224,7 +2089,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	    if (!hook) {
 	      next();
 	    } else {
-	      transition.callHook(hook, null, next, true);
+	      transition.callHook(hook, null, next, {
+	        expectBoolean: true
+	      });
 	    }
 	  });
 	}
@@ -2259,7 +2126,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	function activate(view, transition, depth, cb) {
 	  var handler = transition.activateQueue[depth];
 	  if (!handler) {
-	    view.setComponent(null);
+	    // fix 1.0.0-alpha.3 compat
+	    if (view._bound) {
+	      view.setComponent(null);
+	    }
 	    cb && cb();
 	    return;
 	  }
@@ -2268,6 +2138,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	  var activateHook = (0, _util.getRouteConfig)(Component, 'activate');
 	  var dataHook = (0, _util.getRouteConfig)(Component, 'data');
 	  var waitForData = (0, _util.getRouteConfig)(Component, 'waitForData');
+
+	  view.depth = depth;
+	  view.activated = false;
 
 	  // unbuild current component. this step also destroys
 	  // and removes all nested child views.
@@ -2294,7 +2167,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	      view.transition(component);
 	    } else {
 	      // no transition on first render, manual transition
-	      view.setCurrent(component);
+	      if (view.setCurrent) {
+	        // 0.12 compat
+	        view.setCurrent(component);
+	      } else {
+	        // 1.0
+	        view.childVM = component;
+	      }
 	      component.$before(view.anchor, null, false);
 	    }
 	    cb && cb();
@@ -2302,6 +2181,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	  // called after activation hook is resolved
 	  var afterActivate = function afterActivate() {
+	    view.activated = true;
 	    // activate the child view
 	    if (view.childView) {
 	      exports.activate(view.childView, transition, depth + 1);
@@ -2319,7 +2199,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	  };
 
 	  if (activateHook) {
-	    transition.callHook(activateHook, component, afterActivate, false, cleanup);
+	    transition.callHook(activateHook, component, afterActivate, {
+	      cleanup: cleanup
+	    });
 	  } else {
 	    afterActivate();
 	  }
@@ -2352,17 +2234,174 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	function loadData(component, transition, hook, cb, cleanup) {
 	  component.$loadingRouteData = true;
-	  transition.callHook(hook, component, function (data) {
-	    for (var key in data) {
-	      component.$set(key, data[key]);
+	  transition.callHook(hook, component, function (data, onError) {
+	    var promises = [];
+	    _Object$keys(data).forEach(function (key) {
+	      var val = data[key];
+	      if ((0, _util.isPromise)(val)) {
+	        promises.push(val.then(function (resolvedVal) {
+	          component.$set(key, resolvedVal);
+	        }));
+	      } else {
+	        component.$set(key, val);
+	      }
+	    });
+	    if (!promises.length) {
+	      component.$loadingRouteData = false;
+	    } else {
+	      promises[0].constructor.all(promises).then(function (_) {
+	        component.$loadingRouteData = false;
+	      }, onError);
 	    }
-	    component.$loadingRouteData = false;
 	    cb && cb(data);
-	  }, false, cleanup);
+	  }, {
+	    cleanup: cleanup,
+	    expectData: true
+	  });
 	}
 
 /***/ },
+/* 16 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = { "default": __webpack_require__(17), __esModule: true };
+
+/***/ },
+/* 17 */
+/***/ function(module, exports, __webpack_require__) {
+
+	__webpack_require__(18);
+	module.exports = __webpack_require__(24).Object.keys;
+
+/***/ },
+/* 18 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// 19.1.2.14 Object.keys(O)
+	var toObject = __webpack_require__(19);
+
+	__webpack_require__(21)('keys', function($keys){
+	  return function keys(it){
+	    return $keys(toObject(it));
+	  };
+	});
+
+/***/ },
+/* 19 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// 7.1.13 ToObject(argument)
+	var defined = __webpack_require__(20);
+	module.exports = function(it){
+	  return Object(defined(it));
+	};
+
+/***/ },
 /* 20 */
+/***/ function(module, exports) {
+
+	// 7.2.1 RequireObjectCoercible(argument)
+	module.exports = function(it){
+	  if(it == undefined)throw TypeError("Can't call method on  " + it);
+	  return it;
+	};
+
+/***/ },
+/* 21 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// most Object methods by ES6 should accept primitives
+	module.exports = function(KEY, exec){
+	  var $def = __webpack_require__(22)
+	    , fn   = (__webpack_require__(24).Object || {})[KEY] || Object[KEY]
+	    , exp  = {};
+	  exp[KEY] = exec(fn);
+	  $def($def.S + $def.F * __webpack_require__(25)(function(){ fn(1); }), 'Object', exp);
+	};
+
+/***/ },
+/* 22 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var global    = __webpack_require__(23)
+	  , core      = __webpack_require__(24)
+	  , PROTOTYPE = 'prototype';
+	var ctx = function(fn, that){
+	  return function(){
+	    return fn.apply(that, arguments);
+	  };
+	};
+	var $def = function(type, name, source){
+	  var key, own, out, exp
+	    , isGlobal = type & $def.G
+	    , isProto  = type & $def.P
+	    , target   = isGlobal ? global : type & $def.S
+	        ? global[name] : (global[name] || {})[PROTOTYPE]
+	    , exports  = isGlobal ? core : core[name] || (core[name] = {});
+	  if(isGlobal)source = name;
+	  for(key in source){
+	    // contains in native
+	    own = !(type & $def.F) && target && key in target;
+	    if(own && key in exports)continue;
+	    // export native or passed
+	    out = own ? target[key] : source[key];
+	    // prevent global pollution for namespaces
+	    if(isGlobal && typeof target[key] != 'function')exp = source[key];
+	    // bind timers to global for call from export context
+	    else if(type & $def.B && own)exp = ctx(out, global);
+	    // wrap global constructors for prevent change them in library
+	    else if(type & $def.W && target[key] == out)!function(C){
+	      exp = function(param){
+	        return this instanceof C ? new C(param) : C(param);
+	      };
+	      exp[PROTOTYPE] = C[PROTOTYPE];
+	    }(out);
+	    else exp = isProto && typeof out == 'function' ? ctx(Function.call, out) : out;
+	    // export
+	    exports[key] = exp;
+	    if(isProto)(exports[PROTOTYPE] || (exports[PROTOTYPE] = {}))[key] = out;
+	  }
+	};
+	// type bitmap
+	$def.F = 1;  // forced
+	$def.G = 2;  // global
+	$def.S = 4;  // static
+	$def.P = 8;  // proto
+	$def.B = 16; // bind
+	$def.W = 32; // wrap
+	module.exports = $def;
+
+/***/ },
+/* 23 */
+/***/ function(module, exports) {
+
+	// https://github.com/zloirock/core-js/issues/86#issuecomment-115759028
+	var UNDEFINED = 'undefined';
+	var global = module.exports = typeof window != UNDEFINED && window.Math == Math
+	  ? window : typeof self != UNDEFINED && self.Math == Math ? self : Function('return this')();
+	if(typeof __g == 'number')__g = global; // eslint-disable-line no-undef
+
+/***/ },
+/* 24 */
+/***/ function(module, exports) {
+
+	var core = module.exports = {};
+	if(typeof __e == 'number')__e = core; // eslint-disable-line no-undef
+
+/***/ },
+/* 25 */
+/***/ function(module, exports) {
+
+	module.exports = function(exec){
+	  try {
+	    return !!exec();
+	  } catch(e){
+	    return true;
+	  }
+	};
+
+/***/ },
+/* 26 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -2371,7 +2410,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	  value: true
 	});
 
-	var _util = __webpack_require__(2);
+	var _util = __webpack_require__(3);
+
+	var _pipeline = __webpack_require__(15);
 
 	exports['default'] = function (Vue) {
 
@@ -2397,11 +2438,17 @@ return /******/ (function(modules) { // webpackBootstrap
 	      this._isDynamicLiteral = true;
 	      // finally, init by delegating to v-component
 	      componentDef.bind.call(this);
+
 	      // does not support keep-alive.
 	      /* istanbul ignore if */
 	      if (this.keepAlive) {
 	        this.keepAlive = false;
 	        (0, _util.warn)('<router-view> does not support keep-alive.');
+	      }
+	      /* istanbul ignore if */
+	      if (this.waitForEvent) {
+	        this.waitForEvent = null;
+	        (0, _util.warn)('<router-view> does not support wait-for. Use ' + 'the acitvate route hook instead.');
 	      }
 
 	      // all we need to do here is registering this view
@@ -2419,6 +2466,18 @@ return /******/ (function(modules) { // webpackBootstrap
 	        // parent's has resolved.
 	        parentView.childView = this;
 	      }
+
+	      // handle late-rendered view
+	      // two possibilities:
+	      // 1. root view rendered after transition has been
+	      //    validated;
+	      // 2. child view rendered after parent view has been
+	      //    activated.
+	      var transition = route.router._currentTransition;
+	      if (!parentView && transition.done || parentView && parentView.activated) {
+	        var depth = parentView ? parentView.depth + 1 : 0;
+	        (0, _pipeline.activate)(this, transition, depth);
+	      }
 	    },
 
 	    unbind: function unbind() {
@@ -2433,7 +2492,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = exports['default'];
 
 /***/ },
-/* 21 */
+/* 27 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -2442,7 +2501,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	  value: true
 	});
 
-	var _util = __webpack_require__(2);
+	var _util = __webpack_require__(3);
+
+	var regexEscapeRE = /[-.*+?^${}()|[\]\/\\]/g;
 
 	// install v-link, which provides navigation support for
 	// HTML5 history mode
@@ -2452,8 +2513,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	  var _ = Vue.util;
 
 	  Vue.directive('link', {
-
-	    isLiteral: true,
 
 	    bind: function bind() {
 	      var _this = this;
@@ -2474,36 +2533,16 @@ return /******/ (function(modules) { // webpackBootstrap
 	        }
 	      };
 	      this.el.addEventListener('click', this.handler);
-	      if (!this._isDynamicLiteral) {
-	        this.update(this.expression);
-	      }
 	      // manage active link class
 	      this.unwatch = vm.$watch('$route.path', _.bind(this.updateClasses, this));
 	    },
 
-	    updateClasses: function updateClasses(path) {
-	      var el = this.el;
-	      var dest = this.destination;
-	      var router = this.vm.$route.router;
-	      var activeClass = router._linkActiveClass;
-	      var exactClass = activeClass + '-exact';
-	      if (path.indexOf(dest) === 0 && path !== '/') {
-	        _.addClass(el, activeClass);
-	      } else {
-	        _.removeClass(el, activeClass);
-	      }
-	      if (path === dest) {
-	        _.addClass(el, exactClass);
-	      } else {
-	        _.removeClass(el, exactClass);
-	      }
-	    },
-
 	    update: function update(path) {
-	      this.destination = path;
-	      this.updateClasses(this.vm.$route.path);
-	      path = path || '';
 	      var router = this.vm.$route.router;
+	      path = router._normalizePath(path);
+	      this.destination = path;
+	      this.activeRE = path ? new RegExp('^' + path.replace(regexEscapeRE, '\\$&') + '\\b') : null;
+	      this.updateClasses(this.vm.$route.path);
 	      var isAbsolute = path.charAt(0) === '/';
 	      // do not format non-hash relative paths
 	      var href = router.mode === 'hash' || isAbsolute ? router.history.formatPath(path) : path;
@@ -2513,6 +2552,24 @@ return /******/ (function(modules) { // webpackBootstrap
 	        } else {
 	          this.el.removeAttribute('href');
 	        }
+	      }
+	    },
+
+	    updateClasses: function updateClasses(path) {
+	      var el = this.el;
+	      var dest = this.destination;
+	      var router = this.vm.$route.router;
+	      var activeClass = router._linkActiveClass;
+	      var exactClass = activeClass + '-exact';
+	      if (this.activeRE && this.activeRE.test(path) && path !== '/') {
+	        _.addClass(el, activeClass);
+	      } else {
+	        _.removeClass(el, activeClass);
+	      }
+	      if (path === dest) {
+	        _.addClass(el, exactClass);
+	      } else {
+	        _.removeClass(el, exactClass);
 	      }
 	    },
 
@@ -2526,7 +2583,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = exports['default'];
 
 /***/ },
-/* 22 */
+/* 28 */
 /***/ function(module, exports) {
 
 	// overriding Vue's $addChild method, so that every child
@@ -2572,6 +2629,243 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	module.exports = exports['default'];
 	// instance inherits the route data
+
+/***/ },
+/* 29 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var _createClass = __webpack_require__(11)['default'];
+
+	var _classCallCheck = __webpack_require__(1)['default'];
+
+	Object.defineProperty(exports, '__esModule', {
+	  value: true
+	});
+
+	var _util = __webpack_require__(3);
+
+	var AbstractHistory = (function () {
+	  function AbstractHistory(_ref) {
+	    var onChange = _ref.onChange;
+
+	    _classCallCheck(this, AbstractHistory);
+
+	    this.onChange = onChange;
+	    this.currentPath = '/';
+	  }
+
+	  _createClass(AbstractHistory, [{
+	    key: 'start',
+	    value: function start() {
+	      this.onChange('/');
+	    }
+	  }, {
+	    key: 'stop',
+	    value: function stop() {
+	      // noop
+	    }
+	  }, {
+	    key: 'go',
+	    value: function go(path) {
+	      path = this.currentPath = this.formatPath(path);
+	      this.onChange(path);
+	    }
+	  }, {
+	    key: 'formatPath',
+	    value: function formatPath(path) {
+	      return path.charAt(0) === '/' ? path : (0, _util.resolvePath)(this.currentPath, path);
+	    }
+	  }]);
+
+	  return AbstractHistory;
+	})();
+
+	exports['default'] = AbstractHistory;
+	module.exports = exports['default'];
+
+/***/ },
+/* 30 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var _createClass = __webpack_require__(11)['default'];
+
+	var _classCallCheck = __webpack_require__(1)['default'];
+
+	Object.defineProperty(exports, '__esModule', {
+	  value: true
+	});
+
+	var _util = __webpack_require__(3);
+
+	var HashHistory = (function () {
+	  function HashHistory(_ref) {
+	    var hashbang = _ref.hashbang;
+	    var onChange = _ref.onChange;
+
+	    _classCallCheck(this, HashHistory);
+
+	    this.hashbang = hashbang;
+	    this.onChange = onChange;
+	  }
+
+	  _createClass(HashHistory, [{
+	    key: 'start',
+	    value: function start() {
+	      var self = this;
+	      this.listener = function () {
+	        var path = location.hash;
+	        var formattedPath = self.formatPath(path, true);
+	        if (formattedPath !== path) {
+	          location.replace(formattedPath);
+	          return;
+	        }
+	        var pathToMatch = decodeURI(path.replace(/^#!?/, '') + location.search);
+	        self.onChange(pathToMatch);
+	      };
+	      window.addEventListener('hashchange', this.listener);
+	      this.listener();
+	    }
+	  }, {
+	    key: 'stop',
+	    value: function stop() {
+	      window.removeEventListener('hashchange', this.listener);
+	    }
+	  }, {
+	    key: 'go',
+	    value: function go(path, replace) {
+	      path = this.formatPath(path);
+	      if (replace) {
+	        location.replace(path);
+	      } else {
+	        location.hash = path;
+	      }
+	    }
+	  }, {
+	    key: 'formatPath',
+	    value: function formatPath(path, expectAbsolute) {
+	      path = path.replace(/^#!?/, '');
+	      var isAbsoloute = path.charAt(0) === '/';
+	      if (expectAbsolute && !isAbsoloute) {
+	        path = '/' + path;
+	      }
+	      var prefix = '#' + (this.hashbang ? '!' : '');
+	      return isAbsoloute || expectAbsolute ? prefix + path : prefix + (0, _util.resolvePath)(location.hash.replace(/^#!?/, ''), path);
+	    }
+	  }]);
+
+	  return HashHistory;
+	})();
+
+	exports['default'] = HashHistory;
+	module.exports = exports['default'];
+
+/***/ },
+/* 31 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var _createClass = __webpack_require__(11)['default'];
+
+	var _classCallCheck = __webpack_require__(1)['default'];
+
+	Object.defineProperty(exports, '__esModule', {
+	  value: true
+	});
+
+	var _util = __webpack_require__(3);
+
+	var hashRE = /#.*$/;
+
+	var HTML5History = (function () {
+	  function HTML5History(_ref) {
+	    var root = _ref.root;
+	    var onChange = _ref.onChange;
+
+	    _classCallCheck(this, HTML5History);
+
+	    if (root) {
+	      // make sure there's the starting slash
+	      if (root.charAt(0) !== '/') {
+	        root = '/' + root;
+	      }
+	      // remove trailing slash
+	      this.root = root.replace(/\/$/, '');
+	      this.rootRE = new RegExp('^\\' + this.root);
+	    } else {
+	      this.root = null;
+	    }
+	    this.onChange = onChange;
+	    // check base tag
+	    var baseEl = document.querySelector('base');
+	    this.base = baseEl && baseEl.getAttribute('href');
+	  }
+
+	  _createClass(HTML5History, [{
+	    key: 'start',
+	    value: function start() {
+	      var _this = this;
+
+	      this.listener = function (e) {
+	        var url = decodeURI(location.pathname + location.search);
+	        if (_this.root) {
+	          url = url.replace(_this.rootRE, '');
+	        }
+	        _this.onChange(url, e && e.state, location.hash);
+	      };
+	      window.addEventListener('popstate', this.listener);
+	      this.listener();
+	    }
+	  }, {
+	    key: 'stop',
+	    value: function stop() {
+	      window.removeEventListener('popstate', this.listener);
+	    }
+	  }, {
+	    key: 'go',
+	    value: function go(path, replace) {
+	      var root = this.root;
+	      var url = this.formatPath(path, root);
+	      if (replace) {
+	        history.replaceState({}, '', url);
+	      } else {
+	        // record scroll position by replacing current state
+	        history.replaceState({
+	          pos: {
+	            x: window.pageXOffset,
+	            y: window.pageYOffset
+	          }
+	        }, '');
+	        // then push new state
+	        history.pushState({}, '', url);
+	      }
+	      var hashMatch = path.match(hashRE);
+	      var hash = hashMatch && hashMatch[0];
+	      path = url
+	      // strip hash so it doesn't mess up params
+	      .replace(hashRE, '')
+	      // remove root before matching
+	      .replace(this.rootRE, '');
+	      this.onChange(path, null, hash);
+	    }
+	  }, {
+	    key: 'formatPath',
+	    value: function formatPath(path) {
+	      return path.charAt(0) === '/'
+	      // absolute path
+	      ? this.root ? this.root + '/' + path.replace(/^\//, '') : path : (0, _util.resolvePath)(this.base || location.pathname, path);
+	    }
+	  }]);
+
+	  return HTML5History;
+	})();
+
+	exports['default'] = HTML5History;
+	module.exports = exports['default'];
 
 /***/ }
 /******/ ])
