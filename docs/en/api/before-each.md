@@ -1,8 +1,8 @@
 # `router.beforeEach(hook)`
 
-Set the global before hook, which will be called before every route transition starts. This is before the entire transition pipeline; if the hook rejects the transition, the pipeline won't even be started.
+Add a global before hook to the router, which will be called before every route transition starts. This is before the entire transition pipeline; if the hook rejects the transition, the pipeline won't even be started.
 
-Note you can only have one global before hook at a time; however you can implement your own middleware system inside this hook.
+You can add multiple global before hooks to the same router. These hooks will be called in the order of creation. Since hooks can be resolved asynchronously, the next hook won't be called until the previous one resolves.
 
 ### Arguments
 
