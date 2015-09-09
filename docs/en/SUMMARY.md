@@ -4,6 +4,7 @@
 - [Basic Usage](basic.md)
 - [Nested Routes](nested.md)
 - [Route Object & Route Matching](route.md)
+- [Named Routes](named.md)
 - [Router Options](options.md)
 - [router-view](view.md)
 - [v-link](link.md)

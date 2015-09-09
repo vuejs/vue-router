@@ -1,6 +1,19 @@
 # v-link
 
-You should use the `v-link` directive for handling navigations inside a vue-router-enabled app for the following reasons:
+`v-link` is the directive for enabling user navigation in a router-enabled app. It accpets a JavaScript expression which will be passed to `router.go()` internally. For example:
+
+``` html
+<!-- literal string -->
+<a v-link="'home'">Home</a>
+
+<!-- same as above -->
+<a v-link="{ path: 'home' }">Home</a>
+
+<!-- named route -->
+<a v-link="{ name: 'user', params: { userId: 123 }}">User</a>
+```
+
+`v-link` is preferred over hard-coded `href` for the following reasons:
 
 - It works the same way in both HTML5 history mode and hash mode, so if you ever decide to switch mode, or when the router falls back to hash mode in IE9, nothing needs to be changed.
 
@@ -21,5 +34,3 @@ The active link class name can be configured with the `activeLinkClass` option w
 #### Additional Notes
 
 - `v-link` automatically sets the `href` attribute when used on an `<a>` element.
-
-- Because `v-link` is a [literal directive](http://vuejs.org/guide/directives.html#Literal_Directives), it can contain mustache tags, e.g. `v-link="/user/{% raw %}{{user.name}}{% endraw %}"`.
