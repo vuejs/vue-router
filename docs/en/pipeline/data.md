@@ -14,6 +14,8 @@ Called on an incoming component during the activation phase, after the `activate
   - `resolve(data)` -> `transition.next(data)`
   - `reject(reason)` -> `transition.abort(reason)`
 
+- or, return an Object containing Promises. See [Promise sugar](#promise-sugar) below.
+
 ### Details
 
 The `data` transition hook is called immediately after the `activate` hook is resolved, and right before the view switching is executed. The entering component gets a **`$loadingRouteData`** meta property, which starts with value `false` and set to `true` when the `data` hook is resolved. This property can be used to display a loading state for the entering component.
@@ -106,4 +108,33 @@ Using `$loadingRouteData` in templates:
     <user-post v-repeat="post in posts"></user-post>
   </div>
 </div>
+```
+
+### Promise Sugar
+
+The parallel data fetching example above requires us to leverage `Promise.all` to combine multiple Promises into a single one, and the desturcturing and formatting is still a bit cumbersome. `vue-router` provides a syntax sugar which allows you to return an Object containing Promises (it can contain non-Promise fields too, of course). Here's the same example using the syntax sugar and ES6:
+
+``` js
+route: {
+  data: ({ to: { params: { userId }}}) => ({
+    user: userService.get(userId),
+    post: postsService.getForUser(userId)
+  })
+}
+```
+
+The router will set the component's `user` and `post` fields to the corresponding Promises' resolved values when they are resolved. `$loadingRouteData` will be set to `false` when all Promises have been resolved.
+
+Equivalent in ES5:
+
+``` js
+route: {
+  data: function (transition) {
+    var userId = transition.to.params.userId
+    return {
+      user: userService.get(userId),
+      post: postsService.getForUser(userId)
+    }
+  }
+}
 ```
