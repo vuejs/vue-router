@@ -4,6 +4,7 @@
 - [基本用法](basic.md)
 - [嵌套路由](nested.md)
 - [路由对象和路由匹配](route.md)
+- [具名路径](named.md)
 - [路由配置项](options.md)
 - [router-view](view.md)
 - [v-link](link.md)
