@@ -14,6 +14,8 @@
   - `resolve(data)` -> `transition.next(data)`
   - `reject(reason)` -> `transition.abort(reason)`
 
+- 或者，返回一个包含 Promise 的对象。见后文 [Promise 语法糖](#promise-%E8%AF%AD%E6%B3%95%E7%B3%96)
+
 ### 详情
 
 `data` 切换勾子会在 `activate` 被断定(resolved)以及界面切换之前被调用。切换进来的组件会得到一个名为 **`$loadingRouteData`** 的元属性，其初始值为 `false` ，在 `data` 勾子函数被断定后会被赋值为 `true` 。这个属性可用来会切换进来的组件展示加载效果。
@@ -106,4 +108,33 @@ route: {
     <user-post v-repeat="post in posts"></user-post>
   </div>
 </div>
+```
+
+### Promise 语法糖
+
+上面的并发请求示例需要我们自己调用 `Promise.all` 来将多个 Promise 合并成一个，并且最终处理返回的数据时也有些繁琐。`vue-router` 在这里提供了一个语法糖，让我们可以在 `data` 函数中直接返回一个包含 Promise 的对象（当然也可以包含非 Promise 的值）。利用这个语法糖和 ES6，我们可以这样实现上面的例子：
+
+``` js
+route: {
+  data: ({ to: { params: { userId }}}) => ({
+    user: userService.get(userId),
+    post: postsService.getForUser(userId)
+  })
+}
+```
+
+路由器将会在这两个 Promise resolve 之后的值分别赋值给组件的 `user` 和 `post` 属性。同时，`$loadingRouteData` 会在所有的 Promise 都 resolve 之后被设置为 `false`。
+
+上面的例子在 ES5 下可以这样写:
+
+``` js
+route: {
+  data: function (transition) {
+    var userId = transition.to.params.userId
+    return {
+      user: userService.get(userId),
+      post: postsService.getForUser(userId)
+    }
+  }
+}
 ```
