@@ -4,6 +4,7 @@
 - [基本的な使い方](basic.md)
 - [Nested Routes](nested.md)
 - [Route オブジェクト & Route マッチング](route.md)
+- [Named Routes](named.md)
 - [Router オプション](options.md)
 - [router-view](view.md)
 - [v-link](link.md)
