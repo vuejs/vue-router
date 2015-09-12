@@ -4,7 +4,7 @@
 
 ### 引数
 
-- [`transition {Transition}`](hooks.md#transition-object)
+- [`transition {Transition}`](hooks.md#トランジションオブジェクト)
 
   `transition.next(data)` の呼び出しはコンポーネントの `data` の各プロパティに設定します。例えば `{ a: 1, b: 2 }` が引数に指定される場合、ルーターは `component.$set('a', 1)` と `component.$set('b', 2)` を呼びます。
 
@@ -13,6 +13,8 @@
 - 任意で Promise を返します。
   - `resolve(data)` -> `transition.next(data)`
   - `reject(reason)` -> `transition.abort(reason)`
+
+または、Promise を含んでいるオブジェクトを返します。詳細は以下の [Promiseシンタックスシュガー](#Promiseシンタックスシュガー) を参照してください。
 
 ### 詳細
 
@@ -106,4 +108,33 @@ route: {
     <user-post v-repeat="post in posts"></user-post>
   </div>
 </div>
+```
+
+### Promiseシンタックスシュガー
+
+上記のパラレルなデータをフェッチングする例は、複数の Pomise を1つのものに結合するために `Promise.all` を利用するのを要求し、destructuring とフォーマットはまだ面倒です。`vue-router` は Promise (もちろん Promise でないフィールドを含むこともできます) を含んだオブジェクトを返すことができるシンタックスシュガーを提供します。ここでシンタックスシュガーと ES6 を使用する同じ例を示します:
+
+``` js
+route: {
+  data: ({ to: { params: { userId }}}) => ({
+    user: userService.get(userId),
+    post: postsService.getForUser(userId)
+  })
+}
+```
+
+それらが解決されるとき、ルーターは 対応する Promise が解決した値をコンポーネント `user` と `post` に設定します。全ての Promise が解決された時、`$loadingRouteData` は `false` に設定されます。
+
+ES5 での等価:
+
+``` js
+route: {
+  data: function (transition) {
+    var userId = transition.to.params.userId
+    return {
+      user: userService.get(userId),
+      post: postsService.getForUser(userId)
+    }
+  }
+}
 ```
