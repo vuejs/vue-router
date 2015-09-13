@@ -2,6 +2,21 @@
 
 以下の理由のため、vue-router が使用可能になったアプリケーション内部でナビゲーションをハンドリングするために `v-link` ディレクティブを使用する必要があります:
 
+`v-link` は ルーターが使用可能なアプリケーションでユーザーナビゲーションを有効にするためのディレクティブです。内部で `router.to()` に渡される JavaScript 式を受け付けます。例えば:
+
+``` html
+<!-- リテラル文字列 -->
+<a v-link="'home'">Home</a>
+
+<!-- 上記と同じ -->
+<a v-link="{ path: 'home' }">Home</a>
+
+<!-- named route -->
+<a v-link="{ name: 'user', params: { userId: 123 }}">User</a>
+```
+
+`v-link` は以下の理由でハードコードされた `href` より良いです:
+
 - HTML5 history モード と hash モード両方で同じように動作するため、もしいつかモードを切り替えることに決めた場合、また、ルーターが IE9 では hash モードにフォールバックするとき、何も変更する必要はありません。
 
 - HTML5 history モードでは、`v-link` はブラウザがページのリロードするのを試行しないようにするために、クリックイベントに割り込みます。
@@ -21,5 +36,3 @@
 #### その他の注意事項
 
 - `v-link` は `<a>` 要素で使用するとき、自動的に `href` 属性に設定します。
-
-- `v-link` は[リテラルディレクティブ](http://vuejs.org/guide/directives.html#Literal_Directives)のため、mustache タグを含むことができます。例: `v-link="/user/{% raw %}{{user.name}}{% endraw %}"`

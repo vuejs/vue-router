@@ -9,8 +9,8 @@ Vue.js + vue-router でシングルページアプリケーションを作成す
   <h1>Hello App!</h1>
   <p>
     <!-- ナビゲーション向けに v-link ディレクティブを使用 -->
-    <a v-link="/foo">Go to Foo</a>
-    <a v-link="/bar">Go to Bar</a>
+    <a v-link="{ path: '/foo' }">Go to Foo</a>
+    <a v-link="{ path: '/bar' }">Go to Bar</a>
   </p>
   <!-- route outlet -->
   <router-view></router-view>
