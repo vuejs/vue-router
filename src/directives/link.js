@@ -21,6 +21,11 @@ export default function (Vue) {
       }
       let router = vm.$route.router
       this.handler = (e) => {
+        // don't redirect with control keys
+        if (e.metaKey || e.ctrlKey || e.shiftKey) return
+        // don't redirect when preventDefault called
+        if (e.defaultPrevented) return
+
         if (e.button === 0) {
           e.preventDefault()
           if (this.destination != null) {
