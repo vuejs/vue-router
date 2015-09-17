@@ -6,7 +6,7 @@
 </template>
 
 <script>
-var messagesSerivce = require('../../services/messages')
+var messagesService = require('../../services/messages')
 
 module.exports = {
   route: {
@@ -25,7 +25,7 @@ module.exports = {
       }
 
       // callback based
-      messagesSerivce.get(params, (err, message) => {
+      messagesService.get(params, (err, message) => {
         if (err) {
           // handle error, e.g. display a warning
         } else {
@@ -36,7 +36,7 @@ module.exports = {
       })
 
       // or promise based (with ES6 sugar)
-      // return messagesSerivce
+      // return messagesService
       //   .get(params)
       //   .then(message => ({ message }))
     }
