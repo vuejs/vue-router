@@ -11,7 +11,7 @@ Configures global redirection rules for the router. Global redirections are perf
 ### Example
 
 ``` js
-router.rediect({
+router.redirect({
 
   // redirect any navigation to /a to /b
   '/a': '/b',
