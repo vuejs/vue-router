@@ -1,6 +1,6 @@
 # v-link
 
-`v-link` is the directive for enabling user navigation in a router-enabled app. It accpets a JavaScript expression which will be passed to `router.go()` internally. For example:
+`v-link` is the directive for enabling user navigation in a router-enabled app. It accepts a JavaScript expression which will be passed to `router.go()` internally. For example:
 
 ``` html
 <!-- literal string -->
