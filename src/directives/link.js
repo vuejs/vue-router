@@ -26,10 +26,25 @@ export default function (Vue) {
         // don't redirect when preventDefault called
         if (e.defaultPrevented) return
 
-        if (e.button === 0) {
+        if (e.button !== 0) return
+
+        if (this.el.tagName === 'A') {
+          // v-link on <a v-link="'path'">
           e.preventDefault()
           if (this.destination != null) {
             router.go(this.destination)
+          }
+        } else {
+          // v-link delegate on <div v-link>
+          var el = e.target
+          while (el && el.tagName !== 'A' && el !== this.el) {
+            el = el.parentNode
+          }
+          if (!el || el.tagName !== 'A' || !el.href) return
+
+          if (sameOrigin(el)) {
+            e.preventDefault()
+            router.go(el.href)
           }
         }
       }
@@ -88,4 +103,10 @@ export default function (Vue) {
       this.unwatch && this.unwatch()
     }
   })
+
+  function sameOrigin (link) {
+    return link.protocol === location.protocol &&
+      link.hostname === location.hostname &&
+      link.port === location.port
+  }
 }
