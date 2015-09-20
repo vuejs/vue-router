@@ -292,6 +292,45 @@ describe('Core', function () {
     })
   })
 
+  it('v-link delegate', function (done) {
+    router = new Router({ abstract: true })
+    router.map({
+      '/': {
+        component: {
+          template: '<div>Home</div>'
+        }
+      },
+      '/foo': {
+        component: {
+          data: function () {
+            return { home: '<a href="/">Link Home</a>' }
+          },
+          template: '<div id="wrap" v-html="home" v-link></div>'
+        }
+      }
+    })
+    var App = Vue.extend({
+      replace: false,
+      template: '<router-view></router-view>'
+    })
+    router.start(App, el)
+    el = router.app.$el
+    router.go('/foo')
+    nextTick(function () {
+      var wrap = el.querySelector('#wrap')
+      var e = document.createEvent('HTMLEvents')
+      // target is read-only
+      e.target = wrap.querySelector('a')
+      e.initEvent('click', true, true)
+      wrap.dispatchEvent(e)
+      nextTick(function () {
+        var text = router.app.$el.textContent
+        expect(text).toBe('Home')
+        done()
+      })
+    })
+  })
+
   it('alias', function (done) {
     router = new Router({ abstract: true })
     router.map({
