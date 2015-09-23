@@ -293,6 +293,9 @@ describe('Core', function () {
   })
 
   it('v-link delegate', function (done) {
+    // Safari and PhantomJS only propagates events if the
+    // element is in the DOM!
+    document.body.appendChild(el)
     router = new Router({ abstract: true })
     router.map({
       '/': {
@@ -318,14 +321,15 @@ describe('Core', function () {
     router.go('/foo')
     nextTick(function () {
       var wrap = el.querySelector('#wrap')
-      var e = document.createEvent('HTMLEvents')
-      // target is read-only
-      e.target = wrap.querySelector('a')
+      var e = document.createEvent('Events')
       e.initEvent('click', true, true)
-      wrap.dispatchEvent(e)
+      e.button = 0
+      var target = wrap.querySelector('a')
+      target.dispatchEvent(e)
       nextTick(function () {
         var text = router.app.$el.textContent
         expect(text).toBe('Home')
+        document.body.removeChild(el)
         done()
       })
     })

@@ -25,7 +25,7 @@ export default function (Vue) {
         if (e.metaKey || e.ctrlKey || e.shiftKey) return
         // don't redirect when preventDefault called
         if (e.defaultPrevented) return
-
+        // don't redirect on right click
         if (e.button !== 0) return
 
         if (this.el.tagName === 'A') {
@@ -41,10 +41,9 @@ export default function (Vue) {
             el = el.parentNode
           }
           if (!el || el.tagName !== 'A' || !el.href) return
-
           if (sameOrigin(el)) {
             e.preventDefault()
-            router.go(el.href)
+            router.go(el.pathname)
           }
         }
       }
