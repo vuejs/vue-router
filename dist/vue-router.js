@@ -1,5 +1,5 @@
 /*!
- * vue-router v0.6.0
+ * vue-router v0.6.1
  * (c) 2015 Evan You
  * Released under the MIT License.
  */
@@ -2417,7 +2417,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports['default'] = function (Vue) {
 
 	  var _ = Vue.util;
-	  var componentDef = Vue.directive('_component');
+	  var componentDef =
+	  // 0.12
+	  Vue.directive('_component') ||
+	  // 1.0
+	  Vue.internalDirectives.component;
 	  // <router-view> extends the internal component directive
 	  var viewDef = _.extend({}, componentDef);
 
@@ -2525,10 +2529,29 @@ return /******/ (function(modules) { // webpackBootstrap
 	      }
 	      var router = vm.$route.router;
 	      this.handler = function (e) {
-	        if (e.button === 0) {
+	        // don't redirect with control keys
+	        if (e.metaKey || e.ctrlKey || e.shiftKey) return;
+	        // don't redirect when preventDefault called
+	        if (e.defaultPrevented) return;
+	        // don't redirect on right click
+	        if (e.button !== 0) return;
+
+	        if (_this.el.tagName === 'A') {
+	          // v-link on <a v-link="'path'">
 	          e.preventDefault();
 	          if (_this.destination != null) {
 	            router.go(_this.destination);
+	          }
+	        } else {
+	          // v-link delegate on <div v-link>
+	          var el = e.target;
+	          while (el && el.tagName !== 'A' && el !== _this.el) {
+	            el = el.parentNode;
+	          }
+	          if (!el || el.tagName !== 'A' || !el.href) return;
+	          if (sameOrigin(el)) {
+	            e.preventDefault();
+	            router.go(el.pathname);
 	          }
 	        }
 	      };
@@ -2578,6 +2601,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	      this.unwatch && this.unwatch();
 	    }
 	  });
+
+	  function sameOrigin(link) {
+	    return link.protocol === location.protocol && link.hostname === location.hostname && link.port === location.port;
+	  }
 	};
 
 	module.exports = exports['default'];
