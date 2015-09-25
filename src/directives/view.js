@@ -4,7 +4,11 @@ import { activate } from '../pipeline'
 export default function (Vue) {
 
   let _ = Vue.util
-  let componentDef = Vue.directive('_component')
+  let componentDef =
+    // 0.12
+    Vue.directive('_component') ||
+    // 1.0
+    Vue.internalDirectives.component
   // <router-view> extends the internal component directive
   let viewDef = _.extend({}, componentDef)
 
