@@ -29,7 +29,7 @@ Elements with `v-link` will automatically get corresponding class names when the
 
 - The `.v-link-active-exact` class is applied when the current path is an exact match of the `v-link` URL.
 
-The active link class name can be configured with the `activeLinkClass` option when creating the router instance. The exact match class simply appends `-exact` postfix to the provided class name.
+The active link class name can be configured with the `linkActiveClass` option when creating the router instance. The exact match class simply appends `-exact` postfix to the provided class name.
 
 #### Additional Notes
 
