@@ -32,7 +32,7 @@ export default function (Vue) {
           // v-link on <a v-link="'path'">
           e.preventDefault()
           if (this.destination != null) {
-            router.go(this.destination)
+            router.go(this.destination, this.replace === true)
           }
         } else {
           // v-link delegate on <div v-link>
@@ -57,6 +57,7 @@ export default function (Vue) {
 
     update (path) {
       let router = this.vm.$route.router
+      this.replace = typeof path === 'object' ? path.replace : false
       path = router._normalizePath(path)
       this.destination = path
       this.activeRE = path
