@@ -11,7 +11,7 @@
 ### 例
 
 ``` js
-router.rediect({
+router.redirect({
 
   // /a への全てのナビゲーションを /b にリダイレクト
   '/a': '/b',
