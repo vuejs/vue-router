@@ -28,7 +28,7 @@ export default function (Vue) {
         // don't redirect on right click
         if (e.button !== 0) return
 
-        if (this.el.tagName === 'A') {
+        if (this.el.tagName === 'A' || e.target === this.el) {
           // v-link on <a v-link="'path'">
           e.preventDefault()
           if (this.destination != null) {
