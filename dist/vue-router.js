@@ -1,5 +1,5 @@
 /*!
- * vue-router v0.6.1
+ * vue-router v0.6.2
  * (c) 2015 Evan You
  * Released under the MIT License.
  */
@@ -1590,7 +1590,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
-	var internalKeysRE = /^(component|subRoutes|name)$/;
+	var internalKeysRE = /^(component|subRoutes)$/;
 
 	/**
 	 * Route Context Object
@@ -2536,11 +2536,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	        // don't redirect on right click
 	        if (e.button !== 0) return;
 
-	        if (_this.el.tagName === 'A') {
+	        if (_this.el.tagName === 'A' || e.target === _this.el) {
 	          // v-link on <a v-link="'path'">
 	          e.preventDefault();
 	          if (_this.destination != null) {
-	            router.go(_this.destination);
+	            router.go(_this.destination, _this.replace === true);
 	          }
 	        } else {
 	          // v-link delegate on <div v-link>
@@ -2562,6 +2562,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	    update: function update(path) {
 	      var router = this.vm.$route.router;
+	      this.replace = typeof path === 'object' ? path.replace : false;
 	      path = router._normalizePath(path);
 	      this.destination = path;
 	      this.activeRE = path ? new RegExp('^' + path.replace(regexEscapeRE, '\\$&') + '\\b') : null;
