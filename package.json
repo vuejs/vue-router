@@ -3,6 +3,9 @@
   "version": "0.6.2",
   "description": "A router for Vue.js",
   "main": "lib/index.js",
+  "files": [
+    "src"
+  ],
   "scripts": {
     "dev": "npm run serve & npm run serve-test",
     "lint": "eslint src build test/e2e test/unit/specs",
