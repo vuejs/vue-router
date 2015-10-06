@@ -6,3 +6,4 @@ TODOS.md
 *.log
 docs/_book
 lib
+dist/vue-router.js.map
