@@ -358,33 +358,33 @@ describe('Core', function () {
   })
 
   it('multi-variable alias', function (done) {
-      router = new Router({ abstract: true })
-      router.map({
-        '/a/:foo': {
-          component: {
-            template: '<router-view></router-view>'
-          },
-          subRoutes: {
-            '/b/:bar': {
-              component: {
-                template: '{{$route.params.foo}}{{$route.params.bar}}'
-              }
+    router = new Router({ abstract: true })
+    router.map({
+      '/a/:foo': {
+        component: {
+          template: '<router-view></router-view>'
+        },
+        subRoutes: {
+          '/b/:bar': {
+            component: {
+              template: '{{$route.params.foo}}{{$route.params.bar}}'
             }
           }
         }
-      })
-      router.alias({
-        '/c/a/:foo/b/:bar': '/a/:foo/b/:bar'
-      })
-      var App = Vue.extend({
-        template: '<div><router-view></router-view></div>'
-      })
-      router.start(App, el)
-      assertRoutes([
-        ['/c/a/123/b/456', '123456'],
-        ['/c/a/234/b/567', '234567']
-      ], done)
+      }
     })
+    router.alias({
+      '/c/a/:foo/b/:bar': '/a/:foo/b/:bar'
+    })
+    var App = Vue.extend({
+      template: '<div><router-view></router-view></div>'
+    })
+    router.start(App, el)
+    assertRoutes([
+      ['/c/a/123/b/456', '123456'],
+      ['/c/a/234/b/567', '234567']
+    ], done)
+  })
 
   it('redirect', function (done) {
     router = new Router({ abstract: true })
