@@ -61,7 +61,7 @@ module.exports = {
       .waitForElementVisible('h1', 1000)
       .assert.containsText('.view div', 'Loading data')
       .assert.containsText('.view h2', 'inbox!')
-      .pause(1500)
+      .pause(3000)
       .assert.containsText('.view div', 'message #123: Hello this is a message')
       // confirm navigation
       .click('a[href^="/user"]')
@@ -83,10 +83,9 @@ module.exports = {
 
     // forbidden
     .url(base + '/forbidden')
-      .waitForElementVisible('h1', 1000)
-      .assert.visible('#app > p')
+      .waitForElementVisible('#app > p', 1000)
       .assert.containsText('#app > p', 'Authenticating')
-      .pause(1500)
+      .pause(3000)
       .getAlertText(function (text) {
         this.assert.ok(/forbidden by a global before hook/.test(text.value))
       })

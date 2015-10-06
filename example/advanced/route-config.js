@@ -75,7 +75,7 @@ export function configRouter (router) {
         router.app.authenticating = false
         alert('this route is forbidden by a global before hook')
         transition.abort()
-      }, 1500)
+      }, 3000)
     } else {
       transition.next()
     }

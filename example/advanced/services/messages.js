@@ -6,6 +6,6 @@ export default {
         id: params.id,
         text: 'Hello this is a message'
       })
-    }, 1500)
+    }, 3000)
   }
 }
