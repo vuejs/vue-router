@@ -216,15 +216,17 @@ describe('Core', function () {
   it('v-link active classes', function (done) {
     router = new Router({
       abstract: true,
-      linkActiveClass: 'active',
-      linkActiveExactClass: 'active-exact'
+      linkActiveClass: 'active'
     })
     var App = Vue.extend({
       replace: false,
+      data: function () {
+        return { className: 'custom' }
+      },
       template:
         '<a id="link-a" v-link="{ path: \'/a\' }">Link A</a>' +
-        '<a id="link-b" v-link="{ path: \'/b\' }">Link B</a>' +
-        '<a id="link-c" v-link="{ path: \'/\' }">Link C</a>' +
+        '<a id="link-b" v-link="{ path: \'/b\', activeClass: className }">Link B</a>' +
+        '<a id="link-c" v-link="{ path: \'/\', exactMatch: true }">Link C</a>' +
         '<router-view></router-view>'
     })
     router.start(App, el)
@@ -234,26 +236,27 @@ describe('Core', function () {
     var linkC = el.querySelector('#link-c')
     expect(linkA.className).toBe('')
     expect(linkB.className).toBe('')
-    expect(linkC.className).toBe('active active-exact')
+    expect(linkC.className).toBe('active')
     router.go('/a')
     nextTick(function () {
-      expect(linkA.className).toBe('active active-exact')
+      expect(linkA.className).toBe('active')
       expect(linkB.className).toBe('')
       expect(linkC.className).toBe('')
       router.go('/a/b/c')
       nextTick(function () {
         expect(linkA.className).toBe('active')
         expect(linkB.className).toBe('')
-        // expect(linkC.className).toBe('')
+        expect(linkC.className).toBe('')
         router.go('/b')
         nextTick(function () {
           expect(linkA.className).toBe('')
-          expect(linkB.className).toBe('active active-exact')
+          expect(linkB.className).toBe('custom')
           expect(linkC.className).toBe('')
+          router.app.className = 'changed'
           router.go('/b/c/d')
           nextTick(function () {
             expect(linkA.className).toBe('')
-            expect(linkB.className).toBe('active')
+            expect(linkB.className).toBe('changed')
             expect(linkC.className).toBe('')
             router.go('/bcd')
             nextTick(function () {

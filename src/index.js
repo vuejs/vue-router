@@ -34,8 +34,7 @@ class Router {
     transitionOnLoad = false,
     suppressTransitionError = false,
     root = null,
-    linkActiveClass = 'v-link-active',
-    linkActiveExactClass = 'v-link-active-exact'
+    linkActiveClass = 'v-link-active'
   } = {}) {
 
     /* istanbul ignore if */
@@ -83,7 +82,6 @@ class Router {
     // other options
     this._saveScrollPosition = saveScrollPosition
     this._linkActiveClass = linkActiveClass
-    this._linkActiveExactClass = linkActiveExactClass
     this._suppress = suppressTransitionError
 
     // create history object

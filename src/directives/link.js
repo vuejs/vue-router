@@ -57,13 +57,16 @@ export default function (Vue) {
 
     update (path) {
       let router = this.vm.$route.router
-      this.replace = typeof path === 'object' ? path.replace : false
+      if (typeof path === 'object') {
+        this.replace = path.replace
+        this.exact = path.exactMatch
+        this.prevActiveClass = this.activeClass
+        this.activeClass = path.activeClass
+      }
       path = router._normalizePath(path)
       this.destination = path
-      this.activeRE = path
-        ? path === '/'
-          ? /^\/$/
-          : new RegExp('^' + path.replace(regexEscapeRE, '\\$&') + '(\\b|$)')
+      this.activeRE = path && !this.exact
+        ? new RegExp('^' + path.replace(regexEscapeRE, '\\$&') + '(\\b|$)')
         : null
       this.updateClasses(this.vm.$route.path)
       let isAbsolute = path.charAt(0) === '/'
@@ -84,18 +87,25 @@ export default function (Vue) {
       let el = this.el
       let dest = this.destination
       let router = this.vm.$route.router
-      let activeClass = router._linkActiveClass
-      let exactClass = router._linkActiveExactClass
-      if (this.activeRE &&
-          this.activeRE.test(path)) {
-        _.addClass(el, activeClass)
-      } else {
-        _.removeClass(el, activeClass)
+      let activeClass = this.activeClass || router._linkActiveClass
+      // clear old class
+      if (this.prevActiveClass !== activeClass) {
+        _.removeClass(el, this.prevActiveClass)
       }
-      if (path === dest) {
-        _.addClass(el, exactClass)
+      // add new class
+      if (this.exact) {
+        if (path === dest) {
+          _.addClass(el, activeClass)
+        } else {
+          _.removeClass(el, activeClass)
+        }
       } else {
-        _.removeClass(el, exactClass)
+        if (this.activeRE &&
+            this.activeRE.test(path)) {
+          _.addClass(el, activeClass)
+        } else {
+          _.removeClass(el, activeClass)
+        }
       }
     },
 

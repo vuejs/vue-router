@@ -15,7 +15,6 @@ module.exports = {
       .waitForElementVisible('h1', 1000)
       .assert.containsText('.view h2', 'ABOUT US')
       .assert.cssClassPresent('a[href="/about"]', 'v-link-active')
-      .assert.cssClassPresent('a[href="/about"]', 'v-link-active-exact')
       // should not be able to navigate to inbox
       .click('a[href^="/inbox"]')
       .pause(100)
@@ -26,7 +25,6 @@ module.exports = {
       // should not have changed
       .assert.containsText('.view h2', 'ABOUT US')
       .assert.cssClassPresent('a[href="/about"]', 'v-link-active')
-      .assert.cssClassPresent('a[href="/about"]', 'v-link-active-exact')
 
     // /user
     .url(base + '/user/1234/profile/what')
@@ -35,7 +33,6 @@ module.exports = {
       .assert.containsText('.view h3', 'user profile')
       .assert.containsText('.view p', '1234 what')
       .assert.cssClassPresent('a[href^="/user"]', 'v-link-active')
-      .assert.cssClassPresent('a[href^="/user"]', 'v-link-active-exact')
       // change params
       .execute(function () {
         router.go('/user/2345/profile/hey')
@@ -97,7 +94,6 @@ module.exports = {
       .waitForElementVisible('h1', 1000)
       .assert.containsText('.view h2', 'ABOUT US')
       .assert.cssClassPresent('a[href="/about"]', 'v-link-active')
-      .assert.cssClassPresent('a[href="/about"]', 'v-link-active-exact')
       .end()
   }
 }
