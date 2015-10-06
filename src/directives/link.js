@@ -61,7 +61,9 @@ export default function (Vue) {
       path = router._normalizePath(path)
       this.destination = path
       this.activeRE = path
-        ? new RegExp('^' + path.replace(regexEscapeRE, '\\$&') + '\\b')
+        ? path === '/'
+          ? /^\/$/
+          : new RegExp('^' + path.replace(regexEscapeRE, '\\$&') + '\\b')
         : null
       this.updateClasses(this.vm.$route.path)
       let isAbsolute = path.charAt(0) === '/'
@@ -85,8 +87,7 @@ export default function (Vue) {
       let activeClass = router._linkActiveClass
       let exactClass = router._linkActiveExactClass
       if (this.activeRE &&
-          this.activeRE.test(path) &&
-          path !== '/') {
+          this.activeRE.test(path)) {
         _.addClass(el, activeClass)
       } else {
         _.removeClass(el, activeClass)

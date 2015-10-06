@@ -219,33 +219,43 @@ describe('Core', function () {
       template:
         '<a id="link-a" v-link="{ path: \'/a\' }">Link A</a>' +
         '<a id="link-b" v-link="{ path: \'/b\' }">Link B</a>' +
+        '<a id="link-c" v-link="{ path: \'/\' }">Link C</a>' +
         '<router-view></router-view>'
     })
     router.start(App, el)
     el = router.app.$el
     var linkA = el.querySelector('#link-a')
     var linkB = el.querySelector('#link-b')
+    var linkC = el.querySelector('#link-c')
+    expect(linkA.className).toBe('')
+    expect(linkB.className).toBe('')
+    expect(linkC.className).toBe('active active-exact')
     router.go('/a')
     nextTick(function () {
       expect(linkA.className).toBe('active active-exact')
       expect(linkB.className).toBe('')
+      expect(linkC.className).toBe('')
       router.go('/a/b/c')
       nextTick(function () {
         expect(linkA.className).toBe('active')
         expect(linkB.className).toBe('')
+        // expect(linkC.className).toBe('')
         router.go('/b')
         nextTick(function () {
           expect(linkA.className).toBe('')
           expect(linkB.className).toBe('active active-exact')
+          expect(linkC.className).toBe('')
           router.go('/b/c/d')
           nextTick(function () {
             expect(linkA.className).toBe('')
             expect(linkB.className).toBe('active')
+            expect(linkC.className).toBe('')
             router.go('/bcd')
             nextTick(function () {
               // #114 should not match
               expect(linkA.className).toBe('')
               expect(linkB.className).toBe('')
+              expect(linkC.className).toBe('')
               done()
             })
           })
