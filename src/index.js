@@ -31,7 +31,8 @@ class Router {
     transitionOnLoad = false,
     suppressTransitionError = false,
     root = null,
-    linkActiveClass = 'v-link-active'
+    linkActiveClass = 'v-link-active',
+    linkActiveExactClass = 'v-link-active-exact'
   } = {}) {
 
     /* istanbul ignore if */
@@ -78,6 +79,7 @@ class Router {
     // other options
     this._saveScrollPosition = saveScrollPosition
     this._linkActiveClass = linkActiveClass
+    this._linkActiveExactClass = linkActiveExactClass
     this._suppress = suppressTransitionError
 
     // create history object
@@ -134,4 +136,4 @@ if (typeof window !== 'undefined' && window.Vue) {
   window.Vue.use(Router)
 }
 
-export default Router;
+export default Router

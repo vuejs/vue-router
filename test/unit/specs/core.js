@@ -211,7 +211,8 @@ describe('Core', function () {
   it('v-link active classes', function (done) {
     router = new Router({
       abstract: true,
-      linkActiveClass: 'active'
+      linkActiveClass: 'active',
+      linkActiveExactClass: 'active-exact'
     })
     var App = Vue.extend({
       replace: false,

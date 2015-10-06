@@ -83,7 +83,7 @@ export default function (Vue) {
       let dest = this.destination
       let router = this.vm.$route.router
       let activeClass = router._linkActiveClass
-      let exactClass = activeClass + '-exact'
+      let exactClass = router._linkActiveExactClass
       if (this.activeRE &&
           this.activeRE.test(path) &&
           path !== '/') {
