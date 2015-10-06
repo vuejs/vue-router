@@ -14,5 +14,6 @@ module.exports = {
         loader: 'babel?optional[]=runtime'
       }
     ]
-  }
+  },
+  devtool: '#source-map'
 }
