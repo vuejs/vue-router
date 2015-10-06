@@ -63,7 +63,7 @@ export default function (Vue) {
       this.activeRE = path
         ? path === '/'
           ? /^\/$/
-          : new RegExp('^' + path.replace(regexEscapeRE, '\\$&') + '\\b')
+          : new RegExp('^' + path.replace(regexEscapeRE, '\\$&') + '(\\b|$)')
         : null
       this.updateClasses(this.vm.$route.path)
       let isAbsolute = path.charAt(0) === '/'
