@@ -50,11 +50,11 @@
     "karma-phantomjs-launcher": "^0.2.1",
     "karma-spec-reporter": "0.0.20",
     "karma-webpack": "^1.7.0",
-    "nightwatch": "^0.7.9",
+    "nightwatch": "^0.8.4",
     "phantomjs": "^1.9.18",
     "selenium-server": "2.47.1",
     "style-loader": "^0.12.3",
-    "vue": "yyx990803/vue#dev",
+    "vue": "yyx990803/vue#1.0.0-beta",
     "vue-loader": "^3.0.3",
     "webpack": "^1.11.0",
     "webpack-dev-server": "^1.10.1"
