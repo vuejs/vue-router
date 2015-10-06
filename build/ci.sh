@@ -1,4 +1,4 @@
-if [ -z "$CIRCLE_PULL_REQUEST" ]
+if [ -z "$CI_PULL_REQUEST" ]
 then
   npm run unit
   # start sauce connect
