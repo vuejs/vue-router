@@ -1,10 +1,10 @@
 import util, { warn } from './util'
+import initAPI from './router/api'
+import initInternal from './router/internal'
+import initMixin from './mixin'
 import Recognizer from 'route-recognizer'
-import RouterApi from './router/api'
-import RouterInternal from './router/internal'
 import View from './directives/view'
 import Link from './directives/link'
-import Override from './override'
 import AbstractHistory from './history/abstract'
 import HashHistory from './history/hash'
 import HTML5History from './history/html5'
@@ -113,11 +113,11 @@ Router.install = function (Vue) {
     warn('already installed.')
     return
   }
-  RouterApi(Vue, Router)
-  RouterInternal(Vue, Router)
+  initAPI(Vue, Router)
+  initInternal(Vue, Router)
+  initMixin(Vue)
   View(Vue)
   Link(Vue)
-  Override(Vue)
   util.Vue = Vue
   // 1.0 only: enable route mixins
   var strats = Vue.config.optionMergeStrategies

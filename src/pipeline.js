@@ -128,6 +128,7 @@ export function activate (view, transition, depth, cb) {
   // itself as view.childView.
   let component = view.build({
     _meta: {
+      $route: view.vm.$route,
       $loadingRouteData: !!(dataHook && !waitForData)
     }
   })
