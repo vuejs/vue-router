@@ -170,6 +170,10 @@ export default function (Vue, Router) {
       startTransition()
     }
 
+    if (!this._rendered && this._startCb) {
+      this._startCb.call(null)
+    }
+
     // HACK:
     // set rendered to true after the transition start, so
     // that components that are acitvated synchronously know

@@ -109,15 +109,17 @@ export default function (Vue, Router) {
    *
    * @param {VueConstructor} App
    * @param {String|Element} container
+   * @param {Function} [cb]
    */
 
-  Router.prototype.start = function (App, container) {
+  Router.prototype.start = function (App, container, cb) {
     /* istanbul ignore if */
     if (this._started) {
       warn('already started.')
       return
     }
     this._started = true
+    this._startCb = cb
     if (!this.app) {
       /* istanbul ignore if */
       if (!App || !container) {

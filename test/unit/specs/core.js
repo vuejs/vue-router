@@ -20,7 +20,12 @@ describe('Core', function () {
     var App = Vue.extend({
       template: '<div><router-view></router-view></div>'
     })
-    router.start(App, el)
+    var cb = jasmine.createSpy()
+    router.start(App, el, function () {
+      expect(router.app).toBeTruthy()
+      cb()
+    })
+    expect(cb).toHaveBeenCalled()
     assertRoutes([
       ['/a', 'AAA'],
       ['/b', 'BBB'],

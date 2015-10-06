@@ -54,6 +54,7 @@ class Router {
 
     // state
     this._started = false
+    this._startCb = null
     this._currentRoute = {}
     this._currentTransition = null
     this._previousTransition = null
