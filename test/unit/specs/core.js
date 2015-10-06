@@ -593,7 +593,7 @@ describe('Core', function () {
     })
     var spy = jasmine.createSpy()
     var App = Vue.extend({
-      template: '<div><router-view v-transition="test"></router-view></div>',
+      template: '<div><router-view transition="test"></router-view></div>',
       transitions: {
         test: {
           enter: function (el, cb) {

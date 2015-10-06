@@ -22,7 +22,7 @@
     <a v-link="{ path: '/about' }">about</a>
     <a v-link="{ path: '/user/1234/profile/what' }">user</a>
     <a v-link="{ path: '/forbidden' }">forbidden</a>
-    <router-view class="view" v-transition="test" transition-mode="out-in"></router-view>
+    <router-view class="view" transition="test" transition-mode="out-in"></router-view>
   </div>
 </template>
 
