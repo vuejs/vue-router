@@ -21,7 +21,7 @@ const historyBackends = {
  * @param {Object} [options]
  */
 
-export default class Router {
+class Router {
 
   constructor ({
     hashbang = true,
@@ -133,3 +133,5 @@ Router.install = function (Vue) {
 if (typeof window !== 'undefined' && window.Vue) {
   window.Vue.use(Router)
 }
+
+export default Router;
