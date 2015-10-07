@@ -28,11 +28,12 @@ export default function (Vue) {
         // don't redirect on right click
         if (e.button !== 0) return
 
+        let target = this.target
         if (this.el.tagName === 'A' || e.target === this.el) {
           // v-link on <a v-link="'path'">
           e.preventDefault()
-          if (this.destination != null) {
-            router.go(this.destination, this.replace === true)
+          if (target != null) {
+            router.go(target)
           }
         } else {
           // v-link delegate on <div v-link>
@@ -43,7 +44,11 @@ export default function (Vue) {
           if (!el || el.tagName !== 'A' || !el.href) return
           if (sameOrigin(el)) {
             e.preventDefault()
-            router.go(el.pathname)
+            router.go({
+              path: el.pathname,
+              replace: target && target.replace,
+              append: target && target.append
+            })
           }
         }
       }
@@ -57,14 +62,15 @@ export default function (Vue) {
 
     update (path) {
       let router = this.vm.$route.router
-      if (typeof path === 'object') {
-        this.replace = path.replace
-        this.exact = path.exactMatch
+      let append
+      this.target = path
+      if (_.isObject(path)) {
+        append = path.append
+        this.exact = path.exact
         this.prevActiveClass = this.activeClass
         this.activeClass = path.activeClass
       }
-      path = router._normalizePath(path)
-      this.destination = path
+      path = this.path = router._stringifyPath(path)
       this.activeRE = path && !this.exact
         ? new RegExp('^' + path.replace(regexEscapeRE, '\\$&') + '(\\b|$)')
         : null
@@ -72,7 +78,7 @@ export default function (Vue) {
       let isAbsolute = path.charAt(0) === '/'
       // do not format non-hash relative paths
       let href = router.mode === 'hash' || isAbsolute
-        ? router.history.formatPath(path)
+        ? router.history.formatPath(path, append)
         : path
       if (this.el.tagName === 'A') {
         if (href) {
@@ -85,7 +91,7 @@ export default function (Vue) {
 
     updateClasses (path) {
       let el = this.el
-      let dest = this.destination
+      let dest = this.path
       let router = this.vm.$route.router
       let activeClass = this.activeClass || router._linkActiveClass
       // clear old class

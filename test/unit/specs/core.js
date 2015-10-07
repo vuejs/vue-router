@@ -49,7 +49,12 @@ describe('Core', function () {
       },
       '/b/:msg': {
         name: 'b',
-        component: { template: 'B{{$route.params.msg}}{{$route.query.msg}}' }
+        component: { template: 'B{{$route.params.msg}}{{$route.query.msg}}<router-view></router-view>' },
+        subRoutes: {
+          '/c': {
+            component: { template: 'C' }
+          }
+        }
       }
     })
     var App = Vue.extend({
@@ -62,6 +67,8 @@ describe('Core', function () {
       // relative
       [{ path: '../a/A' }, 'AA'],
       [{ path: '../b/B' }, 'BB'],
+      // relative with append: true
+      [{ path: 'c', append: true }, 'BBC'],
       // named routes
       [{ name: 'a', params: {msg: 'A'}}, 'AA'],
       [{ name: 'b', params: {msg: 'B'}, query: {msg: 'B'}}, 'BBB']
@@ -184,6 +191,15 @@ describe('Core', function () {
               '<a id="link-c" v-link="{ path: c }"></c>' +
             '</div>'
         }
+      },
+      // test v-link with relative path + append
+      '/c': {
+        component: { template: '<a id="link-c" v-link="{ path: \'d\', append: true }">Link C</a><router-view></router-view>' },
+        subRoutes: {
+          '/d': {
+            component: { template: '+D' }
+          }
+        }
       }
     })
     var App = Vue.extend({
@@ -207,7 +223,16 @@ describe('Core', function () {
         click(link)
         nextTick(function () {
           expect(el.textContent).toBe('Link A')
-          done()
+          router.go('/c')
+          nextTick(function () {
+            expect(el.textContent).toBe('Link C')
+            var link = el.querySelector('#link-c')
+            click(link)
+            nextTick(function () {
+              expect(el.textContent).toBe('Link C+D')
+              done()
+            })
+          })
         })
       })
     })
@@ -226,7 +251,7 @@ describe('Core', function () {
       template:
         '<a id="link-a" v-link="{ path: \'/a\' }">Link A</a>' +
         '<a id="link-b" v-link="{ path: \'/b\', activeClass: className }">Link B</a>' +
-        '<a id="link-c" v-link="{ path: \'/\', exactMatch: true }">Link C</a>' +
+        '<a id="link-c" v-link="{ path: \'/\', exact: true }">Link C</a>' +
         '<router-view></router-view>'
     })
     router.start(App, el)

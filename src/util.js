@@ -27,10 +27,11 @@ export function warn (msg, err) {
  *
  * @param {String} base
  * @param {String} relative
+ * @param {Boolean} append
  * @return {String}
  */
 
-export function resolvePath (base, relative) {
+export function resolvePath (base, relative, append) {
   let query = base.match(/(\?.*)$/)
   if (query) {
     query = query[1]
@@ -41,8 +42,10 @@ export function resolvePath (base, relative) {
     return base + relative
   }
   let stack = base.split('/')
-  // remove trailing segment
-  stack.pop()
+  // remove trailing segment if not appending
+  if (!append) {
+    stack.pop()
+  }
   // resolve relative path
   let segments = relative.split('/')
   for (let i = 0; i < segments.length; i++) {

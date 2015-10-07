@@ -34,8 +34,8 @@ export default class HashHistory {
     window.removeEventListener('hashchange', this.listener)
   }
 
-  go (path, replace) {
-    path = this.formatPath(path)
+  go (path, replace, append) {
+    path = this.formatPath(path, append)
     if (replace) {
       location.replace(path)
     } else {
@@ -43,14 +43,15 @@ export default class HashHistory {
     }
   }
 
-  formatPath (path) {
+  formatPath (path, append) {
     let isAbsoloute = path.charAt(0) === '/'
     let prefix = '#' + (this.hashbang ? '!' : '')
     return isAbsoloute
       ? prefix + path
       : prefix + resolvePath(
           location.hash.replace(/^#!?/, ''),
-          path
+          path,
+          append
         )
   }
 }

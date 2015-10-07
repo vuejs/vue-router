@@ -192,9 +192,15 @@ class Router {
    * @param {Boolean} [replace]
    */
 
-  go (path, replace) {
-    path = this._normalizePath(path)
-    this.history.go(path, replace)
+  go (path) {
+    let replace = false
+    let append = false
+    if (Vue.util.isObject(path)) {
+      replace = path.replace
+      append = path.append
+    }
+    path = this._stringifyPath(path)
+    this.history.go(path, replace, append)
   }
 
   /**
@@ -204,7 +210,7 @@ class Router {
    */
 
   replace (path) {
-    this.go(path, true)
+    this.go({ path, replace: true })
   }
 
   /**
@@ -494,7 +500,7 @@ class Router {
    * @return {String}
    */
 
-  _normalizePath (path) {
+  _stringifyPath (path) {
     if (typeof path === 'object') {
       if (path.name) {
         var params = path.params || {}

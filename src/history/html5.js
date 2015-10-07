@@ -37,9 +37,8 @@ export default class HTML5History {
     window.removeEventListener('popstate', this.listener)
   }
 
-  go (path, replace) {
-    let root = this.root
-    let url = this.formatPath(path, root)
+  go (path, replace, append) {
+    let url = this.formatPath(path, append)
     if (replace) {
       history.replaceState({}, '', url)
     } else {
@@ -63,12 +62,12 @@ export default class HTML5History {
     this.onChange(path, null, hash)
   }
 
-  formatPath (path) {
+  formatPath (path, append) {
     return path.charAt(0) === '/'
       // absolute path
       ? this.root
         ? this.root + '/' + path.replace(/^\//, '')
         : path
-      : resolvePath(this.base || location.pathname, path)
+      : resolvePath(this.base || location.pathname, path, append)
   }
 }
