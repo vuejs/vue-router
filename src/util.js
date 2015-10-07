@@ -42,12 +42,14 @@ export function resolvePath (base, relative, append) {
     return base + relative
   }
   let stack = base.split('/')
-  // remove trailing segment if not appending
-  if (!append) {
+  // remove trailing segment if:
+  // - not appending
+  // - appending to trailing slash (last segment is empty)
+  if (!append || !stack[stack.length - 1]) {
     stack.pop()
   }
   // resolve relative path
-  let segments = relative.split('/')
+  let segments = relative.replace(/^\//, '').split('/')
   for (let i = 0; i < segments.length; i++) {
     let segment = segments[i]
     if (segment === '.') {
