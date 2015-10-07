@@ -9,15 +9,15 @@ export default exports
  * Warn stuff.
  *
  * @param {String} msg
- * @param {Error} [err]
  */
 
-export function warn (msg, err) {
+export function warn (msg) {
   /* istanbul ignore next */
   if (window.console) {
     console.warn('[vue-router] ' + msg)
-    if (err) {
-      console.warn(err.stack)
+    /* istanbul ignore if */
+    if (!exports.Vue || exports.Vue.config.debug) {
+      console.warn(new Error('warning stack trace:').stack)
     }
   }
 }
