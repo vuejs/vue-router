@@ -11,7 +11,12 @@ export default class HashHistory {
     let self = this
     this.listener = function () {
       let path = location.hash
-      let formattedPath = self.formatPath(path, true)
+      let raw = path.replace(/^#!?/, '')
+      // always
+      if (raw.charAt(0) !== '/') {
+        raw = '/' + raw
+      }
+      let formattedPath = self.formatPath(raw)
       if (formattedPath !== path) {
         location.replace(formattedPath)
         return
@@ -38,14 +43,10 @@ export default class HashHistory {
     }
   }
 
-  formatPath (path, expectAbsolute) {
-    path = path.replace(/^#!?/, '')
+  formatPath (path) {
     let isAbsoloute = path.charAt(0) === '/'
-    if (expectAbsolute && !isAbsoloute) {
-      path = '/' + path
-    }
     let prefix = '#' + (this.hashbang ? '!' : '')
-    return isAbsoloute || expectAbsolute
+    return isAbsoloute
       ? prefix + path
       : prefix + resolvePath(
           location.hash.replace(/^#!?/, ''),
