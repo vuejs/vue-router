@@ -62,5 +62,10 @@
   "dependencies": {
     "babel-runtime": "^5.8.20",
     "route-recognizer": "0.1.9"
+  },
+  "jspm": {
+    "main": "src/index.js",
+    "registry": "npm",
+    "format": "esm"
   }
 }
