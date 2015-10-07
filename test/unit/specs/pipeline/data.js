@@ -1,4 +1,4 @@
-var testUtils = require('../util')
+var testUtils = require('../../lib/pipeline-test-util')
 var test = testUtils.test
 var assertCalls = testUtils.assertCalls
 var routerUtil = require('../../../../src/util')

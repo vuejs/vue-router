@@ -134,32 +134,19 @@ export function resolveAsyncComponent (handler, cb) {
  * @param {Object} query
  */
 
-export function mapParams (path, params, query) {
-  for (let key in params) {
-    path = replaceParam(path, params, key)
-  }
+export function mapParams (path, params = {}, query) {
+  path = path.replace(/:([^\/]+)/g, (_, key) => {
+    let val = params[key]
+    if (!val) {
+      warn(
+        'param "' + key + '" not found when generating ' +
+        'path for "' + path + '" with params ' + JSON.stringify(params)
+      )
+    }
+    return val || ''
+  })
   if (query) {
     path += genQuery(query)
   }
   return path
-}
-
-/**
- * Replace a param segment with real value in a matched
- * path.
- *
- * @param {String} path
- * @param {Object} params
- * @param {String} key
- * @return {String}
- */
-
-function replaceParam (path, params, key) {
-  let regex = new RegExp(':' + key + '(\\/|$)')
-  let value = params[key]
-  return path.replace(regex, m =>
-    m.charAt(m.length - 1) === '/'
-      ? value + '/'
-      : value
-  )
 }

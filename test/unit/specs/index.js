@@ -11,6 +11,7 @@ var Vue = require('vue')
 var Router = require('../../../src')
 Vue.use(Router)
 
+require('./util')
 require('./core')
 
 describe('Pipeline', function () {
