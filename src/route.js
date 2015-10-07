@@ -35,6 +35,8 @@ export default class Route {
     this.path = path
     this.router = router
     // for internal use
-    this._matched = matched || router._notFoundHandler
+    this.matched = matched || router._notFoundHandler
+    // Important: freeze self to prevent observation
+    Object.freeze(this)
   }
 }

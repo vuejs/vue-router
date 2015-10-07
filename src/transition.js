@@ -32,8 +32,8 @@ export default class RouteTransition {
     this.deactivateQueue = router._views
 
     // check the default handler of the deepest match
-    let matched = to._matched
-      ? Array.prototype.slice.call(to._matched)
+    let matched = to.matched
+      ? Array.prototype.slice.call(to.matched)
       : []
 
     // the activate queue is an array of route handlers

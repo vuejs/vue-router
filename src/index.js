@@ -267,6 +267,7 @@ class Router {
    */
 
   _addRoute (path, handler, segments) {
+    handler.path = path
     guardComponent(path, handler)
     segments.push({
       path: path,
