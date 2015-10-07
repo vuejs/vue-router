@@ -267,7 +267,7 @@ class Router {
    */
 
   _addRoute (path, handler, segments) {
-    guardComponent(handler)
+    guardComponent(path, handler)
     segments.push({
       path: path,
       handler: handler
@@ -297,7 +297,7 @@ class Router {
    */
 
   _notFound (handler) {
-    guardComponent(handler)
+    guardComponent('*', handler)
     this._notFoundHandler = [{ handler: handler }]
   }
 
@@ -523,10 +523,11 @@ class Router {
  * Allow directly passing components to a route
  * definition.
  *
+ * @param {String} path
  * @param {Object} handler
  */
 
-function guardComponent (handler) {
+function guardComponent (path, handler) {
   let comp = handler.component
   if (Vue.util.isPlainObject(comp)) {
     comp = handler.component = Vue.extend(comp)
@@ -535,7 +536,7 @@ function guardComponent (handler) {
   if (typeof comp !== 'function') {
     handler.component = null
     warn(
-      'invalid component for route "' + handler.path + '"'
+      'invalid component for route "' + path + '".'
     )
   }
 }
