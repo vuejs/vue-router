@@ -19,7 +19,7 @@ module.exports = {
       {
         test: /\.js$/,
         exclude: /node_modules|vue\/src/,
-        loader: 'babel?optional[]=runtime'
+        loader: 'babel?optional[]=runtime&loose=true'
       }
     ]
   },
