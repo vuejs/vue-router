@@ -38,7 +38,7 @@
 
 - 默认值： `"v-link-active"`
 
-  配置当 `v-link` 元素匹配的路径时需要添加到元素上的 class 。只要当前路径以 `v-link` 的 URL 开头，这个 class 就会被添加到这个元素上；当 `v-link` 的 URL 精确匹配当前路径时，以 `-exact` 额外的 class 会被添加到当前 `v-link` 元素上。默认的 class 是 `v-link-active-exact` 。如果你配置这个class为 `my-custom-active` ，当精确匹配时会被添加到元素上的 class 是 `my-custom-active-exact` 。
+  配置当 `v-link` 元素匹配的路径时需要添加到元素上的 class 。只要当前路径以 `v-link` 的 URL 开头，这个 class 就会被添加到这个元素上。活跃匹配的规则和添加的 class 也可以通过 `v-link` 的内联选项单独指定。
 
 #### saveScrollPosition
 
