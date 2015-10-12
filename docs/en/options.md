@@ -38,7 +38,7 @@ There are a number of options you can use to customize the router behavior when 
 
 - default: `"v-link-active"`
 
-  Configures the class to be applied to `v-link` elements when the current path matches its URL. The base class is applied as long as the current path starts with the `v-link` URL; when the current path matches the `v-link` URL exactly, an additional class with the `-exact` postfix will also be applied,the default being `v-link-active-exact`. So if you configure the class to be `my-custom-active`, the exact match class will be `my-custom-active-exact`.
+  Configures the class to be applied to `v-link` elements when the current link is active. The matching behavior and the class can also be individually configured for each `v-link`.
 
 #### saveScrollPosition
 

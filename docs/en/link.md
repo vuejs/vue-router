@@ -23,13 +23,37 @@
 
 #### Active Link Class
 
-Elements with `v-link` will automatically get corresponding class names when the current path matches its `v-link` URL:
+Elements with `v-link` will automatically get corresponding class names when the current path matches its `v-link` URL. The default class to be applied is `.v-link-active` and the default matching behavior is **inclusive match**. For example, an element with `v-link="/a"` will get this class applied as long as the current path starts with `/a`.
 
-- The `.v-link-active` class is applied to the element when the current path starts with the `v-link` URL. For example, an element with `v-link="/a"` will get this class as long as the current path starts with `/a`.
+It is also possible to configure the matching behavior so that the active class is only applied when the paths match exactly, using the `exact` inline option:
 
-- The `.v-link-active-exact` class is applied when the current path is an exact match of the `v-link` URL.
+``` html
+<a v-link="{ path: '/a', exact: true }"></a>
+```
 
-The active link class name can be configured with the `linkActiveClass` option when creating the router instance. The exact match class simply appends `-exact` postfix to the provided class name.
+The active link class name can be configured with the `linkActiveClass` option when creating the router instance. It can also be overridden with the `activeClas` inline option:
+
+``` html
+<a v-link="{ path: '/a', activeClass: 'custom-active-class' }"></a>
+```
+
+#### Other Configuration Options
+
+- **replace**
+
+  A link with `replace: true` will call `router.replace()` instead of `router.go()` when clicked, so the navigation will not leave a history record.
+
+  ``` html
+  <a v-link="{ path: '/abc', replace: true }"></a>
+  ```
+
+- **append**
+
+  A relative link with `append: true` always append the relative path to the current path. For example, assuming we are navigating from `/a` to a relative link `b`, without `append: true` we will end up at `/b`, but with `append: true` we will end up at `/a/b`.
+
+  ``` html
+  <a v-link="{ path: 'relative/path', append: true }"></a>
+  ```
 
 #### Additional Notes
 
