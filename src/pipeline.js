@@ -162,7 +162,7 @@ export function activate (view, transition, depth, cb) {
     view.activated = true
     // activate the child view
     if (view.childView) {
-      exports.activate(view.childView, transition, depth + 1)
+      activate(view.childView, transition, depth + 1)
     }
     if (dataHook && waitForData) {
       // wait until data loaded to insert
