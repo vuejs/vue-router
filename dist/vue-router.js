@@ -1,5 +1,5 @@
 /*!
- * vue-router v0.6.2
+ * vue-router v0.7.0
  * (c) 2015 Evan You
  * Released under the MIT License.
  */
@@ -61,51 +61,53 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	'use strict';
 
-	var _classCallCheck = __webpack_require__(1)['default'];
+	var _createClass = __webpack_require__(1)['default'];
 
-	var _interopRequireDefault = __webpack_require__(2)['default'];
+	var _classCallCheck = __webpack_require__(5)['default'];
+
+	var _interopRequireDefault = __webpack_require__(6)['default'];
 
 	Object.defineProperty(exports, '__esModule', {
 	  value: true
 	});
 
-	var _util = __webpack_require__(3);
+	var _util = __webpack_require__(7);
 
 	var _util2 = _interopRequireDefault(_util);
 
-	var _routeRecognizer = __webpack_require__(4);
+	var _mixin = __webpack_require__(11);
+
+	var _mixin2 = _interopRequireDefault(_mixin);
+
+	var _routeRecognizer = __webpack_require__(8);
 
 	var _routeRecognizer2 = _interopRequireDefault(_routeRecognizer);
 
-	var _routerApi = __webpack_require__(7);
+	var _route = __webpack_require__(12);
 
-	var _routerApi2 = _interopRequireDefault(_routerApi);
+	var _route2 = _interopRequireDefault(_route);
 
-	var _routerInternal = __webpack_require__(8);
+	var _transition = __webpack_require__(22);
 
-	var _routerInternal2 = _interopRequireDefault(_routerInternal);
+	var _transition2 = _interopRequireDefault(_transition);
 
-	var _directivesView = __webpack_require__(26);
+	var _directivesView = __webpack_require__(29);
 
 	var _directivesView2 = _interopRequireDefault(_directivesView);
 
-	var _directivesLink = __webpack_require__(27);
+	var _directivesLink = __webpack_require__(30);
 
 	var _directivesLink2 = _interopRequireDefault(_directivesLink);
 
-	var _override = __webpack_require__(28);
-
-	var _override2 = _interopRequireDefault(_override);
-
-	var _historyAbstract = __webpack_require__(29);
+	var _historyAbstract = __webpack_require__(31);
 
 	var _historyAbstract2 = _interopRequireDefault(_historyAbstract);
 
-	var _historyHash = __webpack_require__(30);
+	var _historyHash = __webpack_require__(32);
 
 	var _historyHash2 = _interopRequireDefault(_historyHash);
 
-	var _historyHtml5 = __webpack_require__(31);
+	var _historyHtml5 = __webpack_require__(33);
 
 	var _historyHtml52 = _interopRequireDefault(_historyHtml5);
 
@@ -115,90 +117,572 @@ return /******/ (function(modules) { // webpackBootstrap
 	  html5: _historyHtml52['default']
 	};
 
+	// late bind during install
+	var Vue = undefined;
+
 	/**
 	 * Router constructor
 	 *
 	 * @param {Object} [options]
 	 */
 
-	var Router = function Router() {
-	  var _ref = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+	var Router = (function () {
+	  function Router() {
+	    var _ref = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
 
-	  var _ref$hashbang = _ref.hashbang;
-	  var hashbang = _ref$hashbang === undefined ? true : _ref$hashbang;
-	  var _ref$abstract = _ref.abstract;
-	  var abstract = _ref$abstract === undefined ? false : _ref$abstract;
-	  var _ref$history = _ref.history;
-	  var history = _ref$history === undefined ? false : _ref$history;
-	  var _ref$saveScrollPosition = _ref.saveScrollPosition;
-	  var saveScrollPosition = _ref$saveScrollPosition === undefined ? false : _ref$saveScrollPosition;
-	  var _ref$transitionOnLoad = _ref.transitionOnLoad;
-	  var transitionOnLoad = _ref$transitionOnLoad === undefined ? false : _ref$transitionOnLoad;
-	  var _ref$suppressTransitionError = _ref.suppressTransitionError;
-	  var suppressTransitionError = _ref$suppressTransitionError === undefined ? false : _ref$suppressTransitionError;
-	  var _ref$root = _ref.root;
-	  var root = _ref$root === undefined ? null : _ref$root;
-	  var _ref$linkActiveClass = _ref.linkActiveClass;
-	  var linkActiveClass = _ref$linkActiveClass === undefined ? 'v-link-active' : _ref$linkActiveClass;
+	    var _ref$hashbang = _ref.hashbang;
+	    var hashbang = _ref$hashbang === undefined ? true : _ref$hashbang;
+	    var _ref$abstract = _ref.abstract;
+	    var abstract = _ref$abstract === undefined ? false : _ref$abstract;
+	    var _ref$history = _ref.history;
+	    var history = _ref$history === undefined ? false : _ref$history;
+	    var _ref$saveScrollPosition = _ref.saveScrollPosition;
+	    var saveScrollPosition = _ref$saveScrollPosition === undefined ? false : _ref$saveScrollPosition;
+	    var _ref$transitionOnLoad = _ref.transitionOnLoad;
+	    var transitionOnLoad = _ref$transitionOnLoad === undefined ? false : _ref$transitionOnLoad;
+	    var _ref$suppressTransitionError = _ref.suppressTransitionError;
+	    var suppressTransitionError = _ref$suppressTransitionError === undefined ? false : _ref$suppressTransitionError;
+	    var _ref$root = _ref.root;
+	    var root = _ref$root === undefined ? null : _ref$root;
+	    var _ref$linkActiveClass = _ref.linkActiveClass;
+	    var linkActiveClass = _ref$linkActiveClass === undefined ? 'v-link-active' : _ref$linkActiveClass;
 
-	  _classCallCheck(this, Router);
+	    _classCallCheck(this, Router);
 
-	  /* istanbul ignore if */
-	  if (!Router.installed) {
-	    throw new Error('Please install the Router with Vue.use() before ' + 'creating an instance.');
+	    /* istanbul ignore if */
+	    if (!Router.installed) {
+	      throw new Error('Please install the Router with Vue.use() before ' + 'creating an instance.');
+	    }
+
+	    // Vue instances
+	    this.app = null;
+	    this._views = [];
+	    this._children = [];
+
+	    // route recognizer
+	    this._recognizer = new _routeRecognizer2['default']();
+	    this._guardRecognizer = new _routeRecognizer2['default']();
+
+	    // state
+	    this._started = false;
+	    this._startCb = null;
+	    this._currentRoute = {};
+	    this._currentTransition = null;
+	    this._previousTransition = null;
+	    this._notFoundHandler = null;
+	    this._beforeEachHooks = [];
+	    this._afterEachHooks = [];
+
+	    // feature detection
+	    this._hasPushState = typeof window !== 'undefined' && window.history && window.history.pushState;
+
+	    // trigger transition on initial render?
+	    this._rendered = false;
+	    this._transitionOnLoad = transitionOnLoad;
+
+	    // history mode
+	    this._abstract = abstract;
+	    this._hashbang = hashbang;
+	    this._history = this._hasPushState && history;
+
+	    // other options
+	    this._saveScrollPosition = saveScrollPosition;
+	    this._linkActiveClass = linkActiveClass;
+	    this._suppress = suppressTransitionError;
+
+	    // create history object
+	    var inBrowser = Vue.util.inBrowser;
+	    this.mode = !inBrowser || this._abstract ? 'abstract' : this._history ? 'html5' : 'hash';
+
+	    var History = historyBackends[this.mode];
+	    var self = this;
+	    this.history = new History({
+	      root: root,
+	      hashbang: this._hashbang,
+	      onChange: function onChange(path, state, anchor) {
+	        self._match(path, state, anchor);
+	      }
+	    });
 	  }
 
-	  // Vue instances
-	  this.app = null;
-	  this._views = [];
-	  this._children = [];
+	  /**
+	   * Allow directly passing components to a route
+	   * definition.
+	   *
+	   * @param {String} path
+	   * @param {Object} handler
+	   */
 
-	  // route recognizer
-	  this._recognizer = new _routeRecognizer2['default']();
-	  this._guardRecognizer = new _routeRecognizer2['default']();
+	  // API ===================================================
 
-	  // state
-	  this._started = false;
-	  this._currentRoute = {};
-	  this._currentTransition = null;
-	  this._previousTransition = null;
-	  this._notFoundHandler = null;
-	  this._beforeEachHooks = [];
-	  this._afterEachHooks = [];
+	  /**
+	  * Register a map of top-level paths.
+	  *
+	  * @param {Object} map
+	  */
 
-	  // feature detection
-	  this._hasPushState = typeof window !== 'undefined' && window.history && window.history.pushState;
-
-	  // trigger transition on initial render?
-	  this._rendered = false;
-	  this._transitionOnLoad = transitionOnLoad;
-
-	  // history mode
-	  this._abstract = abstract;
-	  this._hashbang = hashbang;
-	  this._history = this._hasPushState && history;
-
-	  // other options
-	  this._saveScrollPosition = saveScrollPosition;
-	  this._linkActiveClass = linkActiveClass;
-	  this._suppress = suppressTransitionError;
-
-	  // create history object
-	  var inBrowser = _util2['default'].Vue.util.inBrowser;
-	  this.mode = !inBrowser || this._abstract ? 'abstract' : this._history ? 'html5' : 'hash';
-
-	  var History = historyBackends[this.mode];
-	  var self = this;
-	  this.history = new History({
-	    root: root,
-	    hashbang: this._hashbang,
-	    onChange: function onChange(path, state, anchor) {
-	      self._match(path, state, anchor);
+	  _createClass(Router, [{
+	    key: 'map',
+	    value: function map(_map) {
+	      for (var route in _map) {
+	        this.on(route, _map[route]);
+	      }
 	    }
-	  });
-	};
 
-	exports['default'] = Router;
+	    /**
+	     * Register a single root-level path
+	     *
+	     * @param {String} rootPath
+	     * @param {Object} handler
+	     *                 - {String} component
+	     *                 - {Object} [subRoutes]
+	     *                 - {Boolean} [forceRefresh]
+	     *                 - {Function} [before]
+	     *                 - {Function} [after]
+	     */
+
+	  }, {
+	    key: 'on',
+	    value: function on(rootPath, handler) {
+	      if (rootPath === '*') {
+	        this._notFound(handler);
+	      } else {
+	        this._addRoute(rootPath, handler, []);
+	      }
+	    }
+
+	    /**
+	     * Set redirects.
+	     *
+	     * @param {Object} map
+	     */
+
+	  }, {
+	    key: 'redirect',
+	    value: function redirect(map) {
+	      for (var path in map) {
+	        this._addRedirect(path, map[path]);
+	      }
+	    }
+
+	    /**
+	     * Set aliases.
+	     *
+	     * @param {Object} map
+	     */
+
+	  }, {
+	    key: 'alias',
+	    value: function alias(map) {
+	      for (var path in map) {
+	        this._addAlias(path, map[path]);
+	      }
+	    }
+
+	    /**
+	     * Set global before hook.
+	     *
+	     * @param {Function} fn
+	     */
+
+	  }, {
+	    key: 'beforeEach',
+	    value: function beforeEach(fn) {
+	      this._beforeEachHooks.push(fn);
+	    }
+
+	    /**
+	     * Set global after hook.
+	     *
+	     * @param {Function} fn
+	     */
+
+	  }, {
+	    key: 'afterEach',
+	    value: function afterEach(fn) {
+	      this._afterEachHooks.push(fn);
+	    }
+
+	    /**
+	     * Navigate to a given path.
+	     * The path can be an object describing a named path in
+	     * the format of { name: '...', params: {}, query: {}}
+	     * The path is assumed to be already decoded, and will
+	     * be resolved against root (if provided)
+	     *
+	     * @param {String|Object} path
+	     * @param {Boolean} [replace]
+	     */
+
+	  }, {
+	    key: 'go',
+	    value: function go(path) {
+	      var replace = false;
+	      var append = false;
+	      if (Vue.util.isObject(path)) {
+	        replace = path.replace;
+	        append = path.append;
+	      }
+	      path = this._stringifyPath(path);
+	      this.history.go(path, replace, append);
+	    }
+
+	    /**
+	     * Short hand for replacing current path
+	     *
+	     * @param {String} path
+	     */
+
+	  }, {
+	    key: 'replace',
+	    value: function replace(path) {
+	      this.go({ path: path, replace: true });
+	    }
+
+	    /**
+	     * Start the router.
+	     *
+	     * @param {VueConstructor} App
+	     * @param {String|Element} container
+	     * @param {Function} [cb]
+	     */
+
+	  }, {
+	    key: 'start',
+	    value: function start(App, container, cb) {
+	      /* istanbul ignore if */
+	      if (this._started) {
+	        (0, _util.warn)('already started.');
+	        return;
+	      }
+	      this._started = true;
+	      this._startCb = cb;
+	      if (!this.app) {
+	        /* istanbul ignore if */
+	        if (!App || !container) {
+	          throw new Error('Must start vue-router with a component and a ' + 'root container.');
+	        }
+	        this._appContainer = container;
+	        this._appConstructor = typeof App === 'function' ? App : Vue.extend(App);
+	      }
+	      this.history.start();
+	    }
+
+	    /**
+	     * Stop listening to route changes.
+	     */
+
+	  }, {
+	    key: 'stop',
+	    value: function stop() {
+	      this.history.stop();
+	      this._started = false;
+	    }
+
+	    // Internal methods ======================================
+
+	    /**
+	    * Add a route containing a list of segments to the internal
+	    * route recognizer. Will be called recursively to add all
+	    * possible sub-routes.
+	    *
+	    * @param {String} path
+	    * @param {Object} handler
+	    * @param {Array} segments
+	    */
+
+	  }, {
+	    key: '_addRoute',
+	    value: function _addRoute(path, handler, segments) {
+	      guardComponent(path, handler);
+	      handler.path = path;
+	      handler.fullPath = (segments.reduce(function (path, segment) {
+	        return path + segment.path;
+	      }, '') + path).replace('//', '/');
+	      segments.push({
+	        path: path,
+	        handler: handler
+	      });
+	      this._recognizer.add(segments, {
+	        as: handler.name
+	      });
+	      // add sub routes
+	      if (handler.subRoutes) {
+	        for (var subPath in handler.subRoutes) {
+	          // recursively walk all sub routes
+	          this._addRoute(subPath, handler.subRoutes[subPath],
+	          // pass a copy in recursion to avoid mutating
+	          // across branches
+	          segments.slice());
+	        }
+	      }
+	    }
+
+	    /**
+	     * Set the notFound route handler.
+	     *
+	     * @param {Object} handler
+	     */
+
+	  }, {
+	    key: '_notFound',
+	    value: function _notFound(handler) {
+	      guardComponent('*', handler);
+	      this._notFoundHandler = [{ handler: handler }];
+	    }
+
+	    /**
+	     * Add a redirect record.
+	     *
+	     * @param {String} path
+	     * @param {String} redirectPath
+	     */
+
+	  }, {
+	    key: '_addRedirect',
+	    value: function _addRedirect(path, redirectPath) {
+	      this._addGuard(path, redirectPath, this.replace);
+	    }
+
+	    /**
+	     * Add an alias record.
+	     *
+	     * @param {String} path
+	     * @param {String} aliasPath
+	     */
+
+	  }, {
+	    key: '_addAlias',
+	    value: function _addAlias(path, aliasPath) {
+	      this._addGuard(path, aliasPath, this._match);
+	    }
+
+	    /**
+	     * Add a path guard.
+	     *
+	     * @param {String} path
+	     * @param {String} mappedPath
+	     * @param {Function} handler
+	     */
+
+	  }, {
+	    key: '_addGuard',
+	    value: function _addGuard(path, mappedPath, _handler) {
+	      var _this = this;
+
+	      this._guardRecognizer.add([{
+	        path: path,
+	        handler: function handler(match, query) {
+	          var realPath = (0, _util.mapParams)(mappedPath, match.params, query);
+	          _handler.call(_this, realPath);
+	        }
+	      }]);
+	    }
+
+	    /**
+	     * Check if a path matches any redirect records.
+	     *
+	     * @param {String} path
+	     * @return {Boolean} - if true, will skip normal match.
+	     */
+
+	  }, {
+	    key: '_checkGuard',
+	    value: function _checkGuard(path) {
+	      var matched = this._guardRecognizer.recognize(path);
+	      if (matched) {
+	        matched[0].handler(matched[0], matched.queryParams);
+	        return true;
+	      }
+	    }
+
+	    /**
+	     * Match a URL path and set the route context on vm,
+	     * triggering view updates.
+	     *
+	     * @param {String} path
+	     * @param {Object} [state]
+	     * @param {String} [anchor]
+	     */
+
+	  }, {
+	    key: '_match',
+	    value: function _match(path, state, anchor) {
+	      var _this2 = this;
+
+	      if (this._checkGuard(path)) {
+	        return;
+	      }
+
+	      var prevRoute = this._currentRoute;
+	      var prevTransition = this._currentTransition;
+
+	      // do nothing if going to the same route.
+	      // the route only changes when a transition successfully
+	      // reaches activation; we don't need to do anything
+	      // if an ongoing transition is aborted during validation
+	      // phase.
+	      if (prevTransition && path === prevRoute.path) {
+	        return;
+	      }
+
+	      // construct new route and transition context
+	      var route = new _route2['default'](path, this);
+	      var transition = new _transition2['default'](this, route, prevRoute);
+	      this._prevTransition = prevTransition;
+	      this._currentTransition = transition;
+
+	      if (!this.app) {
+	        // initial render
+	        this.app = new this._appConstructor({
+	          el: this._appContainer,
+	          _meta: {
+	            $route: route
+	          }
+	        });
+	      }
+
+	      // check global before hook
+	      var beforeHooks = this._beforeEachHooks;
+	      var startTransition = function startTransition() {
+	        transition.start(function () {
+	          _this2._postTransition(route, state, anchor);
+	        });
+	      };
+
+	      if (beforeHooks.length) {
+	        transition.runQueue(beforeHooks, function (hook, _, next) {
+	          if (transition === _this2._currentTransition) {
+	            transition.callHook(hook, null, next, true);
+	          }
+	        }, startTransition);
+	      } else {
+	        startTransition();
+	      }
+
+	      if (!this._rendered && this._startCb) {
+	        this._startCb.call(null);
+	      }
+
+	      // HACK:
+	      // set rendered to true after the transition start, so
+	      // that components that are acitvated synchronously know
+	      // whether it is the initial render.
+	      this._rendered = true;
+	    }
+
+	    /**
+	     * Set current to the new transition.
+	     * This is called by the transition object when the
+	     * validation of a route has succeeded.
+	     *
+	     * @param {Transition} transition
+	     */
+
+	  }, {
+	    key: '_onTransitionValidated',
+	    value: function _onTransitionValidated(transition) {
+	      // now that this one is validated, we can abort
+	      // the previous transition.
+	      var prevTransition = this._prevTransition;
+	      if (prevTransition) {
+	        prevTransition.aborted = true;
+	      }
+	      // set current route
+	      var route = this._currentRoute = transition.to;
+	      // update route context for all children
+	      if (this.app.$route !== route) {
+	        this.app.$route = route;
+	        this._children.forEach(function (child) {
+	          child.$route = route;
+	        });
+	      }
+	      // call global after hook
+	      if (this._afterEachHooks.length) {
+	        this._afterEachHooks.forEach(function (hook) {
+	          return hook.call(null, {
+	            to: transition.to,
+	            from: transition.from
+	          });
+	        });
+	      }
+	      this._currentTransition.done = true;
+	    }
+
+	    /**
+	     * Handle stuff after the transition.
+	     *
+	     * @param {Route} route
+	     * @param {Object} [state]
+	     * @param {String} [anchor]
+	     */
+
+	  }, {
+	    key: '_postTransition',
+	    value: function _postTransition(route, state, anchor) {
+	      // handle scroll positions
+	      // saved scroll positions take priority
+	      // then we check if the path has an anchor
+	      var pos = state && state.pos;
+	      if (pos && this._saveScrollPosition) {
+	        Vue.nextTick(function () {
+	          window.scrollTo(pos.x, pos.y);
+	        });
+	      } else if (anchor) {
+	        Vue.nextTick(function () {
+	          var el = document.getElementById(anchor.slice(1));
+	          if (el) {
+	            window.scrollTo(window.scrollX, el.offsetTop);
+	          }
+	        });
+	      }
+	    }
+
+	    /**
+	     * Normalize named route object / string paths into
+	     * a string.
+	     *
+	     * @param {Object|String|Number} path
+	     * @return {String}
+	     */
+
+	  }, {
+	    key: '_stringifyPath',
+	    value: function _stringifyPath(path) {
+	      if (typeof path === 'object') {
+	        if (path.name) {
+	          var params = path.params || {};
+	          if (path.query) {
+	            params.queryParams = path.query;
+	          }
+	          return this._recognizer.generate(path.name, params);
+	        } else if (path.path) {
+	          return path.path;
+	        } else {
+	          return '';
+	        }
+	      } else {
+	        return path + '';
+	      }
+	    }
+	  }]);
+
+	  return Router;
+	})();
+
+	function guardComponent(path, handler) {
+	  var comp = handler.component;
+	  if (Vue.util.isPlainObject(comp)) {
+	    comp = handler.component = Vue.extend(comp);
+	  }
+	  /* istanbul ignore if */
+	  if (typeof comp !== 'function') {
+	    handler.component = null;
+	    (0, _util.warn)('invalid component for route "' + path + '".');
+	  }
+	}
+
+	/* Installation */
 
 	Router.installed = false;
 
@@ -207,17 +691,16 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * Install the necessary directives.
 	 */
 
-	Router.install = function (Vue) {
+	Router.install = function (externalVue) {
 	  /* istanbul ignore if */
 	  if (Router.installed) {
 	    (0, _util.warn)('already installed.');
 	    return;
 	  }
-	  (0, _routerApi2['default'])(Vue, Router);
-	  (0, _routerInternal2['default'])(Vue, Router);
+	  Vue = externalVue;
+	  (0, _mixin2['default'])(Vue);
 	  (0, _directivesView2['default'])(Vue);
 	  (0, _directivesLink2['default'])(Vue);
-	  (0, _override2['default'])(Vue);
 	  _util2['default'].Vue = Vue;
 	  // 1.0 only: enable route mixins
 	  var strats = Vue.config.optionMergeStrategies;
@@ -233,10 +716,74 @@ return /******/ (function(modules) { // webpackBootstrap
 	if (typeof window !== 'undefined' && window.Vue) {
 	  window.Vue.use(Router);
 	}
+
+	exports['default'] = Router;
 	module.exports = exports['default'];
 
 /***/ },
 /* 1 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	var _Object$defineProperty = __webpack_require__(2)["default"];
+
+	exports["default"] = (function () {
+	  function defineProperties(target, props) {
+	    for (var i = 0; i < props.length; i++) {
+	      var descriptor = props[i];
+	      descriptor.enumerable = descriptor.enumerable || false;
+	      descriptor.configurable = true;
+	      if ("value" in descriptor) descriptor.writable = true;
+
+	      _Object$defineProperty(target, descriptor.key, descriptor);
+	    }
+	  }
+
+	  return function (Constructor, protoProps, staticProps) {
+	    if (protoProps) defineProperties(Constructor.prototype, protoProps);
+	    if (staticProps) defineProperties(Constructor, staticProps);
+	    return Constructor;
+	  };
+	})();
+
+	exports.__esModule = true;
+
+/***/ },
+/* 2 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = { "default": __webpack_require__(3), __esModule: true };
+
+/***/ },
+/* 3 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var $ = __webpack_require__(4);
+	module.exports = function defineProperty(it, key, desc){
+	  return $.setDesc(it, key, desc);
+	};
+
+/***/ },
+/* 4 */
+/***/ function(module, exports) {
+
+	var $Object = Object;
+	module.exports = {
+	  create:     $Object.create,
+	  getProto:   $Object.getPrototypeOf,
+	  isEnum:     {}.propertyIsEnumerable,
+	  getDesc:    $Object.getOwnPropertyDescriptor,
+	  setDesc:    $Object.defineProperty,
+	  setDescs:   $Object.defineProperties,
+	  getKeys:    $Object.keys,
+	  getNames:   $Object.getOwnPropertyNames,
+	  getSymbols: $Object.getOwnPropertySymbols,
+	  each:       [].forEach
+	};
+
+/***/ },
+/* 5 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -250,7 +797,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.__esModule = true;
 
 /***/ },
-/* 2 */
+/* 6 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -264,12 +811,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.__esModule = true;
 
 /***/ },
-/* 3 */
+/* 7 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var _interopRequireDefault = __webpack_require__(2)['default'];
+	var _interopRequireDefault = __webpack_require__(6)['default'];
 
 	Object.defineProperty(exports, '__esModule', {
 	  value: true
@@ -281,7 +828,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.resolveAsyncComponent = resolveAsyncComponent;
 	exports.mapParams = mapParams;
 
-	var _routeRecognizer = __webpack_require__(4);
+	var _routeRecognizer = __webpack_require__(8);
 
 	var _routeRecognizer2 = _interopRequireDefault(_routeRecognizer);
 
@@ -295,15 +842,15 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * Warn stuff.
 	 *
 	 * @param {String} msg
-	 * @param {Error} [err]
 	 */
 
-	function warn(msg, err) {
+	function warn(msg) {
 	  /* istanbul ignore next */
 	  if (window.console) {
 	    console.warn('[vue-router] ' + msg);
-	    if (err) {
-	      console.warn(err.stack);
+	    /* istanbul ignore if */
+	    if (!_exports.Vue || _exports.Vue.config.debug) {
+	      console.warn(new Error('warning stack trace:').stack);
 	    }
 	  }
 	}
@@ -313,10 +860,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	 *
 	 * @param {String} base
 	 * @param {String} relative
+	 * @param {Boolean} append
 	 * @return {String}
 	 */
 
-	function resolvePath(base, relative) {
+	function resolvePath(base, relative, append) {
 	  var query = base.match(/(\?.*)$/);
 	  if (query) {
 	    query = query[1];
@@ -327,10 +875,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	    return base + relative;
 	  }
 	  var stack = base.split('/');
-	  // remove trailing segment
-	  stack.pop();
+	  // remove trailing segment if:
+	  // - not appending
+	  // - appending to trailing slash (last segment is empty)
+	  if (!append || !stack[stack.length - 1]) {
+	    stack.pop();
+	  }
 	  // resolve relative path
-	  var segments = relative.split('/');
+	  var segments = relative.replace(/^\//, '').split('/');
 	  for (var i = 0; i < segments.length; i++) {
 	    var segment = segments[i];
 	    if (segment === '.') {
@@ -412,35 +964,23 @@ return /******/ (function(modules) { // webpackBootstrap
 	 */
 
 	function mapParams(path, params, query) {
-	  for (var key in params) {
-	    path = replaceParam(path, params, key);
-	  }
+	  if (params === undefined) params = {};
+
+	  path = path.replace(/:([^\/]+)/g, function (_, key) {
+	    var val = params[key];
+	    if (!val) {
+	      warn('param "' + key + '" not found when generating ' + 'path for "' + path + '" with params ' + JSON.stringify(params));
+	    }
+	    return val || '';
+	  });
 	  if (query) {
 	    path += genQuery(query);
 	  }
 	  return path;
 	}
 
-	/**
-	 * Replace a param segment with real value in a matched
-	 * path.
-	 *
-	 * @param {String} path
-	 * @param {Object} params
-	 * @param {String} key
-	 * @return {String}
-	 */
-
-	function replaceParam(path, params, key) {
-	  var regex = new RegExp(':' + key + '(\\/|$)');
-	  var value = params[key];
-	  return path.replace(regex, function (m) {
-	    return m.charAt(m.length - 1) === '/' ? value + '/' : value;
-	  });
-	}
-
 /***/ },
-/* 4 */
+/* 8 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;/* WEBPACK VAR INJECTION */(function(module) {(function() {
@@ -1086,7 +1626,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    var $$route$recognizer$$default = $$route$recognizer$$RouteRecognizer;
 
 	    /* global define:true module:true window: true */
-	    if ("function" === 'function' && __webpack_require__(6)['amd']) {
+	    if ("function" === 'function' && __webpack_require__(10)['amd']) {
 	      !(__WEBPACK_AMD_DEFINE_RESULT__ = function() { return $$route$recognizer$$default; }.call(exports, __webpack_require__, exports, module), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
 	    } else if (typeof module !== 'undefined' && module['exports']) {
 	      module['exports'] = $$route$recognizer$$default;
@@ -1096,10 +1636,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	}).call(this);
 
 	//# sourceMappingURL=route-recognizer.js.map
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(5)(module)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(9)(module)))
 
 /***/ },
-/* 5 */
+/* 9 */
 /***/ function(module, exports) {
 
 	module.exports = function(module) {
@@ -1115,15 +1655,15 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 6 */
+/* 10 */
 /***/ function(module, exports) {
 
 	module.exports = function() { throw new Error("define cannot be used indirect"); };
 
 
 /***/ },
-/* 7 */
-/***/ function(module, exports, __webpack_require__) {
+/* 11 */
+/***/ function(module, exports) {
 
 	'use strict';
 
@@ -1131,461 +1671,51 @@ return /******/ (function(modules) { // webpackBootstrap
 	  value: true
 	});
 
-	var _util = __webpack_require__(3);
-
-	exports['default'] = function (Vue, Router) {
-
-	  /**
-	   * Register a map of top-level paths.
-	   *
-	   * @param {Object} map
-	   */
-
-	  Router.prototype.map = function (map) {
-	    for (var route in map) {
-	      this.on(route, map[route]);
-	    }
-	  };
-
-	  /**
-	   * Register a single root-level path
-	   *
-	   * @param {String} rootPath
-	   * @param {Object} handler
-	   *                 - {String} component
-	   *                 - {Object} [subRoutes]
-	   *                 - {Boolean} [forceRefresh]
-	   *                 - {Function} [before]
-	   *                 - {Function} [after]
-	   */
-
-	  Router.prototype.on = function (rootPath, handler) {
-	    if (rootPath === '*') {
-	      this._notFound(handler);
-	    } else {
-	      this._addRoute(rootPath, handler, []);
-	    }
-	  };
-
-	  /**
-	   * Set redirects.
-	   *
-	   * @param {Object} map
-	   */
-
-	  Router.prototype.redirect = function (map) {
-	    for (var path in map) {
-	      this._addRedirect(path, map[path]);
-	    }
-	  };
-
-	  /**
-	   * Set aliases.
-	   *
-	   * @param {Object} map
-	   */
-
-	  Router.prototype.alias = function (map) {
-	    for (var path in map) {
-	      this._addAlias(path, map[path]);
-	    }
-	  };
-
-	  /**
-	   * Set global before hook.
-	   *
-	   * @param {Function} fn
-	   */
-
-	  Router.prototype.beforeEach = function (fn) {
-	    this._beforeEachHooks.push(fn);
-	  };
-
-	  /**
-	   * Set global after hook.
-	   *
-	   * @param {Function} fn
-	   */
-
-	  Router.prototype.afterEach = function (fn) {
-	    this._afterEachHooks.push(fn);
-	  };
-
-	  /**
-	   * Navigate to a given path.
-	   * The path can be an object describing a named path in
-	   * the format of { name: '...', params: {}, query: {}}
-	   * The path is assumed to be already decoded, and will
-	   * be resolved against root (if provided)
-	   *
-	   * @param {String|Object} path
-	   * @param {Boolean} [replace]
-	   */
-
-	  Router.prototype.go = function (path, replace) {
-	    path = this._normalizePath(path);
-	    this.history.go(path, replace);
-	  };
-
-	  /**
-	   * Short hand for replacing current path
-	   *
-	   * @param {String} path
-	   */
-
-	  Router.prototype.replace = function (path) {
-	    this.go(path, true);
-	  };
-
-	  /**
-	   * Start the router.
-	   *
-	   * @param {VueConstructor} App
-	   * @param {String|Element} container
-	   */
-
-	  Router.prototype.start = function (App, container) {
-	    /* istanbul ignore if */
-	    if (this._started) {
-	      (0, _util.warn)('already started.');
-	      return;
-	    }
-	    this._started = true;
-	    if (!this.app) {
-	      /* istanbul ignore if */
-	      if (!App || !container) {
-	        throw new Error('Must start vue-router with a component and a ' + 'root container.');
-	      }
-	      this._appContainer = container;
-	      this._appConstructor = typeof App === 'function' ? App : Vue.extend(App);
-	    }
-	    this.history.start();
-	  };
-
-	  /**
-	   * Stop listening to route changes.
-	   */
-
-	  Router.prototype.stop = function () {
-	    this.history.stop();
-	    this._started = false;
-	  };
-	};
-
-	module.exports = exports['default'];
-
-/***/ },
-/* 8 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	var _interopRequireDefault = __webpack_require__(2)['default'];
-
-	Object.defineProperty(exports, '__esModule', {
-	  value: true
-	});
-
-	var _util = __webpack_require__(3);
-
-	var _route = __webpack_require__(9);
-
-	var _route2 = _interopRequireDefault(_route);
-
-	var _transition = __webpack_require__(10);
-
-	var _transition2 = _interopRequireDefault(_transition);
-
-	exports['default'] = function (Vue, Router) {
+	exports['default'] = function (Vue) {
 
 	  var _ = Vue.util;
-
-	  /**
-	   * Add a route containing a list of segments to the internal
-	   * route recognizer. Will be called recursively to add all
-	   * possible sub-routes.
-	   *
-	   * @param {String} path
-	   * @param {Object} handler
-	   * @param {Array} segments
-	   */
-
-	  Router.prototype._addRoute = function (path, handler, segments) {
-	    guardComponent(handler);
-	    segments.push({
-	      path: path,
-	      handler: handler
-	    });
-	    this._recognizer.add(segments, {
-	      as: handler.name
-	    });
-	    // add sub routes
-	    if (handler.subRoutes) {
-	      for (var subPath in handler.subRoutes) {
-	        // recursively walk all sub routes
-	        this._addRoute(subPath, handler.subRoutes[subPath],
-	        // pass a copy in recursion to avoid mutating
-	        // across branches
-	        segments.slice());
+	  var mixin = {
+	    created: function created() {
+	      var route = this.$root.$route;
+	      if (route) {
+	        route.router._children.push(this);
+	        if (!this.$route) {
+	          if (this._defineMeta) {
+	            // 0.12 compat
+	            this._defineMeta('$route', route);
+	          } else {
+	            _.defineReactive(this, '$route', route);
+	          }
+	        }
+	      }
+	    },
+	    beforeDestroy: function beforeDestroy() {
+	      var route = this.$root.$route;
+	      if (route) {
+	        route.router._children.$remove(this);
 	      }
 	    }
 	  };
 
-	  /**
-	   * Set the notFound route handler.
-	   *
-	   * @param {Object} handler
-	   */
-
-	  Router.prototype._notFound = function (handler) {
-	    guardComponent(handler);
-	    this._notFoundHandler = [{ handler: handler }];
-	  };
-
-	  /**
-	   * Add a redirect record.
-	   *
-	   * @param {String} path
-	   * @param {String} redirectPath
-	   */
-
-	  Router.prototype._addRedirect = function (path, redirectPath) {
-	    this._addGuard(path, redirectPath, this.replace);
-	  };
-
-	  /**
-	   * Add an alias record.
-	   *
-	   * @param {String} path
-	   * @param {String} aliasPath
-	   */
-
-	  Router.prototype._addAlias = function (path, aliasPath) {
-	    this._addGuard(path, aliasPath, this._match);
-	  };
-
-	  /**
-	   * Add a path guard.
-	   *
-	   * @param {String} path
-	   * @param {String} mappedPath
-	   * @param {Function} handler
-	   */
-
-	  Router.prototype._addGuard = function (path, mappedPath, _handler) {
-	    var _this = this;
-
-	    this._guardRecognizer.add([{
-	      path: path,
-	      handler: function handler(match, query) {
-	        var realPath = (0, _util.mapParams)(mappedPath, match.params, query);
-	        _handler.call(_this, realPath);
-	      }
-	    }]);
-	  };
-
-	  /**
-	   * Check if a path matches any redirect records.
-	   *
-	   * @param {String} path
-	   * @return {Boolean} - if true, will skip normal match.
-	   */
-
-	  Router.prototype._checkGuard = function (path) {
-	    var matched = this._guardRecognizer.recognize(path);
-	    if (matched) {
-	      matched[0].handler(matched[0], matched.queryParams);
-	      return true;
-	    }
-	  };
-
-	  /**
-	   * Match a URL path and set the route context on vm,
-	   * triggering view updates.
-	   *
-	   * @param {String} path
-	   * @param {Object} [state]
-	   * @param {String} [anchor]
-	   */
-
-	  Router.prototype._match = function (path, state, anchor) {
-	    var _this2 = this;
-
-	    if (this._checkGuard(path)) {
-	      return;
-	    }
-
-	    var prevRoute = this._currentRoute;
-	    var prevTransition = this._currentTransition;
-
-	    // do nothing if going to the same route.
-	    // the route only changes when a transition successfully
-	    // reaches activation; we don't need to do anything
-	    // if an ongoing transition is aborted during validation
-	    // phase.
-	    if (prevTransition && path === prevRoute.path) {
-	      return;
-	    }
-
-	    // construct new route and transition context
-	    var route = new _route2['default'](path, this);
-	    var transition = new _transition2['default'](this, route, prevRoute);
-	    this._prevTransition = prevTransition;
-	    this._currentTransition = transition;
-
-	    if (!this.app) {
-	      // initial render
-	      this.app = new this._appConstructor({
-	        el: this._appContainer,
-	        _meta: {
-	          $route: route
-	        }
-	      });
-	    }
-
-	    // check global before hook
-	    var beforeHooks = this._beforeEachHooks;
-	    var startTransition = function startTransition() {
-	      transition.start(function () {
-	        _this2._postTransition(route, state, anchor);
-	      });
-	    };
-
-	    if (beforeHooks.length) {
-	      transition.runQueue(beforeHooks, function (hook, _, next) {
-	        if (transition === _this2._currentTransition) {
-	          transition.callHook(hook, null, next, true);
-	        }
-	      }, startTransition);
-	    } else {
-	      startTransition();
-	    }
-
-	    // HACK:
-	    // set rendered to true after the transition start, so
-	    // that components that are acitvated synchronously know
-	    // whether it is the initial render.
-	    this._rendered = true;
-	  };
-
-	  /**
-	   * Set current to the new transition.
-	   * This is called by the transition object when the
-	   * validation of a route has succeeded.
-	   *
-	   * @param {RouteTransition} transition
-	   */
-
-	  Router.prototype._onTransitionValidated = function (transition) {
-	    // now that this one is validated, we can abort
-	    // the previous transition.
-	    var prevTransition = this._prevTransition;
-	    if (prevTransition) {
-	      prevTransition.aborted = true;
-	    }
-	    // set current route
-	    var route = this._currentRoute = transition.to;
-	    // update route context for all children
-	    if (this.app.$route !== route) {
-	      this.app.$route = route;
-	      this._children.forEach(function (child) {
-	        child.$route = route;
-	      });
-	    }
-	    // call global after hook
-	    if (this._afterEachHooks.length) {
-	      this._afterEachHooks.forEach(function (hook) {
-	        return hook.call(null, {
-	          to: transition.to,
-	          from: transition.from
-	        });
-	      });
-	    }
-	    this._currentTransition.done = true;
-	  };
-
-	  /**
-	   * Handle stuff after the transition.
-	   *
-	   * @param {Route} route
-	   * @param {Object} [state]
-	   * @param {String} [anchor]
-	   */
-
-	  Router.prototype._postTransition = function (route, state, anchor) {
-	    // handle scroll positions
-	    // saved scroll positions take priority
-	    // then we check if the path has an anchor
-	    var pos = state && state.pos;
-	    if (pos && this._saveScrollPosition) {
-	      Vue.nextTick(function () {
-	        window.scrollTo(pos.x, pos.y);
-	      });
-	    } else if (anchor) {
-	      Vue.nextTick(function () {
-	        var el = document.getElementById(anchor.slice(1));
-	        if (el) {
-	          window.scrollTo(window.scrollX, el.offsetTop);
-	        }
-	      });
-	    }
-	  };
-
-	  /**
-	   * Normalize named route object / string paths into
-	   * a string.
-	   *
-	   * @param {Object|String|Number} path
-	   * @return {String}
-	   */
-
-	  Router.prototype._normalizePath = function (path) {
-	    if (typeof path === 'object') {
-	      if (path.name) {
-	        var params = path.params || {};
-	        if (path.query) {
-	          params.queryParams = path.query;
-	        }
-	        return this._recognizer.generate(path.name, params);
-	      } else if (path.path) {
-	        return path.path;
-	      } else {
-	        return '';
-	      }
-	    } else {
-	      return path + '';
-	    }
-	  };
-
-	  /**
-	   * Allow directly passing components to a route
-	   * definition.
-	   *
-	   * @param {Object} handler
-	   */
-
-	  function guardComponent(handler) {
-	    var comp = handler.component;
-	    if (_.isPlainObject(comp)) {
-	      comp = handler.component = Vue.extend(comp);
-	    }
-	    /* istanbul ignore if */
-	    if (typeof comp !== 'function') {
-	      handler.component = null;
-	      (0, _util.warn)('invalid component for route "' + handler.path + '"');
-	    }
+	  if (Vue.mixin) {
+	    Vue.mixin(mixin);
+	  } else {
+	    // 0.12 compat
+	    Vue.options = _.mergeOptions(Vue.options, mixin);
 	  }
 	};
 
 	module.exports = exports['default'];
 
 /***/ },
-/* 9 */
+/* 12 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 
-	var _classCallCheck = __webpack_require__(1)["default"];
+	var _classCallCheck = __webpack_require__(5)["default"];
+
+	var _Object$freeze = __webpack_require__(13)["default"];
 
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
@@ -1629,29 +1759,160 @@ return /******/ (function(modules) { // webpackBootstrap
 	  this.path = path;
 	  this.router = router;
 	  // for internal use
-	  this._matched = matched || router._notFoundHandler;
+	  this.matched = matched || router._notFoundHandler;
+	  // Important: freeze self to prevent observation
+	  _Object$freeze(this);
 	};
 
 	exports["default"] = Route;
 	module.exports = exports["default"];
 
 /***/ },
-/* 10 */
+/* 13 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = { "default": __webpack_require__(14), __esModule: true };
+
+/***/ },
+/* 14 */
+/***/ function(module, exports, __webpack_require__) {
+
+	__webpack_require__(15);
+	module.exports = __webpack_require__(20).Object.freeze;
+
+/***/ },
+/* 15 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// 19.1.2.5 Object.freeze(O)
+	var isObject = __webpack_require__(16);
+
+	__webpack_require__(17)('freeze', function($freeze){
+	  return function freeze(it){
+	    return $freeze && isObject(it) ? $freeze(it) : it;
+	  };
+	});
+
+/***/ },
+/* 16 */
+/***/ function(module, exports) {
+
+	// http://jsperf.com/core-js-isobject
+	module.exports = function(it){
+	  return it !== null && (typeof it == 'object' || typeof it == 'function');
+	};
+
+/***/ },
+/* 17 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// most Object methods by ES6 should accept primitives
+	module.exports = function(KEY, exec){
+	  var $def = __webpack_require__(18)
+	    , fn   = (__webpack_require__(20).Object || {})[KEY] || Object[KEY]
+	    , exp  = {};
+	  exp[KEY] = exec(fn);
+	  $def($def.S + $def.F * __webpack_require__(21)(function(){ fn(1); }), 'Object', exp);
+	};
+
+/***/ },
+/* 18 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var global    = __webpack_require__(19)
+	  , core      = __webpack_require__(20)
+	  , PROTOTYPE = 'prototype';
+	var ctx = function(fn, that){
+	  return function(){
+	    return fn.apply(that, arguments);
+	  };
+	};
+	var $def = function(type, name, source){
+	  var key, own, out, exp
+	    , isGlobal = type & $def.G
+	    , isProto  = type & $def.P
+	    , target   = isGlobal ? global : type & $def.S
+	        ? global[name] : (global[name] || {})[PROTOTYPE]
+	    , exports  = isGlobal ? core : core[name] || (core[name] = {});
+	  if(isGlobal)source = name;
+	  for(key in source){
+	    // contains in native
+	    own = !(type & $def.F) && target && key in target;
+	    if(own && key in exports)continue;
+	    // export native or passed
+	    out = own ? target[key] : source[key];
+	    // prevent global pollution for namespaces
+	    if(isGlobal && typeof target[key] != 'function')exp = source[key];
+	    // bind timers to global for call from export context
+	    else if(type & $def.B && own)exp = ctx(out, global);
+	    // wrap global constructors for prevent change them in library
+	    else if(type & $def.W && target[key] == out)!function(C){
+	      exp = function(param){
+	        return this instanceof C ? new C(param) : C(param);
+	      };
+	      exp[PROTOTYPE] = C[PROTOTYPE];
+	    }(out);
+	    else exp = isProto && typeof out == 'function' ? ctx(Function.call, out) : out;
+	    // export
+	    exports[key] = exp;
+	    if(isProto)(exports[PROTOTYPE] || (exports[PROTOTYPE] = {}))[key] = out;
+	  }
+	};
+	// type bitmap
+	$def.F = 1;  // forced
+	$def.G = 2;  // global
+	$def.S = 4;  // static
+	$def.P = 8;  // proto
+	$def.B = 16; // bind
+	$def.W = 32; // wrap
+	module.exports = $def;
+
+/***/ },
+/* 19 */
+/***/ function(module, exports) {
+
+	// https://github.com/zloirock/core-js/issues/86#issuecomment-115759028
+	var UNDEFINED = 'undefined';
+	var global = module.exports = typeof window != UNDEFINED && window.Math == Math
+	  ? window : typeof self != UNDEFINED && self.Math == Math ? self : Function('return this')();
+	if(typeof __g == 'number')__g = global; // eslint-disable-line no-undef
+
+/***/ },
+/* 20 */
+/***/ function(module, exports) {
+
+	var core = module.exports = {};
+	if(typeof __e == 'number')__e = core; // eslint-disable-line no-undef
+
+/***/ },
+/* 21 */
+/***/ function(module, exports) {
+
+	module.exports = function(exec){
+	  try {
+	    return !!exec();
+	  } catch(e){
+	    return true;
+	  }
+	};
+
+/***/ },
+/* 22 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var _createClass = __webpack_require__(11)['default'];
+	var _createClass = __webpack_require__(1)['default'];
 
-	var _classCallCheck = __webpack_require__(1)['default'];
+	var _classCallCheck = __webpack_require__(5)['default'];
 
 	Object.defineProperty(exports, '__esModule', {
 	  value: true
 	});
 
-	var _util = __webpack_require__(3);
+	var _util = __webpack_require__(7);
 
-	var _pipeline = __webpack_require__(15);
+	var _pipeline = __webpack_require__(23);
 
 	/**
 	 * A RouteTransition object manages the pipeline of a
@@ -1682,7 +1943,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    this.deactivateQueue = router._views;
 
 	    // check the default handler of the deepest match
-	    var matched = to._matched ? Array.prototype.slice.call(to._matched) : [];
+	    var matched = to.matched ? Array.prototype.slice.call(to.matched) : [];
 
 	    // the activate queue is an array of route handlers
 	    // that need to be activated
@@ -1944,74 +2205,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = exports['default'];
 
 /***/ },
-/* 11 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-
-	var _Object$defineProperty = __webpack_require__(12)["default"];
-
-	exports["default"] = (function () {
-	  function defineProperties(target, props) {
-	    for (var i = 0; i < props.length; i++) {
-	      var descriptor = props[i];
-	      descriptor.enumerable = descriptor.enumerable || false;
-	      descriptor.configurable = true;
-	      if ("value" in descriptor) descriptor.writable = true;
-
-	      _Object$defineProperty(target, descriptor.key, descriptor);
-	    }
-	  }
-
-	  return function (Constructor, protoProps, staticProps) {
-	    if (protoProps) defineProperties(Constructor.prototype, protoProps);
-	    if (staticProps) defineProperties(Constructor, staticProps);
-	    return Constructor;
-	  };
-	})();
-
-	exports.__esModule = true;
-
-/***/ },
-/* 12 */
-/***/ function(module, exports, __webpack_require__) {
-
-	module.exports = { "default": __webpack_require__(13), __esModule: true };
-
-/***/ },
-/* 13 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var $ = __webpack_require__(14);
-	module.exports = function defineProperty(it, key, desc){
-	  return $.setDesc(it, key, desc);
-	};
-
-/***/ },
-/* 14 */
-/***/ function(module, exports) {
-
-	var $Object = Object;
-	module.exports = {
-	  create:     $Object.create,
-	  getProto:   $Object.getPrototypeOf,
-	  isEnum:     {}.propertyIsEnumerable,
-	  getDesc:    $Object.getOwnPropertyDescriptor,
-	  setDesc:    $Object.defineProperty,
-	  setDescs:   $Object.defineProperties,
-	  getKeys:    $Object.keys,
-	  getNames:   $Object.getOwnPropertyNames,
-	  getSymbols: $Object.getOwnPropertySymbols,
-	  each:       [].forEach
-	};
-
-/***/ },
-/* 15 */
+/* 23 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var _Object$keys = __webpack_require__(16)['default'];
+	var _Object$keys = __webpack_require__(24)['default'];
 
 	Object.defineProperty(exports, '__esModule', {
 	  value: true
@@ -2023,7 +2222,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.activate = activate;
 	exports.reuse = reuse;
 
-	var _util = __webpack_require__(3);
+	var _util = __webpack_require__(7);
 
 	/**
 	 * Determine the reusability of an existing router view.
@@ -2261,43 +2460,43 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 /***/ },
-/* 16 */
+/* 24 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = { "default": __webpack_require__(17), __esModule: true };
+	module.exports = { "default": __webpack_require__(25), __esModule: true };
 
 /***/ },
-/* 17 */
+/* 25 */
 /***/ function(module, exports, __webpack_require__) {
 
-	__webpack_require__(18);
-	module.exports = __webpack_require__(24).Object.keys;
+	__webpack_require__(26);
+	module.exports = __webpack_require__(20).Object.keys;
 
 /***/ },
-/* 18 */
+/* 26 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// 19.1.2.14 Object.keys(O)
-	var toObject = __webpack_require__(19);
+	var toObject = __webpack_require__(27);
 
-	__webpack_require__(21)('keys', function($keys){
+	__webpack_require__(17)('keys', function($keys){
 	  return function keys(it){
 	    return $keys(toObject(it));
 	  };
 	});
 
 /***/ },
-/* 19 */
+/* 27 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// 7.1.13 ToObject(argument)
-	var defined = __webpack_require__(20);
+	var defined = __webpack_require__(28);
 	module.exports = function(it){
 	  return Object(defined(it));
 	};
 
 /***/ },
-/* 20 */
+/* 28 */
 /***/ function(module, exports) {
 
 	// 7.2.1 RequireObjectCoercible(argument)
@@ -2307,101 +2506,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	};
 
 /***/ },
-/* 21 */
-/***/ function(module, exports, __webpack_require__) {
-
-	// most Object methods by ES6 should accept primitives
-	module.exports = function(KEY, exec){
-	  var $def = __webpack_require__(22)
-	    , fn   = (__webpack_require__(24).Object || {})[KEY] || Object[KEY]
-	    , exp  = {};
-	  exp[KEY] = exec(fn);
-	  $def($def.S + $def.F * __webpack_require__(25)(function(){ fn(1); }), 'Object', exp);
-	};
-
-/***/ },
-/* 22 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var global    = __webpack_require__(23)
-	  , core      = __webpack_require__(24)
-	  , PROTOTYPE = 'prototype';
-	var ctx = function(fn, that){
-	  return function(){
-	    return fn.apply(that, arguments);
-	  };
-	};
-	var $def = function(type, name, source){
-	  var key, own, out, exp
-	    , isGlobal = type & $def.G
-	    , isProto  = type & $def.P
-	    , target   = isGlobal ? global : type & $def.S
-	        ? global[name] : (global[name] || {})[PROTOTYPE]
-	    , exports  = isGlobal ? core : core[name] || (core[name] = {});
-	  if(isGlobal)source = name;
-	  for(key in source){
-	    // contains in native
-	    own = !(type & $def.F) && target && key in target;
-	    if(own && key in exports)continue;
-	    // export native or passed
-	    out = own ? target[key] : source[key];
-	    // prevent global pollution for namespaces
-	    if(isGlobal && typeof target[key] != 'function')exp = source[key];
-	    // bind timers to global for call from export context
-	    else if(type & $def.B && own)exp = ctx(out, global);
-	    // wrap global constructors for prevent change them in library
-	    else if(type & $def.W && target[key] == out)!function(C){
-	      exp = function(param){
-	        return this instanceof C ? new C(param) : C(param);
-	      };
-	      exp[PROTOTYPE] = C[PROTOTYPE];
-	    }(out);
-	    else exp = isProto && typeof out == 'function' ? ctx(Function.call, out) : out;
-	    // export
-	    exports[key] = exp;
-	    if(isProto)(exports[PROTOTYPE] || (exports[PROTOTYPE] = {}))[key] = out;
-	  }
-	};
-	// type bitmap
-	$def.F = 1;  // forced
-	$def.G = 2;  // global
-	$def.S = 4;  // static
-	$def.P = 8;  // proto
-	$def.B = 16; // bind
-	$def.W = 32; // wrap
-	module.exports = $def;
-
-/***/ },
-/* 23 */
-/***/ function(module, exports) {
-
-	// https://github.com/zloirock/core-js/issues/86#issuecomment-115759028
-	var UNDEFINED = 'undefined';
-	var global = module.exports = typeof window != UNDEFINED && window.Math == Math
-	  ? window : typeof self != UNDEFINED && self.Math == Math ? self : Function('return this')();
-	if(typeof __g == 'number')__g = global; // eslint-disable-line no-undef
-
-/***/ },
-/* 24 */
-/***/ function(module, exports) {
-
-	var core = module.exports = {};
-	if(typeof __e == 'number')__e = core; // eslint-disable-line no-undef
-
-/***/ },
-/* 25 */
-/***/ function(module, exports) {
-
-	module.exports = function(exec){
-	  try {
-	    return !!exec();
-	  } catch(e){
-	    return true;
-	  }
-	};
-
-/***/ },
-/* 26 */
+/* 29 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -2410,9 +2515,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	  value: true
 	});
 
-	var _util = __webpack_require__(3);
+	var _util = __webpack_require__(7);
 
-	var _pipeline = __webpack_require__(15);
+	var _pipeline = __webpack_require__(23);
 
 	exports['default'] = function (Vue) {
 
@@ -2448,11 +2553,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	      if (this.keepAlive) {
 	        this.keepAlive = false;
 	        (0, _util.warn)('<router-view> does not support keep-alive.');
-	      }
-	      /* istanbul ignore if */
-	      if (this.waitForEvent) {
-	        this.waitForEvent = null;
-	        (0, _util.warn)('<router-view> does not support wait-for. Use ' + 'the acitvate route hook instead.');
 	      }
 
 	      // all we need to do here is registering this view
@@ -2496,7 +2596,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = exports['default'];
 
 /***/ },
-/* 27 */
+/* 30 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -2505,7 +2605,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  value: true
 	});
 
-	var _util = __webpack_require__(3);
+	var _util = __webpack_require__(7);
 
 	var regexEscapeRE = /[-.*+?^${}()|[\]\/\\]/g;
 
@@ -2536,11 +2636,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	        // don't redirect on right click
 	        if (e.button !== 0) return;
 
+	        var target = _this.target;
 	        if (_this.el.tagName === 'A' || e.target === _this.el) {
 	          // v-link on <a v-link="'path'">
 	          e.preventDefault();
-	          if (_this.destination != null) {
-	            router.go(_this.destination, _this.replace === true);
+	          if (target != null) {
+	            router.go(target);
 	          }
 	        } else {
 	          // v-link delegate on <div v-link>
@@ -2551,7 +2652,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	          if (!el || el.tagName !== 'A' || !el.href) return;
 	          if (sameOrigin(el)) {
 	            e.preventDefault();
-	            router.go(el.pathname);
+	            router.go({
+	              path: el.pathname,
+	              replace: target && target.replace,
+	              append: target && target.append
+	            });
 	          }
 	        }
 	      };
@@ -2562,14 +2667,20 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	    update: function update(path) {
 	      var router = this.vm.$route.router;
-	      this.replace = typeof path === 'object' ? path.replace : false;
-	      path = router._normalizePath(path);
-	      this.destination = path;
-	      this.activeRE = path ? new RegExp('^' + path.replace(regexEscapeRE, '\\$&') + '\\b') : null;
+	      var append = undefined;
+	      this.target = path;
+	      if (_.isObject(path)) {
+	        append = path.append;
+	        this.exact = path.exact;
+	        this.prevActiveClass = this.activeClass;
+	        this.activeClass = path.activeClass;
+	      }
+	      path = this.path = router._stringifyPath(path);
+	      this.activeRE = path && !this.exact ? new RegExp('^' + path.replace(/\/$/, '').replace(regexEscapeRE, '\\$&') + '(\\/|$)') : null;
 	      this.updateClasses(this.vm.$route.path);
 	      var isAbsolute = path.charAt(0) === '/';
 	      // do not format non-hash relative paths
-	      var href = router.mode === 'hash' || isAbsolute ? router.history.formatPath(path) : path;
+	      var href = router.mode === 'hash' || isAbsolute ? router.history.formatPath(path, append) : path;
 	      if (this.el.tagName === 'A') {
 	        if (href) {
 	          this.el.href = href;
@@ -2581,19 +2692,26 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	    updateClasses: function updateClasses(path) {
 	      var el = this.el;
-	      var dest = this.destination;
+	      var dest = this.path;
 	      var router = this.vm.$route.router;
-	      var activeClass = router._linkActiveClass;
-	      var exactClass = activeClass + '-exact';
-	      if (this.activeRE && this.activeRE.test(path) && path !== '/') {
-	        _.addClass(el, activeClass);
-	      } else {
-	        _.removeClass(el, activeClass);
+	      var activeClass = this.activeClass || router._linkActiveClass;
+	      // clear old class
+	      if (this.prevActiveClass !== activeClass) {
+	        _.removeClass(el, this.prevActiveClass);
 	      }
-	      if (path === dest) {
-	        _.addClass(el, exactClass);
+	      // add new class
+	      if (this.exact) {
+	        if (path === dest) {
+	          _.addClass(el, activeClass);
+	        } else {
+	          _.removeClass(el, activeClass);
+	        }
 	      } else {
-	        _.removeClass(el, exactClass);
+	        if (this.activeRE && this.activeRE.test(path)) {
+	          _.addClass(el, activeClass);
+	        } else {
+	          _.removeClass(el, activeClass);
+	        }
 	      }
 	    },
 
@@ -2611,68 +2729,20 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = exports['default'];
 
 /***/ },
-/* 28 */
-/***/ function(module, exports) {
-
-	// overriding Vue's $addChild method, so that every child
-	'use strict';
-
-	Object.defineProperty(exports, '__esModule', {
-	  value: true
-	});
-
-	exports['default'] = function (Vue) {
-
-	  var addChild = Vue.prototype.$addChild;
-
-	  Vue.prototype.$addChild = function (opts, Ctor) {
-
-	    var route = this.$route;
-	    var router = route && route.router;
-
-	    // inject meta
-	    if (router) {
-	      opts = opts || {};
-	      var meta = opts._meta = opts._meta || {};
-	      meta.$route = route;
-	      if (opts._isRouterView) {
-	        meta.$loadingRouteData = meta.$loadingRouteData || false;
-	      }
-	    }
-
-	    var child = addChild.call(this, opts, Ctor);
-
-	    if (router) {
-	      // keep track of all children created so we can
-	      // update the routes
-	      router._children.push(child);
-	      child.$on('hook:beforeDestroy', function () {
-	        router._children.$remove(child);
-	      });
-	    }
-
-	    return child;
-	  };
-	};
-
-	module.exports = exports['default'];
-	// instance inherits the route data
-
-/***/ },
-/* 29 */
+/* 31 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var _createClass = __webpack_require__(11)['default'];
+	var _createClass = __webpack_require__(1)['default'];
 
-	var _classCallCheck = __webpack_require__(1)['default'];
+	var _classCallCheck = __webpack_require__(5)['default'];
 
 	Object.defineProperty(exports, '__esModule', {
 	  value: true
 	});
 
-	var _util = __webpack_require__(3);
+	var _util = __webpack_require__(7);
 
 	var AbstractHistory = (function () {
 	  function AbstractHistory(_ref) {
@@ -2696,14 +2766,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 	  }, {
 	    key: 'go',
-	    value: function go(path) {
-	      path = this.currentPath = this.formatPath(path);
+	    value: function go(path, replace, append) {
+	      path = this.currentPath = this.formatPath(path, append);
 	      this.onChange(path);
 	    }
 	  }, {
 	    key: 'formatPath',
-	    value: function formatPath(path) {
-	      return path.charAt(0) === '/' ? path : (0, _util.resolvePath)(this.currentPath, path);
+	    value: function formatPath(path, append) {
+	      return path.charAt(0) === '/' ? path : (0, _util.resolvePath)(this.currentPath, path, append);
 	    }
 	  }]);
 
@@ -2714,20 +2784,20 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = exports['default'];
 
 /***/ },
-/* 30 */
+/* 32 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var _createClass = __webpack_require__(11)['default'];
+	var _createClass = __webpack_require__(1)['default'];
 
-	var _classCallCheck = __webpack_require__(1)['default'];
+	var _classCallCheck = __webpack_require__(5)['default'];
 
 	Object.defineProperty(exports, '__esModule', {
 	  value: true
 	});
 
-	var _util = __webpack_require__(3);
+	var _util = __webpack_require__(7);
 
 	var HashHistory = (function () {
 	  function HashHistory(_ref) {
@@ -2746,7 +2816,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	      var self = this;
 	      this.listener = function () {
 	        var path = location.hash;
-	        var formattedPath = self.formatPath(path, true);
+	        var raw = path.replace(/^#!?/, '');
+	        // always
+	        if (raw.charAt(0) !== '/') {
+	          raw = '/' + raw;
+	        }
+	        var formattedPath = self.formatPath(raw);
 	        if (formattedPath !== path) {
 	          location.replace(formattedPath);
 	          return;
@@ -2764,8 +2839,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 	  }, {
 	    key: 'go',
-	    value: function go(path, replace) {
-	      path = this.formatPath(path);
+	    value: function go(path, replace, append) {
+	      path = this.formatPath(path, append);
 	      if (replace) {
 	        location.replace(path);
 	      } else {
@@ -2774,14 +2849,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 	  }, {
 	    key: 'formatPath',
-	    value: function formatPath(path, expectAbsolute) {
-	      path = path.replace(/^#!?/, '');
+	    value: function formatPath(path, append) {
 	      var isAbsoloute = path.charAt(0) === '/';
-	      if (expectAbsolute && !isAbsoloute) {
-	        path = '/' + path;
-	      }
 	      var prefix = '#' + (this.hashbang ? '!' : '');
-	      return isAbsoloute || expectAbsolute ? prefix + path : prefix + (0, _util.resolvePath)(location.hash.replace(/^#!?/, ''), path);
+	      return isAbsoloute ? prefix + path : prefix + (0, _util.resolvePath)(location.hash.replace(/^#!?/, ''), path, append);
 	    }
 	  }]);
 
@@ -2792,20 +2863,20 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = exports['default'];
 
 /***/ },
-/* 31 */
+/* 33 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var _createClass = __webpack_require__(11)['default'];
+	var _createClass = __webpack_require__(1)['default'];
 
-	var _classCallCheck = __webpack_require__(1)['default'];
+	var _classCallCheck = __webpack_require__(5)['default'];
 
 	Object.defineProperty(exports, '__esModule', {
 	  value: true
 	});
 
-	var _util = __webpack_require__(3);
+	var _util = __webpack_require__(7);
 
 	var hashRE = /#.*$/;
 
@@ -2855,9 +2926,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 	  }, {
 	    key: 'go',
-	    value: function go(path, replace) {
-	      var root = this.root;
-	      var url = this.formatPath(path, root);
+	    value: function go(path, replace, append) {
+	      var url = this.formatPath(path, append);
 	      if (replace) {
 	        history.replaceState({}, '', url);
 	      } else {
@@ -2882,10 +2952,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 	  }, {
 	    key: 'formatPath',
-	    value: function formatPath(path) {
+	    value: function formatPath(path, append) {
 	      return path.charAt(0) === '/'
 	      // absolute path
-	      ? this.root ? this.root + '/' + path.replace(/^\//, '') : path : (0, _util.resolvePath)(this.base || location.pathname, path);
+	      ? this.root ? this.root + '/' + path.replace(/^\//, '') : path : (0, _util.resolvePath)(this.base || location.pathname, path, append);
 	    }
 	  }]);
 
