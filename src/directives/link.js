@@ -77,7 +77,7 @@ export default function (Vue) {
       this.updateClasses(this.vm.$route.path)
       let isAbsolute = path.charAt(0) === '/'
       // do not format non-hash relative paths
-      let href = router.mode === 'hash' || isAbsolute
+      let href = path && (router.mode === 'hash' || isAbsolute)
         ? router.history.formatPath(path, append)
         : path
       if (this.el.tagName === 'A') {

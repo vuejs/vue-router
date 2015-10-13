@@ -200,7 +200,9 @@ class Router {
       append = path.append
     }
     path = this._stringifyPath(path)
-    this.history.go(path, replace, append)
+    if (path) {
+      this.history.go(path, replace, append)
+    }
   }
 
   /**
@@ -505,7 +507,7 @@ class Router {
    */
 
   _stringifyPath (path) {
-    if (typeof path === 'object') {
+    if (path && typeof path === 'object') {
       if (path.name) {
         var params = path.params || {}
         if (path.query) {
@@ -518,7 +520,7 @@ class Router {
         return ''
       }
     } else {
-      return path + ''
+      return path ? path + '' : ''
     }
   }
 }
