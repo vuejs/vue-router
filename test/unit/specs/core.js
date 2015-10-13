@@ -14,7 +14,12 @@ describe('Core', function () {
   it('matching views', function (done) {
     router = new Router({ abstract: true })
     router.map({
-      '/a': { component: { template: 'AAA' }},
+      '/a': { component: {
+        template: 'AAA',
+        data: function () {
+          expect(this.$route).toBeTruthy()
+        }
+      }},
       '/b': { component: { template: 'BBB' }}
     })
     var App = Vue.extend({
