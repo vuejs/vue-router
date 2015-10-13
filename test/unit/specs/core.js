@@ -199,7 +199,10 @@ describe('Core', function () {
       },
       // test v-link with relative path + append
       '/c': {
-        component: { template: '<a id="link-c" v-link="{ path: \'d\', append: true }">Link C</a><router-view></router-view>' },
+        component: { template:
+          '<a id="link-c" v-link="{ path: \'d\', append: true }">Link C</a><router-view></router-view>' +
+          '<a id="link-null" v-link="{ path: null }"></a>'
+        },
         subRoutes: {
           '/d': {
             component: { template: '+D' }
@@ -231,11 +234,16 @@ describe('Core', function () {
           router.go('/c')
           nextTick(function () {
             expect(el.textContent).toBe('Link C')
-            var link = el.querySelector('#link-c')
-            click(link)
+            var nullLink = el.querySelector('#link-null')
+            click(nullLink)
             nextTick(function () {
-              expect(el.textContent).toBe('Link C+D')
-              done()
+              expect(el.textContent).toBe('Link C')
+              var link = el.querySelector('#link-c')
+              click(link)
+              nextTick(function () {
+                expect(el.textContent).toBe('Link C+D')
+                done()
+              })
             })
           })
         })
