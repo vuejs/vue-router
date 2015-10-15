@@ -1,5 +1,5 @@
 import util, { warn, mapParams } from './util'
-import initMixin from './mixin'
+import applyOverride from './override'
 import Recognizer from 'route-recognizer'
 import Route from './route'
 import Transition from './transition'
@@ -563,7 +563,7 @@ Router.install = function (externalVue) {
     return
   }
   Vue = externalVue
-  initMixin(Vue)
+  applyOverride(Vue)
   View(Vue)
   Link(Vue)
   util.Vue = Vue
