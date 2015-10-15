@@ -8,14 +8,14 @@
 
 - [`transition {Transition}`](hooks.md#transition-object)
 
-  在 `canResule` 勾子中只能访问 `transition.to` 和 `transition.from` 。
+  在 `canResule` 钩子中只能访问 `transition.to` 和 `transition.from` 。
 
 ### 返回值
 
-- 必须返回 Boolean 类型，其他等效的假值（Falsy values）会当作 `false` 对待。
+- 必须返回 Boolean 类型，其他等效的假值（ Falsy values ）会当作 `false` 对待。
 
 ### 详情
 
 `canReuse` 会同步调用，而且从上至下对所有可能重用的组件都会调用。
 
-如果组件可以重用，它的 `data` 勾子在激活阶段仍然会被调用。
+如果组件可以重用，它的 `data` 钩子在激活阶段仍然会被调用。

@@ -16,6 +16,6 @@
 
   - **`html5`**: 使用 HTML5 history API ，监听 `popstate` 事件。支持 [`saveScrollPosition`](../options.html#savescrollposition) .
 
-  - **`hash`**: 使用 `location.hash` ，监听 `hashchange` 事件。如果创建路由器时声明 `history: true` ，则在不支持hitory模式的路由器下会退化为 hash 模式。
+  - **`hash`**: 使用 `location.hash` ，监听 `hashchange` 事件。如果创建路由器时声明 `history: true` ，则在不支持 hitory 模式的路由器下会退化为 hash 模式。
 
   - **`abstract`**: 不监听任何事件。如果没有 `window` 对象（例如非浏览器环境），则会自动退化到此模式。

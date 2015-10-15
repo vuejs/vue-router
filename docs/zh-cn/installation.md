@@ -16,7 +16,7 @@ npm install vue-router
 npm install vuejs/vue-router#dev
 ```
 
-如果使用 CommonJS 模块规范, 需要显示的使用 `Vue.use()` 安装路由模块：
+如果使用 CommonJS 模块规范, 需要显式的使用 `Vue.use()` 安装路由模块：
 
 ``` js
 var Vue = require('vue')

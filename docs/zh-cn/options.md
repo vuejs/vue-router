@@ -7,7 +7,7 @@
 - 默认值： true
 - 只在 hash 模式下可用
 
-  当 hashbang 值为 true 时，所有的路径都会被格式化为以 `#!` 开头。例如 `router.go('/foo/bar')` 会把浏览器的URL设为 `example.com/#!/foo/bar` 。
+  当 hashbang 值为 true 时，所有的路径都会被格式化为以 `#!` 开头。例如 `router.go('/foo/bar')` 会把浏览器的 URL 设为 `example.com/#!/foo/bar` 。
 
 #### history
 
@@ -57,4 +57,4 @@
 
 - 默认值： false
 
-  当值为 `true` 时，在场景切换勾子函数中发生的异常会被吞掉。
+  当值为 `true` 时，在场景切换钩子函数中发生的异常会被吞掉。
