@@ -6,7 +6,7 @@
 
 - [`transition {Transition}`](hooks.md#transition-object)
 
-  调用 `transition.next()` 可以断定（ resolve ）此勾子函数。调用 `transition.abort()` 可以无效化并取消此次切换。
+  调用 `transition.next()` 可以断定（ resolve ）此钩子函数。调用 `transition.abort()` 可以无效化并取消此次切换。
 
 ### 返回值
 
@@ -23,4 +23,4 @@
 
 ### 详情
 
-此勾子函数的调用顺序是从下至上。组件的 `canDeactivate` 勾子仅在子级组件的 `canDeactivate` 被断定（ resolved ）之后调用。
+此钩子函数的调用顺序是从下至上。组件的 `canDeactivate` 钩子仅在子级组件的 `canDeactivate` 被断定（ resolved ）之后调用。

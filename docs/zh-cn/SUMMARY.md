@@ -9,7 +9,7 @@
 - [router-view](view.md)
 - [v-link](link.md)
 - [切换控制流水线](pipeline/README.md)
-  - [切换勾子函数](pipeline/hooks.md)
+  - [切换钩子函数](pipeline/hooks.md)
   - [data](pipeline/data.md)
   - [activate](pipeline/activate.md)
   - [deactivate](pipeline/deactivate.md)
