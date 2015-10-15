@@ -1,4 +1,5 @@
 import { warn } from '../util'
+const trailingSlashRE = /\/$/
 const regexEscapeRE = /[-.*+?^${}()|[\]\/\\]/g
 
 // install v-link, which provides navigation support for
@@ -100,7 +101,14 @@ export default function (Vue) {
       }
       // add new class
       if (this.exact) {
-        if (path === dest) {
+        if (
+          dest === path ||
+          (
+            // also allow additional trailing slash
+            dest.charAt(dest.length - 1) !== '/' &&
+            dest === path.replace(trailingSlashRE, '')
+          )
+        ) {
           _.addClass(el, activeClass)
         } else {
           _.removeClass(el, activeClass)
