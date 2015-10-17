@@ -33,13 +33,6 @@ export default function (Vue) {
       // finally, init by delegating to v-component
       componentDef.bind.call(this)
 
-      // does not support keep-alive.
-      /* istanbul ignore if */
-      if (this.keepAlive) {
-        this.keepAlive = false
-        warn('<router-view> does not support keep-alive.')
-      }
-
       // all we need to do here is registering this view
       // in the router. actual component switching will be
       // managed by the pipeline.
