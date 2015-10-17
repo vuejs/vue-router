@@ -9,5 +9,5 @@ The `<router-view>` element is used as outlets for rendering matched components.
 
 However, there are also a few limitations:
 
-- `keep-alive` is not supported as of now.
+- ~~`keep-alive` is not supported as of now.~~ `keep-alive` now has experimental support in 0.7.2+.
 - `wait-for` is not supported. You should be using the [`activate` transition hook](pipeline/activate.html) to control the timing of the transition.
