@@ -11,7 +11,7 @@ module.exports = {
       {
         test: /.js/,
         exclude: /node_modules/,
-        loader: 'babel?optional[]=runtime&loose=true'
+        loader: 'babel?optional[]=runtime&loose=all'
       }
     ]
   },
