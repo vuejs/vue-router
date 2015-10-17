@@ -184,6 +184,10 @@ export function activate (view, transition, depth, cb, reuse) {
 
   // actually insert the component and trigger transition
   let insert = () => {
+    if (reuse) {
+      cb && cb()
+      return
+    }
     let router = transition.router
     if (router._rendered || router._transitionOnLoad) {
       view.transition(component)
@@ -216,11 +220,7 @@ export function activate (view, transition, depth, cb, reuse) {
       if (dataHook) {
         loadData(component, transition, dataHook)
       }
-      if (!reuse) {
-        insert()
-      } else {
-        cb && cb()
-      }
+      insert()
     }
   }
 
