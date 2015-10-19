@@ -1,5 +1,5 @@
 /*!
- * vue-router v0.7.1
+ * vue-router v0.7.2
  * (c) 2015 Evan You
  * Released under the MIT License.
  */
@@ -71,9 +71,9 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _util2 = _interopRequireDefault(_util);
 
-	var _mixin = __webpack_require__(7);
+	var _override = __webpack_require__(7);
 
-	var _mixin2 = _interopRequireDefault(_mixin);
+	var _override2 = _interopRequireDefault(_override);
 
 	var _routeRecognizer = __webpack_require__(4);
 
@@ -517,7 +517,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	    if (beforeHooks.length) {
 	      transition.runQueue(beforeHooks, function (hook, _, next) {
 	        if (transition === _this2._currentTransition) {
-	          transition.callHook(hook, null, next, true);
+	          transition.callHook(hook, null, next, {
+	            expectBoolean: true
+	          });
 	        }
 	      }, startTransition);
 	    } else {
@@ -655,7 +657,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    return;
 	  }
 	  Vue = externalVue;
-	  _mixin2['default'](Vue);
+	  _override2['default'](Vue);
 	  _directivesView2['default'](Vue);
 	  _directivesLink2['default'](Vue);
 	  _util2['default'].Vue = Vue;
@@ -1565,53 +1567,37 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports['default'] = function (Vue) {
 
 	  var _ = Vue.util;
-	  var mixin = {
-	    init: function init() {
-	      var route = this.$root.$route;
-	      if (route) {
-	        route.router._children.push(this);
-	        if (!this.$route) {
+
+	  var init = Vue.prototype._init;
+	  Vue.prototype._init = function (options) {
+	    var root = options._parent || options.parent || this;
+	    var route = root.$route;
+	    if (route) {
+	      route.router._children.push(this);
+	      if (!this.$route) {
+	        /* istanbul ignore if */
+	        if (this._defineMeta) {
+	          // 0.12
+	          this._defineMeta('$route', route);
+	        } else {
+	          // 1.0
 	          _.defineReactive(this, '$route', route);
 	        }
 	      }
-	    },
-	    beforeDestroy: function beforeDestroy() {
+	    }
+	    init.call(this, options);
+	  };
+
+	  var destroy = Vue.prototype._destroy;
+	  Vue.prototype._destroy = function () {
+	    if (!this._isBeingDestroyed) {
 	      var route = this.$root.$route;
 	      if (route) {
 	        route.router._children.$remove(this);
 	      }
+	      destroy.apply(this, arguments);
 	    }
 	  };
-
-	  // pre 1.0.0-rc compat
-	  if (!Vue.config.optionMergeStrategies || !Vue.config.optionMergeStrategies.init) {
-	    (function () {
-	      delete mixin.init;
-	      var init = Vue.prototype._init;
-	      Vue.prototype._init = function (options) {
-	        var root = options._parent || options.parent || this;
-	        var route = root.$route;
-	        if (route) {
-	          route.router._children.push(this);
-	          if (!this.$route) {
-	            if (this._defineMeta) {
-	              this._defineMeta('$route', route);
-	            } else {
-	              _.defineReactive(this, '$route', route);
-	            }
-	          }
-	        }
-	        init.call(this, options);
-	      };
-	    })();
-	  }
-
-	  if (Vue.mixin) {
-	    Vue.mixin(mixin);
-	  } else {
-	    // 0.12 compat
-	    Vue.options = _.mergeOptions(Vue.options, mixin);
-	  }
 	};
 
 	module.exports = exports['default'];
@@ -1996,6 +1982,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	   * Call a user provided route transition hook and handle
 	   * the response (e.g. if the user returns a promise).
 	   *
+	   * If the user neither expects an argument nor returns a
+	   * promise, the hook is assumed to be synchronous.
+	   *
 	   * @param {Function} hook
 	   * @param {*} [context]
 	   * @param {Function} [cb]
@@ -2078,10 +2067,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	        res.then(function (ok) {
 	          ok ? next() : abort();
 	        }, onError);
+	      } else if (!hook.length) {
+	        next(res);
 	      }
 	    } else if (resIsPromise) {
 	      res.then(next, onError);
-	    } else if (expectData && isPlainOjbect(res)) {
+	    } else if (expectData && isPlainOjbect(res) || !hook.length) {
 	      next(res);
 	    }
 	  };
@@ -2212,7 +2203,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * @param {Function} [cb]
 	 */
 
-	function activate(view, transition, depth, cb) {
+	function activate(view, transition, depth, cb, reuse) {
 	  var handler = transition.activateQueue[depth];
 	  if (!handler) {
 	    // fix 1.0.0-alpha.3 compat
@@ -2231,17 +2222,61 @@ return /******/ (function(modules) { // webpackBootstrap
 	  view.depth = depth;
 	  view.activated = false;
 
-	  // unbuild current component. this step also destroys
-	  // and removes all nested child views.
-	  view.unbuild(true);
-	  // build the new component. this will also create the
-	  // direct child view of the current one. it will register
-	  // itself as view.childView.
-	  var component = view.build({
-	    _meta: {
-	      $loadingRouteData: !!(dataHook && !waitForData)
+	  var component = undefined;
+	  var loading = !!(dataHook && !waitForData);
+
+	  // "reuse" is a flag passed down when the parent view is
+	  // either reused via keep-alive or as a child of a kept-alive view.
+	  // of course we can only reuse if the current kept-alive instance
+	  // is of the correct type.
+	  reuse = reuse && view.childVM && view.childVM.constructor === Component;
+
+	  if (reuse) {
+	    // just reuse
+	    component = view.childVM;
+	    component.$loadingRouteData = loading;
+	  } else {
+	    // unbuild current component. this step also destroys
+	    // and removes all nested child views.
+	    view.unbuild(true);
+	    // handle keep-alive.
+	    // if the view has keep-alive, the child vm is not actually
+	    // destroyed - its nested views will still be in router's
+	    // view list. We need to removed these child views and
+	    // cache them on the child vm.
+	    if (view.keepAlive) {
+	      var views = transition.router._views;
+	      var i = views.indexOf(view);
+	      if (i > 0) {
+	        transition.router._views = views.slice(i);
+	        if (view.childVM) {
+	          view.childVM._routerViews = views.slice(0, i);
+	        }
+	      }
 	    }
-	  });
+
+	    // build the new component. this will also create the
+	    // direct child view of the current one. it will register
+	    // itself as view.childView.
+	    component = view.build({
+	      _meta: {
+	        $loadingRouteData: loading
+	      }
+	    });
+	    // handle keep-alive.
+	    // when a kept-alive child vm is restored, we need to
+	    // add its cached child views into the router's view list,
+	    // and also properly update current view's child view.
+	    if (view.keepAlive) {
+	      component.$loadingRouteData = loading;
+	      var cachedViews = component._routerViews;
+	      if (cachedViews) {
+	        transition.router._views = cachedViews.concat(transition.router._views);
+	        view.childView = cachedViews[cachedViews.length - 1];
+	        component._routerViews = null;
+	      }
+	    }
+	  }
 
 	  // cleanup the component in case the transition is aborted
 	  // before the component is ever inserted.
@@ -2251,11 +2286,16 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	  // actually insert the component and trigger transition
 	  var insert = function insert() {
+	    if (reuse) {
+	      cb && cb();
+	      return;
+	    }
 	    var router = transition.router;
 	    if (router._rendered || router._transitionOnLoad) {
 	      view.transition(component);
 	    } else {
 	      // no transition on first render, manual transition
+	      /* istanbul ignore if */
 	      if (view.setCurrent) {
 	        // 0.12 compat
 	        view.setCurrent(component);
@@ -2273,7 +2313,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    view.activated = true;
 	    // activate the child view
 	    if (view.childView) {
-	      activate(view.childView, transition, depth + 1);
+	      activate(view.childView, transition, depth + 1, null, reuse || view.keepAlive);
 	    }
 	    if (dataHook && waitForData) {
 	      // wait until data loaded to insert
@@ -2325,24 +2365,27 @@ return /******/ (function(modules) { // webpackBootstrap
 	  component.$loadingRouteData = true;
 	  transition.callHook(hook, component, function (data, onError) {
 	    var promises = [];
-	    _Object$keys(data).forEach(function (key) {
-	      var val = data[key];
-	      if (_util.isPromise(val)) {
-	        promises.push(val.then(function (resolvedVal) {
-	          component.$set(key, resolvedVal);
-	        }));
-	      } else {
-	        component.$set(key, val);
-	      }
-	    });
+	    if (Object.prototype.toString.call(data) === '[object Object]') {
+	      _Object$keys(data).forEach(function (key) {
+	        var val = data[key];
+	        if (_util.isPromise(val)) {
+	          promises.push(val.then(function (resolvedVal) {
+	            component.$set(key, resolvedVal);
+	          }));
+	        } else {
+	          component.$set(key, val);
+	        }
+	      });
+	    }
 	    if (!promises.length) {
 	      component.$loadingRouteData = false;
+	      cb && cb();
 	    } else {
 	      promises[0].constructor.all(promises).then(function (_) {
 	        component.$loadingRouteData = false;
+	        cb && cb();
 	      }, onError);
 	    }
-	    cb && cb(data);
 	  }, {
 	    cleanup: cleanup,
 	    expectData: true
@@ -2436,13 +2479,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	      // finally, init by delegating to v-component
 	      componentDef.bind.call(this);
 
-	      // does not support keep-alive.
-	      /* istanbul ignore if */
-	      if (this.keepAlive) {
-	        this.keepAlive = false;
-	        _util.warn('<router-view> does not support keep-alive.');
-	      }
-
 	      // all we need to do here is registering this view
 	      // in the router. actual component switching will be
 	      // managed by the pipeline.
@@ -2493,6 +2529,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _util = __webpack_require__(3);
 
+	var trailingSlashRE = /\/$/;
 	var regexEscapeRE = /[-.*+?^${}()|[\]\/\\]/g;
 
 	// install v-link, which provides navigation support for
@@ -2587,7 +2624,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	      }
 	      // add new class
 	      if (this.exact) {
-	        if (path === dest) {
+	        if (dest === path ||
+	        // also allow additional trailing slash
+	        dest.charAt(dest.length - 1) !== '/' && dest === path.replace(trailingSlashRE, '')) {
 	          _.addClass(el, activeClass);
 	        } else {
 	          _.removeClass(el, activeClass);
