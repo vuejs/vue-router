@@ -154,4 +154,36 @@ describe('deactivate', function () {
       }, wait * 2)
     })
   })
+
+  it('multiple', function (done) {
+    var calls = []
+    test({
+      a: {
+        deactivate: [
+          function (transition) {
+            calls.push(1)
+            setTimeout(function () {
+              transition.next()
+            }, wait)
+          },
+          function () {
+            calls.push(2)
+            return new Promise(function (resolve) {
+              setTimeout(resolve, wait)
+            })
+          }
+        ]
+      }
+    }, function (router, _, emitter) {
+      router.go('/a')
+      expect(router.app.$el.textContent).toBe('A ')
+      router.go('/b')
+      expect(router.app.$el.textContent).toBe('A ')
+      setTimeout(function () {
+        assertCalls(calls, [1, 2])
+        expect(router.app.$el.textContent).toBe('')
+        done()
+      }, wait * 3)
+    })
+  })
 })

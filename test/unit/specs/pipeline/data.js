@@ -196,4 +196,49 @@ describe('data', function () {
       }, wait * 2)
     })
   })
+
+  it('multiple data hooks', function (done) {
+    test({
+      data: {
+        data: [
+          function (transition) {
+            return {
+              msg: new Promise(function (resolve) {
+                setTimeout(function () {
+                  resolve(transition.to.params.msg)
+                }, wait)
+              })
+            }
+          },
+          function (transition) {
+            return new Promise(function (resolve) {
+              setTimeout(function () {
+                resolve({
+                  otherMsg: ' ' + transition.to.params.msg + '2'
+                })
+              }, wait)
+            })
+          }
+        ],
+        mixins: [
+          {
+            route: {
+              data: function (transition) {
+                transition.next({
+                  thirdMsg: ' ' + transition.to.params.msg + '3'
+                })
+              }
+            }
+          }
+        ]
+      }
+    }, function (router, calls, emitter) {
+      router.go('/data/hello')
+      expect(router.app.$el.textContent).toBe('loading...')
+      setTimeout(function () {
+        expect(router.app.$el.textContent).toBe('hello hello2 hello3')
+        done()
+      }, wait * 3)
+    })
+  })
 })

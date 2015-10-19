@@ -168,4 +168,34 @@ describe('activate', function () {
       done()
     })
   })
+
+  it('multiple', function (done) {
+    var calls = []
+    test({
+      a: {
+        activate: [
+          function (transition) {
+            calls.push(1)
+            setTimeout(function () {
+              transition.next()
+            }, wait)
+          },
+          function () {
+            calls.push(2)
+            return new Promise(function (resolve) {
+              setTimeout(resolve, wait)
+            })
+          }
+        ]
+      }
+    }, function (router, _, emitter) {
+      router.go('/a')
+      expect(router.app.$el.textContent).toBe('')
+      setTimeout(function () {
+        assertCalls(calls, [1, 2])
+        expect(router.app.$el.textContent).toBe('A ')
+        done()
+      }, wait * 3)
+    })
+  })
 })

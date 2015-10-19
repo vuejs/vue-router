@@ -24,6 +24,9 @@ exports.test = function (configs, cb) {
     var config = configs[route]
     Object.keys(config).forEach(function (hook) {
       var fn = config[hook]
+      if (Array.isArray(fn) || hook === 'mixins') {
+        return
+      }
       if (fn.length) {
         config[hook] = function (transition) {
           var event = route + '.' + hook
@@ -84,12 +87,15 @@ exports.test = function (configs, cb) {
     '/data/:msg': {
       component: {
         route: configs.data,
+        mixins: configs.data && configs.data.mixins,
         template:
           '<span v-if="$loadingRouteData">loading...</span>' +
-          '<span v-if="!$loadingRouteData">{{msg}}</span>',
+          '<span v-if="!$loadingRouteData">{{msg}}{{otherMsg}}{{thirdMsg}}</span>',
         data: function () {
           return {
-            msg: 'default'
+            msg: 'default',
+            otherMsg: '',
+            thirdMsg: ''
           }
         }
       }
