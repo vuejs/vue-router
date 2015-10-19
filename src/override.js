@@ -37,6 +37,7 @@ export default function (Vue) {
   // 1.0 only: enable route mixins
   const strats = Vue.config.optionMergeStrategies
   const hooksToMergeRE = /^(data|activate|deactivate)$/
+
   if (strats) {
     strats.route = (parentVal, childVal) => {
       if (!childVal) return parentVal
@@ -46,6 +47,8 @@ export default function (Vue) {
       for (let key in childVal) {
         let a = ret[key]
         let b = childVal[key]
+        // for data, activate and deactivate, we need to merge them into
+        // arrays similar to lifecycle hooks.
         if (a && hooksToMergeRE.test(key)) {
           ret[key] = (_.isArray(a) ? a : [a]).concat(b)
         } else {
