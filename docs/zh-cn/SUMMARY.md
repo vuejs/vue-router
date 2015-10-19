@@ -1,5 +1,7 @@
 # vue-router文档 [![npm package](https://img.shields.io/npm/v/vue-router.svg)](https://www.npmjs.com/package/vue-router)
 
+**[更新日志](https://github.com/vuejs/vue-router/releases)**
+
 - [安装](installation.md)
 - [基本用法](basic.md)
 - [嵌套路由](nested.md)
