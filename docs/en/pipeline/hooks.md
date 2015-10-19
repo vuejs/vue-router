@@ -15,13 +15,12 @@ You can implement these hooks under your component's `route` option:
 Vue.component('hook-example', {
   // ... other options
   route: {
-    activate: function (transition) {
+    activate: function () {
       console.log('hook-example activated!')
-      transition.next()
     },
-    deactivate: function (transition) {
-      console.log('hook-example deactivated!')
-      transition.next()
+    canDeactivate: function (transition) {
+      console.log('You are not allowed to leave.')
+      transition.abort()
     }
   }
 })
@@ -51,21 +50,46 @@ Each transition hook will receive a `transition` object as the only argument. Th
 
   Cancel current transition and redirect to a different target route instead.
 
-All transition hooks are considered asynchronous by default. In order to signal the transition to progress, you have three options:
+### Hook Resolution Rules
 
-1. Explicitly call one of `next`, `abort` or `redirect`.
+We often need to perform asynchronous tasks inside transition hooks. The transition will not proceed until an asynchronous hook has been resolved.  Here are the rules to determine when a hook should be considered resolved:
 
-2. Return a Promise. Details below.
+1. If the hook returns a Promise, the hook will be resolved when the Promise is resolved. [See details below](#returning-promise-in-hooks).
 
-3. For validation hooks (`canActivate` and `canDeactivate`), you can synchronously return a Boolean value.
+2. If the hook doesn't return a Promise, and doesn't expect any argument, it is resolved synchronously. For example:
+
+  ``` js
+  route: {
+    activate: function (/* no argument here */) {
+      // will resolve synchronously as long as not returning a Promise
+    }
+  }
+  ```
+
+3. If the hook doesn't return a Promise, but expects an argument (`transition`), then the hook will only be resolved when one of `transition.next()`, `transition.abort()` or `transition.redirect()` is called. For example:
+
+  ``` js
+  route: {
+    activate: function (transition) {
+      // resolve after 1 second
+      setTimeout(transition.next, 1000)
+    }
+  }
+  ```
+
+4. In validation hooks such as `canActivate`, `canDeactivate` and the [global beforeEach hook](../api/before-each.md), returning a Boolean will synchronously resolve the hook, even if the hooks has the `transition` argument.
 
 ### Returning Promise in Hooks
 
-When you return a Promise in a transition hook, `transition.next` will be called for you when the Promise resolves. If the Promise is rejected during validation phase, it will call `transition.abort`; if it is rejected during activation phase, it will call `transition.next`.
+- When you return a Promise in a transition hook, `transition.next` will be called for you when the Promise resolves successfully.
 
-For validation hooks (`canActivate` and `canDeactivate`), if the Promise's resolved value is falsy, it will also abort the transition.
+- If the Promise is rejected during validation phase, it will call `transition.abort`.
 
-If a rejected promise has an uncaught error, it will be thrown unless you suppress it with the `suppressTransitionError` option when creating the router.
+- If the Promise is rejected during activation phase, it will call `transition.next`.
+
+- For validation hooks, if the Promise's resolved value is falsy, it will also abort the transition.
+
+- If a rejected promise has an uncaught error, it will be thrown unless you suppress it with the `suppressTransitionError` option when creating the router.
 
 **Example:**
 
