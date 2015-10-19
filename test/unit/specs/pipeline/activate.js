@@ -24,6 +24,21 @@ describe('activate', function () {
     })
   })
 
+  it('sync (no arg)', function (done) {
+    test({
+      a: {
+        activate: function () {
+          // noop
+        }
+      }
+    }, function (router, calls, emitter) {
+      router.go('/a')
+      expect(router.app.$el.textContent).toBe('A ')
+      assertCalls(calls, ['a.activate'])
+      done()
+    })
+  })
+
   it('async', function (done) {
     test({
       a: {

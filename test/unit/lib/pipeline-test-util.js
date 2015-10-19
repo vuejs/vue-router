@@ -24,14 +24,26 @@ exports.test = function (configs, cb) {
     var config = configs[route]
     Object.keys(config).forEach(function (hook) {
       var fn = config[hook]
-      config[hook] = function (transition) {
-        var event = route + '.' + hook
-        calls.push(event)
-        var res = typeof fn === 'function'
-          ? fn(transition)
-          : fn
-        emitter.emit(event)
-        return res
+      if (fn.length) {
+        config[hook] = function (transition) {
+          var event = route + '.' + hook
+          calls.push(event)
+          var res = typeof fn === 'function'
+            ? fn(transition)
+            : fn
+          emitter.emit(event)
+          return res
+        }
+      } else {
+        config[hook] = function () {
+          var event = route + '.' + hook
+          calls.push(event)
+          var res = typeof fn === 'function'
+            ? fn()
+            : fn
+          emitter.emit(event)
+          return res
+        }
       }
     })
   })

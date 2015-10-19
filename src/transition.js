@@ -184,6 +184,9 @@ export default class RouteTransition {
    * Call a user provided route transition hook and handle
    * the response (e.g. if the user returns a promise).
    *
+   * If the user neither expects an argument nor returns a
+   * promise, the hook is assumed to be synchronous.
+   *
    * @param {Function} hook
    * @param {*} [context]
    * @param {Function} [cb]
@@ -263,10 +266,12 @@ export default class RouteTransition {
         res.then(function (ok) {
           ok ? next() : abort()
         }, onError)
+      } else if (!hook.length) {
+        next(res)
       }
     } else if (resIsPromise) {
       res.then(next, onError)
-    } else if (expectData && isPlainOjbect(res)) {
+    } else if ((expectData && isPlainOjbect(res)) || !hook.length) {
       next(res)
     }
   }

@@ -21,6 +21,23 @@ describe('deactivate', function () {
     })
   })
 
+  it('sync (no arg)', function (done) {
+    test({
+      a: {
+        deactivate: function () {
+          // noop
+        }
+      }
+    }, function (router, calls, emitter) {
+      router.go('/a')
+      expect(router.app.$el.textContent).toBe('A ')
+      router.go('/b')
+      expect(router.app.$el.textContent).toBe('')
+      assertCalls(calls, ['a.deactivate'])
+      done()
+    })
+  })
+
   it('async', function (done) {
     test({
       a: {
