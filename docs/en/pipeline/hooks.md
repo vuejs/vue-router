@@ -127,4 +127,16 @@ route: {
 }
 ```
 
-Check out the [advanced example](https://github.com/vuejs/vue-router/tree/dev/example/advanced) in the vue-router repo.
+For a full example of transition hooks in action, check out the [advanced example](https://github.com/vuejs/vue-router/tree/dev/example/advanced) in the vue-router repo.
+
+### Hook Merging
+
+Similar to component lifecycle hooks, the following route lifecycle hooks:
+
+- `data`
+- `activate`
+- `deactivate`
+
+...are merged during class extension or mixins. For example, if your component defines a route `data` hook, and uses a mixin that also provides a route `data` hook, both hooks will get called (mixin hooks called first) and the resolved data from all hooks will be merged together.
+
+Note that validation hooks like `canActivate`, `canDeactivate` and `canReuse` are always overwritten by the newer value.

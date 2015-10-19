@@ -10,7 +10,7 @@ This route options can either be a plain Boolean value, or a function that synch
 
   You can only access `transition.to` and `transition.from` in a `canReuse` hook.
 
-### Return Value
+### Expected Return Value
 
 - Must return a Boolean. Falsy values are treated as `false`.
 

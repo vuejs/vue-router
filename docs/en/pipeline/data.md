@@ -8,13 +8,14 @@ Called on an incoming component during the activation phase, after the `activate
 
   Calling `transition.next(data)` will set each property in `data` on the component. For example, with `{ a: 1, b: 2 }`, the router will call `component.$set('a', 1)` and `component.$set('b', 2)`.
 
-### Return Value
+### Expected Return Value
 
 - optionally return a Promise.
   - `resolve(data)` -> `transition.next(data)`
   - `reject(reason)` -> `transition.abort(reason)`
 
-- or, return an Object containing Promises. See [Promise sugar](#promise-sugar) below.
+
+- **OR:** return an Object containing Promises. See [Promise sugar](#promise-sugar) below.
 
 ### Details
 

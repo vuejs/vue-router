@@ -8,7 +8,7 @@ Called on an incoming component during the activation phase when it is created a
 
   Call `transition.next()` to resolve the hook. Note calling `transition.abort()` here will not take the app back to the previous route because the transition has already been validated.
 
-### Return Value
+### Expected Return Value
 
 - Optionally return a Promise.
   - `resolve` -> `transition.next()`
