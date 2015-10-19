@@ -262,16 +262,18 @@ function loadData (component, transition, hook, cb, cleanup) {
   component.$loadingRouteData = true
   transition.callHook(hook, component, (data, onError) => {
     let promises = []
-    Object.keys(data).forEach(key => {
-      let val = data[key]
-      if (isPromise(val)) {
-        promises.push(val.then(resolvedVal => {
-          component.$set(key, resolvedVal)
-        }))
-      } else {
-        component.$set(key, val)
-      }
-    })
+    if (Object.prototype.toString.call(data) === '[object Object]') {
+      Object.keys(data).forEach(key => {
+        let val = data[key]
+        if (isPromise(val)) {
+          promises.push(val.then(resolvedVal => {
+            component.$set(key, resolvedVal)
+          }))
+        } else {
+          component.$set(key, val)
+        }
+      })
+    }
     if (!promises.length) {
       component.$loadingRouteData = false
       cb && cb()
