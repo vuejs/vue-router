@@ -9,6 +9,7 @@ export default function (Vue) {
     if (route) {
       route.router._children.push(this)
       if (!this.$route) {
+        /* istanbul ignore if */
         if (this._defineMeta) {
           // 0.12
           this._defineMeta('$route', route)

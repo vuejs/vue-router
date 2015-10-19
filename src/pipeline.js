@@ -193,6 +193,7 @@ export function activate (view, transition, depth, cb, reuse) {
       view.transition(component)
     } else {
       // no transition on first render, manual transition
+      /* istanbul ignore if */
       if (view.setCurrent) {
         // 0.12 compat
         view.setCurrent(component)

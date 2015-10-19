@@ -133,6 +133,69 @@ describe('Core', function () {
     ], done)
   })
 
+  it('matching nested views with keep-alive', function (done) {
+    router = new Router({ abstract: true })
+    var spyA = jasmine.createSpy()
+    var spySubA = jasmine.createSpy()
+    router.map({
+      '/a': {
+        component: {
+          template: 'VIEW A <router-view></router-view>',
+          created: spyA
+        },
+        subRoutes: {
+          '/': {
+            component: {
+              template: 'SUB A DEFAULT'
+            }
+          },
+          '/sub-a': {
+            component: {
+              template: 'SUB A'
+            }
+          },
+          '/sub-a-2': {
+            component: {
+              template: 'SUB A2',
+              created: spySubA
+            }
+          }
+        }
+      },
+      '/b': {
+        component: {
+          template: 'VIEW B <router-view></router-view>'
+        },
+        subRoutes: {
+          '/sub-b': {
+            component: {
+              template: 'SUB B'
+            }
+          }
+        }
+      }
+    })
+    var App = Vue.extend({
+      template: '<div><router-view keep-alive></router-view></div>'
+    })
+    router.start(App, el)
+    assertRoutes([
+      ['/a', 'VIEW A SUB A DEFAULT'],
+      ['/a/sub-a', 'VIEW A SUB A'],
+      ['/a/sub-a-2', 'VIEW A SUB A2'],
+      ['/b/sub-b', 'VIEW B SUB B'],
+      // revisit a kept-alive view
+      ['/a/sub-a-2', 'VIEW A SUB A2'],
+      ['/b', 'VIEW B '],
+      // no match
+      ['/b/sub-a', '']
+    ], function () {
+      expect(spyA.calls.count()).toBe(1)
+      expect(spySubA.calls.count()).toBe(1)
+      done()
+    })
+  })
+
   it('route context', function (done) {
     Vue.config.silent = true
     router = new Router({ abstract: true })
@@ -581,25 +644,41 @@ describe('Core', function () {
       }
     })
 
+    // a synchronous hook
+    var spy3 = jasmine.createSpy('before hook 3')
+    router.beforeEach(function () {
+      spy3()
+    })
+
     router.start(App, el)
     expect(spy1).toHaveBeenCalled()
     expect(spy2).not.toHaveBeenCalled()
+    expect(spy3).not.toHaveBeenCalled()
     expect(router.app.$el.textContent).toBe('')
+
     setTimeout(function () {
       expect(spy2).toHaveBeenCalled()
+      expect(spy3).toHaveBeenCalled()
       expect(router.app.$el.textContent).toBe('default')
       router.go('/no')
     }, wait * 2)
+
     function next () {
       expect(spy1.calls.count()).toBe(2)
       expect(spy2.calls.count()).toBe(2)
+      expect(spy3.calls.count()).toBe(1) // aborted at 2
       expect(router.app.$el.textContent).toBe('default')
       router.go('/redirect/12345')
     }
+
     function next2 () {
       expect(spy1.calls.count()).toBe(4) // go + redirect
       expect(spy2.calls.count()).toBe(3) // only go at this moment
+      expect(spy3.calls.count()).toBe(1) // still 1
       setTimeout(function () {
+        expect(spy1.calls.count()).toBe(4)
+        expect(spy2.calls.count()).toBe(4)
+        expect(spy3.calls.count()).toBe(2) // after redirect
         expect(router.app.$el.textContent).toBe('to 12345')
         done()
       }, wait * 2)
