@@ -206,9 +206,9 @@ export default class RouteTransition {
     let nextCalled = false
 
     // abort the transition
-    let abort = (back) => {
+    let abort = () => {
       cleanup && cleanup()
-      transition.abort(back)
+      transition.abort()
     }
 
     // handle errors

@@ -380,22 +380,38 @@ class Router {
       return
     }
 
-    let prevRoute = this._currentRoute
-    let prevTransition = this._currentTransition
+    let currentRoute = this._currentRoute
+    let currentTransition = this._currentTransition
 
-    // do nothing if going to the same route.
     // the route only changes when a transition successfully
     // reaches activation; we don't need to do anything
     // if an ongoing transition is aborted during validation
     // phase.
-    if (prevTransition && path === prevRoute.path) {
-      return
+    if (currentTransition) {
+      if (currentTransition.to.path === path) {
+        // do nothing if we have an active transition going to the same path
+        return
+      } else if (currentRoute.path === path) {
+        // We are going to the same path, but we also have an ongoing but
+        // not-yet-validated transition. Abort that transition and reset to
+        // prev transition.
+        currentTransition.aborted = true
+        this._currentTransition = this._prevTransition
+        return
+      } else {
+        // going to a totally different path. abort ongoing transition.
+        currentTransition.aborted = true
+      }
     }
 
     // construct new route and transition context
     let route = new Route(path, this)
-    let transition = new Transition(this, route, prevRoute)
-    this._prevTransition = prevTransition
+    let transition = new Transition(this, route, currentRoute)
+
+    // current transition is updated right now.
+    // however, current route will only be updated after the transition has
+    // been validated.
+    this._prevTransition = currentTransition
     this._currentTransition = transition
 
     if (!this.app) {
@@ -448,12 +464,6 @@ class Router {
    */
 
   _onTransitionValidated (transition) {
-    // now that this one is validated, we can abort
-    // the previous transition.
-    let prevTransition = this._prevTransition
-    if (prevTransition) {
-      prevTransition.aborted = true
-    }
     // set current route
     let route = this._currentRoute = transition.to
     // update route context for all children
@@ -569,12 +579,6 @@ Router.install = function (externalVue) {
   View(Vue)
   Link(Vue)
   util.Vue = Vue
-  // 1.0 only: enable route mixins
-  var strats = Vue.config.optionMergeStrategies
-  if (strats) {
-    // use the same merge strategy as methods (object hash)
-    strats.route = strats.methods
-  }
   Router.installed = true
 }
 
