@@ -419,7 +419,9 @@ class Router {
     if (beforeHooks.length) {
       transition.runQueue(beforeHooks, (hook, _, next) => {
         if (transition === this._currentTransition) {
-          transition.callHook(hook, null, next, true)
+          transition.callHook(hook, null, next, {
+            expectBoolean: true
+          })
         }
       }, startTransition)
     } else {
