@@ -8,13 +8,14 @@
 
   调用 `transition.next()` 可以断定（ resolve ）此钩子函数。调用 `transition.abort()` 可以无效化并取消此次切换。
 
-### 返回值
+### 预期返回值
 
 - 可选择性返回 Promise :
 
   - `resolve(true)` -> `transition.next()`
   - `resolve(false)` -> `transition.abort()`
   - `reject(reason)` -> `transition.abort(reason)`
+
 
 - 可选择性返回 Boolean 值：
 

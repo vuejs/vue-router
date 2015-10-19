@@ -137,6 +137,6 @@ Similar to component lifecycle hooks, the following route lifecycle hooks:
 - `activate`
 - `deactivate`
 
-...are merged during class extension or mixins. For example, if your component defines a route `data` hook, and uses a mixin that also provides a route `data` hook, both hooks will get called (mixin hooks called first) and the resolved data from all hooks will be merged together.
+...are "merged" during option merges (i.e. class extension or mixins). For example, if your component defines a route `data` hook, and uses a mixin that also provides a route `data` hook, both hooks will get called (mixin hooks called first) and the resolved data from all hooks will be merged together.
 
-Note that validation hooks like `canActivate`, `canDeactivate` and `canReuse` are always overwritten by the newer value.
+Note that validation hooks like `canActivate`, `canDeactivate` and `canReuse` are always overwritten by the newer value during option merges.

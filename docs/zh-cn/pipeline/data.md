@@ -8,11 +8,12 @@
 
   调用 `transition.next(data)` 会为组件的 `data` 相应属性赋值。例如，使用 `{ a: 1, b: 2 }` ，路由会调用 `component.$set('a', 1)` 以及 `component.$set('b', 2)` 。
 
-### 返回值
+### 预期返回值
 
 - 可选择性返回一个Promise
   - `resolve(data)` -> `transition.next(data)`
   - `reject(reason)` -> `transition.abort(reason)`
+
 
 - 或者，返回一个包含 Promise 的对象。见后文 [Promise 语法糖](#promise-%E8%AF%AD%E6%B3%95%E7%B3%96)
 

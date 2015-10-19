@@ -128,3 +128,15 @@ route: {
 ```
 
 查看 vue-router 中的[高级示例](https://github.com/vuejs/vue-router/tree/dev/example/advanced)
+
+### 钩子合并
+
+和组件本身的生命周期钩子一样，以下路由生命周期钩子：
+
+- `data`
+- `activate`
+- `deactivate`
+
+也会在合并选项时（扩展类或是使用 mixins）被合并。举例来说，如果你的组件本身定义了一个路由 `data` 钩子，而这个组件所调用的一个 mixin 也定义了一个路由 `data` 钩子，则这两个钩子都会被调用，并且各自返回的数据将会被最终合并到一起。
+
+需要注意的是，验证类钩子，比如 `canActivate`, `canDeactivate` 和 `canReuse` 在合并选项时会直接被新值覆盖。

@@ -10,7 +10,7 @@
 
   在 `canResule` 钩子中只能访问 `transition.to` 和 `transition.from` 。
 
-### 返回值
+### 预期返回值
 
 - 必须返回 Boolean 类型，其他等效的假值（ Falsy values ）会当作 `false` 对待。
 

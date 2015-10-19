@@ -8,7 +8,7 @@
 
   调用 `transition.next()` 可以断定（ resolve ）这个钩子函数。注意，这里调用 `transition.abort()` 并不会把应用回退到前一个路由状态因为此时切换已经被确认合法了。
 
-### 返回值
+### 预期返回值
 
 - 可选择性返回 Promise。
   - `resolve` -> `transition.next()`
