@@ -383,10 +383,6 @@ class Router {
     let currentRoute = this._currentRoute
     let currentTransition = this._currentTransition
 
-    // the route only changes when a transition successfully
-    // reaches activation; we don't need to do anything
-    // if an ongoing transition is aborted during validation
-    // phase.
     if (currentTransition) {
       if (currentTransition.to.path === path) {
         // do nothing if we have an active transition going to the same path
