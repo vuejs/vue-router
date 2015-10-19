@@ -1,5 +1,5 @@
 /*!
- * vue-router v0.7.2
+ * vue-router v0.7.3
  * (c) 2015 Evan You
  * Released under the MIT License.
  */
@@ -87,23 +87,23 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _transition2 = _interopRequireDefault(_transition);
 
-	var _directivesView = __webpack_require__(25);
+	var _directivesView = __webpack_require__(28);
 
 	var _directivesView2 = _interopRequireDefault(_directivesView);
 
-	var _directivesLink = __webpack_require__(26);
+	var _directivesLink = __webpack_require__(29);
 
 	var _directivesLink2 = _interopRequireDefault(_directivesLink);
 
-	var _historyAbstract = __webpack_require__(27);
+	var _historyAbstract = __webpack_require__(30);
 
 	var _historyAbstract2 = _interopRequireDefault(_historyAbstract);
 
-	var _historyHash = __webpack_require__(28);
+	var _historyHash = __webpack_require__(31);
 
 	var _historyHash2 = _interopRequireDefault(_historyHash);
 
-	var _historyHtml5 = __webpack_require__(29);
+	var _historyHtml5 = __webpack_require__(32);
 
 	var _historyHtml52 = _interopRequireDefault(_historyHtml5);
 
@@ -478,22 +478,34 @@ return /******/ (function(modules) { // webpackBootstrap
 	      return;
 	    }
 
-	    var prevRoute = this._currentRoute;
-	    var prevTransition = this._currentTransition;
+	    var currentRoute = this._currentRoute;
+	    var currentTransition = this._currentTransition;
 
-	    // do nothing if going to the same route.
-	    // the route only changes when a transition successfully
-	    // reaches activation; we don't need to do anything
-	    // if an ongoing transition is aborted during validation
-	    // phase.
-	    if (prevTransition && path === prevRoute.path) {
-	      return;
+	    if (currentTransition) {
+	      if (currentTransition.to.path === path) {
+	        // do nothing if we have an active transition going to the same path
+	        return;
+	      } else if (currentRoute.path === path) {
+	        // We are going to the same path, but we also have an ongoing but
+	        // not-yet-validated transition. Abort that transition and reset to
+	        // prev transition.
+	        currentTransition.aborted = true;
+	        this._currentTransition = this._prevTransition;
+	        return;
+	      } else {
+	        // going to a totally different path. abort ongoing transition.
+	        currentTransition.aborted = true;
+	      }
 	    }
 
 	    // construct new route and transition context
 	    var route = new _route2['default'](path, this);
-	    var transition = new _transition2['default'](this, route, prevRoute);
-	    this._prevTransition = prevTransition;
+	    var transition = new _transition2['default'](this, route, currentRoute);
+
+	    // current transition is updated right now.
+	    // however, current route will only be updated after the transition has
+	    // been validated.
+	    this._prevTransition = currentTransition;
 	    this._currentTransition = transition;
 
 	    if (!this.app) {
@@ -546,12 +558,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	   */
 
 	  Router.prototype._onTransitionValidated = function _onTransitionValidated(transition) {
-	    // now that this one is validated, we can abort
-	    // the previous transition.
-	    var prevTransition = this._prevTransition;
-	    if (prevTransition) {
-	      prevTransition.aborted = true;
-	    }
 	    // set current route
 	    var route = this._currentRoute = transition.to;
 	    // update route context for all children
@@ -661,12 +667,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	  _directivesView2['default'](Vue);
 	  _directivesLink2['default'](Vue);
 	  _util2['default'].Vue = Vue;
-	  // 1.0 only: enable route mixins
-	  var strats = Vue.config.optionMergeStrategies;
-	  if (strats) {
-	    // use the same merge strategy as methods (object hash)
-	    strats.route = strats.methods;
-	  }
 	  Router.installed = true;
 	};
 
@@ -1568,6 +1568,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	  var _ = Vue.util;
 
+	  // override Vue's init and destroy process to keep track of router instances
 	  var init = Vue.prototype._init;
 	  Vue.prototype._init = function (options) {
 	    var root = options._parent || options.parent || this;
@@ -1598,6 +1599,31 @@ return /******/ (function(modules) { // webpackBootstrap
 	      destroy.apply(this, arguments);
 	    }
 	  };
+
+	  // 1.0 only: enable route mixins
+	  var strats = Vue.config.optionMergeStrategies;
+	  var hooksToMergeRE = /^(data|activate|deactivate)$/;
+
+	  if (strats) {
+	    strats.route = function (parentVal, childVal) {
+	      if (!childVal) return parentVal;
+	      if (!parentVal) return childVal;
+	      var ret = {};
+	      _.extend(ret, parentVal);
+	      for (var key in childVal) {
+	        var a = ret[key];
+	        var b = childVal[key];
+	        // for data, activate and deactivate, we need to merge them into
+	        // arrays similar to lifecycle hooks.
+	        if (a && hooksToMergeRE.test(key)) {
+	          ret[key] = (_.isArray(a) ? a : [a]).concat(b);
+	        } else {
+	          ret[key] = b;
+	        }
+	      }
+	      return ret;
+	    };
+	  }
 	};
 
 	module.exports = exports['default'];
@@ -2007,9 +2033,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	    var nextCalled = false;
 
 	    // abort the transition
-	    var abort = function abort(back) {
+	    var abort = function abort() {
 	      cleanup && cleanup();
-	      transition.abort(back);
+	      transition.abort();
 	    };
 
 	    // handle errors
@@ -2031,10 +2057,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	        return;
 	      }
 	      nextCalled = true;
-	      if (!cb || transition.aborted) {
+	      if (transition.aborted) {
+	        cleanup && cleanup();
 	        return;
 	      }
-	      cb(data, onError);
+	      cb && cb(data, onError);
 	    };
 
 	    // expose a clone of the transition object, so that each
@@ -2077,6 +2104,40 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 	  };
 
+	  /**
+	   * Call a single hook or an array of async hooks in series.
+	   *
+	   * @param {Array} hooks
+	   * @param {*} context
+	   * @param {Function} cb
+	   * @param {Object} [options]
+	   */
+
+	  RouteTransition.prototype.callHooks = function callHooks(hooks, context, cb, options) {
+	    var _this = this;
+
+	    if (Array.isArray(hooks)) {
+	      (function () {
+	        var res = [];
+	        res._needMerge = true;
+	        var onError = undefined;
+	        _this.runQueue(hooks, function (hook, _, next) {
+	          if (!_this.aborted) {
+	            _this.callHook(hook, context, function (r, onError) {
+	              if (r) res.push(r);
+	              onError = onError;
+	              next();
+	            }, options);
+	          }
+	        }, function () {
+	          cb(res, onError);
+	        });
+	      })();
+	    } else {
+	      this.callHook(hooks, context, cb, options);
+	    }
+	  };
+
 	  return RouteTransition;
 	})();
 
@@ -2094,6 +2155,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	'use strict';
 
 	var _Object$keys = __webpack_require__(20)['default'];
+
+	var _Object$create = __webpack_require__(25)['default'];
 
 	exports.__esModule = true;
 	exports.canReuse = canReuse;
@@ -2190,7 +2253,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  if (!hook) {
 	    next();
 	  } else {
-	    transition.callHook(hook, component, next);
+	    transition.callHooks(hook, component, next);
 	  }
 	}
 
@@ -2328,7 +2391,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  };
 
 	  if (activateHook) {
-	    transition.callHook(activateHook, component, afterActivate, {
+	    transition.callHooks(activateHook, component, afterActivate, {
 	      cleanup: cleanup
 	    });
 	  } else {
@@ -2363,9 +2426,21 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	function loadData(component, transition, hook, cb, cleanup) {
 	  component.$loadingRouteData = true;
-	  transition.callHook(hook, component, function (data, onError) {
+	  transition.callHooks(hook, component, function (data, onError) {
+	    // merge data from multiple data hooks
+	    if (Array.isArray(data) && data._needMerge) {
+	      data = data.reduce(function (res, obj) {
+	        if (isPlainObject(obj)) {
+	          _Object$keys(obj).forEach(function (key) {
+	            res[key] = obj[key];
+	          });
+	        }
+	        return res;
+	      }, _Object$create(null));
+	    }
+	    // handle promise sugar syntax
 	    var promises = [];
-	    if (Object.prototype.toString.call(data) === '[object Object]') {
+	    if (isPlainObject(data)) {
 	      _Object$keys(data).forEach(function (key) {
 	        var val = data[key];
 	        if (_util.isPromise(val)) {
@@ -2390,6 +2465,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	    cleanup: cleanup,
 	    expectData: true
 	  });
+	}
+
+	function isPlainObject(obj) {
+	  return Object.prototype.toString.call(obj) === '[object Object]';
 	}
 
 /***/ },
@@ -2440,6 +2519,39 @@ return /******/ (function(modules) { // webpackBootstrap
 
 /***/ },
 /* 25 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = { "default": __webpack_require__(26), __esModule: true };
+
+/***/ },
+/* 26 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var $ = __webpack_require__(27);
+	module.exports = function create(P, D){
+	  return $.create(P, D);
+	};
+
+/***/ },
+/* 27 */
+/***/ function(module, exports) {
+
+	var $Object = Object;
+	module.exports = {
+	  create:     $Object.create,
+	  getProto:   $Object.getPrototypeOf,
+	  isEnum:     {}.propertyIsEnumerable,
+	  getDesc:    $Object.getOwnPropertyDescriptor,
+	  setDesc:    $Object.defineProperty,
+	  setDescs:   $Object.defineProperties,
+	  getKeys:    $Object.keys,
+	  getNames:   $Object.getOwnPropertyNames,
+	  getSymbols: $Object.getOwnPropertySymbols,
+	  each:       [].forEach
+	};
+
+/***/ },
+/* 28 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -2520,7 +2632,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = exports['default'];
 
 /***/ },
-/* 26 */
+/* 29 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -2654,7 +2766,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = exports['default'];
 
 /***/ },
-/* 27 */
+/* 30 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -2699,7 +2811,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = exports['default'];
 
 /***/ },
-/* 28 */
+/* 31 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -2768,7 +2880,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = exports['default'];
 
 /***/ },
-/* 29 */
+/* 32 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
