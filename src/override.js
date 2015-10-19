@@ -2,6 +2,7 @@ export default function (Vue) {
 
   const _ = Vue.util
 
+  // override Vue's init and destroy process to keep track of router instances
   const init = Vue.prototype._init
   Vue.prototype._init = function (options) {
     const root = options._parent || options.parent || this
@@ -30,6 +31,28 @@ export default function (Vue) {
         route.router._children.$remove(this)
       }
       destroy.apply(this, arguments)
+    }
+  }
+
+  // 1.0 only: enable route mixins
+  const strats = Vue.config.optionMergeStrategies
+  const hooksToMergeRE = /^(data|activate|deactivate)$/
+  if (strats) {
+    strats.route = (parentVal, childVal) => {
+      if (!childVal) return parentVal
+      if (!parentVal) return childVal
+      const ret = {}
+      _.extend(ret, parentVal)
+      for (let key in childVal) {
+        let a = ret[key]
+        let b = childVal[key]
+        if (a && hooksToMergeRE.test(key)) {
+          ret[key] = (_.isArray(a) ? a : [a]).concat(b)
+        } else {
+          ret[key] = b
+        }
+      }
+      return ret
     }
   }
 }

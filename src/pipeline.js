@@ -88,7 +88,7 @@ export function deactivate (view, transition, next) {
   if (!hook) {
     next()
   } else {
-    transition.callHook(hook, component, next)
+    transition.callHooks(hook, component, next)
   }
 }
 
@@ -226,7 +226,7 @@ export function activate (view, transition, depth, cb, reuse) {
   }
 
   if (activateHook) {
-    transition.callHook(activateHook, component, afterActivate, {
+    transition.callHooks(activateHook, component, afterActivate, {
       cleanup: cleanup
     })
   } else {
@@ -261,9 +261,21 @@ export function reuse (view, transition) {
 
 function loadData (component, transition, hook, cb, cleanup) {
   component.$loadingRouteData = true
-  transition.callHook(hook, component, (data, onError) => {
+  transition.callHooks(hook, component, (data, onError) => {
+    // merge data from multiple data hooks
+    if (Array.isArray(data) && data._needMerge) {
+      data = data.reduce(function (res, obj) {
+        if (isPlainObject(obj)) {
+          Object.keys(obj).forEach(key => {
+            res[key] = obj[key]
+          })
+        }
+        return res
+      }, Object.create(null))
+    }
+    // handle promise sugar syntax
     let promises = []
-    if (Object.prototype.toString.call(data) === '[object Object]') {
+    if (isPlainObject(data)) {
       Object.keys(data).forEach(key => {
         let val = data[key]
         if (isPromise(val)) {
@@ -288,4 +300,8 @@ function loadData (component, transition, hook, cb, cleanup) {
     cleanup: cleanup,
     expectData: true
   })
+}
+
+function isPlainObject (obj) {
+  return Object.prototype.toString.call(obj) === '[object Object]'
 }

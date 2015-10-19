@@ -230,10 +230,11 @@ export default class RouteTransition {
         return
       }
       nextCalled = true
-      if (!cb || transition.aborted) {
+      if (transition.aborted) {
+        cleanup && cleanup()
         return
       }
-      cb(data, onError)
+      cb && cb(data, onError)
     }
 
     // expose a clone of the transition object, so that each
@@ -263,7 +264,7 @@ export default class RouteTransition {
       if (typeof res === 'boolean') {
         res ? next() : abort()
       } else if (resIsPromise) {
-        res.then(function (ok) {
+        res.then((ok) => {
           ok ? next() : abort()
         }, onError)
       } else if (!hook.length) {
@@ -273,6 +274,36 @@ export default class RouteTransition {
       res.then(next, onError)
     } else if ((expectData && isPlainOjbect(res)) || !hook.length) {
       next(res)
+    }
+  }
+
+  /**
+   * Call a single hook or an array of async hooks in series.
+   *
+   * @param {Array} hooks
+   * @param {*} context
+   * @param {Function} cb
+   * @param {Object} [options]
+   */
+
+  callHooks (hooks, context, cb, options) {
+    if (Array.isArray(hooks)) {
+      let res = []
+      res._needMerge = true
+      let onError
+      this.runQueue(hooks, (hook, _, next) => {
+        if (!this.aborted) {
+          this.callHook(hook, context, (r, onError) => {
+            if (r) res.push(r)
+            onError = onError
+            next()
+          }, options)
+        }
+      }, () => {
+        cb(res, onError)
+      })
+    } else {
+      this.callHook(hooks, context, cb, options)
     }
   }
 }
