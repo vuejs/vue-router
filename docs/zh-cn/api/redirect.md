@@ -11,7 +11,7 @@
 ### Example
 
 ``` js
-router.rediect({
+router.redirect({
 
   // 重定向 /a 到 /b
   '/a': '/b',
