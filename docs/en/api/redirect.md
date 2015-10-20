@@ -18,6 +18,9 @@ router.redirect({
 
   // redirect can contain dynamic segments
   // the dynamic segment names must match
-  '/user/:userId': '/profile/:userId'
+  '/user/:userId': '/profile/:userId',
+
+  // redirect any not-found route to home
+  '*': '/home'
 })
 ```

@@ -18,6 +18,9 @@ router.redirect({
 
   // 重定向可以包含动态片段
   // 而且重定向片段必须匹配
-  '/user/:userId': '/profile/:userId'
+  '/user/:userId': '/profile/:userId',
+
+  // 重定向任意未匹配路径到 /home
+  '*': '/home'
 })
 ```
