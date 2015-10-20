@@ -102,4 +102,16 @@ route: {
 }
 ```
 
-vue-router レポジトリの [advanced example](https://github.com/vuejs/vue-router/tree/dev/example/advanced) をチェックしてください。
+アクションのトランジションフックの完全な例については、vue-router レポジトリの [advanced example](https://github.com/vuejs/vue-router/tree/dev/example/advanced) をチェックしてください。
+
+### フックのマージ
+
+コンポーネントライフサイクルのフックと同様に、以下の route ライフサイクルフックは:
+
+- `data`
+- `activate`
+- `deactivate`
+
+... クラス拡張またはミックスインがマージされるまでの間、あなたのコンポーネントが route `data` フックを定義する場合は、route `data` フックも提供するミックスインを使用し、両方のフックが(ミックスインのフックが最初に呼ばれる)呼ばれて、全てのフックから解決されたデータはいっしょにマージされます。
+
+`canActivate`、`canDeactivate`、そして `canReuse` のような検証フックは、常に新しい値によって上書きされることに注意してください。
