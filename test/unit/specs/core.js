@@ -529,7 +529,8 @@ describe('Core', function () {
     })
     router.redirect({
       '/whatever': '/a/b',
-      '/ok': '/a/c'
+      '/ok': '/a/c',
+      '*': '/a/b'
     })
     var App = Vue.extend({
       template: '<div><router-view></router-view></div>'
@@ -537,7 +538,8 @@ describe('Core', function () {
     router.start(App, el)
     assertRoutes([
       ['/whatever', 'hello'],
-      ['/ok?msg=world', 'world']
+      ['/ok?msg=world', 'world'],
+      ['/fesfsefsef', 'hello']
     ], done)
   })
 
