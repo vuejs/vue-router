@@ -1,5 +1,7 @@
 # vue-router ドキュメンテーション [![npm package](https://img.shields.io/npm/v/vue-router.svg)](https://www.npmjs.com/package/vue-router)
 
+**[リリースノート](https://github.com/vuejs/vue-router/releases)**
+
 - [インストール](installation.md)
 - [基本的な使い方](basic.md)
 - [Nested Routes](nested.md)
