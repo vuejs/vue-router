@@ -9,5 +9,5 @@
 
 しかしながら、いくつか制限があります:
 
-- `keep-alive` は現在サポートされていません。
+- ~~`keep-alive` は現在サポートされていません。~~ `keep-alive` は現在 0.7.2+ で実験的にサポートしています。
 - `wait-for` はサポートされていません。トランジションのタイミングを制御するためには [`activate` transition hook](pipeline/activate.html) を使用する必要があります。
