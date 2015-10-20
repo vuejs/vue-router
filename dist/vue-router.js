@@ -1,5 +1,5 @@
 /*!
- * vue-router v0.7.3
+ * vue-router v0.7.4
  * (c) 2015 Evan You
  * Released under the MIT License.
  */
@@ -166,6 +166,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    this._currentTransition = null;
 	    this._previousTransition = null;
 	    this._notFoundHandler = null;
+	    this._notFoundRedirect = null;
 	    this._beforeEachHooks = [];
 	    this._afterEachHooks = [];
 
@@ -413,7 +414,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	   */
 
 	  Router.prototype._addRedirect = function _addRedirect(path, redirectPath) {
-	    this._addGuard(path, redirectPath, this.replace);
+	    if (path === '*') {
+	      this._notFoundRedirect = redirectPath;
+	    } else {
+	      this._addGuard(path, redirectPath, this.replace);
+	    }
 	  };
 
 	  /**
@@ -459,6 +464,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	    if (matched) {
 	      matched[0].handler(matched[0], matched.queryParams);
 	      return true;
+	    } else if (this._notFoundRedirect) {
+	      matched = this._recognizer.recognize(path);
+	      if (!matched) {
+	        this.replace(this._notFoundRedirect);
+	        return true;
+	      }
 	    }
 	  };
 
