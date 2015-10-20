@@ -38,7 +38,7 @@
 
 - デフォルト: `"v-link-active"`
 
-  現在のパスがその URL とマッチするとき、クラスは `v-link` 要素に適用されるように設定します。基底クラスは、現在のパスが `v-link` の URL で開始する限り適用されます。現在のパスが正確に `v-link` の URL にマッチするとき、`-exact` 接尾辞(postfix) を持つ追加のクラスが適用され、デフォルトは `v-link-active-exact` になります。もしクラスを `my-custom-active` に設定する場合、正確にマッチするクラスは `my-custom-active-exact` になります。
+  現在のリンクがアクティブであるとき、クラスは `v-link` 要素に適用されるように設定します。マッチングの振る舞いとクラスは、個別に各 `v-link` に構成することができます。
 
 #### saveScrollPosition
 

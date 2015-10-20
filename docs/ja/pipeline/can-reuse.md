@@ -10,7 +10,7 @@
 
   `canResue` フックでは `transition.to` と `transition.from` のみアクセスできます。
 
-### 戻り値
+### 期待される戻り値
 
 - Boolean を返す必要があります。偽となりうる値は、`false` として扱われます。
 
