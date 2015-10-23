@@ -42,14 +42,22 @@ export default function (Vue) {
           while (el && el.tagName !== 'A' && el !== this.el) {
             el = el.parentNode
           }
-          if (!el || el.tagName !== 'A' || !el.href) return
-          if (sameOrigin(el)) {
+          if (!el) return
+          if (el.tagName !== 'A' || !el.href) {
+            // allow not anchor
             e.preventDefault()
-            router.go({
-              path: el.pathname,
-              replace: target && target.replace,
-              append: target && target.append
-            })
+            if (target != null) {
+              router.go(target)
+            }
+          } else {
+            if (sameOrigin(el)) {
+              e.preventDefault()
+              router.go({
+                path: el.pathname,
+                replace: target && target.replace,
+                append: target && target.append
+              })
+            }
           }
         }
       }
