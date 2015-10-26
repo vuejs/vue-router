@@ -241,9 +241,11 @@ class Router {
         )
       }
       this._appContainer = container
-      this._appConstructor = typeof App === 'function'
+      const Ctor = this._appConstructor = typeof App === 'function'
         ? App
         : Vue.extend(App)
+      // give it a name for better debugging
+      Ctor.options.name = Ctor.options.name || 'RouterApp'
     }
     this.history.start()
   }
