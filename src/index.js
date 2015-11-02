@@ -1,6 +1,6 @@
+import RouteRecognizer from '../vendor/route-recognizer'
 import util, { warn, mapParams } from './util'
 import applyOverride from './override'
-import Recognizer from 'route-recognizer'
 import Route from './route'
 import Transition from './transition'
 import View from './directives/view'
@@ -51,8 +51,8 @@ class Router {
     this._children = []
 
     // route recognizer
-    this._recognizer = new Recognizer()
-    this._guardRecognizer = new Recognizer()
+    this._recognizer = new RouteRecognizer()
+    this._guardRecognizer = new RouteRecognizer()
 
     // state
     this._started = false

@@ -1,4 +1,4 @@
-import RouteRecognizer from 'route-recognizer'
+import RouteRecognizer from '../vendor/route-recognizer'
 const genQuery = RouteRecognizer.prototype.generateQueryString
 
 // export default for holding the Vue reference

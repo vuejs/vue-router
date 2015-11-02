@@ -1,5 +1,3 @@
-var vue = require('vue-loader')
-
 module.exports = {
   entry: {
     app: ['webpack/hot/dev-server', './example/advanced/index.js']
@@ -12,9 +10,7 @@ module.exports = {
     loaders: [
       {
         test: /\.vue$/,
-        loader: vue.withLoaders({
-          js: 'babel?optional[]=runtime'
-        })
+        loader: 'vue'
       },
       {
         test: /\.js$/,
