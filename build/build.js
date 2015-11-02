@@ -22,7 +22,7 @@ rollup.rollup({
 }).then(function (bundle) {
   bundle.write({
     format: 'cjs',
-    dest: 'lib/index.js'
+    dest: 'dist/vue-router.common.js'
   })
   return bundle.write({
     format: 'umd',

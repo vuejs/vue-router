@@ -1,4 +1,4 @@
-import RouteRecognizer from '../vendor/route-recognizer'
+import RouteRecognizer from '../lib/route-recognizer'
 import util, { warn, mapParams } from './util'
 import applyOverride from './override'
 import Route from './route'
