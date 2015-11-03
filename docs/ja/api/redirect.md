@@ -18,6 +18,9 @@ router.redirect({
 
   // リダイレクトは動的セグメント名がマッチする必要がある
   // 動的セグメントを含むことができます
-  '/user/:userId': '/profile/:userId'
+  '/user/:userId': '/profile/:userId',
+
+  // 見つからなかったルートは /home にリダイレクト
+  '*': '/home'
 })
 ```

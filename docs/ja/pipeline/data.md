@@ -8,13 +8,13 @@
 
   `transition.next(data)` の呼び出しはコンポーネントの `data` の各プロパティに設定します。例えば `{ a: 1, b: 2 }` が引数に指定される場合、ルーターは `component.$set('a', 1)` と `component.$set('b', 2)` を呼びます。
 
-### 戻り値
+### 期待される戻り値
 
 - 任意で Promise を返します。
   - `resolve(data)` -> `transition.next(data)`
   - `reject(reason)` -> `transition.abort(reason)`
 
-または、Promise を含んでいるオブジェクトを返します。詳細は以下の [Promiseシンタックスシュガー](#Promiseシンタックスシュガー) を参照してください。
+**または**、Promise を含んでいるオブジェクトを返します。詳細は以下の [Promiseシンタックスシュガー](#Promiseシンタックスシュガー) を参照してください。
 
 ### 詳細
 

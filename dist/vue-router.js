@@ -1,5 +1,5 @@
 /*!
- * vue-router v0.7.4
+ * vue-router v0.7.5
  * (c) 2015 Evan You
  * Released under the MIT License.
  */
@@ -344,7 +344,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	        throw new Error('Must start vue-router with a component and a ' + 'root container.');
 	      }
 	      this._appContainer = container;
-	      this._appConstructor = typeof App === 'function' ? App : Vue.extend(App);
+	      var Ctor = this._appConstructor = typeof App === 'function' ? App : Vue.extend(App);
+	      // give it a name for better debugging
+	      Ctor.options.name = Ctor.options.name || 'RouterApp';
 	    }
 	    this.history.start();
 	  };
@@ -2683,22 +2685,28 @@ return /******/ (function(modules) { // webpackBootstrap
 	        if (e.button !== 0) return;
 
 	        var target = _this.target;
-	        if (_this.el.tagName === 'A' || e.target === _this.el) {
-	          // v-link on <a v-link="'path'">
+	        var go = function go(target) {
 	          e.preventDefault();
 	          if (target != null) {
 	            router.go(target);
 	          }
+	        };
+
+	        if (_this.el.tagName === 'A' || e.target === _this.el) {
+	          // v-link on <a v-link="'path'">
+	          go(target);
 	        } else {
 	          // v-link delegate on <div v-link>
 	          var el = e.target;
 	          while (el && el.tagName !== 'A' && el !== _this.el) {
 	            el = el.parentNode;
 	          }
-	          if (!el || el.tagName !== 'A' || !el.href) return;
-	          if (sameOrigin(el)) {
-	            e.preventDefault();
-	            router.go({
+	          if (!el) return;
+	          if (el.tagName !== 'A' || !el.href) {
+	            // allow not anchor
+	            go(target);
+	          } else if (sameOrigin(el)) {
+	            go({
 	              path: el.pathname,
 	              replace: target && target.replace,
 	              append: target && target.append

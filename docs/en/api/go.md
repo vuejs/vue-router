@@ -8,7 +8,7 @@ Programatically navigate to a new route.
 
   The path can be either a String or an Object.
 
-  If a String, the path must be a plain path (i.e. no dynamic segments or star segments). The path doesn't start with `/`, it will be resolved relative to the current active path.
+  If a String, the path must be a plain path (i.e. no dynamic segments or star segments). If the path doesn't start with `/`, it will be resolved relative to the current active path.
 
   If an Object, it can either be in the form of:
 
