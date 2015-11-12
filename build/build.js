@@ -15,7 +15,7 @@ rollup.rollup({
   plugins: [
     babel({
       exclude: 'node_modules/**',
-      loose: 'all',
+      presets: [ 'es2015-rollup' ],
       sourceMap: true
     })
   ]

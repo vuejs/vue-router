@@ -6,7 +6,7 @@
   "jsnext:main": "src/index.js",
   "files": [
     "dist",
-    "src"  
+    "src"
   ],
   "scripts": {
     "dev": "npm run serve-test & webpack --watch --config build/webpack.dev.config.js",
@@ -39,9 +39,12 @@
   },
   "homepage": "https://github.com/vuejs/vue-router#readme",
   "devDependencies": {
-    "babel-core": "^5.8.33",
-    "babel-loader": "^5.3.3",
-    "babel-runtime": "^5.8.29",
+    "babel-core": "^6.1.2",
+    "babel-loader": "^6.1.0",
+    "babel-plugin-transform-runtime": "^6.1.2",
+    "babel-preset-es2015": "^6.1.2",
+    "babel-preset-es2015-rollup": "^1.0.0",
+    "babel-runtime": "^6.0.14",
     "chromedriver": "2.16.0",
     "css-loader": "^0.21.0",
     "es6-promise": "^3.0.2",
@@ -57,17 +60,17 @@
     "karma-webpack": "^1.7.0",
     "nightwatch": "^0.8.6",
     "phantomjs": "^1.9.18",
-    "rollup": "^0.20.3",
-    "rollup-plugin-babel": "^1.0.0",
+    "rollup": "^0.20.5",
+    "rollup-plugin-babel": "^2.0.1",
     "selenium-server": "2.47.1",
     "style-loader": "^0.13.0",
     "uglify-js": "^2.5.0",
     "vue": "yyx990803/vue#dev",
     "vue-hot-reload-api": "^1.2.1",
     "vue-html-loader": "^1.0.0",
-    "vue-loader": "^6.0.3",
-    "webpack": "^1.11.0",
-    "webpack-dev-server": "^1.10.1"
+    "vue-loader": "^7.0.2",
+    "webpack": "^1.12.0",
+    "webpack-dev-server": "^1.12.1"
   },
   "jspm": {
     "main": "src/index.js",
