@@ -11,9 +11,13 @@ module.exports = {
       {
         test: /.js/,
         exclude: /node_modules/,
-        loader: 'babel?optional[]=runtime&loose=all'
+        loader: 'babel'
       }
     ]
+  },
+  babel: {
+    presets: ['es2015', 'stage-0'],
+    plugins: ['transform-runtime']
   },
   devtool: '#source-map'
 }

@@ -15,9 +15,13 @@ module.exports = {
       {
         test: /\.js$/,
         exclude: /node_modules|vue\/src/,
-        loader: 'babel?optional[]=runtime&loose=true'
+        loader: 'babel'
       }
     ]
+  },
+  babel: {
+    presets: ['es2015', 'stage-0'],
+    plugins: ['transform-runtime']
   },
   devtool: 'source-map'
 }
