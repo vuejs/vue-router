@@ -13,7 +13,7 @@ module.exports = function (config) {
           {
             test: /\.js$/,
             exclude: /test|node_modules|vue\/src/,
-            loader: 'babel?optional[]=runtime&loose=all'
+            loader: 'babel'
           }
         ],
         postLoaders: [
@@ -23,6 +23,10 @@ module.exports = function (config) {
             loader: 'istanbul-instrumenter'
           }
         ]
+      },
+      babel: {
+        presets: ['es2015', 'stage-0'],
+        plugins: ['transform-runtime']
       }
     },
     webpackMiddleware: {

@@ -9,8 +9,12 @@ module.exports = {
       {
         test: /\.js$/,
         exclude: /test|node_modules|vue\/src/,
-        loader: 'babel?optional[]=runtime&loose=all'
+        loader: 'babel'
       }
     ]
+  },
+  babel: {
+    presets: ['es2015', 'stage-0'],
+    plugins: ['transform-runtime']
   }
 }
