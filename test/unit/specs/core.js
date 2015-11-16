@@ -338,7 +338,7 @@ describe('Core', function () {
     expect(linkA.className).toBe('')
     expect(linkB.className).toBe('')
     expect(linkC.className).toBe('active')
-    router.go('/a')
+    router.go('/a?a=123')
     nextTick(function () {
       expect(linkA.className).toBe('active')
       expect(linkB.className).toBe('')
