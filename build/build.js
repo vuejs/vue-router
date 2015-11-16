@@ -23,6 +23,8 @@ rollup.rollup({
   bundle.write({
     format: 'cjs',
     dest: 'dist/vue-router.common.js'
+  }).then(function () {
+    console.log('built: dist/vue-router.common.js')
   })
   return bundle.write({
     format: 'umd',
@@ -32,9 +34,14 @@ rollup.rollup({
     dest: 'dist/vue-router.js'
   })
 }).then(function () {
+  console.log('built: ' + 'dist/vue-router.js')
   fs.writeFile(
     'dist/vue-router.min.js',
-    banner + '\n' + uglify.minify('dist/vue-router.js').code
+    banner + '\n' + uglify.minify('dist/vue-router.js').code,
+    function (err) {
+      if (err) throw err
+      console.log('built: ' + 'dist/vue-router.min.js')
+    }
   )
 }).catch(function (e) {
   console.log(e)
