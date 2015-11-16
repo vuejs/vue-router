@@ -244,18 +244,18 @@ describe('Core', function () {
         component: {
           template:
             '<div>' +
-              '<a id="link-a" v-link="{ path: \'b\' }">Link A</a>' +
+              '<a id="link-a" v-link="{ path: \'b\', query: { id: 123 }}">Link A</a>' +
             '</div>'
         }
       },
       '/b': {
         component: {
           data: function () {
-            return { a: 'a' }
+            return { a: 'a?a=1' }
           },
           template:
             '<div>' +
-              '<a id="link-b" v-link="{ path: \'/\' + a }">Link B</a>' +
+              '<a id="link-b" v-link="{ path: \'/\' + a, query: { b: 2 }}">Link B</a>' +
               '<a id="link-c" v-link="{ path: c }"></c>' +
             '</div>'
         }
@@ -283,12 +283,12 @@ describe('Core', function () {
     nextTick(function () {
       expect(el.textContent).toBe('Link A')
       var link = el.querySelector('#link-a')
-      expect(link.getAttribute('href')).toBe('b')
+      expect(link.getAttribute('href')).toBe('b?id=123')
       click(link)
       nextTick(function () {
         expect(el.textContent).toBe('Link B')
         var link = el.querySelector('#link-b')
-        expect(link.getAttribute('href')).toBe('/a')
+        expect(link.getAttribute('href')).toBe('/a?a=1&b=2')
         // falsy expressions should not set href
         expect(el.querySelector('#link-c').hasAttribute('href')).toBe(false)
         click(link)

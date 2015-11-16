@@ -530,13 +530,22 @@ class Router {
   _stringifyPath (path) {
     if (path && typeof path === 'object') {
       if (path.name) {
-        var params = path.params || {}
+        const params = path.params || {}
         if (path.query) {
           params.queryParams = path.query
         }
         return this._recognizer.generate(path.name, params)
       } else if (path.path) {
-        return path.path
+        let fullPath = path.path
+        if (path.query) {
+          const query = this._recognizer.generateQueryString(path.query)
+          if (fullPath.indexOf('?') > -1) {
+            fullPath += '&' + query.slice(1)
+          } else {
+            fullPath += query
+          }
+        }
+        return fullPath
       } else {
         return ''
       }
