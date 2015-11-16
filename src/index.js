@@ -213,7 +213,11 @@ class Router {
    */
 
   replace (path) {
-    this.go({ path, replace: true })
+    if (typeof path === 'string') {
+      path = { path }
+    }
+    path.replace = true
+    this.go(path)
   }
 
   /**
