@@ -24,6 +24,10 @@ A route object exposes the following properties:
 
   An array containing the route configuration objects for all matched segments in the current route.
 
+- **$route.name**
+
+  The name of the current route, if it has one. (See [named routes](./named.md))
+
 ### Custom Fields
 
 In addition to the built-in properties, custom fields defined in the route config will also be merged on to the route object. For example:
