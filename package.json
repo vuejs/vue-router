@@ -1,12 +1,12 @@
 {
   "name": "vue-router",
-  "version": "0.7.5",
+  "version": "0.7.6",
   "description": "A router for Vue.js",
   "main": "dist/vue-router.common.js",
   "jsnext:main": "src/index.js",
   "files": [
     "dist",
-    "src"  
+    "src"
   ],
   "scripts": {
     "dev": "npm run serve-test & webpack --watch --config build/webpack.dev.config.js",
