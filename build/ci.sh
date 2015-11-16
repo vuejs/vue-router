@@ -6,7 +6,7 @@ then
   # Wait for tunnel to be ready
   while [ ! -e ~/sc_ready ]; do sleep 1; done
   # serve example app
-  npm run serve &
+  npm run serve-example &
   # Run selenium tests
   npm run e2e-sauce
 else
