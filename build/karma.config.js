@@ -19,7 +19,7 @@ module.exports = function (config) {
         postLoaders: [
           {
             test: /\.js$/,
-            exclude: /test|node_modules|vue\/src/,
+            exclude: /test|node_modules|vue\/src|lib\//,
             loader: 'istanbul-instrumenter'
           }
         ]
