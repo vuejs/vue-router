@@ -1,6 +1,7 @@
 import { warn } from '../util'
 const trailingSlashRE = /\/$/
 const regexEscapeRE = /[-.*+?^${}()|[\]\/\\]/g
+const queryStringRE = /\?.*$/
 
 // install v-link, which provides navigation support for
 // HTML5 history mode
@@ -110,7 +111,6 @@ export default function (Vue) {
 
     updateClasses (path) {
       let el = this.el
-      let dest = this.path
       let router = this.vm.$route.router
       let activeClass = this.activeClass || router._linkActiveClass
       // clear old class
@@ -118,7 +118,8 @@ export default function (Vue) {
         _.removeClass(el, this.prevActiveClass)
       }
       // remove query string before matching
-      path = path.replace(/\?.*$/, '')
+      let dest = this.path.replace(queryStringRE, '')
+      path = path.replace(queryStringRE, '')
       // add new class
       if (this.exact) {
         if (
