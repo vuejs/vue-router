@@ -12,14 +12,14 @@ module.exports = function (config) {
         loaders: [
           {
             test: /\.js$/,
-            exclude: /test|node_modules|vue\/src/,
+            exclude: /test|node_modules|vue\/dist/,
             loader: 'babel?optional[]=runtime&loose=all'
           }
         ],
         postLoaders: [
           {
             test: /\.js$/,
-            exclude: /test|node_modules|vue\/src|lib\//,
+            exclude: /test|node_modules|vue\/dist|lib\//,
             loader: 'istanbul-instrumenter'
           }
         ]
