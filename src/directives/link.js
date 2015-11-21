@@ -20,6 +20,14 @@ export default function (Vue) {
         )
         return
       }
+      // no need to handle click if link expects to be opened
+      // in a new window/tab.
+      /* istanbul ignore if */
+      if (this.el.tagName === 'A' &&
+          this.el.getAttribute('target') === '_blank') {
+        return
+      }
+      // handle click
       let router = vm.$route.router
       this.handler = (e) => {
         // don't redirect with control keys
