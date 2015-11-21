@@ -14,7 +14,7 @@ module.exports = {
       },
       {
         test: /\.js$/,
-        exclude: /node_modules|vue\/src/,
+        exclude: /node_modules|vue\/dist/,
         loader: 'babel?optional[]=runtime&loose=true'
       }
     ]
