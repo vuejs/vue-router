@@ -71,8 +71,8 @@ export default class RouteTransition {
       if (typeof path === 'string') {
         path = mapParams(path, this.to.params, this.to.query)
       } else {
-        path.params = this.to.params
-        path.query = this.to.query
+        path.params = path.params || this.to.params
+        path.query = path.query || this.to.query
       }
       this.router.replace(path)
     }
