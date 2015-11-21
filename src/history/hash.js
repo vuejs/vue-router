@@ -21,10 +21,13 @@ export default class HashHistory {
         location.replace(formattedPath)
         return
       }
-      let pathToMatch = decodeURI(
-        path.replace(/^#!?/, '') + location.search
-      )
-      self.onChange(pathToMatch)
+      // determine query
+      // note it's possible to have queries in both the actual URL
+      // and the hash fragment itself.
+      let query = location.search && path.indexOf('?') > -1
+          ? '&' + location.search.slice(1)
+          : location.search
+      self.onChange(decodeURI(path.replace(/^#!?/, '') + query))
     }
     window.addEventListener('hashchange', this.listener)
     this.listener()
