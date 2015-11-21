@@ -8,7 +8,7 @@
 
 - [`transition {Transition}`](hooks.md#transition-object)
 
-  在 `canResule` 钩子中只能访问 `transition.to` 和 `transition.from` 。
+  在 `canReuse` 钩子中只能访问 `transition.to` 和 `transition.from` 。
 
 ### 预期返回值
 
