@@ -12,5 +12,5 @@ This example uses Webpack to bundle the app, and uses vue-loader to enable singl
 # at repo root
 npm install
 # serve at localhost:8080
-npm run serve
+npm run serve-example
 ```
