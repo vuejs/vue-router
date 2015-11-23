@@ -6,7 +6,8 @@
   "jsnext:main": "src/index.js",
   "files": [
     "dist",
-    "src"
+    "src",
+    "lib"
   ],
   "scripts": {
     "dev": "npm run serve-test & webpack --watch --config build/webpack.dev.config.js",
