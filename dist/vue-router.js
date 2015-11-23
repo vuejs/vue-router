@@ -1,5 +1,5 @@
 /*!
- * vue-router v0.7.6
+ * vue-router v0.7.7
  * (c) 2015 Evan You
  * Released under the MIT License.
  */
@@ -956,8 +956,11 @@
           location.replace(formattedPath);
           return;
         }
-        var pathToMatch = decodeURI(path.replace(/^#!?/, '') + location.search);
-        self.onChange(pathToMatch);
+        // determine query
+        // note it's possible to have queries in both the actual URL
+        // and the hash fragment itself.
+        var query = location.search && path.indexOf('?') > -1 ? '&' + location.search.slice(1) : location.search;
+        self.onChange(decodeURI(path.replace(/^#!?/, '') + query));
       };
       window.addEventListener('hashchange', this.listener);
       this.listener();
@@ -1383,8 +1386,8 @@
         if (typeof path === 'string') {
           path = mapParams(path, this.to.params, this.to.query);
         } else {
-          path.params = this.to.params;
-          path.query = this.to.query;
+          path.params = path.params || this.to.params;
+          path.query = path.query || this.to.query;
         }
         this.router.replace(path);
       }
@@ -1808,6 +1811,7 @@
 
   var trailingSlashRE = /\/$/;
   var regexEscapeRE = /[-.*+?^${}()|[\]\/\\]/g;
+  var queryStringRE = /\?.*$/;
 
   // install v-link, which provides navigation support for
   // HTML5 history mode
@@ -1826,6 +1830,13 @@
           warn('v-link can only be used inside a ' + 'router-enabled app.');
           return;
         }
+        // no need to handle click if link expects to be opened
+        // in a new window/tab.
+        /* istanbul ignore if */
+        if (this.el.tagName === 'A' && this.el.getAttribute('target') === '_blank') {
+          return;
+        }
+        // handle click
         var router = vm.$route.router;
         this.handler = function (e) {
           // don't redirect with control keys
@@ -1897,7 +1908,6 @@
 
       updateClasses: function updateClasses(path) {
         var el = this.el;
-        var dest = this.path;
         var router = this.vm.$route.router;
         var activeClass = this.activeClass || router._linkActiveClass;
         // clear old class
@@ -1905,7 +1915,8 @@
           _.removeClass(el, this.prevActiveClass);
         }
         // remove query string before matching
-        path = path.replace(/\?.*$/, '');
+        var dest = this.path.replace(queryStringRE, '');
+        path = path.replace(queryStringRE, '');
         // add new class
         if (this.exact) {
           if (dest === path ||
