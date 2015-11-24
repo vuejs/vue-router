@@ -4,7 +4,7 @@ The `<router-view>` element is used as outlets for rendering matched components.
 
 - You can pass props to it.
 - HTML content inside the `<router-view>` will be used for content insertion in the rendered component.
-- `v-transition` and `transition-mode` are fully supported. Note: for transition effects to work, your route component must not be a [fragment instance](http://vuejs.org/guide/best-practices.html#Fragment_Instance).
+- `v-transition` and `transition-mode` are fully supported. Note: for transition effects to work, your route component must not be a [fragment instance](http://vuejs.org/guide/components.html#Fragment_Instance).
 - `v-ref` is also supported; The rendered component will be registered in the parent component's `this.$` object.
 
 However, there are also a few limitations:
