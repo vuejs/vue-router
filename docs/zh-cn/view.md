@@ -9,5 +9,5 @@
 
 然而，它也有一些限制
 
-- `keep-alive` 不支持。
+- ~~`keep-alive` 不支持。~~ `keep-alive` 目前在 0.7.2+ 已经可用。
 - `wait-for` 也不支持。你应该使用[切换钩子函数 `activate` ](pipeline/activate.html)控制切换的时机。
