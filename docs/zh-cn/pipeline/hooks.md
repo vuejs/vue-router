@@ -86,7 +86,7 @@ Vue.component('hook-example', {
 
 - 如果 Promise 在验证阶段被 reject，系统会调用 `transition.abort`。
 
-- 如果 Promise 在激活阶段被 resolve，系统会调用 `transition.next` 。
+- 如果 Promise 在激活阶段被 reject，系统会调用 `transition.next` 。
 
 - 对于验证类钩子（ `canActivate` 和 `canDeactivate` ），如果 Promise resolve 之后的值是假值（ falsy value ），系统会中断此次切换。
 
