@@ -31,7 +31,7 @@ It is also possible to configure the matching behavior so that the active class 
 <a v-link="{ path: '/a', exact: true }"></a>
 ```
 
-The active link class name can be configured with the `linkActiveClass` option when creating the router instance. It can also be overridden with the `activeClas` inline option:
+The active link class name can be configured with the `linkActiveClass` option when creating the router instance. It can also be overridden with the `activeClass` inline option:
 
 ``` html
 <a v-link="{ path: '/a', activeClass: 'custom-active-class' }"></a>
