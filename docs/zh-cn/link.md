@@ -31,7 +31,7 @@
 <a v-link="{ path: '/a', exact: true }"></a>
 ```
 
-链接活跃时的 class 名称可以通过在创建路由器实例时指定 `activeLinkClass` 全局选项 来自定义，也可以通过 `activeClass` 内联选项来单独指定：
+链接活跃时的 class 名称可以通过在创建路由器实例时指定 `linkActiveClass` 全局选项 来自定义，也可以通过 `activeClass` 内联选项来单独指定：
 
 ``` html
 <a v-link="{ path: '/a', activeClass: 'custom-active-class' }"></a>
