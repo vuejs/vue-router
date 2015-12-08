@@ -244,6 +244,12 @@ class Router {
           'root container.'
         )
       }
+      if (App instanceof Vue) {
+        throw new Error(
+          'Must start vue-router with a component, not a ' +
+          'Vue instance.'
+        )
+      }
       this._appContainer = container
       const Ctor = this._appConstructor = typeof App === 'function'
         ? App
