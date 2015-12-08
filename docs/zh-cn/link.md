@@ -19,7 +19,7 @@
 
 - 在 HTML5 history 模式下，`v-link` 会监听点击事件，防止浏览器尝试重新加载页面。
 
-- 在 HTML5 history 模式下使用 `root` 选项时，不需要再 `v-link` 的 URL 中包含 root 路径。
+- 在 HTML5 history 模式下使用 `root` 选项时，不需要在 `v-link` 的 URL 中包含 root 路径。
 
 #### 链接活跃时的 class
 
