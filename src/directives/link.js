@@ -48,7 +48,9 @@ export default function (Vue) {
 
         if (this.el.tagName === 'A' || e.target === this.el) {
           // v-link on <a v-link="'path'">
-          go(target)
+          if (sameOrigin(el)) {
+            go(target)
+          }
         } else {
           // v-link delegate on <div v-link>
           var el = e.target
