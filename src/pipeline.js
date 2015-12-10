@@ -289,10 +289,12 @@ function loadData (component, transition, hook, cb, cleanup) {
     }
     if (!promises.length) {
       component.$loadingRouteData = false
+      component.$emit('route-data-loaded', component)
       cb && cb()
     } else {
       promises[0].constructor.all(promises).then(_ => {
         component.$loadingRouteData = false
+        component.$emit('route-data-loaded', component)
         cb && cb()
       }, onError)
     }
