@@ -7,7 +7,8 @@ const queryStringRE = /\?.*$/
 // HTML5 history mode
 export default function (Vue) {
 
-  let _ = Vue.util
+  const _ = Vue.util
+  const urlParser = document.createElement('a')
 
   Vue.directive('link', {
 
@@ -48,7 +49,11 @@ export default function (Vue) {
 
         if (this.el.tagName === 'A' || e.target === this.el) {
           // v-link on <a v-link="'path'">
-          go(target)
+          if (sameOrigin(this.el, target)) {
+            go(target)
+          } else if (typeof target === 'string') {
+            window.location.href = target
+          }
         } else {
           // v-link delegate on <div v-link>
           var el = e.target
@@ -56,10 +61,13 @@ export default function (Vue) {
             el = el.parentNode
           }
           if (!el) return
+          if (!sameOrigin(el, target) && typeof target === 'string') {
+            window.location.href = target
+          }
           if (el.tagName !== 'A' || !el.href) {
             // allow not anchor
             go(target)
-          } else if (sameOrigin(el)) {
+          } else if (sameOrigin(el, target)) {
             go({
               path: el.pathname,
               replace: target && target.replace,
@@ -150,7 +158,12 @@ export default function (Vue) {
     }
   })
 
-  function sameOrigin (link) {
+  function sameOrigin (link, target) {
+    target = target || {}
+    if (link.tagName !== 'A' && typeof target === 'string') {
+      link = urlParser
+      link.href = target
+    }
     return link.protocol === location.protocol &&
       link.hostname === location.hostname &&
       link.port === location.port
