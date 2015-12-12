@@ -49,7 +49,7 @@ The active link class name can be configured with the `linkActiveClass` option w
 
 - **append**
 
-  A relative link with `append: true` always append the relative path to the current path. For example, assuming we are navigating from `/a` to a relative link `b`, without `append: true` we will end up at `/b`, but with `append: true` we will end up at `/a/b`.
+  A relative link with `append: true` always appends the relative path to the current path. For example, assuming we are navigating from `/a` to a relative link `b`, without `append: true` we will end up at `/b`, but with `append: true` we will end up at `/a/b`.
 
   ``` html
   <a v-link="{ path: 'relative/path', append: true }"></a>
