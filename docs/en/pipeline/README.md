@@ -38,7 +38,7 @@ We can divide a route transition pipeline into three phases:
 
   Note the `canDeactivate` check bubbles bottom-up, while the `canActivate` check is top-down.
 
-  Any of these hooks can potentially abort the transition. If a transition is aborted during the validation phase, the router preserve current app state and restore the previous path.
+  Any of these hooks can potentially abort the transition. If a transition is aborted during the validation phase, the router preserves the current app state and restores the previous path.
 
 3. **Activation phase:**
 
