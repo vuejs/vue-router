@@ -5,6 +5,7 @@ export default function (Vue) {
   // override Vue's init and destroy process to keep track of router instances
   const init = Vue.prototype._init
   Vue.prototype._init = function (options) {
+    options = options || {}
     const root = options._parent || options.parent || this
     const route = root.$route
     if (route) {
