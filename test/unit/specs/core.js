@@ -11,6 +11,12 @@ describe('Core', function () {
     spyOn(window, 'scrollTo')
   })
 
+  it('call Vue constructor with no arguments', function () {
+    /* eslint-disable no-new */
+    new Vue()
+    /* eslint-enable no-new */
+  })
+
   it('matching views', function (done) {
     router = new Router({ abstract: true })
     router.map({
