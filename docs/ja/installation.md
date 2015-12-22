@@ -12,8 +12,6 @@
 
 ``` bash
 npm install vue-router
-# dev ブランチ
-npm install vuejs/vue-router#dev
 ```
 
 CommonJS で使用されるとき、明示的に `Vue.use()` 経由でルータはインストールされなければなりません:
@@ -27,10 +25,17 @@ Vue.use(VueRouter)
 
 スタンドアロンビルドを使用しているときは、それ自身自動的にインストールされるため、これを実行する必要はありません。
 
+### Dev ブランチ
+
+``` bash
+git clone https://github.com/vuejs/vue-router.git node_modules/vue-router
+cd node_modules/vue-router
+npm install
+npm run build
+```
+
 ### Bower
 
 ``` bash
 bower install vue-router
-# dev ブランチ
-bower install vuejs/vue-router#dev
 ```

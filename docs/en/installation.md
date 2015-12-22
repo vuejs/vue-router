@@ -12,8 +12,6 @@ See [dist folder](https://github.com/vuejs/vue-router/tree/dev/dist). Note the d
 
 ``` bash
 npm install vue-router
-# dev branch
-npm install vuejs/vue-router#dev
 ```
 
 When used in CommonJS, you must explicitly install the router via `Vue.use()`:
@@ -27,10 +25,19 @@ Vue.use(VueRouter)
 
 You don't need to do this when using the standalone build because it installs itself automatically.
 
+### Dev Build
+
+You will have to clone directly from GitHub and build `vue-router` yourself if you want to use the latest dev build.
+
+``` bash
+git clone https://github.com/vuejs/vue-router.git node_modules/vue-router
+cd node_modules/vue-router
+npm install
+npm run build
+```
+
 ### Bower
 
 ``` bash
 bower install vue-router
-# dev branch
-bower install vuejs/vue-router#dev
 ```
