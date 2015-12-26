@@ -31,7 +31,7 @@ Programatically navigate to a new route.
 
   - When using the `path` format and navigating to a relative path, you can also pass in the `append: true` option, so that the relative path is always **appended** to the current path. For example:
 
-    - Going from `/a` to `b` without `append: true` will arrive at `/b`;
+    - Going from `/a` to `b` without `append: true` will arrive at `/b`.
 
     - Going from `/a` to `b` with `append: true` will arrive at `/a/b`.
 
