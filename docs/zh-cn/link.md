@@ -58,5 +58,3 @@
 #### 其他注意点
 
 - `v-link` 会自动设置 `<a>` 的 `href` 属性。
-
-- 由于 `v-link` 是个[字面量指令](http://vuejs.org/guide/directives.html#Literal_Directives)，它可以包含 mustache 标签，例如 `v-link="/user/{% raw %}{{user.name}}{% endraw %}"` 。
