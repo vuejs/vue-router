@@ -435,8 +435,12 @@ class Router {
 
     if (!this.app) {
       // initial render
+      const router = this
       this.app = new this._appConstructor({
         el: this._appContainer,
+        created () {
+          this.$router = router
+        },
         _meta: {
           $route: route
         }
