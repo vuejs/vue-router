@@ -116,6 +116,7 @@ class Router {
     for (let route in map) {
       this.on(route, map[route])
     }
+    return this
   }
 
   /**
@@ -136,6 +137,7 @@ class Router {
     } else {
       this._addRoute(rootPath, handler, [])
     }
+    return this
   }
 
   /**
@@ -148,6 +150,7 @@ class Router {
     for (let path in map) {
       this._addRedirect(path, map[path])
     }
+    return this
   }
 
   /**
@@ -160,6 +163,7 @@ class Router {
     for (let path in map) {
       this._addAlias(path, map[path])
     }
+    return this
   }
 
   /**
@@ -170,6 +174,7 @@ class Router {
 
   beforeEach (fn) {
     this._beforeEachHooks.push(fn)
+    return this
   }
 
   /**
@@ -180,6 +185,7 @@ class Router {
 
   afterEach (fn) {
     this._afterEachHooks.push(fn)
+    return this
   }
 
   /**
