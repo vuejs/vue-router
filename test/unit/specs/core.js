@@ -13,7 +13,9 @@ describe('Core', function () {
 
   it('call Vue constructor with no arguments', function () {
     /* eslint-disable no-new */
-    new Vue()
+    expect(function () {
+      new Vue()
+    }).not.toThrow()
     /* eslint-enable no-new */
   })
 
