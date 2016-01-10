@@ -284,7 +284,7 @@ class Router {
   _addRoute (path, handler, segments) {
     guardComponent(path, handler)
     handler.path = path
-    handler.fullPath = (segments.reduce(function (path, segment) {
+    handler.fullPath = (segments.reduce((path, segment) => {
       return path + segment.path
     }, '') + path).replace('//', '/')
     segments.push({
