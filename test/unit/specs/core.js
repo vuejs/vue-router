@@ -381,6 +381,83 @@ describe('Core', function () {
     })
   })
 
+it('v-link active classes with named routes', function (done) {
+    router = new Router({
+      abstract: true,
+      linkActiveClass: 'active'
+    })
+    router.map({
+      '/a/:id': {
+        component: {},
+        subRoutes: {
+          'b/:bid': {
+            name: 'b',
+            component: {}
+          }
+        }
+      }
+    })
+    var App = Vue.extend({
+      replace: false,
+      data: function () {
+        return { className: 'custom' }
+      },
+      template:
+        '<a id="link" v-link="{ name: \'b\', params: { id: 1, bid: 2 }}">Link A</a>' +
+        '<router-view></router-view>'
+    })
+    router.start(App, el)
+    el = router.app.$el
+    var link = el.querySelector('#link')
+    expect(link.className).toBe('')
+    router.go('/a/1/b/1')
+    nextTick(function () {
+      expect(link.className).toBe('')
+      router.go({ name: 'b', params: { bid: 2 }})
+      nextTick(function () {
+        expect(link.className).toBe('active')
+        expect(router._currentRoute.path).toBe('/a/1/b/2')
+        done()
+      })
+    })
+  })
+
+  it('v-link active classes with v-link-active', function (done) {
+    router = new Router({
+      abstract: true,
+      linkActiveClass: 'active'
+    })
+    var App = Vue.extend({
+      replace: false,
+      template:
+        '<ul>' +
+          '<li id="link-a" v-link-active>' +
+            '<a v-link="{ path: \'/a\' }">Link A</a>' +
+          '</li>' +
+          '<li id="link-b" v-link-active>' +
+            '<a v-link="{ path: \'/b\' }">Link B</a>' +
+          '</li>' +
+        '</ul>'
+    })
+    router.start(App, el)
+    el = router.app.$el
+    var linkA = el.querySelector('#link-a')
+    var linkB = el.querySelector('#link-b')
+    expect(linkA.className).toBe('')
+    expect(linkB.className).toBe('')
+    router.go('/a')
+    nextTick(function () {
+      expect(linkA.className).toBe('active')
+      expect(linkB.className).toBe('')
+      router.go('/b')
+      nextTick(function () {
+        expect(linkA.className).toBe('')
+        expect(linkB.className).toBe('active')
+        done()
+      })
+    })
+  })
+
   it('v-link relative querystring', function (done) {
     router = new Router({ abstract: true })
     router.map({
