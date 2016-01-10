@@ -118,6 +118,9 @@ export default function (Vue) {
     },
 
     updateHref () {
+      if (this.el.tagName !== 'A') {
+        return
+      }
       if (this.target && this.target.name) {
         this.el.href = '#' + this.target.name
         return
@@ -129,12 +132,10 @@ export default function (Vue) {
       const href = path && (router.mode === 'hash' || isAbsolute)
         ? router.history.formatPath(path, this.append)
         : path
-      if (this.el.tagName === 'A') {
-        if (href) {
-          this.el.href = href
-        } else {
-          this.el.removeAttribute('href')
-        }
+      if (href) {
+        this.el.href = href
+      } else {
+        this.el.removeAttribute('href')
       }
     },
 
