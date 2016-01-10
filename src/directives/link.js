@@ -7,7 +7,6 @@ const queryStringRE = /\?.*$/
 // HTML5 history mode
 export default function (Vue) {
 
-  const urlParser = document.createElement('a')
   const {
     bind,
     isObject,
@@ -69,42 +68,29 @@ export default function (Vue) {
 
     onClick (e) {
       // don't redirect with control keys
+      /* istanbul ignore if */
       if (e.metaKey || e.ctrlKey || e.shiftKey) return
       // don't redirect when preventDefault called
+      /* istanbul ignore if */
       if (e.defaultPrevented) return
       // don't redirect on right click
+      /* istanbul ignore if */
       if (e.button !== 0) return
 
       const target = this.target
-      const go = (target) => {
+      if (target) {
+        // v-link with expression, just go
         e.preventDefault()
-        if (target != null) {
-          this.router.go(target)
-        }
-      }
-
-      if (this.el.tagName === 'A' || e.target === this.el) {
-        // v-link on <a v-link="'path'">
-        if (sameOrigin(this.el, target)) {
-          go(target)
-        } else if (typeof target === 'string') {
-          window.location.href = target
-        }
+        this.router.go(target)
       } else {
-        // v-link delegate on <div v-link>
+        // no expression, delegate for an <a> inside
         var el = e.target
-        while (el && el.tagName !== 'A' && el !== this.el) {
+        while (el.tagName !== 'A' && el !== this.el) {
           el = el.parentNode
         }
-        if (!el) return
-        if (!sameOrigin(el, target) && typeof target === 'string') {
-          window.location.href = target
-        }
-        if (el.tagName !== 'A' || !el.href) {
-          // allow not anchor
-          go(target)
-        } else if (sameOrigin(el, target)) {
-          go({
+        if (el.tagName === 'A' && sameOrigin(el)) {
+          e.preventDefault()
+          this.router.go({
             path: el.pathname,
             replace: target && target.replace,
             append: target && target.append
@@ -196,12 +182,7 @@ export default function (Vue) {
     }
   })
 
-  function sameOrigin (link, target) {
-    target = target || {}
-    if (link.tagName !== 'A' && typeof target === 'string') {
-      link = urlParser
-      link.href = target
-    }
+  function sameOrigin (link) {
     return link.protocol === location.protocol &&
       link.hostname === location.hostname &&
       link.port === location.port

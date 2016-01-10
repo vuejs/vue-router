@@ -8,7 +8,15 @@ describe('Core', function () {
 
   beforeEach(function () {
     el = document.createElement('div')
+    document.body.appendChild(el)
     spyOn(window, 'scrollTo')
+  })
+
+  afterEach(function () {
+    var el = router && router.app.$el
+    if (el && document.body.contains(el)) {
+      document.body.removeChild(el)
+    }
   })
 
   it('call Vue constructor with no arguments', function () {
@@ -319,6 +327,29 @@ describe('Core', function () {
           })
         })
       })
+    })
+  })
+
+  it('v-link delegation', function (done) {
+    router = new Router({ abstract: true })
+    router.map({
+      '/a': {
+        component: {
+          template: 'hello'
+        }
+      }
+    })
+    router.start({
+      replace: false,
+      template:
+        '<div v-link><a id="link" href="/a"></a></div>' +
+        '<router-view></router-view>'
+    }, el)
+    var link = el.querySelector('#link')
+    click(link)
+    nextTick(function () {
+      expect(el.textContent).toBe('hello')
+      done()
     })
   })
 
