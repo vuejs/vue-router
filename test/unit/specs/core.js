@@ -342,7 +342,7 @@ describe('Core', function () {
     router.start({
       replace: false,
       template:
-        '<div v-link><a id="link" href="/a"></a></div>' +
+        '<div v-link><a href="/a"><span id="link"></span></a></div>' +
         '<router-view></router-view>'
     }, el)
     var link = el.querySelector('#link')

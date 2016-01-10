@@ -15,7 +15,6 @@ export function warn (msg) {
   /* istanbul ignore next */
   if (window.console) {
     console.warn('[vue-router] ' + msg)
-    /* istanbul ignore if */
     if (!exports.Vue || exports.Vue.config.debug) {
       console.warn(new Error('warning stack trace:').stack)
     }
@@ -137,6 +136,7 @@ export function resolveAsyncComponent (handler, cb) {
 export function mapParams (path, params = {}, query) {
   path = path.replace(/:([^\/]+)/g, (_, key) => {
     let val = params[key]
+    /* istanbul ignore if */
     if (!val) {
       warn(
         'param "' + key + '" not found when generating ' +

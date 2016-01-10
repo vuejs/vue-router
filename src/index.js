@@ -250,6 +250,7 @@ class Router {
           'root container.'
         )
       }
+      /* istanbul ignore if */
       if (App instanceof Vue) {
         throw new Error(
           'Must start vue-router with a component, not a ' +
