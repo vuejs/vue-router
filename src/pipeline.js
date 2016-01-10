@@ -171,6 +171,7 @@ export function activate (view, transition, depth, cb, reuse) {
       if (cachedViews) {
         transition.router._views = cachedViews.concat(transition.router._views)
         view.childView = cachedViews[cachedViews.length - 1]
+        view.childView.parentView = view
         component._routerViews = null
       }
     }
