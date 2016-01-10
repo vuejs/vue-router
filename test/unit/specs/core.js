@@ -381,7 +381,7 @@ describe('Core', function () {
     })
   })
 
-it('v-link active classes with named routes', function (done) {
+  it('v-link active classes with named routes', function (done) {
     router = new Router({
       abstract: true,
       linkActiveClass: 'active'
@@ -993,6 +993,62 @@ it('v-link active classes with named routes', function (done) {
         expect(router.app.$el.textContent).toBe('Rendered!')
         done()
       }, wait * 3)
+    })
+
+    it('switching between rotues with conditional <router-view>', function (done) {
+      router = new Router({
+        abstract: true
+      })
+      router.map({
+        '/foo': {
+          component: {
+            template:
+              '<div>' +
+                '{{ a }}' +
+                '<router-view v-if="!$loadingRouteData"></router-view>' +
+              '</div>',
+            data: function () {
+              return { a: 0 }
+            },
+            route: {
+              data: function (transition) {
+                setTimeout(function () {
+                  transition.next({
+                    a: 123
+                  })
+                }, wait)
+              }
+            }
+          },
+          subRoutes: {
+            '/bar': {
+              component: {
+                template: 'rendered'
+              }
+            }
+          }
+        },
+        '/baz': {
+          component: { template: 'baz' }
+        }
+      })
+      router.start({
+        template: '<div><router-view></router-view></div>'
+      }, el)
+      router.go('/foo/bar')
+      setTimeout(function () {
+        expect(router.app.$el.textContent).toBe('123rendered')
+        router.go('/baz')
+        nextTick(function () {
+          expect(router.app.$el.textContent).toBe('baz')
+          // go again
+          router.go('/foo/bar')
+          setTimeout(function () {
+            expect(router.app.$el.textContent).toBe('123rendered')
+            done()
+          }, wait * 2)
+        })
+      }, wait * 2)
     })
   }
 
