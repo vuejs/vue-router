@@ -7,21 +7,26 @@ const queryStringRE = /\?.*$/
 // HTML5 history mode
 export default function (Vue) {
 
-  const _ = Vue.util
   const urlParser = document.createElement('a')
+  const {
+    bind,
+    isObject,
+    addClass,
+    removeClass
+  } = Vue.util
 
   Vue.directive('link', {
 
     bind () {
-      let vm = this.vm
+      const vm = this.vm
       /* istanbul ignore if */
       if (!vm.$route) {
-        warn(
-          'v-link can only be used inside a ' +
-          'router-enabled app.'
-        )
+        warn('v-link can only be used inside a router-enabled app.')
         return
       }
+      this.router = vm.$route.router
+      // update things when the route changes
+      this.unwatch = vm.$watch('$route', bind(this.onRouteUpdate, this))
       // no need to handle click if link expects to be opened
       // in a new window/tab.
       /* istanbul ignore if */
@@ -30,83 +35,99 @@ export default function (Vue) {
         return
       }
       // handle click
-      let router = vm.$route.router
-      this.handler = (e) => {
-        // don't redirect with control keys
-        if (e.metaKey || e.ctrlKey || e.shiftKey) return
-        // don't redirect when preventDefault called
-        if (e.defaultPrevented) return
-        // don't redirect on right click
-        if (e.button !== 0) return
-
-        const target = this.target
-        const go = (target) => {
-          e.preventDefault()
-          if (target != null) {
-            router.go(target)
-          }
-        }
-
-        if (this.el.tagName === 'A' || e.target === this.el) {
-          // v-link on <a v-link="'path'">
-          if (sameOrigin(this.el, target)) {
-            go(target)
-          } else if (typeof target === 'string') {
-            window.location.href = target
-          }
-        } else {
-          // v-link delegate on <div v-link>
-          var el = e.target
-          while (el && el.tagName !== 'A' && el !== this.el) {
-            el = el.parentNode
-          }
-          if (!el) return
-          if (!sameOrigin(el, target) && typeof target === 'string') {
-            window.location.href = target
-          }
-          if (el.tagName !== 'A' || !el.href) {
-            // allow not anchor
-            go(target)
-          } else if (sameOrigin(el, target)) {
-            go({
-              path: el.pathname,
-              replace: target && target.replace,
-              append: target && target.append
-            })
-          }
-        }
-      }
-      this.el.addEventListener('click', this.handler)
-      // manage active link class
-      this.unwatch = vm.$watch(
-        '$route.path',
-        _.bind(this.updateClasses, this)
-      )
+      this.el.addEventListener('click', bind(this.onClick, this))
     },
 
-    update (path) {
-      let router = this.vm.$route.router
-      let append
-      this.target = path
-      if (_.isObject(path)) {
-        append = path.append
-        this.exact = path.exact
+    update (target) {
+      this.target = target
+      if (isObject(target)) {
+        this.append = target.append
+        this.exact = target.exact
         this.prevActiveClass = this.activeClass
-        this.activeClass = path.activeClass
+        this.activeClass = target.activeClass
       }
-      path = this.path = router._stringifyPath(path)
-      this.activeRE = path && !this.exact
+      this.onRouteUpdate(this.vm.$route)
+    },
+
+    onClick (e) {
+      // don't redirect with control keys
+      if (e.metaKey || e.ctrlKey || e.shiftKey) return
+      // don't redirect when preventDefault called
+      if (e.defaultPrevented) return
+      // don't redirect on right click
+      if (e.button !== 0) return
+
+      const target = this.target
+      const go = (target) => {
+        e.preventDefault()
+        if (target != null) {
+          this.router.go(target)
+        }
+      }
+
+      if (this.el.tagName === 'A' || e.target === this.el) {
+        // v-link on <a v-link="'path'">
+        if (sameOrigin(this.el, target)) {
+          go(target)
+        } else if (typeof target === 'string') {
+          window.location.href = target
+        }
+      } else {
+        // v-link delegate on <div v-link>
+        var el = e.target
+        while (el && el.tagName !== 'A' && el !== this.el) {
+          el = el.parentNode
+        }
+        if (!el) return
+        if (!sameOrigin(el, target) && typeof target === 'string') {
+          window.location.href = target
+        }
+        if (el.tagName !== 'A' || !el.href) {
+          // allow not anchor
+          go(target)
+        } else if (sameOrigin(el, target)) {
+          go({
+            path: el.pathname,
+            replace: target && target.replace,
+            append: target && target.append
+          })
+        }
+      }
+    },
+
+    onRouteUpdate (route) {
+      // router._stringifyPath is dependent on current route
+      // and needs to be called again whenver route changes.
+      var newPath = this.router._stringifyPath(this.target)
+      if (this.path !== newPath) {
+        this.path = newPath
+        this.updateActiveMatch()
+        this.updateHref()
+      }
+      this.updateClasses(route.path)
+    },
+
+    updateActiveMatch () {
+      this.activeRE = this.path && !this.exact
         ? new RegExp(
             '^' +
-            path.replace(/\/$/, '').replace(regexEscapeRE, '\\$&') +
+            this.path.replace(/\/$/, '').replace(regexEscapeRE, '\\$&') +
             '(\\/|$)'
           )
         : null
-      this.updateClasses(this.vm.$route.path)
-      let isAbsolute = path.charAt(0) === '/'
+    },
+
+    updateHref () {
+      if (this.target && this.target.name) {
+        this.el.href = '#' + this.target.name
+        return
+      }
+      const path = this.path
+      const router = this.router
+      const isAbsolute = path.charAt(0) === '/'
       // do not format non-hash relative paths
-      let href = path && (router.mode === 'hash' || isAbsolute)
-        ? router.history.formatPath(path, append)
+      const href = path && (router.mode === 'hash' || isAbsolute)
+        ? router.history.formatPath(path, this.append)
         : path
       if (this.el.tagName === 'A') {
         if (href) {
@@ -118,36 +139,31 @@ export default function (Vue) {
     },
 
     updateClasses (path) {
-      let el = this.el
-      let router = this.vm.$route.router
-      let activeClass = this.activeClass || router._linkActiveClass
+      const el = this.el
+      const activeClass = this.activeClass || this.router._linkActiveClass
       // clear old class
       if (this.prevActiveClass !== activeClass) {
-        _.removeClass(el, this.prevActiveClass)
+        removeClass(el, this.prevActiveClass)
       }
       // remove query string before matching
-      let dest = this.path.replace(queryStringRE, '')
+      const dest = this.path.replace(queryStringRE, '')
       path = path.replace(queryStringRE, '')
       // add new class
       if (this.exact) {
-        if (
-          dest === path ||
-          (
-            // also allow additional trailing slash
-            dest.charAt(dest.length - 1) !== '/' &&
-            dest === path.replace(trailingSlashRE, '')
-          )
-        ) {
-          _.addClass(el, activeClass)
+        if (dest === path || (
+          // also allow additional trailing slash
+          dest.charAt(dest.length - 1) !== '/' &&
+          dest === path.replace(trailingSlashRE, '')
+        )) {
+          addClass(el, activeClass)
         } else {
-          _.removeClass(el, activeClass)
+          removeClass(el, activeClass)
         }
       } else {
-        if (this.activeRE &&
-            this.activeRE.test(path)) {
-          _.addClass(el, activeClass)
+        if (this.activeRE && this.activeRE.test(path)) {
+          addClass(el, activeClass)
         } else {
-          _.removeClass(el, activeClass)
+          removeClass(el, activeClass)
         }
       }
     },

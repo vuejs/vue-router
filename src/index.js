@@ -544,7 +544,11 @@ class Router {
   _stringifyPath (path) {
     if (path && typeof path === 'object') {
       if (path.name) {
-        const params = path.params || {}
+        const extend = Vue.util.extend
+        const currentParams = this._currentTransition.to.params
+        const params = currentParams
+          ? extend(extend({}, currentParams), path.params)
+          : path.params || {}
         if (path.query) {
           params.queryParams = path.query
         }
