@@ -264,7 +264,7 @@ function loadData (component, transition, hook, cb, cleanup) {
   transition.callHooks(hook, component, (data, onError) => {
     // merge data from multiple data hooks
     if (Array.isArray(data) && data._needMerge) {
-      data = data.reduce(function (res, obj) {
+      data = data.reduce((res, obj) => {
         if (isPlainObject(obj)) {
           Object.keys(obj).forEach(key => {
             res[key] = obj[key]

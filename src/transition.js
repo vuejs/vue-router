@@ -38,9 +38,7 @@ export default class RouteTransition {
 
     // the activate queue is an array of route handlers
     // that need to be activated
-    this.activateQueue = matched.map(function (match) {
-      return match.handler
-    })
+    this.activateQueue = matched.map(match => match.handler)
   }
 
   /**
@@ -139,9 +137,7 @@ export default class RouteTransition {
           transition.router._onTransitionValidated(transition)
 
           // trigger reuse for all reused views
-          reuseQueue && reuseQueue.forEach(function (view) {
-            reuse(view, transition)
-          })
+          reuseQueue && reuseQueue.forEach(view => reuse(view, transition))
 
           // the root of the chain that needs to be replaced
           // is the top-most non-reusable view.
