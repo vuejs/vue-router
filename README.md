@@ -39,3 +39,9 @@ npm run unit
 # run e2e tests only
 npm run e2e-local
 ```
+
+## Issues
+
+Please make sure to read the [Issue Reporting Checklist](https://github.com/vuejs/vue/blob/dev/CONTRIBUTING.md#issue-reporting-guidelines) before opening an issue. Issues not conforming to the guidelines may be closed immediately.
+
+
