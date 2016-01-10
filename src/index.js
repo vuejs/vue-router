@@ -546,9 +546,10 @@ class Router {
       if (path.name) {
         const extend = Vue.util.extend
         const currentParams = this._currentTransition.to.params
+        const targetParams = path.params || {}
         const params = currentParams
-          ? extend(extend({}, currentParams), path.params)
-          : path.params || {}
+          ? extend(extend({}, currentParams), targetParams)
+          : targetParams
         if (path.query) {
           params.queryParams = path.query
         }

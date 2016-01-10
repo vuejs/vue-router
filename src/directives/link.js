@@ -15,6 +15,12 @@ export default function (Vue) {
     removeClass
   } = Vue.util
 
+  Vue.directive('link-active', {
+    bind () {
+      this.el.__v_link_active = true
+    }
+  })
+
   Vue.directive('link', {
 
     bind () {
@@ -36,6 +42,16 @@ export default function (Vue) {
       }
       // handle click
       this.el.addEventListener('click', bind(this.onClick, this))
+      // check if active classes should be applied to a different element
+      this.activeEl = this.el
+      var parent = this.el.parentNode
+      while (parent) {
+        if (parent.__v_link_active) {
+          this.activeEl = parent
+          break
+        }
+        parent = parent.parentNode
+      }
     },
 
     update (target) {
@@ -111,7 +127,10 @@ export default function (Vue) {
       this.activeRE = this.path && !this.exact
         ? new RegExp(
             '^' +
-            this.path.replace(/\/$/, '').replace(regexEscapeRE, '\\$&') +
+            this.path
+              .replace(/\/$/, '')
+              .replace(queryStringRE, '')
+              .replace(regexEscapeRE, '\\$&') +
             '(\\/|$)'
           )
         : null
@@ -140,7 +159,7 @@ export default function (Vue) {
     },
 
     updateClasses (path) {
-      const el = this.el
+      const el = this.activeEl
       const activeClass = this.activeClass || this.router._linkActiveClass
       // clear old class
       if (this.prevActiveClass !== activeClass) {
