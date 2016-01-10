@@ -46,6 +46,7 @@ export default function (Vue) {
         // instead of activating now. This is so that the
         // child's activate hook is called after the
         // parent's has resolved.
+        this.parentView = parentView
         parentView.childView = this
       }
 
@@ -64,6 +65,9 @@ export default function (Vue) {
     },
 
     unbind () {
+      if (this.parentView) {
+        this.parentView.childView = null
+      }
       this.router._views.$remove(this)
       componentDef.unbind.call(this)
     }
