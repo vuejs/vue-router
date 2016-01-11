@@ -1,4 +1,4 @@
-# `router.start(App, el)`
+# `router.start(App, el, [callback])`
 
 Start the router-enabled app. Creates an instance of `App` and mounts it to `el`.
 
@@ -14,3 +14,7 @@ Start the router-enabled app. Creates an instance of `App` and mounts it to `el`
 - `el: String|Element`
 
   The element to mount the app on. Can be a CSS selector string or an actual element.
+
+- `callback: Function` (optional)
+
+  A callback which will be called when the router app's initial render is complete. `router.app` is guaranteed to be available after this callback is called.

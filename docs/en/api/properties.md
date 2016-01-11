@@ -6,7 +6,7 @@
 
 - type: `Vue`
 
-  The root Vue instance managed by the router instance. This instance is created from the Vue component contructor you passed into `router.start()`.
+  The root Vue instance managed by the router instance. This instance is created from the Vue component contructor you passed into `router.start()`. Note it may not be synchronously available when if router has to perform a redirect on load. If you need access to `router.app` outside of your app components, you may want to do so inside the callback passed to `router.start()`.
 
 ### `router.mode`
 
