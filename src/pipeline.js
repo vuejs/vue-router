@@ -137,20 +137,11 @@ export function activate (view, transition, depth, cb, reuse) {
     // unbuild current component. this step also destroys
     // and removes all nested child views.
     view.unbuild(true)
+
     // handle keep-alive.
-    // if the view has keep-alive, the child vm is not actually
-    // destroyed - its nested views will still be in router's
-    // view list. We need to removed these child views and
-    // cache them on the child vm.
-    if (view.keepAlive) {
-      let views = transition.router._views
-      let i = views.indexOf(view)
-      if (i > 0) {
-        transition.router._views = views.slice(i)
-        if (view.childVM) {
-          view.childVM._routerViews = views.slice(0, i)
-        }
-      }
+    // cache the child view on the kept-alive child vm.
+    if (view.keepAlive && view.childVM && view.childView) {
+      view.childVM._keepAliveRouterView = view.childView
     }
 
     // build the new component. this will also create the
@@ -171,12 +162,10 @@ export function activate (view, transition, depth, cb, reuse) {
     // and also properly update current view's child view.
     if (view.keepAlive) {
       component.$loadingRouteData = loading
-      let cachedViews = component._routerViews
-      if (cachedViews) {
-        transition.router._views = cachedViews.concat(transition.router._views)
-        view.childView = cachedViews[cachedViews.length - 1]
-        view.childView.parentView = view
-        component._routerViews = null
+      let cachedChildView = component._keepAliveRouterView
+      if (cachedChildView) {
+        view.childView = cachedChildView
+        component._keepAliveRouterView = null
       }
     }
   }
