@@ -47,7 +47,6 @@ class Router {
 
     // Vue instances
     this.app = null
-    this._views = []
     this._children = []
 
     // route recognizer

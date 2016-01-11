@@ -23,27 +23,6 @@ export default class RouteTransition {
     this.next = null
     this.aborted = false
     this.done = false
-
-    // start by determine the queues
-
-    // the deactivate queue is an array of router-view
-    // directive instances that need to be deactivated,
-    // deepest first.
-    let view = router._rootView
-    this.deactivateQueue = router._views = []
-    while (view) {
-      this.deactivateQueue.unshift(view)
-      view = view.childView
-    }
-
-    // check the default handler of the deepest match
-    let matched = to.matched
-      ? Array.prototype.slice.call(to.matched)
-      : []
-
-    // the activate queue is an array of route handlers
-    // that need to be activated
-    this.activateQueue = matched.map(match => match.handler)
   }
 
   /**
@@ -114,28 +93,37 @@ export default class RouteTransition {
 
   start (cb) {
     let transition = this
-    let daq = this.deactivateQueue
-    let aq = this.activateQueue
-    let rdaq = daq.slice().reverse()
-    let reuseQueue
+
+    // determine the queue of views to deactivate
+    let deactivateQueue = []
+    let view = this.router._rootView
+    while (view) {
+      deactivateQueue.unshift(view)
+      view = view.childView
+    }
+    let reverseDeactivateQueue = deactivateQueue.slice().reverse()
+
+    // determine the queue of route handlers to activate
+    let activateQueue = this.activateQueue =
+      toArray(this.to.matched).map(match => match.handler)
 
     // 1. Reusability phase
-    let i
-    for (i = 0; i < rdaq.length; i++) {
-      if (!canReuse(rdaq[i], aq[i], transition)) {
+    let i, reuseQueue
+    for (i = 0; i < reverseDeactivateQueue.length; i++) {
+      if (!canReuse(reverseDeactivateQueue[i], activateQueue[i], transition)) {
         break
       }
     }
     if (i > 0) {
-      reuseQueue = rdaq.slice(0, i)
-      daq = rdaq.slice(i).reverse()
-      aq = aq.slice(i)
+      reuseQueue = reverseDeactivateQueue.slice(0, i)
+      deactivateQueue = reverseDeactivateQueue.slice(i).reverse()
+      activateQueue = activateQueue.slice(i)
     }
 
     // 2. Validation phase
-    transition.runQueue(daq, canDeactivate, () => {
-      transition.runQueue(aq, canActivate, () => {
-        transition.runQueue(daq, deactivate, () => {
+    transition.runQueue(deactivateQueue, canDeactivate, () => {
+      transition.runQueue(activateQueue, canActivate, () => {
+        transition.runQueue(deactivateQueue, deactivate, () => {
           // 3. Activation phase
 
           // Update router current route
@@ -146,8 +134,8 @@ export default class RouteTransition {
 
           // the root of the chain that needs to be replaced
           // is the top-most non-reusable view.
-          if (daq.length) {
-            let view = daq[daq.length - 1]
+          if (deactivateQueue.length) {
+            let view = deactivateQueue[deactivateQueue.length - 1]
             let depth = reuseQueue ? reuseQueue.length : 0
             activate(view, transition, depth, cb)
           } else {
@@ -311,4 +299,10 @@ export default class RouteTransition {
 
 function isPlainOjbect (val) {
   return Object.prototype.toString.call(val) === '[object Object]'
+}
+
+function toArray (val) {
+  return val
+    ? Array.prototype.slice.call(val)
+    : []
 }

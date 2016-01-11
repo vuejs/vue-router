@@ -33,12 +33,6 @@ export default function (Vue) {
       // finally, init by delegating to v-component
       componentDef.bind.call(this)
 
-      // all we need to do here is registering this view
-      // in the router. actual component switching will be
-      // managed by the pipeline.
-      let router = this.router = route.router
-      router._views.unshift(this)
-
       // locate the parent view
       let parentView
       let parent = this.vm
@@ -57,6 +51,8 @@ export default function (Vue) {
         this.parentView = parentView
         parentView.childView = this
       } else {
+        // this is the root view!
+        let router = route.router
         router._rootView = this
       }
 
@@ -78,7 +74,6 @@ export default function (Vue) {
       if (this.parentView) {
         this.parentView.childView = null
       }
-      this.router._views.$remove(this)
       componentDef.unbind.call(this)
     }
   })
