@@ -21,6 +21,8 @@ Called on an incoming component during the activation phase, after the `activate
 
 The `data` transition hook is called immediately after the `activate` hook is resolved, and right before the view switching is executed. The entering component gets a **`$loadingRouteData`** meta property, which starts with value `true` and set to `false` when the `data` hook is resolved. This property can be used to display a loading state for the entering component.
 
+When resolved, the component will also emit a `'route-data-loaded'` event.
+
 The `data` hook is different from `activate` in that:
 
 1. `data` is also called every time the route changes, even if the current component is reused, while `activate` is only called when component is newly created.
