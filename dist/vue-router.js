@@ -1,6 +1,6 @@
 /*!
- * vue-router v0.7.7
- * (c) 2015 Evan You
+ * vue-router v0.7.8
+ * (c) 2016 Evan You
  * Released under the MIT License.
  */
 (function (global, factory) {
@@ -724,7 +724,6 @@
     /* istanbul ignore next */
     if (window.console) {
       console.warn('[vue-router] ' + msg);
-      /* istanbul ignore if */
       if (!exports$1.Vue || exports$1.Vue.config.debug) {
         console.warn(new Error('warning stack trace:').stack);
       }
@@ -844,6 +843,7 @@
 
     path = path.replace(/:([^\/]+)/g, function (_, key) {
       var val = params[key];
+      /* istanbul ignore if */
       if (!val) {
         warn('param "' + key + '" not found when generating ' + 'path for "' + path + '" with params ' + JSON.stringify(params));
       }
@@ -1151,20 +1151,11 @@
       // unbuild current component. this step also destroys
       // and removes all nested child views.
       view.unbuild(true);
+
       // handle keep-alive.
-      // if the view has keep-alive, the child vm is not actually
-      // destroyed - its nested views will still be in router's
-      // view list. We need to removed these child views and
-      // cache them on the child vm.
-      if (view.keepAlive) {
-        var views = transition.router._views;
-        var i = views.indexOf(view);
-        if (i > 0) {
-          transition.router._views = views.slice(i);
-          if (view.childVM) {
-            view.childVM._routerViews = views.slice(0, i);
-          }
-        }
+      // cache the child view on the kept-alive child vm.
+      if (view.keepAlive && view.childVM && view.childView) {
+        view.childVM._keepAliveRouterView = view.childView;
       }
 
       // build the new component. this will also create the
@@ -1173,19 +1164,22 @@
       component = view.build({
         _meta: {
           $loadingRouteData: loading
+        },
+        created: function created() {
+          this._routerView = view;
         }
       });
+
       // handle keep-alive.
       // when a kept-alive child vm is restored, we need to
       // add its cached child views into the router's view list,
       // and also properly update current view's child view.
       if (view.keepAlive) {
         component.$loadingRouteData = loading;
-        var cachedViews = component._routerViews;
-        if (cachedViews) {
-          transition.router._views = cachedViews.concat(transition.router._views);
-          view.childView = cachedViews[cachedViews.length - 1];
-          component._routerViews = null;
+        var cachedChildView = component._keepAliveRouterView;
+        if (cachedChildView) {
+          view.childView = cachedChildView;
+          component._keepAliveRouterView = null;
         }
       }
     }
@@ -1303,10 +1297,12 @@
       }
       if (!promises.length) {
         component.$loadingRouteData = false;
+        component.$emit('route-data-loaded', component);
         cb && cb();
       } else {
         promises[0].constructor.all(promises).then(function (_) {
           component.$loadingRouteData = false;
+          component.$emit('route-data-loaded', component);
           cb && cb();
         }, onError);
       }
@@ -1340,22 +1336,6 @@
       this.next = null;
       this.aborted = false;
       this.done = false;
-
-      // start by determine the queues
-
-      // the deactivate queue is an array of router-view
-      // directive instances that need to be deactivated,
-      // deepest first.
-      this.deactivateQueue = router._views;
-
-      // check the default handler of the deepest match
-      var matched = to.matched ? Array.prototype.slice.call(to.matched) : [];
-
-      // the activate queue is an array of route handlers
-      // that need to be activated
-      this.activateQueue = matched.map(function (match) {
-        return match.handler;
-      });
     }
 
     /**
@@ -1426,28 +1406,39 @@
 
     RouteTransition.prototype.start = function start(cb) {
       var transition = this;
-      var daq = this.deactivateQueue;
-      var aq = this.activateQueue;
-      var rdaq = daq.slice().reverse();
-      var reuseQueue = undefined;
+
+      // determine the queue of views to deactivate
+      var deactivateQueue = [];
+      var view = this.router._rootView;
+      while (view) {
+        deactivateQueue.unshift(view);
+        view = view.childView;
+      }
+      var reverseDeactivateQueue = deactivateQueue.slice().reverse();
+
+      // determine the queue of route handlers to activate
+      var activateQueue = this.activateQueue = toArray(this.to.matched).map(function (match) {
+        return match.handler;
+      });
 
       // 1. Reusability phase
-      var i = undefined;
-      for (i = 0; i < rdaq.length; i++) {
-        if (!canReuse(rdaq[i], aq[i], transition)) {
+      var i = undefined,
+          reuseQueue = undefined;
+      for (i = 0; i < reverseDeactivateQueue.length; i++) {
+        if (!canReuse(reverseDeactivateQueue[i], activateQueue[i], transition)) {
           break;
         }
       }
       if (i > 0) {
-        reuseQueue = rdaq.slice(0, i);
-        daq = rdaq.slice(i).reverse();
-        aq = aq.slice(i);
+        reuseQueue = reverseDeactivateQueue.slice(0, i);
+        deactivateQueue = reverseDeactivateQueue.slice(i).reverse();
+        activateQueue = activateQueue.slice(i);
       }
 
       // 2. Validation phase
-      transition.runQueue(daq, canDeactivate, function () {
-        transition.runQueue(aq, canActivate, function () {
-          transition.runQueue(daq, deactivate, function () {
+      transition.runQueue(deactivateQueue, canDeactivate, function () {
+        transition.runQueue(activateQueue, canActivate, function () {
+          transition.runQueue(deactivateQueue, deactivate, function () {
             // 3. Activation phase
 
             // Update router current route
@@ -1455,15 +1446,15 @@
 
             // trigger reuse for all reused views
             reuseQueue && reuseQueue.forEach(function (view) {
-              reuse(view, transition);
+              return reuse(view, transition);
             });
 
             // the root of the chain that needs to be replaced
             // is the top-most non-reusable view.
-            if (daq.length) {
-              var view = daq[daq.length - 1];
+            if (deactivateQueue.length) {
+              var _view = deactivateQueue[deactivateQueue.length - 1];
               var depth = reuseQueue ? reuseQueue.length : 0;
-              activate(view, transition, depth, cb);
+              activate(_view, transition, depth, cb);
             } else {
               cb();
             }
@@ -1636,6 +1627,10 @@
     return Object.prototype.toString.call(val) === '[object Object]';
   }
 
+  function toArray(val) {
+    return val ? Array.prototype.slice.call(val) : [];
+  }
+
   var internalKeysRE = /^(component|subRoutes)$/;
 
   /**
@@ -1681,25 +1676,29 @@
   };
 
   function applyOverride (Vue) {
-
-    var _ = Vue.util;
+    var _Vue$util = Vue.util;
+    var extend = _Vue$util.extend;
+    var isArray = _Vue$util.isArray;
+    var defineReactive = _Vue$util.defineReactive;
 
     // override Vue's init and destroy process to keep track of router instances
     var init = Vue.prototype._init;
     Vue.prototype._init = function (options) {
+      options = options || {};
       var root = options._parent || options.parent || this;
+      var router = root.$router;
       var route = root.$route;
-      if (route) {
-        route.router._children.push(this);
-        if (!this.$route) {
-          /* istanbul ignore if */
-          if (this._defineMeta) {
-            // 0.12
-            this._defineMeta('$route', route);
-          } else {
-            // 1.0
-            _.defineReactive(this, '$route', route);
-          }
+      if (router) {
+        // expose router
+        this.$router = router;
+        router._children.push(this);
+        /* istanbul ignore if */
+        if (this._defineMeta) {
+          // 0.12
+          this._defineMeta('$route', route);
+        } else {
+          // 1.0
+          defineReactive(this, '$route', route);
         }
       }
       init.call(this, options);
@@ -1708,9 +1707,8 @@
     var destroy = Vue.prototype._destroy;
     Vue.prototype._destroy = function () {
       if (!this._isBeingDestroyed) {
-        var route = this.$root.$route;
-        if (route) {
-          route.router._children.$remove(this);
+        if (this.$router) {
+          this.$router._children.$remove(this);
         }
         destroy.apply(this, arguments);
       }
@@ -1725,14 +1723,14 @@
         if (!childVal) return parentVal;
         if (!parentVal) return childVal;
         var ret = {};
-        _.extend(ret, parentVal);
+        extend(ret, parentVal);
         for (var key in childVal) {
           var a = ret[key];
           var b = childVal[key];
           // for data, activate and deactivate, we need to merge them into
           // arrays similar to lifecycle hooks.
           if (a && hooksToMergeRE.test(key)) {
-            ret[key] = (_.isArray(a) ? a : [a]).concat(b);
+            ret[key] = (isArray(a) ? a : [a]).concat(b);
           } else {
             ret[key] = b;
           }
@@ -1771,20 +1769,27 @@
         // finally, init by delegating to v-component
         componentDef.bind.call(this);
 
-        // all we need to do here is registering this view
-        // in the router. actual component switching will be
-        // managed by the pipeline.
-        var router = this.router = route.router;
-        router._views.unshift(this);
-
-        // note the views are in reverse order.
-        var parentView = router._views[1];
+        // locate the parent view
+        var parentView = undefined;
+        var parent = this.vm;
+        while (parent) {
+          if (parent._routerView) {
+            parentView = parent._routerView;
+            break;
+          }
+          parent = parent.$parent;
+        }
         if (parentView) {
           // register self as a child of the parent view,
           // instead of activating now. This is so that the
           // child's activate hook is called after the
           // parent's has resolved.
+          this.parentView = parentView;
           parentView.childView = this;
+        } else {
+          // this is the root view!
+          var router = route.router;
+          router._rootView = this;
         }
 
         // handle late-rendered view
@@ -1801,7 +1806,9 @@
       },
 
       unbind: function unbind() {
-        this.router._views.$remove(this);
+        if (this.parentView) {
+          this.parentView.childView = null;
+        }
         componentDef.unbind.call(this);
       }
     });
@@ -1816,20 +1823,32 @@
   // install v-link, which provides navigation support for
   // HTML5 history mode
   function Link (Vue) {
+    var _Vue$util = Vue.util;
+    var _bind = _Vue$util.bind;
+    var isObject = _Vue$util.isObject;
+    var addClass = _Vue$util.addClass;
+    var removeClass = _Vue$util.removeClass;
 
-    var _ = Vue.util;
+    Vue.directive('link-active', {
+      priority: 1001,
+      bind: function bind() {
+        this.el.__v_link_active = true;
+      }
+    });
 
     Vue.directive('link', {
+      priority: 1000,
 
       bind: function bind() {
-        var _this = this;
-
         var vm = this.vm;
         /* istanbul ignore if */
         if (!vm.$route) {
-          warn('v-link can only be used inside a ' + 'router-enabled app.');
+          warn('v-link can only be used inside a router-enabled app.');
           return;
         }
+        this.router = vm.$route.router;
+        // update things when the route changes
+        this.unwatch = vm.$watch('$route', _bind(this.onRouteUpdate, this));
         // no need to handle click if link expects to be opened
         // in a new window/tab.
         /* istanbul ignore if */
@@ -1837,82 +1856,105 @@
           return;
         }
         // handle click
-        var router = vm.$route.router;
-        this.handler = function (e) {
-          // don't redirect with control keys
-          if (e.metaKey || e.ctrlKey || e.shiftKey) return;
-          // don't redirect when preventDefault called
-          if (e.defaultPrevented) return;
-          // don't redirect on right click
-          if (e.button !== 0) return;
-
-          var target = _this.target;
-          var go = function go(target) {
-            e.preventDefault();
-            if (target != null) {
-              router.go(target);
-            }
-          };
-
-          if (_this.el.tagName === 'A' || e.target === _this.el) {
-            // v-link on <a v-link="'path'">
-            go(target);
-          } else {
-            // v-link delegate on <div v-link>
-            var el = e.target;
-            while (el && el.tagName !== 'A' && el !== _this.el) {
-              el = el.parentNode;
-            }
-            if (!el) return;
-            if (el.tagName !== 'A' || !el.href) {
-              // allow not anchor
-              go(target);
-            } else if (sameOrigin(el)) {
-              go({
-                path: el.pathname,
-                replace: target && target.replace,
-                append: target && target.append
-              });
-            }
+        this.el.addEventListener('click', _bind(this.onClick, this));
+        // check if active classes should be applied to a different element
+        this.activeEl = this.el;
+        var parent = this.el.parentNode;
+        while (parent) {
+          if (parent.__v_link_active) {
+            this.activeEl = parent;
+            break;
           }
-        };
-        this.el.addEventListener('click', this.handler);
-        // manage active link class
-        this.unwatch = vm.$watch('$route.path', _.bind(this.updateClasses, this));
+          parent = parent.parentNode;
+        }
       },
 
-      update: function update(path) {
-        var router = this.vm.$route.router;
-        var append = undefined;
-        this.target = path;
-        if (_.isObject(path)) {
-          append = path.append;
-          this.exact = path.exact;
+      update: function update(target) {
+        this.target = target;
+        if (isObject(target)) {
+          this.append = target.append;
+          this.exact = target.exact;
           this.prevActiveClass = this.activeClass;
-          this.activeClass = path.activeClass;
+          this.activeClass = target.activeClass;
         }
-        path = this.path = router._stringifyPath(path);
-        this.activeRE = path && !this.exact ? new RegExp('^' + path.replace(/\/$/, '').replace(regexEscapeRE, '\\$&') + '(\\/|$)') : null;
-        this.updateClasses(this.vm.$route.path);
+        this.onRouteUpdate(this.vm.$route);
+      },
+
+      onClick: function onClick(e) {
+        // don't redirect with control keys
+        /* istanbul ignore if */
+        if (e.metaKey || e.ctrlKey || e.shiftKey) return;
+        // don't redirect when preventDefault called
+        /* istanbul ignore if */
+        if (e.defaultPrevented) return;
+        // don't redirect on right click
+        /* istanbul ignore if */
+        if (e.button !== 0) return;
+
+        var target = this.target;
+        if (target) {
+          // v-link with expression, just go
+          e.preventDefault();
+          this.router.go(target);
+        } else {
+          // no expression, delegate for an <a> inside
+          var el = e.target;
+          while (el.tagName !== 'A' && el !== this.el) {
+            el = el.parentNode;
+          }
+          if (el.tagName === 'A' && sameOrigin(el)) {
+            e.preventDefault();
+            this.router.go({
+              path: el.pathname,
+              replace: target && target.replace,
+              append: target && target.append
+            });
+          }
+        }
+      },
+
+      onRouteUpdate: function onRouteUpdate(route) {
+        // router._stringifyPath is dependent on current route
+        // and needs to be called again whenver route changes.
+        var newPath = this.router._stringifyPath(this.target);
+        if (this.path !== newPath) {
+          this.path = newPath;
+          this.updateActiveMatch();
+          this.updateHref();
+        }
+        this.updateClasses(route.path);
+      },
+
+      updateActiveMatch: function updateActiveMatch() {
+        this.activeRE = this.path && !this.exact ? new RegExp('^' + this.path.replace(/\/$/, '').replace(queryStringRE, '').replace(regexEscapeRE, '\\$&') + '(\\/|$)') : null;
+      },
+
+      updateHref: function updateHref() {
+        if (this.el.tagName !== 'A') {
+          return;
+        }
+        if (this.target && this.target.name) {
+          this.el.href = '#' + this.target.name;
+          return;
+        }
+        var path = this.path;
+        var router = this.router;
         var isAbsolute = path.charAt(0) === '/';
         // do not format non-hash relative paths
-        var href = path && (router.mode === 'hash' || isAbsolute) ? router.history.formatPath(path, append) : path;
-        if (this.el.tagName === 'A') {
-          if (href) {
-            this.el.href = href;
-          } else {
-            this.el.removeAttribute('href');
-          }
+        var href = path && (router.mode === 'hash' || isAbsolute) ? router.history.formatPath(path, this.append) : path;
+        if (href) {
+          this.el.href = href;
+        } else {
+          this.el.removeAttribute('href');
         }
       },
 
       updateClasses: function updateClasses(path) {
-        var el = this.el;
-        var router = this.vm.$route.router;
-        var activeClass = this.activeClass || router._linkActiveClass;
+        var el = this.activeEl;
+        var activeClass = this.activeClass || this.router._linkActiveClass;
         // clear old class
         if (this.prevActiveClass !== activeClass) {
-          _.removeClass(el, this.prevActiveClass);
+          removeClass(el, this.prevActiveClass);
         }
         // remove query string before matching
         var dest = this.path.replace(queryStringRE, '');
@@ -1922,15 +1964,15 @@
           if (dest === path ||
           // also allow additional trailing slash
           dest.charAt(dest.length - 1) !== '/' && dest === path.replace(trailingSlashRE, '')) {
-            _.addClass(el, activeClass);
+            addClass(el, activeClass);
           } else {
-            _.removeClass(el, activeClass);
+            removeClass(el, activeClass);
           }
         } else {
           if (this.activeRE && this.activeRE.test(path)) {
-            _.addClass(el, activeClass);
+            addClass(el, activeClass);
           } else {
-            _.removeClass(el, activeClass);
+            removeClass(el, activeClass);
           }
         }
       },
@@ -1990,7 +2032,6 @@
 
       // Vue instances
       this.app = null;
-      this._views = [];
       this._children = [];
 
       // route recognizer
@@ -2060,6 +2101,7 @@
       for (var route in _map) {
         this.on(route, _map[route]);
       }
+      return this;
     };
 
     /**
@@ -2080,6 +2122,7 @@
       } else {
         this._addRoute(rootPath, handler, []);
       }
+      return this;
     };
 
     /**
@@ -2092,6 +2135,7 @@
       for (var path in map) {
         this._addRedirect(path, map[path]);
       }
+      return this;
     };
 
     /**
@@ -2104,6 +2148,7 @@
       for (var path in map) {
         this._addAlias(path, map[path]);
       }
+      return this;
     };
 
     /**
@@ -2114,6 +2159,7 @@
 
     Router.prototype.beforeEach = function beforeEach(fn) {
       this._beforeEachHooks.push(fn);
+      return this;
     };
 
     /**
@@ -2124,6 +2170,7 @@
 
     Router.prototype.afterEach = function afterEach(fn) {
       this._afterEachHooks.push(fn);
+      return this;
     };
 
     /**
@@ -2184,6 +2231,10 @@
         /* istanbul ignore if */
         if (!App || !container) {
           throw new Error('Must start vue-router with a component and a ' + 'root container.');
+        }
+        /* istanbul ignore if */
+        if (App instanceof Vue) {
+          throw new Error('Must start vue-router with a component, not a ' + 'Vue instance.');
         }
         this._appContainer = container;
         var Ctor = this._appConstructor = typeof App === 'function' ? App : Vue.extend(App);
@@ -2364,13 +2415,19 @@
       this._currentTransition = transition;
 
       if (!this.app) {
-        // initial render
-        this.app = new this._appConstructor({
-          el: this._appContainer,
-          _meta: {
-            $route: route
-          }
-        });
+        (function () {
+          // initial render
+          var router = _this2;
+          _this2.app = new _this2._appConstructor({
+            el: _this2._appContainer,
+            created: function created() {
+              this.$router = router;
+            },
+            _meta: {
+              $route: route
+            }
+          });
+        })();
       }
 
       // check global before hook
@@ -2472,7 +2529,10 @@
     Router.prototype._stringifyPath = function _stringifyPath(path) {
       if (path && typeof path === 'object') {
         if (path.name) {
-          var params = path.params || {};
+          var extend = Vue.util.extend;
+          var currentParams = this._currentTransition.to.params;
+          var targetParams = path.params || {};
+          var params = currentParams ? extend(extend({}, currentParams), targetParams) : targetParams;
           if (path.query) {
             params.queryParams = path.query;
           }
@@ -2543,4 +2603,3 @@
   return Router;
 
 }));
-//# sourceMappingURL=vue-router.js.map
