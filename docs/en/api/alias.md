@@ -10,6 +10,10 @@ For example, if we alias `/a` to `/a/b/c`, when we visit `/a`, the browser URL w
 
   The alias map object should be in the form of { fromPath: toPath, ... }. The paths can contain dynamic segments.
 
+### Returns
+
+- The router instance itself.
+
 ### Example
 
 ``` js

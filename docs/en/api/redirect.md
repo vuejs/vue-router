@@ -8,6 +8,10 @@ Configures global redirection rules for the router. Global redirections are perf
 
   The redirect map object should be in the form of `{ fromPath: toPath, ... }`. The paths can contain dynamic segments.
 
+### Returns
+
+- The router instance itself.
+
 ### Example
 
 ``` js

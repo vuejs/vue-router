@@ -8,6 +8,10 @@ The main method to define route mappings for the router.
 
   An object whose keys are paths and values are route config objects. For path matching rules, see [Route Matching](../route.html#route-matching).
 
+### Returns
+
+- The router instance itself.
+
 ### Route Config Object
 
 A route config object can contain two fields:

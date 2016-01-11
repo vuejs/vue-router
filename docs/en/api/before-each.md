@@ -10,6 +10,10 @@ You can add multiple global before hooks to the same router. These hooks will be
 
   The hook function receives a single argument which is a [Transition Object](../pipeline/hooks.html#transition-object).
 
+### Returns
+
+- The router instance itself.
+
 ### Example
 
 Basic

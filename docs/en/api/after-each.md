@@ -12,6 +12,10 @@ You can add multiple global after hooks to the same router. These hooks will be 
 
   The hook function receives a single argument which is a [Transition Object](../pipeline/hooks.html#transition-object), but you can only access its `to` and `from` properties, which are route objects. You **cannot** call transition methods in the global after hook.
 
+### Returns
+
+- The router instance itself.
+
 ### Example
 
 ``` js

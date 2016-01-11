@@ -7,6 +7,10 @@ Add a single root-level route configuration. Internally, `router.map()` simply c
 - `path: String` - see [Route Matching](../route.md#route-matching)
 - `config: Object` - see [Route Config Object](map.md#route-config-object).
 
+### Returns
+
+- The router instance itself.
+
 ### Example
 
 ``` js
