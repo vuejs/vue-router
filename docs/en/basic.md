@@ -61,3 +61,9 @@ router.start(App, '#app')
 ```
 
 You can also checkout this example [live](http://jsfiddle.net/yyx990803/xyu276sa/).
+
+In addition:
+
+- The root Vue instance will be available as `router.app` once the initial render is complete.
+
+- The router instance will be available in all descendants of the router app as `this.$router`.
