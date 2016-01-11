@@ -2,7 +2,7 @@
   "name": "vue-router",
   "version": "0.7.7",
   "description": "A router for Vue.js",
-  "main": "dist/vue-router.common.js",
+  "main": "dist/vue-router.js",
   "jsnext:main": "src/index.js",
   "files": [
     "dist",
