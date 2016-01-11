@@ -37,6 +37,22 @@ The active link class name can be configured with the `linkActiveClass` option w
 <a v-link="{ path: '/a', activeClass: 'custom-active-class' }"></a>
 ```
 
+#### Applying Active Classes to Another Element
+
+> 0.7.8+
+
+Sometimes we may want the active classes to be applied to a wrapping element rather than the `<a>` element itself. You can do so by adding `v-link-active` to a parent element:
+
+``` html
+<ul>
+  <li v-link-active>
+    <a v-link="{ path: '/xxx' }">Go</a>
+  </li>
+</ul>
+```
+
+`v-link` will locate the closest parent element that has `v-link-active` and apply the active classes on that element instead.
+
 #### Other Configuration Options
 
 - **replace**
