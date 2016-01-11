@@ -159,8 +159,12 @@ export function activate (view, transition, depth, cb, reuse) {
     component = view.build({
       _meta: {
         $loadingRouteData: loading
+      },
+      created () {
+        this._routerView = view
       }
     })
+
     // handle keep-alive.
     // when a kept-alive child vm is restored, we need to
     // add its cached child views into the router's view list,

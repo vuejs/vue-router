@@ -39,8 +39,16 @@ export default function (Vue) {
       let router = this.router = route.router
       router._views.unshift(this)
 
-      // note the views are in reverse order.
-      let parentView = router._views[1]
+      // locate the parent view
+      let parentView
+      let parent = this.vm
+      while (parent) {
+        if (parent._routerView) {
+          parentView = parent._routerView
+          break
+        }
+        parent = parent.$parent
+      }
       if (parentView) {
         // register self as a child of the parent view,
         // instead of activating now. This is so that the
@@ -48,6 +56,8 @@ export default function (Vue) {
         // parent's has resolved.
         this.parentView = parentView
         parentView.childView = this
+      } else {
+        router._rootView = this
       }
 
       // handle late-rendered view

@@ -29,7 +29,12 @@ export default class RouteTransition {
     // the deactivate queue is an array of router-view
     // directive instances that need to be deactivated,
     // deepest first.
-    this.deactivateQueue = router._views
+    let view = router._rootView
+    this.deactivateQueue = router._views = []
+    while (view) {
+      this.deactivateQueue.unshift(view)
+      view = view.childView
+    }
 
     // check the default handler of the deepest match
     let matched = to.matched
