@@ -45,11 +45,15 @@ When `/a` is matched, `$route.auth` will be `true`. This allows us to perform au
 
 ``` js
 router.beforeEach(function (transition) {
-  if (transition.to.auth) {
-    // do authentication...
+  if (transition.to.auth && !authenticated) {
+    transition.redirect('/login')
+  } else {
+    transition.next()
   }
 })
 ```
+
+> See [API](api/before-each.md) for how the `beforeEach` hook works.
 
 When a nested route is matched, all custom fields will be merged on to the same `$route` object. When a sub route and a parent route has the same custom field, the sub route's value will overwrite the parent's.
 

@@ -4,6 +4,8 @@ Add a global before hook to the router, which will be called before every route 
 
 You can add multiple global before hooks to the same router. These hooks will be called in the order of creation. Since hooks can be resolved asynchronously, the next hook won't be called until the previous one resolves.
 
+Global before hooks are resolved following the same [Hook resolution rules](../pipeline/hooks.html#hook-resolution-rules).
+
 ### Arguments
 
 - `hook {Function}`
