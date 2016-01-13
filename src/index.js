@@ -551,7 +551,9 @@ class Router {
     if (path && typeof path === 'object') {
       if (path.name) {
         const extend = Vue.util.extend
-        const currentParams = this._currentTransition.to.params
+        const currentParams =
+          this._currentTransition &&
+          this._currentTransition.to.params
         const targetParams = path.params || {}
         const params = currentParams
           ? extend(extend({}, currentParams), targetParams)
