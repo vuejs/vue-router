@@ -1,3 +1,6 @@
+//Configure VueRouter with Vue
+Vue.use(VueRouter)
+
 // define some components
 var Foo = Vue.extend({
   template: '<p>This is foo!</p>'
