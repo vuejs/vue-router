@@ -1,5 +1,5 @@
 /*!
- * vue-router v0.7.8
+ * vue-router v0.7.9
  * (c) 2016 Evan You
  * Released under the MIT License.
  */
@@ -182,7 +182,7 @@
     },
 
     generate: function generate(params) {
-      return params[this.name];
+      return params[this.name] || ":" + this.name;
     }
   };
 
@@ -199,7 +199,7 @@
     },
 
     generate: function generate(params) {
-      return params[this.name];
+      return params[this.name] || ":" + this.name;
     }
   };
 
@@ -1933,10 +1933,6 @@
         if (this.el.tagName !== 'A') {
           return;
         }
-        if (this.target && this.target.name) {
-          this.el.href = '#' + this.target.name;
-          return;
-        }
         var path = this.path;
         var router = this.router;
         var isAbsolute = path.charAt(0) === '/';
@@ -2530,7 +2526,7 @@
       if (path && typeof path === 'object') {
         if (path.name) {
           var extend = Vue.util.extend;
-          var currentParams = this._currentTransition.to.params;
+          var currentParams = this._currentTransition && this._currentTransition.to.params;
           var targetParams = path.params || {};
           var params = currentParams ? extend(extend({}, currentParams), targetParams) : targetParams;
           if (path.query) {
