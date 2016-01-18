@@ -128,10 +128,6 @@ export default function (Vue) {
       if (this.el.tagName !== 'A') {
         return
       }
-      if (this.target && this.target.name) {
-        this.el.href = '#' + this.target.name
-        return
-      }
       const path = this.path
       const router = this.router
       const isAbsolute = path.charAt(0) === '/'
