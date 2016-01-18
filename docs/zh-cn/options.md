@@ -45,7 +45,7 @@
 - 默认值： false
 - 只在 HTML5 history 模式下可用
 
-  当用户点击后退按钮是，借助 HTML5 history 中的 `popstate` 事件对应的 state 来重置页面的滚动位置。注意，当 `<router-view>` 设定了相应的场景切换效果时，这个可能不会得到预想的效果。
+  当用户点击后退按钮时，借助 HTML5 history 中的 `popstate` 事件对应的 state 来重置页面的滚动位置。注意，当 `<router-view>` 设定了相应的场景切换效果时，这个可能不会得到预想的效果。
 
 #### transitionOnLoad
 
