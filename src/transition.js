@@ -1,7 +1,16 @@
-import { warn, mapParams, isPromise } from './util'
 import {
-  activate, deactivate, reuse,
-  canActivate, canDeactivate, canReuse
+  warn,
+  mapParams,
+  isPromise
+} from './util'
+
+import {
+  activate,
+  deactivate,
+  canActivate,
+  canDeactivate,
+  reuse,
+  canReuse
 } from './pipeline'
 
 /**

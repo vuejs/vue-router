@@ -1,4 +1,8 @@
-import { getRouteConfig, resolveAsyncComponent, isPromise } from './util'
+import {
+  isPromise,
+  getRouteConfig,
+  resolveAsyncComponent
+} from './util'
 
 /**
  * Determine the reusability of an existing router view.
@@ -220,9 +224,7 @@ export function activate (view, transition, depth, cb, reuse) {
   }
 
   if (activateHook) {
-    transition.callHooks(activateHook, component, afterActivate, {
-      cleanup: cleanup
-    })
+    transition.callHooks(activateHook, component, afterActivate, { cleanup })
   } else {
     afterActivate()
   }
@@ -286,7 +288,7 @@ function loadData (component, transition, hook, cb, cleanup) {
       component.$emit('route-data-loaded', component)
       cb && cb()
     } else {
-      promises[0].constructor.all(promises).then(_ => {
+      promises[0].constructor.all(promises).then(() => {
         component.$loadingRouteData = false
         component.$emit('route-data-loaded', component)
         cb && cb()
