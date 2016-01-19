@@ -34,15 +34,6 @@ export default function (Vue) {
       this.router = vm.$route.router
       // update things when the route changes
       this.unwatch = vm.$watch('$route', bind(this.onRouteUpdate, this))
-      // no need to handle click if link expects to be opened
-      // in a new window/tab.
-      /* istanbul ignore if */
-      if (this.el.tagName === 'A' &&
-          this.el.getAttribute('target') === '_blank') {
-        return
-      }
-      // handle click
-      this.el.addEventListener('click', bind(this.onClick, this))
       // check if active classes should be applied to a different element
       this.activeEl = this.el
       var parent = this.el.parentNode
@@ -53,6 +44,15 @@ export default function (Vue) {
         }
         parent = parent.parentNode
       }
+      // no need to handle click if link expects to be opened
+      // in a new window/tab.
+      /* istanbul ignore if */
+      if (this.el.tagName === 'A' &&
+          this.el.getAttribute('target') === '_blank') {
+        return
+      }
+      // handle click
+      this.el.addEventListener('click', bind(this.onClick, this))
     },
 
     update (target) {
