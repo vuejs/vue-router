@@ -108,7 +108,7 @@ export function deactivate (view, transition, next) {
 export function activate (view, transition, depth, cb, reuse) {
   let handler = transition.activateQueue[depth]
   if (!handler) {
-    // fix 1.0.0-alpha.3 compat
+    saveChildView(view)
     if (view._bound) {
       view.setComponent(null)
     }
@@ -138,15 +138,11 @@ export function activate (view, transition, depth, cb, reuse) {
     component = view.childVM
     component.$loadingRouteData = loading
   } else {
+    saveChildView(view)
+
     // unbuild current component. this step also destroys
     // and removes all nested child views.
     view.unbuild(true)
-
-    // handle keep-alive.
-    // cache the child view on the kept-alive child vm.
-    if (view.keepAlive && view.childVM && view.childView) {
-      view.childVM._keepAliveRouterView = view.childView
-    }
 
     // build the new component. this will also create the
     // direct child view of the current one. it will register
@@ -300,6 +296,26 @@ function loadData (component, transition, hook, cb, cleanup) {
   })
 }
 
-function isPlainObject (obj) {
-  return Object.prototype.toString.call(obj) === '[object Object]'
+/**
+ * Save the child view for a kept-alive view so that
+ * we can restore it when it is switched back to.
+ *
+ * @param {Directive} view
+ */
+
+function saveChildView (view) {
+  if (view.keepAlive && view.childVM && view.childView) {
+    view.childVM._keepAliveRouterView = view.childView
+  }
+  view.childView = null
+}
+
+/**
+ * Check plain object.
+ * 
+ * @param {*} val
+ */
+
+function isPlainObject (val) {
+  return Object.prototype.toString.call(val) === '[object Object]'
 }
