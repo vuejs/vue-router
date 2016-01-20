@@ -43,7 +43,7 @@ export default class RouteTransition {
       this.aborted = true
       // if the root path throws an error during validation
       // on initial load, it gets caught in an infinite loop.
-      let abortingOnLoad = !this.from.path && this.to.path === '/'
+      const abortingOnLoad = !this.from.path && this.to.path === '/'
       if (!abortingOnLoad) {
         this.router.replace(this.from.path || '/')
       }
@@ -101,7 +101,7 @@ export default class RouteTransition {
    */
 
   start (cb) {
-    let transition = this
+    const transition = this
 
     // determine the queue of views to deactivate
     let deactivateQueue = []
@@ -144,8 +144,8 @@ export default class RouteTransition {
           // the root of the chain that needs to be replaced
           // is the top-most non-reusable view.
           if (deactivateQueue.length) {
-            let view = deactivateQueue[deactivateQueue.length - 1]
-            let depth = reuseQueue ? reuseQueue.length : 0
+            const view = deactivateQueue[deactivateQueue.length - 1]
+            const depth = reuseQueue ? reuseQueue.length : 0
             activate(view, transition, depth, cb)
           } else {
             cb()
@@ -165,7 +165,7 @@ export default class RouteTransition {
    */
 
   runQueue (queue, fn, cb) {
-    let transition = this
+    const transition = this
     step(0)
     function step (index) {
       if (index >= queue.length) {
@@ -200,17 +200,17 @@ export default class RouteTransition {
     cleanup
   } = {}) {
 
-    let transition = this
+    const transition = this
     let nextCalled = false
 
     // abort the transition
-    let abort = () => {
+    const abort = () => {
       cleanup && cleanup()
       transition.abort()
     }
 
     // handle errors
-    let onError = (err) => {
+    const onError = (err) => {
       // cleanup indicates an after-activation hook,
       // so instead of aborting we just let the transition
       // finish.
@@ -222,7 +222,7 @@ export default class RouteTransition {
     }
 
     // advance the transition to the next step
-    let next = (data) => {
+    const next = (data) => {
       if (nextCalled) {
         warn('transition.next() should be called only once.')
         return
@@ -238,7 +238,7 @@ export default class RouteTransition {
     // expose a clone of the transition object, so that each
     // hook gets a clean copy and prevent the user from
     // messing with the internals.
-    let exposed = {
+    const exposed = {
       to: transition.to,
       from: transition.from,
       abort: abort,
@@ -257,7 +257,7 @@ export default class RouteTransition {
     }
 
     // handle boolean/promise return values
-    let resIsPromise = isPromise(res)
+    const resIsPromise = isPromise(res)
     if (expectBoolean) {
       if (typeof res === 'boolean') {
         res ? next() : abort()
@@ -286,7 +286,7 @@ export default class RouteTransition {
 
   callHooks (hooks, context, cb, options) {
     if (Array.isArray(hooks)) {
-      let res = []
+      const res = []
       res._needMerge = true
       let onError
       this.runQueue(hooks, (hook, _, next) => {

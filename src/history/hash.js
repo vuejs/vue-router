@@ -8,15 +8,15 @@ export default class HashHistory {
   }
 
   start () {
-    let self = this
+    const self = this
     this.listener = function () {
-      let path = location.hash
+      const path = location.hash
       let raw = path.replace(/^#!?/, '')
       // always
       if (raw.charAt(0) !== '/') {
         raw = '/' + raw
       }
-      let formattedPath = self.formatPath(raw)
+      const formattedPath = self.formatPath(raw)
       if (formattedPath !== path) {
         location.replace(formattedPath)
         return
@@ -24,7 +24,7 @@ export default class HashHistory {
       // determine query
       // note it's possible to have queries in both the actual URL
       // and the hash fragment itself.
-      let query = location.search && path.indexOf('?') > -1
+      const query = location.search && path.indexOf('?') > -1
           ? '&' + location.search.slice(1)
           : location.search
       self.onChange(decodeURI(path.replace(/^#!?/, '') + query))
@@ -47,8 +47,8 @@ export default class HashHistory {
   }
 
   formatPath (path, append) {
-    let isAbsoloute = path.charAt(0) === '/'
-    let prefix = '#' + (this.hashbang ? '!' : '')
+    const isAbsoloute = path.charAt(0) === '/'
+    const prefix = '#' + (this.hashbang ? '!' : '')
     return isAbsoloute
       ? prefix + path
       : prefix + resolvePath(

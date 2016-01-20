@@ -17,7 +17,7 @@ export default class HTML5History {
     }
     this.onChange = onChange
     // check base tag
-    let baseEl = document.querySelector('base')
+    const baseEl = document.querySelector('base')
     this.base = baseEl && baseEl.getAttribute('href')
   }
 
@@ -38,7 +38,7 @@ export default class HTML5History {
   }
 
   go (path, replace, append) {
-    let url = this.formatPath(path, append)
+    const url = this.formatPath(path, append)
     if (replace) {
       history.replaceState({}, '', url)
     } else {
@@ -52,8 +52,8 @@ export default class HTML5History {
       // then push new state
       history.pushState({}, '', url)
     }
-    let hashMatch = path.match(hashRE)
-    let hash = hashMatch && hashMatch[0]
+    const hashMatch = path.match(hashRE)
+    const hash = hashMatch && hashMatch[0]
     path = url
       // strip hash so it doesn't mess up params
       .replace(hashRE, '')

@@ -10,7 +10,7 @@ const internalKeysRE = /^(component|subRoutes)$/
 export default class Route {
 
   constructor (path, router) {
-    let matched = router._recognizer.recognize(path)
+    const matched = router._recognizer.recognize(path)
     if (matched) {
       // copy all custom fields from route configs
       [].forEach.call(matched, match => {

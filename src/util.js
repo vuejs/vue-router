@@ -40,7 +40,7 @@ export function resolvePath (base, relative, append) {
   if (relative.charAt(0) === '?') {
     return base + relative
   }
-  let stack = base.split('/')
+  const stack = base.split('/')
   // remove trailing segment if:
   // - not appending
   // - appending to trailing slash (last segment is empty)
@@ -48,7 +48,7 @@ export function resolvePath (base, relative, append) {
     stack.pop()
   }
   // resolve relative path
-  let segments = relative.replace(/^\//, '').split('/')
+  const segments = relative.replace(/^\//, '').split('/')
   for (let i = 0; i < segments.length; i++) {
     let segment = segments[i]
     if (segment === '.') {
@@ -88,7 +88,7 @@ export function isPromise (p) {
  */
 
 export function getRouteConfig (component, name) {
-  let options =
+  const options =
     component &&
     (component.$options || component.options)
   return options &&
@@ -135,7 +135,7 @@ export function resolveAsyncComponent (handler, cb) {
 
 export function mapParams (path, params = {}, query) {
   path = path.replace(/:([^\/]+)/g, (_, key) => {
-    let val = params[key]
+    const val = params[key]
     /* istanbul ignore if */
     if (!val) {
       warn(

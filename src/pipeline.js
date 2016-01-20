@@ -13,7 +13,7 @@ import {
  */
 
 export function canReuse (view, handler, transition) {
-  let component = view.childVM
+  const component = view.childVM
   if (!component || !handler) {
     return false
   }
@@ -22,7 +22,7 @@ export function canReuse (view, handler, transition) {
   if (view.Component !== handler.component) {
     return false
   }
-  let canReuseFn = getRouteConfig(component, 'canReuse')
+  const canReuseFn = getRouteConfig(component, 'canReuse')
   return typeof canReuseFn === 'boolean'
     ? canReuseFn
     : canReuseFn
@@ -41,8 +41,8 @@ export function canReuse (view, handler, transition) {
  */
 
 export function canDeactivate (view, transition, next) {
-  let fromComponent = view.childVM
-  let hook = getRouteConfig(fromComponent, 'canDeactivate')
+  const fromComponent = view.childVM
+  const hook = getRouteConfig(fromComponent, 'canDeactivate')
   if (!hook) {
     next()
   } else {
@@ -67,7 +67,7 @@ export function canActivate (handler, transition, next) {
       return
     }
     // determine if this component can be activated
-    let hook = getRouteConfig(Component, 'canActivate')
+    const hook = getRouteConfig(Component, 'canActivate')
     if (!hook) {
       next()
     } else {
@@ -87,8 +87,8 @@ export function canActivate (handler, transition, next) {
  */
 
 export function deactivate (view, transition, next) {
-  let component = view.childVM
-  let hook = getRouteConfig(component, 'deactivate')
+  const component = view.childVM
+  const hook = getRouteConfig(component, 'deactivate')
   if (!hook) {
     next()
   } else {
@@ -106,7 +106,7 @@ export function deactivate (view, transition, next) {
  */
 
 export function activate (view, transition, depth, cb, reuse) {
-  let handler = transition.activateQueue[depth]
+  const handler = transition.activateQueue[depth]
   if (!handler) {
     saveChildView(view)
     if (view._bound) {
@@ -116,16 +116,16 @@ export function activate (view, transition, depth, cb, reuse) {
     return
   }
 
-  let Component = view.Component = handler.component
-  let activateHook = getRouteConfig(Component, 'activate')
-  let dataHook = getRouteConfig(Component, 'data')
-  let waitForData = getRouteConfig(Component, 'waitForData')
+  const Component = view.Component = handler.component
+  const activateHook = getRouteConfig(Component, 'activate')
+  const dataHook = getRouteConfig(Component, 'data')
+  const waitForData = getRouteConfig(Component, 'waitForData')
 
   view.depth = depth
   view.activated = false
 
   let component
-  let loading = !!(dataHook && !waitForData)
+  const loading = !!(dataHook && !waitForData)
 
   // "reuse" is a flag passed down when the parent view is
   // either reused via keep-alive or as a child of a kept-alive view.
@@ -162,7 +162,7 @@ export function activate (view, transition, depth, cb, reuse) {
     // and also properly update current view's child view.
     if (view.keepAlive) {
       component.$loadingRouteData = loading
-      let cachedChildView = component._keepAliveRouterView
+      const cachedChildView = component._keepAliveRouterView
       if (cachedChildView) {
         view.childView = cachedChildView
         component._keepAliveRouterView = null
@@ -172,17 +172,17 @@ export function activate (view, transition, depth, cb, reuse) {
 
   // cleanup the component in case the transition is aborted
   // before the component is ever inserted.
-  let cleanup = () => {
+  const cleanup = () => {
     component.$destroy()
   }
 
   // actually insert the component and trigger transition
-  let insert = () => {
+  const insert = () => {
     if (reuse) {
       cb && cb()
       return
     }
-    let router = transition.router
+    const router = transition.router
     if (router._rendered || router._transitionOnLoad) {
       view.transition(component)
     } else {
@@ -201,7 +201,7 @@ export function activate (view, transition, depth, cb, reuse) {
   }
 
   // called after activation hook is resolved
-  let afterActivate = () => {
+  const afterActivate = () => {
     view.activated = true
     // activate the child view
     if (view.childView) {
@@ -234,8 +234,8 @@ export function activate (view, transition, depth, cb, reuse) {
  */
 
 export function reuse (view, transition) {
-  let component = view.childVM
-  let dataHook = getRouteConfig(component, 'data')
+  const component = view.childVM
+  const dataHook = getRouteConfig(component, 'data')
   if (dataHook) {
     loadData(component, transition, dataHook)
   }
@@ -266,10 +266,10 @@ function loadData (component, transition, hook, cb, cleanup) {
       }, Object.create(null))
     }
     // handle promise sugar syntax
-    let promises = []
+    const promises = []
     if (isPlainObject(data)) {
       Object.keys(data).forEach(key => {
-        let val = data[key]
+        const val = data[key]
         if (isPromise(val)) {
           promises.push(val.then(resolvedVal => {
             component.$set(key, resolvedVal)
@@ -312,7 +312,7 @@ function saveChildView (view) {
 
 /**
  * Check plain object.
- * 
+ *
  * @param {*} val
  */
 

@@ -3,14 +3,14 @@ import { activate } from '../pipeline'
 
 export default function (Vue) {
 
-  let _ = Vue.util
-  let componentDef =
+  const _ = Vue.util
+  const componentDef =
     // 0.12
     Vue.directive('_component') ||
     // 1.0
     Vue.internalDirectives.component
   // <router-view> extends the internal component directive
-  let viewDef = _.extend({}, componentDef)
+  const viewDef = _.extend({}, componentDef)
 
   // with some overrides
   _.extend(viewDef, {
@@ -18,7 +18,7 @@ export default function (Vue) {
     _isRouterView: true,
 
     bind () {
-      let route = this.vm.$route
+      const route = this.vm.$route
       /* istanbul ignore if */
       if (!route) {
         warn(
@@ -52,7 +52,7 @@ export default function (Vue) {
         parentView.childView = this
       } else {
         // this is the root view!
-        let router = route.router
+        const router = route.router
         router._rootView = this
       }
 
