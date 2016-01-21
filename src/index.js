@@ -64,25 +64,22 @@ class Router {
     this._beforeEachHooks = []
     this._afterEachHooks = []
 
-    // feature detection
-    this._hasPushState =
-      typeof window !== 'undefined' &&
-      window.history &&
-      window.history.pushState
-
     // trigger transition on initial render?
     this._rendered = false
     this._transitionOnLoad = transitionOnLoad
 
     // history mode
+    this._root = root
     this._abstract = abstract
     this._hashbang = hashbang
-    this._history = this._hasPushState && history
 
-    // other options
-    this._saveScrollPosition = saveScrollPosition
-    this._linkActiveClass = linkActiveClass
-    this._suppress = suppressTransitionError
+    // check if HTML5 history is available
+    const hasPushState =
+      typeof window !== 'undefined' &&
+      window.history &&
+      window.history.pushState
+    this._history = history && hasPushState
+    this._historyFallback = history && !hasPushState
 
     // create history object
     const inBrowser = Vue.util.inBrowser
@@ -93,14 +90,18 @@ class Router {
         : 'hash'
 
     const History = historyBackends[this.mode]
-    const self = this
     this.history = new History({
       root: root,
       hashbang: this._hashbang,
-      onChange: function (path, state, anchor) {
-        self._match(path, state, anchor)
+      onChange: (path, state, anchor) => {
+        this._match(path, state, anchor)
       }
     })
+
+    // other options
+    this._saveScrollPosition = saveScrollPosition
+    this._linkActiveClass = linkActiveClass
+    this._suppress = suppressTransitionError
   }
 
   // API ===================================================
@@ -263,6 +264,25 @@ class Router {
       // give it a name for better debugging
       Ctor.options.name = Ctor.options.name || 'RouterApp'
     }
+
+    // handle history fallback in browsers that do not
+    // support HTML5 history API
+    if (this._historyFallback) {
+      const location = window.location
+      const history = new HTML5History({ root: this._root })
+      const path = history.root
+        ? location.pathname.replace(history.rootRE, '')
+        : location.pathname
+      if (path && path !== '/') {
+        location.assign(
+          (history.root || '') + '/' +
+          this.history.formatPath(path) +
+          location.search
+        )
+        return
+      }
+    }
+
     this.history.start()
   }
 

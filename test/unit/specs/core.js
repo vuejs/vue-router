@@ -1113,7 +1113,7 @@ describe('Stringify Path', function () {
 
   var router
   beforeEach(function () {
-    router = new Router({ abstract: true })    
+    router = new Router({ abstract: true })
   })
 
   it('plain string', function () {
