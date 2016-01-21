@@ -1108,3 +1108,43 @@ describe('Core', function () {
     target.dispatchEvent(e)
   }
 })
+
+describe('Stringify Path', function () {
+
+  var router
+  beforeEach(function () {
+    router = new Router({ abstract: true })    
+  })
+
+  it('plain string', function () {
+    expect(router._stringifyPath('a')).toBe('a')
+  })
+
+  it('object path', function () {
+    expect(router._stringifyPath({ path: '/hi' })).toBe('/hi')
+    expect(router._stringifyPath({ path: '/hi', query: { a: 1 } })).toBe('/hi?a=1')
+    expect(router._stringifyPath({ path: '/hi', query: { a: 1, b: 2 } })).toBe('/hi?a=1&b=2')
+    expect(router._stringifyPath({ path: '/hi?c=3', query: { a: 1, b: 2 } })).toBe('/hi?c=3&a=1&b=2')
+  })
+
+  it('named route', function () {
+    router.map({
+      '/test/:id': {
+        name: 'a',
+        component: {}
+      }
+    })
+    expect(router._stringifyPath({ name: 'a' })).toBe('/test/:id')
+    expect(router._stringifyPath({ name: 'a', params: { id: 0 } })).toBe('/test/0')
+    expect(router._stringifyPath({ name: 'a', params: { id: 'hi' } })).toBe('/test/hi')
+  })
+
+  it('named route not found should throw error', function () {
+    expect(function () {
+      router._stringifyPath({
+        name: 'a'
+      })
+    }).toThrow()
+  })
+
+})
