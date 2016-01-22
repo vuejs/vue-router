@@ -1,5 +1,5 @@
 /*!
- * vue-router v0.7.9
+ * vue-router v0.7.10
  * (c) 2016 Evan You
  * Released under the MIT License.
  */
@@ -182,7 +182,8 @@
     },
 
     generate: function generate(params) {
-      return params[this.name] || ":" + this.name;
+      var val = params[this.name];
+      return val == null ? ":" + this.name : val;
     }
   };
 
@@ -199,7 +200,8 @@
     },
 
     generate: function generate(params) {
-      return params[this.name] || ":" + this.name;
+      var val = params[this.name];
+      return val == null ? ":" + this.name : val;
     }
   };
 
@@ -1118,7 +1120,7 @@
   function activate(view, transition, depth, cb, reuse) {
     var handler = transition.activateQueue[depth];
     if (!handler) {
-      // fix 1.0.0-alpha.3 compat
+      saveChildView(view);
       if (view._bound) {
         view.setComponent(null);
       }
@@ -1148,15 +1150,11 @@
       component = view.childVM;
       component.$loadingRouteData = loading;
     } else {
+      saveChildView(view);
+
       // unbuild current component. this step also destroys
       // and removes all nested child views.
       view.unbuild(true);
-
-      // handle keep-alive.
-      // cache the child view on the kept-alive child vm.
-      if (view.keepAlive && view.childVM && view.childView) {
-        view.childVM._keepAliveRouterView = view.childView;
-      }
 
       // build the new component. this will also create the
       // direct child view of the current one. it will register
@@ -1214,29 +1212,31 @@
       cb && cb();
     };
 
-    // called after activation hook is resolved
-    var afterActivate = function afterActivate() {
-      view.activated = true;
+    var afterData = function afterData() {
       // activate the child view
       if (view.childView) {
         activate(view.childView, transition, depth + 1, null, reuse || view.keepAlive);
       }
+      insert();
+    };
+
+    // called after activation hook is resolved
+    var afterActivate = function afterActivate() {
+      view.activated = true;
       if (dataHook && waitForData) {
         // wait until data loaded to insert
-        loadData(component, transition, dataHook, insert, cleanup);
+        loadData(component, transition, dataHook, afterData, cleanup);
       } else {
         // load data and insert at the same time
         if (dataHook) {
           loadData(component, transition, dataHook);
         }
-        insert();
+        afterData();
       }
     };
 
     if (activateHook) {
-      transition.callHooks(activateHook, component, afterActivate, {
-        cleanup: cleanup
-      });
+      transition.callHooks(activateHook, component, afterActivate, { cleanup: cleanup });
     } else {
       afterActivate();
     }
@@ -1300,7 +1300,7 @@
         component.$emit('route-data-loaded', component);
         cb && cb();
       } else {
-        promises[0].constructor.all(promises).then(function (_) {
+        promises[0].constructor.all(promises).then(function () {
           component.$loadingRouteData = false;
           component.$emit('route-data-loaded', component);
           cb && cb();
@@ -1312,8 +1312,28 @@
     });
   }
 
-  function isPlainObject(obj) {
-    return Object.prototype.toString.call(obj) === '[object Object]';
+  /**
+   * Save the child view for a kept-alive view so that
+   * we can restore it when it is switched back to.
+   *
+   * @param {Directive} view
+   */
+
+  function saveChildView(view) {
+    if (view.keepAlive && view.childVM && view.childView) {
+      view.childVM._keepAliveRouterView = view.childView;
+    }
+    view.childView = null;
+  }
+
+  /**
+   * Check plain object.
+   *
+   * @param {*} val
+   */
+
+  function isPlainObject(val) {
+    return Object.prototype.toString.call(val) === '[object Object]';
   }
 
   /**
@@ -1706,12 +1726,10 @@
 
     var destroy = Vue.prototype._destroy;
     Vue.prototype._destroy = function () {
-      if (!this._isBeingDestroyed) {
-        if (this.$router) {
-          this.$router._children.$remove(this);
-        }
-        destroy.apply(this, arguments);
+      if (!this._isBeingDestroyed && this.$router) {
+        this.$router._children.$remove(this);
       }
+      destroy.apply(this, arguments);
     };
 
     // 1.0 only: enable route mixins
@@ -1849,14 +1867,6 @@
         this.router = vm.$route.router;
         // update things when the route changes
         this.unwatch = vm.$watch('$route', _bind(this.onRouteUpdate, this));
-        // no need to handle click if link expects to be opened
-        // in a new window/tab.
-        /* istanbul ignore if */
-        if (this.el.tagName === 'A' && this.el.getAttribute('target') === '_blank') {
-          return;
-        }
-        // handle click
-        this.el.addEventListener('click', _bind(this.onClick, this));
         // check if active classes should be applied to a different element
         this.activeEl = this.el;
         var parent = this.el.parentNode;
@@ -1867,6 +1877,14 @@
           }
           parent = parent.parentNode;
         }
+        // no need to handle click if link expects to be opened
+        // in a new window/tab.
+        /* istanbul ignore if */
+        if (this.el.tagName === 'A' && this.el.getAttribute('target') === '_blank') {
+          return;
+        }
+        // handle click
+        this.el.addEventListener('click', _bind(this.onClick, this));
       },
 
       update: function update(target) {
@@ -2001,6 +2019,8 @@
 
   var Router = (function () {
     function Router() {
+      var _this = this;
+
       var _ref = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
 
       var _ref$hashbang = _ref.hashbang;
@@ -2045,36 +2065,37 @@
       this._beforeEachHooks = [];
       this._afterEachHooks = [];
 
-      // feature detection
-      this._hasPushState = typeof window !== 'undefined' && window.history && window.history.pushState;
-
       // trigger transition on initial render?
       this._rendered = false;
       this._transitionOnLoad = transitionOnLoad;
 
       // history mode
+      this._root = root;
       this._abstract = abstract;
       this._hashbang = hashbang;
-      this._history = this._hasPushState && history;
 
-      // other options
-      this._saveScrollPosition = saveScrollPosition;
-      this._linkActiveClass = linkActiveClass;
-      this._suppress = suppressTransitionError;
+      // check if HTML5 history is available
+      var hasPushState = typeof window !== 'undefined' && window.history && window.history.pushState;
+      this._history = history && hasPushState;
+      this._historyFallback = history && !hasPushState;
 
       // create history object
       var inBrowser = Vue.util.inBrowser;
       this.mode = !inBrowser || this._abstract ? 'abstract' : this._history ? 'html5' : 'hash';
 
       var History = historyBackends[this.mode];
-      var self = this;
       this.history = new History({
         root: root,
         hashbang: this._hashbang,
         onChange: function onChange(path, state, anchor) {
-          self._match(path, state, anchor);
+          _this._match(path, state, anchor);
         }
       });
+
+      // other options
+      this._saveScrollPosition = saveScrollPosition;
+      this._linkActiveClass = linkActiveClass;
+      this._suppress = suppressTransitionError;
     }
 
     /**
@@ -2237,6 +2258,19 @@
         // give it a name for better debugging
         Ctor.options.name = Ctor.options.name || 'RouterApp';
       }
+
+      // handle history fallback in browsers that do not
+      // support HTML5 history API
+      if (this._historyFallback) {
+        var _location = window.location;
+        var _history = new HTML5History({ root: this._root });
+        var path = _history.root ? _location.pathname.replace(_history.rootRE, '') : _location.pathname;
+        if (path && path !== '/') {
+          _location.assign((_history.root || '') + '/' + this.history.formatPath(path) + _location.search);
+          return;
+        }
+      }
+
       this.history.start();
     };
 
@@ -2332,13 +2366,13 @@
      */
 
     Router.prototype._addGuard = function _addGuard(path, mappedPath, _handler) {
-      var _this = this;
+      var _this2 = this;
 
       this._guardRecognizer.add([{
         path: path,
         handler: function handler(match, query) {
           var realPath = mapParams(mappedPath, match.params, query);
-          _handler.call(_this, realPath);
+          _handler.call(_this2, realPath);
         }
       }]);
     };
@@ -2374,7 +2408,7 @@
      */
 
     Router.prototype._match = function _match(path, state, anchor) {
-      var _this2 = this;
+      var _this3 = this;
 
       if (this._checkGuard(path)) {
         return;
@@ -2413,9 +2447,9 @@
       if (!this.app) {
         (function () {
           // initial render
-          var router = _this2;
-          _this2.app = new _this2._appConstructor({
-            el: _this2._appContainer,
+          var router = _this3;
+          _this3.app = new _this3._appConstructor({
+            el: _this3._appContainer,
             created: function created() {
               this.$router = router;
             },
@@ -2430,13 +2464,13 @@
       var beforeHooks = this._beforeEachHooks;
       var startTransition = function startTransition() {
         transition.start(function () {
-          _this2._postTransition(route, state, anchor);
+          _this3._postTransition(route, state, anchor);
         });
       };
 
       if (beforeHooks.length) {
         transition.runQueue(beforeHooks, function (hook, _, next) {
-          if (transition === _this2._currentTransition) {
+          if (transition === _this3._currentTransition) {
             transition.callHook(hook, null, next, {
               expectBoolean: true
             });
@@ -2523,6 +2557,7 @@
      */
 
     Router.prototype._stringifyPath = function _stringifyPath(path) {
+      var fullPath = '';
       if (path && typeof path === 'object') {
         if (path.name) {
           var extend = Vue.util.extend;
@@ -2532,9 +2567,9 @@
           if (path.query) {
             params.queryParams = path.query;
           }
-          return this._recognizer.generate(path.name, params);
+          fullPath = this._recognizer.generate(path.name, params);
         } else if (path.path) {
-          var fullPath = path.path;
+          fullPath = path.path;
           if (path.query) {
             var query = this._recognizer.generateQueryString(path.query);
             if (fullPath.indexOf('?') > -1) {
@@ -2543,13 +2578,11 @@
               fullPath += query;
             }
           }
-          return fullPath;
-        } else {
-          return '';
         }
       } else {
-        return path ? path + '' : '';
+        fullPath = path ? path + '' : '';
       }
+      return encodeURI(fullPath);
     };
 
     return Router;
