@@ -200,22 +200,26 @@ export function activate (view, transition, depth, cb, reuse) {
     cb && cb()
   }
 
-  // called after activation hook is resolved
-  const afterActivate = () => {
-    view.activated = true
+  const afterData = () => {
     // activate the child view
     if (view.childView) {
       activate(view.childView, transition, depth + 1, null, reuse || view.keepAlive)
     }
+    insert()
+  }
+
+  // called after activation hook is resolved
+  const afterActivate = () => {
+    view.activated = true
     if (dataHook && waitForData) {
       // wait until data loaded to insert
-      loadData(component, transition, dataHook, insert, cleanup)
+      loadData(component, transition, dataHook, afterData, cleanup)
     } else {
       // load data and insert at the same time
       if (dataHook) {
         loadData(component, transition, dataHook)
       }
-      insert()
+      afterData()
     }
   }
 
