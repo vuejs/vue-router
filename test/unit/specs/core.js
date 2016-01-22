@@ -1147,4 +1147,16 @@ describe('Stringify Path', function () {
     }).toThrow()
   })
 
+  it('encodeURI', function () {
+    router.map({
+      '/test/:id': {
+        name: 'a',
+        component: {}
+      }
+    })
+    expect(router._stringifyPath('/hi/你好')).toBe(encodeURI('/hi/你好'))
+    expect(router._stringifyPath({ path: '/hi/你好' })).toBe(encodeURI('/hi/你好'))
+    expect(router._stringifyPath({ name: 'a', params: { id: '你好' }})).toBe(encodeURI('/test/你好'))
+  })
+
 })

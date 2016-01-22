@@ -568,6 +568,7 @@ class Router {
    */
 
   _stringifyPath (path) {
+    let fullPath = ''
     if (path && typeof path === 'object') {
       if (path.name) {
         const extend = Vue.util.extend
@@ -581,9 +582,9 @@ class Router {
         if (path.query) {
           params.queryParams = path.query
         }
-        return this._recognizer.generate(path.name, params)
+        fullPath = this._recognizer.generate(path.name, params)
       } else if (path.path) {
-        let fullPath = path.path
+        fullPath = path.path
         if (path.query) {
           const query = this._recognizer.generateQueryString(path.query)
           if (fullPath.indexOf('?') > -1) {
@@ -592,13 +593,11 @@ class Router {
             fullPath += query
           }
         }
-        return fullPath
-      } else {
-        return ''
       }
     } else {
-      return path ? path + '' : ''
+      fullPath = path ? path + '' : ''
     }
+    return encodeURI(fullPath)
   }
 }
 
