@@ -31,12 +31,10 @@ export default function (Vue) {
 
   const destroy = Vue.prototype._destroy
   Vue.prototype._destroy = function () {
-    if (!this._isBeingDestroyed) {
-      if (this.$router) {
-        this.$router._children.$remove(this)
-      }
-      destroy.apply(this, arguments)
+    if (!this._isBeingDestroyed && this.$router) {
+      this.$router._children.$remove(this)
     }
+    destroy.apply(this, arguments)
   }
 
   // 1.0 only: enable route mixins
