@@ -5,8 +5,9 @@
 查看 [dist 目录](https://github.com/vuejs/vue-router/tree/dev/dist). 注意，dist 目录下的文件是最新稳定版，不会同步更新到 `dev` 分支上的最新代码
 
 ### CDN
+[jsdelivr](https://cdn.jsdelivr.net/vue.router/0.7.10/vue-router.min.js)
 
-[jsdelivr](https://cdn.jsdelivr.net/vue.router/0.5.2/vue-router.min.js)
+[cdnjs](https://cdnjs.cloudflare.com/ajax/libs/vue-router/0.7.10/vue-router.min.js)
 
 ### NPM
 
