@@ -7,6 +7,10 @@
 - `path: String` - [Route マッチング](../route.md#route-matching)を参照してください。
 - `config: Object` - [Route 設定オブジェクト](map.md#route-config-object)を参照してください。
 
+### 戻り値
+
+- router インスタンス自身
+
 ### 例
 
 ``` js

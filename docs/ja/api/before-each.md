@@ -10,6 +10,10 @@
 
   hook 関数は[トランジションオブジェクト](../pipeline/hooks.html#transition-object)な単一の引数を受信します。
 
+### 戻り値
+
+- router インスタンス自身
+
 ### 例
 
 基本
