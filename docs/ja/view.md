@@ -4,7 +4,7 @@
 
 - props をそれに渡すことができます。
 - `<router-view>` 内部の HTML コンテンツはレンダリングされたコンポーネントのコンテンツ挿入のために使用されます。
-- `v-transition` と `transition-mode` が完全にサポートされています。Note: トランジションエフェクトが機能するために、あなたの route コンポーネントは[フラグメントインスタンス](http://vuejs.org/guide/components.html#Fragment_Instance)であってはいけません。
+- `v-transition` と `transition-mode` が完全にサポートされています。Note: トランジションエフェクトが機能するために、あなたの route コンポーネントは[フラグメントインスタンス](http://jp.vuejs.org/guide/components.html#\32%2076912aa97ff62b93167fc73b08ae36f)であってはいけません。
 - `v-ref` もサポートされています。レンダリングされたコンポーネントは、親コンポーネントの `this.$` オブジェクトに登録されます。
 
 しかしながら、いくつか制限があります:

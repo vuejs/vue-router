@@ -5,8 +5,9 @@
 [dist フォルダ](https://github.com/vuejs/vue-router/tree/dev/dist)を参照してください。dist フォルダにあるファイルは常に最新の安定版であることに注意してください。`dev` ブランチのソースで更新されません。
 
 ### CDN
+[jsdelivr](https://cdn.jsdelivr.net/vue.router/0.7.10/vue-router.min.js)
 
-[jsdelivr](https://cdn.jsdelivr.net/vue.router/0.5.2/vue-router.min.js)
+[cdnjs](https://cdnjs.cloudflare.com/ajax/libs/vue-router/0.7.10/vue-router.min.js)
 
 ### NPM
 

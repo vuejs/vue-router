@@ -14,11 +14,13 @@
   - `resolve(data)` -> `transition.next(data)`
   - `reject(reason)` -> `transition.abort(reason)`
 
-**または**、Promise を含んでいるオブジェクトを返します。詳細は以下の [Promiseシンタックスシュガー](#Promiseシンタックスシュガー) を参照してください。
+**または**、Promise を含んでいるオブジェクトを返します。詳細は以下の [Promise シンタックスシュガー](#Promise シンタックスシュガー) を参照してください。
 
 ### 詳細
 
 `data` トランジションフックは、`activate` フックが解決された直後に呼び出され、直前に view の切り替えが実行されます。entering なコンポーネントは、**`$loadingRouteData`** メタプロパティを取得します。そのプロパティは `true` 値で開始し、`data` フックが解決されるとき、`false` に設定します。このプロパティは entering なコンポーネントに対してローディング状態を表示するために使用することができます。
+
+解決したとき、コンポーネントは `'route-data-loaded'` イベントを発行します。
 
 `data` フックは `activate` とは以下が異なります:
 
@@ -56,7 +58,7 @@ Promise による呼び出し:
 
 ``` js
 route: {
-  data: function () {
+  data: function (transition) {
     return messageService
       .fetch(transition.to.params.messageId)
       .then(function (message) {
@@ -110,7 +112,7 @@ route: {
 </div>
 ```
 
-### Promiseシンタックスシュガー
+### Promise シンタックスシュガー
 
 上記のパラレルなデータをフェッチングする例は、複数の Pomise を1つのものに結合するために `Promise.all` を利用するのを要求し、destructuring とフォーマットはまだ面倒です。`vue-router` は Promise (もちろん Promise でないフィールドを含むこともできます) を含んだオブジェクトを返すことができるシンタックスシュガーを提供します。ここでシンタックスシュガーと ES6 を使用する同じ例を示します:
 
