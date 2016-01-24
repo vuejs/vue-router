@@ -58,3 +58,9 @@ router.start(App, '#app')
 ```
 
 [live](http://jsfiddle.net/yyx990803/xyu276sa/) の例もチェックアウトできます。
+
+加えて:
+
+- root な Vue インスタンスは一度だけ初期レンダリングが完了する、 `router.app` として利用できます。
+
+- router インスタンスは `this.$router` として router アプリケーションの全ての子孫で利用できます。
