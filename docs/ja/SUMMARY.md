@@ -10,6 +10,7 @@
 - [Router オプション](options.md)
 - [router-view](view.md)
 - [v-link](link.md)
+- [Lazy loading Routes](lazy.md)
 - [トランジションパイプライン](pipeline/README.md)
   - [トランジションフック](pipeline/hooks.md)
   - [data](pipeline/data.md)
