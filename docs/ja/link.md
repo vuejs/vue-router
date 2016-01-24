@@ -39,6 +39,22 @@
 <a v-link="{ path: '/a', activeClass: 'custom-active-class' }"></a>
 ```
 
+#### 別の要素へアクセスリンククラスの適用
+
+> 0.7.8+
+
+時どき、`<a>` 要素自身よりむしろ `<a>`要素をラップ (wrap) している要素にアクティブリンククラスを適用したいかもしれません。`v-link-active` を親要素に追加することによってそのようにすることもできます:
+
+``` html
+<ul>
+  <li v-link-active>
+    <a v-link="{ path: '/xxx' }">Go</a>
+  </li>
+</ul>
+```
+
+`v-link` は `v-link-active` を持つ最も近い要素を探し、その要素の代わりにアクティブなクラスを適用します。
+
 #### 他の設定オプション
 
 - **replace**
