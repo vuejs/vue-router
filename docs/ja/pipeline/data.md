@@ -14,7 +14,7 @@
   - `resolve(data)` -> `transition.next(data)`
   - `reject(reason)` -> `transition.abort(reason)`
 
-**または**、Promise を含んでいるオブジェクトを返します。詳細は以下の [Promiseシンタックスシュガー](#Promiseシンタックスシュガー) を参照してください。
+**または**、Promise を含んでいるオブジェクトを返します。詳細は以下の [Promise シンタックスシュガー](#Promise シンタックスシュガー) を参照してください。
 
 ### 詳細
 
@@ -112,7 +112,7 @@ route: {
 </div>
 ```
 
-### Promiseシンタックスシュガー
+### Promise シンタックスシュガー
 
 上記のパラレルなデータをフェッチングする例は、複数の Pomise を1つのものに結合するために `Promise.all` を利用するのを要求し、destructuring とフォーマットはまだ面倒です。`vue-router` は Promise (もちろん Promise でないフィールドを含むこともできます) を含んだオブジェクトを返すことができるシンタックスシュガーを提供します。ここでシンタックスシュガーと ES6 を使用する同じ例を示します:
 

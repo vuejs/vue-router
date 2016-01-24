@@ -4,7 +4,7 @@
 
 ### 引数
 
-- [`transition {Transition}`](hooks.md#transition-object)
+- [`transition {Transition}`](hooks.md#トランジションオブジェクト)
 
   フックを解決するために `transition.next()` を呼び出します。ここで `transition.abort()` を呼び出すと、トランジションは既に検証されているため、アプリケーションは以前のルートへ戻りません。
 

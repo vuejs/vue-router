@@ -4,8 +4,8 @@
 
 ### 引数
 
-- `path: String` - [Route マッチング](../route.md#route-matching)を参照してください。
-- `config: Object` - [Route 設定オブジェクト](map.md#route-config-object)を参照してください。
+- `path: String` - [Route マッチング](../route.md#Route マッチング)を参照してください。
+- `config: Object` - [Route 設定オブジェクト](map.md#Route 設定オブジェクト)を参照してください。
 
 ### 戻り値
 

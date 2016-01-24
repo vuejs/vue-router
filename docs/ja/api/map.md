@@ -6,7 +6,7 @@
 
 - `routeMap: Object`
 
-  キーはパスで、値は route 設定オブジェクトです。パスのマッチングルールは、[Route マッチング](../route.html#route-matching)を参照してください。
+  キーはパスで、値は route 設定オブジェクトです。パスのマッチングルールは、[Route マッチング](../route.html#Route マッチング)を参照してください。
 
 ### Route 設定オブジェクト
 
