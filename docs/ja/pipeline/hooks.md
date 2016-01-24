@@ -17,11 +17,10 @@ Vue.component('hook-example', {
   route: {
     activate: function (transition) {
       console.log('hook-example activated!')
-      transition.next()
     },
-    deactivate: function (transition) {
-      console.log('hook-example deactivated!')
-      transition.next()
+    canDeactivate: function (transition) {
+      console.log('You are not allowed to leave.')
+      transition.abort()
     }
   }
 })
@@ -51,21 +50,47 @@ Vue.component('hook-example', {
 
   現状のトランジションをキャンセルして、代わりに別のターゲット route にリダイレクトします。
 
-全てのトランジションフックはデフォルトで非同期に実行されます。トランジションの進行を通知するために、3つのオプションがあります:
+### フックの解決ルール
 
-1. 明示的に `next` 、`abort` または `redirect` のいずれかを呼び出します。
+トランジションフック内部で非同期なタスクを実行する必要がしばしばあります。トランジションは非同期フックが解決されるまで移行しません。ここでは、フックが解決済として検討が必要なとき、決定するためのルールがあります:
 
-2. Promise を返します。詳細は以下で説明します。
+1. フックが Promise を返す場合、Promise が解決されるとき、フックは解決済みになります。[詳細は以下を参照(フックで Promise を返す)](#フックで Promise を返す)してください。
 
-3. 検証フック (`canActivate` と `canDeactivate`) で、同期的に Boolean 値を返します。
+2. フックが Promise を返さず、任意の引数を予期しない場合、それは同期的に解決されます。例:
+
+``` js
+route: {
+  activate: function (/* ここに引数がない */) {
+    // Promise を返さない限り、同期的に解決します
+  }
+}
+```
+
+3. フックが Promise を返さないが、引数 (`transition`) を予期する場合、その後、フックは、`transition.next()` 、`transition.abort()` または `transition.redirect()` の 1 つが呼ばれるときだけ、解決済みになります。例:
+
+``` js
+route: {
+  activate: function (transition) {
+    // 1 秒後解決
+    // resolve after 1 second
+    setTimeout(transition.next, 1000)
+  }
+}
+```
+
+4. `canActivate`、`canDeactivate` そして[グローバル beforeEach フック](../api/before-each.md)のような検証フックにおいて、フックが `transition` 引数を持つ場合でも、Boolean を返す値は、フックを同期的に解決します。
 
 ### フックで Promise を返す
 
-トランジションフックで Promise を返すとき、`transition.next` は Promise が解決するときに呼び出されます。もし、Promise が検証フェーズの間で拒否された場合は、`transition.abort` を呼びます。もし、活性化フェーズの間で拒否された場合は、`transition.next` を呼びます。
+- トランジションフックで Promise を返すとき、`transition.next` は Promise がうまく解決するときに呼ばれます。
 
-検証フック (`canActivate` と `canDeactivate`)で、もし Promise が偽となりうる値で解決される場合、トランジションを中止します。
+- Promise が検証フェーズ中に拒否されている場合は、`transition.abort` を呼びます。
 
-もし、Promise がキャッチされていないエラーを拒否した場合は、ルーターを作成するとき `suppressTransitionError` オプションで抑制しない限りスローされます。
+- Promise が活性化フェーズ中に拒否されている場合は、`transition.next` を呼びます。
+
+- 検証フックに対して、Promise の解決値が偽となり得る値の場合、トランジションを中断します。
+
+- 拒否された Promise がキャッチされていないエラーを持つ場合は、ルーターを作成するときに、`suppressTransitionError` オプションでそれを抑制しないかぎり、そのエラーがスローされます。
 
 **例:**
 
@@ -112,6 +137,6 @@ route: {
 - `activate`
 - `deactivate`
 
-... クラス拡張またはミックスインがマージされるまでの間、あなたのコンポーネントが route `data` フックを定義する場合は、route `data` フックも提供するミックスインを使用し、両方のフックが(ミックスインのフックが最初に呼ばれる)呼ばれて、全てのフックから解決されたデータはいっしょにマージされます。
+... クラス拡張またはミックスインがマージされるまでの間、あなたのコンポーネントが route の `data` フックを定義する場合は、route の `data` フックも提供するミックスインを使用し、両方のフックが(ミックスインのフックが最初に呼ばれる)呼ばれて、全てのフックから解決されたデータはいっしょにマージされます。
 
 `canActivate`、`canDeactivate`、そして `canReuse` のような検証フックは、常に新しい値によって上書きされることに注意してください。
