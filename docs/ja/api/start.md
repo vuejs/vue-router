@@ -7,11 +7,11 @@ vue-router は Vue インスタンスで開始することはできません。
 
 ### 引数
 
-- `App: Function|Object`
+- `App: Function | Object`
 
   `App` は Vue コンポーネントのコンストラクタ または コンポーネントオプションオブジェクトです。 もしオブジェクトの場合は、ルーターは暗黙的に `Vue.extend` を呼び出します。このコンポーネントはアプリケーションの root な Vue インスタンスを作成するために使用されます。
 
-- `el: String|Element`
+- `el: String | Element`
 
   要素はアプリケーション上にマウントします。CSS セレクタ文字列または実際の要素を指定することができます。
 
