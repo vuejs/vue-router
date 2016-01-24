@@ -45,11 +45,15 @@ router.map({
 
 ``` js
 router.beforeEach(function (transition) {
-  if (transition.to.auth) {
-    // 認証する...
+  if (transition.to.auth && !authenticated) {
+    transition.redirect('/login')
+  } else {
+    transition.next()
   }
 })
 ```
+
+どのように `beforeEach` フックが動作するかは、[API](api/before-each.md) を参照してください。
 
 ネストされた route がマッチされるとき、全てのカスタムフィールドは同じ `$route` オブジェクトにマージされます。サブ route と 親 route が同じカスタムフィールドを持っているとき、サブ route の値は親の値で上書きされます。
 
