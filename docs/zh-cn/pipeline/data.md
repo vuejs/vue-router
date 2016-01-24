@@ -57,7 +57,7 @@ route: {
 
 ``` js
 route: {
-  data: function () {
+  data: function (transition) {
     return messageService
       .fetch(transition.to.params.messageId)
       .then(function (message) {
