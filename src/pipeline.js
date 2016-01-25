@@ -224,7 +224,10 @@ export function activate (view, transition, depth, cb, reuse) {
   }
 
   if (activateHook) {
-    transition.callHooks(activateHook, component, afterActivate, { cleanup })
+    transition.callHooks(activateHook, component, afterActivate, {
+      cleanup,
+      postActivate: true
+    })
   } else {
     afterActivate()
   }
@@ -257,46 +260,45 @@ export function reuse (view, transition) {
 
 function loadData (component, transition, hook, cb, cleanup) {
   component.$loadingRouteData = true
-  transition.callHooks(hook, component, (data, onError) => {
-    // merge data from multiple data hooks
-    if (Array.isArray(data) && data._needMerge) {
-      data = data.reduce((res, obj) => {
-        if (isPlainObject(obj)) {
-          Object.keys(obj).forEach(key => {
-            res[key] = obj[key]
-          })
-        }
-        return res
-      }, Object.create(null))
-    }
-    // handle promise sugar syntax
-    const promises = []
-    if (isPlainObject(data)) {
-      Object.keys(data).forEach(key => {
-        const val = data[key]
-        if (isPromise(val)) {
-          promises.push(val.then(resolvedVal => {
-            component.$set(key, resolvedVal)
-          }))
-        } else {
-          component.$set(key, val)
-        }
-      })
-    }
-    if (!promises.length) {
-      component.$loadingRouteData = false
-      component.$emit('route-data-loaded', component)
-      cb && cb()
-    } else {
-      promises[0].constructor.all(promises).then(() => {
+  transition.callHooks(hook, component, cb, {
+    cleanup,
+    postActivate: true,
+    processData: (data) => {
+      // merge data from multiple data hooks
+      if (Array.isArray(data) && data._needMerge) {
+        data = data.reduce((res, obj) => {
+          if (isPlainObject(obj)) {
+            Object.keys(obj).forEach(key => {
+              res[key] = obj[key]
+            })
+          }
+          return res
+        }, Object.create(null))
+      }
+      // handle promise sugar syntax
+      const promises = []
+      if (isPlainObject(data)) {
+        Object.keys(data).forEach(key => {
+          const val = data[key]
+          if (isPromise(val)) {
+            promises.push(val.then(resolvedVal => {
+              component.$set(key, resolvedVal)
+            }))
+          } else {
+            component.$set(key, val)
+          }
+        })
+      }
+      const onDataLoaded = () => {
         component.$loadingRouteData = false
         component.$emit('route-data-loaded', component)
-        cb && cb()
-      }, onError)
+      }
+      if (!promises.length) {
+        onDataLoaded()
+      } else {
+        return promises[0].constructor.all(promises).then(onDataLoaded)
+      }
     }
-  }, {
-    cleanup: cleanup,
-    expectData: true
   })
 }
 
