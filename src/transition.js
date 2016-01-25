@@ -213,11 +213,7 @@ export default class RouteTransition {
 
     // handle errors
     const onError = err => {
-      if (postActivate) {
-        if (!nextCalled) next()
-      } else {
-        abort()
-      }
+      postActivate ? next() : abort()
       if (err && !transition.router._suppress) {
         warn('Uncaught error during transition: ')
         throw err instanceof Error ? err : new Error(err)
@@ -324,18 +320,11 @@ export default class RouteTransition {
 
   callHooks (hooks, context, cb, options) {
     if (Array.isArray(hooks)) {
-      const res = []
-      res._needMerge = true
       this.runQueue(hooks, (hook, _, next) => {
         if (!this.aborted) {
-          this.callHook(hook, context, r => {
-            if (r) res.push(r)
-            next()
-          }, options)
+          this.callHook(hook, context, next, options)
         }
-      }, () => {
-        cb(res)
-      })
+      }, cb)
     } else {
       this.callHook(hooks, context, cb, options)
     }

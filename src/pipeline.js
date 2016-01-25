@@ -260,21 +260,14 @@ export function reuse (view, transition) {
 
 function loadData (component, transition, hook, cb, cleanup) {
   component.$loadingRouteData = true
-  transition.callHooks(hook, component, cb, {
+  transition.callHooks(hook, component, () => {
+    component.$loadingRouteData = false
+    component.$emit('route-data-loaded', component)
+    cb && cb()
+  }, {
     cleanup,
     postActivate: true,
     processData: (data) => {
-      // merge data from multiple data hooks
-      if (Array.isArray(data) && data._needMerge) {
-        data = data.reduce((res, obj) => {
-          if (isPlainObject(obj)) {
-            Object.keys(obj).forEach(key => {
-              res[key] = obj[key]
-            })
-          }
-          return res
-        }, Object.create(null))
-      }
       // handle promise sugar syntax
       const promises = []
       if (isPlainObject(data)) {
@@ -289,14 +282,8 @@ function loadData (component, transition, hook, cb, cleanup) {
           }
         })
       }
-      const onDataLoaded = () => {
-        component.$loadingRouteData = false
-        component.$emit('route-data-loaded', component)
-      }
-      if (!promises.length) {
-        onDataLoaded()
-      } else {
-        return promises[0].constructor.all(promises).then(onDataLoaded)
+      if (promises.length) {
+        return promises[0].constructor.all(promises)
       }
     }
   })
