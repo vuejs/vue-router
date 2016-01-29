@@ -48,7 +48,7 @@ export default class HTML5History {
           x: window.pageXOffset,
           y: window.pageYOffset
         }
-      }, '')
+      }, '', location.href)
       // then push new state
       history.pushState({}, '', url)
     }
