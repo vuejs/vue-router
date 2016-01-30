@@ -234,7 +234,7 @@ class Router {
    * @param {Function} [cb]
    */
 
-  start (App, container, cb) {
+  start (App, container, replace, cb) {
     /* istanbul ignore if */
     if (this._started) {
       warn('already started.')
@@ -257,7 +257,10 @@ class Router {
           'Vue instance.'
         )
       }
-      this._appContainer = container
+      this._appContainer = {
+        el: container,
+        replace: replace === undefined ? true : !!replace
+      }
       const Ctor = this._appConstructor = typeof App === 'function'
         ? App
         : Vue.extend(App)
@@ -463,7 +466,8 @@ class Router {
       // initial render
       const router = this
       this.app = new this._appConstructor({
-        el: this._appContainer,
+        el: this._appContainer.el,
+        replace: this._appContainer.replace,
         created () {
           this.$router = router
         },
