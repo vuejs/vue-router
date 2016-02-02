@@ -31,11 +31,11 @@ Vue.component('hook-example', {
 
 每个切换钩子函数都会接受一个 `transition` 对象作为参数。这个切换对象包含以下函数和方法：
 
-- **transition.from**
+- **transition.to**
 
   一个代表将要切换到的路径的[路由对象](../route.md)。
 
-- **transition.to**
+- **transition.from**
 
   一个代表当前路径的路由对象。
 
