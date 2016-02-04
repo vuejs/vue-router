@@ -19,7 +19,7 @@
 
 ### 详情
 
-`data` 切换钩子会在 `activate` 被断定（ resolved ）以及界面切换之前被调用。切换进来的组件会得到一个名为 **`$loadingRouteData`** 的元属性，其初始值为 `false` ，在 `data` 钩子函数被断定后会被赋值为 `true` 。这个属性可用来会切换进来的组件展示加载效果。
+`data` 切换钩子会在 `activate` 被断定（ resolved ）以及界面切换之前被调用。切换进来的组件会得到一个名为 **`$loadingRouteData`** 的元属性，其初始值为 `true` ，在 `data` 钩子函数被断定后会被赋值为 `false` 。这个属性可用来会切换进来的组件展示加载效果。
 
 `data` 钩子和 `activate` 钩子的不同之处在于：
 
