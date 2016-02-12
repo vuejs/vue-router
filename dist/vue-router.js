@@ -1,5 +1,5 @@
 /*!
- * vue-router v0.7.10
+ * vue-router v0.7.11
  * (c) 2016 Evan You
  * Released under the MIT License.
  */
@@ -911,7 +911,7 @@
             x: window.pageXOffset,
             y: window.pageYOffset
           }
-        }, '');
+        }, '', location.href);
         // then push new state
         history.pushState({}, '', url);
       }
@@ -1236,7 +1236,10 @@
     };
 
     if (activateHook) {
-      transition.callHooks(activateHook, component, afterActivate, { cleanup: cleanup });
+      transition.callHooks(activateHook, component, afterActivate, {
+        cleanup: cleanup,
+        postActivate: true
+      });
     } else {
       afterActivate();
     }
@@ -1269,46 +1272,32 @@
 
   function loadData(component, transition, hook, cb, cleanup) {
     component.$loadingRouteData = true;
-    transition.callHooks(hook, component, function (data, onError) {
-      // merge data from multiple data hooks
-      if (Array.isArray(data) && data._needMerge) {
-        data = data.reduce(function (res, obj) {
-          if (isPlainObject(obj)) {
-            Object.keys(obj).forEach(function (key) {
-              res[key] = obj[key];
-            });
-          }
-          return res;
-        }, Object.create(null));
-      }
-      // handle promise sugar syntax
-      var promises = [];
-      if (isPlainObject(data)) {
-        Object.keys(data).forEach(function (key) {
-          var val = data[key];
-          if (isPromise(val)) {
-            promises.push(val.then(function (resolvedVal) {
-              component.$set(key, resolvedVal);
-            }));
-          } else {
-            component.$set(key, val);
-          }
-        });
-      }
-      if (!promises.length) {
-        component.$loadingRouteData = false;
-        component.$emit('route-data-loaded', component);
-        cb && cb();
-      } else {
-        promises[0].constructor.all(promises).then(function () {
-          component.$loadingRouteData = false;
-          component.$emit('route-data-loaded', component);
-          cb && cb();
-        }, onError);
-      }
+    transition.callHooks(hook, component, function () {
+      component.$loadingRouteData = false;
+      component.$emit('route-data-loaded', component);
+      cb && cb();
     }, {
       cleanup: cleanup,
-      expectData: true
+      postActivate: true,
+      processData: function processData(data) {
+        // handle promise sugar syntax
+        var promises = [];
+        if (isPlainObject(data)) {
+          Object.keys(data).forEach(function (key) {
+            var val = data[key];
+            if (isPromise(val)) {
+              promises.push(val.then(function (resolvedVal) {
+                component.$set(key, resolvedVal);
+              }));
+            } else {
+              component.$set(key, val);
+            }
+          });
+        }
+        if (promises.length) {
+          return promises[0].constructor.all(promises);
+        }
+      }
     });
   }
 
@@ -1518,7 +1507,8 @@
      * @param {Function} [cb]
      * @param {Object} [options]
      *                 - {Boolean} expectBoolean
-     *                 - {Boolean} expectData
+     *                 - {Boolean} postActive
+     *                 - {Function} processData
      *                 - {Function} cleanup
      */
 
@@ -1527,8 +1517,9 @@
 
       var _ref$expectBoolean = _ref.expectBoolean;
       var expectBoolean = _ref$expectBoolean === undefined ? false : _ref$expectBoolean;
-      var _ref$expectData = _ref.expectData;
-      var expectData = _ref$expectData === undefined ? false : _ref$expectData;
+      var _ref$postActivate = _ref.postActivate;
+      var postActivate = _ref$postActivate === undefined ? false : _ref$postActivate;
+      var processData = _ref.processData;
       var cleanup = _ref.cleanup;
 
       var transition = this;
@@ -1542,18 +1533,27 @@
 
       // handle errors
       var onError = function onError(err) {
-        // cleanup indicates an after-activation hook,
-        // so instead of aborting we just let the transition
-        // finish.
-        cleanup ? next() : abort();
+        postActivate ? next() : abort();
         if (err && !transition.router._suppress) {
           warn('Uncaught error during transition: ');
           throw err instanceof Error ? err : new Error(err);
         }
       };
 
+      // since promise swallows errors, we have to
+      // throw it in the next tick...
+      var onPromiseError = function onPromiseError(err) {
+        try {
+          onError(err);
+        } catch (e) {
+          setTimeout(function () {
+            throw e;
+          }, 0);
+        }
+      };
+
       // advance the transition to the next step
-      var next = function next(data) {
+      var next = function next() {
         if (nextCalled) {
           warn('transition.next() should be called only once.');
           return;
@@ -1563,7 +1563,33 @@
           cleanup && cleanup();
           return;
         }
-        cb && cb(data, onError);
+        cb && cb();
+      };
+
+      var nextWithBoolean = function nextWithBoolean(res) {
+        if (typeof res === 'boolean') {
+          res ? next() : abort();
+        } else if (isPromise(res)) {
+          res.then(function (ok) {
+            ok ? next() : abort();
+          }, onPromiseError);
+        } else if (!hook.length) {
+          next();
+        }
+      };
+
+      var nextWithData = function nextWithData(data) {
+        var res = undefined;
+        try {
+          res = processData(data);
+        } catch (err) {
+          return onError(err);
+        }
+        if (isPromise(res)) {
+          res.then(next, onPromiseError);
+        } else {
+          next();
+        }
       };
 
       // expose a clone of the transition object, so that each
@@ -1573,7 +1599,7 @@
         to: transition.to,
         from: transition.from,
         abort: abort,
-        next: next,
+        next: processData ? nextWithData : next,
         redirect: function redirect() {
           transition.redirect.apply(transition, arguments);
         }
@@ -1587,22 +1613,21 @@
         return onError(err);
       }
 
-      // handle boolean/promise return values
-      var resIsPromise = isPromise(res);
       if (expectBoolean) {
-        if (typeof res === 'boolean') {
-          res ? next() : abort();
-        } else if (resIsPromise) {
-          res.then(function (ok) {
-            ok ? next() : abort();
-          }, onError);
-        } else if (!hook.length) {
-          next(res);
+        // boolean hooks
+        nextWithBoolean(res);
+      } else if (isPromise(res)) {
+        // promise
+        if (processData) {
+          res.then(nextWithData, onPromiseError);
+        } else {
+          res.then(next, onPromiseError);
         }
-      } else if (resIsPromise) {
-        res.then(next, onError);
-      } else if (expectData && isPlainOjbect(res) || !hook.length) {
-        next(res);
+      } else if (processData && isPlainOjbect(res)) {
+        // data promise sugar
+        nextWithData(res);
+      } else if (!hook.length) {
+        next();
       }
     };
 
@@ -1619,22 +1644,11 @@
       var _this = this;
 
       if (Array.isArray(hooks)) {
-        (function () {
-          var res = [];
-          res._needMerge = true;
-          var onError = undefined;
-          _this.runQueue(hooks, function (hook, _, next) {
-            if (!_this.aborted) {
-              _this.callHook(hook, context, function (r, onError) {
-                if (r) res.push(r);
-                onError = onError;
-                next();
-              }, options);
-            }
-          }, function () {
-            cb(res, onError);
-          });
-        })();
+        this.runQueue(hooks, function (hook, _, next) {
+          if (!_this.aborted) {
+            _this.callHook(hook, context, next, options);
+          }
+        }, cb);
       } else {
         this.callHook(hooks, context, cb, options);
       }
@@ -1884,7 +1898,8 @@
           return;
         }
         // handle click
-        this.el.addEventListener('click', _bind(this.onClick, this));
+        this.handler = _bind(this.onClick, this);
+        this.el.addEventListener('click', this.handler);
       },
 
       update: function update(target) {
