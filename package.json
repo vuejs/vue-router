@@ -1,6 +1,6 @@
 {
   "name": "vue-router",
-  "version": "0.7.10",
+  "version": "0.7.11",
   "description": "A router for Vue.js",
   "main": "dist/vue-router.js",
   "jsnext:main": "src/index.js",
