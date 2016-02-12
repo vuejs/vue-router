@@ -52,7 +52,8 @@ export default function (Vue) {
         return
       }
       // handle click
-      this.el.addEventListener('click', bind(this.onClick, this))
+      this.handler = bind(this.onClick, this)
+      this.el.addEventListener('click', this.handler)
     },
 
     update (target) {
