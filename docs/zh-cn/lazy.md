@@ -1,4 +1,4 @@
-# 惰性加载 lazy load
+# 动态组件载入 lazy load
 
 当你在使用 Webpack 或者 Browserify 时，在基于[异步组件](http://vuejs.org/guide/components.html#Async_Components)编写的 Vue 项目时，也可以较为容易的实现惰性加载组件。不再是之前所述的直接引用一个组件，现在需要像下面这样通过定义一个函数返回一个组件：
 
