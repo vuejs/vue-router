@@ -30,11 +30,11 @@ Vue.component('hook-example', {
 
 Each transition hook will receive a `transition` object as the only argument. The transition object exposes the following properties & methods:
 
-- **transition.from**
+- **transition.to**
 
   A [route object](../route.md) representing the route we are transitioning from.
 
-- **transition.to**
+- **transition.from**
 
   A route object representing the target path.
 

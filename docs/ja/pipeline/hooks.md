@@ -30,11 +30,11 @@ Vue.component('hook-example', {
 
 トランジションフックごとに唯一引数として `transition` オブジェクトを受け取ります。トランジションオブジェクトは以下のプロパティとメソッドを公開します:
 
-- **transition.from**
+- **transition.to**
 
   from からトランジションしている route を表す [route オブジェクト](../route.md)。
 
-- **transition.to**
+- **transition.from**
 
   ターゲットパスを表す route オブジェクト。
 
