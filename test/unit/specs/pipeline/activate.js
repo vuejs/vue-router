@@ -153,14 +153,8 @@ describe('activate', function () {
         }
       }
     }, function (router, calls, emitter) {
-      var errorThrown = jasmine.createSpy()
-      try {
-        router.go('/a')
-      } catch (e) {
-        errorThrown()
-      }
+      router.go('/a')
       expect(routerUtil.warn).toHaveBeenCalled()
-      expect(errorThrown).toHaveBeenCalled()
       // should complete the transition despite error
       assertCalls(calls, ['a.activate'])
       expect(router.app.$el.textContent).toBe('A ')
