@@ -53,8 +53,16 @@ There are a number of options you can use to customize the router behavior when 
 
   Whether to apply transition effect for `<router-view>`s on initial load. By default the components matched on initial load are rendered instantly.
 
-#### suppressTransitionError
+#### handleTransitionError
 
-- default: false
+- default: warn
 
-  If set to `true`, uncaught errors inside transition hooks will be suppressed.
+  `handleTransitionError` accepts a function to handle errors during transition. e.g. we can send error log to Sentry:
+
+  ```js
+  new Router({
+    handleTransitionError: function (err) {
+      Raven.captureException(err)
+    }
+  })
+  ```
