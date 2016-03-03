@@ -32,7 +32,7 @@ class Router {
     history = false,
     saveScrollPosition = false,
     transitionOnLoad = false,
-    suppressTransitionError = false,
+    handleTransitionError = trackError,
     root = null,
     linkActiveClass = 'v-link-active'
   } = {}) {
@@ -101,7 +101,7 @@ class Router {
     // other options
     this._saveScrollPosition = saveScrollPosition
     this._linkActiveClass = linkActiveClass
-    this._suppress = suppressTransitionError
+    this._handleError = handleTransitionError
   }
 
   // API ===================================================
@@ -621,6 +621,16 @@ function guardComponent (path, handler) {
       'invalid component for route "' + path + '".'
     )
   }
+}
+
+/**
+ * Default method to handle transition errors.
+ *
+ * @param {Error} err
+ */
+
+function trackError (err) {
+  warn('Uncaught error during transition: ' + err)
 }
 
 /* Installation */

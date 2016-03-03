@@ -214,9 +214,8 @@ export default class RouteTransition {
     // handle errors
     const onError = err => {
       postActivate ? next() : abort()
-      if (err && !transition.router._suppress) {
-        warn('Uncaught error during transition: ')
-        throw err instanceof Error ? err : new Error(err)
+      if (err && transition.router._handleError) {
+        transition.router._handleError(err instanceof Error ? err : new Error(err))
       }
     }
 
