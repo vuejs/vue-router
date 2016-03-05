@@ -582,9 +582,9 @@ class Router {
         if (path.query) {
           params.queryParams = path.query
         }
-        fullPath = this._recognizer.generate(path.name, params)
+        fullPath = encodeURI(this._recognizer.generate(path.name, params))
       } else if (path.path) {
-        fullPath = path.path
+        fullPath = encodeURI(path.path)
         if (path.query) {
           const query = this._recognizer.generateQueryString(path.query)
           if (fullPath.indexOf('?') > -1) {
@@ -595,9 +595,9 @@ class Router {
         }
       }
     } else {
-      fullPath = path ? path + '' : ''
+      fullPath = encodeURI(path ? path + '' : '')
     }
-    return encodeURI(fullPath)
+    return fullPath
   }
 }
 
