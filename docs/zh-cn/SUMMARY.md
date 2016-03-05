@@ -10,6 +10,7 @@
 - [路由配置项](options.md)
 - [router-view](view.md)
 - [v-link](link.md)
+- [动态组件载入](lazy.md)
 - [切换控制流水线](pipeline/README.md)
   - [切换钩子函数](pipeline/hooks.md)
   - [data](pipeline/data.md)
