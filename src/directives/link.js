@@ -82,7 +82,7 @@ export default function (Vue) {
       if (target) {
         // v-link with expression, just go
         e.preventDefault()
-        this.router.go(target)
+        this.handleClick(target, this.el)
       } else {
         // no expression, delegate for an <a> inside
         var el = e.target
@@ -91,13 +91,17 @@ export default function (Vue) {
         }
         if (el.tagName === 'A' && sameOrigin(el)) {
           e.preventDefault()
-          this.router.go({
+          this.handleClick({
             path: el.pathname,
             replace: target && target.replace,
             append: target && target.append
-          })
+          }, el)
         }
       }
+    },
+
+    handleClick (target, el) {
+      this.router.go(target)
     },
 
     onRouteUpdate (route) {
