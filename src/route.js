@@ -35,6 +35,11 @@ export default class Route {
     this.path = path
     // for internal use
     this.matched = matched || router._notFoundHandler
+    // internal reference to router
+    Object.defineProperty(this, 'router', {
+      enumerable: false,
+      value: router
+    })
     // Important: freeze self to prevent observation
     Object.freeze(this)
   }
