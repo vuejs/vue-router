@@ -91,8 +91,12 @@ export default function (Vue) {
         }
         if (el.tagName === 'A' && sameOrigin(el)) {
           e.preventDefault()
+          var path = el.pathname
+          if (this.router.history.root) {
+            path = path.replace(this.router.history.rootRE, '')
+          }
           this.router.go({
-            path: el.pathname,
+            path: path,
             replace: target && target.replace,
             append: target && target.append
           })
