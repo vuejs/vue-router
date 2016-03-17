@@ -11,6 +11,9 @@
 
 <!-- named route -->
 <a v-link="{ name: 'user', params: { userId: 123 }}">User</a>
+
+<!-- with query, resulting in /register?plan=private -->
+<a v-link="{ path: 'register', query: { plan: 'private' }}">Register</a>
 ```
 
 `v-link` is preferred over hard-coded `href` for the following reasons:
