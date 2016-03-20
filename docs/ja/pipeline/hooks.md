@@ -58,25 +58,25 @@ Vue.component('hook-example', {
 
 2. フックが Promise を返さず、任意の引数を予期しない場合、それは同期的に解決されます。例:
 
-``` js
-route: {
-  activate: function (/* ここに引数がない */) {
-    // Promise を返さない限り、同期的に解決します
-  }
-}
-```
+ ``` js
+ route: {
+   activate: function (/* ここに引数がない */) {
+     // Promise を返さない限り、同期的に解決します
+   }
+ }
+ ```
 
 3. フックが Promise を返さないが、引数 (`transition`) を予期する場合、その後、フックは、`transition.next()` 、`transition.abort()` または `transition.redirect()` の 1 つが呼ばれるときだけ、解決済みになります。例:
 
-``` js
-route: {
-  activate: function (transition) {
-    // 1 秒後解決
-    // resolve after 1 second
-    setTimeout(transition.next, 1000)
-  }
-}
-```
+ ``` js
+ route: {
+   activate: function (transition) {
+     // 1 秒後解決
+     // resolve after 1 second
+     setTimeout(transition.next, 1000)
+   }
+ }
+ ```
 
 4. `canActivate`、`canDeactivate` そして[グローバル beforeEach フック](../api/before-each.md)のような検証フックにおいて、フックが `transition` 引数を持つ場合でも、Boolean を返す値は、フックを同期的に解決します。
 
