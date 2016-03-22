@@ -599,6 +599,25 @@ class Router {
       })
     }
   }
+        }
+        fullPath = encodeURI(this._recognizer.generate(path.name, params))
+      } else if (path.path) {
+        fullPath = path.path
+        if (path.query) {
+          const query = this._recognizer.generateQueryString(path.query)
+          if (fullPath.indexOf('?') > -1) {
+            fullPath += '&' + query.slice(1)
+          } else {
+            fullPath += query
+          }
+        }
+        fullPath = encodeURI(fullPath)
+      }
+    } else {
+      fullPath = encodeURI(path ? path + '' : '')
+    }
+    return fullPath
+  }
 }
 
 /**
