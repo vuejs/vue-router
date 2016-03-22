@@ -320,7 +320,7 @@ class Router {
         }
         fullPath = encodeURI(this._recognizer.generate(path.name, params))
       } else if (path.path) {
-        fullPath = encodeURI(path.path)
+        fullPath = path.path
         if (path.query) {
           const query = this._recognizer.generateQueryString(path.query)
           if (fullPath.indexOf('?') > -1) {
@@ -329,6 +329,7 @@ class Router {
             fullPath += query
           }
         }
+        fullPath = encodeURI(fullPath)
       }
     } else {
       fullPath = encodeURI(path ? path + '' : '')
