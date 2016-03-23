@@ -4,7 +4,7 @@ const hashRE = /#.*$/
 export default class HTML5History {
 
   constructor ({ root, onChange }) {
-    if (root) {
+    if (root && root !== '/') {
       // make sure there's the starting slash
       if (root.charAt(0) !== '/') {
         root = '/' + root
