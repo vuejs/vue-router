@@ -206,7 +206,7 @@ class Router {
       replace = path.replace
       append = path.append
     }
-    path = this._stringifyPath(path)
+    path = this.stringifyPath(path)
     if (path) {
       this.history.go(path, replace, append)
     }
@@ -293,6 +293,47 @@ class Router {
   stop () {
     this.history.stop()
     this._started = false
+  }
+
+  /**
+   * Normalize named route object / string paths into
+   * a string.
+   *
+   * @param {Object|String|Number} path
+   * @return {String}
+   */
+
+  stringifyPath (path) {
+    let fullPath = ''
+    if (path && typeof path === 'object') {
+      if (path.name) {
+        const extend = Vue.util.extend
+        const currentParams =
+          this._currentTransition &&
+          this._currentTransition.to.params
+        const targetParams = path.params || {}
+        const params = currentParams
+          ? extend(extend({}, currentParams), targetParams)
+          : targetParams
+        if (path.query) {
+          params.queryParams = path.query
+        }
+        fullPath = encodeURI(this._recognizer.generate(path.name, params))
+      } else if (path.path) {
+        fullPath = encodeURI(path.path)
+        if (path.query) {
+          const query = this._recognizer.generateQueryString(path.query)
+          if (fullPath.indexOf('?') > -1) {
+            fullPath += '&' + query.slice(1)
+          } else {
+            fullPath += query
+          }
+        }
+      }
+    } else {
+      fullPath = encodeURI(path ? path + '' : '')
+    }
+    return fullPath
   }
 
   // Internal methods ======================================
@@ -557,47 +598,6 @@ class Router {
         }
       })
     }
-  }
-
-  /**
-   * Normalize named route object / string paths into
-   * a string.
-   *
-   * @param {Object|String|Number} path
-   * @return {String}
-   */
-
-  _stringifyPath (path) {
-    let fullPath = ''
-    if (path && typeof path === 'object') {
-      if (path.name) {
-        const extend = Vue.util.extend
-        const currentParams =
-          this._currentTransition &&
-          this._currentTransition.to.params
-        const targetParams = path.params || {}
-        const params = currentParams
-          ? extend(extend({}, currentParams), targetParams)
-          : targetParams
-        if (path.query) {
-          params.queryParams = path.query
-        }
-        fullPath = encodeURI(this._recognizer.generate(path.name, params))
-      } else if (path.path) {
-        fullPath = encodeURI(path.path)
-        if (path.query) {
-          const query = this._recognizer.generateQueryString(path.query)
-          if (fullPath.indexOf('?') > -1) {
-            fullPath += '&' + query.slice(1)
-          } else {
-            fullPath += query
-          }
-        }
-      }
-    } else {
-      fullPath = encodeURI(path ? path + '' : '')
-    }
-    return fullPath
   }
 }
 
