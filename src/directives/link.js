@@ -101,9 +101,9 @@ export default function (Vue) {
     },
 
     onRouteUpdate (route) {
-      // router._stringifyPath is dependent on current route
+      // router.stringifyPath is dependent on current route
       // and needs to be called again whenver route changes.
-      var newPath = this.router._stringifyPath(this.target)
+      var newPath = this.router.stringifyPath(this.target)
       if (this.path !== newPath) {
         this.path = newPath
         this.updateActiveMatch()

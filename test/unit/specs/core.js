@@ -1117,14 +1117,14 @@ describe('Stringify Path', function () {
   })
 
   it('plain string', function () {
-    expect(router._stringifyPath('a')).toBe('a')
+    expect(router.stringifyPath('a')).toBe('a')
   })
 
   it('object path', function () {
-    expect(router._stringifyPath({ path: '/hi' })).toBe('/hi')
-    expect(router._stringifyPath({ path: '/hi', query: { a: 1 } })).toBe('/hi?a=1')
-    expect(router._stringifyPath({ path: '/hi', query: { a: 1, b: 2 } })).toBe('/hi?a=1&b=2')
-    expect(router._stringifyPath({ path: '/hi?c=3', query: { a: 1, b: 2 } })).toBe('/hi?c=3&a=1&b=2')
+    expect(router.stringifyPath({ path: '/hi' })).toBe('/hi')
+    expect(router.stringifyPath({ path: '/hi', query: { a: 1 } })).toBe('/hi?a=1')
+    expect(router.stringifyPath({ path: '/hi', query: { a: 1, b: 2 } })).toBe('/hi?a=1&b=2')
+    expect(router.stringifyPath({ path: '/hi?c=3', query: { a: 1, b: 2 } })).toBe('/hi?c=3&a=1&b=2')
   })
 
   it('named route', function () {
@@ -1134,14 +1134,14 @@ describe('Stringify Path', function () {
         component: {}
       }
     })
-    expect(router._stringifyPath({ name: 'a' })).toBe('/test/:id')
-    expect(router._stringifyPath({ name: 'a', params: { id: 0 } })).toBe('/test/0')
-    expect(router._stringifyPath({ name: 'a', params: { id: 'hi' } })).toBe('/test/hi')
+    expect(router.stringifyPath({ name: 'a' })).toBe('/test/:id')
+    expect(router.stringifyPath({ name: 'a', params: { id: 0 } })).toBe('/test/0')
+    expect(router.stringifyPath({ name: 'a', params: { id: 'hi' } })).toBe('/test/hi')
   })
 
   it('named route not found should throw error', function () {
     expect(function () {
-      router._stringifyPath({
+      router.stringifyPath({
         name: 'a'
       })
     }).toThrow()
@@ -1154,9 +1154,9 @@ describe('Stringify Path', function () {
         component: {}
       }
     })
-    expect(router._stringifyPath('/hi/你好')).toBe(encodeURI('/hi/你好'))
-    expect(router._stringifyPath({ path: '/hi/你好' })).toBe(encodeURI('/hi/你好'))
-    expect(router._stringifyPath({ name: 'a', params: { id: '你好' }})).toBe(encodeURI('/test/你好'))
+    expect(router.stringifyPath('/hi/你好')).toBe(encodeURI('/hi/你好'))
+    expect(router.stringifyPath({ path: '/hi/你好' })).toBe(encodeURI('/hi/你好'))
+    expect(router.stringifyPath({ name: 'a', params: { id: '你好' }})).toBe(encodeURI('/test/你好'))
   })
 
 })
