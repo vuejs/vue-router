@@ -100,7 +100,7 @@ describe('Core', function () {
     router = new Router({ abstract: true })
     router.map({
       '/a': {
-        component: { template: 'A{{$route.qyery.msg}}' }
+        component: { template: 'A{{$route.query.msg}}' }
       },
       '/b': {
         name: 'b',
