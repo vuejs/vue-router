@@ -106,7 +106,7 @@ route: {
   <div v-if="$loadingRouteData">Loading ...</div>
   <div v-if="!$loadingRouteData">
     <user-profile user="{{user}}"></user-profile>
-    <user-post v-repeat="post in posts"></user-post>
+    <user-post v-for="post in posts"></user-post>
   </div>
 </div>
 ```
