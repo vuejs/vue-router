@@ -96,6 +96,36 @@ describe('Core', function () {
     ], done)
   })
 
+  it('go () querystring coding', function (done) {
+    router = new Router({ abstract: true })
+    router.map({
+      '/a': {
+        component: { template: 'A{{$route.qyery.msg}}' }
+      },
+      '/b': {
+        name: 'b',
+        component: { template: 'B{{$route.query.msg}}' }
+      },
+      '/c': {
+        component: { template: 'C{{$route.query.msg}}' }
+      }
+    })
+    var App = Vue.extend({
+      replace: false,
+      template: '<router-view></router-view>'
+    })
+    var query = {msg: 'https://www.google.com/#q=vuejs'}
+    router.start(App, el)
+    assertRoutes([
+      // object with path
+      [{ path: '/a', query: query }, 'A' + query.msg],
+      // object with named route
+      [{ name: 'b', query: query }, 'B' + query.msg],
+      // string path
+      ['/c?msg=' + encodeURIComponent(query.msg), 'C' + query.msg]
+    ], done)
+  })
+
   it('matching nested views', function (done) {
     router = new Router({ abstract: true })
     router.map({
