@@ -61,6 +61,64 @@ describe('data', function () {
     })
   })
 
+  it('same routing again', function (done) {
+    test({
+      data: {
+        data: function (transition) {
+          setTimeout(function () {
+            transition.next({
+              msg: transition.to.params.msg
+            })
+          }, wait)
+        }
+      }
+    }, function (router, calls) {
+      router.go('/data/hello')
+      assertCalls(calls, ['data.data'])
+      expect(router.app.$el.textContent).toBe('loading...')
+      setTimeout(function () {
+        expect(router.app.$el.textContent).toBe('hello')
+        router.go('/data/hello')
+        // make sure the data hook is not called
+        assertCalls(calls, ['data.data'])
+        router.app.$nextTick(function () {
+          expect(router.app.$el.textContent).toBe('hello')
+          done()
+        })
+      }, wait * 2)
+    })
+  })
+
+  it('same routing again + force option', function (done) {
+    test({
+      data: {
+        data: function (transition) {
+          setTimeout(function () {
+            transition.next({
+              msg: transition.to.params.msg
+            })
+          }, wait)
+        }
+      }
+    }, function (router, calls) {
+      router.go('/data/hello')
+      assertCalls(calls, ['data.data'])
+      expect(router.app.$el.textContent).toBe('loading...')
+      setTimeout(function () {
+        expect(router.app.$el.textContent).toBe('hello')
+        router.go({path: '/data/hello', force: true})
+        assertCalls(calls, ['data.data', 'data.data'])
+        router.app.$nextTick(function () {
+          expect(router.app.$el.textContent).toBe('loading...')
+          setTimeout(function () {
+            expect(router.app.$el.textContent).toBe('hello')
+            done()
+          }, wait * 2)
+        })
+      }, wait * 2)
+    })
+  })
+
   it('waitForData', function (done) {
     test({
       data: {

@@ -106,6 +106,9 @@ exports.test = function (configs, cb) {
 }
 
 exports.assertCalls = function (calls, expects) {
+  // check configured hook call count
+  expect(calls.length).toBe(expects.length)
+  // check configured hook name
   expects.forEach(function (e, i) {
     expect(calls[i]).toBe(e)
   })

@@ -93,8 +93,8 @@ class Router {
     this.history = new History({
       root: root,
       hashbang: this._hashbang,
-      onChange: (path, state, anchor) => {
-        this._match(path, state, anchor)
+      onChange: (path, state, anchor, force) => {
+        this._match(path, state, anchor, force)
       }
     })
 
@@ -202,13 +202,15 @@ class Router {
   go (path) {
     let replace = false
     let append = false
+    let force = false
     if (Vue.util.isObject(path)) {
       replace = path.replace
       append = path.append
+      force = path.force
     }
     path = this.stringifyPath(path)
     if (path) {
-      this.history.go(path, replace, append)
+      this.history.go(path, replace, append, force)
     }
   }
 
@@ -224,6 +226,20 @@ class Router {
     }
     path.replace = true
     this.go(path)
+  }
+
+  /**
+   * Reload a current path with force routing
+   */
+
+  reload () {
+    const path = this._currentRoute.path
+    if (path) {
+      this.go({
+        path,
+        force: true
+      })
+    }
   }
 
   /**
@@ -464,9 +480,10 @@ class Router {
    * @param {String} path
    * @param {Object} [state]
    * @param {String} [anchor]
+   * @param {Boolean} [force]
    */
 
-  _match (path, state, anchor) {
+  _match (path, state, anchor, force) {
     if (this._checkGuard(path)) {
       return
     }
@@ -474,7 +491,7 @@ class Router {
     const currentRoute = this._currentRoute
     const currentTransition = this._currentTransition
 
-    if (currentTransition) {
+    if (currentTransition && !force) {
       if (currentTransition.to.path === path) {
         // do nothing if we have an active transition going to the same path
         return

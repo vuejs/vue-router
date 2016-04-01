@@ -15,9 +15,9 @@ export default class AbstractHistory {
     // noop
   }
 
-  go (path, replace, append) {
+  go (path, replace, append, force) {
     path = this.currentPath = this.formatPath(path, append)
-    this.onChange(path)
+    this.onChange(path, null, null, force)
   }
 
   formatPath (path, append) {

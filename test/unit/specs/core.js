@@ -96,7 +96,7 @@ describe('Core', function () {
     ], done)
   })
 
-  it('go () querystring coding', function (done) {
+  it('go() querystring coding', function (done) {
     router = new Router({ abstract: true })
     router.map({
       '/a': {
@@ -736,6 +736,31 @@ describe('Core', function () {
       ['/notfound', 'Whaaat'],
       ['/notagain', 'Whaaat']
     ], done)
+  })
+
+  it('reload', function (done) {
+    router = new Router({ abstract: true })
+    router.map({
+      '/a': {
+        component: {
+          template: 'A{{$route.query.msg}}'
+        }
+      }
+    })
+    var App = Vue.extend({
+      template: '<div><router-view></router-view></div>'
+    })
+    router.start(App, el)
+    el = router.app.$el
+    router.go('/a?msg=A')
+    nextTick(function () {
+      expect(el.textContent).toBe('AA')
+      router.reload()
+      nextTick(function () {
+        expect(el.textContent).toBe('AA')
+        done()
+      })
+    })
   })
 
   it('global before', function (done) {
