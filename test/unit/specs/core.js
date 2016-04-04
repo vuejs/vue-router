@@ -10,6 +10,7 @@ describe('Core', function () {
     el = document.createElement('div')
     document.body.appendChild(el)
     spyOn(window, 'scrollTo')
+    spyOn(console, 'error')
   })
 
   afterEach(function () {
@@ -121,8 +122,8 @@ describe('Core', function () {
       [{ path: '/a', query: query }, 'A' + query.msg],
       // object with named route
       [{ name: 'b', query: query }, 'B' + query.msg],
-      // string path
-      ['/c?msg=' + encodeURIComponent(query.msg), 'C' + query.msg]
+      // special char
+      ['/c?msg=%!!!', 'C%!!!']
     ], done)
   })
 

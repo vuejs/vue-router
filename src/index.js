@@ -441,7 +441,7 @@ class Router {
    */
 
   _checkGuard (path) {
-    let matched = this._guardRecognizer.recognize(path)
+    let matched = this._guardRecognizer.recognize(path, true)
     if (matched) {
       matched[0].handler(matched[0], matched.queryParams)
       return true
