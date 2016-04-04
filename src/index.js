@@ -304,7 +304,7 @@ class Router {
    */
 
   stringifyPath (path) {
-    let fullPath = ''
+    let generatedPath = ''
     if (path && typeof path === 'object') {
       if (path.name) {
         const extend = Vue.util.extend
@@ -315,26 +315,23 @@ class Router {
         const params = currentParams
           ? extend(extend({}, currentParams), targetParams)
           : targetParams
-        if (path.query) {
-          params.queryParams = path.query
-        }
-        fullPath = encodeURI(this._recognizer.generate(path.name, params))
+        generatedPath = encodeURI(this._recognizer.generate(path.name, params))
       } else if (path.path) {
-        fullPath = path.path
-        if (path.query) {
-          const query = this._recognizer.generateQueryString(path.query)
-          if (fullPath.indexOf('?') > -1) {
-            fullPath += '&' + query.slice(1)
-          } else {
-            fullPath += query
-          }
+        generatedPath = encodeURI(path.path)
+      }
+      if (path.query) {
+        // note: the generated query string is pre-URL-encoded by the recognizer
+        const query = this._recognizer.generateQueryString(path.query)
+        if (generatedPath.indexOf('?') > -1) {
+          generatedPath += '&' + query.slice(1)
+        } else {
+          generatedPath += query
         }
-        fullPath = encodeURI(fullPath)
       }
     } else {
-      fullPath = encodeURI(path ? path + '' : '')
+      generatedPath = encodeURI(path ? path + '' : '')
     }
-    return fullPath
+    return generatedPath
   }
 
   // Internal methods ======================================

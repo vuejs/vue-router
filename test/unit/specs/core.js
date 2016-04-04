@@ -1152,9 +1152,10 @@ describe('Stringify Path', function () {
 
   it('object path', function () {
     expect(router.stringifyPath({ path: '/hi' })).toBe('/hi')
-    expect(router.stringifyPath({ path: '/hi', query: { a: 1 } })).toBe('/hi?a=1')
-    expect(router.stringifyPath({ path: '/hi', query: { a: 1, b: 2 } })).toBe('/hi?a=1&b=2')
-    expect(router.stringifyPath({ path: '/hi?c=3', query: { a: 1, b: 2 } })).toBe('/hi?c=3&a=1&b=2')
+    expect(router.stringifyPath({ path: '/hi', query: { a: 1 }})).toBe('/hi?a=1')
+    expect(router.stringifyPath({ path: '/hi', query: { a: 1, b: 2 }})).toBe('/hi?a=1&b=2')
+    expect(router.stringifyPath({ path: '/hi?c=3', query: { a: 1, b: 2 }})).toBe('/hi?c=3&a=1&b=2')
+    expect(router.stringifyPath({ path: '/hi', query: { a: '/c' }})).toBe('/hi?a=%2Fc')
   })
 
   it('named route', function () {
@@ -1165,8 +1166,10 @@ describe('Stringify Path', function () {
       }
     })
     expect(router.stringifyPath({ name: 'a' })).toBe('/test/:id')
-    expect(router.stringifyPath({ name: 'a', params: { id: 0 } })).toBe('/test/0')
-    expect(router.stringifyPath({ name: 'a', params: { id: 'hi' } })).toBe('/test/hi')
+    expect(router.stringifyPath({ name: 'a', params: { id: 0 }})).toBe('/test/0')
+    expect(router.stringifyPath({ name: 'a', params: { id: 'hi' }})).toBe('/test/hi')
+    expect(router.stringifyPath({ name: 'a', params: { id: '你好' }})).toBe('/test/' + encodeURIComponent('你好'))
+    expect(router.stringifyPath({ name: 'a', params: { id: 'hi' }, query: { b: '/c' }})).toBe('/test/hi?b=%2Fc')
   })
 
   it('named route not found should throw error', function () {
