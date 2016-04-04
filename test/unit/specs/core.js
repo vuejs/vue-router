@@ -361,29 +361,6 @@ describe('Core', function () {
     })
   })
 
-  it('v-link delegation', function (done) {
-    router = new Router({ abstract: true })
-    router.map({
-      '/a': {
-        component: {
-          template: 'hello'
-        }
-      }
-    })
-    router.start({
-      replace: false,
-      template:
-        '<div v-link><a href="/a"><span id="link"></span></a></div>' +
-        '<router-view></router-view>'
-    }, el)
-    var link = el.querySelector('#link')
-    click(link)
-    nextTick(function () {
-      expect(el.textContent).toBe('hello')
-      done()
-    })
-  })
-
   it('v-link active classes', function (done) {
     router = new Router({
       abstract: true,
@@ -587,18 +564,36 @@ describe('Core', function () {
     el = router.app.$el
     router.go('/foo')
     nextTick(function () {
-      var wrap = el.querySelector('#wrap')
-      var e = document.createEvent('Events')
-      e.initEvent('click', true, true)
-      e.button = 0
-      var target = wrap.querySelector('a')
-      target.dispatchEvent(e)
+      click(el.querySelector('#wrap a'))
       nextTick(function () {
         var text = router.app.$el.textContent
         expect(text).toBe('Home')
         document.body.removeChild(el)
         done()
       })
+    })
+  })
+
+  it('v-link delegate on non-anchor', function (done) {
+    router = new Router({ abstract: true })
+    router.map({
+      '/a': {
+        component: {
+          template: 'hello'
+        }
+      }
+    })
+    router.start({
+      replace: false,
+      template:
+        '<div v-link><a href="/a"><span id="link"></span></a></div>' +
+        '<router-view></router-view>'
+    }, el)
+    var link = el.querySelector('#link')
+    click(link)
+    nextTick(function () {
+      expect(el.textContent).toBe('hello')
+      done()
     })
   })
 
