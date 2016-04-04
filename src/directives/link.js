@@ -15,14 +15,14 @@ export default function (Vue) {
   } = Vue.util
 
   Vue.directive('link-active', {
-    priority: 1001,
+    priority: 651,
     bind () {
       this.el.__v_link_active = true
     }
   })
 
   Vue.directive('link', {
-    priority: 1000,
+    priority: 650,
 
     bind () {
       const vm = this.vm
