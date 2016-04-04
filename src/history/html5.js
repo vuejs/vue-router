@@ -23,7 +23,7 @@ export default class HTML5History {
 
   start () {
     this.listener = (e) => {
-      let url = decodeURI(location.pathname + location.search)
+      let url = location.pathname + location.search
       if (this.root) {
         url = url.replace(this.rootRE, '')
       }
