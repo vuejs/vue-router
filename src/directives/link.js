@@ -14,15 +14,17 @@ export default function (Vue) {
     removeClass
   } = Vue.util
 
+  const onPriority = Vue.directive('on').priority
+
   Vue.directive('link-active', {
-    priority: 1001,
+    priority: onPriority - 1,
     bind () {
       this.el.__v_link_active = true
     }
   })
 
   Vue.directive('link', {
-    priority: 1000,
+    priority: onPriority - 2,
 
     bind () {
       const vm = this.vm

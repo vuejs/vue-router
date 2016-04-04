@@ -597,6 +597,36 @@ describe('Core', function () {
     })
   })
 
+  it('v-link with v-on', function (done) {
+    router = new Router({ abstract: true })
+    router.map({
+      '/a': {
+        component: {
+          template: '<div>foo</div>'
+        }
+      }
+    })
+    var spy = jasmine.createSpy('v-on:click')
+    var App = Vue.extend({
+      replace: false,
+      template:
+        '<a id="link-a" v-link="{ path: \'/a\' }" v-on:click="onClick"></a>' +
+        '<router-view></router-view>',
+      methods: {
+        onClick: spy
+      }
+    })
+    router.start(App, el)
+    el = router.app.$el
+    expect(el.textContent).toBe('')
+    click(el.querySelector('#link-a'))
+    nextTick(function () {
+      expect(spy).toHaveBeenCalled()
+      expect(el.textContent).toBe('foo')
+      done()
+    })
+  })
+
   it('alias', function (done) {
     router = new Router({ abstract: true })
     router.map({
