@@ -18,8 +18,40 @@ export default function (Vue) {
 
   Vue.directive('link-active', {
     priority: onPriority - 1,
+
     bind () {
+      const vm = this.vm
+      /* istanbul ignore if */
+      if (!vm.$route) {
+        warn('v-link-active can only be used inside a router-enabled app.')
+        return
+      }
+      this.unwatch = vm.$watch('$route', bind(this.onRouteUpdate, this))
+      this.vm.$on('v-link-update', bind(this.onRouteUpdate, this))
       this.el.__v_link_active = true
+      this.el.__v_links = []
+    },
+
+    onRouteUpdate (route) {
+      // check one of v-links is matched to the current route
+      let matched = null
+      this.el.__v_links.forEach((link) => {
+        if (link.match(route.path)) {
+          matched = link
+        }
+      })
+      if (matched) {
+        const activeClass = matched.activeClass || matched.router._linkActiveClass
+        this.prevActiveClass = activeClass
+        addClass(this.el, activeClass)
+      } else {
+        removeClass(this.el, this.prevActiveClass)
+      }
+    },
+
+    unbind () {
+      this.el.__v_links = []
+      this.unwatch && this.unwatch()
     }
   })
 
@@ -37,14 +69,18 @@ export default function (Vue) {
       // update things when the route changes
       this.unwatch = vm.$watch('$route', bind(this.onRouteUpdate, this))
       // check if active classes should be applied to a different element
-      this.activeEl = this.el
-      var parent = this.el.parentNode
+      this.activeEls = []
+      // find all link-active elements in parents to handle nested active links
+      var parent = this.el
       while (parent) {
         if (parent.__v_link_active) {
-          this.activeEl = parent
-          break
+          parent.__v_links.push(this)
+          this.activeEls.push(parent)
         }
         parent = parent.parentNode
+      }
+      if (this.activeEls.length === 0) {
+        this.activeEls.push(this.el)
       }
       // no need to handle click if link expects to be opened
       // in a new window/tab.
@@ -67,6 +103,8 @@ export default function (Vue) {
         this.activeClass = target.activeClass
       }
       this.onRouteUpdate(this.vm.$route)
+      // dispatch event to call all parents noRouteUpdate
+      this.vm.$dispatch('v-link-update', this.vm.$route)
     },
 
     onClick (e) {
@@ -149,37 +187,40 @@ export default function (Vue) {
       }
     },
 
-    updateClasses (path) {
-      const el = this.activeEl
-      const activeClass = this.activeClass || this.router._linkActiveClass
-      // clear old class
-      if (this.prevActiveClass !== activeClass) {
-        removeClass(el, this.prevActiveClass)
-      }
+    match (path) {
       // remove query string before matching
       const dest = this.path.replace(queryStringRE, '')
       path = path.replace(queryStringRE, '')
       // add new class
       if (this.exact) {
-        if (dest === path || (
+        return dest === path || (
           // also allow additional trailing slash
           dest.charAt(dest.length - 1) !== '/' &&
           dest === path.replace(trailingSlashRE, '')
-        )) {
-          addClass(el, activeClass)
-        } else {
-          removeClass(el, activeClass)
-        }
+        )
       } else {
-        if (this.activeRE && this.activeRE.test(path)) {
-          addClass(el, activeClass)
-        } else {
-          removeClass(el, activeClass)
-        }
+        return this.activeRE && this.activeRE.test(path)
+      }
+    },
+
+    updateClasses (path) {
+      const activeClass = this.activeClass || this.router._linkActiveClass
+      // clear old class
+      if (this.prevActiveClass !== activeClass) {
+        this.activeEls.forEach((el) => {
+          removeClass(el, this.prevActiveClass)
+        })
+      }
+      // updates self classes when no v-link-active exists
+      if (this.activeEls[0] === this.el) {
+        this.match(path)
+          ? addClass(this.el, activeClass)
+          : removeClass(this.el, activeClass)
       }
     },
 
     unbind () {
+      this.activeEls = []
       this.el.removeEventListener('click', this.handler)
       this.unwatch && this.unwatch()
     }
