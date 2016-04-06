@@ -12,7 +12,8 @@ export default function (Vue) {
     getAttr,
     isObject,
     addClass,
-    removeClass
+    removeClass,
+    isArray
   } = Vue.util
 
   const onPriority = Vue.directive('on').priority
@@ -175,8 +176,8 @@ export default function (Vue) {
     updateClasses (path, el) {
       const activeClass = this.activeClass || this.router._linkActiveClass
       // clear old class
-      if (this.prevActiveClass !== activeClass) {
-        removeClass(el, this.prevActiveClass)
+      if (this.prevActiveClass && this.prevActiveClass !== activeClass) {
+        toggleClasses(el, this.prevActiveClass, removeClass)
       }
       // remove query string before matching
       const dest = this.path.replace(queryStringRE, '')
@@ -188,15 +189,15 @@ export default function (Vue) {
           dest.charAt(dest.length - 1) !== '/' &&
           dest === path.replace(trailingSlashRE, '')
         )) {
-          addClass(el, activeClass)
+          toggleClasses(el, activeClass, addClass)
         } else {
-          removeClass(el, activeClass)
+          toggleClasses(el, activeClass, removeClass)
         }
       } else {
         if (this.activeRE && this.activeRE.test(path)) {
-          addClass(el, activeClass)
+          toggleClasses(el, activeClass, addClass)
         } else {
-          removeClass(el, activeClass)
+          toggleClasses(el, activeClass, removeClass)
         }
       }
     },
@@ -211,5 +212,19 @@ export default function (Vue) {
     return link.protocol === location.protocol &&
       link.hostname === location.hostname &&
       link.port === location.port
+  }
+
+  // this function is copied from v-bind:class implementation until
+  // we properly expose it...
+  function toggleClasses (el, key, fn) {
+    key = key.trim()
+    if (key.indexOf(' ') === -1) {
+      fn(el, key)
+      return
+    }
+    var keys = key.split(/\s+/)
+    for (var i = 0, l = keys.length; i < l; i++) {
+      fn(el, keys[i])
+    }
   }
 }

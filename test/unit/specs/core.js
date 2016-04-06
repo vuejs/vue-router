@@ -369,7 +369,7 @@ describe('Core', function () {
     var App = Vue.extend({
       replace: false,
       data: function () {
-        return { className: 'custom' }
+        return { className: 'a b c' }
       },
       template:
         '<a id="link-a" v-link="{ path: \'/a\' }">Link A</a>' +
@@ -398,13 +398,13 @@ describe('Core', function () {
         router.go('/b')
         nextTick(function () {
           expect(linkA.className).toBe('')
-          expect(linkB.className).toBe('custom')
+          expect(linkB.className).toBe('a b c')
           expect(linkC.className).toBe('')
-          router.app.className = 'changed'
+          router.app.className = 'd e'
           router.go('/b/c/d')
           nextTick(function () {
             expect(linkA.className).toBe('')
-            expect(linkB.className).toBe('changed')
+            expect(linkB.className).toBe('d e')
             expect(linkC.className).toBe('')
             router.go('/bcd')
             nextTick(function () {
