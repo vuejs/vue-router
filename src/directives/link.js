@@ -12,8 +12,7 @@ export default function (Vue) {
     getAttr,
     isObject,
     addClass,
-    removeClass,
-    isArray
+    removeClass
   } = Vue.util
 
   const onPriority = Vue.directive('on').priority
