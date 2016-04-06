@@ -468,13 +468,21 @@ describe('Core', function () {
     })
     var App = Vue.extend({
       replace: false,
+      components: {
+        test: {
+          template: '<a><slot></slot></a>'
+        }
+      },
       template:
         '<ul>' +
           '<li id="link-a" v-link-active>' +
             '<a v-link="{ path: \'/a\' }">Link A</a>' +
           '</li>' +
           '<li id="link-b" v-link-active>' +
-            '<a v-link="{ path: \'/b\' }">Link B</a>' +
+            '<a v-if="true" v-link="{ path: \'/b\' }">Link B</a>' +
+          '</li>' +
+          '<li id="link-c" v-link-active>' +
+            '<test v-link="{ path: \'/c\' }">Link C</test>' +
           '</li>' +
         '</ul>'
     })
@@ -482,18 +490,56 @@ describe('Core', function () {
     el = router.app.$el
     var linkA = el.querySelector('#link-a')
     var linkB = el.querySelector('#link-b')
+    var linkC = el.querySelector('#link-c')
     expect(linkA.className).toBe('')
     expect(linkB.className).toBe('')
+    expect(linkC.className).toBe('')
     router.go('/a')
     nextTick(function () {
       expect(linkA.className).toBe('active')
       expect(linkB.className).toBe('')
+      expect(linkC.className).toBe('')
       router.go('/b')
       nextTick(function () {
         expect(linkA.className).toBe('')
         expect(linkB.className).toBe('active')
-        done()
+        expect(linkC.className).toBe('')
+        router.go('/c')
+        nextTick(function () {
+          expect(linkA.className).toBe('')
+          expect(linkB.className).toBe('')
+          expect(linkC.className).toBe('active')
+          done()
+        })
       })
+    })
+  })
+
+  it('multiple nested v-link-active', function (done) {
+    router = new Router({
+      abstract: true,
+      linkActiveClass: 'active'
+    })
+    var App = Vue.extend({
+      replace: false,
+      template:
+        '<div v-link-active class="outer">' +
+          '<div v-link-active class="inner">' +
+            '<a v-link="{ path: \'/a\'}">Link A</a>' +
+          '</div>' +
+        '</div>'
+    })
+    router.start(App, el)
+    el = router.app.$el
+    var outer = el.querySelector('.outer')
+    var inner = el.querySelector('.inner')
+    expect(outer.className).toBe('outer')
+    expect(inner.className).toBe('inner')
+    router.go('/a')
+    nextTick(function () {
+      expect(outer.className).toBe('outer active')
+      expect(inner.className).toBe('inner active')
+      done()
     })
   })
 

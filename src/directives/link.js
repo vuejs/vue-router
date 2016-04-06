@@ -9,17 +9,41 @@ export default function (Vue) {
 
   const {
     bind,
+    getAttr,
     isObject,
     addClass,
     removeClass
   } = Vue.util
 
   const onPriority = Vue.directive('on').priority
+  const LINK_UPDATE = '__vue-router-link-update__'
+
+  let activeId = 0
 
   Vue.directive('link-active', {
-    priority: onPriority - 1,
+    priority: 9999,
     bind () {
-      this.el.__v_link_active = true
+      const id = String(activeId++)
+      // collect v-links contained within this element.
+      // we need do this here before the parent-child relationship
+      // gets messed up by terminal directives (if, for, components)
+      const childLinks = this.el.querySelectorAll('[v-link]')
+      for (var i = 0, l = childLinks.length; i < l; i++) {
+        let link = childLinks[i]
+        let existingId = link.getAttribute(LINK_UPDATE)
+        let value = existingId ? (existingId + ',' + id) : id
+        // leave a mark on the link element which can be persisted
+        // through fragment clones.
+        link.setAttribute(LINK_UPDATE, value)
+      }
+      this.vm.$on(LINK_UPDATE, this.cb = (link, path) => {
+        if (link.activeIds.indexOf(id) > -1) {
+          link.updateClasses(path, this.el)
+        }
+      })
+    },
+    unbind () {
+      this.vm.$off(LINK_UPDATE, this.cb)
     }
   })
 
@@ -36,15 +60,10 @@ export default function (Vue) {
       this.router = vm.$route.router
       // update things when the route changes
       this.unwatch = vm.$watch('$route', bind(this.onRouteUpdate, this))
-      // check if active classes should be applied to a different element
-      this.activeEl = this.el
-      var parent = this.el.parentNode
-      while (parent) {
-        if (parent.__v_link_active) {
-          this.activeEl = parent
-          break
-        }
-        parent = parent.parentNode
+      // check v-link-active ids
+      const activeIds = getAttr(this.el, LINK_UPDATE)
+      if (activeIds) {
+        this.activeIds = activeIds.split(',')
       }
       // no need to handle click if link expects to be opened
       // in a new window/tab.
@@ -115,7 +134,11 @@ export default function (Vue) {
         this.updateActiveMatch()
         this.updateHref()
       }
-      this.updateClasses(route.path)
+      if (this.activeIds) {
+        this.vm.$emit(LINK_UPDATE, this, route.path)
+      } else {
+        this.updateClasses(route.path, this.el)
+      }
     },
 
     updateActiveMatch () {
@@ -149,8 +172,7 @@ export default function (Vue) {
       }
     },
 
-    updateClasses (path) {
-      const el = this.activeEl
+    updateClasses (path, el) {
       const activeClass = this.activeClass || this.router._linkActiveClass
       // clear old class
       if (this.prevActiveClass !== activeClass) {
