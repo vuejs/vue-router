@@ -9,7 +9,6 @@ export default function (Vue) {
 
   const {
     bind,
-    getAttr,
     isObject,
     addClass,
     removeClass
@@ -61,8 +60,9 @@ export default function (Vue) {
       // update things when the route changes
       this.unwatch = vm.$watch('$route', bind(this.onRouteUpdate, this))
       // check v-link-active ids
-      const activeIds = getAttr(this.el, LINK_UPDATE)
+      const activeIds = this.el.getAttribute(LINK_UPDATE)
       if (activeIds) {
+        this.el.removeAttribute(LINK_UPDATE)
         this.activeIds = activeIds.split(',')
       }
       // no need to handle click if link expects to be opened
