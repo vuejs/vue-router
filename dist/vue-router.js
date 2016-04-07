@@ -1,5 +1,5 @@
 /*!
- * vue-router v0.7.12
+ * vue-router v0.7.13
  * (c) 2016 Evan You
  * Released under the MIT License.
  */
@@ -1875,7 +1875,6 @@
   function Link (Vue) {
     var _Vue$util = Vue.util;
     var _bind = _Vue$util.bind;
-    var getAttr = _Vue$util.getAttr;
     var isObject = _Vue$util.isObject;
     var addClass = _Vue$util.addClass;
     var removeClass = _Vue$util.removeClass;
@@ -1928,8 +1927,9 @@
         // update things when the route changes
         this.unwatch = vm.$watch('$route', _bind(this.onRouteUpdate, this));
         // check v-link-active ids
-        var activeIds = getAttr(this.el, LINK_UPDATE);
+        var activeIds = this.el.getAttribute(LINK_UPDATE);
         if (activeIds) {
+          this.el.removeAttribute(LINK_UPDATE);
           this.activeIds = activeIds.split(',');
         }
         // no need to handle click if link expects to be opened
