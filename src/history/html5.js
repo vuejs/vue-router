@@ -25,7 +25,7 @@ export default class HTML5History {
     this.listener = (e) => {
       let url = location.pathname + location.search
       if (this.root) {
-        url = url.replace(this.rootRE, '')
+        url = url.replace(this.rootRE, '') || '/'
       }
       this.onChange(url, e && e.state, location.hash)
     }
