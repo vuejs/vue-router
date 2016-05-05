@@ -27,7 +27,7 @@ export default class HashHistory {
       const query = location.search && path.indexOf('?') > -1
           ? '&' + location.search.slice(1)
           : location.search
-      self.onChange(decodeURI(path.replace(/^#!?/, '') + query))
+      self.onChange(path.replace(/^#!?/, '') + query)
     }
     window.addEventListener('hashchange', this.listener)
     this.listener()

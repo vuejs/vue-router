@@ -5,7 +5,8 @@
     "**/dist/**",
     "**/examples/**",
     "**/docs/**",
-    "**/test/unit/lib/**"
+    "**/test/unit/lib/**",
+    "**/lib/**"
   ],
   "test": [
     "**/test/**"

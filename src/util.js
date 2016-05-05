@@ -13,11 +13,8 @@ export default exports
 
 export function warn (msg) {
   /* istanbul ignore next */
-  if (window.console) {
-    console.warn('[vue-router] ' + msg)
-    if (!exports.Vue || exports.Vue.config.debug) {
-      console.warn(new Error('warning stack trace:').stack)
-    }
+  if (typeof console !== 'undefined') {
+    console.error('[vue-router] ' + msg)
   }
 }
 

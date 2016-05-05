@@ -190,13 +190,15 @@ export default class RouteTransition {
    * @param {Function} [cb]
    * @param {Object} [options]
    *                 - {Boolean} expectBoolean
-   *                 - {Boolean} expectData
+   *                 - {Boolean} postActive
+   *                 - {Function} processData
    *                 - {Function} cleanup
    */
 
   callHook (hook, context, cb, {
     expectBoolean = false,
-    expectData = false,
+    postActivate = false,
+    processData,
     cleanup
   } = {}) {
 
@@ -210,19 +212,26 @@ export default class RouteTransition {
     }
 
     // handle errors
-    const onError = (err) => {
-      // cleanup indicates an after-activation hook,
-      // so instead of aborting we just let the transition
-      // finish.
-      cleanup ? next() : abort()
+    const onError = err => {
+      postActivate ? next() : abort()
       if (err && !transition.router._suppress) {
         warn('Uncaught error during transition: ')
         throw err instanceof Error ? err : new Error(err)
       }
     }
 
+    // since promise swallows errors, we have to
+    // throw it in the next tick...
+    const onPromiseError = err => {
+      try {
+        onError(err)
+      } catch (e) {
+        setTimeout(() => { throw e }, 0)
+      }
+    }
+
     // advance the transition to the next step
-    const next = (data) => {
+    const next = () => {
       if (nextCalled) {
         warn('transition.next() should be called only once.')
         return
@@ -232,7 +241,33 @@ export default class RouteTransition {
         cleanup && cleanup()
         return
       }
-      cb && cb(data, onError)
+      cb && cb()
+    }
+
+    const nextWithBoolean = res => {
+      if (typeof res === 'boolean') {
+        res ? next() : abort()
+      } else if (isPromise(res)) {
+        res.then((ok) => {
+          ok ? next() : abort()
+        }, onPromiseError)
+      } else if (!hook.length) {
+        next()
+      }
+    }
+
+    const nextWithData = data => {
+      let res
+      try {
+        res = processData(data)
+      } catch (err) {
+        return onError(err)
+      }
+      if (isPromise(res)) {
+        res.then(next, onPromiseError)
+      } else {
+        next()
+      }
     }
 
     // expose a clone of the transition object, so that each
@@ -242,7 +277,7 @@ export default class RouteTransition {
       to: transition.to,
       from: transition.from,
       abort: abort,
-      next: next,
+      next: processData ? nextWithData : next,
       redirect: function () {
         transition.redirect.apply(transition, arguments)
       }
@@ -256,22 +291,21 @@ export default class RouteTransition {
       return onError(err)
     }
 
-    // handle boolean/promise return values
-    const resIsPromise = isPromise(res)
     if (expectBoolean) {
-      if (typeof res === 'boolean') {
-        res ? next() : abort()
-      } else if (resIsPromise) {
-        res.then((ok) => {
-          ok ? next() : abort()
-        }, onError)
-      } else if (!hook.length) {
-        next(res)
+      // boolean hooks
+      nextWithBoolean(res)
+    } else if (isPromise(res)) {
+      // promise
+      if (processData) {
+        res.then(nextWithData, onPromiseError)
+      } else {
+        res.then(next, onPromiseError)
       }
-    } else if (resIsPromise) {
-      res.then(next, onError)
-    } else if ((expectData && isPlainOjbect(res)) || !hook.length) {
-      next(res)
+    } else if (processData && isPlainOjbect(res)) {
+      // data promise sugar
+      nextWithData(res)
+    } else if (!hook.length) {
+      next()
     }
   }
 
@@ -286,20 +320,11 @@ export default class RouteTransition {
 
   callHooks (hooks, context, cb, options) {
     if (Array.isArray(hooks)) {
-      const res = []
-      res._needMerge = true
-      let onError
       this.runQueue(hooks, (hook, _, next) => {
         if (!this.aborted) {
-          this.callHook(hook, context, (r, onError) => {
-            if (r) res.push(r)
-            onError = onError
-            next()
-          }, options)
+          this.callHook(hook, context, next, options)
         }
-      }, () => {
-        cb(res, onError)
-      })
+      }, cb)
     } else {
       this.callHook(hooks, context, cb, options)
     }

@@ -10,6 +10,7 @@ describe('Core', function () {
     el = document.createElement('div')
     document.body.appendChild(el)
     spyOn(window, 'scrollTo')
+    spyOn(console, 'error')
   })
 
   afterEach(function () {
@@ -93,6 +94,36 @@ describe('Core', function () {
       // named routes
       [{ name: 'a', params: {msg: 'A'}}, 'AA'],
       [{ name: 'b', params: {msg: 'B'}, query: {msg: 'B'}}, 'BBB']
+    ], done)
+  })
+
+  it('go () querystring coding', function (done) {
+    router = new Router({ abstract: true })
+    router.map({
+      '/a': {
+        component: { template: 'A{{$route.query.msg}}' }
+      },
+      '/b': {
+        name: 'b',
+        component: { template: 'B{{$route.query.msg}}' }
+      },
+      '/c': {
+        component: { template: 'C{{$route.query.msg}}' }
+      }
+    })
+    var App = Vue.extend({
+      replace: false,
+      template: '<router-view></router-view>'
+    })
+    var query = {msg: 'https://www.google.com/#q=vuejs'}
+    router.start(App, el)
+    assertRoutes([
+      // object with path
+      [{ path: '/a', query: query }, 'A' + query.msg],
+      // object with named route
+      [{ name: 'b', query: query }, 'B' + query.msg],
+      // special char
+      ['/c?msg=%!!!', 'C%!!!']
     ], done)
   })
 
@@ -330,29 +361,6 @@ describe('Core', function () {
     })
   })
 
-  it('v-link delegation', function (done) {
-    router = new Router({ abstract: true })
-    router.map({
-      '/a': {
-        component: {
-          template: 'hello'
-        }
-      }
-    })
-    router.start({
-      replace: false,
-      template:
-        '<div v-link><a href="/a"><span id="link"></span></a></div>' +
-        '<router-view></router-view>'
-    }, el)
-    var link = el.querySelector('#link')
-    click(link)
-    nextTick(function () {
-      expect(el.textContent).toBe('hello')
-      done()
-    })
-  })
-
   it('v-link active classes', function (done) {
     router = new Router({
       abstract: true,
@@ -361,7 +369,7 @@ describe('Core', function () {
     var App = Vue.extend({
       replace: false,
       data: function () {
-        return { className: 'custom' }
+        return { className: 'a b c' }
       },
       template:
         '<a id="link-a" v-link="{ path: \'/a\' }">Link A</a>' +
@@ -390,13 +398,13 @@ describe('Core', function () {
         router.go('/b')
         nextTick(function () {
           expect(linkA.className).toBe('')
-          expect(linkB.className).toBe('custom')
+          expect(linkB.className).toBe('a b c')
           expect(linkC.className).toBe('')
-          router.app.className = 'changed'
+          router.app.className = 'd e'
           router.go('/b/c/d')
           nextTick(function () {
             expect(linkA.className).toBe('')
-            expect(linkB.className).toBe('changed')
+            expect(linkB.className).toBe('d e')
             expect(linkC.className).toBe('')
             router.go('/bcd')
             nextTick(function () {
@@ -460,13 +468,21 @@ describe('Core', function () {
     })
     var App = Vue.extend({
       replace: false,
+      components: {
+        test: {
+          template: '<a><slot></slot></a>'
+        }
+      },
       template:
         '<ul>' +
           '<li id="link-a" v-link-active>' +
             '<a v-link="{ path: \'/a\' }">Link A</a>' +
           '</li>' +
           '<li id="link-b" v-link-active>' +
-            '<a v-link="{ path: \'/b\' }">Link B</a>' +
+            '<a v-if="true" v-link="{ path: \'/b\' }">Link B</a>' +
+          '</li>' +
+          '<li id="link-c" v-link-active>' +
+            '<test v-link="{ path: \'/c\' }">Link C</test>' +
           '</li>' +
         '</ul>'
     })
@@ -474,18 +490,56 @@ describe('Core', function () {
     el = router.app.$el
     var linkA = el.querySelector('#link-a')
     var linkB = el.querySelector('#link-b')
+    var linkC = el.querySelector('#link-c')
     expect(linkA.className).toBe('')
     expect(linkB.className).toBe('')
+    expect(linkC.className).toBe('')
     router.go('/a')
     nextTick(function () {
       expect(linkA.className).toBe('active')
       expect(linkB.className).toBe('')
+      expect(linkC.className).toBe('')
       router.go('/b')
       nextTick(function () {
         expect(linkA.className).toBe('')
         expect(linkB.className).toBe('active')
-        done()
+        expect(linkC.className).toBe('')
+        router.go('/c')
+        nextTick(function () {
+          expect(linkA.className).toBe('')
+          expect(linkB.className).toBe('')
+          expect(linkC.className).toBe('active')
+          done()
+        })
       })
+    })
+  })
+
+  it('multiple nested v-link-active', function (done) {
+    router = new Router({
+      abstract: true,
+      linkActiveClass: 'active'
+    })
+    var App = Vue.extend({
+      replace: false,
+      template:
+        '<div v-link-active class="outer">' +
+          '<div v-link-active class="inner">' +
+            '<a v-link="{ path: \'/a\'}">Link A</a>' +
+          '</div>' +
+        '</div>'
+    })
+    router.start(App, el)
+    el = router.app.$el
+    var outer = el.querySelector('.outer')
+    var inner = el.querySelector('.inner')
+    expect(outer.className).toBe('outer')
+    expect(inner.className).toBe('inner')
+    router.go('/a')
+    nextTick(function () {
+      expect(outer.className).toBe('outer active')
+      expect(inner.className).toBe('inner active')
+      done()
     })
   })
 
@@ -556,18 +610,66 @@ describe('Core', function () {
     el = router.app.$el
     router.go('/foo')
     nextTick(function () {
-      var wrap = el.querySelector('#wrap')
-      var e = document.createEvent('Events')
-      e.initEvent('click', true, true)
-      e.button = 0
-      var target = wrap.querySelector('a')
-      target.dispatchEvent(e)
+      click(el.querySelector('#wrap a'))
       nextTick(function () {
         var text = router.app.$el.textContent
         expect(text).toBe('Home')
         document.body.removeChild(el)
         done()
       })
+    })
+  })
+
+  it('v-link delegate on non-anchor', function (done) {
+    router = new Router({ abstract: true })
+    router.map({
+      '/a': {
+        component: {
+          template: 'hello'
+        }
+      }
+    })
+    router.start({
+      replace: false,
+      template:
+        '<div v-link><a href="/a"><span id="link"></span></a></div>' +
+        '<router-view></router-view>'
+    }, el)
+    var link = el.querySelector('#link')
+    click(link)
+    nextTick(function () {
+      expect(el.textContent).toBe('hello')
+      done()
+    })
+  })
+
+  it('v-link with v-on', function (done) {
+    router = new Router({ abstract: true })
+    router.map({
+      '/a': {
+        component: {
+          template: '<div>foo</div>'
+        }
+      }
+    })
+    var spy = jasmine.createSpy('v-on:click')
+    var App = Vue.extend({
+      replace: false,
+      template:
+        '<a id="link-a" v-link="{ path: \'/a\' }" v-on:click="onClick"></a>' +
+        '<router-view></router-view>',
+      methods: {
+        onClick: spy
+      }
+    })
+    router.start(App, el)
+    el = router.app.$el
+    expect(el.textContent).toBe('')
+    click(el.querySelector('#link-a'))
+    nextTick(function () {
+      expect(spy).toHaveBeenCalled()
+      expect(el.textContent).toBe('foo')
+      done()
     })
   })
 
@@ -1117,14 +1219,15 @@ describe('Stringify Path', function () {
   })
 
   it('plain string', function () {
-    expect(router._stringifyPath('a')).toBe('a')
+    expect(router.stringifyPath('a')).toBe('a')
   })
 
   it('object path', function () {
-    expect(router._stringifyPath({ path: '/hi' })).toBe('/hi')
-    expect(router._stringifyPath({ path: '/hi', query: { a: 1 } })).toBe('/hi?a=1')
-    expect(router._stringifyPath({ path: '/hi', query: { a: 1, b: 2 } })).toBe('/hi?a=1&b=2')
-    expect(router._stringifyPath({ path: '/hi?c=3', query: { a: 1, b: 2 } })).toBe('/hi?c=3&a=1&b=2')
+    expect(router.stringifyPath({ path: '/hi' })).toBe('/hi')
+    expect(router.stringifyPath({ path: '/hi', query: { a: 1 }})).toBe('/hi?a=1')
+    expect(router.stringifyPath({ path: '/hi', query: { a: 1, b: 2 }})).toBe('/hi?a=1&b=2')
+    expect(router.stringifyPath({ path: '/hi?c=3', query: { a: 1, b: 2 }})).toBe('/hi?c=3&a=1&b=2')
+    expect(router.stringifyPath({ path: '/hi', query: { a: '/c' }})).toBe('/hi?a=%2Fc')
   })
 
   it('named route', function () {
@@ -1134,14 +1237,16 @@ describe('Stringify Path', function () {
         component: {}
       }
     })
-    expect(router._stringifyPath({ name: 'a' })).toBe('/test/:id')
-    expect(router._stringifyPath({ name: 'a', params: { id: 0 } })).toBe('/test/0')
-    expect(router._stringifyPath({ name: 'a', params: { id: 'hi' } })).toBe('/test/hi')
+    expect(router.stringifyPath({ name: 'a' })).toBe('/test/:id')
+    expect(router.stringifyPath({ name: 'a', params: { id: 0 }})).toBe('/test/0')
+    expect(router.stringifyPath({ name: 'a', params: { id: 'hi' }})).toBe('/test/hi')
+    expect(router.stringifyPath({ name: 'a', params: { id: '你好' }})).toBe('/test/' + encodeURIComponent('你好'))
+    expect(router.stringifyPath({ name: 'a', params: { id: 'hi' }, query: { b: '/c' }})).toBe('/test/hi?b=%2Fc')
   })
 
   it('named route not found should throw error', function () {
     expect(function () {
-      router._stringifyPath({
+      router.stringifyPath({
         name: 'a'
       })
     }).toThrow()
@@ -1154,9 +1259,9 @@ describe('Stringify Path', function () {
         component: {}
       }
     })
-    expect(router._stringifyPath('/hi/你好')).toBe(encodeURI('/hi/你好'))
-    expect(router._stringifyPath({ path: '/hi/你好' })).toBe(encodeURI('/hi/你好'))
-    expect(router._stringifyPath({ name: 'a', params: { id: '你好' }})).toBe(encodeURI('/test/你好'))
+    expect(router.stringifyPath('/hi/你好')).toBe(encodeURI('/hi/你好'))
+    expect(router.stringifyPath({ path: '/hi/你好' })).toBe(encodeURI('/hi/你好'))
+    expect(router.stringifyPath({ name: 'a', params: { id: '你好' }})).toBe(encodeURI('/test/你好'))
   })
 
 })

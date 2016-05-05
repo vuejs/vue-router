@@ -14,15 +14,40 @@ export default function (Vue) {
     removeClass
   } = Vue.util
 
+  const onPriority = Vue.directive('on').priority
+  const LINK_UPDATE = '__vue-router-link-update__'
+
+  let activeId = 0
+
   Vue.directive('link-active', {
-    priority: 1001,
+    priority: 9999,
     bind () {
-      this.el.__v_link_active = true
+      const id = String(activeId++)
+      // collect v-links contained within this element.
+      // we need do this here before the parent-child relationship
+      // gets messed up by terminal directives (if, for, components)
+      const childLinks = this.el.querySelectorAll('[v-link]')
+      for (var i = 0, l = childLinks.length; i < l; i++) {
+        let link = childLinks[i]
+        let existingId = link.getAttribute(LINK_UPDATE)
+        let value = existingId ? (existingId + ',' + id) : id
+        // leave a mark on the link element which can be persisted
+        // through fragment clones.
+        link.setAttribute(LINK_UPDATE, value)
+      }
+      this.vm.$on(LINK_UPDATE, this.cb = (link, path) => {
+        if (link.activeIds.indexOf(id) > -1) {
+          link.updateClasses(path, this.el)
+        }
+      })
+    },
+    unbind () {
+      this.vm.$off(LINK_UPDATE, this.cb)
     }
   })
 
   Vue.directive('link', {
-    priority: 1000,
+    priority: onPriority - 2,
 
     bind () {
       const vm = this.vm
@@ -34,15 +59,11 @@ export default function (Vue) {
       this.router = vm.$route.router
       // update things when the route changes
       this.unwatch = vm.$watch('$route', bind(this.onRouteUpdate, this))
-      // check if active classes should be applied to a different element
-      this.activeEl = this.el
-      var parent = this.el.parentNode
-      while (parent) {
-        if (parent.__v_link_active) {
-          this.activeEl = parent
-          break
-        }
-        parent = parent.parentNode
+      // check v-link-active ids
+      const activeIds = this.el.getAttribute(LINK_UPDATE)
+      if (activeIds) {
+        this.el.removeAttribute(LINK_UPDATE)
+        this.activeIds = activeIds.split(',')
       }
       // no need to handle click if link expects to be opened
       // in a new window/tab.
@@ -52,7 +73,8 @@ export default function (Vue) {
         return
       }
       // handle click
-      this.el.addEventListener('click', bind(this.onClick, this))
+      this.handler = bind(this.onClick, this)
+      this.el.addEventListener('click', this.handler)
     },
 
     update (target) {
@@ -90,8 +112,12 @@ export default function (Vue) {
         }
         if (el.tagName === 'A' && sameOrigin(el)) {
           e.preventDefault()
+          var path = el.pathname
+          if (this.router.history.root) {
+            path = path.replace(this.router.history.rootRE, '')
+          }
           this.router.go({
-            path: el.pathname,
+            path: path,
             replace: target && target.replace,
             append: target && target.append
           })
@@ -100,15 +126,19 @@ export default function (Vue) {
     },
 
     onRouteUpdate (route) {
-      // router._stringifyPath is dependent on current route
+      // router.stringifyPath is dependent on current route
       // and needs to be called again whenver route changes.
-      var newPath = this.router._stringifyPath(this.target)
+      var newPath = this.router.stringifyPath(this.target)
       if (this.path !== newPath) {
         this.path = newPath
         this.updateActiveMatch()
         this.updateHref()
       }
-      this.updateClasses(route.path)
+      if (this.activeIds) {
+        this.vm.$emit(LINK_UPDATE, this, route.path)
+      } else {
+        this.updateClasses(route.path, this.el)
+      }
     },
 
     updateActiveMatch () {
@@ -142,12 +172,11 @@ export default function (Vue) {
       }
     },
 
-    updateClasses (path) {
-      const el = this.activeEl
+    updateClasses (path, el) {
       const activeClass = this.activeClass || this.router._linkActiveClass
       // clear old class
-      if (this.prevActiveClass !== activeClass) {
-        removeClass(el, this.prevActiveClass)
+      if (this.prevActiveClass && this.prevActiveClass !== activeClass) {
+        toggleClasses(el, this.prevActiveClass, removeClass)
       }
       // remove query string before matching
       const dest = this.path.replace(queryStringRE, '')
@@ -159,15 +188,15 @@ export default function (Vue) {
           dest.charAt(dest.length - 1) !== '/' &&
           dest === path.replace(trailingSlashRE, '')
         )) {
-          addClass(el, activeClass)
+          toggleClasses(el, activeClass, addClass)
         } else {
-          removeClass(el, activeClass)
+          toggleClasses(el, activeClass, removeClass)
         }
       } else {
         if (this.activeRE && this.activeRE.test(path)) {
-          addClass(el, activeClass)
+          toggleClasses(el, activeClass, addClass)
         } else {
-          removeClass(el, activeClass)
+          toggleClasses(el, activeClass, removeClass)
         }
       }
     },
@@ -182,5 +211,19 @@ export default function (Vue) {
     return link.protocol === location.protocol &&
       link.hostname === location.hostname &&
       link.port === location.port
+  }
+
+  // this function is copied from v-bind:class implementation until
+  // we properly expose it...
+  function toggleClasses (el, key, fn) {
+    key = key.trim()
+    if (key.indexOf(' ') === -1) {
+      fn(el, key)
+      return
+    }
+    var keys = key.split(/\s+/)
+    for (var i = 0, l = keys.length; i < l; i++) {
+      fn(el, keys[i])
+    }
   }
 }

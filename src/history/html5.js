@@ -4,7 +4,7 @@ const hashRE = /#.*$/
 export default class HTML5History {
 
   constructor ({ root, onChange }) {
-    if (root) {
+    if (root && root !== '/') {
       // make sure there's the starting slash
       if (root.charAt(0) !== '/') {
         root = '/' + root
@@ -23,9 +23,9 @@ export default class HTML5History {
 
   start () {
     this.listener = (e) => {
-      let url = decodeURI(location.pathname + location.search)
+      let url = location.pathname + location.search
       if (this.root) {
-        url = url.replace(this.rootRE, '')
+        url = url.replace(this.rootRE, '') || '/'
       }
       this.onChange(url, e && e.state, location.hash)
     }
@@ -48,7 +48,7 @@ export default class HTML5History {
           x: window.pageXOffset,
           y: window.pageYOffset
         }
-      }, '')
+      }, '', location.href)
       // then push new state
       history.pushState({}, '', url)
     }

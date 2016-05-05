@@ -125,7 +125,7 @@ describe('data', function () {
     })
   })
 
-  it('promise error', function (done) {
+  it('promise reject', function (done) {
     test({
       data: {
         data: function () {
@@ -141,8 +141,8 @@ describe('data', function () {
       assertCalls(calls, ['data.data'])
       expect(router.app.$el.textContent).toBe('loading...')
       setTimeout(function () {
-        // should complete the transition despite error
-        expect(router.app.$el.textContent).toBe('')
+        // should not abort
+        expect(router.app.$el.textContent).toBe('default')
         done()
       }, wait * 2)
     })
@@ -190,8 +190,8 @@ describe('data', function () {
       assertCalls(calls, ['data.data'])
       expect(router.app.$el.textContent).toBe('loading...')
       setTimeout(function () {
-        // should complete the transition despite error
-        expect(router.app.$el.textContent).toBe('')
+        // should not abort
+        expect(router.app.$el.textContent).toBe('default')
         done()
       }, wait * 2)
     })
@@ -238,7 +238,7 @@ describe('data', function () {
       setTimeout(function () {
         expect(router.app.$el.textContent).toBe('hello hello2 hello3')
         done()
-      }, wait * 3)
+      }, wait * 4)
     })
   })
 })

@@ -1,4 +1,4 @@
-const internalKeysRE = /^(component|subRoutes)$/
+const internalKeysRE = /^(component|subRoutes|fullPath)$/
 
 /**
  * Route Context Object
@@ -33,9 +33,13 @@ export default class Route {
     }
     // expose path and router
     this.path = path
-    this.router = router
     // for internal use
     this.matched = matched || router._notFoundHandler
+    // internal reference to router
+    Object.defineProperty(this, 'router', {
+      enumerable: false,
+      value: router
+    })
     // Important: freeze self to prevent observation
     Object.freeze(this)
   }

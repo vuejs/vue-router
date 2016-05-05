@@ -21,7 +21,7 @@ route オブジェクトは以下のプロパティを公開します:
   この route (そしてそのオーナー自身のコンポーネント) を管理しているルーターインスタンス。
 
 - **$route.matched**
- 
+
   現在の route で全てマッチされたセグメントに対する route 設定オブジェクトを含んでいる配列。
 
 - **$route.name**
@@ -30,7 +30,7 @@ route オブジェクトは以下のプロパティを公開します:
 
 ### カスタムフィールド
 
-上記のビルドインプロパティに加えて、route 設定で定義されたカスタムフィールドも、route オブジェクトにマージされます。例:
+上記のビルトインプロパティに加えて、route 設定で定義されたカスタムフィールドも、route オブジェクトにマージされます。例:
 
 ``` js
 router.map({
@@ -45,11 +45,15 @@ router.map({
 
 ``` js
 router.beforeEach(function (transition) {
-  if (transition.to.auth) {
-    // 認証する...
+  if (transition.to.auth && !authenticated) {
+    transition.redirect('/login')
+  } else {
+    transition.next()
   }
 })
 ```
+
+> どのように `beforeEach` フックが動作するかは、[API](api/before-each.md) を参照してください。
 
 ネストされた route がマッチされるとき、全てのカスタムフィールドは同じ `$route` オブジェクトにマージされます。サブ route と 親 route が同じカスタムフィールドを持っているとき、サブ route の値は親の値で上書きされます。
 

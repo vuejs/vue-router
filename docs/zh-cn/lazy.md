@@ -14,7 +14,7 @@ router.map({
 })
 ```
 
-现在，手动引入组件并不理想，有幸 Webpack 和 Browserify 都提供了简单的解决方案。
+现在，通过手动实现组件的加载不是个理想的办法，不过像 Webpack 和 Browserify 这类的构建工具都提供了一些更加简单方便的解决方案。
 
 ### Webpack
 

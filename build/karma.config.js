@@ -5,9 +5,10 @@ module.exports = function (config) {
     frameworks: ['jasmine'],
     files: ['../test/unit/specs/index.js'],
     preprocessors: {
-      '../test/unit/specs/index.js': ['webpack']
+      '../test/unit/specs/index.js': ['webpack', 'sourcemap']
     },
     webpack: {
+      devtool: '#inline-source-map',
       module: {
         loaders: [
           {

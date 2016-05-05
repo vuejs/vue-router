@@ -6,7 +6,7 @@
 
 ### 引数
 
-- [`transition {Transition}`](hooks.md#transition-object)
+- [`transition {Transition}`](hooks.md#トランジションオブジェクト)
 
   `canResue` フックでは `transition.to` と `transition.from` のみアクセスできます。
 

@@ -27,6 +27,8 @@ npm install
 npm run build
 
 # serve example app at localhost:8080
+npm run serve-example
+
 # and unit tests at localhost:8081
 npm run dev
 
