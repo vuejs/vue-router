@@ -108,7 +108,7 @@ Using `$loadingRouteData` in templates:
   <div v-if="$loadingRouteData">Loading ...</div>
   <div v-if="!$loadingRouteData">
     <user-profile user="{{user}}"></user-profile>
-    <user-post v-repeat="post in posts"></user-post>
+    <user-post v-for="post in posts" :post="post"></user-post>
   </div>
 </div>
 ```
