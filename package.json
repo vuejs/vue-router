@@ -61,7 +61,7 @@
     "phantomjs": "^1.9.19",
     "rollup": "^0.21.0",
     "rollup-plugin-babel": "^1.0.0",
-    "selenium-server": "2.49.1",
+    "selenium-server": "2.53.0",
     "style-loader": "^0.13.0",
     "uglify-js": "^2.5.0",
     "vue": "^1.0.14",
