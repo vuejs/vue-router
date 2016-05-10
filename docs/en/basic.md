@@ -20,6 +20,9 @@ Creating a Single-page Application with Vue.js + vue-router is dead simple. With
 ### JavaScript
 
 ``` js
+// Load the plugin
+Vue.use(VueRouter)
+
 // Define some components
 var Foo = Vue.extend({
     template: '<p>This is foo!</p>'
