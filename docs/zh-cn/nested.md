@@ -24,13 +24,13 @@ router.map({
 同样的，组件内部也可以包含自己的外链，嵌套的 `<router-view>` 。例如，如果我们在组件 `Foo` 的模板中添加了一个：
 
 ``` js
-var Foo = Vue.extend({
+var Foo = {
   template:
     '<div class="foo">' +
       '<h2>This is Foo!</h2>' +
       '<router-view></router-view>' + // <- 嵌套的外链
     '</div>'
-})
+}
 ```
 
 为了能够在这个嵌套的外链中渲染相应的组件，我们需要更新我们的路由配置：

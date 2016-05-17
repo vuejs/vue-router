@@ -24,19 +24,19 @@ Creating a Single-page Application with Vue.js + vue-router is dead simple. With
 Vue.use(VueRouter)
 
 // Define some components
-var Foo = Vue.extend({
+var Foo = {
     template: '<p>This is foo!</p>'
-})
+}
 
-var Bar = Vue.extend({
+var Bar = {
     template: '<p>This is bar!</p>'
-})
+}
 
 // The router needs a root component to render.
 // For demo purposes, we will just use an empty one
 // because we are using the HTML as the app template.
 // !! Note that the App is not a Vue instance.
-var App = Vue.extend({})
+var App = {}
 
 // Create a router instance.
 // You can pass in additional options here, but let's

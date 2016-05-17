@@ -21,17 +21,17 @@ Vue.js + vue-router でシングルページアプリケーションを作成す
 
 ``` js
 // いくつかのコンポーネントを定義します
-var Foo = Vue.extend({
+var Foo = {
     template: '<p>This is foo!</p>'
-})
+}
 
-var Bar = Vue.extend({
+var Bar = {
     template: '<p>This is bar!</p>'
-})
+}
 
 // router は、レンダリングするために1つの root コンポーネントが必要です
 // デモ目的向けで、app テンプレートとして HTML を使用しているため、空を使用します
-var App = Vue.extend({})
+var App = {}
 
 // router インスタンスを作成。
 // ここでは追加的なオプションで渡すことができますが、今はシンプルに保っています
