@@ -24,13 +24,13 @@ router.map({
 同様に、レンダリングされたコンポーネントは、独自のネストされた `<router-view>` を含むことができます。例えば、`Foo` コンポーネントのテンプレート内部に1つ追加する場合:
 
 ``` js
-var Foo = Vue.extend({
+var Foo = {
   template:
     '<div class="foo">' +
       '<h2>This is Foo!</h2>' +
       '<router-view></router-view>' + // <- nested outlet
     '</div>'
-})
+}
 ```
 
 このネストされた outlet でコンポーネントをレンダリングするため、我々の route 設定を更新する必要があります:

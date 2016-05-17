@@ -24,13 +24,13 @@ router.map({
 Similarly, a rendered component can also contain its own, nested `<router-view>`. For example, if we add one inside the `Foo` component's template:
 
 ``` js
-var Foo = Vue.extend({
+var Foo = {
   template:
     '<div class="foo">' +
       '<h2>This is Foo!</h2>' +
       '<router-view></router-view>' + // <- nested outlet
     '</div>'
-})
+}
 ```
 
 To render components into this nested outlet, we need to update our route config:

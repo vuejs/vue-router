@@ -21,17 +21,17 @@
 
 ``` js
 // 定义组件
-var Foo = Vue.extend({
+var Foo = {
     template: '<p>This is foo!</p>'
-})
+}
 
-var Bar = Vue.extend({
+var Bar = {
     template: '<p>This is bar!</p>'
-})
+}
 
 // 路由器需要一个根组件。
 // 出于演示的目的，这里使用一个空的组件，直接使用 HTML 作为应用的模板
-var App = Vue.extend({})
+var App = {}
 
 // 创建一个路由器实例
 // 创建实例时可以传入配置参数进行定制，为保持简单，这里使用默认配置
