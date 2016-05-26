@@ -1,6 +1,6 @@
 # Lazy Loading Routes
 
-When you are using bundlers like Webpack or Browserify, it's trivially easy to lazy-load a route component using Vue.js' built-in [async component functionality](http://vuejs.org/guide/components.html#Async_Components). Instead of directly defining your route component, you define it as a function that will asynchronously resolve the actual component definition:
+When you are using bundlers like Webpack or Browserify, it's trivially easy to lazy-load a route component using Vue.js' built-in [async component functionality](http://vuejs.org/guide/components.html#Async-Components). Instead of directly defining your route component, you define it as a function that will asynchronously resolve the actual component definition:
 
 ``` js
 router.map({
