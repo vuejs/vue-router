@@ -1,6 +1,6 @@
 # vue-router [![Build Status](https://img.shields.io/circleci/project/vuejs/vue-router/master.svg)](https://circleci.com/gh/vuejs/vue-router) [![npm package](https://img.shields.io/npm/v/vue-router.svg)](https://www.npmjs.com/package/vue-router) [![bitHound Overall Score](https://www.bithound.io/github/vuejs/vue-router/badges/score.svg)](https://www.bithound.io/github/vuejs/vue-router) [![Issue Stats](http://issuestats.com/github/vuejs/vue-router/badge/issue?style=flat)](http://issuestats.com/github/vuejs/vue-router)
 
-**Compatibility Note:** `vue-router` requires Vue.js 0.12.10+
+**Compatibility Note:** `vue-router` requires Vue.js 0.12.10+ and currently does not support Vue.js 2.0.
 
 ### Introduction
 
