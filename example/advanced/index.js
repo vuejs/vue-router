@@ -12,9 +12,6 @@ const router = new AppRouter({
   saveScrollPosition: true
 })
 
-// configure router
-//configRouter(router)
-
 // boostrap the app
 const App = Vue.extend(require('./app.vue'))
 router.start(App, '#app')
