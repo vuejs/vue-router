@@ -4,7 +4,7 @@
 
 - 你可以传递 props。
 - `<router-view>` 中的 HTML 内容会被插入到相应组件的内容插入点（由 content 指定）。
-- `v-transition` 和 `transition-mode` 的完整支持。注意：为了场景切换效果能正常工作，路由组件必须不是一个[片断实例](http://vuejs.org/guide/components.html#Fragment_Instance)。
+- `transition` 和 `transition-mode` 的完整支持。注意：为了场景切换效果能正常工作，路由组件必须不是一个[片断实例](http://vuejs.org/guide/components.html#Fragment_Instance)。
 - `v-ref` 也得到支持；被渲染的组件会注册到父级组件的 `this.$` 对象。
 
 然而，它也有一些限制
