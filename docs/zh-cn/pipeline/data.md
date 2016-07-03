@@ -1,6 +1,6 @@
 # `data(transition) [-> Promise]`
 
-在激活阶段被调用，在 `activate` 被断定（ resolved ，指该函数返回的 promise 被 resolve ）。用于加载和设置当前组件的数据。
+在激活阶段被调用，在 `activate` 被断定（ resolved ，指该函数返回的 promise 被 resolve ）以及界面切换之前被调用。用于加载和设置当前组件的数据。
 
 ### 参数
 
@@ -84,7 +84,7 @@ route: {
 
 ``` js
 route: {
-  data (transition) {
+  data: function (transition) {
     var userId = transition.to.params.userId
     return Promise.all([
       userService.get(userId),
