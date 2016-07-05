@@ -1,4 +1,6 @@
 <!--
+中文用户请注意：issue 是用来报 bug 的，不是用来提问的。没有完整重现步骤的 bug 或是提问的 issue 会被直接关闭。
+
 Thank you for contributing! Please carefully read the following before opening your issue.
 
 Got a question?
