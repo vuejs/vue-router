@@ -1,29 +1,28 @@
 export default {
   name: 'router-view',
+  functional: true,
   props: {
     name: {
       type: String,
       default: 'default'
     }
   },
-  created () {
-    this._routerView = true
-    let parent = this.$parent
+  render (h, { props, children, parent, data }) {
+    const route = parent.$route
     let depth = 0
-    while (parent) {
-      if (parent._routerView) {
+    let _parent = parent
+    while (_parent) {
+      if (_parent.$vnode && _parent.$vnode.data._routerView) {
         depth++
       }
-      parent = parent.$parent
+      _parent = _parent.$parent
     }
-    this.depth = depth
-  },
-  render (h) {
+    data._routerView = true
     return h(
-      this.$route.matched[this.depth].components[this.name],
-      null,
-      // this.$options._parentVnode.data,
-      () => this.$slots.default
+      route.matched[depth].components[props.name],
+      data,
+      children
     )
   }
 }
+
