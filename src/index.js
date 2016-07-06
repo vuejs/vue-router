@@ -6,8 +6,8 @@ import { AbstractHistory } from './history/abstract'
 
 export default class VueRouter {
   constructor (options = {}) {
-    this._mode = options.mode || 'hash'
     this._root = options.root || '/'
+    this._mode = options.mode || 'hash'
 
     this.match = createMatcher(options.routes || [])
     this.rootComponent = null
