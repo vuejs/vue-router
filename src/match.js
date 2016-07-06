@@ -9,21 +9,21 @@ export function createMatcher (routes) {
     const params = {}
     for (const route in map) {
       if (matchRoute(route, params, path)) {
-        return {
+        return Object.freeze({
           params,
           query,
           matched: formatMatch(map[route])
-        }
+        })
       }
     }
   }
 }
 
 function addRoute (map, route, parent) {
-  const { path, component, meta, children } = route
+  const { path, component, components, meta, children } = route
   const record = {
     path: normalizeRoute(path, parent),
-    component,
+    components: components || { default: component },
     parent,
     meta
   }
@@ -102,10 +102,7 @@ function parseQuery (query) {
 function formatMatch (record) {
   const res = []
   while (record) {
-    res.unshift({
-      component: record.component,
-      meta: record.meta
-    })
+    res.unshift(record)
     record = record.parent
   }
   return res

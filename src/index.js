@@ -1,3 +1,4 @@
+import { install } from './install'
 import { createMatcher } from './match'
 import { HashHistory } from './history/hash'
 import { HTML5History } from './history/html5'
@@ -9,6 +10,7 @@ export default class VueRouter {
     this._root = options.root || '/'
 
     this.match = createMatcher(options.routes || [])
+    this.rootComponent = null
 
     switch (this._mode) {
       case 'hash':
@@ -24,6 +26,15 @@ export default class VueRouter {
         throw new Error(`[vue-router] invalid mode: ${this._mode}`)
     }
   }
+
+  go (path) {
+    this.rootComponent._route = this.match(path)
+  }
 }
 
+VueRouter.install = install
 VueRouter.createMatcher = createMatcher
+
+if (typeof Vue !== 'undefined') {
+  Vue.use(VueRouter)
+}
