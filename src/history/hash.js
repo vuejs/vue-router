@@ -1,3 +1,5 @@
-export class HashHistory {
+import { History } from './base'
+
+export class HashHistory extends History {
 
 }

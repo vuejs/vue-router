@@ -1,5 +1,5 @@
 import { install } from './install'
-import { createMatcher } from './match'
+import { createMatcher } from './util/match'
 import { HashHistory } from './history/hash'
 import { HTML5History } from './history/html5'
 import { AbstractHistory } from './history/abstract'
@@ -25,22 +25,34 @@ export default class VueRouter {
       default:
         throw new Error(`[vue-router] invalid mode: ${this._mode}`)
     }
+
+    this.history.listen(location => {
+      this.rootComponent._route = this.match(location)
+    })
   }
 
-  go (path) {
-    this.rootComponent._route = this.match(path)
+  go (location) {
+    this.history.push(location)
   }
 
-  replace (path) {
+  replace (location) {
+    this.history.replace(location)
+  }
 
+  back () {
+    this.history.go(-1)
+  }
+
+  forward () {
+    this.history.go(1)
   }
 
   beforeEach (fn) {
-
+    this.history.before(fn)
   }
 
   afterEach (fn) {
-
+    this.history.after(fn)
   }
 }
 
