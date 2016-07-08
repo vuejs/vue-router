@@ -8,19 +8,28 @@ export default {
     }
   },
   render (h, { props, children, parent, data }) {
+    data.routerView = true
+
     const route = parent.$route
+    const cache = parent._routerViewCache || (parent._routerViewCache = {})
     let depth = 0
+    let inactive = false
+
     while (parent) {
       if (parent.$vnode && parent.$vnode.data.routerView) {
-        depth = parent.$vnode.data.routerViewDepth + 1
-        break
+        depth++
+      }
+      if (parent._inactive) {
+        inactive = true
       }
       parent = parent.$parent
     }
-    data.routerView = true
-    data.routerViewDepth = depth
+
     const matched = route.matched[depth]
-    const component = matched && matched.components[props.name]
+    const component = inactive
+      ? cache[props.name]
+      : (cache[props.name] = matched && matched.components[props.name])
+
     return h(component, data, children)
   }
 }
