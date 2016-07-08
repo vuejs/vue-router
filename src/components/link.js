@@ -1,6 +1,5 @@
 export default {
   name: 'router-link',
-  functional: true,
   props: {
     to: {
       type: [String, Object],
@@ -11,17 +10,17 @@ export default {
       default: 'a'
     }
   },
-  render (h, { props, children, parent }) {
-    return h(props.tag, {
+  render (h) {
+    return h(this.tag, {
       attrs: {
-        href: props.to
+        href: this.to
       },
       on: {
         click: (e) => {
           e.preventDefault()
-          parent.$router.go(props.to)
+          this.$router.go(this.to)
         }
       }
-    }, children)
+    }, this.$slots.default)
   }
 }
