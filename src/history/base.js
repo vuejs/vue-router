@@ -1,4 +1,5 @@
 import { runQueue } from '../util/async'
+import { isSameLocation } from '../util/location'
 
 export class History {
   constructor (initialLocation = '/') {
@@ -35,10 +36,25 @@ export class History {
   }
 
   confirmTransition (location, cb) {
+    if (isSameLocation(location, this.pending) ||
+        isSameLocation(location, this.current)) {
+      return
+    }
+
+    this.pending = location
     const redirect = location => this.push(location)
-    runQueue(this.beforeHooks, (hook, next) => {
-      hook(location, redirect, next)
-    }, cb)
+    runQueue(
+      this.beforeHooks,
+      (hook, next) => {
+        hook(location, redirect, next)
+      },
+      () => {
+        if (isSameLocation(location, this.pending)) {
+          this.pending = null
+          cb()
+        }
+      }
+    )
   }
 
   updateLocation (location) {
