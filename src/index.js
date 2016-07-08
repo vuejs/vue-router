@@ -30,6 +30,18 @@ export default class VueRouter {
   go (path) {
     this.rootComponent._route = this.match(path)
   }
+
+  replace (path) {
+
+  }
+
+  beforeEach (fn) {
+
+  }
+
+  afterEach (fn) {
+
+  }
 }
 
 VueRouter.install = install
