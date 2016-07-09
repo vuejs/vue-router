@@ -9,7 +9,7 @@ export function normalizeLocation (next, current) {
 
   if (!next.name) {
     return resolveQuery(resolvePath(
-      next.path,
+      next.path || '',
       current && current.path,
       next.append
     ), next.query)

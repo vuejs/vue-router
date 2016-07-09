@@ -17,7 +17,11 @@ export function createMatcher (routes) {
     if (name) {
       const entry = nameMap[name]
       if (entry) {
-        const path = Regexp.compile(entry.path)(params)
+        try {
+          const path = Regexp.compile(entry.path)(params)
+        } catch (e) {
+          throw new Error(`[vue-router] missing params for named route "${name}": ${e.message}`)
+        }
         return Object.freeze({
           name,
           path,
