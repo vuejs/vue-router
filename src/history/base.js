@@ -82,7 +82,7 @@ function extractComponentHooks (matched, name) {
   return Array.prototype.concat.apply([], matched.map(m => {
     return Object.keys(m.components).map(key => {
       const component = m.components[key]
-      const instance = m.instances[key]
+      const instance = m.instances[key] && m.instances[key].child
       const hook = typeof component === 'function'
         ? component.options[name]
         : component[name]
