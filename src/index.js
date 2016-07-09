@@ -4,19 +4,27 @@ import { HashHistory } from './history/hash'
 import { HTML5History } from './history/html5'
 import { AbstractHistory } from './history/abstract'
 
+const inBrowser = typeof window !== 'undefined'
+const isHistorySupported = inBrowser && window.history && window.history.pushState
+
 export default class VueRouter {
   constructor (options = {}) {
     this._rootComponent = null
     this._activeViews = []
 
-    const root = this._root = options.root || '/'
-    const mode = this._mode = options.mode || 'hash'
-
     this.match = createMatcher(options.routes || [])
 
+    const mode = options.mode || 'hash'
+    if (mode === 'history' && !isHistorySupported) {
+      mode = 'hash'
+    }
+    if (!inBrowser) {
+      mode = 'abstract'
+    }
+
     switch (mode) {
-      case 'html5':
-        this.history = new HTML5History(this, root)
+      case 'history':
+        this.history = new HTML5History(this, options.root)
         break
       case 'hash':
         this.history = new HashHistory(this)
@@ -61,6 +69,6 @@ export default class VueRouter {
 VueRouter.install = install
 VueRouter.createMatcher = createMatcher
 
-if (typeof window !== 'undefined' && window.Vue) {
+if (inBrowser && window.Vue) {
   window.Vue.use(VueRouter)
 }
