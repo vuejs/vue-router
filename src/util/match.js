@@ -1,5 +1,6 @@
 import Regexp from 'path-to-regexp'
 import { createRouteMap } from './route-map'
+import { stringifyQuery } from './query'
 
 export function createMatcher (routes) {
   const { pathMap, nameMap } = createRouteMap(routes)
@@ -15,8 +16,10 @@ export function createMatcher (routes) {
     if (name) {
       const entry = nameMap[location.name]
       if (entry) {
+        const path = Regexp.compile(entry.path)(params)
         return Object.freeze({
-          path: Regexp.compile(entry.path)(params),
+          path,
+          fullPath: path + stringifyQuery(query),
           query,
           params,
           matched: formatMatch(entry)
@@ -28,6 +31,7 @@ export function createMatcher (routes) {
         if (matchRoute(route, params, path)) {
           return Object.freeze({
             path,
+            fullPath: path + stringifyQuery(query),
             query,
             params,
             matched: formatMatch(pathMap[route])
