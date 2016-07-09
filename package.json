@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "rollup -wc"
+    "dev": "rollup -wc",
+    "build": "rollup -c && uglifyjs dist/vue-router.js -c -m -o dist/vue-router.min.js"
   },
   "author": "Evan You",
   "license": "MIT",
@@ -15,7 +16,8 @@
     "rollup-plugin-commonjs": "^3.1.0",
     "rollup-plugin-node-resolve": "^1.7.1",
     "rollup-plugin-replace": "^1.1.1",
-    "rollup-watch": "^2.4.0"
+    "rollup-watch": "^2.4.0",
+    "uglify-js": "^2.7.0"
   },
   "dependencies": {
     "path-to-regexp": "^1.5.3"
