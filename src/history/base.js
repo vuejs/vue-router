@@ -1,9 +1,12 @@
 import { runQueue } from '../util/async'
-import { isSameLocation } from '../util/location'
+import { createLocationUtil } from '../util/location'
 
 export class History {
-  constructor (initialLocation = '/') {
-    this.current = initialLocation
+  constructor (map) {
+    const util = createLocationUtil(map)
+    this.normalizeLocation = util.normalizeLocation
+    this.isSameLocation = util.isSameLocation
+    this.current = util.normalizeLocation('/')
     this.pending = null
     this.beforeHooks = []
     this.afterHooks = []
@@ -22,36 +25,42 @@ export class History {
   }
 
   push (location) {
-    this.confirmTransition(location, () => {
-      this._push(location)
-      this.updateLocation(location)
+    this.confirmTransition(location, normalizedLocation => {
+      this._push(normalizedLocation)
+      this.updateLocation(normalizedLocation)
     })
   }
 
   replace (location) {
-    this.confirmTransition(location, () => {
-      this._replace(location)
-      this.updateLocation(location)
-    })
+    this.confirmTransition(location, normalizedLocation => {
+      this._replace(normalizedLocation)
+      this.updateLocation(normalizedLocation)
+    }, true)
   }
 
-  confirmTransition (location, cb) {
-    if (isSameLocation(location, this.pending) ||
-        isSameLocation(location, this.current)) {
+  confirmTransition (location, cb, replace) {
+    location = this.normalizeLocation(location, this.current)
+
+    if (this.isSameLocation(location, this.pending) ||
+        this.isSameLocation(location, this.current)) {
       return
     }
 
     this.pending = location
-    const redirect = location => this.push(location)
+
+    const redirect = location => {
+      this[replace ? 'replace' : 'push'](location)
+    }
+
     runQueue(
       this.beforeHooks,
       (hook, next) => {
         hook(location, redirect, next)
       },
       () => {
-        if (isSameLocation(location, this.pending)) {
+        if (this.isSameLocation(location, this.pending)) {
           this.pending = null
-          cb()
+          cb(location)
         }
       }
     )

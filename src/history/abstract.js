@@ -1,8 +1,8 @@
 import { History } from './base'
 
 export class AbstractHistory extends History {
-  constructor (initialLocation) {
-    super(initialLocation)
+  constructor (map) {
+    super(map)
     this.stack = [this.current]
     this.index = 0
   }
@@ -13,9 +13,9 @@ export class AbstractHistory extends History {
       return
     }
     const location = this.stack[targetIndex]
-    this.confirmTransition(location, () => {
+    this.confirmTransition(location, normalizedLocation => {
       this.index = targetIndex
-      this.updateLocation(location)
+      this.updateLocation(normalizedLocation)
     })
   }
 

@@ -1,4 +1,5 @@
 import { install } from './install'
+import { createRouteMap } from './util/route-map'
 import { createMatcher } from './util/match'
 import { HashHistory } from './history/hash'
 import { HTML5History } from './history/html5'
@@ -6,28 +7,30 @@ import { AbstractHistory } from './history/abstract'
 
 export default class VueRouter {
   constructor (options = {}) {
-    this._root = options.root || '/'
-    this._mode = options.mode || 'hash'
+    this._rootComponent = null
 
-    this.match = createMatcher(options.routes || [])
-    this.rootComponent = null
+    const root = this._root = options.root || '/'
+    const mode = this._mode = options.mode || 'hash'
+    const map = this._map = createRouteMap(options.routes || [])
 
-    switch (this._mode) {
-      case 'hash':
-        this.history = new HashHistory()
-        break
+    this.match = createMatcher(map)
+
+    switch (mode) {
       case 'html5':
-        this.history = new HTML5History()
+        this.history = new HTML5History(map, root)
+        break
+      case 'hash':
+        this.history = new HashHistory(map)
         break
       case 'abstract':
-        this.history = new AbstractHistory()
+        this.history = new AbstractHistory(map)
         break
       default:
-        throw new Error(`[vue-router] invalid mode: ${this._mode}`)
+        throw new Error(`[vue-router] invalid mode: ${mode}`)
     }
 
     this.history.listen(location => {
-      this.rootComponent._route = this.match(location)
+      this._rootComponent._route = this.match(location)
     })
   }
 
