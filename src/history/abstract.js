@@ -1,8 +1,8 @@
 import { History } from './base'
 
 export class AbstractHistory extends History {
-  constructor (map) {
-    super(map)
+  constructor () {
+    super()
     this.stack = [this.current]
     this.index = 0
   }

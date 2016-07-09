@@ -1,6 +1,9 @@
 import Regexp from 'path-to-regexp'
+import { createRouteMap } from './route-map'
 
-export function createMatcher ({ pathMap, nameMap }) {
+export function createMatcher (routes) {
+  const { pathMap, nameMap } = createRouteMap(routes)
+
   return function match (location) {
     const {
       name,

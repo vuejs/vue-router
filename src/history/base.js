@@ -1,12 +1,9 @@
 import { runQueue } from '../util/async'
-import { createLocationUtil } from '../util/location'
+import { normalizeLocation, isSameLocation } from '../util/location'
 
 export class History {
-  constructor (map) {
-    const util = createLocationUtil(map)
-    this.normalizeLocation = util.normalizeLocation
-    this.isSameLocation = util.isSameLocation
-    this.current = util.normalizeLocation('/')
+  constructor () {
+    this.current = normalizeLocation('/')
     this.pending = null
     this.beforeHooks = []
     this.afterHooks = []
@@ -39,10 +36,10 @@ export class History {
   }
 
   confirmTransition (location, cb, replace) {
-    location = this.normalizeLocation(location, this.current)
+    location = normalizeLocation(location, this.current)
 
-    if (this.isSameLocation(location, this.pending) ||
-        this.isSameLocation(location, this.current)) {
+    if (isSameLocation(location, this.pending) ||
+        isSameLocation(location, this.current)) {
       return
     }
 
@@ -58,7 +55,7 @@ export class History {
         hook(location, redirect, next)
       },
       () => {
-        if (this.isSameLocation(location, this.pending)) {
+        if (isSameLocation(location, this.pending)) {
           this.pending = null
           cb(location)
         }

@@ -1,28 +1,39 @@
 import { extractQuery } from './query'
 
-export function createLocationUtil ({ pathMap, nameMap }) {
-  return {
-    normalizeLocation (nextLocation, currentLocation = {}) {
-      if (typeof nextLocation === 'string') {
-        nextLocation = {
-          path: nextLocation
-        }
-      }
-
-      if (!nextLocation.name) {
-        return extractQuery(resolvePath(
-          nextLocation.path,
-          currentLocation.path,
-          nextLocation.append
-        ))
-      } else {
-        return nextLocation
-      }
-    },
-
-    isSameLocation (a, b) {
-      return a.path === (b && b.path)
+export function normalizeLocation (next, current) {
+  if (typeof next === 'string') {
+    next = {
+      path: next
     }
+  }
+
+  if (!next.name) {
+    return extractQuery(resolvePath(
+      next.path,
+      current && current.path,
+      next.append
+    ))
+  } else {
+    return next
+  }
+}
+
+export function isSameLocation (a, b) {
+  if (!b) {
+    return false
+  } else if (a.path && b.path) {
+    return (
+      a.path === b.path &&
+      isObjectEqual(a.query, b.query)
+    )
+  } else if (a.name && b.name) {
+    return (
+      a.name === b.name &&
+      isObjectEqual(a.query, b.query) &&
+      isObjectEqual(a.params, b.params)
+    )
+  } else {
+    return false
   }
 }
 
@@ -63,4 +74,13 @@ function resolvePath (relative, base, append) {
   }
 
   return stack.join('/')
+}
+
+function isObjectEqual (a = {}, b = {}) {
+  const aKeys = Object.keys(a)
+  const bKeys = Object.keys(b)
+  if (aKeys.length !== bKeys.length) {
+    return false
+  }
+  return aKeys.every(key => a[key] === b[key])
 }
