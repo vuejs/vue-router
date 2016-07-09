@@ -30,6 +30,11 @@ export default {
       ? cache[props.name]
       : (cache[props.name] = matched && matched.components[props.name])
 
-    return h(component, data, children)
+    const vnode = h(component, data, children)
+    if (!inactive) {
+      matched.instances[props.name] = vnode
+    }
+
+    return vnode
   }
 }

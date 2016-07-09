@@ -22,12 +22,13 @@ function addRoute (pathMap, nameMap, route, parent) {
   const record = {
     path: normalizePath(path, parent),
     components: route.components || { default: route.component },
+    instances: {},
     name,
     parent,
     alias: route.alias,
     redirect: route.redirect,
-    onEnter: route.onEnter,
-    onLeave: route.onLeave
+    canActivate: route.canActivate,
+    canDeactivate: route.canDeactivate
   }
 
   if (route.children) {

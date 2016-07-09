@@ -7,21 +7,22 @@ import { AbstractHistory } from './history/abstract'
 export default class VueRouter {
   constructor (options = {}) {
     this._rootComponent = null
+    this._activeViews = []
 
     const root = this._root = options.root || '/'
     const mode = this._mode = options.mode || 'hash'
 
-    const match = createMatcher(options.routes || [])
+    this.match = createMatcher(options.routes || [])
 
     switch (mode) {
       case 'html5':
-        this.history = new HTML5History(match, root)
+        this.history = new HTML5History(this, root)
         break
       case 'hash':
-        this.history = new HashHistory(match)
+        this.history = new HashHistory(this)
         break
       case 'abstract':
-        this.history = new AbstractHistory(match)
+        this.history = new AbstractHistory(this)
         break
       default:
         throw new Error(`[vue-router] invalid mode: ${mode}`)

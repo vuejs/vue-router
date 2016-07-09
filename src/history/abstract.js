@@ -1,8 +1,8 @@
 import { History } from './base'
 
 export class AbstractHistory extends History {
-  constructor (match) {
-    super(match)
+  constructor (router) {
+    super(router)
     this.stack = [this.current]
     this.index = 0
   }
