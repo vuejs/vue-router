@@ -53,9 +53,9 @@ function matchRoute (path, params, pathname) {
     return true
   }
 
-  for (var i = 1, len = m.length; i < len; ++i) {
-    var key = keys[i - 1]
-    var val = 'string' == typeof m[i] ? decodeURIComponent(m[i]) : m[i]
+  for (let i = 1, len = m.length; i < len; ++i) {
+    const key = keys[i - 1]
+    const val = typeof m[i] === 'string' ? decodeURIComponent(m[i]) : m[i]
     if (key) params[key.name] = val
   }
 

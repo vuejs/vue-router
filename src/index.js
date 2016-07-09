@@ -60,6 +60,6 @@ export default class VueRouter {
 VueRouter.install = install
 VueRouter.createMatcher = createMatcher
 
-if (typeof Vue !== 'undefined') {
-  Vue.use(VueRouter)
+if (typeof window !== 'undefined' && window.Vue) {
+  window.Vue.use(VueRouter)
 }

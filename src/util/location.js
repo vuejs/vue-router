@@ -58,7 +58,7 @@ function resolvePath (relative, base, append) {
   // resolve relative path
   const segments = relative.replace(/^\//, '').split('/')
   for (let i = 0; i < segments.length; i++) {
-    let segment = segments[i]
+    const segment = segments[i]
     if (segment === '.') {
       continue
     } else if (segment === '..') {
