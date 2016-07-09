@@ -1,4 +1,4 @@
-import { extractQuery } from './query'
+import { resolveQuery } from './query'
 
 export function normalizeLocation (next, current) {
   if (typeof next === 'string') {
@@ -8,11 +8,11 @@ export function normalizeLocation (next, current) {
   }
 
   if (!next.name) {
-    return extractQuery(resolvePath(
+    return resolveQuery(resolvePath(
       next.path,
       current && current.path,
       next.append
-    ))
+    ), next.query)
   } else {
     return next
   }

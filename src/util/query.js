@@ -1,7 +1,7 @@
 const encode = encodeURIComponent
 const decode = decodeURIComponent
 
-export function extractQuery (path) {
+export function resolveQuery (path, extraQuery = {}) {
   const index = path.indexOf('?')
   if (index > 0) {
     let query = path.slice(index + 1)
@@ -11,12 +11,18 @@ export function extractQuery (path) {
       console.error(e)
       query = {}
     }
+    for (const key in extraQuery) {
+      query[key] = extraQuery[key]
+    }
     return {
       path: path.slice(0, index),
       query
     }
   } else {
-    return { path }
+    return {
+      path,
+      query: extraQuery
+    }
   }
 }
 
