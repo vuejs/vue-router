@@ -1,23 +1,25 @@
 import Regexp from 'path-to-regexp'
-import { createRouteMap } from './route-map'
 import { stringifyQuery } from './query'
+import { createRouteMap } from './route-map'
+import { normalizeLocation } from './location'
 
 export function createMatcher (routes) {
   const { pathMap, nameMap } = createRouteMap(routes)
 
-  return function match (location) {
+  return function match (location, currentLocation) {
     const {
       name,
       path,
       query = {},
       params = {}
-    } = location
+    } = normalizeLocation(location, currentLocation)
 
     if (name) {
-      const entry = nameMap[location.name]
+      const entry = nameMap[name]
       if (entry) {
         const path = Regexp.compile(entry.path)(params)
         return Object.freeze({
+          name,
           path,
           fullPath: path + stringifyQuery(query),
           query,

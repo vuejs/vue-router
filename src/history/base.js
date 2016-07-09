@@ -1,9 +1,10 @@
 import { runQueue } from '../util/async'
-import { normalizeLocation, isSameLocation } from '../util/location'
+import { isSameLocation } from '../util/location'
 
 export class History {
-  constructor () {
-    this.current = normalizeLocation('/')
+  constructor (match) {
+    this.match = match
+    this.current = match('/')
     this.pending = null
     this.beforeHooks = []
     this.afterHooks = []
@@ -22,22 +23,22 @@ export class History {
   }
 
   push (location) {
-    this.confirmTransition(location, normalizedLocation => {
-      this._push(normalizedLocation)
-      this.updateLocation(normalizedLocation)
+    location = this.match(location, this.current)
+    this.confirmTransition(location, () => {
+      this._push(location)
+      this.updateLocation(location)
     })
   }
 
   replace (location) {
-    this.confirmTransition(location, normalizedLocation => {
-      this._replace(normalizedLocation)
-      this.updateLocation(normalizedLocation)
+    location = this.match(location, this.current)
+    this.confirmTransition(location, () => {
+      this._replace(location)
+      this.updateLocation(location)
     }, true)
   }
 
   confirmTransition (location, cb, replace) {
-    location = normalizeLocation(location, this.current)
-
     if (isSameLocation(location, this.pending) ||
         isSameLocation(location, this.current)) {
       return
@@ -45,12 +46,12 @@ export class History {
 
     this.pending = location
 
-    const redirect = location => {
-      this[replace ? 'replace' : 'push'](location)
-    }
+    const redirect = location => this[replace ? 'replace' : 'push'](location)
+    const routeBeforeHooks = location.matched.map(m => m.onEnter).filter(_ => _)
+    const beforeHooks = this.beforeHooks.concat(routeBeforeHooks)
 
     runQueue(
-      this.beforeHooks,
+      beforeHooks,
       (hook, next) => {
         hook(location, redirect, next)
       },

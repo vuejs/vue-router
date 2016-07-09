@@ -82,5 +82,5 @@ function isObjectEqual (a = {}, b = {}) {
   if (aKeys.length !== bKeys.length) {
     return false
   }
-  return aKeys.every(key => a[key] === b[key])
+  return aKeys.every(key => String(a[key]) === String(b[key]))
 }

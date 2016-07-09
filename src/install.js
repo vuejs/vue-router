@@ -15,8 +15,7 @@ export function install (Vue) {
       if (this.$options.router) {
         this._router = this.$options.router
         this._router._rootComponent = this
-        const initialRoute = this._router.match(this._router.history.current)
-        Vue.util.defineReactive(this, '_route', initialRoute)
+        Vue.util.defineReactive(this, '_route', this._router.history.current)
       }
     }
   })

@@ -11,24 +11,24 @@ export default class VueRouter {
     const root = this._root = options.root || '/'
     const mode = this._mode = options.mode || 'hash'
 
-    this.match = createMatcher(options.routes || [])
+    const match = createMatcher(options.routes || [])
 
     switch (mode) {
       case 'html5':
-        this.history = new HTML5History(root)
+        this.history = new HTML5History(match, root)
         break
       case 'hash':
-        this.history = new HashHistory()
+        this.history = new HashHistory(match)
         break
       case 'abstract':
-        this.history = new AbstractHistory()
+        this.history = new AbstractHistory(match)
         break
       default:
         throw new Error(`[vue-router] invalid mode: ${mode}`)
     }
 
     this.history.listen(location => {
-      this._rootComponent._route = this.match(location)
+      this._rootComponent._route = location
     })
   }
 
