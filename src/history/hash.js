@@ -37,14 +37,14 @@ export class HashHistory extends AbstractHistory {
   }
 
   push (location) {
-    super.push(location, ({ fullPath }) => {
-      pushHash(fullPath)
+    super.push(location, resolvedLocation => {
+      pushHash(resolvedLocation.fullPath)
     })
   }
 
   replace (location) {
-    super.replace(location, ({ fullPath }) => {
-      replaceHash(fullPath)
+    super.replace(location, resolvedLocation => {
+      replaceHash(resolvedLocation.fullPath)
     })
   }
 

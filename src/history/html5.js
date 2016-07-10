@@ -4,7 +4,7 @@ export class HTML5History extends History {
   constructor (router) {
     super(router)
     window.addEventListener('popstate', () => {
-
+      this.transitionTo(getLocation())
     })
   }
 
@@ -12,11 +12,19 @@ export class HTML5History extends History {
     window.history.go(n)
   }
 
-  push () {
-
+  push (location) {
+    super.push(location, resolvedLocation => {
+      window.history.pushState({}, '', resolvedLocation.fullPath)
+    })
   }
 
   replace () {
-
+    super.replace(location, resolvedLocation => {
+      window.history.replaceState({}, '', resolvedLocation.fullPath)
+    })
   }
+}
+
+function getLocation () {
+  return window.location.pathname + window.location.search
 }

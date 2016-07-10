@@ -23,19 +23,19 @@ export class History {
   }
 
   push (location, cb) {
-    location = this.router.match(location, this.current)
-    this.confirmTransition(location, () => {
-      cb && cb(location)
-      this.updateLocation(location)
-    })
+    this.transitionTo(location, cb)
   }
 
   replace (location, cb) {
+    this.transitionTo(location, cb, true)
+  }
+
+  transitionTo (location, cb, replace) {
     location = this.router.match(location, this.current)
     this.confirmTransition(location, () => {
       cb && cb(location)
       this.updateLocation(location)
-    }, true)
+    }, replace)
   }
 
   confirmTransition (location, cb, replace) {
