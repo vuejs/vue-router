@@ -1,11 +1,9 @@
 import { install } from './install'
+import { inBrowser, supportsHistory } from './util/dom'
 import { createMatcher } from './util/match'
 import { HashHistory } from './history/hash'
 import { HTML5History } from './history/html5'
 import { AbstractHistory } from './history/abstract'
-
-const inBrowser = typeof window !== 'undefined'
-const isHistorySupported = inBrowser && window.history && window.history.pushState
 
 export default class VueRouter {
   constructor (options = {}) {
@@ -14,17 +12,18 @@ export default class VueRouter {
 
     this.match = createMatcher(options.routes || [])
 
-    const mode = options.mode || 'hash'
-    if (mode === 'history' && !isHistorySupported) {
+    let mode = options.mode || 'hash'
+    if (mode === 'history' && !supportsHistory) {
       mode = 'hash'
     }
     if (!inBrowser) {
       mode = 'abstract'
     }
+    this._mode = mode
 
     switch (mode) {
       case 'history':
-        this.history = new HTML5History(this, options.root)
+        this.history = new HTML5History(this, options.base)
         break
       case 'hash':
         this.history = new HashHistory(this)

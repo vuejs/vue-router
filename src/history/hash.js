@@ -1,21 +1,69 @@
-import { History } from './base'
+import { AbstractHistory } from './abstract'
+import { supportsHistory } from '../util/dom'
+import { normalizeLocation, isSameLocation } from '../util/location'
 
-export class HashHistory extends History {
-  construcotr (router) {
+export class HashHistory extends AbstractHistory {
+  constructor (router) {
     super(router)
+    this.current = router.match(getHash())
+    this.stack[0] = this.current
+    ensureSlash()
+    window.addEventListener('hashchange', () => {
+      this.onHashChange()
+    })
   }
 
-  push () {
-
+  onHashChange () {
+    if (!ensureSlash()) {
+      return
+    }
+    const location = normalizeLocation(getHash())
+    // ignore location change triggered by router navigation
+    if (isSameLocation(location, this.current)) {
+      return
+    }
+    // back button
+    if (isSameLocation(location, this.stack[this.index - 1])) {
+      super.go(-1)
+      return
+    }
+    // forward button
+    if (isSameLocation(location, this.stack[this.index + 1])) {
+      super.go(1)
+      return
+    }
+    // manual set hash?
+    this.push(location)
   }
 
-  replace () {
+  push (location) {
+    super.push(location, ({ fullPath }) => {
+      pushHash(fullPath)
+    })
+  }
 
+  replace (location) {
+    super.replace(location, ({ fullPath }) => {
+      replaceHash(fullPath)
+    })
   }
 
   go (n) {
-
+    if (supportsHistory) {
+      window.history.go(n)
+    } else {
+      super.go(n)
+    }
   }
+}
+
+function ensureSlash () {
+  const path = getHash()
+  if (path.charAt(0) === '/') {
+    return true
+  }
+  replaceHash('/' + path)
+  return false
 }
 
 function getHash () {
