@@ -39,6 +39,30 @@ export default class HTML5History {
 
   go (path, replace, append) {
     const url = this.formatPath(path, append)
+    // On iOS devices, after a long navigation (more than 100 replaceState or pushState)
+    // it produce a DOM Exception 18.
+    // Handle it by reloading the browser with the new url, to restart the counter.
+    // Otherwise throw an error.
+    try {
+      this.changeState(url, replace)
+    } catch (e) {
+      if (e.message.match(/DOM Exception 18/)) {
+        window.location = url
+      } else {
+        throw e
+      }
+    }
+    const hashMatch = path.match(hashRE)
+    const hash = hashMatch && hashMatch[0]
+    path = url
+      // strip hash so it doesn't mess up params
+      .replace(hashRE, '')
+      // remove root before matching
+      .replace(this.rootRE, '')
+    this.onChange(path, null, hash)
+  }
+
+  changeState (url, replace) {
     if (replace) {
       history.replaceState({}, '', url)
     } else {
@@ -52,14 +76,6 @@ export default class HTML5History {
       // then push new state
       history.pushState({}, '', url)
     }
-    const hashMatch = path.match(hashRE)
-    const hash = hashMatch && hashMatch[0]
-    path = url
-      // strip hash so it doesn't mess up params
-      .replace(hashRE, '')
-      // remove root before matching
-      .replace(this.rootRE, '')
-    this.onChange(path, null, hash)
   }
 
   formatPath (path, append) {
