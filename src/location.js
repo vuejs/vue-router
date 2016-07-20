@@ -37,7 +37,7 @@ export function isSameLocation (a, b) {
   }
 }
 
-function resolvePath (relative, base, append) {
+function resolvePath (relative, base = '/', append) {
   if (relative.charAt(0) === '/') {
     return relative
   }

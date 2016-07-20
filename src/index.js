@@ -1,9 +1,9 @@
 import { install } from './install'
-import { inBrowser, supportsHistory } from './util/dom'
-import { createMatcher } from './util/match'
+import { createMatcher } from './match'
 import { HashHistory } from './history/hash'
 import { HTML5History } from './history/html5'
 import { AbstractHistory } from './history/abstract'
+import { inBrowser, supportsHistory } from './dom-util'
 
 export default class VueRouter {
   constructor (options = {}) {

@@ -1,6 +1,6 @@
 import { AbstractHistory } from './abstract'
-import { supportsHistory } from '../util/dom'
-import { normalizeLocation, isSameLocation } from '../util/location'
+import { supportsHistory } from '../dom-util'
+import { normalizeLocation, isSameLocation } from '../location'
 
 export class HashHistory extends AbstractHistory {
   constructor (router) {
