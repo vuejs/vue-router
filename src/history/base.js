@@ -4,7 +4,7 @@ import { isSameLocation } from '../location'
 export class History {
   constructor (router) {
     this.router = router
-    this.current = router.match('/')
+    this.current = router.match(this.getLocation())
     this.pending = null
     this.beforeHooks = []
     this.afterHooks = []
@@ -75,6 +75,10 @@ export class History {
     this.afterHooks.forEach(hook => {
       hook(location)
     })
+  }
+
+  getLocation () {
+    return '/'
   }
 }
 

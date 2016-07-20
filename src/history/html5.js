@@ -1,11 +1,11 @@
 import { History } from './base'
 
 export class HTML5History extends History {
-  constructor (router, base = '/') {
+  constructor (router, base) {
     super(router)
-    this.base = base
+    this.base = normalizeBae(base)
     window.addEventListener('popstate', () => {
-      this.transitionTo(getLocation())
+      this.transitionTo(this.getLocation())
     })
   }
 
@@ -15,17 +15,37 @@ export class HTML5History extends History {
 
   push (location) {
     super.push(location, resolvedLocation => {
-      window.history.pushState({}, '', resolvedLocation.fullPath)
+      const url = cleanURL(this.base + resolvedLocation.fullPath)
+      window.history.pushState({}, '', url)
     })
   }
 
   replace () {
     super.replace(location, resolvedLocation => {
-      window.history.replaceState({}, '', resolvedLocation.fullPath)
+      const url = cleanURL(this.base + resolvedLocation.fullPath)
+      window.history.replaceState({}, '', url)
     })
+  }
+
+  getLocation () {
+    const base = this.base
+    let path = window.location.pathname
+    if (base && path.indexOf(base) === 0) {
+      path = path.slice(base.length)
+    }
+    return path + window.location.search
   }
 }
 
-function getLocation () {
-  return window.location.pathname + window.location.search
+function normalizeBae (base = '/') {
+  // make sure there's the starting slash
+  if (base.charAt(0) !== '/') {
+    base = '/' + base
+  }
+  // remove trailing slash
+  return base.replace(/\/$/, '')
+}
+
+function cleanURL (url) {
+  return url.replace(/\/\//g, '/')
 }

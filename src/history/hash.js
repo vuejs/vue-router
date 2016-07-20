@@ -5,8 +5,6 @@ import { normalizeLocation, isSameLocation } from '../location'
 export class HashHistory extends AbstractHistory {
   constructor (router) {
     super(router)
-    this.current = router.match(getHash())
-    this.stack[0] = this.current
     ensureSlash()
     window.addEventListener('hashchange', () => {
       this.onHashChange()
@@ -54,6 +52,10 @@ export class HashHistory extends AbstractHistory {
     } else {
       super.go(n)
     }
+  }
+
+  getLocation () {
+    return getHash()
   }
 }
 
