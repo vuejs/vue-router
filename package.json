@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "rollup -wc",
+    "dev": "rollup -wcm",
     "lint": "eslint src",
     "build": "rollup -c && uglifyjs dist/vue-router.js -c -m -o dist/vue-router.min.js"
   },
@@ -20,7 +20,8 @@
     "rollup-plugin-node-resolve": "^1.7.1",
     "rollup-plugin-replace": "^1.1.1",
     "rollup-watch": "^2.4.0",
-    "uglify-js": "^2.7.0"
+    "uglify-js": "^2.7.0",
+    "vue": "^2.0.0-beta.2"
   },
   "dependencies": {
     "path-to-regexp": "^1.5.3"
