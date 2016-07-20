@@ -10,6 +10,7 @@ export function createMatcher (routes) {
     const {
       name,
       path,
+      hash = '',
       query = {},
       params = {}
     } = normalizeLocation(location, currentLocation)
@@ -26,9 +27,10 @@ export function createMatcher (routes) {
         return Object.freeze({
           name,
           path,
-          fullPath: path + stringifyQuery(query),
+          hash,
           query,
           params,
+          fullPath: getFullPath(path, query, hash),
           matched: formatMatch(entry)
         })
       }
@@ -38,9 +40,10 @@ export function createMatcher (routes) {
         if (matchRoute(route, params, path)) {
           return Object.freeze({
             path,
-            fullPath: path + stringifyQuery(query),
+            hash,
             query,
             params,
+            fullPath: getFullPath(path, query, hash),
             matched: formatMatch(pathMap[route])
           })
         }
@@ -67,6 +70,10 @@ function matchRoute (path, params, pathname) {
   }
 
   return true
+}
+
+function getFullPath (path, query, hash) {
+  return path + stringifyQuery(query) + hash
 }
 
 function formatMatch (record) {

@@ -34,7 +34,7 @@ export class HTML5History extends History {
     if (base && path.indexOf(base) === 0) {
       path = path.slice(base.length)
     }
-    return path + window.location.search
+    return path + window.location.search + window.location.hash
   }
 }
 

@@ -8,11 +8,18 @@ export function normalizeLocation (next, current) {
   }
 
   if (!next.name) {
-    return resolveQuery(resolvePath(
+    const path = resolvePath(
       next.path || '',
       current && current.path,
       next.append
-    ), next.query)
+    )
+    const withHash = resolveHash(path, next.hash)
+    const withQuery = resolveQuery(withHash.path, next.query)
+    return {
+      path: withQuery.path,
+      query: withQuery.query,
+      hash: withHash.hash
+    }
   } else {
     return next
   }
@@ -24,11 +31,13 @@ export function isSameLocation (a, b) {
   } else if (a.path && b.path) {
     return (
       a.path === b.path &&
+      a.hash === b.hash &&
       isObjectEqual(a.query, b.query)
     )
   } else if (a.name && b.name) {
     return (
       a.name === b.name &&
+      a.hash === b.hash &&
       isObjectEqual(a.query, b.query) &&
       isObjectEqual(a.params, b.params)
     )
@@ -74,6 +83,21 @@ function resolvePath (relative, base = '/', append) {
   }
 
   return stack.join('/')
+}
+
+function resolveHash (path, nextHash) {
+  const index = path.indexOf('#')
+  if (index > 0) {
+    return {
+      path: path.slice(0, index),
+      hash: nextHash || path.slice(index)
+    }
+  } else {
+    return {
+      path,
+      hash: nextHash
+    }
+  }
 }
 
 function isObjectEqual (a = {}, b = {}) {
