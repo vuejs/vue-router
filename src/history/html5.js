@@ -1,3 +1,4 @@
+import { inBrowser } from '../dom-util'
 import { History } from './base'
 
 export class HTML5History extends History {
@@ -37,7 +38,16 @@ export class HTML5History extends History {
   }
 }
 
-function normalizeBae (base = '/') {
+function normalizeBae (base) {
+  if (!base) {
+    if (inBrowser) {
+      // respect <base> tag
+      const baseEl = document.querySelector('base')
+      base = baseEl ? baseEl.getAttribute('href') : '/'
+    } else {
+      base = '/'
+    }
+  }
   // make sure there's the starting slash
   if (base.charAt(0) !== '/') {
     base = '/' + base
