@@ -1,4 +1,4 @@
-import { inBrowser } from '../dom-util'
+import { inBrowser } from '../util/dom'
 import { History } from './base'
 
 export class HTML5History extends History {

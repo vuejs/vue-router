@@ -1,7 +1,7 @@
 import Regexp from 'path-to-regexp'
-import { stringifyQuery } from './query'
-import { createRouteMap } from './route-map'
-import { normalizeLocation } from './location'
+import { createRouteMap } from './create-route-map'
+import { stringifyQuery } from './util/query'
+import { normalizeLocation } from './util/location'
 
 export function createMatcher (routes) {
   const { pathMap, nameMap } = createRouteMap(routes)

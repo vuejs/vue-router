@@ -1,5 +1,5 @@
-import { runQueue } from '../async-util'
-import { isSameLocation } from '../location'
+import { runQueue } from '../util/async'
+import { isSameLocation } from '../util/location'
 
 export class History {
   constructor (router) {
