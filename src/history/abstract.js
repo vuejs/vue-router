@@ -7,22 +7,20 @@ export class AbstractHistory extends History {
     this.index = 0
   }
 
-  push (location, cb) {
+  push (location) {
     super.push(location, resolvedLocation => {
       this.stack = this.stack.slice(0, this.index + 1).concat(resolvedLocation)
       this.index++
-      cb && cb(resolvedLocation)
     })
   }
 
-  replace (location, cb) {
+  replace (location) {
     super.replace(location, resolvedLocation => {
       this.stack = this.stack.slice(0, this.index).concat(resolvedLocation)
-      cb && cb(resolvedLocation)
     })
   }
 
-  go (n, cb) {
+  go (n) {
     const targetIndex = this.index + n
     if (!this.stack) debugger
     if (targetIndex < 0 || targetIndex >= this.stack.length) {
@@ -31,7 +29,6 @@ export class AbstractHistory extends History {
     const location = this.stack[targetIndex]
     this.confirmTransition(location, () => {
       this.index = targetIndex
-      cb && cb(location)
       this.updateLocation(location)
     })
   }

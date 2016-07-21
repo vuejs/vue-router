@@ -1,8 +1,7 @@
-import { AbstractHistory } from './abstract'
-import { supportsHistory } from '../util/dom'
+import { History } from './base'
 import { normalizeLocation, isSameLocation } from '../util/location'
 
-export class HashHistory extends AbstractHistory {
+export class HashHistory extends History {
   constructor (router) {
     super(router)
     ensureSlash()
@@ -20,18 +19,7 @@ export class HashHistory extends AbstractHistory {
     if (isSameLocation(location, this.current)) {
       return
     }
-    // back button
-    if (isSameLocation(location, this.stack[this.index - 1])) {
-      super.go(-1)
-      return
-    }
-    // forward button
-    if (isSameLocation(location, this.stack[this.index + 1])) {
-      super.go(1)
-      return
-    }
-    // manual set hash?
-    this.push(location)
+    this.transitionTo(location)
   }
 
   push (location) {
@@ -47,11 +35,7 @@ export class HashHistory extends AbstractHistory {
   }
 
   go (n) {
-    if (supportsHistory) {
-      window.history.go(n)
-    } else {
-      super.go(n)
-    }
+    window.history.go(n)
   }
 
   getLocation () {
