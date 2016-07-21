@@ -1,3 +1,4 @@
+import { parsePath, resolvePath } from './path'
 import { resolveQuery } from './query'
 
 export function normalizeLocation (next, current) {
@@ -7,21 +8,19 @@ export function normalizeLocation (next, current) {
     }
   }
 
-  if (!next.name) {
-    const path = resolvePath(
-      next.path || '',
-      current && current.path,
-      next.append
-    )
-    const withHash = resolveHash(path, next.hash)
-    const withQuery = resolveQuery(withHash.path, next.query)
-    return {
-      path: withQuery.path,
-      query: withQuery.query,
-      hash: withHash.hash
-    }
-  } else {
+  if (next.name || next._normalized) {
     return next
+  }
+
+  let { path, query, hash } = parsePath(next.path || '')
+  path = resolvePath(path, current && current.path, next.append)
+  query = resolveQuery(query, next.query)
+
+  return {
+    _normalized: true,
+    path,
+    query,
+    hash
   }
 }
 
@@ -43,60 +42,6 @@ export function isSameLocation (a, b) {
     )
   } else {
     return false
-  }
-}
-
-function resolvePath (relative, base = '/', append) {
-  if (relative.charAt(0) === '/') {
-    return relative
-  }
-
-  if (relative.charAt(0) === '?') {
-    return base + relative
-  }
-
-  const stack = base.split('/')
-
-  // remove trailing segment if:
-  // - not appending
-  // - appending to trailing slash (last segment is empty)
-  if (!append || !stack[stack.length - 1]) {
-    stack.pop()
-  }
-
-  // resolve relative path
-  const segments = relative.replace(/^\//, '').split('/')
-  for (let i = 0; i < segments.length; i++) {
-    const segment = segments[i]
-    if (segment === '.') {
-      continue
-    } else if (segment === '..') {
-      stack.pop()
-    } else {
-      stack.push(segment)
-    }
-  }
-
-  // ensure leading slash
-  if (stack[0] !== '') {
-    stack.unshift('')
-  }
-
-  return stack.join('/')
-}
-
-function resolveHash (path, nextHash) {
-  const index = path.indexOf('#')
-  if (index > 0) {
-    return {
-      path: path.slice(0, index),
-      hash: nextHash || path.slice(index)
-    }
-  } else {
-    return {
-      path,
-      hash: nextHash
-    }
   }
 }
 

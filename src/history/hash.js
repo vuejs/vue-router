@@ -5,6 +5,10 @@ export class HashHistory extends History {
   constructor (router) {
     super(router)
     ensureSlash()
+    // possible redirect on start
+    if (getHash() !== this.current.fullPath) {
+      replaceHash(this.current.fullPath)
+    }
     window.addEventListener('hashchange', () => {
       this.onHashChange()
     })
@@ -19,7 +23,9 @@ export class HashHistory extends History {
     if (isSameLocation(location, this.current)) {
       return
     }
-    this.transitionTo(location)
+    this.transitionTo(location, resolvedLocation => {
+      replaceHash(resolvedLocation.fullPath)
+    })
   }
 
   push (location) {
