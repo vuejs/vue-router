@@ -3,8 +3,7 @@ import { History } from './base'
 
 export class HTML5History extends History {
   constructor (router, base) {
-    super(router)
-    this.base = normalizeBae(base)
+    super(router, normalizeBae(base))
     // possible redirect on start
     if (this.getLocation() !== this.current.fullPath) {
       window.history.replaceState({}, '', this.current.fullPath)

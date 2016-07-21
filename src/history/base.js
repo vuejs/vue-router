@@ -2,8 +2,9 @@ import { runQueue } from '../util/async'
 import { isSameLocation } from '../util/location'
 
 export class History {
-  constructor (router) {
+  constructor (router, base) {
     this.router = router
+    this.base = base
     this.current = router.match(this.getLocation())
     this.pending = null
     this.beforeHooks = []
