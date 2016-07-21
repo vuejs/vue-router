@@ -43,19 +43,24 @@ export class History {
       return
     }
 
-    const redirect = location => this[replace ? 'replace' : 'push'](location)
+    const {
+      deactivated,
+      activated
+    } = resolveQueue(this.current.matched, location.matched)
+
     const queue = this.beforeHooks.concat(
       // route config canDeactivate hooks
-      this.current.matched.map(m => m.canDeactivate).reverse(),
+      deactivated.map(m => m.canDeactivate).reverse(),
       // component canDeactivate hooks
-      extractComponentHooks(this.current.matched, 'routeCanDeactivate').reverse(),
+      extractComponentHooks(deactivated, 'routeCanDeactivate').reverse(),
       // route config canActivate hooks
-      location.matched.map(m => m.canActivate),
+      activated.map(m => m.canActivate),
       // component canActivate hooks
-      extractComponentHooks(location.matched, 'routeCanActivate')
+      extractComponentHooks(activated, 'routeCanActivate')
     ).filter(_ => _)
 
     this.pending = location
+    const redirect = location => this[replace ? 'replace' : 'push'](location)
 
     runQueue(
       queue,
@@ -79,6 +84,20 @@ export class History {
 
   getLocation () {
     return '/'
+  }
+}
+
+function resolveQueue (current, next) {
+  let i
+  const max = Math.max(current.length, next.length)
+  for (i = 0; i < max; i++) {
+    if (current[i] !== next[i]) {
+      break
+    }
+  }
+  return {
+    activated: next.slice(i),
+    deactivated: current.slice(i)
   }
 }
 
