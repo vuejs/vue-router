@@ -28,12 +28,7 @@ export function createMatcher (routes) {
         if (record.redirect) {
           return redirect(record, location)
         }
-        let path
-        try {
-          path = Regexp.compile(record.path)(params)
-        } catch (e) {
-          throw new Error(`[vue-router] missing params for named route "${name}": ${e.message}`)
-        }
+        const path = fillParams(record.path, params, `named route "${name}"`)
         return Object.freeze({
           name,
           path,
@@ -50,7 +45,7 @@ export function createMatcher (routes) {
         if (matchRoute(route, params, path)) {
           const record = pathMap[route]
           if (record.redirect) {
-            return redirect(record, location)
+            return redirect(record, location, params)
           }
           return Object.freeze({
             path,
@@ -65,29 +60,36 @@ export function createMatcher (routes) {
     }
   }
 
-  function redirect (record, location, currentLocation) {
-    let path
-    const name = typeof record.redirect === 'object' && record.redirect.name
+  function redirect (record, location, params) {
+    const { query, hash } = location
+    const { redirect } = record
+    const name = typeof redirect === 'object' && redirect.name
     if (name) {
       // resolved named direct
-      const record = nameMap[name]
-      if (!record) {
+      const targetRecord = nameMap[name]
+      if (!targetRecord) {
         throw new Error(`[vue-router] redirect failed: named route "${name}" not found.`)
       }
-      path = record.path
-    } else if (typeof record.redirect === 'string') {
+      return match({
+        _normalized: true,
+        name,
+        query,
+        hash,
+        params
+      })
+    } else if (typeof redirect === 'string') {
       // resolve relative redirect
-      path = resolvePath(record.redirect, record.parent ? record.parent.path : '/', true)
+      const rawPath = resolvePath(redirect, record.parent ? record.parent.path : '/', true)
+      // 2. resolve params
+      const path = fillParams(rawPath, params, `redirect route with path "${rawPath}"`)
+      // 3. rematch with existing query and hash
+      return match({
+        _normalized: true,
+        path,
+        query,
+        hash
+      })
     }
-    // 2. resolve params
-    path = Regexp.compile(path)(location.params)
-    // 3. rematch with existing query and hash
-    return match({
-      _normalized: true,
-      path,
-      query: location.query,
-      hash: location.hash
-    })
   }
 
   return match
@@ -124,4 +126,12 @@ function formatMatch (record) {
     record = record.parent
   }
   return res
+}
+
+function fillParams (path, params, routeMsg) {
+  try {
+    return Regexp.compile(path)(params)
+  } catch (e) {
+    throw new Error(`[vue-router] missing param for ${routeMsg}: ${e.message}`)
+  }
 }
