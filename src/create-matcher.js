@@ -13,55 +13,44 @@ export function createMatcher (routes) {
    */
   function match (location, currentLocation) {
     location = normalizeLocation(location, currentLocation)
-
-    const {
-      name,
-      path,
-      hash = '',
-      query = {},
-      params = {}
-    } = location
+    const { name } = location
 
     if (name) {
       const record = nameMap[name]
       if (record) {
-        if (record.redirect) {
-          return redirect(record, location)
-        }
-        const path = fillParams(record.path, params, `named route "${name}"`)
-        return Object.freeze({
-          name,
-          path,
-          hash,
-          query,
-          params,
-          fullPath: getFullPath(path, query, hash),
-          matched: formatMatch(record)
-        })
+        location.path = fillParams(record.path, location.params, `named route "${name}"`)
+        return createRouteContext(record, location)
       }
     } else {
-      const params = {}
-      for (const route in pathMap) {
-        if (matchRoute(route, params, path)) {
-          const record = pathMap[route]
-          if (record.redirect) {
-            return redirect(record, location, params)
-          }
-          return Object.freeze({
-            path,
-            hash,
-            query,
-            params,
-            fullPath: getFullPath(path, query, hash),
-            matched: formatMatch(record)
-          })
+      location.params = {}
+      for (const path in pathMap) {
+        if (matchRoute(path, location.params, location.path)) {
+          return createRouteContext(pathMap[path], location)
         }
       }
     }
   }
 
-  function redirect (record, location, params) {
-    const { query, hash } = location
+  function createRouteContext (record, location) {
+    if (record.redirect) {
+      return redirect(record, location)
+    }
+    if (record.alias) {
+      return alias(record, location)
+    }
+    return Object.freeze({
+      name: location.name,
+      path: location.path,
+      hash: location.hash,
+      query: location.query,
+      params: location.params,
+      fullPath: getFullPath(location),
+      matched: formatMatch(record)
+    })
+  }
+
+  function redirect (record, location) {
+    const { query, hash, params } = location
     const { redirect } = record
     const name = typeof redirect === 'object' && redirect.name
     if (name) {
@@ -78,8 +67,8 @@ export function createMatcher (routes) {
         params
       })
     } else if (typeof redirect === 'string') {
-      // resolve relative redirect
-      const rawPath = resolvePath(redirect, record.parent ? record.parent.path : '/', true)
+      // 1. resolve relative redirect
+      const rawPath = resolveRecordPath(redirect, record)
       // 2. resolve params
       const path = fillParams(rawPath, params, `redirect route with path "${rawPath}"`)
       // 3. rematch with existing query and hash
@@ -89,6 +78,22 @@ export function createMatcher (routes) {
         query,
         hash
       })
+    }
+  }
+
+  function alias (record, location) {
+    const { query, hash, params } = location
+    const rawPath = resolveRecordPath(record.alias, record)
+    const aliasedPath = fillParams(rawPath, params, `alias route with path "${rawPath}"`)
+    const aliasedMatch = match({
+      _normalized: true,
+      path: aliasedPath
+    })
+    if (aliasedMatch) {
+      const matched = aliasedMatch.matched
+      const aliasedRecord = matched[matched.length - 1]
+      location.params = aliasedMatch.params
+      return createRouteContext(aliasedRecord, location)
     }
   }
 
@@ -115,10 +120,6 @@ function matchRoute (path, params, pathname) {
   return true
 }
 
-function getFullPath (path, query, hash) {
-  return path + stringifyQuery(query) + hash
-}
-
 function formatMatch (record) {
   const res = []
   while (record) {
@@ -134,4 +135,12 @@ function fillParams (path, params, routeMsg) {
   } catch (e) {
     throw new Error(`[vue-router] missing param for ${routeMsg}: ${e.message}`)
   }
+}
+
+function getFullPath ({ path, query = {}, hash = '' }) {
+  return path + stringifyQuery(query) + hash
+}
+
+function resolveRecordPath (path, record) {
+  return resolvePath(path, record.parent ? record.parent.path : '/', true)
 }
