@@ -84,9 +84,8 @@ export function createMatcher (routes) {
   }
 
   function alias (record, location) {
-    const { query, hash, params } = location
     const rawPath = resolveRecordPath(record.alias, record)
-    const aliasedPath = fillParams(rawPath, params, `alias route with path "${rawPath}"`)
+    const aliasedPath = fillParams(rawPath, location.params, `alias route with path "${rawPath}"`)
     const aliasedMatch = match({
       _normalized: true,
       path: aliasedPath

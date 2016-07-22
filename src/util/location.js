@@ -12,9 +12,10 @@ export function normalizeLocation (next, current, append) {
     return next
   }
 
-  let { path, query, hash } = parsePath(next.path || '')
-  path = resolvePath(path, current && current.path, append)
-  query = resolveQuery(query, next.query)
+  const parsedPath = parsePath(next.path || '')
+  const path = resolvePath(parsedPath.path, current && current.path, append)
+  const query = resolveQuery(parsedPath.query, next.query)
+  const hash = parsedPath.hash
 
   return {
     _normalized: true,

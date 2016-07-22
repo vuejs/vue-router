@@ -1,5 +1,5 @@
-import { cleanPath, getFullPath } from '../util/path'
-import { normalizeLocation, isSameLocation } from '../util/location'
+import { cleanPath } from '../util/path'
+import { normalizeLocation } from '../util/location'
 
 export default {
   name: 'router-link',
