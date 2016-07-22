@@ -23,7 +23,7 @@ export default {
     const base = router.history.base
     const href = base ? cleanPath(base + fullPath) : fullPath
     const classes = {}
-    const activeClass = this.activeClass || router._options.linkActiveClass || 'router-link-active'
+    const activeClass = this.activeClass || router.options.linkActiveClass || 'router-link-active'
     classes[activeClass] = this.exact
       ? current.path === resolved.path
       : current.path.indexOf(resolved.path) === 0

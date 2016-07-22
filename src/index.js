@@ -7,9 +7,8 @@ import { inBrowser, supportsHistory } from './util/dom'
 
 export default class VueRouter {
   constructor (options = {}) {
-    this._rootComponent = null
-    this._options = options
-
+    this.app = null
+    this.options = options
     this.match = createMatcher(options.routes || [])
 
     let mode = options.mode || 'hash'
@@ -19,7 +18,7 @@ export default class VueRouter {
     if (!inBrowser) {
       mode = 'abstract'
     }
-    this._mode = mode
+    this.mode = mode
 
     switch (mode) {
       case 'history':
@@ -36,7 +35,7 @@ export default class VueRouter {
     }
 
     this.history.listen(location => {
-      this._rootComponent._route = location
+      this.app._route = location
     })
   }
 
