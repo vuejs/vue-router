@@ -1,4 +1,5 @@
 import { inBrowser } from '../util/dom'
+import { cleanPath } from '../util/path'
 import { History } from './base'
 
 export class HTML5History extends History {
@@ -19,14 +20,14 @@ export class HTML5History extends History {
 
   push (location) {
     super.push(location, resolvedLocation => {
-      const url = cleanURL(this.base + resolvedLocation.fullPath)
+      const url = cleanPath(this.base + resolvedLocation.fullPath)
       window.history.pushState({}, '', url)
     })
   }
 
-  replace () {
+  replace (location) {
     super.replace(location, resolvedLocation => {
-      const url = cleanURL(this.base + resolvedLocation.fullPath)
+      const url = cleanPath(this.base + resolvedLocation.fullPath)
       window.history.replaceState({}, '', url)
     })
   }
@@ -57,8 +58,4 @@ function normalizeBae (base) {
   }
   // remove trailing slash
   return base.replace(/\/$/, '')
-}
-
-function cleanURL (url) {
-  return url.replace(/\/\//g, '/')
 }

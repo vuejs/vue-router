@@ -1,7 +1,7 @@
 import { parsePath, resolvePath } from './path'
 import { resolveQuery } from './query'
 
-export function normalizeLocation (next, current) {
+export function normalizeLocation (next, current, append) {
   if (typeof next === 'string') {
     next = {
       path: next
@@ -13,7 +13,7 @@ export function normalizeLocation (next, current) {
   }
 
   let { path, query, hash } = parsePath(next.path || '')
-  path = resolvePath(path, current && current.path, next.append)
+  path = resolvePath(path, current && current.path, append)
   query = resolveQuery(query, next.query)
 
   return {

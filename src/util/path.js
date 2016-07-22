@@ -1,3 +1,5 @@
+import { stringifyQuery } from './query'
+
 export function resolvePath (relative, base = '/', append) {
   if (relative.charAt(0) === '/') {
     return relative
@@ -58,4 +60,12 @@ export function parsePath (path) {
     query,
     hash
   }
+}
+
+export function getFullPath ({ path, query = {}, hash = '' }) {
+  return path + stringifyQuery(query) + hash
+}
+
+export function cleanPath (path) {
+  return path.replace(/\/\//g, '/')
 }

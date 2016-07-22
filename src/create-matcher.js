@@ -1,8 +1,10 @@
 import Regexp from 'path-to-regexp'
 import { createRouteMap } from './create-route-map'
-import { resolvePath } from './util/path'
-import { stringifyQuery } from './util/query'
+import { resolvePath, getFullPath } from './util/path'
 import { normalizeLocation } from './util/location'
+
+const regexpCache = Object.create(null)
+const regexpCompileCache = Object.create(null)
 
 export function createMatcher (routes) {
   const { pathMap, nameMap } = createRouteMap(routes)
@@ -101,9 +103,17 @@ export function createMatcher (routes) {
 }
 
 function matchRoute (path, params, pathname) {
-  const keys = []
-  const regexp = Regexp(path, keys)
-  const m = regexp.exec(pathname)
+  let keys, regexp
+  const hit = regexpCache[path]
+  if (hit) {
+    keys = hit.keys
+    regexp = hit.regexp
+  } else {
+    keys = []
+    regexp = Regexp(path, keys)
+    regexpCache[path] = { keys, regexp }
+  }
+  const m = pathname.match(regexp)
 
   if (!m) {
     return false
@@ -131,14 +141,13 @@ function formatMatch (record) {
 
 function fillParams (path, params, routeMsg) {
   try {
-    return Regexp.compile(path)(params)
+    const filler =
+      regexpCompileCache[path] ||
+      (regexpCompileCache[path] = Regexp.compile(path))
+    return filler(params)
   } catch (e) {
     throw new Error(`[vue-router] missing param for ${routeMsg}: ${e.message}`)
   }
-}
-
-function getFullPath ({ path, query = {}, hash = '' }) {
-  return path + stringifyQuery(query) + hash
 }
 
 function resolveRecordPath (path, record) {
