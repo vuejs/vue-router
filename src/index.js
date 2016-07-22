@@ -62,6 +62,12 @@ export default class VueRouter {
   afterEach (fn) {
     this.history.after(fn)
   }
+
+  setInitialLocation (location) {
+    if (this.mode === 'abstract') {
+      this.history.setInitialLocation(this.match(location))
+    }
+  }
 }
 
 VueRouter.install = install

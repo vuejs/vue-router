@@ -26,9 +26,13 @@ export default {
     }
 
     const matched = route.matched[depth]
+    if (!matched) {
+      return h()
+    }
+
     const component = inactive
       ? cache[props.name]
-      : (cache[props.name] = matched && matched.components[props.name])
+      : (cache[props.name] = matched.components[props.name])
 
     const vnode = h(component, data, children)
     if (!inactive) {

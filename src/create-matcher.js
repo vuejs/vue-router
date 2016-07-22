@@ -31,13 +31,15 @@ export function createMatcher (routes) {
         }
       }
     }
+    // no match
+    return createRouteContext(null, location)
   }
 
   function createRouteContext (record, location) {
-    if (record.redirect) {
+    if (record && record.redirect) {
       return redirect(record, location)
     }
-    if (record.alias) {
+    if (record && record.alias) {
       return alias(record, location)
     }
     return Object.freeze({
@@ -47,7 +49,7 @@ export function createMatcher (routes) {
       query: location.query,
       params: location.params,
       fullPath: getFullPath(location),
-      matched: formatMatch(record)
+      matched: record ? formatMatch(record) : []
     })
   }
 

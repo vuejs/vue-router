@@ -32,4 +32,10 @@ export class AbstractHistory extends History {
       this.updateLocation(location)
     })
   }
+
+  setInitialLocation (location) {
+    this.current = location
+    this.stack = [this.current]
+    this.index = 0
+  }
 }

@@ -2,7 +2,11 @@
   "name": "vue-router-next",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "dist/vue-router.js",
+  "files": [
+    "dist",
+    "src"
+  ],
   "scripts": {
     "dev": "rollup -wcm",
     "lint": "eslint src",
