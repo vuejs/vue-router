@@ -14,10 +14,7 @@ export default {
     },
     append: Boolean,
     replace: Boolean,
-    activeClass: {
-      type: String,
-      default: 'router-link-active'
-    }
+    activeClass: String
   },
   render (h) {
     const router = this.$router
@@ -28,7 +25,8 @@ export default {
     const base = router.history.base
     const href = base ? cleanPath(base + fullPath) : fullPath
     const classes = {}
-    classes[this.activeClass] = isSameLocation(resolved, this.$route)
+    const activeClass = this.activeClass || router._options.linkActiveClass || 'router-link-active'
+    classes[activeClass] = isSameLocation(resolved, this.$route)
 
     return h(this.tag, {
       attrs: { href },

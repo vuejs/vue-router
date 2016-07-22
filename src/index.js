@@ -8,7 +8,7 @@ import { inBrowser, supportsHistory } from './util/dom'
 export default class VueRouter {
   constructor (options = {}) {
     this._rootComponent = null
-    this._activeViews = []
+    this._options = options
 
     this.match = createMatcher(options.routes || [])
 
