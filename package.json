@@ -14,6 +14,7 @@
     "buble": "^0.12.3",
     "eslint": "^3.0.1",
     "eslint-config-vue": "^1.0.3",
+    "path-to-regexp": "^1.5.3",
     "rollup": "^0.33.0",
     "rollup-plugin-buble": "^0.12.1",
     "rollup-plugin-commonjs": "^3.1.0",
@@ -22,8 +23,5 @@
     "rollup-watch": "^2.4.0",
     "uglify-js": "^2.7.0",
     "vue": "^2.0.0-beta.2"
-  },
-  "dependencies": {
-    "path-to-regexp": "^1.5.3"
   }
 }
