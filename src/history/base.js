@@ -34,8 +34,8 @@ export class History {
   transitionTo (location, cb, replace) {
     location = this.router.match(location, this.current)
     this.confirmTransition(location, () => {
-      cb && cb(location)
       this.updateLocation(location)
+      cb && cb(location)
     }, replace)
   }
 

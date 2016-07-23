@@ -9,8 +9,11 @@ export class HTML5History extends History {
     if (this.getLocation() !== this.current.fullPath) {
       window.history.replaceState({}, '', this.current.fullPath)
     }
-    window.addEventListener('popstate', () => {
-      this.transitionTo(this.getLocation())
+    window.addEventListener('popstate', e => {
+      const current = this.current
+      this.transitionTo(this.getLocation(), next => {
+        this.handleScroll(current, next, e.state.position)
+      })
     })
   }
 
@@ -21,6 +24,7 @@ export class HTML5History extends History {
   push (location) {
     super.push(location, resolvedLocation => {
       const url = cleanPath(this.base + resolvedLocation.fullPath)
+      saveScrollPosition()
       tryPushState(url)
     })
   }
@@ -40,17 +44,25 @@ export class HTML5History extends History {
     }
     return path + window.location.search + window.location.hash
   }
-}
 
-/**
- * try...catch the pushState call to get around Safari
- * DOM Exception 18 where it limits to 100 pushState calls
- */
-function tryPushState (url, replace) {
-  try {
-    window.history[replace ? 'replaceState' : 'pushState']({}, '', url)
-  } catch (e) {
-    window.location[replace ? 'assign' : 'replace'](url)
+  handleScroll (from, to, position) {
+    const router = this.router
+    if (!router.app) {
+      return
+    }
+    const userHandler = router.options.scrollBehavior
+    const shouldScroll = userHandler ? userHandler(from, to) : true
+    if (!shouldScroll) {
+      return
+    }
+    if (shouldScroll.x != null && shouldScroll.y != null) {
+      position = shouldScroll
+    }
+    if (position) {
+      router.app.$nextTick(() => {
+        window.scrollTo(position.x, position.y)
+      })
+    }
   }
 }
 
@@ -70,4 +82,28 @@ function normalizeBae (base) {
   }
   // remove trailing slash
   return base.replace(/\/$/, '')
+}
+
+/**
+ * try...catch the pushState call to get around Safari
+ * DOM Exception 18 where it limits to 100 pushState calls
+ */
+function tryPushState (url, replace) {
+  try {
+    window.history[replace ? 'replaceState' : 'pushState']({}, '', url)
+  } catch (e) {
+    window.location[replace ? 'assign' : 'replace'](url)
+  }
+}
+
+function saveScrollPosition () {
+  try {
+    // save scroll position
+    window.history.replaceState({
+      position: {
+        x: window.pageXOffset,
+        y: window.pageYOffset
+      }
+    }, '', window.location.href)
+  } catch (e) {}
 }
