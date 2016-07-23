@@ -26,7 +26,7 @@ export function normalizeLocation (
   }
 }
 
-export function isSameRoute (a: Route, b?: Route): boolean {
+export function isSameRoute (a: Route, b: ?Route): boolean {
   if (!b) {
     return false
   } else if (a.path && b.path) {

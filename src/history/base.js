@@ -1,8 +1,19 @@
+/* @flow */
+
+import type VueRouter from '../index'
 import { runQueue } from '../util/async'
 import { isSameRoute } from '../util/location'
 
 export class History {
-  constructor (router, base) {
+  router: VueRouter;
+  base: ?string;
+  current: Route;
+  pending: ?Route;
+  beforeHooks: Array<Function>;
+  afterHooks: Array<Function>;
+  cb: Function;
+
+  constructor (router: VueRouter, base: ?string) {
     this.router = router
     this.base = base
     this.current = router.match(this.getLocation())
@@ -11,35 +22,35 @@ export class History {
     this.afterHooks = []
   }
 
-  listen (cb) {
+  listen (cb: Function) {
     this.cb = cb
   }
 
-  before (fn) {
+  before (fn: Function) {
     this.beforeHooks.push(fn)
   }
 
-  after (fn) {
+  after (fn: Function) {
     this.afterHooks.push(fn)
   }
 
-  push (location, cb) {
+  push (location: RawLocation, cb?: Function) {
     this.transitionTo(location, cb)
   }
 
-  replace (location, cb) {
+  replace (location: RawLocation, cb?: Function) {
     this.transitionTo(location, cb, true)
   }
 
-  transitionTo (location, cb, replace) {
-    location = this.router.match(location, this.current)
-    this.confirmTransition(location, () => {
-      this.updateLocation(location)
-      cb && cb(location)
+  transitionTo (location: RawLocation, cb?: Function, replace?: boolean) {
+    const route = this.router.match(location, this.current)
+    this.confirmTransition(route, () => {
+      this.updateRoute(route)
+      cb && cb(route)
     }, replace)
   }
 
-  confirmTransition (location, cb, replace) {
+  confirmTransition (location: Route, cb: Function, replace?: boolean) {
     if (isSameRoute(location, this.current)) {
       return
     }
@@ -61,7 +72,9 @@ export class History {
     ).filter(_ => _)
 
     this.pending = location
-    const redirect = location => this[replace ? 'replace' : 'push'](location)
+    const redirect = replace
+      ? location => this.replace(location)
+      : location => this.push(location)
 
     runQueue(
       queue,
@@ -75,20 +88,26 @@ export class History {
     )
   }
 
-  updateLocation (location) {
-    this.current = location
-    this.cb && this.cb(location)
+  updateRoute (route: Route) {
+    this.current = route
+    this.cb && this.cb(route)
     this.afterHooks.forEach(hook => {
-      hook(location)
+      hook(route)
     })
   }
 
-  getLocation () {
+  getLocation (): string {
     return '/'
   }
 }
 
-function resolveQueue (current, next) {
+function resolveQueue (
+  current: Array<RouteRecord>,
+  next: Array<RouteRecord>
+): {
+  activated: Array<RouteRecord>,
+  deactivated: Array<RouteRecord>
+} {
   let i
   const max = Math.max(current.length, next.length)
   for (i = 0; i < max; i++) {
@@ -102,7 +121,10 @@ function resolveQueue (current, next) {
   }
 }
 
-function extractComponentHooks (matched, name) {
+function extractComponentHooks (
+  matched: Array<RouteRecord>,
+  name: string
+): Array<?Function> {
   return Array.prototype.concat.apply([], matched.map(m => {
     return Object.keys(m.components).map(key => {
       const component = m.components[key]
