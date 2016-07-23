@@ -2,19 +2,33 @@ import { inBrowser } from '../util/dom'
 import { cleanPath } from '../util/path'
 import { History } from './base'
 
+let _key = Date.now()
+
 export class HTML5History extends History {
   constructor (router, base) {
     super(router, normalizeBae(base))
+
     // possible redirect on start
     if (this.getLocation() !== this.current.fullPath) {
-      window.history.replaceState({}, '', this.current.fullPath)
+      replaceState(this.current.fullPath)
     }
+
+    const expectScroll = router.options.scrollBehavior
+
     window.addEventListener('popstate', e => {
+      _key = e.state && e.state.key
       const current = this.current
       this.transitionTo(this.getLocation(), next => {
-        this.handleScroll(current, next, e.state.position)
+        if (expectScroll) {
+          this.handleScroll(current, next)
+        }
       })
     })
+
+    if (expectScroll) {
+      _key = Date.now()
+      window.addEventListener('scroll', saveScrollPosition)
+    }
   }
 
   go (n) {
@@ -24,15 +38,14 @@ export class HTML5History extends History {
   push (location) {
     super.push(location, resolvedLocation => {
       const url = cleanPath(this.base + resolvedLocation.fullPath)
-      saveScrollPosition()
-      tryPushState(url)
+      pushState(url)
     })
   }
 
   replace (location) {
     super.replace(location, resolvedLocation => {
       const url = cleanPath(this.base + resolvedLocation.fullPath)
-      tryPushState(url, true)
+      replaceState(url)
     })
   }
 
@@ -45,7 +58,7 @@ export class HTML5History extends History {
     return path + window.location.search + window.location.hash
   }
 
-  handleScroll (from, to, position) {
+  handleScroll (from, to) {
     const router = this.router
     if (!router.app) {
       return
@@ -63,12 +76,12 @@ export class HTML5History extends History {
       return
     }
 
+    let position = getScrollPosition()
     if (typeof shouldScroll === 'object' &&
         shouldScroll.x != null &&
         shouldScroll.y != null) {
       position = shouldScroll
     }
-
     if (position) {
       router.app.$nextTick(() => {
         window.scrollTo(position.x, position.y)
@@ -95,26 +108,36 @@ function normalizeBae (base) {
   return base.replace(/\/$/, '')
 }
 
-/**
- * try...catch the pushState call to get around Safari
- * DOM Exception 18 where it limits to 100 pushState calls
- */
-function tryPushState (url, replace) {
+function pushState (url, replace) {
+  // try...catch the pushState call to get around Safari
+  // DOM Exception 18 where it limits to 100 pushState calls
+  const history = window.history
   try {
-    window.history[replace ? 'replaceState' : 'pushState']({}, '', url)
+    if (replace) {
+      history.replaceState({ key: _key }, '', url)
+    } else {
+      _key = Date.now()
+      history.pushState({ key: _key }, '', url)
+    }
+    saveScrollPosition()
   } catch (e) {
     window.location[replace ? 'assign' : 'replace'](url)
   }
 }
 
+function replaceState (url) {
+  pushState(url, true)
+}
+
 function saveScrollPosition () {
-  try {
-    // save scroll position
-    window.history.replaceState({
-      position: {
-        x: window.pageXOffset,
-        y: window.pageYOffset
-      }
-    }, '', window.location.href)
-  } catch (e) {}
+  if (!_key) return
+  window.sessionStorage.setItem(_key, JSON.stringify({
+    x: window.pageXOffset,
+    y: window.pageYOffset
+  }))
+}
+
+function getScrollPosition () {
+  if (!_key) return
+  return JSON.parse(window.sessionStorage.getItem(_key))
 }
