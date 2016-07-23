@@ -1,26 +1,32 @@
+/* @flow */
+
+import type VueRouter from '../index'
 import { History } from './base'
 
 export class AbstractHistory extends History {
-  constructor (router) {
+  index: number;
+  stack: Array<Route>;
+
+  constructor (router: VueRouter) {
     super(router)
     this.stack = [this.current]
     this.index = 0
   }
 
-  push (location) {
-    super.push(location, resolvedLocation => {
-      this.stack = this.stack.slice(0, this.index + 1).concat(resolvedLocation)
+  push (location: RawLocation) {
+    super.push(location, route => {
+      this.stack = this.stack.slice(0, this.index + 1).concat(route)
       this.index++
     })
   }
 
-  replace (location) {
-    super.replace(location, resolvedLocation => {
-      this.stack = this.stack.slice(0, this.index).concat(resolvedLocation)
+  replace (location: RawLocation) {
+    super.replace(location, route => {
+      this.stack = this.stack.slice(0, this.index).concat(route)
     })
   }
 
-  go (n) {
+  go (n: number) {
     const targetIndex = this.index + n
     if (!this.stack) debugger
     if (targetIndex < 0 || targetIndex >= this.stack.length) {
@@ -29,12 +35,12 @@ export class AbstractHistory extends History {
     const location = this.stack[targetIndex]
     this.confirmTransition(location, () => {
       this.index = targetIndex
-      this.updateLocation(location)
+      this.updateRoute(location)
     })
   }
 
-  setInitialLocation (location) {
-    this.current = location
+  setInitialRoute (route: Route) {
+    this.current = route
     this.stack = [this.current]
     this.index = 0
   }

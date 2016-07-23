@@ -1,8 +1,10 @@
+/* @flow */
+
+import type VueRouter from '../index'
 import { History } from './base'
-import { normalizeLocation, isSameRoute } from '../util/location'
 
 export class HashHistory extends History {
-  constructor (router) {
+  constructor (router: VueRouter) {
     super(router)
     ensureSlash()
     // possible redirect on start
@@ -18,29 +20,24 @@ export class HashHistory extends History {
     if (!ensureSlash()) {
       return
     }
-    const location = normalizeLocation(getHash())
-    // ignore location change triggered by router navigation
-    if (isSameRoute(location, this.current)) {
-      return
-    }
-    this.transitionTo(location, resolvedLocation => {
-      replaceHash(resolvedLocation.fullPath)
+    this.transitionTo(this.getLocation(), route => {
+      replaceHash(route.fullPath)
     })
   }
 
-  push (location) {
-    super.push(location, resolvedLocation => {
-      pushHash(resolvedLocation.fullPath)
+  push (location: RawLocation) {
+    super.push(location, route => {
+      pushHash(route.fullPath)
     })
   }
 
-  replace (location) {
-    super.replace(location, resolvedLocation => {
-      replaceHash(resolvedLocation.fullPath)
+  replace (location: RawLocation) {
+    super.replace(location, route => {
+      replaceHash(route.fullPath)
     })
   }
 
-  go (n) {
+  go (n: number) {
     window.history.go(n)
   }
 
@@ -49,7 +46,7 @@ export class HashHistory extends History {
   }
 }
 
-function ensureSlash () {
+function ensureSlash (): boolean {
   const path = getHash()
   if (path.charAt(0) === '/') {
     return true
@@ -58,7 +55,7 @@ function ensureSlash () {
   return false
 }
 
-function getHash () {
+function getHash (): string {
   // We can't use window.location.hash here because it's not
   // consistent across browsers - Firefox will pre-decode it!
   const href = window.location.href

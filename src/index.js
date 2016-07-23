@@ -75,8 +75,8 @@ export default class VueRouter {
   }
 
   setInitialLocation (location: Location) {
-    if (this.mode === 'abstract') {
-      this.history.setInitialLocation(this.match(location))
+    if (this.history instanceof AbstractHistory) {
+      this.history.setInitialRoute(this.match(location))
     }
   }
 }
