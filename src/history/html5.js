@@ -50,14 +50,25 @@ export class HTML5History extends History {
     if (!router.app) {
       return
     }
-    const userHandler = router.options.scrollBehavior
-    const shouldScroll = userHandler ? userHandler(from, to) : true
+
+    let shouldScroll = false
+    const behavior = router.options.scrollBehavior
+    if (typeof behavior === 'boolean') {
+      shouldScroll = behavior
+    } else if (typeof behavior === 'function') {
+      shouldScroll = behavior(from, to)
+    }
+
     if (!shouldScroll) {
       return
     }
-    if (shouldScroll.x != null && shouldScroll.y != null) {
+
+    if (typeof shouldScroll === 'object' &&
+        shouldScroll.x != null &&
+        shouldScroll.y != null) {
       position = shouldScroll
     }
+
     if (position) {
       router.app.$nextTick(() => {
         window.scrollTo(position.x, position.y)
