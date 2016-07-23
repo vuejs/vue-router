@@ -1,13 +1,14 @@
+/* @flow */
+
 import { parsePath, resolvePath } from './path'
 import { resolveQuery } from './query'
 
-export function normalizeLocation (next, current, append) {
-  if (typeof next === 'string') {
-    next = {
-      path: next
-    }
-  }
-
+export function normalizeLocation (
+  raw: RawLocation,
+  current?: Route,
+  append?: boolean
+): Location {
+  const next: Location = typeof raw === 'string' ? { path: raw } : raw
   if (next.name || next._normalized) {
     return next
   }
@@ -25,7 +26,7 @@ export function normalizeLocation (next, current, append) {
   }
 }
 
-export function isSameLocation (a, b) {
+export function isSameRoute (a: Route, b?: Route): boolean {
   if (!b) {
     return false
   } else if (a.path && b.path) {
@@ -46,7 +47,7 @@ export function isSameLocation (a, b) {
   }
 }
 
-function isObjectEqual (a = {}, b = {}) {
+function isObjectEqual (a = {}, b = {}): boolean {
   const aKeys = Object.keys(a)
   const bKeys = Object.keys(b)
   if (aKeys.length !== bKeys.length) {

@@ -42,13 +42,15 @@ declare type RouteMap = {
   [key: string]: RouteRecord;
 }
 
+declare type StringHash = { [key: string]: string }
+
 declare type Location = {
   _normalized?: boolean;
   name?: string;
   path?: string;
   hash?: string;
-  query?: { [key: string]: string };
-  params?: { [key: string]: string };
+  query?: StringHash;
+  params?: StringHash;
 }
 
 declare type RawLocation = string | Location
@@ -57,8 +59,8 @@ declare type Route = {
   path: string;
   name: ?string;
   hash: string;
-  query: { [key: string]: string };
-  params: { [key: string]: string };
+  query: StringHash;
+  params: StringHash;
   fullPath: string;
   matched: Array<RouteRecord>;
 }

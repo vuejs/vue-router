@@ -1,5 +1,5 @@
 import { History } from './base'
-import { normalizeLocation, isSameLocation } from '../util/location'
+import { normalizeLocation, isSameRoute } from '../util/location'
 
 export class HashHistory extends History {
   constructor (router) {
@@ -20,7 +20,7 @@ export class HashHistory extends History {
     }
     const location = normalizeLocation(getHash())
     // ignore location change triggered by router navigation
-    if (isSameLocation(location, this.current)) {
+    if (isSameRoute(location, this.current)) {
       return
     }
     this.transitionTo(location, resolvedLocation => {

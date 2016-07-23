@@ -15,11 +15,13 @@
   "author": "Evan You",
   "license": "MIT",
   "devDependencies": {
+    "babel-preset-flow-vue": "^1.0.0",
     "buble": "^0.12.3",
     "eslint": "^3.0.1",
     "eslint-config-vue": "^1.0.3",
     "path-to-regexp": "^1.5.3",
     "rollup": "^0.33.0",
+    "rollup-plugin-babel": "^2.6.1",
     "rollup-plugin-buble": "^0.12.1",
     "rollup-plugin-commonjs": "^3.1.0",
     "rollup-plugin-node-resolve": "^1.7.1",

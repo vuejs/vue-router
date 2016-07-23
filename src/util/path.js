@@ -1,6 +1,10 @@
-import { stringifyQuery } from './query'
+/* @flow */
 
-export function resolvePath (relative, base = '/', append) {
+export function resolvePath (
+  relative: string,
+  base: string = '/',
+  append?: boolean
+): string {
   if (relative.charAt(0) === '/') {
     return relative
   }
@@ -39,7 +43,11 @@ export function resolvePath (relative, base = '/', append) {
   return stack.join('/')
 }
 
-export function parsePath (path) {
+export function parsePath (path: string): {
+  path: string,
+  query: string,
+  hash: string
+} {
   let hash = ''
   let query = ''
 
@@ -62,10 +70,6 @@ export function parsePath (path) {
   }
 }
 
-export function getFullPath ({ path, query = {}, hash = '' }) {
-  return path + stringifyQuery(query) + hash
-}
-
-export function cleanPath (path) {
+export function cleanPath (path: string): string {
   return path.replace(/\/\//g, '/')
 }

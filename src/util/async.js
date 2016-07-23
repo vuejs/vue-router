@@ -1,4 +1,6 @@
-export function runQueue (queue, fn, cb) {
+/* @flow */
+
+export function runQueue (queue: Array<any>, fn: Function, cb: Function) {
   const step = index => {
     if (index >= queue.length) {
       cb()

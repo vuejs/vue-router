@@ -2,7 +2,8 @@
 
 import Regexp from 'path-to-regexp'
 import { createRouteMap } from './create-route-map'
-import { resolvePath, getFullPath } from './util/path'
+import { resolvePath } from './util/path'
+import { stringifyQuery } from './util/query'
 import { normalizeLocation } from './util/location'
 
 const regexpCache: {
@@ -23,8 +24,8 @@ export function createMatcher (routes: Array<RouteConfig>): Matcher {
    * This functions returns a "resolvedLocation", which is
    * also the "$route" object injected into components.
    */
-  function match (rawLocation: RawLocation, currentRoute?: Route): Route {
-    const location = normalizeLocation(RawLocation, currentRoute)
+  function match (raw: RawLocation, currentRoute?: Route): Route {
+    const location = normalizeLocation(raw, currentRoute)
     const { name } = location
 
     if (name) {
@@ -33,7 +34,7 @@ export function createMatcher (routes: Array<RouteConfig>): Matcher {
         location.path = fillParams(record.path, location.params, `named route "${name}"`)
         return createRouteContext(record, location)
       }
-    } else {
+    } else if (location.path) {
       location.params = {}
       for (const path in pathMap) {
         if (matchRoute(path, location.params, location.path)) {
@@ -164,7 +165,7 @@ function fillParams (path: string, params: ?Object, routeMsg: string): string {
     const filler =
       regexpCompileCache[path] ||
       (regexpCompileCache[path] = Regexp.compile(path))
-    return filler(params || {})
+    return filler(params || {}, { pretty: true })
   } catch (e) {
     throw new Error(`[vue-router] missing param for ${routeMsg}: ${e.message}`)
   }
@@ -172,4 +173,8 @@ function fillParams (path: string, params: ?Object, routeMsg: string): string {
 
 function resolveRecordPath (path: string, record: RouteRecord): string {
   return resolvePath(path, record.parent ? record.parent.path : '/', true)
+}
+
+function getFullPath ({ path = '/', query = {}, hash = '' }) {
+  return path + stringifyQuery(query) + hash
 }

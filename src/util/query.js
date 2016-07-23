@@ -1,24 +1,30 @@
+/* @flow */
+
 const encode = encodeURIComponent
 const decode = decodeURIComponent
 
-export function resolveQuery (query, extraQuery = {}) {
+export function resolveQuery (
+  query: ?string,
+  extraQuery: StringHash = {}
+): StringHash {
   if (query) {
+    let parsedQuery
     try {
-      query = parseQuery(query)
+      parsedQuery = parseQuery(query)
     } catch (e) {
       console.error(e)
-      query = {}
+      parsedQuery = {}
     }
     for (const key in extraQuery) {
-      query[key] = extraQuery[key]
+      parsedQuery[key] = extraQuery[key]
     }
-    return query
+    return parsedQuery
   } else {
     return extraQuery
   }
 }
 
-function parseQuery (query) {
+function parseQuery (query: string): StringHash {
   const res = Object.create(null)
 
   query = query.trim().replace(/^(\?|#|&)/, '')
@@ -46,7 +52,7 @@ function parseQuery (query) {
   return res
 }
 
-export function stringifyQuery (obj) {
+export function stringifyQuery (obj: StringHash): string {
   const res = obj ? Object.keys(obj).sort().map(key => {
     const val = obj[key]
 
