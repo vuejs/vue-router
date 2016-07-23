@@ -8,8 +8,8 @@ const genKey = () => String(Date.now())
 let _key: string = genKey()
 
 export class HTML5History extends History {
-  constructor (router: VueRouter) {
-    super(router)
+  constructor (router: VueRouter, base: ?string) {
+    super(router, base)
 
     // possible redirect on start
     if (this.getLocation() !== this.current.fullPath) {
