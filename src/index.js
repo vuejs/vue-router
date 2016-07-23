@@ -1,3 +1,5 @@
+/* @flow */
+
 import { install } from './install'
 import { createMatcher } from './create-matcher'
 import { HashHistory } from './history/hash'
@@ -6,7 +8,15 @@ import { AbstractHistory } from './history/abstract'
 import { inBrowser, supportsHistory } from './util/dom'
 
 export default class VueRouter {
-  constructor (options = {}) {
+  static install: () => void;
+
+  app: any;
+  options: RouterOptions;
+  mode: 'hash' | 'history' | 'abstract';
+  history: HashHistory | HTML5History | AbstractHistory;
+  match: (location: Location) => Route;
+
+  constructor (options: RouterOptions = {}) {
     this.app = null
     this.options = options
     this.match = createMatcher(options.routes || [])
@@ -18,7 +28,6 @@ export default class VueRouter {
     if (!inBrowser) {
       mode = 'abstract'
     }
-    this.mode = mode
 
     switch (mode) {
       case 'history':
@@ -34,16 +43,18 @@ export default class VueRouter {
         throw new Error(`[vue-router] invalid mode: ${mode}`)
     }
 
+    this.mode = mode
+
     this.history.listen(location => {
       this.app._route = location
     })
   }
 
-  go (location) {
+  go (location: Location) {
     this.history.push(location)
   }
 
-  replace (location) {
+  replace (location: Location) {
     this.history.replace(location)
   }
 
@@ -55,15 +66,15 @@ export default class VueRouter {
     this.history.go(1)
   }
 
-  beforeEach (fn) {
+  beforeEach (fn: Function) {
     this.history.before(fn)
   }
 
-  afterEach (fn) {
+  afterEach (fn: Function) {
     this.history.after(fn)
   }
 
-  setInitialLocation (location) {
+  setInitialLocation (location: Location) {
     if (this.mode === 'abstract') {
       this.history.setInitialLocation(this.match(location))
     }
@@ -71,7 +82,6 @@ export default class VueRouter {
 }
 
 VueRouter.install = install
-VueRouter.createMatcher = createMatcher
 
 if (inBrowser && window.Vue) {
   window.Vue.use(VueRouter)

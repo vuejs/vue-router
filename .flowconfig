@@ -1,0 +1,11 @@
+[ignore]
+.*/node_modules/.*
+.*/test/.*
+.*/dist/.*
+.*/examples/.*
+.*/vue-next/.*
+
+[include]
+
+[libs]
+flow
