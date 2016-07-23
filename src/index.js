@@ -23,7 +23,7 @@ export default class VueRouter {
     this.match = createMatcher(options.routes || [])
 
     let mode = options.mode || 'hash'
-    let fallback = mode === 'history' && !supportsHistory
+    const fallback = mode === 'history' && !supportsHistory
     if (fallback) {
       mode = 'hash'
     }
