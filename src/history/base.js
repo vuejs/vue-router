@@ -50,15 +50,15 @@ export class History {
     }, replace)
   }
 
-  confirmTransition (location: Route, cb: Function, replace?: boolean) {
-    if (isSameRoute(location, this.current)) {
+  confirmTransition (route: Route, cb: Function, replace?: boolean) {
+    if (isSameRoute(route, this.current)) {
       return
     }
 
     const {
       deactivated,
       activated
-    } = resolveQueue(this.current.matched, location.matched)
+    } = resolveQueue(this.current.matched, route.matched)
 
     const queue = this.beforeHooks.concat(
       // route config canDeactivate hooks
@@ -71,18 +71,18 @@ export class History {
       extractComponentHooks(activated, 'routeCanActivate')
     ).filter(_ => _)
 
-    this.pending = location
+    this.pending = route
     const redirect = replace
       ? location => this.replace(location)
       : location => this.push(location)
 
     runQueue(
       queue,
-      (hook, next) => { hook(location, redirect, next) },
+      (hook, next) => { hook(route, redirect, next) },
       () => {
-        if (isSameRoute(location, this.pending)) {
+        if (isSameRoute(route, this.pending)) {
           this.pending = null
-          cb(location)
+          cb(route)
         }
       }
     )
