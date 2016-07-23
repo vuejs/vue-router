@@ -1,20 +1,30 @@
+/* @flow */
+
 import Regexp from 'path-to-regexp'
 import { createRouteMap } from './create-route-map'
 import { resolvePath, getFullPath } from './util/path'
 import { normalizeLocation } from './util/location'
 
-const regexpCache = Object.create(null)
-const regexpCompileCache = Object.create(null)
+const regexpCache: {
+  [key: string]: {
+    keys: Array<?{ name: string }>,
+    regexp: RegExp
+  }
+} = Object.create(null)
 
-export function createMatcher (routes) {
+const regexpCompileCache: {
+  [key: string]: Function
+} = Object.create(null)
+
+export function createMatcher (routes: Array<RouteConfig>): Matcher {
   const { pathMap, nameMap } = createRouteMap(routes)
 
   /**
    * This functions returns a "resolvedLocation", which is
    * also the "$route" object injected into components.
    */
-  function match (location, currentLocation) {
-    location = normalizeLocation(location, currentLocation)
+  function match (rawLocation: RawLocation, currentRoute?: Route): Route {
+    const location = normalizeLocation(RawLocation, currentRoute)
     const { name } = location
 
     if (name) {
@@ -35,7 +45,7 @@ export function createMatcher (routes) {
     return createRouteContext(null, location)
   }
 
-  function createRouteContext (record, location) {
+  function createRouteContext (record: ?RouteRecord, location: Location): Route {
     if (record && record.redirect) {
       return redirect(record, location)
     }
@@ -44,19 +54,19 @@ export function createMatcher (routes) {
     }
     return Object.freeze({
       name: location.name,
-      path: location.path,
-      hash: location.hash,
-      query: location.query,
-      params: location.params,
+      path: location.path || '/',
+      hash: location.hash || '',
+      query: location.query || {},
+      params: location.params || {},
       fullPath: getFullPath(location),
       matched: record ? formatMatch(record) : []
     })
   }
 
-  function redirect (record, location) {
+  function redirect (record: RouteRecord, location: Location): Route {
     const { query, hash, params } = location
     const { redirect } = record
-    const name = typeof redirect === 'object' && redirect.name
+    const name = redirect && typeof redirect === 'object' && redirect.name
     if (name) {
       // resolved named direct
       const targetRecord = nameMap[name]
@@ -82,11 +92,19 @@ export function createMatcher (routes) {
         query,
         hash
       })
+    } else {
+      console.warn(`[vue-router] invalid redirect option: ${redirect}`)
+      return createRouteContext(null, location)
     }
   }
 
-  function alias (record, location) {
-    const rawPath = resolveRecordPath(record.alias, record)
+  function alias (record: RouteRecord, location: Location): Route {
+    const alias = record.alias
+    if (typeof alias !== 'string') {
+      console.warn(`[vue-router] invalid alias option: ${alias}`)
+      return createRouteContext(null, location)
+    }
+    const rawPath = resolveRecordPath(alias, record)
     const aliasedPath = fillParams(rawPath, location.params, `alias route with path "${rawPath}"`)
     const aliasedMatch = match({
       _normalized: true,
@@ -98,12 +116,13 @@ export function createMatcher (routes) {
       location.params = aliasedMatch.params
       return createRouteContext(aliasedRecord, location)
     }
+    return createRouteContext(null, location)
   }
 
   return match
 }
 
-function matchRoute (path, params, pathname) {
+function matchRoute (path: string, params: Object, pathname: string): boolean {
   let keys, regexp
   const hit = regexpCache[path]
   if (hit) {
@@ -131,7 +150,7 @@ function matchRoute (path, params, pathname) {
   return true
 }
 
-function formatMatch (record) {
+function formatMatch (record: ?RouteRecord): Array<RouteRecord> {
   const res = []
   while (record) {
     res.unshift(record)
@@ -140,17 +159,17 @@ function formatMatch (record) {
   return res
 }
 
-function fillParams (path, params, routeMsg) {
+function fillParams (path: string, params: ?Object, routeMsg: string): string {
   try {
     const filler =
       regexpCompileCache[path] ||
       (regexpCompileCache[path] = Regexp.compile(path))
-    return filler(params)
+    return filler(params || {})
   } catch (e) {
     throw new Error(`[vue-router] missing param for ${routeMsg}: ${e.message}`)
   }
 }
 
-function resolveRecordPath (path, record) {
+function resolveRecordPath (path: string, record: RouteRecord): string {
   return resolvePath(path, record.parent ? record.parent.path : '/', true)
 }

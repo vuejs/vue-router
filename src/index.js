@@ -14,7 +14,7 @@ export default class VueRouter {
   options: RouterOptions;
   mode: 'hash' | 'history' | 'abstract';
   history: HashHistory | HTML5History | AbstractHistory;
-  match: (location: Location) => Route;
+  match: Matcher;
 
   constructor (options: RouterOptions = {}) {
     this.app = null
