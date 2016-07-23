@@ -23,7 +23,8 @@ export default class VueRouter {
     this.match = createMatcher(options.routes || [])
 
     let mode = options.mode || 'hash'
-    if (mode === 'history' && !supportsHistory) {
+    let fallback = mode === 'history' && !supportsHistory
+    if (fallback) {
       mode = 'hash'
     }
     if (!inBrowser) {
@@ -35,7 +36,7 @@ export default class VueRouter {
         this.history = new HTML5History(this, options.base)
         break
       case 'hash':
-        this.history = new HashHistory(this)
+        this.history = new HashHistory(this, options.base, fallback)
         break
       case 'abstract':
         this.history = new AbstractHistory(this)

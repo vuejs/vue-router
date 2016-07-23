@@ -1,12 +1,13 @@
 /* @flow */
 
 import type VueRouter from '../index'
+import { inBrowser } from '../util/dom'
 import { runQueue } from '../util/async'
 import { isSameRoute } from '../util/route'
 
 export class History {
   router: VueRouter;
-  base: ?string;
+  base: string;
   current: Route;
   pending: ?Route;
   beforeHooks: Array<Function>;
@@ -15,7 +16,7 @@ export class History {
 
   constructor (router: VueRouter, base: ?string) {
     this.router = router
-    this.base = base
+    this.base = normalizeBae(base)
     this.current = router.match(this.getLocation())
     this.pending = null
     this.beforeHooks = []
@@ -99,6 +100,24 @@ export class History {
   getLocation (): string {
     return '/'
   }
+}
+
+function normalizeBae (base: ?string): string {
+  if (!base) {
+    if (inBrowser) {
+      // respect <base> tag
+      const baseEl = document.querySelector('base')
+      base = baseEl ? baseEl.getAttribute('href') : '/'
+    } else {
+      base = '/'
+    }
+  }
+  // make sure there's the starting slash
+  if (base.charAt(0) !== '/') {
+    base = '/' + base
+  }
+  // remove trailing slash
+  return base.replace(/\/$/, '')
 }
 
 function resolveQueue (

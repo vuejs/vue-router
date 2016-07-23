@@ -1,7 +1,6 @@
 /* @flow */
 
 import type VueRouter from '../index'
-import { inBrowser } from '../util/dom'
 import { cleanPath } from '../util/path'
 import { History } from './base'
 
@@ -9,8 +8,8 @@ const genKey = () => String(Date.now())
 let _key: string = genKey()
 
 export class HTML5History extends History {
-  constructor (router: VueRouter, base: ?string) {
-    super(router, normalizeBae(base))
+  constructor (router: VueRouter) {
+    super(router)
 
     // possible redirect on start
     if (this.getLocation() !== this.current.fullPath) {
@@ -54,12 +53,7 @@ export class HTML5History extends History {
   }
 
   getLocation (): string {
-    const base = this.base
-    let path = window.location.pathname
-    if (base && path.indexOf(base) === 0) {
-      path = path.slice(base.length)
-    }
-    return path + window.location.search + window.location.hash
+    return getLocation(this.base)
   }
 
   handleScroll (from: Route, to: Route) {
@@ -95,22 +89,12 @@ export class HTML5History extends History {
   }
 }
 
-function normalizeBae (base: ?string): string {
-  if (!base) {
-    if (inBrowser) {
-      // respect <base> tag
-      const baseEl = document.querySelector('base')
-      base = baseEl ? baseEl.getAttribute('href') : '/'
-    } else {
-      base = '/'
-    }
+export function getLocation (base: string): string {
+  let path = window.location.pathname
+  if (base && path.indexOf(base) === 0) {
+    path = path.slice(base.length)
   }
-  // make sure there's the starting slash
-  if (base.charAt(0) !== '/') {
-    base = '/' + base
-  }
-  // remove trailing slash
-  return base.replace(/\/$/, '')
+  return path + window.location.search + window.location.hash
 }
 
 function pushState (url: string, replace?: boolean) {

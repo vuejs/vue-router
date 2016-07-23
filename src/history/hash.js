@@ -2,10 +2,16 @@
 
 import type VueRouter from '../index'
 import { History } from './base'
+import { getLocation } from './html5'
+import { cleanPath } from '../util/path'
 
 export class HashHistory extends History {
-  constructor (router: VueRouter) {
-    super(router)
+  constructor (router: VueRouter, base: ?string, fallback: boolean) {
+    super(router, base)
+    // check history fallback deeplinking
+    if (fallback && this.checkFallback()) {
+      return
+    }
     ensureSlash()
     // possible redirect on start
     if (getHash() !== this.current.fullPath) {
@@ -14,6 +20,16 @@ export class HashHistory extends History {
     window.addEventListener('hashchange', () => {
       this.onHashChange()
     })
+  }
+
+  checkFallback () {
+    const location = getLocation(this.base)
+    if (!/^\/#/.test(location)) {
+      window.location.replace(
+        cleanPath(this.base + '/#' + location)
+      )
+      return true
+    }
   }
 
   onHashChange () {
