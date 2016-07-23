@@ -1,11 +1,15 @@
+/* @flow */
+
+import type VueRouter from '../index'
 import { inBrowser } from '../util/dom'
 import { cleanPath } from '../util/path'
 import { History } from './base'
 
-let _key = Date.now()
+const genKey = () => String(Date.now())
+let _key: string = genKey()
 
 export class HTML5History extends History {
-  constructor (router, base) {
+  constructor (router: VueRouter, base: ?string) {
     super(router, normalizeBae(base))
 
     // possible redirect on start
@@ -26,30 +30,30 @@ export class HTML5History extends History {
     })
 
     if (expectScroll) {
-      _key = Date.now()
+      _key = genKey()
       window.addEventListener('scroll', saveScrollPosition)
     }
   }
 
-  go (n) {
+  go (n: number) {
     window.history.go(n)
   }
 
-  push (location) {
-    super.push(location, resolvedLocation => {
-      const url = cleanPath(this.base + resolvedLocation.fullPath)
+  push (location: RawLocation) {
+    super.push(location, route => {
+      const url = cleanPath(this.base + route.fullPath)
       pushState(url)
     })
   }
 
-  replace (location) {
-    super.replace(location, resolvedLocation => {
-      const url = cleanPath(this.base + resolvedLocation.fullPath)
+  replace (location: RawLocation) {
+    super.replace(location, route => {
+      const url = cleanPath(this.base + route.fullPath)
       replaceState(url)
     })
   }
 
-  getLocation () {
+  getLocation (): string {
     const base = this.base
     let path = window.location.pathname
     if (base && path.indexOf(base) === 0) {
@@ -58,7 +62,7 @@ export class HTML5History extends History {
     return path + window.location.search + window.location.hash
   }
 
-  handleScroll (from, to) {
+  handleScroll (from: Route, to: Route) {
     const router = this.router
     if (!router.app) {
       return
@@ -83,14 +87,15 @@ export class HTML5History extends History {
       position = shouldScroll
     }
     if (position) {
+      const { x, y } = position
       router.app.$nextTick(() => {
-        window.scrollTo(position.x, position.y)
+        window.scrollTo(x, y)
       })
     }
   }
 }
 
-function normalizeBae (base) {
+function normalizeBae (base: ?string): string {
   if (!base) {
     if (inBrowser) {
       // respect <base> tag
@@ -108,7 +113,7 @@ function normalizeBae (base) {
   return base.replace(/\/$/, '')
 }
 
-function pushState (url, replace) {
+function pushState (url: string, replace?: boolean) {
   // try...catch the pushState call to get around Safari
   // DOM Exception 18 where it limits to 100 pushState calls
   const history = window.history
@@ -116,7 +121,7 @@ function pushState (url, replace) {
     if (replace) {
       history.replaceState({ key: _key }, '', url)
     } else {
-      _key = Date.now()
+      _key = genKey()
       history.pushState({ key: _key }, '', url)
     }
     saveScrollPosition()
@@ -125,7 +130,7 @@ function pushState (url, replace) {
   }
 }
 
-function replaceState (url) {
+function replaceState (url: string) {
   pushState(url, true)
 }
 
@@ -137,7 +142,7 @@ function saveScrollPosition () {
   }))
 }
 
-function getScrollPosition () {
+function getScrollPosition (): ?{ x: number, y: number } {
   if (!_key) return
   return JSON.parse(window.sessionStorage.getItem(_key))
 }
