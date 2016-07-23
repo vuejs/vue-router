@@ -1,6 +1,7 @@
 /* @flow */
 
 import Regexp from 'path-to-regexp'
+import { assert, warn } from './util/warn'
 import { createRouteMap } from './create-route-map'
 import { resolvePath } from './util/path'
 import { stringifyQuery } from './util/query'
@@ -71,9 +72,7 @@ export function createMatcher (routes: Array<RouteConfig>): Matcher {
     if (name) {
       // resolved named direct
       const targetRecord = nameMap[name]
-      if (!targetRecord) {
-        throw new Error(`[vue-router] redirect failed: named route "${name}" not found.`)
-      }
+      assert(targetRecord, `redirect failed: named route "${name}" not found.`)
       return match({
         _normalized: true,
         name,
@@ -94,7 +93,7 @@ export function createMatcher (routes: Array<RouteConfig>): Matcher {
         hash
       })
     } else {
-      console.warn(`[vue-router] invalid redirect option: ${redirect}`)
+      warn(`invalid redirect option: ${JSON.stringify(redirect)}`)
       return createRouteContext(null, location)
     }
   }
@@ -102,7 +101,7 @@ export function createMatcher (routes: Array<RouteConfig>): Matcher {
   function alias (record: RouteRecord, location: Location): Route {
     const alias = record.alias
     if (typeof alias !== 'string') {
-      console.warn(`[vue-router] invalid alias option: ${alias}`)
+      warn(`invalid alias option: ${JSON.stringify(alias)}`)
       return createRouteContext(null, location)
     }
     const rawPath = resolveRecordPath(alias, record)
@@ -167,7 +166,8 @@ function fillParams (path: string, params: ?Object, routeMsg: string): string {
       (regexpCompileCache[path] = Regexp.compile(path))
     return filler(params || {}, { pretty: true })
   } catch (e) {
-    throw new Error(`[vue-router] missing param for ${routeMsg}: ${e.message}`)
+    assert(`missing param for ${routeMsg}: ${e.message}`)
+    return ''
   }
 }
 

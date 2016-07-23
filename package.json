@@ -10,7 +10,8 @@
   "scripts": {
     "dev": "rollup -wcm",
     "lint": "eslint src",
-    "build": "rollup -c && uglifyjs dist/vue-router.js -c -m -o dist/vue-router.min.js"
+    "build": "rollup -c && uglifyjs dist/vue-router.js -c -m -o dist/vue-router.min.js",
+    "test": "npm run lint && flow check"
   },
   "author": "Evan You",
   "license": "MIT",
@@ -21,6 +22,7 @@
     "eslint": "^3.0.1",
     "eslint-config-vue": "^1.0.3",
     "eslint-plugin-flow-vars": "^0.4.0",
+    "flow-bin": "^0.29.0",
     "path-to-regexp": "^1.5.3",
     "rollup": "^0.33.0",
     "rollup-plugin-babel": "^2.6.1",

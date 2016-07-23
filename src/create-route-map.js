@@ -1,5 +1,6 @@
 /* @flow */
 
+import { assert } from './util/warn'
 import { cleanPath } from './util/path'
 
 export function createRouteMap (routes: Array<RouteConfig>): {
@@ -26,10 +27,7 @@ function addRoute (
   parent?: RouteRecord
 ) {
   const { path, name } = route
-
-  if (path == null) {
-    throw new Error('[vue-router] "path" is required in a route configuration.')
-  }
+  assert(path != null, `"path" is required in a route configuration.`)
 
   const record: RouteRecord = {
     path: normalizePath(path, parent),

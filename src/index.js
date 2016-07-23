@@ -6,6 +6,7 @@ import { HashHistory } from './history/hash'
 import { HTML5History } from './history/html5'
 import { AbstractHistory } from './history/abstract'
 import { inBrowser, supportsHistory } from './util/dom'
+import { assert } from './util/warn'
 
 export default class VueRouter {
   static install: () => void;
@@ -40,7 +41,7 @@ export default class VueRouter {
         this.history = new AbstractHistory(this)
         break
       default:
-        throw new Error(`[vue-router] invalid mode: ${mode}`)
+        assert(false, `invalid mode: ${mode}`)
     }
 
     this.mode = mode
