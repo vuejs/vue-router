@@ -19,22 +19,27 @@ declare type RouteConfig = {
   path: string;
   name?: string;
   component?: any;
-  components?: { [key: string]: any };
+  components?: { [name: string]: any };
   redirect?: RedirectOption;
-  canActivate: () => void;
-  canDeactivate: () => void;
+  alias?: string;
+  canActivate?: Function;
+  canDeactivate?: Function;
 }
 
 declare type RouteRecord = {
   path: string;
-  name: ?string;
-  parent: ?RouteRecord;
-  alias: ?string;
-  redirect: ?RedirectOption;
-  canActivate: () => void;
-  canDeactivate: () => void;
   components: { [name: string]: any };
   instances: { [name: string]: any };
+  name: ?string;
+  parent: ?RouteRecord;
+  redirect: ?RedirectOption;
+  alias: ?string;
+  canActivate: ?Function;
+  canDeactivate: ?Function;
+}
+
+declare type RouteMap = {
+  [key: string]: RouteRecord;
 }
 
 declare type Location = {

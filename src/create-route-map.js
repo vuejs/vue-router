@@ -1,8 +1,13 @@
+/* @flow */
+
 import { cleanPath } from './util/path'
 
-export function createRouteMap (routes) {
-  const pathMap = Object.create(null)
-  const nameMap = Object.create(null)
+export function createRouteMap (routes: Array<RouteConfig>): {
+  pathMap: RouteMap,
+  nameMap: RouteMap
+} {
+  const pathMap: RouteMap = Object.create(null)
+  const nameMap: RouteMap = Object.create(null)
 
   routes.forEach(route => {
     addRoute(pathMap, nameMap, route)
@@ -14,14 +19,19 @@ export function createRouteMap (routes) {
   }
 }
 
-function addRoute (pathMap, nameMap, route, parent) {
+function addRoute (
+  pathMap: RouteMap,
+  nameMap: RouteMap,
+  route: RouteConfig,
+  parent?: RouteRecord
+) {
   const { path, name } = route
 
   if (path == null) {
     throw new Error('[vue-router] "path" is required in a route configuration.')
   }
 
-  const record = {
+  const record: RouteRecord = {
     path: normalizePath(path, parent),
     components: route.components || { default: route.component },
     instances: {},
@@ -43,8 +53,8 @@ function addRoute (pathMap, nameMap, route, parent) {
   if (name) nameMap[name] = record
 }
 
-function normalizePath (path, parent) {
-  if (path[0] === '/') return path  // "/" signifies an absolute route
-  if (parent == null) return path  // no need for a join
-  return cleanPath(`${parent.path}/${path}`) // join
+function normalizePath (path: string, parent?: RouteRecord): string {
+  if (path[0] === '/') return path
+  if (parent == null) return path
+  return cleanPath(`${parent.path}/${path}`)
 }
