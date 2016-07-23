@@ -21,10 +21,6 @@ const regexpCompileCache: {
 export function createMatcher (routes: Array<RouteConfig>): Matcher {
   const { pathMap, nameMap } = createRouteMap(routes)
 
-  /**
-   * This functions returns a "resolvedLocation", which is
-   * also the "$route" object injected into components.
-   */
   function match (raw: RawLocation, currentRoute?: Route): Route {
     const location = normalizeLocation(raw, currentRoute)
     const { name } = location

@@ -2,7 +2,7 @@
 
 import type VueRouter from '../index'
 import { runQueue } from '../util/async'
-import { isSameRoute } from '../util/location'
+import { isSameRoute } from '../util/route'
 
 export class History {
   router: VueRouter;

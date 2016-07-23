@@ -75,7 +75,7 @@ export default class VueRouter {
     this.history.after(fn)
   }
 
-  setInitialLocation (location: Location) {
+  setInitialLocation (location: RawLocation) {
     if (this.history instanceof AbstractHistory) {
       this.history.setInitialRoute(this.match(location))
     }
