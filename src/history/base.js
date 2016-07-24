@@ -150,7 +150,7 @@ function extractComponentHooks (
       const instance = m.instances[key] && m.instances[key].child
       const hook = typeof component === 'function'
         ? component.options[name]
-        : component[name]
+        : (component && component[name])
       if (hook) {
         return function routerHook () {
           return hook.apply(instance, arguments)
