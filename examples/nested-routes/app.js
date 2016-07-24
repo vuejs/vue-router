@@ -14,9 +14,10 @@ const Parent = {
   `
 }
 
-const ParentDefault = { template: '<div>default</div>' }
+const Default = { template: '<div>default</div>' }
 const Foo = { template: '<div>foo</div>' }
 const Bar = { template: '<div>bar</div>' }
+const Baz = { template: '<div>baz</div>' }
 
 const router = new VueRouter({
   mode: 'history',
@@ -24,13 +25,21 @@ const router = new VueRouter({
   routes: [
     { path: '/', redirect: '/parent' },
     { path: '/parent', component: Parent, children: [
-      // an empty path or "/" will be treated as the default, e.g.
+      // an empty path will be treated as the default, e.g.
       // components rendered at /parent: Root -> Parent -> Default
-      { path: '/', component: ParentDefault },
+      { path: '', component: Default },
+
       // components rendered at /parent/foo: Root -> Parent -> Foo
-      { path: '/foo', component: Foo },
+      { path: 'foo', component: Foo },
+
       // components rendered at /parent/bar: Root -> Parent -> Bar
-      { path: '/bar', component: Bar }
+      { path: 'bar', component: Bar },
+
+      // NOTE absolute path here!
+      // this allows you to leverage the component nesting without being
+      // limited to the nested URL.
+      // components rendered at /baz: Root -> Parent -> Baz
+      { path: '/baz', component: Baz }
     ]}
   ]
 })
@@ -44,6 +53,7 @@ const app = new Vue({
         <li><router-link to="/parent">/parent</router-link></li>
         <li><router-link to="/parent/foo">/parent/foo</router-link></li>
         <li><router-link to="/parent/bar">/parent/bar</router-link></li>
+        <li><router-link to="/baz">/baz</router-link></li>
       </ul>
       <router-view></router-view>
     </div>

@@ -4,6 +4,7 @@ import VueRouter from 'vue-router'
 Vue.use(VueRouter)
 
 const Home = { template: '<div>home</div>' }
+const About = { template: '<div>about</div>' }
 
 const Users = {
   template: `
@@ -21,6 +22,7 @@ const router = new VueRouter({
   base: __dirname,
   routes: [
     { path: '/', component: Home },
+    { path: '/about', component: About },
     { path: '/users', component: Users, children: [
       { path: ':username', component: User }
     ]},
