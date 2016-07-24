@@ -1,4 +1,5 @@
 import { cleanPath } from '../util/path'
+import { isSameRoute, isIncludedRoute } from '../util/route'
 import { normalizeLocation } from '../util/location'
 
 export default {
@@ -25,8 +26,8 @@ export default {
     const classes = {}
     const activeClass = this.activeClass || router.options.linkActiveClass || 'router-link-active'
     classes[activeClass] = this.exact
-      ? current.path === resolved.path
-      : current.path.indexOf(resolved.path) === 0
+      ? isSameRoute(current, resolved)
+      : isIncludedRoute(current, resolved)
 
     return h(this.tag || 'a', {
       attrs: { href },

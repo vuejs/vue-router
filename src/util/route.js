@@ -29,3 +29,20 @@ function isObjectEqual (a = {}, b = {}): boolean {
   }
   return aKeys.every(key => String(a[key]) === String(b[key]))
 }
+
+export function isIncludedRoute (current: Route, target: Route): boolean {
+  return (
+    current.path.indexOf(target.path) === 0 &&
+    (!target.hash || current.hash === target.hash) &&
+    queryIncludes(current.query, target.query)
+  )
+}
+
+function queryIncludes (current: StringHash, target: StringHash): boolean {
+  for (const key in target) {
+    if (!(key in current)) {
+      return false
+    }
+  }
+  return true
+}
