@@ -41,8 +41,6 @@ function addRoute (
     canDeactivate: route.canDeactivate
   }
 
-  console.log(record)
-
   if (route.children) {
     route.children.forEach(child => {
       addRoute(pathMap, nameMap, child, record)
