@@ -34,7 +34,11 @@ export default {
       on: {
         click: (e) => {
           e.preventDefault()
-          router[this.replace ? 'replace' : 'go'](to)
+          if (this.replace) {
+            router.replace(to)
+          } else {
+            router.push(to)
+          }
         }
       }
     }, this.$slots.default)

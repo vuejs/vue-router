@@ -53,25 +53,29 @@ export default class VueRouter {
 
     this.mode = mode
 
-    this.history.listen(location => {
-      this.app._route = location
+    this.history.listen(route => {
+      this.app._route = route
     })
   }
 
-  go (location: Location) {
+  push (location: RawLocation) {
     this.history.push(location)
   }
 
-  replace (location: Location) {
+  replace (location: RawLocation) {
     this.history.replace(location)
   }
 
+  go (n: number) {
+    this.history.go(n)
+  }
+
   back () {
-    this.history.go(-1)
+    this.go(-1)
   }
 
   forward () {
-    this.history.go(1)
+    this.go(1)
   }
 
   beforeEach (fn: Function) {
