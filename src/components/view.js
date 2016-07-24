@@ -25,6 +25,7 @@ export default {
       parent = parent.$parent
     }
 
+    data.routerViewDepth = depth
     const matched = route.matched[depth]
     if (!matched) {
       return h()
