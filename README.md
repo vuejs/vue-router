@@ -7,8 +7,8 @@ This is still work in progress. If you really want to try it now:
 ``` bash
 npm install
 
-# run examples
-npm run dev-examples
+# run examples at localhost:8080
+npm run dev
 
 # build dist files
 npm run build
