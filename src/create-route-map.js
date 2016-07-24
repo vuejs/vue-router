@@ -11,7 +11,7 @@ export function createRouteMap (routes: Array<RouteConfig>): {
   const nameMap: RouteMap = Object.create(null)
 
   routes.forEach(route => {
-    addRoute(pathMap, nameMap, route)
+    addRouteRecord(pathMap, nameMap, route)
   })
 
   return {
@@ -20,11 +20,12 @@ export function createRouteMap (routes: Array<RouteConfig>): {
   }
 }
 
-function addRoute (
+function addRouteRecord (
   pathMap: RouteMap,
   nameMap: RouteMap,
   route: RouteConfig,
-  parent?: RouteRecord
+  parent?: RouteRecord,
+  matchAs?: string
 ) {
   const { path, name } = route
   assert(path != null, `"path" is required in a route configuration.`)
@@ -35,7 +36,7 @@ function addRoute (
     instances: {},
     name,
     parent,
-    alias: route.alias,
+    matchAs,
     redirect: route.redirect,
     canActivate: route.canActivate,
     canDeactivate: route.canDeactivate
@@ -43,8 +44,18 @@ function addRoute (
 
   if (route.children) {
     route.children.forEach(child => {
-      addRoute(pathMap, nameMap, child, record)
+      addRouteRecord(pathMap, nameMap, child, record)
     })
+  }
+
+  if (route.alias) {
+    if (Array.isArray(route.alias)) {
+      route.alias.forEach(alias => {
+        addRouteRecord(pathMap, nameMap, { path: alias }, parent, record.path)
+      })
+    } else {
+      addRouteRecord(pathMap, nameMap, { path: route.alias }, parent, record.path)
+    }
   }
 
   pathMap[record.path] = record

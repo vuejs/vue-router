@@ -47,8 +47,8 @@ export function createMatcher (routes: Array<RouteConfig>): Matcher {
     if (record && record.redirect) {
       return redirect(record, location)
     }
-    if (record && record.alias) {
-      return alias(record, location)
+    if (record && record.matchAs) {
+      return alias(record, location, record.matchAs)
     }
     return Object.freeze({
       name: location.name,
@@ -94,14 +94,8 @@ export function createMatcher (routes: Array<RouteConfig>): Matcher {
     }
   }
 
-  function alias (record: RouteRecord, location: Location): Route {
-    const alias = record.alias
-    if (typeof alias !== 'string') {
-      warn(`invalid alias option: ${JSON.stringify(alias)}`)
-      return createRouteContext(null, location)
-    }
-    const rawPath = resolveRecordPath(alias, record)
-    const aliasedPath = fillParams(rawPath, location.params, `alias route with path "${rawPath}"`)
+  function alias (record: RouteRecord, location: Location, matchAs: string): Route {
+    const aliasedPath = fillParams(matchAs, location.params, `aliased route with path "${matchAs}"`)
     const aliasedMatch = match({
       _normalized: true,
       path: aliasedPath

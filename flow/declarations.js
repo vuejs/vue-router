@@ -21,7 +21,7 @@ declare type RouteConfig = {
   component?: any;
   components?: { [name: string]: any };
   redirect?: RedirectOption;
-  alias?: string;
+  alias?: string | Array<string>;
   children?: Array<RouteConfig>;
   canActivate?: Function;
   canDeactivate?: Function;
@@ -34,7 +34,7 @@ declare type RouteRecord = {
   name: ?string;
   parent: ?RouteRecord;
   redirect: ?RedirectOption;
-  alias: ?string;
+  matchAs: ?string;
   canActivate: ?Function;
   canDeactivate: ?Function;
 }
