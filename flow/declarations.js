@@ -22,6 +22,7 @@ declare type RouteConfig = {
   components?: { [name: string]: any };
   redirect?: RedirectOption;
   alias?: string;
+  children?: Array<RouteConfig>;
   canActivate?: Function;
   canDeactivate?: Function;
 }

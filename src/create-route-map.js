@@ -30,7 +30,7 @@ function addRoute (
   assert(path != null, `"path" is required in a route configuration.`)
 
   const record: RouteRecord = {
-    path: normalizePath(path, parent),
+    path: parent ? cleanPath(`${parent.path}/${path}`) : path,
     components: route.components || { default: route.component },
     instances: {},
     name,
@@ -41,6 +41,8 @@ function addRoute (
     canDeactivate: route.canDeactivate
   }
 
+  console.log(record)
+
   if (route.children) {
     route.children.forEach(child => {
       addRoute(pathMap, nameMap, child, record)
@@ -49,10 +51,4 @@ function addRoute (
 
   pathMap[record.path] = record
   if (name) nameMap[name] = record
-}
-
-function normalizePath (path: string, parent?: RouteRecord): string {
-  if (path[0] === '/') return path
-  if (parent == null) return path
-  return cleanPath(`${parent.path}/${path}`)
 }
