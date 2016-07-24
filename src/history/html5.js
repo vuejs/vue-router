@@ -12,8 +12,9 @@ export class HTML5History extends History {
     super(router, base)
 
     // possible redirect on start
-    if (this.getLocation() !== this.current.fullPath) {
-      replaceState(this.current.fullPath)
+    const url = cleanPath(this.base + this.current.fullPath)
+    if (this.getLocation() !== url) {
+      replaceState(url)
     }
 
     const expectScroll = router.options.scrollBehavior
