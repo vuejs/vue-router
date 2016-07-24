@@ -7,9 +7,9 @@ Vue.use(VueRouter)
 // nested children route components
 const Parent = {
   template: `
-    <div>
-      <h1>Parent</h1>
-      <router-view></router-view>
+    <div class="parent">
+      <h2>Parent</h2>
+      <router-view class="child"></router-view>
     </div>
   `
 }
@@ -39,12 +39,13 @@ const app = new Vue({
   router,
   template: `
     <div id="app">
+      <h1>Nested Routes</h1>
       <ul>
         <li><router-link to="/parent">/parent</router-link></li>
         <li><router-link to="/parent/foo">/parent/foo</router-link></li>
         <li><router-link to="/parent/bar">/parent/bar</router-link></li>
       </ul>
-      <router-view class="view"></router-view>
+      <router-view></router-view>
     </div>
   `
 }).$mount('#app')
