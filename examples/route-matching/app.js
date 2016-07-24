@@ -29,7 +29,7 @@ const app = new Vue({
   router,
   template: `
     <div id="app">
-      <h1>Basic</h1>
+      <h1>Route Matching</h1>
       <ul>
         <li><router-link to="/">/</router-link></li>
         <li><router-link to="/params/foo/bar">/params/foo/bar</router-link></li>

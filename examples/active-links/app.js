@@ -3,8 +3,8 @@ import VueRouter from 'vue-router'
 
 Vue.use(VueRouter)
 
-const Home = { template: '<div>home</div>' }
-const About = { template: '<div>about</div>' }
+const Home = { template: '<div><h2>Home</h2></div>' }
+const About = { template: '<div><h2>About</h2></div>' }
 
 const Users = {
   template: `

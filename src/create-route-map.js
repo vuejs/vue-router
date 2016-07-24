@@ -52,6 +52,7 @@ function addRoute (
 }
 
 function normalizePath (path: string, parent?: RouteRecord): string {
+  path = path.replace(/\/$/, '')
   if (path[0] === '/') return path
   if (parent == null) return path
   return cleanPath(`${parent.path}/${path}`)
