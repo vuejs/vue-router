@@ -1,11 +1,19 @@
 {
-  "name": "vue-router-next",
-  "version": "1.0.0",
-  "description": "",
+  "name": "vue-router",
+  "version": "2.0.0",
+  "description": "Official router for Vue.js 2.0",
+  "author": "Evan You",
+  "license": "MIT",
   "main": "dist/vue-router.js",
   "files": [
-    "dist",
+    "dist/vue-router.js",
+    "dist/vue-router.min.js",
     "src"
+  ],
+  "keywords": [
+    "vue",
+    "router",
+    "routing"
   ],
   "scripts": {
     "dev": "cross-env BABEL_ENV=rollup rollup -wcm",
@@ -14,8 +22,6 @@
     "lint": "eslint src",
     "test": "npm run lint && flow check"
   },
-  "author": "Evan You",
-  "license": "MIT",
   "devDependencies": {
     "babel-core": "^6.11.4",
     "babel-eslint": "^6.1.2",
