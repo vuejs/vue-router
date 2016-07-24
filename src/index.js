@@ -18,6 +18,12 @@ export default class VueRouter {
   match: Matcher;
 
   constructor (options: RouterOptions = {}) {
+    assert(
+      install.installed,
+      `not installed. Make sure to call \`Vue.use(VueRouter)\` ` +
+      `before mounting root instance.`
+    )
+
     this.app = null
     this.options = options
     this.match = createMatcher(options.routes || [])

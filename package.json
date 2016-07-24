@@ -8,20 +8,27 @@
     "src"
   ],
   "scripts": {
-    "dev": "rollup -wcm",
+    "dev": "cross-env BABEL_ENV=rollup rollup -wcm",
+    "dev-examples": "cross-env BABEL_ENV=webpack node examples/server.js",
+    "build": "cross-env BABEL_ENV=rollup rollup -c && uglifyjs dist/vue-router.js -c -m -o dist/vue-router.min.js",
     "lint": "eslint src",
-    "build": "rollup -c && uglifyjs dist/vue-router.js -c -m -o dist/vue-router.min.js",
     "test": "npm run lint && flow check"
   },
   "author": "Evan You",
   "license": "MIT",
   "devDependencies": {
+    "babel-core": "^6.11.4",
     "babel-eslint": "^6.1.2",
+    "babel-loader": "^6.2.4",
+    "babel-preset-es2015": "^6.9.0",
     "babel-preset-flow-vue": "^1.0.0",
     "buble": "^0.12.3",
+    "cross-env": "^2.0.0",
     "eslint": "^3.0.1",
     "eslint-config-vue": "^1.0.3",
     "eslint-plugin-flow-vars": "^0.4.0",
+    "express": "^4.14.0",
+    "express-urlrewrite": "^1.2.0",
     "flow-bin": "^0.29.0",
     "path-to-regexp": "^1.5.3",
     "rollup": "^0.33.0",
@@ -32,6 +39,8 @@
     "rollup-plugin-replace": "^1.1.1",
     "rollup-watch": "^2.4.0",
     "uglify-js": "^2.7.0",
-    "vue": "^2.0.0-beta.2"
+    "vue": "^2.0.0-beta.3",
+    "webpack": "^1.13.1",
+    "webpack-dev-middleware": "^1.6.1"
   }
 }

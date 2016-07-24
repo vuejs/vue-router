@@ -29,7 +29,6 @@ export class HTML5History extends History {
     })
 
     if (expectScroll) {
-      _key = genKey()
       window.addEventListener('scroll', saveScrollPosition)
     }
   }

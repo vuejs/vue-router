@@ -1,3 +1,10 @@
 {
-  "presets": ["flow-vue"]
+  "env": {
+    "webpack": {
+      "presets": ["es2015", "flow-vue"]
+    },
+    "rollup": {
+      "presets": ["flow-vue"]
+    }
+  }
 }
