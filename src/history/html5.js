@@ -24,7 +24,7 @@ export class HTML5History extends History {
       const current = this.current
       this.transitionTo(this.getLocation(), next => {
         if (expectScroll) {
-          this.handleScroll(current, next)
+          this.handleScroll(next, current, true)
         }
       })
     })
@@ -39,16 +39,18 @@ export class HTML5History extends History {
   }
 
   push (location: RawLocation) {
+    const current = this.current
     super.push(location, route => {
-      const url = cleanPath(this.base + route.fullPath)
-      pushState(url)
+      pushState(cleanPath(this.base + route.fullPath))
+      this.handleScroll(route, current, false)
     })
   }
 
   replace (location: RawLocation) {
+    const current = this.current
     super.replace(location, route => {
-      const url = cleanPath(this.base + route.fullPath)
-      replaceState(url)
+      replaceState(cleanPath(this.base + route.fullPath))
+      this.handleScroll(route, current, false)
     })
   }
 
@@ -56,7 +58,7 @@ export class HTML5History extends History {
     return getLocation(this.base)
   }
 
-  handleScroll (from: Route, to: Route) {
+  handleScroll (to: Route, from: Route, isPop: boolean) {
     const router = this.router
     if (!router.app) {
       return
@@ -67,7 +69,7 @@ export class HTML5History extends History {
     if (typeof behavior === 'boolean') {
       shouldScroll = behavior
     } else if (typeof behavior === 'function') {
-      shouldScroll = behavior(from, to)
+      shouldScroll = behavior(to, from, isPop)
     }
 
     if (!shouldScroll) {
