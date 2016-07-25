@@ -44,7 +44,7 @@ const router = new VueRouter({
   routes: [
     { path: '/', component: Home, meta: { scrollToTop: true }},
     { path: '/foo', component: Foo },
-    { path: '/bar', component: Bar }
+    { path: '/bar', component: Bar, meta: { scrollToTop: true }}
   ]
 })
 
