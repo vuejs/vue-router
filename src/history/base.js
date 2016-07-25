@@ -142,8 +142,8 @@ function extractRouteGuards (
   matched: Array<RouteRecord>,
   deactivate: boolean
 ): Array<?Function> {
-  const inlineGuardKey = deactivate ? 'canDeactivate' : 'canActivate'
-  const compGuardKey = deactivate ? 'routeCanDeactivate' : 'routeCanActivate'
+  const inlineGuardKey = deactivate ? 'beforeLeave' : 'beforeEnter'
+  const compGuardKey = deactivate ? 'beforeRouteLeave' : 'beforeRouteEnter'
 
   const guards = matched.map(m => {
     const inlineGuard = m[inlineGuardKey]

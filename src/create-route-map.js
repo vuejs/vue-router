@@ -38,8 +38,8 @@ function addRouteRecord (
     parent,
     matchAs,
     redirect: route.redirect,
-    canActivate: route.canActivate,
-    canDeactivate: route.canDeactivate,
+    beforeEnter: route.beforeEnter,
+    beforeLeave: route.beforeLeave,
     meta: route.meta || {}
   }
 

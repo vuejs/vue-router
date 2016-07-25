@@ -23,8 +23,8 @@ declare type RouteConfig = {
   redirect?: RedirectOption;
   alias?: string | Array<string>;
   children?: Array<RouteConfig>;
-  canActivate?: Function;
-  canDeactivate?: Function;
+  beforeEnter?: Function;
+  beforeLeave?: Function;
   meta?: any;
 }
 
@@ -36,8 +36,8 @@ declare type RouteRecord = {
   parent: ?RouteRecord;
   redirect: ?RedirectOption;
   matchAs: ?string;
-  canActivate: ?Function;
-  canDeactivate: ?Function;
+  beforeEnter: ?Function;
+  beforeLeave: ?Function;
   meta: any;
 }
 

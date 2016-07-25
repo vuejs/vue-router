@@ -21,7 +21,7 @@ function guardRoute (route, redirect, next) {
   }
 }
 
-// Baz implements an in-component canDeactivate hook
+// Baz implements an in-component beforeRouteLeave hook
 const Baz = {
   data () {
     return { saved: false }
@@ -32,7 +32,7 @@ const Baz = {
       <button @click="saved = true">save</button>
     </div>
   `,
-  routeCanDeactivate (route, redirect, next) {
+  beforeRouteLeave (route, redirect, next) {
     if (this.saved || window.confirm('Not saved, are you sure you want to navigate away?')) {
       next()
     }
@@ -45,8 +45,8 @@ const router = new VueRouter({
   routes: [
     { path: '/', component: Home },
 
-    // inline canActivate
-    { path: '/foo', component: Foo, canActivate: guardRoute },
+    // inline guard
+    { path: '/foo', component: Foo, beforeEnter: guardRoute },
 
     // using meta properties on the route config
     // and check them in a global before hook
