@@ -36,4 +36,4 @@ const router = new VueRouter({
   ]
 })
 
-new Vue(Object.assign({ router }, App)).$mount('#app')
+new Vue(Vue.util.extend({ router }, App)).$mount('#app')
