@@ -26,7 +26,7 @@ export default {
     this.fetchData()
   },
   watch: {
-    '$route' () { this.fetchData() }
+    '$route': 'fetchData'
   },
   methods: {
     fetchData () {
