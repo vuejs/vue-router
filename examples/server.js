@@ -9,7 +9,8 @@ const app = express()
 app.use(webpackDevMiddleware(webpack(WebpackConfig), {
   publicPath: '/__build__/',
   stats: {
-    colors: true
+    colors: true,
+    chunks: false
   }
 }))
 
