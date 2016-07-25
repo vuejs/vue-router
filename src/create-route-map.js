@@ -39,7 +39,6 @@ function addRouteRecord (
     matchAs,
     redirect: route.redirect,
     beforeEnter: route.beforeEnter,
-    beforeLeave: route.beforeLeave,
     meta: route.meta || {}
   }
 

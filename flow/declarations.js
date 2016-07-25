@@ -38,7 +38,6 @@ declare type RouteRecord = {
   redirect: ?RedirectOption;
   matchAs: ?string;
   beforeEnter: ?Function;
-  beforeLeave: ?Function;
   meta: any;
 }
 
