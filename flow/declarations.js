@@ -25,6 +25,7 @@ declare type RouteConfig = {
   children?: Array<RouteConfig>;
   canActivate?: Function;
   canDeactivate?: Function;
+  meta?: any;
 }
 
 declare type RouteRecord = {
@@ -37,6 +38,7 @@ declare type RouteRecord = {
   matchAs: ?string;
   canActivate: ?Function;
   canDeactivate: ?Function;
+  meta: any;
 }
 
 declare type RouteMap = {
@@ -64,6 +66,7 @@ declare type Route = {
   params: StringHash;
   fullPath: string;
   matched: Array<RouteRecord>;
+  meta: any;
 }
 
 declare type Matcher = (location: RawLocation, current?: Route) => Route;

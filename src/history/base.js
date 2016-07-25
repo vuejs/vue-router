@@ -10,8 +10,8 @@ export class History {
   base: string;
   current: Route;
   pending: ?Route;
-  beforeHooks: Array<Function>;
-  afterHooks: Array<Function>;
+  beforeHooks: Array<?Function>;
+  afterHooks: Array<?Function>;
   cb: Function;
 
   constructor (router: VueRouter, base: ?string) {
@@ -61,15 +61,13 @@ export class History {
       activated
     } = resolveQueue(this.current.matched, route.matched)
 
-    const queue = this.beforeHooks.concat(
-      // route config canDeactivate hooks
-      deactivated.map(m => m.canDeactivate).reverse(),
-      // component canDeactivate hooks
-      extractComponentHooks(deactivated, 'routeCanDeactivate').reverse(),
-      // route config canActivate hooks
-      activated.map(m => m.canActivate),
-      // component canActivate hooks
-      extractComponentHooks(activated, 'routeCanActivate')
+    const queue = [].concat(
+      // deactivate guards
+      extractRouteGuards(deactivated, true),
+      // global before hooks
+      this.beforeHooks,
+      // activate guards
+      extractRouteGuards(activated, false)
     ).filter(_ => _)
 
     this.pending = route
@@ -93,7 +91,7 @@ export class History {
     this.current = route
     this.cb && this.cb(route)
     this.afterHooks.forEach(hook => {
-      hook(route)
+      hook && hook(route)
     })
   }
 
@@ -140,22 +138,35 @@ function resolveQueue (
   }
 }
 
-function extractComponentHooks (
+function extractRouteGuards (
   matched: Array<RouteRecord>,
-  name: string
+  deactivate: boolean
 ): Array<?Function> {
-  return Array.prototype.concat.apply([], matched.map(m => {
-    return Object.keys(m.components).map(key => {
+  const inlineGuardKey = deactivate ? 'canDeactivate' : 'canActivate'
+  const compGuardKey = deactivate ? 'routeCanDeactivate' : 'routeCanActivate'
+
+  const guards = matched.map(m => {
+    const inlineGuard = m[inlineGuardKey]
+    const compGuards = Object.keys(m.components).map(key => {
       const component = m.components[key]
       const instance = m.instances[key] && m.instances[key].child
-      const hook = typeof component === 'function'
-        ? component.options[name]
-        : (component && component[name])
-      if (hook) {
-        return function routerHook () {
-          return hook.apply(instance, arguments)
+      const guard = typeof component === 'function'
+        ? component.options[compGuardKey]
+        : (component && component[compGuardKey])
+      if (guard) {
+        return function routeGuard () {
+          return guard.apply(instance, arguments)
         }
       }
     })
-  }))
+    return inlineGuard
+      ? [inlineGuard].concat(compGuards)
+      : compGuards
+  })
+
+  if (deactivate) {
+    guards.reverse()
+  }
+
+  return Array.prototype.concat.apply([], guards)
 }

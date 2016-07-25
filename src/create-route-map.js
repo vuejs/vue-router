@@ -39,7 +39,8 @@ function addRouteRecord (
     matchAs,
     redirect: route.redirect,
     canActivate: route.canActivate,
-    canDeactivate: route.canDeactivate
+    canDeactivate: route.canDeactivate,
+    meta: route.meta || {}
   }
 
   if (route.children) {

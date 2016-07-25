@@ -57,7 +57,8 @@ export function createMatcher (routes: Array<RouteConfig>): Matcher {
       query: location.query || {},
       params: location.params || {},
       fullPath: getFullPath(location),
-      matched: record ? formatMatch(record) : []
+      matched: record ? formatMatch(record) : [],
+      meta: record ? record.meta : {}
     })
   }
 
