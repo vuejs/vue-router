@@ -25,7 +25,7 @@ const router = new VueRouter({
 // 4. Create and mount root instance.
 // Make sure to inject the router.
 // Route components will be rendered inside <router-view>.
-const app = new Vue({
+new Vue({
   router,
   template: `
     <div id="app">

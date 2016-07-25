@@ -45,15 +45,17 @@ const router = new VueRouter({
   base: __dirname,
   routes: [
     { path: '/', component: Home },
-    { path: '/parent', component: Parent, children: [
-      { path: '', component: Default },
-      { path: 'foo', component: Foo },
-      { path: 'bar', component: Bar }
-    ]}
+    { path: '/parent', component: Parent,
+      children: [
+        { path: '', component: Default },
+        { path: 'foo', component: Foo },
+        { path: 'bar', component: Bar }
+      ]
+    }
   ]
 })
 
-const app = new Vue({
+new Vue({
   router,
   template: `
     <div id="app">

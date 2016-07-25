@@ -14,14 +14,16 @@ const router = new VueRouter({
   mode: 'history',
   base: __dirname,
   routes: [
-    { path: '/', component: Home, children: [
-      { path: '', component: Default },
-      { path: 'foo', component: Foo },
-      { path: 'bar', component: Bar },
-      { path: 'baz', name: 'baz', component: Baz },
-      // relative redirect to a sibling route
-      { path: 'relative-redirect', redirect: 'foo' },
-    ]},
+    { path: '/', component: Home,
+      children: [
+        { path: '', component: Default },
+        { path: 'foo', component: Foo },
+        { path: 'bar', component: Bar },
+        { path: 'baz', name: 'baz', component: Baz },
+        // relative redirect to a sibling route
+        { path: 'relative-redirect', redirect: 'foo' }
+      ]
+    },
     // absolute redirect
     { path: '/absolute-redirect', redirect: '/bar' },
     // named redirect
@@ -32,11 +34,11 @@ const router = new VueRouter({
     { path: '/redirect-with-params/:id', redirect: '/with-params/:id' },
 
     // catch all redirect
-    { path: '*', redirect: '/' },
+    { path: '*', redirect: '/' }
   ]
 })
 
-const app = new Vue({
+new Vue({
   router,
   template: `
     <div id="app">

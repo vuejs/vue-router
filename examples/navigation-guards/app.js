@@ -14,9 +14,9 @@ const Bar = { template: '<div>bar</div>' }
  * @param {Function} next - confirm the route
  */
 function guardRoute (route, redirect, next) {
-  if (confirm(`Navigate to ${route.path}?`)) {
+  if (window.confirm(`Navigate to ${route.path}?`)) {
     next()
-  } else if (confirm(`Redirect to home?`)) {
+  } else if (window.confirm(`Redirect to home?`)) {
     redirect('/')
   }
 }
@@ -33,7 +33,7 @@ const Baz = {
     </div>
   `,
   routeCanDeactivate (route, redirect, next) {
-    if (this.saved || confirm('Not saved, are you sure you want to navigate away?')) {
+    if (this.saved || window.confirm('Not saved, are you sure you want to navigate away?')) {
       next()
     }
   }
@@ -67,7 +67,7 @@ router.beforeEach((route, redirect, next) => {
   }
 })
 
-const app = new Vue({
+new Vue({
   router,
   template: `
     <div id="app">

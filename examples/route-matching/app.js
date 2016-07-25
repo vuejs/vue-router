@@ -14,7 +14,7 @@ const router = new VueRouter({
     // params are denoted with a colon ":"
     { path: '/params/:foo/:bar' },
     // a param can be made optional by adding "?"
-    { path: '/optional-params/:foo?'},
+    { path: '/optional-params/:foo?' },
     // a param can be followed by a regex pattern in parens
     // this route will only be matched if :id is all numbers
     { path: '/params-with-regex/:id(\\d+)' },
@@ -25,7 +25,7 @@ const router = new VueRouter({
   ]
 })
 
-const app = new Vue({
+new Vue({
   router,
   template: `
     <div id="app">

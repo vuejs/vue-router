@@ -23,13 +23,15 @@ const router = new VueRouter({
   routes: [
     { path: '/', component: Home },
     { path: '/about', component: About },
-    { path: '/users', component: Users, children: [
-      { path: ':username', component: User }
-    ]},
+    { path: '/users', component: Users,
+      children: [
+        { path: ':username', component: User }
+      ]
+    }
   ]
 })
 
-const app = new Vue({
+new Vue({
   router,
   template: `
     <div id="app">

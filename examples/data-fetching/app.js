@@ -15,7 +15,7 @@ const router = new VueRouter({
   ]
 })
 
-const app = new Vue({
+new Vue({
   router,
   template: `
     <div id="app">

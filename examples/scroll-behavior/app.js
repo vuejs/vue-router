@@ -27,13 +27,13 @@ const router = new VueRouter({
   base: __dirname,
   scrollBehavior,
   routes: [
-    { path: '/', component: Home, meta: { scrollToTop: true } },
+    { path: '/', component: Home, meta: { scrollToTop: true }},
     { path: '/foo', component: Foo },
     { path: '/bar', component: Bar }
   ]
 })
 
-const app = new Vue({
+new Vue({
   router,
   template: `
     <div id="app">

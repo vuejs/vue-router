@@ -24,27 +24,29 @@ const router = new VueRouter({
   base: __dirname,
   routes: [
     { path: '/', redirect: '/parent' },
-    { path: '/parent', component: Parent, children: [
-      // an empty path will be treated as the default, e.g.
-      // components rendered at /parent: Root -> Parent -> Default
-      { path: '', component: Default },
+    { path: '/parent', component: Parent,
+      children: [
+        // an empty path will be treated as the default, e.g.
+        // components rendered at /parent: Root -> Parent -> Default
+        { path: '', component: Default },
 
-      // components rendered at /parent/foo: Root -> Parent -> Foo
-      { path: 'foo', component: Foo },
+        // components rendered at /parent/foo: Root -> Parent -> Foo
+        { path: 'foo', component: Foo },
 
-      // components rendered at /parent/bar: Root -> Parent -> Bar
-      { path: 'bar', component: Bar },
+        // components rendered at /parent/bar: Root -> Parent -> Bar
+        { path: 'bar', component: Bar },
 
-      // NOTE absolute path here!
-      // this allows you to leverage the component nesting without being
-      // limited to the nested URL.
-      // components rendered at /baz: Root -> Parent -> Baz
-      { path: '/baz', component: Baz }
-    ]}
+        // NOTE absolute path here!
+        // this allows you to leverage the component nesting without being
+        // limited to the nested URL.
+        // components rendered at /baz: Root -> Parent -> Baz
+        { path: '/baz', component: Baz }
+      ]
+    }
   ]
 })
 
-const app = new Vue({
+new Vue({
   router,
   template: `
     <div id="app">
