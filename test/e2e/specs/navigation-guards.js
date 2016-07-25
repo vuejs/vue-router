@@ -1,5 +1,10 @@
 module.exports = {
   'navigation guards': function (browser) {
+    // alert commands not available in phantom
+    if (process.env.PHANTOMJS) {
+      return
+    }
+
     browser
     .url('http://localhost:8080/navigation-guards/')
       .waitForElementVisible('#app', 1000)

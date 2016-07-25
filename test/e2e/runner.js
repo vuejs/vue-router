@@ -13,6 +13,9 @@ var i = args.indexOf('--test')
 if (i > -1) {
   args[i + 1] = 'test/e2e/specs/' + args[i + 1]
 }
+if (args.indexOf('phantomjs') > -1) {
+  process.env.PHANTOMJS = true
+}
 
 var runner = spawn('./node_modules/.bin/nightwatch', args, {
   stdio: 'inherit'
