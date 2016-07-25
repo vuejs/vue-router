@@ -11,6 +11,7 @@
 - [router-view](view.md)
 - [v-link](link.md)
 - [Lazy loading Routes](lazy.md)
+- [Testing](testing.md)
 - [Transition Pipeline](pipeline/README.md)
   - [Transition Hooks](pipeline/hooks.md)
   - [data](pipeline/data.md)
