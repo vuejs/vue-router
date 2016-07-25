@@ -8,7 +8,7 @@
       <label><input v-model="email" placeholder="email"></label>
       <label><input v-model="pass" placeholder="password" type="password"></label> (hint: password1)<br>
       <button type="submit">login</button>
-      <p v-if="error" style="color:red">Bad login information</p>
+      <p v-if="error" class="error">Bad login information</p>
     </form>
   </div>
 </template>
@@ -37,3 +37,9 @@ export default {
   }
 }
 </script>
+
+<style>
+.error {
+  color: red;
+}
+</style>
