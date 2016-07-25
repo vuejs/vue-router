@@ -66,7 +66,6 @@ declare type Route = {
   params: StringHash;
   fullPath: string;
   matched: Array<RouteRecord>;
-  meta: any;
 }
 
 declare type Matcher = (location: RawLocation, current?: Route) => Route;

@@ -57,9 +57,10 @@ const router = new VueRouter({
   ]
 })
 
-// global hook that checks target route meta
+// global hook that checks matched routes' meta to determine whether
+// to guard the navigation
 router.beforeEach((route, redirect, next) => {
-  if (route.meta.needGuard) {
+  if (route.matched.some(m => m.meta.needGuard)) {
     guardRoute(route, redirect, next)
   } else {
     next()
@@ -70,7 +71,7 @@ const app = new Vue({
   router,
   template: `
     <div id="app">
-      <h1>Named Routes</h1>
+      <h1>Navigation Guards</h1>
       <ul>
         <li><router-link to="/">/</router-link></li>
         <li><router-link to="/foo">/foo</router-link></li>
