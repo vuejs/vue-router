@@ -41,7 +41,7 @@ export class HTML5History extends History {
 
   push (location: RawLocation) {
     const current = this.current
-    super.push(location, route => {
+    super.transitionTo(location, route => {
       pushState(cleanPath(this.base + route.fullPath))
       this.handleScroll(route, current, false)
     })
@@ -49,7 +49,7 @@ export class HTML5History extends History {
 
   replace (location: RawLocation) {
     const current = this.current
-    super.replace(location, route => {
+    super.transitionTo(location, route => {
       replaceState(cleanPath(this.base + route.fullPath))
       this.handleScroll(route, current, false)
     })

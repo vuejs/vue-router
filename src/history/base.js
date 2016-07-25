@@ -14,13 +14,19 @@ export class History {
   afterHooks: Array<?Function>;
   cb: Function;
 
+  // implemented by sub-classes
+  go: Function;
+  push: Function;
+  replace: Function;
+
   constructor (router: VueRouter, base: ?string) {
     this.router = router
     this.base = normalizeBae(base)
-    this.current = router.match(this.getLocation())
+    this.current = router.match('/')
     this.pending = null
     this.beforeHooks = []
     this.afterHooks = []
+    this.transitionTo(this.getLocation())
   }
 
   listen (cb: Function) {
@@ -35,23 +41,15 @@ export class History {
     this.afterHooks.push(fn)
   }
 
-  push (location: RawLocation, cb?: Function) {
-    this.transitionTo(location, cb)
-  }
-
-  replace (location: RawLocation, cb?: Function) {
-    this.transitionTo(location, cb, true)
-  }
-
-  transitionTo (location: RawLocation, cb?: Function, replace?: boolean) {
+  transitionTo (location: RawLocation, cb?: Function) {
     const route = this.router.match(location, this.current)
     this.confirmTransition(route, () => {
       this.updateRoute(route)
       cb && cb(route)
-    }, replace)
+    })
   }
 
-  confirmTransition (route: Route, cb: Function, replace?: boolean) {
+  confirmTransition (route: Route, cb: Function) {
     if (isSameRoute(route, this.current)) {
       return
     }
@@ -71,9 +69,7 @@ export class History {
     ).filter(_ => _)
 
     this.pending = route
-    const redirect = replace
-      ? location => this.replace(location)
-      : location => this.push(location)
+    const redirect = location => this.push(location)
 
     runQueue(
       queue,

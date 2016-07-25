@@ -14,14 +14,14 @@ export class AbstractHistory extends History {
   }
 
   push (location: RawLocation) {
-    super.push(location, route => {
+    super.transitionTo(location, route => {
       this.stack = this.stack.slice(0, this.index + 1).concat(route)
       this.index++
     })
   }
 
   replace (location: RawLocation) {
-    super.replace(location, route => {
+    super.transitionTo(location, route => {
       this.stack = this.stack.slice(0, this.index).concat(route)
     })
   }
