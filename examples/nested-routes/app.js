@@ -57,7 +57,7 @@ new Vue({
         <li><router-link to="/parent/bar">/parent/bar</router-link></li>
         <li><router-link to="/baz">/baz</router-link></li>
       </ul>
-      <router-view></router-view>
+      <router-view class="view"></router-view>
     </div>
   `
 }).$mount('#app')

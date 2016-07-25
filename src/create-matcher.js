@@ -165,6 +165,6 @@ function resolveRecordPath (path: string, record: RouteRecord): string {
   return resolvePath(path, record.parent ? record.parent.path : '/', true)
 }
 
-function getFullPath ({ path = '/', query = {}, hash = '' }) {
-  return path + stringifyQuery(query) + hash
+function getFullPath ({ path, query = {}, hash = '' }) {
+  return (path || '/') + stringifyQuery(query) + hash
 }

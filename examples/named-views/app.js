@@ -40,9 +40,9 @@ new Vue({
         <li><router-link to="/">/</router-link></li>
         <li><router-link to="/other">/other</router-link></li>
       </ul>
-      <router-view></router-view>
-      <router-view name="a"></router-view>
-      <router-view name="b"></router-view>
+      <router-view class="view one"></router-view>
+      <router-view class="view two" name="a"></router-view>
+      <router-view class="view three" name="b"></router-view>
     </div>
   `
 }).$mount('#app')
