@@ -2,12 +2,12 @@
 
 `vue-router` for Vue 2.0.
 
-This is still work in progress. If you really want to try it now:
+This is still work in progress. There are numerous breaking changes from 0.7.x and docs are lacking - the best way to get started is checking out the examples.
 
 ``` bash
 npm install
 
-# run examples at localhost:8080
+# serve examples at localhost:8080
 npm run dev
 
 # build dist files
