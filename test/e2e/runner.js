@@ -1,6 +1,6 @@
 var path = require('path')
 var spawn = require('cross-spawn')
-// var server = require('../../examples/server')
+var server = process.env.DEV ? null : require('../../examples/server')
 
 var args = process.argv.slice(2)
 if (args.indexOf('--config') === -1) {
@@ -19,11 +19,11 @@ var runner = spawn('./node_modules/.bin/nightwatch', args, {
 })
 
 runner.on('exit', function (code) {
-  // server.close()
+  server && server.close()
   process.exit(code)
 })
 
 runner.on('error', function (err) {
-  // server.close()
+  server && server.close()
   throw err
 })

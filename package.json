@@ -20,7 +20,7 @@
     "dev-dist": "rollup -wcm",
     "build": "rollup -c && uglifyjs dist/vue-router.js -c -m -o dist/vue-router.min.js",
     "lint": "eslint src examples",
-    "test": "npm run lint && flow check",
+    "test": "npm run lint && flow check && npm run test:e2e",
     "test:e2e": "node test/e2e/runner.js"
   },
   "devDependencies": {

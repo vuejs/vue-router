@@ -42,7 +42,7 @@ new Vue({
   router,
   template: `
     <div id="app">
-      <h1>Named Routes</h1>
+      <h1>Redirect</h1>
       <ul>
         <li><router-link to="/relative-redirect">
           /relative-redirect (redirects to /foo)
