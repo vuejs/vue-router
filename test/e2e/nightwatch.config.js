@@ -9,7 +9,10 @@ module.exports = {
     'start_process': true,
     'server_path': 'node_modules/selenium-server/lib/runner/selenium-server-standalone-2.53.1.jar',
     'host': '127.0.0.1',
-    'port': 4444
+    'port': 4444,
+    'cli_args': {
+      'webdriver.chrome.driver': 'node_modules/chromedriver/lib/chromedriver/chromedriver'
+    }
   },
 
   'test_settings': {
@@ -22,6 +25,14 @@ module.exports = {
         'on_failure': true,
         'on_error': false,
         'path': 'test/e2e/screenshots'
+      }
+    },
+
+    'chrome': {
+      'desiredCapabilities': {
+        'browserName': 'chrome',
+        'javascriptEnabled': true,
+        'acceptSslCerts': true
       }
     },
 

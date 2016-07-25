@@ -54,16 +54,13 @@ const router = new VueRouter({
 
     // Baz implements an in-component canDeactivate hook
     { path: '/baz', component: Baz }
-  ]
-})
-
-// global hook that checks matched routes' meta to determine whether
-// to guard the navigation
-router.beforeEach((route, redirect, next) => {
-  if (route.matched.some(m => m.meta.needGuard)) {
-    guardRoute(route, redirect, next)
-  } else {
-    next()
+  ],
+  beforeEach (route, redirect, next) {
+    if (route.matched.some(m => m.meta.needGuard)) {
+      guardRoute(route, redirect, next)
+    } else {
+      next()
+    }
   }
 })
 

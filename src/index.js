@@ -78,14 +78,6 @@ export default class VueRouter {
     this.go(1)
   }
 
-  beforeEach (fn: Function) {
-    this.history.before(fn)
-  }
-
-  afterEach (fn: Function) {
-    this.history.after(fn)
-  }
-
   setInitialLocation (location: RawLocation) {
     if (this.history instanceof AbstractHistory) {
       this.history.setInitialRoute(this.match(location))

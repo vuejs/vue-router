@@ -10,8 +10,6 @@ export class History {
   base: string;
   current: Route;
   pending: ?Route;
-  beforeHooks: Array<?Function>;
-  afterHooks: Array<?Function>;
   cb: Function;
 
   // implemented by sub-classes
@@ -24,21 +22,11 @@ export class History {
     this.base = normalizeBae(base)
     this.current = router.match('/')
     this.pending = null
-    this.beforeHooks = []
-    this.afterHooks = []
     this.transitionTo(this.getLocation())
   }
 
   listen (cb: Function) {
     this.cb = cb
-  }
-
-  before (fn: Function) {
-    this.beforeHooks.push(fn)
-  }
-
-  after (fn: Function) {
-    this.afterHooks.push(fn)
   }
 
   transitionTo (location: RawLocation, cb?: Function) {
@@ -61,11 +49,11 @@ export class History {
 
     const queue = [].concat(
       // deactivate guards
-      extractRouteGuards(deactivated, true),
+      extractLeaveGuards(deactivated),
       // global before hooks
-      this.beforeHooks,
+      nomralizeGuards(this.router.options.beforeEach),
       // activate guards
-      extractRouteGuards(activated, false)
+      activated.map(m => m.beforeEnter)
     ).filter(_ => _)
 
     this.pending = route
@@ -86,7 +74,7 @@ export class History {
   updateRoute (route: Route) {
     this.current = route
     this.cb && this.cb(route)
-    this.afterHooks.forEach(hook => {
+    nomralizeGuards(this.router.options.afterEach).forEach(hook => {
       hook && hook(route)
     })
   }
@@ -134,35 +122,29 @@ function resolveQueue (
   }
 }
 
-function extractRouteGuards (
-  matched: Array<RouteRecord>,
-  deactivate: boolean
-): Array<?Function> {
-  const inlineGuardKey = deactivate ? 'beforeLeave' : 'beforeEnter'
-  const compGuardKey = deactivate ? 'beforeRouteLeave' : 'beforeRouteEnter'
+function nomralizeGuards (guards?: Function | Array<?Function>): Array<?Function> {
+  if (!guards) {
+    return []
+  }
+  if (typeof guards === 'function') {
+    return [guards]
+  }
+  return guards
+}
 
-  const guards = matched.map(m => {
-    const inlineGuard = m[inlineGuardKey]
-    const compGuards = Object.keys(m.components).map(key => {
+function extractLeaveGuards (matched: Array<RouteRecord>): Array<?Function> {
+  return Array.prototype.concat.apply([], matched.map(m => {
+    return Object.keys(m.components).map(key => {
       const component = m.components[key]
       const instance = m.instances[key] && m.instances[key].child
       const guard = typeof component === 'function'
-        ? component.options[compGuardKey]
-        : (component && component[compGuardKey])
+        ? component.options.beforeRouteLeave
+        : (component && component.beforeRouteLeave)
       if (guard) {
         return function routeGuard () {
           return guard.apply(instance, arguments)
         }
       }
     })
-    return inlineGuard
-      ? [inlineGuard].concat(compGuards)
-      : compGuards
-  })
-
-  if (deactivate) {
-    guards.reverse()
-  }
-
-  return Array.prototype.concat.apply([], guards)
+  }).reverse())
 }
