@@ -3,7 +3,7 @@ import VueRouter from 'vue-router'
 
 Vue.use(VueRouter)
 
-const Home = { template: '<div><h1>Home</h1><router-view></router-view></div>' }
+const Home = { template: '<router-view></router-view>' }
 const Default = { template: '<div>default</div>' }
 const Foo = { template: '<div>foo</div>' }
 const Bar = { template: '<div>bar</div>' }
@@ -20,6 +20,7 @@ const router = new VueRouter({
         { path: 'foo', component: Foo },
         { path: 'bar', component: Bar },
         { path: 'baz', name: 'baz', component: Baz },
+        { path: 'with-params/:id', component: WithParams },
         // relative redirect to a sibling route
         { path: 'relative-redirect', redirect: 'foo' }
       ]
@@ -30,7 +31,6 @@ const router = new VueRouter({
     { path: '/named-redirect', redirect: { name: 'baz' }},
 
     // redirect with params
-    { path: '/with-params/:id', component: WithParams },
     { path: '/redirect-with-params/:id', redirect: '/with-params/:id' },
 
     // catch all redirect

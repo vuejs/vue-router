@@ -24,7 +24,6 @@
     "test:e2e": "node test/e2e/runner.js"
   },
   "devDependencies": {
-    "axios": "^0.13.1",
     "babel-core": "^6.11.4",
     "babel-eslint": "^6.1.2",
     "babel-loader": "^6.2.4",
@@ -52,6 +51,7 @@
     "rollup-plugin-replace": "^1.1.1",
     "rollup-watch": "^2.4.0",
     "selenium-server": "^2.53.1",
+    "superagent": "^2.1.0",
     "uglify-js": "^2.7.0",
     "vue": "^2.0.0-beta.3",
     "vue-loader": "^9.2.0",

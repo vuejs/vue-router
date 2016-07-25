@@ -5,7 +5,7 @@ Vue.use(VueRouter)
 
 const Home = {
   template: `
-    <div>
+    <div class="home">
       <h2>Home</h2>
       <p>hello</p>
     </div>
@@ -30,15 +30,15 @@ const Parent = {
     <div class="parent">
       <h2>Parent</h2>
       <transition :name="transitionName">
-        <router-view class="slide"></router-view>
+        <router-view class="child-view"></router-view>
       </transition>
     </div>
   `
 }
 
-const Default = { template: '<div>default</div>' }
-const Foo = { template: '<div>foo</div>' }
-const Bar = { template: '<div>bar</div>' }
+const Default = { template: '<div class="default">default</div>' }
+const Foo = { template: '<div class="foo">foo</div>' }
+const Bar = { template: '<div class="bar">bar</div>' }
 
 const router = new VueRouter({
   mode: 'history',
@@ -67,7 +67,7 @@ new Vue({
         <li><router-link to="/parent/bar">/parent/bar</router-link></li>
       </ul>
       <transition name="fade" mode="out-in">
-        <router-view></router-view>
+        <router-view class="view"></router-view>
       </transition>
     </div>
   `
