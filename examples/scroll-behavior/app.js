@@ -5,21 +5,36 @@ Vue.use(VueRouter)
 
 const Home = { template: '<div>home</div>' }
 const Foo = { template: '<div>foo</div>' }
-const Bar = { template: '<div>bar</div>' }
+const Bar = {
+  template: `
+    <div>
+      bar
+      <div style="height:500px"></div>
+      <p id="anchor">Anchor</p>
+    </div>
+  `
+}
 
 // scrollBehavior:
 // - only available in html5 history mode
-// - defaults to false
-// - if set to true, remembers and restores scroll position on popstate
-// - or use a function to conditionally return a position
-const scrollBehavior = (to, from, isPopState) => {
-  if (!isPopState || to.matched.some(m => m.meta.scrollToTop)) {
-    // explicitly control scroll behavior
-    // scroll to top on new navigations or routes that requires scrolling to top
-    return { x: 0, y: 0 }
+// - defaults to no scroll behavior
+// - return false to prevent scroll
+const scrollBehavior = (to, from, savedPosition) => {
+  if (savedPosition) {
+    // savedPosition is only available for popstate navigations.
+    return savedPosition
+  } else {
+    // new navigation.
+    // scroll to anchor
+    if (to.hash) {
+      return { anchor: true }
+    }
+    // explicitly control scroll position
+    // check if any matched route config has meta that requires scrolling to top
+    if (to.matched.some(m => m.meta.scrollToTop)) {
+      return { x: 0, y: 0 }
+    }
   }
-  // for popstate navigations, use saved position
-  return true
 }
 
 const router = new VueRouter({
@@ -42,6 +57,7 @@ new Vue({
         <li><router-link to="/">/</router-link></li>
         <li><router-link to="/foo">/foo</router-link></li>
         <li><router-link to="/bar">/bar</router-link></li>
+        <li><router-link to="/bar#anchor">/bar#anchor</router-link></li>
       </ul>
       <router-view class="view"></router-view>
     </div>

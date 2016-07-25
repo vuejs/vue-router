@@ -1,6 +1,7 @@
 /* @flow */
 
 import type VueRouter from '../index'
+import { assert } from '../util/warn'
 import { cleanPath } from '../util/path'
 import { History } from './base'
 
@@ -64,30 +65,40 @@ export class HTML5History extends History {
       return
     }
 
-    let shouldScroll = false
     const behavior = router.options.scrollBehavior
-    if (typeof behavior === 'boolean') {
-      shouldScroll = behavior
-    } else if (typeof behavior === 'function') {
-      shouldScroll = behavior(to, from, isPop)
+    if (!behavior) {
+      return
     }
 
+    assert(typeof behavior === 'function', `scrollBehavior must be a function`)
+
+    let position = getScrollPosition()
+    const shouldScroll = behavior(to, from, isPop ? position : null)
     if (!shouldScroll) {
       return
     }
 
-    let position = getScrollPosition()
-    if (typeof shouldScroll === 'object' &&
-        shouldScroll.x != null &&
-        shouldScroll.y != null) {
-      position = shouldScroll
-    }
-    if (position) {
-      const { x, y } = position
-      router.app.$nextTick(() => {
-        window.scrollTo(x, y)
-      })
-    }
+    // wait until re-render finishes before scrolling
+    router.app.$nextTick(() => {
+      const isObject = typeof shouldScroll === 'object'
+      if (isObject && shouldScroll.x != null && shouldScroll.y != null) {
+        position = shouldScroll
+      } else if (isObject && shouldScroll.anchor) {
+        const el = document.querySelector(to.hash)
+        if (el) {
+          const docTop = document.documentElement.getBoundingClientRect().top
+          const elTop = el.getBoundingClientRect().top
+          position = {
+            x: window.scrollX,
+            y: elTop - docTop
+          }
+        }
+      }
+
+      if (position) {
+        window.scrollTo(position.x, position.y)
+      }
+    })
   }
 }
 

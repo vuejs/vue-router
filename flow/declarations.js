@@ -10,7 +10,7 @@ declare type RouterOptions = {
   mode?: string;
   base?: string;
   linkActiveClass?: string;
-  scrollBehavior?: boolean | () => boolean | Object;
+  scrollBehavior?: Function;
 }
 
 declare type RedirectOption = string | { name: string }
