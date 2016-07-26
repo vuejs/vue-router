@@ -10,8 +10,8 @@ module.exports = {
       .click('li:nth-child(2) a')
       .assert.cssClassPresent('.view.home', 'fade-leave-active')
       .waitForElementPresent('.view.parent', TIMEOUT)
-      .assert.cssClassNotPresent('.child-view.default', 'slide-left-enter-active')
       .assert.cssClassPresent('.view.parent', 'fade-enter-active')
+      .assert.cssClassNotPresent('.child-view.default', 'slide-left-enter-active')
       .waitForElementNotPresent('.view.parent.fade-enter-active', TIMEOUT)
 
       .click('li:nth-child(3) a')
