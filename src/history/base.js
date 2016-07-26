@@ -51,7 +51,7 @@ export class History {
       // deactivate guards
       extractLeaveGuards(deactivated),
       // global before hooks
-      nomralizeGuards(this.router.options.beforeEach),
+      this.router.beforeHooks,
       // activate guards
       activated.map(m => m.beforeEnter)
     ).filter(_ => _)
@@ -74,7 +74,7 @@ export class History {
   updateRoute (route: Route) {
     this.current = route
     this.cb && this.cb(route)
-    nomralizeGuards(this.router.options.afterEach).forEach(hook => {
+    this.router.afterHooks.forEach(hook => {
       hook && hook(route)
     })
   }
@@ -120,16 +120,6 @@ function resolveQueue (
     activated: next.slice(i),
     deactivated: current.slice(i)
   }
-}
-
-function nomralizeGuards (guards?: Function | Array<?Function>): Array<?Function> {
-  if (!guards) {
-    return []
-  }
-  if (typeof guards === 'function') {
-    return [guards]
-  }
-  return guards
 }
 
 function extractLeaveGuards (matched: Array<RouteRecord>): Array<?Function> {

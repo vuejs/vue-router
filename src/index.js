@@ -17,10 +17,14 @@ export default class VueRouter {
   history: HashHistory | HTML5History | AbstractHistory;
   match: Matcher;
   fallback: boolean;
+  beforeHooks: Array<?Function>;
+  afterHooks: Array<?Function>;
 
   constructor (options: RouterOptions = {}) {
     this.app = null
     this.options = options
+    this.beforeHooks = []
+    this.afterHooks = []
     this.match = createMatcher(options.routes || [])
 
     let mode = options.mode || 'hash'
@@ -60,6 +64,14 @@ export default class VueRouter {
     this.history.listen(route => {
       this.app._route = route
     })
+  }
+
+  beforeEach (fn: Function) {
+    this.beforeHooks.push(fn)
+  }
+
+  afterEach (fn: Function) {
+    this.afterHooks.push(fn)
   }
 
   push (location: RawLocation) {

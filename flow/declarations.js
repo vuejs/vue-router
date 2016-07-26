@@ -11,8 +11,6 @@ declare type RouterOptions = {
   base?: string;
   linkActiveClass?: string;
   scrollBehavior?: Function;
-  beforeEach?: Function | Array<?Function>;
-  afterEach?: Function | Array<?Function>;
 }
 
 declare type RedirectOption = string | { name: string }
