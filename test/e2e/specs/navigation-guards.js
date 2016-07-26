@@ -38,11 +38,7 @@ module.exports = {
       .click('li:nth-child(2) a')
       .dismissAlert()
       .waitFor(100)
-      .acceptAlert() // redirect to home
-      .assert.urlEquals('http://localhost:8080/navigation-guards/')
-      .assert.containsText('.view', 'home')
-
-      .click('li:nth-child(4) a')
+      .acceptAlert() // redirect to baz
       .assert.urlEquals('http://localhost:8080/navigation-guards/baz')
       .assert.containsText('.view', 'baz (not saved)')
 

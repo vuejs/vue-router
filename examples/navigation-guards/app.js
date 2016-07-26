@@ -16,8 +16,8 @@ const Bar = { template: '<div>bar</div>' }
 function guardRoute (route, redirect, next) {
   if (window.confirm(`Navigate to ${route.path}?`)) {
     next()
-  } else if (window.confirm(`Redirect to home?`)) {
-    redirect('/')
+  } else if (window.confirm(`Redirect to /baz?`)) {
+    redirect('/baz')
   }
 }
 
