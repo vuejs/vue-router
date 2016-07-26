@@ -9,7 +9,10 @@ export default {
       type: [String, Object],
       required: true
     },
-    tag: String,
+    tag: {
+      type: String,
+      default: 'a'
+    },
     exact: Boolean,
     append: Boolean,
     replace: Boolean,
@@ -29,8 +32,7 @@ export default {
       ? isSameRoute(current, resolved)
       : isIncludedRoute(current, resolved)
 
-    return h(this.tag || 'a', {
-      attrs: { href },
+    const data = {
       class: classes,
       on: {
         click: (e) => {
@@ -42,6 +44,35 @@ export default {
           }
         }
       }
-    }, this.$slots.default)
+    }
+
+    if (this.tag === 'a') {
+      data.attrs = { href }
+    } else {
+      // find the first <a> child and apply href
+      const a = findAnchor(this.$slots.default)
+      if (a) {
+        const aData = a.data || (a.data = {})
+        const aAttrs = aData.attrs || (aData.attrs = {})
+        aAttrs.href = href
+      }
+    }
+
+    return h(this.tag, data, this.$slots.default)
+  }
+}
+
+function findAnchor (children) {
+  if (children) {
+    let child
+    for (let i = 0; i < children.length; i++) {
+      child = children[i]
+      if (child.tag === 'a') {
+        return child
+      }
+      if (child.children && (child = findAnchor(child.children))) {
+        return child
+      }
+    }
   }
 }

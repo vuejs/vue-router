@@ -57,6 +57,10 @@ new Vue({
         </li>
 
         <li><router-link to="/about">/about</router-link></li>
+
+        <router-link tag="li" to="/about">
+          <a>/about (active class on outer element)</a>
+        </router-link>
       </ul>
       <router-view class="view"></router-view>
     </div>

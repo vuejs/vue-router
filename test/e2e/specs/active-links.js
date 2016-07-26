@@ -3,7 +3,7 @@ module.exports = {
     browser
     .url('http://localhost:8080/active-links/')
       .waitForElementVisible('#app', 1000)
-      .assert.count('li a', 9)
+      .assert.count('li a', 10)
       // assert correct href with base
       .assert.attributeContains('li:nth-child(1) a', 'href', '/active-links/')
       .assert.attributeContains('li:nth-child(2) a', 'href', '/active-links/')
@@ -14,6 +14,7 @@ module.exports = {
       .assert.attributeContains('li:nth-child(7) a', 'href', '/active-links/users/evan?foo=bar')
       .assert.attributeContains('li:nth-child(8) a', 'href', '/active-links/users/evan?baz=qux&foo=bar')
       .assert.attributeContains('li:nth-child(9) a', 'href', '/active-links/about')
+      .assert.attributeContains('li:nth-child(10) a', 'href', '/active-links/about')
       .assert.containsText('.view', 'Home')
 
     assertActiveLinks(1, [1, 2])
@@ -24,14 +25,18 @@ module.exports = {
     assertActiveLinks(6, [1, 3, 5, 6])
     assertActiveLinks(7, [1, 3, 5, 7])
     assertActiveLinks(8, [1, 3, 5, 7, 8])
-    assertActiveLinks(9, [1, 9])
+    assertActiveLinks(9, [1, 9], [10])
+    assertActiveLinks(10, [1, 9], [10])
 
     browser.end()
 
-    function assertActiveLinks (n, activeOnes) {
+    function assertActiveLinks (n, activeA, activeLI) {
       browser.click(`li:nth-child(${n}) a`)
-      activeOnes.forEach(i => {
+      activeA.forEach(i => {
         browser.assert.cssClassPresent(`li:nth-child(${i}) a`, 'router-link-active')
+      })
+      activeLI && activeLI.forEach(i => {
+        browser.assert.cssClassPresent(`li:nth-child(${i})`, 'router-link-active')
       })
     }
   }
