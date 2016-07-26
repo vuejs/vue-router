@@ -4,6 +4,13 @@ import type VueRouter from '../index'
 import { assert } from '../util/warn'
 import { cleanPath } from '../util/path'
 import { History } from './base'
+import {
+  saveScrollPosition,
+  getScrollPosition,
+  isValidPosition,
+  normalizePosotion,
+  getElementPosition
+} from '../util/scroll-position'
 
 const genKey = () => String(Date.now())
 let _key: string = genKey()
@@ -31,7 +38,9 @@ export class HTML5History extends History {
     })
 
     if (expectScroll) {
-      window.addEventListener('scroll', saveScrollPosition)
+      window.addEventListener('scroll', () => {
+        saveScrollPosition(_key)
+      })
     }
   }
 
@@ -69,30 +78,25 @@ export class HTML5History extends History {
     if (!behavior) {
       return
     }
-
     assert(typeof behavior === 'function', `scrollBehavior must be a function`)
-
-    let position = getScrollPosition()
-    const shouldScroll = behavior(to, from, isPop ? position : null)
-    if (!shouldScroll) {
-      return
-    }
 
     // wait until re-render finishes before scrolling
     router.app.$nextTick(() => {
+      let position = getScrollPosition(_key)
+      const shouldScroll = behavior(to, from, isPop ? position : null)
+      if (!shouldScroll) {
+        return
+      }
       const isObject = typeof shouldScroll === 'object'
-      if (isObject && shouldScroll.x != null && shouldScroll.y != null) {
-        position = shouldScroll
-      } else if (isObject && shouldScroll.anchor) {
-        const el = document.querySelector(to.hash)
+      if (isObject && shouldScroll.selector) {
+        const el = document.querySelector(shouldScroll.selector)
         if (el) {
-          const docTop = document.documentElement.getBoundingClientRect().top
-          const elTop = el.getBoundingClientRect().top
-          position = {
-            x: window.scrollX,
-            y: elTop - docTop
-          }
+          position = getElementPosition(el)
+        } else if (isValidPosition(shouldScroll)) {
+          position = normalizePosotion(shouldScroll)
         }
+      } else if (isObject && isValidPosition(shouldScroll)) {
+        position = normalizePosotion(shouldScroll)
       }
 
       if (position) {
@@ -121,7 +125,7 @@ function pushState (url: string, replace?: boolean) {
       _key = genKey()
       history.pushState({ key: _key }, '', url)
     }
-    saveScrollPosition()
+    saveScrollPosition(_key)
   } catch (e) {
     window.location[replace ? 'assign' : 'replace'](url)
   }
@@ -129,17 +133,4 @@ function pushState (url: string, replace?: boolean) {
 
 function replaceState (url: string) {
   pushState(url, true)
-}
-
-function saveScrollPosition () {
-  if (!_key) return
-  window.sessionStorage.setItem(_key, JSON.stringify({
-    x: window.pageXOffset,
-    y: window.pageYOffset
-  }))
-}
-
-function getScrollPosition (): ?{ x: number, y: number } {
-  if (!_key) return
-  return JSON.parse(window.sessionStorage.getItem(_key))
 }
