@@ -1,5 +1,7 @@
 /* @flow */
 
+import { warn } from './warn'
+
 const encode = encodeURIComponent
 const decode = decodeURIComponent
 
@@ -12,7 +14,7 @@ export function resolveQuery (
     try {
       parsedQuery = parseQuery(query)
     } catch (e) {
-      console.error(e)
+      warn(false, e.message)
       parsedQuery = {}
     }
     for (const key in extraQuery) {

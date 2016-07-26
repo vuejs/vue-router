@@ -14,9 +14,14 @@ export function normalizeLocation (
   }
 
   const parsedPath = parsePath(next.path || '')
-  const path = resolvePath(parsedPath.path, current && current.path, append)
+  const path = parsedPath.path
+    ? resolvePath(parsedPath.path, current && current.path, append)
+    : (current && current.path) || '/'
   const query = resolveQuery(parsedPath.query, next.query)
-  const hash = parsedPath.hash
+  let hash = next.hash || parsedPath.hash
+  if (hash && hash.charAt(0) !== '#') {
+    hash = `#${hash}`
+  }
 
   return {
     _normalized: true,
