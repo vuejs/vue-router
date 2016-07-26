@@ -22,7 +22,8 @@
     "lint": "eslint src examples",
     "test": "npm run lint && flow check && npm run test:unit && npm run test:e2e",
     "test:unit": "jasmine JASMINE_CONFIG_PATH=test/unit/jasmine.json",
-    "test:e2e": "node test/e2e/runner.js"
+    "test:e2e": "node test/e2e/runner.js",
+    "release": "bash release.sh"
   },
   "devDependencies": {
     "babel-core": "^6.11.4",
