@@ -17,7 +17,7 @@ export function install (Vue) {
     beforeCreate () {
       if (this.$options.router) {
         this._router = this.$options.router
-        this._router.app = this
+        this._router.init(this)
         Vue.util.defineReactive(this, '_route', this._router.history.current)
       }
     }

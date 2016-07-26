@@ -13,30 +13,35 @@ export default class VueRouter {
 
   app: any;
   options: RouterOptions;
-  mode: 'hash' | 'history' | 'abstract';
+  mode: string;
   history: HashHistory | HTML5History | AbstractHistory;
   match: Matcher;
+  fallback: boolean;
 
   constructor (options: RouterOptions = {}) {
-    assert(
-      install.installed,
-      `not installed. Make sure to call \`Vue.use(VueRouter)\` ` +
-      `before mounting root instance.`
-    )
-
     this.app = null
     this.options = options
     this.match = createMatcher(options.routes || [])
 
     let mode = options.mode || 'hash'
-    const fallback = mode === 'history' && !supportsHistory
-    if (fallback) {
+    this.fallback = mode === 'history' && !supportsHistory
+    if (this.fallback) {
       mode = 'hash'
     }
     if (!inBrowser) {
       mode = 'abstract'
     }
+    this.mode = mode
+  }
 
+  init (app: any /* Vue component instance */) {
+    assert(
+      install.installed,
+      `not installed. Make sure to call \`Vue.use(VueRouter)\` ` +
+      `before creating root instance.`
+    )
+
+    const { mode, options, fallback } = this
     switch (mode) {
       case 'history':
         this.history = new HTML5History(this, options.base)
@@ -51,8 +56,7 @@ export default class VueRouter {
         assert(false, `invalid mode: ${mode}`)
     }
 
-    this.mode = mode
-
+    this.app = app
     this.history.listen(route => {
       this.app._route = route
     })
