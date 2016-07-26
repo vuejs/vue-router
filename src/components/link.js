@@ -23,7 +23,7 @@ export default {
     const current = this.$route
     const to = normalizeLocation(this.to, current, this.append)
     const resolved = router.match(to)
-    const fullPath = resolved.fullPath
+    const fullPath = resolved.redirectedFrom || resolved.fullPath
     const base = router.history.base
     const href = base ? cleanPath(base + fullPath) : fullPath
     const classes = {}

@@ -21,7 +21,11 @@ const regexpCompileCache: {
 export function createMatcher (routes: Array<RouteConfig>): Matcher {
   const { pathMap, nameMap } = createRouteMap(routes)
 
-  function match (raw: RawLocation, currentRoute?: Route): Route {
+  function match (
+    raw: RawLocation,
+    currentRoute?: Route,
+    redirectedFrom?: Location
+  ): Route {
     const location = normalizeLocation(raw, currentRoute)
     const { name } = location
 
@@ -29,13 +33,13 @@ export function createMatcher (routes: Array<RouteConfig>): Matcher {
       const record = nameMap[name]
       if (record) {
         location.path = fillParams(record.path, location.params, `named route "${name}"`)
-        return createRouteContext(record, location)
+        return createRouteContext(record, location, redirectedFrom)
       }
     } else if (location.path) {
       location.params = {}
       for (const path in pathMap) {
         if (matchRoute(path, location.params, location.path)) {
-          return createRouteContext(pathMap[path], location)
+          return createRouteContext(pathMap[path], location, redirectedFrom)
         }
       }
     }
@@ -43,14 +47,18 @@ export function createMatcher (routes: Array<RouteConfig>): Matcher {
     return createRouteContext(null, location)
   }
 
-  function createRouteContext (record: ?RouteRecord, location: Location): Route {
+  function createRouteContext (
+    record: ?RouteRecord,
+    location: Location,
+    redirectedFrom?: Location
+  ): Route {
     if (record && record.redirect) {
-      return redirect(record, location)
+      return redirect(record, redirectedFrom || location)
     }
     if (record && record.matchAs) {
       return alias(record, location, record.matchAs)
     }
-    return Object.freeze({
+    const route: Route = {
       name: location.name,
       path: location.path || '/',
       hash: location.hash || '',
@@ -58,10 +66,17 @@ export function createMatcher (routes: Array<RouteConfig>): Matcher {
       params: location.params || {},
       fullPath: getFullPath(location),
       matched: record ? formatMatch(record) : []
-    })
+    }
+    if (redirectedFrom) {
+      route.redirectedFrom = getFullPath(redirectedFrom)
+    }
+    return Object.freeze(route)
   }
 
-  function redirect (record: RouteRecord, location: Location): Route {
+  function redirect (
+    record: RouteRecord,
+    location: Location
+  ): Route {
     const { query, hash, params } = location
     const { redirect } = record
     const name = redirect && typeof redirect === 'object' && redirect.name
@@ -75,7 +90,7 @@ export function createMatcher (routes: Array<RouteConfig>): Matcher {
         query,
         hash,
         params
-      })
+      }, undefined, location)
     } else if (typeof redirect === 'string') {
       // 1. resolve relative redirect
       const rawPath = resolveRecordPath(redirect, record)
@@ -87,14 +102,18 @@ export function createMatcher (routes: Array<RouteConfig>): Matcher {
         path,
         query,
         hash
-      })
+      }, undefined, location)
     } else {
       warn(`invalid redirect option: ${JSON.stringify(redirect)}`)
       return createRouteContext(null, location)
     }
   }
 
-  function alias (record: RouteRecord, location: Location, matchAs: string): Route {
+  function alias (
+    record: RouteRecord,
+    location: Location,
+    matchAs: string
+  ): Route {
     const aliasedPath = fillParams(matchAs, location.params, `aliased route with path "${matchAs}"`)
     const aliasedMatch = match({
       _normalized: true,
@@ -112,7 +131,11 @@ export function createMatcher (routes: Array<RouteConfig>): Matcher {
   return match
 }
 
-function matchRoute (path: string, params: Object, pathname: string): boolean {
+function matchRoute (
+  path: string,
+  params: Object,
+  pathname: string
+): boolean {
   let keys, regexp
   const hit = regexpCache[path]
   if (hit) {
@@ -140,16 +163,11 @@ function matchRoute (path: string, params: Object, pathname: string): boolean {
   return true
 }
 
-function formatMatch (record: ?RouteRecord): Array<RouteRecord> {
-  const res = []
-  while (record) {
-    res.unshift(record)
-    record = record.parent
-  }
-  return res
-}
-
-function fillParams (path: string, params: ?Object, routeMsg: string): string {
+function fillParams (
+  path: string,
+  params: ?Object,
+  routeMsg: string
+): string {
   try {
     const filler =
       regexpCompileCache[path] ||
@@ -159,6 +177,15 @@ function fillParams (path: string, params: ?Object, routeMsg: string): string {
     assert(`missing param for ${routeMsg}: ${e.message}`)
     return ''
   }
+}
+
+function formatMatch (record: ?RouteRecord): Array<RouteRecord> {
+  const res = []
+  while (record) {
+    res.unshift(record)
+    record = record.parent
+  }
+  return res
 }
 
 function resolveRecordPath (path: string, record: RouteRecord): string {

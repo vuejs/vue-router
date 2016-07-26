@@ -5,12 +5,12 @@ module.exports = {
       .waitForElementVisible('#app', 1000)
       .assert.count('li a', 6)
       // assert correct href with base
-      .assert.attributeContains('li:nth-child(1) a', 'href', '/redirect/foo')
-      .assert.attributeContains('li:nth-child(2) a', 'href', '/redirect/foo?foo=bar')
-      .assert.attributeContains('li:nth-child(3) a', 'href', '/redirect/bar')
-      .assert.attributeContains('li:nth-child(4) a', 'href', '/redirect/baz')
-      .assert.attributeContains('li:nth-child(5) a', 'href', '/redirect/with-params/123')
-      .assert.attributeContains('li:nth-child(6) a', 'href', '/redirect/')
+      .assert.attributeContains('li:nth-child(1) a', 'href', '/redirect/relative-redirect')
+      .assert.attributeContains('li:nth-child(2) a', 'href', '/redirect/relative-redirect?foo=bar')
+      .assert.attributeContains('li:nth-child(3) a', 'href', '/redirect/absolute-redirect')
+      .assert.attributeContains('li:nth-child(4) a', 'href', '/redirect/named-redirect')
+      .assert.attributeContains('li:nth-child(5) a', 'href', '/redirect/redirect-with-params/123')
+      .assert.attributeContains('li:nth-child(6) a', 'href', '/not-found')
 
       .assert.containsText('.view', 'default')
 
