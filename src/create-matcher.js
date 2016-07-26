@@ -104,7 +104,7 @@ export function createMatcher (routes: Array<RouteConfig>): Matcher {
         hash
       }, undefined, location)
     } else {
-      warn(`invalid redirect option: ${JSON.stringify(redirect)}`)
+      warn(false, `invalid redirect option: ${JSON.stringify(redirect)}`)
       return createRouteContext(null, location)
     }
   }
@@ -174,7 +174,7 @@ function fillParams (
       (regexpCompileCache[path] = Regexp.compile(path))
     return filler(params || {}, { pretty: true })
   } catch (e) {
-    assert(`missing param for ${routeMsg}: ${e.message}`)
+    assert(false, `missing param for ${routeMsg}: ${e.message}`)
     return ''
   }
 }
