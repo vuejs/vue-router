@@ -24,7 +24,7 @@ const scrollBehavior = (to, from, savedPosition) => {
     // savedPosition is only available for popstate navigations.
     return savedPosition
   } else {
-    let position = {}
+    const position = {}
     // new navigation.
     // scroll to anchor by returning the selector
     if (to.hash) {
