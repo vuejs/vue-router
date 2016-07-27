@@ -185,13 +185,15 @@
 	  return true
 	}
 
-	function assert (condition, message) {
+	/*       */
+
+	function assert (condition     , message        ) {
 	  if (!condition) {
 	    throw new Error(("[vue-router] " + message))
 	  }
 	}
 
-	function warn (condition, message) {
+	function warn (condition     , message        ) {
 	  if (!condition) {
 	    typeof console !== 'undefined' && console.warn(("[vue-router] " + message))
 	  }
@@ -404,7 +406,7 @@
 	    beforeCreate: function beforeCreate () {
 	      if (this.$options.router) {
 	        this._router = this.$options.router
-	        this._router.app = this
+	        this._router.init(this)
 	        Vue.util.defineReactive(this, '_route', this._router.history.current)
 	      }
 	    }
@@ -1034,7 +1036,7 @@
 	        hash: hash
 	      }, undefined, location)
 	    } else {
-	      warn(("invalid redirect option: " + (JSON.stringify(redirect))))
+	      warn(false, ("invalid redirect option: " + (JSON.stringify(redirect))))
 	      return createRouteContext(null, location)
 	    }
 	  }
@@ -1104,7 +1106,7 @@
 	      (regexpCompileCache[path] = Regexp.compile(path))
 	    return filler(params || {}, { pretty: true })
 	  } catch (e) {
-	    assert(("missing param for " + routeMsg + ": " + (e.message)))
+	    assert(false, ("missing param for " + routeMsg + ": " + (e.message)))
 	    return ''
 	  }
 	}
@@ -1201,7 +1203,7 @@
 	    // deactivate guards
 	    extractLeaveGuards(deactivated),
 	    // global before hooks
-	    nomralizeGuards(this.router.options.beforeEach),
+	    this.router.beforeHooks,
 	    // activate guards
 	    activated.map(function (m) { return m.beforeEnter; })
 	  ).filter(function (_) { return _; })
@@ -1224,7 +1226,7 @@
 	History.prototype.updateRoute = function updateRoute (route     ) {
 	  this.current = route
 	  this.cb && this.cb(route)
-	  nomralizeGuards(this.router.options.afterEach).forEach(function (hook) {
+	  this.router.afterHooks.forEach(function (hook) {
 	    hook && hook(route)
 	  })
 	};
@@ -1271,16 +1273,6 @@
 	  }
 	}
 
-	function nomralizeGuards (guards                              )                   {
-	  if (!guards) {
-	    return []
-	  }
-	  if (typeof guards === 'function') {
-	    return [guards]
-	  }
-	  return guards
-	}
-
 	function extractLeaveGuards (matched                    )                   {
 	  return Array.prototype.concat.apply([], matched.map(function (m) {
 	    return Object.keys(m.components).map(function (key) {
@@ -1296,6 +1288,45 @@
 	      }
 	    })
 	  }).reverse())
+	}
+
+	/*       */
+
+	function saveScrollPosition (key        ) {
+	  if (!key) return
+	  window.sessionStorage.setItem(key, JSON.stringify({
+	    x: window.pageXOffset,
+	    y: window.pageYOffset
+	  }))
+	}
+
+	function getScrollPosition (key        )          {
+	  if (!key) return
+	  return JSON.parse(window.sessionStorage.getItem(key))
+	}
+
+	function getElementPosition (el         )         {
+	  var docRect = document.documentElement.getBoundingClientRect()
+	  var elRect = el.getBoundingClientRect()
+	  return {
+	    x: elRect.left - docRect.left,
+	    y: elRect.top - docRect.top
+	  }
+	}
+
+	function isValidPosition (obj        )          {
+	  return isNumber(obj.x) || isNumber(obj.y)
+	}
+
+	function normalizePosotion (obj        )         {
+	  return {
+	    x: isNumber(obj.x) ? obj.x : window.pageXOffset,
+	    y: isNumber(obj.y) ? obj.y : window.pageYOffset
+	  }
+	}
+
+	function isNumber (v     )          {
+	  return typeof v === 'number'
 	}
 
 	var genKey = function () { return String(Date.now()); }
@@ -1326,7 +1357,9 @@
 	    })
 
 	    if (expectScroll) {
-	      window.addEventListener('scroll', saveScrollPosition)
+	      window.addEventListener('scroll', function () {
+	        saveScrollPosition(_key)
+	      })
 	    }
 	  }
 
@@ -1372,30 +1405,25 @@
 	    if (!behavior) {
 	      return
 	    }
-
 	    assert(typeof behavior === 'function', "scrollBehavior must be a function")
-
-	    var position = getScrollPosition()
-	    var shouldScroll = behavior(to, from, isPop ? position : null)
-	    if (!shouldScroll) {
-	      return
-	    }
 
 	    // wait until re-render finishes before scrolling
 	    router.app.$nextTick(function () {
+	      var position = getScrollPosition(_key)
+	      var shouldScroll = behavior(to, from, isPop ? position : null)
+	      if (!shouldScroll) {
+	        return
+	      }
 	      var isObject = typeof shouldScroll === 'object'
-	      if (isObject && shouldScroll.x != null && shouldScroll.y != null) {
-	        position = shouldScroll
-	      } else if (isObject && shouldScroll.anchor) {
-	        var el = document.querySelector(to.hash)
+	      if (isObject && shouldScroll.selector) {
+	        var el = document.querySelector(shouldScroll.selector)
 	        if (el) {
-	          var docTop = document.documentElement.getBoundingClientRect().top
-	          var elTop = el.getBoundingClientRect().top
-	          position = {
-	            x: window.scrollX,
-	            y: elTop - docTop
-	          }
+	          position = getElementPosition(el)
+	        } else if (isValidPosition(shouldScroll)) {
+	          position = normalizePosotion(shouldScroll)
 	        }
+	      } else if (isObject && isValidPosition(shouldScroll)) {
+	        position = normalizePosotion(shouldScroll)
 	      }
 
 	      if (position) {
@@ -1426,7 +1454,7 @@
 	      _key = genKey()
 	      history.pushState({ key: _key }, '', url)
 	    }
-	    saveScrollPosition()
+	    saveScrollPosition(_key)
 	  } catch (e) {
 	    window.location[replace ? 'assign' : 'replace'](url)
 	  }
@@ -1434,19 +1462,6 @@
 
 	function replaceState (url        ) {
 	  pushState(url, true)
-	}
-
-	function saveScrollPosition () {
-	  if (!_key) return
-	  window.sessionStorage.setItem(_key, JSON.stringify({
-	    x: window.pageXOffset,
-	    y: window.pageYOffset
-	  }))
-	}
-
-	function getScrollPosition ()                            {
-	  if (!_key) return
-	  return JSON.parse(window.sessionStorage.getItem(_key))
 	}
 
 	var HashHistory = (function (History) {
@@ -1595,28 +1610,38 @@
 	}(History));
 
 	var VueRouter = function VueRouter (options) {
-	  var this$1 = this;
 	  if ( options === void 0 ) options              = {};
-
-	  assert(
-	    install.installed,
-	    "not installed. Make sure to call `Vue.use(VueRouter)` " +
-	    "before mounting root instance."
-	  )
 
 	  this.app = null
 	  this.options = options
+	  this.beforeHooks = []
+	  this.afterHooks = []
 	  this.match = createMatcher(options.routes || [])
 
 	  var mode = options.mode || 'hash'
-	  var fallback = mode === 'history' && !supportsHistory
-	  if (fallback) {
+	  this.fallback = mode === 'history' && !supportsHistory
+	  if (this.fallback) {
 	    mode = 'hash'
 	  }
 	  if (!inBrowser) {
 	    mode = 'abstract'
 	  }
+	  this.mode = mode
+	};
 
+	VueRouter.prototype.init = function init (app    /* Vue component instance */) {
+	    var this$1 = this;
+
+	  assert(
+	    install.installed,
+	    "not installed. Make sure to call `Vue.use(VueRouter)` " +
+	    "before creating root instance."
+	  )
+
+	  var ref = this;
+	    var mode = ref.mode;
+	    var options = ref.options;
+	    var fallback = ref.fallback;
 	  switch (mode) {
 	    case 'history':
 	      this.history = new HTML5History(this, options.base)
@@ -1631,11 +1656,18 @@
 	      assert(false, ("invalid mode: " + mode))
 	  }
 
-	  this.mode = mode
-
+	  this.app = app
 	  this.history.listen(function (route) {
 	    this$1.app._route = route
 	  })
+	};
+
+	VueRouter.prototype.beforeEach = function beforeEach (fn        ) {
+	  this.beforeHooks.push(fn)
+	};
+
+	VueRouter.prototype.afterEach = function afterEach (fn        ) {
+	  this.afterHooks.push(fn)
 	};
 
 	VueRouter.prototype.push = function push (location           ) {
@@ -1644,13 +1676,13 @@
 
 	VueRouter.prototype.replace = function replace (location           ) {
 	  this.history.replace(location)
-	  };
+	};
 
-	  VueRouter.prototype.go = function go (n        ) {
-	    this.history.go(n)
-	  };
+	VueRouter.prototype.go = function go (n      ) {
+	  this.history.go(n)
+	};
 
-	  VueRouter.prototype.back = function back () {
+	VueRouter.prototype.back = function back () {
 	  this.go(-1)
 	};
 
