@@ -59,11 +59,9 @@
 
 	function resolvePath (
 	  relative        ,
-	  base,
+	  base        ,
 	  append          
 	)         {
-	  if ( base === void 0 ) base         = '/';
-
 	  if (relative.charAt(0) === '/') {
 	    return relative
 	  }
@@ -296,8 +294,9 @@
 	  }
 
 	  var parsedPath = parsePath(next.path || '')
+	  var basePath = (current && current.path) || '/'
 	  var path = parsedPath.path
-	    ? resolvePath(parsedPath.path, current && current.path, append)
+	    ? resolvePath(parsedPath.path, basePath, append)
 	    : (current && current.path) || '/'
 	  var query = resolveQuery(parsedPath.query, next.query)
 	  var hash = next.hash || parsedPath.hash
@@ -963,44 +962,18 @@
 	      var record = nameMap[name]
 	      if (record) {
 	        location.path = fillParams(record.path, location.params, ("named route \"" + name + "\""))
-	        return createRouteContext(record, location, redirectedFrom)
+	        return _createRoute(record, location, redirectedFrom)
 	      }
 	    } else if (location.path) {
 	      location.params = {}
 	      for (var path in pathMap) {
 	        if (matchRoute(path, location.params, location.path)) {
-	          return createRouteContext(pathMap[path], location, redirectedFrom)
+	          return _createRoute(pathMap[path], location, redirectedFrom)
 	        }
 	      }
 	    }
 	    // no match
-	    return createRouteContext(null, location)
-	  }
-
-	  function createRouteContext (
-	    record              ,
-	    location          ,
-	    redirectedFrom           
-	  )        {
-	    if (record && record.redirect) {
-	      return redirect(record, redirectedFrom || location)
-	    }
-	    if (record && record.matchAs) {
-	      return alias(record, location, record.matchAs)
-	    }
-	    var route        = {
-	      name: location.name,
-	      path: location.path || '/',
-	      hash: location.hash || '',
-	      query: location.query || {},
-	      params: location.params || {},
-	      fullPath: getFullPath(location),
-	      matched: record ? formatMatch(record) : []
-	    }
-	    if (redirectedFrom) {
-	      route.redirectedFrom = getFullPath(redirectedFrom)
-	    }
-	    return Object.freeze(route)
+	    return _createRoute(null, location)
 	  }
 
 	  function redirect (
@@ -1037,7 +1010,7 @@
 	      }, undefined, location)
 	    } else {
 	      warn(false, ("invalid redirect option: " + (JSON.stringify(redirect))))
-	      return createRouteContext(null, location)
+	      return _createRoute(null, location)
 	    }
 	  }
 
@@ -1055,12 +1028,46 @@
 	      var matched = aliasedMatch.matched
 	      var aliasedRecord = matched[matched.length - 1]
 	      location.params = aliasedMatch.params
-	      return createRouteContext(aliasedRecord, location)
+	      return _createRoute(aliasedRecord, location)
 	    }
-	    return createRouteContext(null, location)
+	    return _createRoute(null, location)
+	  }
+
+	  function _createRoute (
+	    record              ,
+	    location          ,
+	    redirectedFrom           
+	  )        {
+	    if (record && record.redirect) {
+	      return redirect(record, redirectedFrom || location)
+	    }
+	    if (record && record.matchAs) {
+	      return alias(record, location, record.matchAs)
+	    }
+	    return createRoute(record, location, redirectedFrom)
 	  }
 
 	  return match
+	}
+
+	function createRoute (
+	  record              ,
+	  location          ,
+	  redirectedFrom           
+	)        {
+	  var route        = {
+	    name: location.name,
+	    path: location.path || '/',
+	    hash: location.hash || '',
+	    query: location.query || {},
+	    params: location.params || {},
+	    fullPath: getFullPath(location),
+	    matched: record ? formatMatch(record) : []
+	  }
+	  if (redirectedFrom) {
+	    route.redirectedFrom = getFullPath(redirectedFrom)
+	  }
+	  return Object.freeze(route)
 	}
 
 	function matchRoute (
@@ -1167,11 +1174,18 @@
 	}
 
 	var History = function History (router         , base       ) {
+	  var this$1 = this;
+
 	  this.router = router
 	  this.base = normalizeBae(base)
-	  this.current = router.match('/')
+	  // start with a route object that stands for "nowhere"
+	  this.current = createRoute(null, {
+	    path: '__vue_router_init__'
+	  })
 	  this.pending = null
-	  this.transitionTo(this.getLocation())
+	  this.transitionTo(this.getLocation(), function (route) {
+	    this$1.onInit(route)
+	  })
 	};
 
 	History.prototype.listen = function listen (cb        ) {
@@ -1205,7 +1219,9 @@
 	    // global before hooks
 	    this.router.beforeHooks,
 	    // activate guards
-	    activated.map(function (m) { return m.beforeEnter; })
+	    activated.map(function (m) { return m.beforeEnter; }),
+	    // async components
+	    resolveAsyncComponents(activated)
 	  ).filter(function (_) { return _; })
 
 	  this.pending = route
@@ -1274,20 +1290,43 @@
 	}
 
 	function extractLeaveGuards (matched                    )                   {
-	  return Array.prototype.concat.apply([], matched.map(function (m) {
-	    return Object.keys(m.components).map(function (key) {
-	      var component = m.components[key]
-	      var instance = m.instances[key] && m.instances[key].child
-	      var guard = typeof component === 'function'
-	        ? component.options.beforeRouteLeave
-	        : (component && component.beforeRouteLeave)
-	      if (guard) {
-	        return function routeGuard () {
-	          return guard.apply(instance, arguments)
-	        }
+	  return flatMapComponents(matched, function (def, instance) {
+	    var guard = def && def.beforeRouteLeave
+	    if (guard) {
+	      return function routeGuard () {
+	        return guard.apply(instance, arguments)
 	      }
-	    })
-	  }).reverse())
+	    }
+	  }).reverse()
+	}
+
+	function resolveAsyncComponents (matched                    )                   {
+	  return flatMapComponents(matched, function (def, _, match, key) {
+	    // if it's a function and doesn't have Vue options attached,
+	    // assume it's an async component resolve function.
+	    // we are not using Vue's default async resolving mechanism because
+	    // we want to halt the navigation until the incoming component has been
+	    // resolved.
+	    if (typeof def === 'function' && !def.options) {
+	      return function (route, redirect, next) { return def(function (resolvedDef) {
+	        match.components[key] = resolvedDef
+	        next()
+	      }); }
+	    }
+	  })
+	}
+
+	function flatMapComponents (
+	  matched                    ,
+	  fn          
+	)                   {
+	  return Array.prototype.concat.apply([], matched.map(function (m) {
+	    return Object.keys(m.components).map(function (key) { return fn(
+	      m.components[key],
+	      m.instances[key] && m.instances[key].child,
+	      m, key
+	    ); })
+	  }))
 	}
 
 	/*       */
@@ -1338,14 +1377,7 @@
 
 	    History.call(this, router, base)
 
-	    // possible redirect on start
-	    var url = cleanPath(this.base + this.current.fullPath)
-	    if (this.getLocation() !== url) {
-	      replaceState(url)
-	    }
-
 	    var expectScroll = router.options.scrollBehavior
-
 	    window.addEventListener('popstate', function (e) {
 	      _key = e.state && e.state.key
 	      var current = this$1.current
@@ -1366,6 +1398,14 @@
 	  if ( History ) HTML5History.__proto__ = History;
 	  HTML5History.prototype = Object.create( History && History.prototype );
 	  HTML5History.prototype.constructor = HTML5History;
+
+	  HTML5History.prototype.onInit = function onInit () {
+	    // possible redirect on start
+	    var url = cleanPath(this.base + this.current.fullPath)
+	    if (this.getLocation() !== url) {
+	      replaceState(url)
+	    }
+	  };
 
 	  HTML5History.prototype.go = function go (n        ) {
 	    window.history.go(n)
@@ -1473,11 +1513,6 @@
 	    if (fallback && this.checkFallback()) {
 	      return
 	    }
-	    ensureSlash()
-	    // possible redirect on start
-	    if (getHash() !== this.current.fullPath) {
-	      replaceHash(this.current.fullPath)
-	    }
 	    window.addEventListener('hashchange', function () {
 	      this$1.onHashChange()
 	    })
@@ -1486,6 +1521,14 @@
 	  if ( History ) HashHistory.__proto__ = History;
 	  HashHistory.prototype = Object.create( History && History.prototype );
 	  HashHistory.prototype.constructor = HashHistory;
+
+	  HashHistory.prototype.onInit = function onInit () {
+	    ensureSlash()
+	    // possible redirect on start
+	    if (getHash() !== this.current.fullPath) {
+	      replaceHash(this.current.fullPath)
+	    }
+	  };
 
 	  HashHistory.prototype.checkFallback = function checkFallback () {
 	    var location = getLocation(this.base)
@@ -1560,13 +1603,17 @@
 	var AbstractHistory = (function (History) {
 	  function AbstractHistory (router           ) {
 	    History.call(this, router)
-	    this.stack = [this.current]
+	    this.stack = []
 	    this.index = 0
 	  }
 
 	  if ( History ) AbstractHistory.__proto__ = History;
 	  AbstractHistory.prototype = Object.create( History && History.prototype );
 	  AbstractHistory.prototype.constructor = AbstractHistory;
+
+	  AbstractHistory.prototype.onInit = function onInit () {
+	    this.stack = [this.current]
+	  };
 
 	  AbstractHistory.prototype.push = function push (location             ) {
 	    var this$1 = this;
