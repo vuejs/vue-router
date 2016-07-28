@@ -77,9 +77,10 @@ module.exports = {
       .dismissAlert()
       .waitFor(100)
       .dismissAlert()
-      // redirects to root by default
-      .assert.urlEquals('http://localhost:8080/navigation-guards/')
-      .assert.containsText('.view', 'home')
+      // url works
+      .assert.urlEquals('http://localhost:8080/navigation-guards/foo')
+      // but should not render anything
+      .assert.elementNotPresent('.view')
 
     .url('http://localhost:8080/navigation-guards/foo')
       .acceptAlert()
@@ -90,9 +91,10 @@ module.exports = {
       .dismissAlert()
       .waitFor(100)
       .dismissAlert()
-      // redirects to root by default
-      .assert.urlEquals('http://localhost:8080/navigation-guards/')
-      .assert.containsText('.view', 'home')
+      // url works
+      .assert.urlEquals('http://localhost:8080/navigation-guards/bar')
+      // but should not render anything
+      .assert.elementNotPresent('.view')
 
     .url('http://localhost:8080/navigation-guards/bar')
       .acceptAlert()
