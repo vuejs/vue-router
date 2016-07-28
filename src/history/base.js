@@ -161,7 +161,7 @@ function resolveAsyncComponents (matched: Array<RouteRecord>): Array<?Function> 
 function flatMapComponents (
   matched: Array<RouteRecord>,
   fn: Function
-): Array<?Function>  {
+): Array<?Function> {
   return Array.prototype.concat.apply([], matched.map(m => {
     return Object.keys(m.components).map(key => fn(
       m.components[key],
