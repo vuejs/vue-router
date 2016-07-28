@@ -33,44 +33,18 @@ export function createMatcher (routes: Array<RouteConfig>): Matcher {
       const record = nameMap[name]
       if (record) {
         location.path = fillParams(record.path, location.params, `named route "${name}"`)
-        return createRouteContext(record, location, redirectedFrom)
+        return _createRoute(record, location, redirectedFrom)
       }
     } else if (location.path) {
       location.params = {}
       for (const path in pathMap) {
         if (matchRoute(path, location.params, location.path)) {
-          return createRouteContext(pathMap[path], location, redirectedFrom)
+          return _createRoute(pathMap[path], location, redirectedFrom)
         }
       }
     }
     // no match
-    return createRouteContext(null, location)
-  }
-
-  function createRouteContext (
-    record: ?RouteRecord,
-    location: Location,
-    redirectedFrom?: Location
-  ): Route {
-    if (record && record.redirect) {
-      return redirect(record, redirectedFrom || location)
-    }
-    if (record && record.matchAs) {
-      return alias(record, location, record.matchAs)
-    }
-    const route: Route = {
-      name: location.name,
-      path: location.path || '/',
-      hash: location.hash || '',
-      query: location.query || {},
-      params: location.params || {},
-      fullPath: getFullPath(location),
-      matched: record ? formatMatch(record) : []
-    }
-    if (redirectedFrom) {
-      route.redirectedFrom = getFullPath(redirectedFrom)
-    }
-    return Object.freeze(route)
+    return _createRoute(null, location)
   }
 
   function redirect (
@@ -105,7 +79,7 @@ export function createMatcher (routes: Array<RouteConfig>): Matcher {
       }, undefined, location)
     } else {
       warn(false, `invalid redirect option: ${JSON.stringify(redirect)}`)
-      return createRouteContext(null, location)
+      return _createRoute(null, location)
     }
   }
 
@@ -123,12 +97,46 @@ export function createMatcher (routes: Array<RouteConfig>): Matcher {
       const matched = aliasedMatch.matched
       const aliasedRecord = matched[matched.length - 1]
       location.params = aliasedMatch.params
-      return createRouteContext(aliasedRecord, location)
+      return _createRoute(aliasedRecord, location)
     }
-    return createRouteContext(null, location)
+    return _createRoute(null, location)
+  }
+
+  function _createRoute (
+    record: ?RouteRecord,
+    location: Location,
+    redirectedFrom?: Location
+  ): Route {
+    if (record && record.redirect) {
+      return redirect(record, redirectedFrom || location)
+    }
+    if (record && record.matchAs) {
+      return alias(record, location, record.matchAs)
+    }
+    return createRoute(record, location, redirectedFrom)
   }
 
   return match
+}
+
+export function createRoute (
+  record: ?RouteRecord,
+  location: Location,
+  redirectedFrom?: Location
+): Route {
+  const route: Route = {
+    name: location.name,
+    path: location.path || '/',
+    hash: location.hash || '',
+    query: location.query || {},
+    params: location.params || {},
+    fullPath: getFullPath(location),
+    matched: record ? formatMatch(record) : []
+  }
+  if (redirectedFrom) {
+    route.redirectedFrom = getFullPath(redirectedFrom)
+  }
+  return Object.freeze(route)
 }
 
 function matchRoute (

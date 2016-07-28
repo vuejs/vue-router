@@ -9,8 +9,12 @@ export class AbstractHistory extends History {
 
   constructor (router: VueRouter) {
     super(router)
-    this.stack = [this.current]
+    this.stack = []
     this.index = 0
+  }
+
+  onInit () {
+    this.stack = [this.current]
   }
 
   push (location: RawLocation) {

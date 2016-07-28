@@ -4,6 +4,7 @@ import type VueRouter from '../index'
 import { inBrowser } from '../util/dom'
 import { runQueue } from '../util/async'
 import { isSameRoute } from '../util/route'
+import { createRoute } from '../create-matcher'
 
 export class History {
   router: VueRouter;
@@ -16,13 +17,19 @@ export class History {
   go: Function;
   push: Function;
   replace: Function;
+  onInit: Function;
 
   constructor (router: VueRouter, base: ?string) {
     this.router = router
     this.base = normalizeBae(base)
-    this.current = router.match('/')
+    // start with a route object that stands for "nowhere"
+    this.current = createRoute(null, {
+      path: '__vue_router_init__'
+    })
     this.pending = null
-    this.transitionTo(this.getLocation())
+    this.transitionTo(this.getLocation(), route => {
+      this.onInit(route)
+    })
   }
 
   listen (cb: Function) {
@@ -53,7 +60,9 @@ export class History {
       // global before hooks
       this.router.beforeHooks,
       // activate guards
-      activated.map(m => m.beforeEnter)
+      activated.map(m => m.beforeEnter),
+      // async components
+      resolveAsyncComponents(activated)
     ).filter(_ => _)
 
     this.pending = route
@@ -123,18 +132,41 @@ function resolveQueue (
 }
 
 function extractLeaveGuards (matched: Array<RouteRecord>): Array<?Function> {
-  return Array.prototype.concat.apply([], matched.map(m => {
-    return Object.keys(m.components).map(key => {
-      const component = m.components[key]
-      const instance = m.instances[key] && m.instances[key].child
-      const guard = typeof component === 'function'
-        ? component.options.beforeRouteLeave
-        : (component && component.beforeRouteLeave)
-      if (guard) {
-        return function routeGuard () {
-          return guard.apply(instance, arguments)
-        }
+  return flatMapComponents(matched, (def, instance) => {
+    const guard = def && def.beforeRouteLeave
+    if (guard) {
+      return function routeGuard () {
+        return guard.apply(instance, arguments)
       }
-    })
-  }).reverse())
+    }
+  }).reverse()
+}
+
+function resolveAsyncComponents (matched: Array<RouteRecord>): Array<?Function> {
+  return flatMapComponents(matched, (def, _, match, key) => {
+    // if it's a function and doesn't have Vue options attached,
+    // assume it's an async component resolve function.
+    // we are not using Vue's default async resolving mechanism because
+    // we want to halt the navigation until the incoming component has been
+    // resolved.
+    if (typeof def === 'function' && !def.options) {
+      return (route, redirect, next) => def(resolvedDef => {
+        match.components[key] = resolvedDef
+        next()
+      })
+    }
+  })
+}
+
+function flatMapComponents (
+  matched: Array<RouteRecord>,
+  fn: Function
+): Array<?Function>  {
+  return Array.prototype.concat.apply([], matched.map(m => {
+    return Object.keys(m.components).map(key => fn(
+      m.components[key],
+      m.instances[key] && m.instances[key].child,
+      m, key
+    ))
+  }))
 }

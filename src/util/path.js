@@ -2,7 +2,7 @@
 
 export function resolvePath (
   relative: string,
-  base: string = '/',
+  base: string,
   append?: boolean
 ): string {
   if (relative.charAt(0) === '/') {
