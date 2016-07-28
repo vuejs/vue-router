@@ -6,3 +6,4 @@ test/e2e/screenshots
 selenium-debug.log
 dist/*.gz
 dist/*.map
+explorations
