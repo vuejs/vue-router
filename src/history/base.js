@@ -20,7 +20,9 @@ export class History {
   constructor (router: VueRouter, base: ?string) {
     this.router = router
     this.base = normalizeBae(base)
-    this.current = router.match('/')
+    if (router.options && router.options.routes && router.options.routes[0]) {
+      this.current = router.match({ name: router.options.routes[0].name })
+    }
     this.pending = null
     this.transitionTo(this.getLocation())
   }
