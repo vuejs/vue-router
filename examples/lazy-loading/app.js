@@ -5,17 +5,22 @@ Vue.use(VueRouter)
 
 const Home = { template: '<div>home</div>' }
 
-// define Foo & Bar as async components
+// define Foo & Bar as async components.
+// async components are defined as: resolve => { resolve(Component) }
 
-// signature for async components: resolve => resolve(Component)
-// In Webpack we can use the AMD require syntax to "split" the bundle
+// In Webpack we can use the AMD require syntax to signify a "split point"
 // Webpack will automatically split and lazy-load the split modules.
-// https://webpack.github.io/docs/code-splitting.html
+// - https://webpack.github.io/docs/code-splitting.html
+
+// Note we have to access `m.default` here because when loading a
+// module asynchronously, we get the entire ES2015 module instead of
+// just its default export.
 
 const Foo = resolve => require(['./Foo.vue'], m => resolve(m.default))
 const Bar = resolve => require(['./Bar.vue'], m => resolve(m.default))
 
-// NOTE if using Webpack 2, you should do:
+// If using Webpack 2, you can also do:
+
 // const Foo = resolve => {
 //  System.import('./Foo.vue').then(m => resolve(m.default)
 // })
