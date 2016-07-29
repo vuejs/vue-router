@@ -11,17 +11,18 @@ export class History {
   base: string;
   current: Route;
   pending: ?Route;
-  cb: Function;
+  cb: (r: Route) => void;
 
   // implemented by sub-classes
-  go: Function;
-  push: Function;
-  replace: Function;
-  onInit: Function;
+  go: (n: number) => void;
+  push: (loc: RawLocation) => void;
+  replace: (loc: RawLocation) => void;
+  onInit: (cb: Function) => void;
+  getLocation: () => string;
 
   constructor (router: VueRouter, base: ?string) {
     this.router = router
-    this.base = normalizeBae(base)
+    this.base = normalizeBase(base)
     // start with a route object that stands for "nowhere"
     this.current = createRoute(null, {
       path: '__vue_router_init__'
@@ -87,13 +88,9 @@ export class History {
       hook && hook(route)
     })
   }
-
-  getLocation (): string {
-    return '/'
-  }
 }
 
-function normalizeBae (base: ?string): string {
+function normalizeBase (base: ?string): string {
   if (!base) {
     if (inBrowser) {
       // respect <base> tag

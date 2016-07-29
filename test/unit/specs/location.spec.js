@@ -13,6 +13,22 @@ describe('Location utils', () => {
       }))
     })
 
+    it('empty string', function () {
+      const loc = normalizeLocation('', { path: '/abc' })
+      expect(loc._normalized).toBe(true)
+      expect(loc.path).toBe('/abc')
+      expect(loc.hash).toBe('')
+      expect(JSON.stringify(loc.query)).toBe(JSON.stringify({}))
+    })
+
+    it('undefined', function () {
+      const loc = normalizeLocation({}, { path: '/abc' })
+      expect(loc._normalized).toBe(true)
+      expect(loc.path).toBe('/abc')
+      expect(loc.hash).toBe('')
+      expect(JSON.stringify(loc.query)).toBe(JSON.stringify({}))
+    })
+
     it('relative', () => {
       const loc = normalizeLocation('abc?foo=bar&baz=qux#hello', {
         path: '/root/next'

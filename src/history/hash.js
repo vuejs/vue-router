@@ -12,13 +12,13 @@ export class HashHistory extends History {
     if (fallback && this.checkFallback()) {
       return
     }
+    ensureSlash()
     window.addEventListener('hashchange', () => {
       this.onHashChange()
     })
   }
 
   onInit () {
-    ensureSlash()
     // possible redirect on start
     if (getHash() !== this.current.fullPath) {
       replaceHash(this.current.fullPath)

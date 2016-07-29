@@ -112,7 +112,7 @@ export function getLocation (base: string): string {
   if (base && path.indexOf(base) === 0) {
     path = path.slice(base.length)
   }
-  return path + window.location.search + window.location.hash
+  return (path || '/') + window.location.search + window.location.hash
 }
 
 function pushState (url: string, replace?: boolean) {
