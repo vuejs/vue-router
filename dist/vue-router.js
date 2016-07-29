@@ -1177,7 +1177,7 @@
 	  var this$1 = this;
 
 	  this.router = router
-	  this.base = normalizeBae(base)
+	  this.base = normalizeBase(base)
 	  // start with a route object that stands for "nowhere"
 	  this.current = createRoute(null, {
 	    path: '__vue_router_init__'
@@ -1247,11 +1247,7 @@
 	  })
 	};
 
-	History.prototype.getLocation = function getLocation ()       {
-	  return '/'
-	};
-
-	function normalizeBae (base         )         {
+	function normalizeBase (base         )         {
 	  if (!base) {
 	    if (inBrowser) {
 	      // respect <base> tag
@@ -1480,7 +1476,7 @@
 	  if (base && path.indexOf(base) === 0) {
 	    path = path.slice(base.length)
 	  }
-	  return path + window.location.search + window.location.hash
+	  return (path || '/') + window.location.search + window.location.hash
 	}
 
 	function pushState (url        , replace          ) {
@@ -1513,6 +1509,7 @@
 	    if (fallback && this.checkFallback()) {
 	      return
 	    }
+	    ensureSlash()
 	    window.addEventListener('hashchange', function () {
 	      this$1.onHashChange()
 	    })
@@ -1523,7 +1520,6 @@
 	  HashHistory.prototype.constructor = HashHistory;
 
 	  HashHistory.prototype.onInit = function onInit () {
-	    ensureSlash()
 	    // possible redirect on start
 	    if (getHash() !== this.current.fullPath) {
 	      replaceHash(this.current.fullPath)
