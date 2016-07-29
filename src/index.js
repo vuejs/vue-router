@@ -61,6 +61,7 @@ class Router {
     this._previousTransition = null
     this._notFoundHandler = null
     this._notFoundRedirect = null
+    this._beforeMatchHooks = []
     this._beforeEachHooks = []
     this._afterEachHooks = []
 
@@ -94,7 +95,16 @@ class Router {
       root: root,
       hashbang: this._hashbang,
       onChange: (path, state, anchor) => {
-        this._match(path, state, anchor)
+        let beforeMatchHooks = this._beforeMatchHooks
+        let args = [path, state, anchor]
+        let stopped = false
+        function stop () {
+          stopped = true
+        }
+        beforeMatchHooks.forEach(hook => hook.call(this, args, stop))
+        if (!stopped) {
+          this._match.apply(this, args);
+        }
       }
     })
 
@@ -165,6 +175,16 @@ class Router {
     }
     return this
   }
+
+  /**
+   * Do change before match
+   *
+   * @param {Function} fn
+   */
+  beforeMatch (fn) {
+    this._beforeMatchHooks.push(fn)
+    return this
+  };
 
   /**
    * Set global before hook.
