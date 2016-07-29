@@ -26,7 +26,7 @@ export function isValidPosition (obj: Object): boolean {
   return isNumber(obj.x) || isNumber(obj.y)
 }
 
-export function normalizePosotion (obj: Object): Object {
+export function normalizePosition (obj: Object): Object {
   return {
     x: isNumber(obj.x) ? obj.x : window.pageXOffset,
     y: isNumber(obj.y) ? obj.y : window.pageYOffset

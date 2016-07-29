@@ -44,9 +44,9 @@ export function resolvePath (
 }
 
 export function parsePath (path: string): {
-  path: string;
-  query: string;
-  hash: string;
+  path: string,
+  query: string,
+  hash: string
 } {
   let hash = ''
   let query = ''
