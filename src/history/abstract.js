@@ -48,4 +48,8 @@ export class AbstractHistory extends History {
     this.stack = [this.current]
     this.index = 0
   }
+
+  getLocation () {
+    return '/'
+  }
 }
