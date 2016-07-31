@@ -17,6 +17,8 @@ There are a number of options you can use to customize the router behavior when 
 
   **Note**: when using the history mode, the server needs to be [properly configured](http://readystate4.com/2012/05/17/nginx-and-apache-rewrite-to-support-html5-pushstate/) so that a user directly visiting a deep link on your site doesn't get a 404.
 
+  **Note**: if you plan to serve your files with the `file://` protocol (for example, when using with [Electron](electron.atom.io)), enabling this mode will break your app. That is because your app URLs would look like `file:///path/to/your/app/index.html/my-route/`, which makes no sense in UNIX filesystem architecture.
+
 ####  abstract
 
 - default: false
