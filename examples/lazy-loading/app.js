@@ -12,18 +12,11 @@ const Home = { template: '<div>home</div>' }
 // Webpack will automatically split and lazy-load the split modules.
 // - https://webpack.github.io/docs/code-splitting.html
 
-// Note we have to access `m.default` here because when loading a
-// module asynchronously, we get the entire ES2015 module instead of
-// just its default export.
-
-const Foo = resolve => require(['./Foo.vue'], m => resolve(m.default))
-const Bar = resolve => require(['./Bar.vue'], m => resolve(m.default))
+const Foo = resolve => require(['./Foo.vue'], resolve)
+const Bar = resolve => require(['./Bar.vue'], resolve)
 
 // If using Webpack 2, you can also do:
-
-// const Foo = resolve => {
-//  System.import('./Foo.vue').then(m => resolve(m.default)
-// })
+// const Foo = resolve => System.import('./Foo.vue').then(resolve)
 
 const router = new VueRouter({
   mode: 'history',
