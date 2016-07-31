@@ -8,7 +8,7 @@ import {
   saveScrollPosition,
   getScrollPosition,
   isValidPosition,
-  normalizePosotion,
+  normalizePosition,
   getElementPosition
 } from '../util/scroll-position'
 
@@ -94,10 +94,10 @@ export class HTML5History extends History {
         if (el) {
           position = getElementPosition(el)
         } else if (isValidPosition(shouldScroll)) {
-          position = normalizePosotion(shouldScroll)
+          position = normalizePosition(shouldScroll)
         }
       } else if (isObject && isValidPosition(shouldScroll)) {
-        position = normalizePosotion(shouldScroll)
+        position = normalizePosition(shouldScroll)
       }
 
       if (position) {
