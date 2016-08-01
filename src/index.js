@@ -103,7 +103,7 @@ class Router {
         }
         beforeMatchHooks.forEach(hook => hook.call(this, args, stop))
         if (!stopped) {
-          this._match.apply(this, args);
+          this._match.apply(this, args)
         }
       }
     })
