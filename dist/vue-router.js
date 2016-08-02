@@ -902,7 +902,7 @@
       this.listener = function (e) {
         var url = location.pathname + location.search;
         if (_this.root) {
-          url = url.replace(_this.rootRE, '');
+          url = url.replace(_this.rootRE, '') || '/';
         }
         _this.onChange(url, e && e.state, location.hash);
       };
@@ -2139,6 +2139,7 @@
       this._previousTransition = null;
       this._notFoundHandler = null;
       this._notFoundRedirect = null;
+      this._beforeMatchHooks = [];
       this._beforeEachHooks = [];
       this._afterEachHooks = [];
 
@@ -2165,7 +2166,18 @@
         root: root,
         hashbang: this._hashbang,
         onChange: function onChange(path, state, anchor) {
-          _this._match(path, state, anchor);
+          var beforeMatchHooks = _this._beforeMatchHooks;
+          var args = [path, state, anchor];
+          var stopped = false;
+          function stop() {
+            stopped = true;
+          }
+          beforeMatchHooks.forEach(function (hook) {
+            return hook.call(_this, args, stop);
+          });
+          if (!stopped) {
+            _this._match.apply(_this, args);
+          }
         }
       });
 
@@ -2242,6 +2254,17 @@
       for (var path in map) {
         this._addAlias(path, map[path]);
       }
+      return this;
+    };
+
+    /**
+     * Do change before match
+     *
+     * @param {Function} fn
+     */
+
+    Router.prototype.beforeMatch = function beforeMatch(fn) {
+      this._beforeMatchHooks.push(fn);
       return this;
     };
 

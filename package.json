@@ -1,5 +1,5 @@
 {
-  "name": "vue-router",
+  "name": "vue-router-hook",
   "version": "0.7.13",
   "description": "A router for Vue.js",
   "main": "dist/vue-router.js",
