@@ -17,13 +17,13 @@
   ],
   "scripts": {
     "dev": "node examples/server.js",
-    "dev:dist": "rollup -wcm",
-    "build": "rollup -c && uglifyjs dist/vue-router.js -c -m -o dist/vue-router.min.js",
+    "dev:dist": "rollup -wm -c build/rollup.config.js",
+    "build": "rollup -c build/rollup.config.js && uglifyjs dist/vue-router.js -cm --comments -o dist/vue-router.min.js",
     "lint": "eslint src examples",
     "test": "npm run lint && flow check && npm run test:unit && npm run test:e2e",
     "test:unit": "jasmine JASMINE_CONFIG_PATH=test/unit/jasmine.json",
     "test:e2e": "node test/e2e/runner.js",
-    "release": "bash release.sh"
+    "release": "bash build/release.sh"
   },
   "devDependencies": {
     "babel-core": "^6.11.4",
