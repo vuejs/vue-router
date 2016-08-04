@@ -5,6 +5,8 @@ declare module 'path-to-regexp' {
   }
 }
 
+declare var __VUE_SSR_CONTEXT__: any;
+
 declare type RouterOptions = {
   routes?: Array<RouteConfig>;
   mode?: string;

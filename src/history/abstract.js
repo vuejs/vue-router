@@ -1,4 +1,5 @@
 /* @flow */
+/* globals __VUE_SSR_CONTEXT__ */
 
 import type VueRouter from '../index'
 import { History } from './base'
@@ -43,13 +44,10 @@ export class AbstractHistory extends History {
     })
   }
 
-  setInitialRoute (route: Route) {
-    this.current = route
-    this.stack = [this.current]
-    this.index = 0
-  }
-
   getLocation () {
-    return '/'
+    return (
+      typeof __VUE_SSR_CONTEXT__ !== 'undefined' &&
+      __VUE_SSR_CONTEXT__.url
+    ) || '/'
   }
 }

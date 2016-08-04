@@ -98,16 +98,6 @@ export default class VueRouter {
     this.go(1)
   }
 
-  setInitialLocation (location: RawLocation) {
-    const route = this.match(location)
-    if (this.history instanceof AbstractHistory) {
-      this.history.setInitialRoute(route)
-    }
-    if (this.app) {
-      this.app._route = route
-    }
-  }
-
   getMatchedComponents (): Array<any> {
     if (!this.currentRoute) {
       return []
