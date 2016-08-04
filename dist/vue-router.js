@@ -1,3 +1,8 @@
+/**
+ * vue-router v2.0.0-rc.1
+ * (c) 2016 Evan You
+ * @license MIT
+ */
 (function (global, factory) {
 	typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
 	typeof define === 'function' && define.amd ? define(factory) :
@@ -1353,7 +1358,7 @@
 	  return isNumber(obj.x) || isNumber(obj.y)
 	}
 
-	function normalizePosotion (obj        )         {
+	function normalizePosition (obj        )         {
 	  return {
 	    x: isNumber(obj.x) ? obj.x : window.pageXOffset,
 	    y: isNumber(obj.y) ? obj.y : window.pageYOffset
@@ -1456,10 +1461,10 @@
 	        if (el) {
 	          position = getElementPosition(el)
 	        } else if (isValidPosition(shouldScroll)) {
-	          position = normalizePosotion(shouldScroll)
+	          position = normalizePosition(shouldScroll)
 	        }
 	      } else if (isObject && isValidPosition(shouldScroll)) {
-	        position = normalizePosotion(shouldScroll)
+	        position = normalizePosition(shouldScroll)
 	      }
 
 	      if (position) {
@@ -1649,6 +1654,10 @@
 	    this.index = 0
 	  };
 
+	  AbstractHistory.prototype.getLocation = function getLocation () {
+	    return '/'
+	  };
+
 	  return AbstractHistory;
 	}(History));
 
@@ -1734,8 +1743,12 @@
 	};
 
 	VueRouter.prototype.setInitialLocation = function setInitialLocation (location           ) {
+	  var route = this.match(location)
 	  if (this.history instanceof AbstractHistory) {
-	    this.history.setInitialRoute(this.match(location))
+	    this.history.setInitialRoute(route)
+	  }
+	  if (this.app) {
+	    this.app._route = route
 	  }
 	};
 
