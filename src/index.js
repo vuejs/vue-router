@@ -38,6 +38,10 @@ export default class VueRouter {
     this.mode = mode
   }
 
+  get currentRoute (): ?Route {
+    return this.history && this.history.current
+  }
+
   init (app: any /* Vue component instance */) {
     assert(
       install.installed,
@@ -102,6 +106,17 @@ export default class VueRouter {
     if (this.app) {
       this.app._route = route
     }
+  }
+
+  getMatchedComponents (): Array<any> {
+    if (!this.currentRoute) {
+      return []
+    }
+    return [].concat.apply([], this.currentRoute.matched.map(m => {
+      return Object.keys(m.components).map(key => {
+        return m.components[key]
+      })
+    }))
   }
 }
 
