@@ -3,6 +3,9 @@
   "parser": "babel-eslint",
   "extends": "vue",
   "plugins": ["flow-vars"],
+  "env": {
+    "jasmine": true
+  },
   "rules": {
     "flow-vars/define-flow-type": 1,
     "flow-vars/use-flow-type": 1

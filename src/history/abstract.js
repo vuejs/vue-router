@@ -50,4 +50,8 @@ export class AbstractHistory extends History {
       __VUE_SSR_CONTEXT__.url
     ) || '/'
   }
+
+  getLocation () {
+    return '/'
+  }
 }
