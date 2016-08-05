@@ -17,8 +17,6 @@ export class History {
   go: (n: number) => void;
   push: (loc: RawLocation) => void;
   replace: (loc: RawLocation) => void;
-  onInit: (cb: Function) => void;
-  getLocation: () => string;
 
   constructor (router: VueRouter, base: ?string) {
     this.router = router
@@ -28,9 +26,6 @@ export class History {
       path: '__vue_router_init__'
     })
     this.pending = null
-    this.transitionTo(this.getLocation(), route => {
-      this.onInit(route)
-    })
   }
 
   listen (cb: Function) {

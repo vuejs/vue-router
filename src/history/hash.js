@@ -8,21 +8,23 @@ import { cleanPath } from '../util/path'
 export class HashHistory extends History {
   constructor (router: VueRouter, base: ?string, fallback: boolean) {
     super(router, base)
+
     // check history fallback deeplinking
     if (fallback && this.checkFallback()) {
       return
     }
+
     ensureSlash()
+    this.transitionTo(getHash(), route => {
+      // possible redirect on start
+      if (getHash() !== route.fullPath) {
+        replaceHash(route.fullPath)
+      }
+    })
+
     window.addEventListener('hashchange', () => {
       this.onHashChange()
     })
-  }
-
-  onInit () {
-    // possible redirect on start
-    if (getHash() !== this.current.fullPath) {
-      replaceHash(this.current.fullPath)
-    }
   }
 
   checkFallback () {
@@ -39,7 +41,7 @@ export class HashHistory extends History {
     if (!ensureSlash()) {
       return
     }
-    this.transitionTo(this.getLocation(), route => {
+    this.transitionTo(getHash(), route => {
       replaceHash(route.fullPath)
     })
   }
@@ -58,10 +60,6 @@ export class HashHistory extends History {
 
   go (n: number) {
     window.history.go(n)
-  }
-
-  getLocation () {
-    return getHash()
   }
 }
 

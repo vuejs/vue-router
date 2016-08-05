@@ -1,5 +1,4 @@
 /* @flow */
-/* globals __VUE_SSR_CONTEXT__ */
 
 import type VueRouter from '../index'
 import { History } from './base'
@@ -12,10 +11,6 @@ export class AbstractHistory extends History {
     super(router)
     this.stack = []
     this.index = 0
-  }
-
-  onInit () {
-    this.stack = [this.current]
   }
 
   push (location: RawLocation) {
@@ -42,12 +37,5 @@ export class AbstractHistory extends History {
       this.index = targetIndex
       this.updateRoute(location)
     })
-  }
-
-  getLocation () {
-    return (
-      typeof __VUE_SSR_CONTEXT__ !== 'undefined' &&
-      __VUE_SSR_CONTEXT__.url
-    ) || '/'
   }
 }
