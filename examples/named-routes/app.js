@@ -3,9 +3,9 @@ import VueRouter from 'vue-router'
 
 Vue.use(VueRouter)
 
-const Home = { template: '<div>home</div>' }
-const Foo = { template: '<div>foo</div>' }
-const Bar = { template: '<div>bar</div>' }
+const Home = { template: '<div>This is Home</div>' }
+const Foo = { template: '<div>This is Foo</div>' }
+const Bar = { template: '<div>This is Bar</div>' }
 
 const router = new VueRouter({
   mode: 'history',
@@ -22,6 +22,7 @@ new Vue({
   template: `
     <div id="app">
       <h1>Named Routes</h1>
+      <p>Current route name: {{ $route.name }}</p>
       <ul>
         <li><router-link :to="{ name: 'home' }">home</router-link></li>
         <li><router-link :to="{ name: 'foo' }">foo</router-link></li>

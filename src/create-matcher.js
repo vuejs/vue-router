@@ -125,7 +125,7 @@ export function createRoute (
   redirectedFrom?: Location
 ): Route {
   const route: Route = {
-    name: location.name,
+    name: location.name || (record && record.name),
     path: location.path || '/',
     hash: location.hash || '',
     query: location.query || {},
