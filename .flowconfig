@@ -3,7 +3,7 @@
 .*/test/.*
 .*/dist/.*
 .*/examples/.*
-.*/vue-next/.*
+.*/vue/.*
 
 [include]
 
