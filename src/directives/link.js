@@ -60,14 +60,12 @@ export default function (Vue) {
             this.removeClass(link.prevActiveClass)
             if (link.isActive(path)) {
               this.addClass(cls)
-            }
-            else {
+            } else {
               this.removeClass(cls)
             }
-          }
-          // if route has changed
-          // build up new state
-          else {
+          } else {
+            // if route has changed
+            // build up new state
             this.links.push(link.id)
             if (link.isActive(path)) {
               this.addClass(cls)
@@ -78,14 +76,13 @@ export default function (Vue) {
     },
 
     addClass (cls) {
-        // store how many active links build up a class
-        if (!this.classes[cls]) {
-          this.classes[cls] = 1
-          this.el.classList.add(cls)
-        }
-        else {
-          this.classes[cls]++
-        }
+      // store how many active links build up a class
+      if (!this.classes[cls]) {
+        this.classes[cls] = 1
+        this.el.classList.add(cls)
+      } else {
+        this.classes[cls]++
+      }
     },
 
     removeClass (cls) {
@@ -103,7 +100,7 @@ export default function (Vue) {
     onRouteUpdate () {
       // clear state
       for (var cls in this.classes) {
-          this.el.classList.remove(cls)
+        this.el.classList.remove(cls)
       }
       this.classes = {}
       this.links = []
@@ -273,8 +270,7 @@ export default function (Vue) {
 
       if (this.isActive(path)) {
           toggleClasses(this.el, activeClass, addClass)
-      }
-      else {
+      } else {
           toggleClasses(this.el, activeClass, removeClass)
       }
     },
