@@ -243,22 +243,22 @@ export default function (Vue) {
     },
 
     getActiveClass () {
-        return this.activeClass || this.router._linkActiveClass
+      return this.activeClass || this.router._linkActiveClass
     },
 
     isActive (path) {
-        const dest = this.path.replace(queryStringRE, '')
-        path = path.replace(queryStringRE, '')
-        // add new class
-        if (this.exact) {
-          return dest === path || (
-            // also allow additional trailing slash
-            dest.charAt(dest.length - 1) !== '/' &&
-            dest === path.replace(trailingSlashRE, '')
-          )
-        } else {
-          return this.activeRE && this.activeRE.test(path)
-        }
+      const dest = this.path.replace(queryStringRE, '')
+      path = path.replace(queryStringRE, '')
+      // add new class
+      if (this.exact) {
+        return dest === path || (
+          // also allow additional trailing slash
+          dest.charAt(dest.length - 1) !== '/' &&
+          dest === path.replace(trailingSlashRE, '')
+        )
+      } else {
+        return this.activeRE && this.activeRE.test(path)
+      }
     },
 
     updateClasses (path) {
@@ -269,9 +269,9 @@ export default function (Vue) {
       }
 
       if (this.isActive(path)) {
-          toggleClasses(this.el, activeClass, addClass)
+        toggleClasses(this.el, activeClass, addClass)
       } else {
-          toggleClasses(this.el, activeClass, removeClass)
+        toggleClasses(this.el, activeClass, removeClass)
       }
     },
 
