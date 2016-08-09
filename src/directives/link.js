@@ -27,6 +27,14 @@ export default function (Vue) {
       // we need do this here before the parent-child relationship
       // gets messed up by terminal directives (if, for, components)
       const childLinks = this.el.querySelectorAll('[v-link]')
+
+      // holds a number of active
+      // links sharing the same class
+      this.classes = {}
+      // holds IDs of links
+      // included into the state
+      this.links = []
+
       for (var i = 0, l = childLinks.length; i < l; i++) {
         let link = childLinks[i]
         let existingId = link.getAttribute(LINK_UPDATE)
@@ -35,16 +43,79 @@ export default function (Vue) {
         // through fragment clones.
         link.setAttribute(LINK_UPDATE, value)
       }
+
+      // watch $route change and create a state
+      // to be able to track updates for each link
+      this.unwatch = this.vm.$watch('$route', bind(this.onRouteUpdate, this))
+
+      // build up new state if $route is changed
+      // or react to changes of updated link otherwise
       this.vm.$on(LINK_UPDATE, this.cb = (link, path) => {
         if (link.activeIds.indexOf(id) > -1) {
-          link.updateClasses(path, this.el)
+          let cls = link.getActiveClass()
+          // if path or activeClass properties
+          // of individual link were updated
+          if (this.links.indexOf(link.id) >= 0) {
+            // remove previous class if it is updated
+            this.removeClass(link.prevActiveClass)
+            if (link.isActive(path)) {
+              this.addClass(cls)
+            }
+            else {
+              this.removeClass(cls)
+            }
+          }
+          // if route has changed
+          // build up new state
+          else {
+            this.links.push(link.id)
+            if (link.isActive(path)) {
+              this.addClass(cls)
+            }
+          }
         }
       })
     },
+
+    addClass (cls) {
+        // store how many active links build up a class
+        if (!this.classes[cls]) {
+          this.classes[cls] = 1
+          this.el.classList.add(cls)
+        }
+        else {
+          this.classes[cls]++
+        }
+    },
+
+    removeClass (cls) {
+      // ignore empty or non-existing class
+      if (!cls || !this.classes[cls]) return
+      // validate if other active links still use this class
+      if (--this.classes[cls] <= 0) {
+        if (this.el.classList.contains(cls)) {
+          this.el.classList.remove(cls)
+        }
+        delete this.classes[cls]
+      }
+    },
+
+    onRouteUpdate () {
+      // clear state
+      for (var cls in this.classes) {
+          this.el.classList.remove(cls)
+      }
+      this.classes = {}
+      this.links = []
+    },
+
     unbind () {
       this.vm.$off(LINK_UPDATE, this.cb)
+      this.unwatch && this.unwatch()
     }
   })
+
+  let linkId = 0
 
   Vue.directive('link', {
     priority: onPriority - 2,
@@ -57,6 +128,8 @@ export default function (Vue) {
         return
       }
       this.router = vm.$route.router
+      // give an ID to link to track state changes
+      this.id = String(++linkId)
       // update things when the route changes
       this.unwatch = vm.$watch('$route', bind(this.onRouteUpdate, this))
       // check v-link-active ids
@@ -137,7 +210,7 @@ export default function (Vue) {
       if (this.activeIds) {
         this.vm.$emit(LINK_UPDATE, this, route.path)
       } else {
-        this.updateClasses(route.path, this.el)
+        this.updateClasses(route.path)
       }
     },
 
@@ -172,32 +245,37 @@ export default function (Vue) {
       }
     },
 
-    updateClasses (path, el) {
-      const activeClass = this.activeClass || this.router._linkActiveClass
+    getActiveClass () {
+        return this.activeClass || this.router._linkActiveClass
+    },
+
+    isActive (path) {
+        const dest = this.path.replace(queryStringRE, '')
+        path = path.replace(queryStringRE, '')
+        // add new class
+        if (this.exact) {
+          return dest === path || (
+            // also allow additional trailing slash
+            dest.charAt(dest.length - 1) !== '/' &&
+            dest === path.replace(trailingSlashRE, '')
+          )
+        } else {
+          return this.activeRE && this.activeRE.test(path)
+        }
+    },
+
+    updateClasses (path) {
+      const activeClass = this.getActiveClass()
       // clear old class
       if (this.prevActiveClass && this.prevActiveClass !== activeClass) {
-        toggleClasses(el, this.prevActiveClass, removeClass)
+        toggleClasses(this.el, this.prevActiveClass, removeClass)
       }
-      // remove query string before matching
-      const dest = this.path.replace(queryStringRE, '')
-      path = path.replace(queryStringRE, '')
-      // add new class
-      if (this.exact) {
-        if (dest === path || (
-          // also allow additional trailing slash
-          dest.charAt(dest.length - 1) !== '/' &&
-          dest === path.replace(trailingSlashRE, '')
-        )) {
-          toggleClasses(el, activeClass, addClass)
-        } else {
-          toggleClasses(el, activeClass, removeClass)
-        }
-      } else {
-        if (this.activeRE && this.activeRE.test(path)) {
-          toggleClasses(el, activeClass, addClass)
-        } else {
-          toggleClasses(el, activeClass, removeClass)
-        }
+
+      if (this.isActive(path)) {
+          toggleClasses(this.el, activeClass, addClass)
+      }
+      else {
+          toggleClasses(this.el, activeClass, removeClass)
       }
     },
 
