@@ -126,6 +126,7 @@ export function createRoute (
 ): Route {
   const route: Route = {
     name: location.name || (record && record.name),
+    meta: (record && record.meta) || {},
     path: location.path || '/',
     hash: location.hash || '',
     query: location.query || {},
