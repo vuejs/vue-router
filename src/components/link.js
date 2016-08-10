@@ -29,8 +29,8 @@ export default {
     const classes = {}
     const activeClass = this.activeClass || router.options.linkActiveClass || 'router-link-active'
     classes[activeClass] = this.exact
-      ? isSameRoute(current, resolved)
-      : isIncludedRoute(current, resolved)
+      ? isSameRoute(current, to)
+      : isIncludedRoute(current, to)
 
     const data = {
       class: classes,
