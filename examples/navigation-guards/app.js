@@ -52,7 +52,7 @@ const router = new VueRouter({
     // and check them in a global before hook
     { path: '/bar', component: Bar, meta: { needGuard: true }},
 
-    // Baz implements an in-component canDeactivate hook
+    // Baz implements an in-component beforeRouteLeave hook
     { path: '/baz', component: Baz }
   ]
 })
