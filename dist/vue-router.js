@@ -1,5 +1,5 @@
 /**
- * vue-router v2.0.0-rc.2
+ * vue-router v2.0.0-rc.3
  * (c) 2016 Evan You
  * @license MIT
  */
@@ -346,8 +346,8 @@
 	    var classes = {}
 	    var activeClass = this.activeClass || router.options.linkActiveClass || 'router-link-active'
 	    classes[activeClass] = this.exact
-	      ? isSameRoute(current, resolved)
-	      : isIncludedRoute(current, resolved)
+	      ? isSameRoute(current, to)
+	      : isIncludedRoute(current, to)
 
 	    var data = {
 	      class: classes,
@@ -1062,6 +1062,7 @@
 	)        {
 	  var route        = {
 	    name: location.name || (record && record.name),
+	    meta: (record && record.meta) || {},
 	    path: location.path || '/',
 	    hash: location.hash || '',
 	    query: location.query || {},
