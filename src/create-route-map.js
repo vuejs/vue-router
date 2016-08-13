@@ -61,7 +61,7 @@ function addRouteRecord (
   pathMap[record.path] = record
   if (name) nameMap[name] = record
 
-  if (path == '' && parent && parent.name) {
+  if (path === '' && parent && parent.name) {
     record.path = normalizePath(record.path)
     nameMap['_' + parent.name] = record
   }

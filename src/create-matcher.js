@@ -30,7 +30,7 @@ export function createMatcher (routes: Array<RouteConfig>): Matcher {
     const { name } = location
 
     if (name) {
-      const record = findNamedRecord(nameMap,name)
+      const record = findNamedRecord(nameMap, name)
       if (record) {
         location.path = fillParams(record.path, location.params, `named route "${name}"`)
         return _createRoute(record, location, redirectedFrom)
@@ -205,9 +205,9 @@ function getFullPath ({ path, query = {}, hash = '' }) {
   return (path || '/') + stringifyQuery(query) + hash
 }
 
-function findNamedRecord(nameMap: RouteMap, name: string): ?RouteRecord {
+function findNamedRecord (nameMap: RouteMap, name: string): ?RouteRecord {
   const defaultRecord = nameMap['_' + name]
-  if(defaultRecord) {
+  if (defaultRecord) {
     return defaultRecord
   }
   return nameMap[name]
