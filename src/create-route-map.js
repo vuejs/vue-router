@@ -62,8 +62,7 @@ function addRouteRecord (
   if (name) nameMap[name] = record
 
   if (path === '' && parent && parent.name) {
-    record.path = normalizePath(record.path)
-    nameMap['_' + parent.name] = record
+    addDefaultRoute(nameMap, parent.name, record)
   }
 }
 
@@ -72,4 +71,10 @@ function normalizePath (path: string, parent?: RouteRecord): string {
   if (path[0] === '/') return path
   if (parent == null) return path
   return cleanPath(`${parent.path}/${path}`)
+}
+
+function addDefaultRoute (nameMap: RouteMap, name: string, record: RouteRecord) {
+  record.path = normalizePath(record.path)
+  const defaultName = '_' + name
+  nameMap[defaultName] = record
 }
