@@ -11,3 +11,4 @@
   - [router-view](getting-started/view.md)
 - [Advanced Routing](advanced-routing/README.md)
   - [Nested Routes](advanced-routing/nested.md)
+  - [Named Views](advanced-routing/named-views.md)
