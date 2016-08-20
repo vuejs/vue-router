@@ -1,26 +1,33 @@
 # Named Routes
 
-Sometimes it is more convenient to identify a route with a name, especially when performing navigations. You can give a route a name in the route config like this:
+Sometimes it is more convenient to identify a route with a name, especially when
+performing navigations. You can give a route a name in the `routes` options
+while creating the Router instance:
 
 ``` js
-router.map({
-  '/user/:userId': {
-    name: 'user', // give the route a name
-    component: { ... }
-  }
+const router = new VueRouter({
+  routes: [
+    // Foo is rendered when /foo is matched
+    {
+      path: '/user/:userId,
+      name: 'user',
+      component: User
+    }
+  ]
 })
 ```
 
-To link to a named route, you can use `v-link` like this:
+To link to a named route, you can pass an object to the `router-link`
+component's to prop:
 
 ``` html
-<a v-link="{ name: 'user', params: { userId: 123 }}">User</a>
+<router-link :to="{ name: 'user', params: { userId: 123 }}">User</router-link>
 ```
 
-You can also navigate to a named route programatically using `router.go()`:
+This is the exact same object used programatically with `router.push()`:
 
 ``` js
-router.go({ name: 'user', params: { userId: 123 }})
+router.push({ name: 'user', params: { userId: 123 }})
 ```
 
 In both cases, the router will navigate to the path `/user/123`.
