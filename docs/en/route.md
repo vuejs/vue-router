@@ -111,7 +111,7 @@ Examples:
 | /user/*any | /user/a/b/c | `{ any: 'a/b/c' }` |
 | /foo/*any/bar | /foo/a/b/bar | `{ any: 'a/b' }` |
 
-#### Matching precedence
+#### Matching Precedence
 The routes defined inside the array follows a simple rule of precedence: the latter overrides the former.
 
 Example:
