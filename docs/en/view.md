@@ -4,10 +4,6 @@ The `<router-view>` element is used as outlets for rendering matched components.
 
 - You can pass props to it.
 - HTML content inside the `<router-view>` will be used for content insertion in the rendered component.
-- `transition` and `transition-mode` are fully supported. Note: for transition effects to work, your route component must not be a [fragment instance](http://vuejs.org/guide/components.html#Fragment_Instance).
-- `v-ref` is also supported; The rendered component will be registered in the parent component's `this.$` object.
-
-However, there are also a few limitations:
-
-- ~~`keep-alive` is not supported as of now.~~ `keep-alive` now has experimental support in 0.7.2+.
-- `wait-for` is not supported. You should be using the [`activate` transition hook](pipeline/activate.html) to control the timing of the transition.
+- `transition` and `transition-group` are fully supported. Read more about the transition system [here](https://github.com/vuejs/vue/releases/tag/v2.0.0-beta.2) //TODO: Use Vue 2.0 documentation link instead of release notes
+- `ref` is also supported; The rendered component will be registered in the parent component's `this.$refs` object.
+- `keep-alive` is supported, though there are some [caveats]() // TODO: Use Vue 2.0 documentation link about keep-alive
