@@ -8,9 +8,11 @@ Creating a Single-page Application with Vue.js + vue-router is dead simple. With
 <div id="app">
   <h1>Hello App!</h1>
   <p>
-    <!-- use v-link directive for navigation. -->
-    <a v-link="{ path: '/foo' }">Go to Foo</a>
-    <a v-link="{ path: '/bar' }">Go to Bar</a>
+    <!-- use router-link component for navigation. -->
+    <!-- specify the link by passing the `to` prop. -->
+    <!-- <router-link> will be rendered as an `<a>` tag by default -->
+    <router-link :to="{ path: '/foo' }">Go to Foo</router-link>
+    <router-link to="/bar">Go to Bar</router-link>
   </p>
   <!-- route outlet -->
   <router-view></router-view>
@@ -20,53 +22,48 @@ Creating a Single-page Application with Vue.js + vue-router is dead simple. With
 ### JavaScript
 
 ``` js
-// Load the plugin
+// 1. Use plugin.
+// This installs <router-view> and <router-link>,
+// and injects $router and $route to all router-enabled child components
 Vue.use(VueRouter)
 
-// Define some components
-var Foo = {
-    template: '<p>This is foo!</p>'
-}
+// 2. Define route components
+var Foo = { template: '<div>foo</div>' }
+var Bar = { template: '<div>bar</div>' }
 
-var Bar = {
-    template: '<p>This is bar!</p>'
-}
-
-// The router needs a root component to render.
-// For demo purposes, we will just use an empty one
-// because we are using the HTML as the app template.
-// !! Note that the App is not a Vue instance.
-var App = {}
-
-// Create a router instance.
-// You can pass in additional options here, but let's
-// keep it simple for now.
-var router = new VueRouter()
-
-// Define some routes.
+// 3. Define some routes
 // Each route should map to a component. The "component" can
 // either be an actual component constructor created via
 // Vue.extend(), or just a component options object.
 // We'll talk about nested routes later.
-router.map({
-    '/foo': {
-        component: Foo
-    },
-    '/bar': {
-        component: Bar
-    }
+var routes = [
+  { path: '/foo', component: Foo },
+  { path: '/bar', component: Bar }
+]
+
+// 4. Create the router instance and pass the `routes` option
+// You can pass in additional options here, but let's
+// keep it simple for now.
+var router = new VueRouter({
+  routes: routes
 })
 
-// Now we can start the app!
-// The router will create an instance of App and mount to
+// 5. Create and mount the root instance.
+// Make sure to inject the router.
+// Route components will be rendered inside <router-view>.
+// The root instance will mount to
 // the element matching the selector #app.
-router.start(App, '#app')
+new Vue({
+  router: router
+}).$mount('#app')
+
+// Now the app has started!
 ```
 
-You can also checkout this example [live](http://jsfiddle.net/yyx990803/xyu276sa/).
+You can also checkout this example [live](http://jsfiddle.net/fnlCtrl/t49c0mqz/).
 
 In addition:
 
 - The root Vue instance will be available as `router.app` once the initial render is complete.
 
-- The router instance will be available in all descendants of the router app as `this.$router`.
+- The router instance will be available in all descendants of the root instance as `this.$router`.
