@@ -16,46 +16,49 @@ A route object exposes the following properties:
 
   An object that contains key/value pairs of the query string. For example, for a path `/foo?user=1`, we get `$route.query.user == 1`.
 
-- **$route.router**
-
-  The router instance that is managing this route (and its owner component).
-
 - **$route.matched**
 
   An array containing the route configuration objects for all matched segments in the current route.
 
 - **$route.name**
 
-  The name of the current route, if it has one. (See [named routes](./named.md))
+  The name of the current (deepest) matched route, if it has one. (See [named routes](./named.md))
+  
+- **$route.meta**
 
-### Custom Fields
+  The meta of the current (deepest) matched route, if defined. More details below.
 
-In addition to the built-in properties, custom fields defined in the route config will also be merged on to the route object. For example:
+### Meta Field
+
+In addition to the built-in properties, custom fields can be defined under `meta` field in the config, and will be exposed on the route object. For example:
 
 ``` js
-router.map({
-  '/a': {
+var router = new VueRouter({
+  routes: [{
+    path: '/a'
     component: { ... },
-    auth: true
-  }
+    meta: {
+      auth: true
+    }
+  }]
 })
 ```
 
-When `/a` is matched, `$route.auth` will be `true`. This allows us to perform authentication checks in global hooks:
+When `/a` is matched, `$route.meta.auth` will be `true`. This allows us to perform authentication checks in global hooks:
 
 ``` js
-router.beforeEach(function (transition) {
-  if (transition.to.auth && !authenticated) {
-    transition.redirect('/login')
+router.beforeEach(function(route, redirect, next) {
+  if (route.matched.some(m => m.meta.auth) && !authenticated) {
+    redirect('/login')
   } else {
-    transition.next()
+    next()
   }
 })
 ```
 
 > See [API](api/before-each.md) for how the `beforeEach` hook works.
 
-When a nested route is matched, all custom fields will be merged on to the same `$route` object. When a sub route and a parent route has the same custom field, the sub route's value will overwrite the parent's.
+Note that in the example above, we checked `route.matched` instead of just `route.meta.auth`. This is because when a nested route is matched, only the deepest matched sub route's meta will be exposed on `route`. To get the `meta`s of all the matched routes, we need to iterate through `route.matched`.
 
 ### Using in Templates
 
@@ -64,7 +67,8 @@ You can directly bind to the `$route` object inside your component templates. Fo
 ``` html
 <div>
   <p>Current route path: {{$route.path}}</p>
-  <p>Current route params: {{$route.params | json}}</p>
+  <!-- `stringify` is a method provided by you -->
+  <p>Current route params: {{stringify($route.params)}}</p>
 </div>
 ```
 
@@ -77,12 +81,13 @@ Dynamic segments can be defined in the form of path segments with a leading colo
 Example Usage:
 
 ``` js
-router.map({
-  '/user/:username': {
+var router = new VueRouter({
+  routes: [{
+    path: '/user/:username',
     component: {
       template: '<p>username is {{$route.params.username}}</p>'
     }
-  }
+  }]
 })
 ```
 
@@ -105,3 +110,26 @@ Examples:
 |---------|------|--------|
 | /user/*any | /user/a/b/c | `{ any: 'a/b/c' }` |
 | /foo/*any/bar | /foo/a/b/bar | `{ any: 'a/b' }` |
+
+#### Matching precedence
+The routes defined inside the array follows a simple rule of precedence: the latter overrides the former.
+
+Example:
+``` js
+var router = new VueRouter({
+  routes: [{
+    path: '/user/:username',
+    component: {
+      template: '<p>username is {{$route.params.username}}</p>'
+    }
+  }, {
+    path: '/user/foo',
+    component: {
+      template: '<p>This page is only for user Foo!</p>'
+    }
+  }]
+})
+
+// Now '/user/foo' shows 'This page is only for user Foo!' 
+// instead of 'username is foo'
+```
