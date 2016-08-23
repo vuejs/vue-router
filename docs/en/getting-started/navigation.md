@@ -1,13 +1,12 @@
-# Imperative Navigation and History Manipulation
+# Programmatic Navigation and History Manipulation
 
-Aside from using `<router-link>` to create anchor tags for declarative navigation, we can do this imperatively using vue-router's APIs.
-
+Aside from using `<router-link>` to create anchor tags for declarative navigation, we can do this programmatically using vue-router's APIs.
 
 #### router.push
 It pushes a new entry to the history record. This is the method called internally when you click a `<router-link>`, so clicking `<router-link :to="...">` is the equivalent of calling `router.push(...)`. 
 
-| Declarative | Imperative |
-|-------------|------------|
+| Declarative | Programmatic |
+|-------------|--------------|
 | `<router-link :to="...">` | `router.push(...)` |
 
 Examples: 
@@ -28,8 +27,8 @@ router.push({ path: 'register', query: { plan: 'private' }})
 #### router.replace
 It acts like `router.go`, the only difference is that it navigates without creating a new history record, as its name suggests - it replaces current history record.
 
-| Declarative | Imperative |
-|-------------|------------|
+| Declarative | Programmatic |
+|-------------|--------------|
 | `<router-link :to="..." replace>` | `router.replace(...)` |
 
 
