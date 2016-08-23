@@ -56,9 +56,9 @@ router.go(100)
 
 #### History Manipulation
 
-You may have noticed that `router.push`, `router.replace` and `router.go` are counterparts of [`window.history.pushState`, `window.history.replaceState` and `window.history.go`](https://developer.mozilla.org/en-US/docs/Web/API/History_API), and they do imitate the `window.history` APIs.
+You may have noticed that `router.push`, `router.replace` and `router.go` are counterparts of [`window.history.pushState`, `window.history.replaceState` and `window.history.go`](https://developer.mozilla.org/en-US/docs/Web/API/History), and they do imitate the `window.history` APIs.
 
-Therefore, if you are already familiar with [Browser History APIs](https://developer.mozilla.org/en-US/docs/Web/API/History), manipulating history will be super easy with vue-router.
+Therefore, if you are already familiar with [Browser History APIs](https://developer.mozilla.org/en-US/docs/Web/API/History_API), manipulating history will be super easy with vue-router.
 
 It is worth mentioning that vue-router APIs (`push`, `replace`, `go`) works consistently under all router modes (`history`, `hash` and `abstract`). Below is a table to give you a quick glance at how vue-router achieves it.
 
