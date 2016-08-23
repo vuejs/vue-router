@@ -1,4 +1,4 @@
-# Programmatic Navigation and History Manipulation
+# Programmatic Navigation
 
 Aside from using `<router-link>` to create anchor tags for declarative navigation, we can do this programmatically using vue-router's APIs.
 
