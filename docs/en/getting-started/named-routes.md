@@ -9,7 +9,7 @@ const router = new VueRouter({
   routes: [
     // Foo is rendered when /foo is matched
     {
-      path: '/user/:userId,
+      path: '/user/:userId',
       name: 'user',
       component: User
     }
