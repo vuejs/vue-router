@@ -2,28 +2,19 @@
 
 There are a number of options you can use to customize the router behavior when creating a router instance.
 
-#### hashbang
+#### mode
 
-- default: true
-- only used in hash mode
+- default: `"hash"`
 
-  When the hashbang option is true, all hash paths will be formated to start with `#!`. For example `router.go('/foo/bar')` will set the browser URL to `example.com/#!/foo/bar`.
+  There are three modes that can be set on the router
+  
+  - `hash`: All paths will be formatted to start with #. For example router.go('/foo/bar') will set the browser URL to example.com/#/foo/bar.
+   
+  - `history`: Enables HTML5 history mode. Leverages history.pushState() and history.replaceState() for history management.
+  
+      Note: when using the history mode, the server needs to be properly configured so that a user directly visiting a deep link on your site doesn't get a 404.
 
-#### history
-
-- default: false
-
-  Enables HTML5 history mode. Leverages `history.pushState()` and `history.replaceState()` for history management.
-
-  **Note**: when using the history mode, the server needs to be [properly configured](http://readystate4.com/2012/05/17/nginx-and-apache-rewrite-to-support-html5-pushstate/) so that a user directly visiting a deep link on your site doesn't get a 404.
-
-  **Note**: if you plan to serve your files with the `file://` protocol (for example, when using with [Electron](electron.atom.io)), enabling this mode will break your app. That is because your app URLs would look like `file:///path/to/your/app/index.html/my-route/`, which makes no sense in UNIX filesystem architecture.
-
-####  abstract
-
-- default: false
-
-  Use an abstract history backend that doesn't rely on the browser. The abstract mode is useful in testing or in environments where actual URLs doesn't matter, for example in Electron or Cordova apps. The router will also fallback into abstract mode if loaded in a non-browser environment.
+  - `abstract`: Use an abstract history backend that doesn't rely on the browser. The abstract mode is useful in testing or in environments where actual URLs doesn't matter, for example in Electron or Cordova apps. The router will also fallback into abstract mode if loaded in a non-browser environment.
 
 #### root
 
