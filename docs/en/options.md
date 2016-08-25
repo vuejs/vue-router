@@ -12,7 +12,7 @@ There are a number of options you can use to customize the router behavior when 
    
   - `history`: Enables HTML5 history mode. Leverages history.pushState() and history.replaceState() for history management.
   
-      Note: when using the history mode, the server needs to be properly configured so that a user directly visiting a deep link on your site doesn't get a 404.
+      Note: when using the history mode, the server needs to be [properly configured](http://readystate4.com/2012/05/17/nginx-and-apache-rewrite-to-support-html5-pushstate/) so that a user directly visiting a deep link on your site doesn't get a 404.
 
   - `abstract`: Use an abstract history backend that doesn't rely on the browser. The abstract mode is useful in testing or in environments where actual URLs doesn't matter, for example in Electron or Cordova apps. The router will also fallback into abstract mode if loaded in a non-browser environment.
 
