@@ -18,7 +18,8 @@ an s) option:
 ``` js
 const router = new VueRouter({
   routes: [
-    { path: '/',
+    {
+      path: '/',
       components: {
         default: Foo,
         a: Bar,
