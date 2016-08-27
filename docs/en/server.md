@@ -15,13 +15,13 @@ There are a few caveats to this, in that your server will no longer report 404 e
 
 ```apache
 <IfModule mod_rewrite.c>
-    RewriteEngine On
-    RewriteBase /
-    RewriteRule ^index\.html$ - [L]
-    RewriteCond %{REQUEST_FILENAME} !-f
-    RewriteCond %{REQUEST_FILENAME} !-d
-    RewriteRule . /index.html [L]
- </IfModule>
+  RewriteEngine On
+  RewriteBase /
+  RewriteRule ^index\.html$ - [L]
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteRule . /index.html [L]
+</IfModule>
 ```
 
 #### nginx
@@ -37,7 +37,10 @@ location / {
 To get around the issue that the server will no longer serve 404 errors you should implement a catch-all route within your Vue app to show a 404 page.
 
 ```javascript
-router.map({
-    '*': { component: NotFoundComponent }
-});
+new VueRouter({
+  mode: 'history',
+  routes: [
+    { path: '*', component: NotFoundComponent }
+  ]
+})
 ```
