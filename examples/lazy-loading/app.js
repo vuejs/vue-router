@@ -16,7 +16,7 @@ const Foo = resolve => require(['./Foo.vue'], resolve)
 const Bar = resolve => require(['./Bar.vue'], resolve)
 
 // If using Webpack 2, you can also do:
-// const Foo = resolve => System.import('./Foo.vue').then(resolve)
+// const Foo = () => System.import('./Foo.vue')
 
 const router = new VueRouter({
   mode: 'history',
