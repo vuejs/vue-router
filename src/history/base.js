@@ -1,6 +1,7 @@
 /* @flow */
 
 import type VueRouter from '../index'
+import { warn } from '../util/warn'
 import { inBrowser } from '../util/dom'
 import { runQueue } from '../util/async'
 import { isSameRoute } from '../util/route'
@@ -142,10 +143,21 @@ function resolveAsyncComponents (matched: Array<RouteRecord>): Array<?Function> 
     // we want to halt the navigation until the incoming component has been
     // resolved.
     if (typeof def === 'function' && !def.options) {
-      return (route, redirect, next) => def(resolvedDef => {
-        match.components[key] = resolvedDef
-        next()
-      })
+      return (route, redirect, next) => {
+        const resolve = resolvedDef => {
+          match.components[key] = resolvedDef
+          next()
+        }
+
+        const reject = reason => {
+          warn(false, `Failed to resolve async component ${key}: ${reason}`)
+        }
+
+        const res = def(resolve, reject)
+        if (res && typeof res.then === 'function') {
+          res.then(resolve, reject)
+        }
+      }
     }
   })
 }
