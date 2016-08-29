@@ -51,15 +51,18 @@ export class History {
       activated
     } = resolveQueue(this.current.matched, route.matched)
 
+    const postEnterCbs = []
     const queue = [].concat(
-      // deactivate guards
+      // in-component leave guards
       extractLeaveGuards(deactivated),
       // global before hooks
       this.router.beforeHooks,
-      // activate guards
+      // enter guards
       activated.map(m => m.beforeEnter),
       // async components
-      resolveAsyncComponents(activated)
+      resolveAsyncComponents(activated),
+      // in-component enter guards
+      extractEnterGuards(activated, postEnterCbs)
     ).filter(_ => _)
 
     this.pending = route
@@ -72,6 +75,9 @@ export class History {
         if (isSameRoute(route, this.pending)) {
           this.pending = null
           cb(route)
+          this.router.app.$nextTick(() => {
+            postEnterCbs.forEach(cb => cb())
+          })
         }
       }
     )
@@ -128,11 +134,27 @@ function extractLeaveGuards (matched: Array<RouteRecord>): Array<?Function> {
   return flatMapComponents(matched, (def, instance) => {
     const guard = def && def.beforeRouteLeave
     if (guard) {
-      return function routeGuard () {
+      return function routeLeaveGuard () {
         return guard.apply(instance, arguments)
       }
     }
   }).reverse()
+}
+
+function extractEnterGuards (matched: Array<RouteRecord>, cbs: Array<Function>): Array<?Function> {
+  return flatMapComponents(matched, (def, _, match, key) => {
+    const guard = def && def.beforeRouteEnter
+    if (guard) {
+      return function routeEnterGuard (route, redirect, next) {
+        return guard(route, redirect, cb => {
+          next()
+          cb && cbs.push(() => {
+            cb(match.instances[key] && match.instances[key].child)
+          })
+        })
+      }
+    }
+  })
 }
 
 function resolveAsyncComponents (matched: Array<RouteRecord>): Array<?Function> {

@@ -8,7 +8,7 @@ module.exports = {
     browser
     .url('http://localhost:8080/navigation-guards/')
       .waitForElementVisible('#app', 1000)
-      .assert.count('li a', 4)
+      .assert.count('li a', 5)
       .assert.containsText('.view', 'home')
 
       .click('li:nth-child(2) a')
@@ -100,6 +100,13 @@ module.exports = {
       .acceptAlert()
       .assert.urlEquals('http://localhost:8080/navigation-guards/bar')
       .assert.containsText('.view', 'bar')
+
+    .click('li:nth-child(5) a')
+      .assert.urlEquals('http://localhost:8080/navigation-guards/bar')
+      .assert.containsText('.view', 'bar')
+      .waitFor(300)
+      .assert.urlEquals('http://localhost:8080/navigation-guards/qux')
+      .assert.containsText('.view', 'Qux')
       .end()
   }
 }

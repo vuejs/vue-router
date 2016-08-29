@@ -49,6 +49,8 @@ export default class VueRouter {
       `before creating root instance.`
     )
 
+    this.app = app
+
     const { mode, options, fallback } = this
     switch (mode) {
       case 'history':
@@ -64,7 +66,6 @@ export default class VueRouter {
         assert(false, `invalid mode: ${mode}`)
     }
 
-    this.app = app
     this.history.listen(route => {
       this.app._route = route
     })

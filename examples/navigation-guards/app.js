@@ -39,6 +39,31 @@ const Baz = {
   }
 }
 
+// Baz implements an in-component beforeRouteEnter hook
+const Qux = {
+  data () {
+    return {
+      msg: null
+    }
+  },
+  template: `<div>{{ msg }}</div>`,
+  beforeRouteEnter (route, redirect, next) {
+    // Note that enter hooks do not have access to `this`
+    // because it is called before the component is even created.
+    // However, we can provide a callback to `next` which will
+    // receive the vm instance when the route has been confirmed.
+    //
+    // simulate an async data fetch.
+    // this pattern is useful when you want to stay at current route
+    // and only switch after the data has been fetched.
+    setTimeout(() => {
+      next(vm => {
+        vm.msg = 'Qux'
+      })
+    }, 300)
+  }
+}
+
 const router = new VueRouter({
   mode: 'history',
   base: __dirname,
@@ -53,7 +78,10 @@ const router = new VueRouter({
     { path: '/bar', component: Bar, meta: { needGuard: true }},
 
     // Baz implements an in-component beforeRouteLeave hook
-    { path: '/baz', component: Baz }
+    { path: '/baz', component: Baz },
+
+    // Qux implements an in-component beforeRouteEnter hook
+    { path: '/qux', component: Qux }
   ]
 })
 
@@ -75,6 +103,7 @@ new Vue({
         <li><router-link to="/foo">/foo</router-link></li>
         <li><router-link to="/bar">/bar</router-link></li>
         <li><router-link to="/baz">/baz</router-link></li>
+        <li><router-link to="/qux">/qux</router-link></li>
       </ul>
       <router-view class="view"></router-view>
     </div>
