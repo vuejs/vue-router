@@ -8,7 +8,7 @@ module.exports = {
     browser
     .url('http://localhost:8080/navigation-guards/')
       .waitForElementVisible('#app', 1000)
-      .assert.count('li a', 5)
+      .assert.count('li a', 6)
       .assert.containsText('.view', 'home')
 
       .click('li:nth-child(2) a')
@@ -101,11 +101,23 @@ module.exports = {
       .assert.urlEquals('http://localhost:8080/navigation-guards/bar')
       .assert.containsText('.view', 'bar')
 
+    // in-component guard
     .click('li:nth-child(5) a')
       .assert.urlEquals('http://localhost:8080/navigation-guards/bar')
       .assert.containsText('.view', 'bar')
       .waitFor(300)
       .assert.urlEquals('http://localhost:8080/navigation-guards/qux')
+      .assert.containsText('.view', 'Qux')
+
+    // async component + in-component guard
+    .click('li:nth-child(1) a')
+      .assert.urlEquals('http://localhost:8080/navigation-guards/')
+      .assert.containsText('.view', 'home')
+    .click('li:nth-child(6) a')
+      .assert.urlEquals('http://localhost:8080/navigation-guards/')
+      .assert.containsText('.view', 'home')
+      .waitFor(300)
+      .assert.urlEquals('http://localhost:8080/navigation-guards/qux-async')
       .assert.containsText('.view', 'Qux')
       .end()
   }

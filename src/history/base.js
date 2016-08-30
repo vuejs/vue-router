@@ -51,7 +51,6 @@ export class History {
       activated
     } = resolveQueue(this.current.matched, route.matched)
 
-    const postEnterCbs = []
     const queue = [].concat(
       // in-component leave guards
       extractLeaveGuards(deactivated),
@@ -60,18 +59,18 @@ export class History {
       // enter guards
       activated.map(m => m.beforeEnter),
       // async components
-      resolveAsyncComponents(activated),
-      // in-component enter guards
-      extractEnterGuards(activated, postEnterCbs)
-    ).filter(_ => _)
+      resolveAsyncComponents(activated)
+    )
 
     this.pending = route
     const redirect = location => this.push(location)
+    const iterator = (hook, next) => hook(route, redirect, next)
 
-    runQueue(
-      queue,
-      (hook, next) => { hook(route, redirect, next) },
-      () => {
+    runQueue(queue, iterator, () => {
+      const postEnterCbs = []
+      // wait until async components are resolved before
+      // extracting in-component enter guards
+      runQueue(extractEnterGuards(activated, postEnterCbs), iterator, () => {
         if (isSameRoute(route, this.pending)) {
           this.pending = null
           cb(route)
@@ -79,8 +78,8 @@ export class History {
             postEnterCbs.forEach(cb => cb())
           })
         }
-      }
-    )
+      })
+    })
   }
 
   updateRoute (route: Route) {

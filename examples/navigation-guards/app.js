@@ -81,7 +81,14 @@ const router = new VueRouter({
     { path: '/baz', component: Baz },
 
     // Qux implements an in-component beforeRouteEnter hook
-    { path: '/qux', component: Qux }
+    { path: '/qux', component: Qux },
+
+   // in-component beforeRouteEnter hook for async components
+    { path: '/qux-async', component: resolve => {
+      setTimeout(() => {
+        resolve(Qux)
+      }, 0)
+    } }
   ]
 })
 
@@ -104,6 +111,7 @@ new Vue({
         <li><router-link to="/bar">/bar</router-link></li>
         <li><router-link to="/baz">/baz</router-link></li>
         <li><router-link to="/qux">/qux</router-link></li>
+        <li><router-link to="/qux-async">/qux-async</router-link></li>
       </ul>
       <router-view class="view"></router-view>
     </div>
