@@ -9,7 +9,7 @@ describe('Route utils', () => {
         query: { foo: 'bar', arr: [1, 2] }
       }
       const b = {
-        path: '/a',
+        path: '/a/',  // Allow trailing slash
         hash: '#hi',
         query: { arr: ['1', '2'], foo: 'bar' }
       }
