@@ -27,6 +27,8 @@ const router = new VueRouter({
     },
     // absolute redirect
     { path: '/absolute-redirect', redirect: '/bar' },
+    // dynamic redirect
+    { path: '/dynamic-redirect', redirect: () => '/bar' },
     // named redirect
     { path: '/named-redirect', redirect: { name: 'baz' }},
 
@@ -54,6 +56,10 @@ new Vue({
 
         <li><router-link to="/absolute-redirect">
           /absolute-redirect (redirects to /bar)
+        </router-link></li>
+        
+        <li><router-link to="/dynamic-redirect">
+          /dynamic-redirect (redirects to /bar)
         </router-link></li>
 
         <li><router-link to="/named-redirect">

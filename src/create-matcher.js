@@ -65,9 +65,9 @@ export function createMatcher (routes: Array<RouteConfig>): Matcher {
         hash,
         params
       }, undefined, location)
-    } else if (typeof redirect === 'string') {
+    } else if (typeof redirect === 'string' || typeof redirect === 'function') {
       // 1. resolve relative redirect
-      const rawPath = resolveRecordPath(redirect, record)
+      const rawPath = resolveRecordPath(typeof redirect === 'function' ? redirect() : redirect, record)
       // 2. resolve params
       const path = fillParams(rawPath, params, `redirect route with path "${rawPath}"`)
       // 3. rematch with existing query and hash
