@@ -1,3 +1,20 @@
+# Async Routes
+
+Sometimes you need to fetch data from server before rendering a route. For
+example, before visiting a user profile, you have to fetch his data from the
+server. In vue-router <= 1, you'd use the `activate` hook. From version 2 we
+rely on the components life-cycle to fetch data.
+
+This way you can control how loading is handled in each view.
+
+
+TODO talk about fetching in created hook
+
+TODO talk about using the beforeEnter option in route definition
+
+Going somewhere else in the before next is called will cancel it (explain with example)
+
+
 # `activate(transition) [-> Promise]`
 
 Called on an incoming component during the activation phase when it is created and about to get transitioned in.
