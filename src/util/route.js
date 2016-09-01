@@ -1,11 +1,12 @@
 /* @flow */
+const trailingSlashRE = /\/$/
 
 export function isSameRoute (a: Route, b: ?Route): boolean {
   if (!b) {
     return false
   } else if (a.path && b.path) {
     return (
-      a.path === b.path &&
+      a.path.replace(trailingSlashRE, '') === b.path.replace(trailingSlashRE, '') &&
       a.hash === b.hash &&
       isObjectEqual(a.query, b.query)
     )
