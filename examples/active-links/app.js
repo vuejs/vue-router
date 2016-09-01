@@ -25,7 +25,7 @@ const router = new VueRouter({
     { path: '/about', component: About },
     { path: '/users', component: Users,
       children: [
-        { path: ':username', component: User }
+        { path: ':username', name: 'user', component: User }
       ]
     }
   ]
@@ -48,6 +48,11 @@ new Vue({
         <li>
           <router-link :to="{ path: '/users/evan', query: { foo: 'bar' }}">
             /users/evan?foo=bar
+          </router-link>
+        </li>
+        <li><!-- #635 -->
+          <router-link :to="{ name: 'user', params: { username: 'evan' }, query: { foo: 'bar' }}" exact>
+            /users/evan?foo=bar (named view + exact match)
           </router-link>
         </li>
         <li>

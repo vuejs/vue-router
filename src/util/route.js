@@ -6,13 +6,13 @@ export function isSameRoute (a: Route, b: ?Route): boolean {
   } else if (a.path && b.path) {
     return (
       a.path === b.path &&
-      a.hash === b.hash &&
+      (a.hash || '') === (b.hash || '') &&
       isObjectEqual(a.query, b.query)
     )
   } else if (a.name && b.name) {
     return (
       a.name === b.name &&
-      a.hash === b.hash &&
+      (a.hash || '') === (b.hash || '') &&
       isObjectEqual(a.query, b.query) &&
       isObjectEqual(a.params, b.params)
     )
