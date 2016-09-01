@@ -1,6 +1,7 @@
 /* @flow */
 
 import type VueRouter from '../index'
+import { warn } from '../util/warn'
 import { inBrowser } from '../util/dom'
 import { runQueue } from '../util/async'
 import { isSameRoute } from '../util/route'
@@ -51,29 +52,34 @@ export class History {
     } = resolveQueue(this.current.matched, route.matched)
 
     const queue = [].concat(
-      // deactivate guards
+      // in-component leave guards
       extractLeaveGuards(deactivated),
       // global before hooks
       this.router.beforeHooks,
-      // activate guards
+      // enter guards
       activated.map(m => m.beforeEnter),
       // async components
       resolveAsyncComponents(activated)
-    ).filter(_ => _)
+    )
 
     this.pending = route
     const redirect = location => this.push(location)
+    const iterator = (hook, next) => hook(route, redirect, next)
 
-    runQueue(
-      queue,
-      (hook, next) => { hook(route, redirect, next) },
-      () => {
+    runQueue(queue, iterator, () => {
+      const postEnterCbs = []
+      // wait until async components are resolved before
+      // extracting in-component enter guards
+      runQueue(extractEnterGuards(activated, postEnterCbs), iterator, () => {
         if (isSameRoute(route, this.pending)) {
           this.pending = null
           cb(route)
+          this.router.app.$nextTick(() => {
+            postEnterCbs.forEach(cb => cb())
+          })
         }
-      }
-    )
+      })
+    })
   }
 
   updateRoute (route: Route) {
@@ -127,11 +133,27 @@ function extractLeaveGuards (matched: Array<RouteRecord>): Array<?Function> {
   return flatMapComponents(matched, (def, instance) => {
     const guard = def && def.beforeRouteLeave
     if (guard) {
-      return function routeGuard () {
+      return function routeLeaveGuard () {
         return guard.apply(instance, arguments)
       }
     }
   }).reverse()
+}
+
+function extractEnterGuards (matched: Array<RouteRecord>, cbs: Array<Function>): Array<?Function> {
+  return flatMapComponents(matched, (def, _, match, key) => {
+    const guard = def && def.beforeRouteEnter
+    if (guard) {
+      return function routeEnterGuard (route, redirect, next) {
+        return guard(route, redirect, cb => {
+          next()
+          cb && cbs.push(() => {
+            cb(match.instances[key] && match.instances[key].child)
+          })
+        })
+      }
+    }
+  })
 }
 
 function resolveAsyncComponents (matched: Array<RouteRecord>): Array<?Function> {
@@ -142,10 +164,21 @@ function resolveAsyncComponents (matched: Array<RouteRecord>): Array<?Function> 
     // we want to halt the navigation until the incoming component has been
     // resolved.
     if (typeof def === 'function' && !def.options) {
-      return (route, redirect, next) => def(resolvedDef => {
-        match.components[key] = resolvedDef
-        next()
-      })
+      return (route, redirect, next) => {
+        const resolve = resolvedDef => {
+          match.components[key] = resolvedDef
+          next()
+        }
+
+        const reject = reason => {
+          warn(false, `Failed to resolve async component ${key}: ${reason}`)
+        }
+
+        const res = def(resolve, reject)
+        if (res && typeof res.then === 'function') {
+          res.then(resolve, reject)
+        }
+      }
     }
   })
 }

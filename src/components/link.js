@@ -28,9 +28,10 @@ export default {
     const href = base ? cleanPath(base + fullPath) : fullPath
     const classes = {}
     const activeClass = this.activeClass || router.options.linkActiveClass || 'router-link-active'
+    const compareTarget = to.path ? to : resolved
     classes[activeClass] = this.exact
-      ? isSameRoute(current, to)
-      : isIncludedRoute(current, to)
+      ? isSameRoute(current, compareTarget)
+      : isIncludedRoute(current, compareTarget)
 
     const data = {
       class: classes,
