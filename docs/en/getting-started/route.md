@@ -22,7 +22,7 @@ A route object exposes the following properties:
 
 - **$route.name**
 
-  The name of the current (deepest) matched route, if it has one. (See [named routes](./named.md))
+  The name of the current (deepest) matched route, if it has one. (See [named routes](./named-routes.md))
   
 - **$route.meta**
 
