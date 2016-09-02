@@ -7,12 +7,12 @@ There are a number of options you can use to customize the router behavior when 
 - default: `"hash"`
 
   There are three modes that can be set on the router
-  
+
   - `hash`: All paths will be formatted to start with #. For example router.go('/foo/bar') will set the browser URL to example.com/#/foo/bar.
-   
+
   - `history`: Enables HTML5 history mode. Leverages history.pushState() and history.replaceState() for history management.
-  
-      **Note**: when using the history mode, the server needs to be [properly configured](http://readystate4.com/2012/05/17/nginx-and-apache-rewrite-to-support-html5-pushstate/) so that a user directly visiting a deep link on your site doesn't get a 404.
+
+      **Note**: when using the history mode, the server needs to be [properly configured](server.md) so that a user directly visiting a deep link on your site doesn't get a 404.
 
       **Note**: if you plan to serve your files with the `file://` protocol (for example, when using with [Electron](electron.atom.io)), enabling this mode will break your app. That is because your app URLs would look like `file:///path/to/your/app/index.html/my-route/`, which makes no sense in UNIX filesystem architecture.
 
