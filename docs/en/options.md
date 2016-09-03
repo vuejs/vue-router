@@ -2,6 +2,21 @@
 
 There are a number of options you can use to customize the router behavior when creating a router instance.
 
+For example:
+
+``` js
+// Create a router instance.
+// You can pass in additional options here
+var router = new VueRouter({hashbang: true})
+
+...
+
+// Now we can start the app!
+// The router will create an instance of App and mount to
+// the element matching the selector #app.
+router.start(App, '#app')
+```
+
 #### hashbang
 
 - default: true
