@@ -32,16 +32,7 @@ const maps = createRouteMap(routes)
 
 describe('Creating Route Map', () => {
   it('found 4 main routes', () => {
-    expect(maps.pathMap.keys.length).toBe(4)
-    expect(maps.nameMap.keys.length).toBe(4)
-  })
-
-  it('the main route "bar" has one child', () => {
-    expect(maps.nameMap.bar.children.length).toBe(1)
-  })
-
-  it('has warned about named parent of default child route', () => {
-    // expect(msg).toHaveBeenWarned()
-    expect(1).toBe(1)
+    expect(Object.keys(maps.pathMap).length).toBe(4)
+    expect(Object.keys(maps.nameMap).length).toBe(4)
   })
 })
