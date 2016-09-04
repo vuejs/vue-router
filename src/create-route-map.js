@@ -49,9 +49,8 @@ function addRouteRecord (
     if (route.name && route.children.some(child => /^\/?$/.test(child.path))) {
       warn(false,
         `Named Route '${route.name}' has a default child route.
-        When navigating to this named route (to="{name: ${route.name}}"),
-        the default child route will not be rendered.
-        Instead, use name of the default child route for named links.`
+        When navigating to this named route (:to="{name: '${route.name}}'"), the default child route will not be rendered.
+        Remove the name from this route and use the name of the default child route for named links instead.`
       )
     }
     route.children.forEach(child => {
