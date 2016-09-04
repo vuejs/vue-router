@@ -1,6 +1,6 @@
 /* @flow */
 
-import { assert } from './util/warn'
+import { assert, warn } from './util/warn'
 import { cleanPath } from './util/path'
 
 export function createRouteMap (routes: Array<RouteConfig>): {
@@ -43,6 +43,17 @@ function addRouteRecord (
   }
 
   if (route.children) {
+    // Warn if route is named and has a default child route.
+    // If users navigate to this route by name, the default child will
+    // not be rendered (GH Issue #629)
+    if (route.name && route.children.some(child => /^\/?$/.test(child.path))) {
+      warn(false,
+        `Named Route '${route.name}' has a default child route.
+        When navigating to this named route (to="{name: ${route.name}}"),
+        the default child route will not be rendered.
+        Instead, use name of the default child route for named links.`
+      )
+    }
     route.children.forEach(child => {
       addRouteRecord(pathMap, nameMap, child, record)
     })
