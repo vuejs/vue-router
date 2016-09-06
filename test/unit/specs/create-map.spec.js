@@ -29,6 +29,10 @@ describe('Creating Route Map', function () {
     spyOn(console, 'warn')
     this.maps = createRouteMap(routes)
   })
+  beforeEach(function () {
+    console.warn.calls.reset()
+    process.env.NODE_ENV = 'production'
+  })
 
   it('has a pathMap object for default subroute at /bar/', function () {
     expect(this.maps.pathMap['/bar/']).not.toBeUndefined()
@@ -38,8 +42,14 @@ describe('Creating Route Map', function () {
     expect(this.maps.nameMap['bar.baz']).not.toBeUndefined()
   })
 
-  it('has logged a waring to the console about the name of the parent and the default subroute', function () {
+  it('in development, has logged a warning concering named route of parent and default subroute', function () {
+    process.env.NODE_ENV = 'development'
+    this.maps = createRouteMap(routes)
     expect(console.warn).toHaveBeenCalled()
     expect(console.warn.calls.argsFor(0)[0]).toMatch('vue-router] Named Route \'bar\'')
+  })
+  it('in production, it has not logged this warning', function () {
+    this.maps = createRouteMap(routes)
+    expect(console.warn).not.toHaveBeenCalled()
   })
 })
