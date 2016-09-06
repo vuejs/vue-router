@@ -38,5 +38,8 @@ describe('Creating Route Map', function () {
     expect(this.maps.nameMap['bar.baz']).not.toBeUndefined()
   })
 
+  it('has logged a waring to the console about the name of the parent and the default subroute', function () {
+    expect(console.warn).toHaveBeenCalled()
+    expect(console.warn.calls.argsFor(0)[0]).toMatch('vue-router] Named Route \'bar\'')
   })
 })
