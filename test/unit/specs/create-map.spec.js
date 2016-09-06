@@ -25,7 +25,6 @@ const routes = [
 
 describe('Creating Route Map', function () {
   beforeAll(function () {
-    console.warn = console.warn
     spyOn(console, 'warn')
     this.maps = createRouteMap(routes)
   })
