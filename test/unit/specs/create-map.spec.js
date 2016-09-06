@@ -12,14 +12,14 @@ const routes = [
   {
     path: '/bar',
     name: 'bar',
-    component: Bar
-    // children: [
-    //   {
-    //     path: '',
-    //     component: Baz,
-    //     name: 'bar.baz'
-    //   }
-    // ]
+    component: Bar,
+    children: [
+      {
+        path: '',
+        component: Baz,
+        name: 'bar.baz'
+      }
+    ]
   }
 ]
 
