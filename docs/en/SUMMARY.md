@@ -8,3 +8,5 @@
 - [Advanced Routing](advanced-routing/README.md)
   - [Nested Routes](advanced-routing/nested.md)
   - [Named Views](advanced-routing/named-views.md)
+  - [Lazy Loading Routes](advanced-routing/lazy.md)
+  - [Async Routes](advanced-routing/async-routes.md)
