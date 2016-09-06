@@ -23,8 +23,20 @@ const routes = [
   }
 ]
 
+describe('Creating Route Map', function () {
+  beforeAll(function () {
+    console.warn = console.warn
+    spyOn(console, 'warn')
+    this.maps = createRouteMap(routes)
+  })
 
-const maps = createRouteMap(routes)
+  it('has a pathMap object for default subroute at /bar/', function () {
+    expect(this.maps.pathMap['/bar/']).not.toBeUndefined()
+  })
+
+  it('has a nameMap object for default subroute at \'bar.baz\'', function () {
+    expect(this.maps.nameMap['bar.baz']).not.toBeUndefined()
+  })
 
   })
 })
