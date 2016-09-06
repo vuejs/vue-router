@@ -23,9 +23,6 @@ const routes = [
   }
 ]
 
-const msg = 'Named Route \'bar\' has a default child route.\n' +
-'When navigating to this named route (:to="{name: \'bar\'"), the default child route will not be rendered.\n' +
-'Remove the name from this route and use the name of the default child route for named links instead.'
 
 const maps = createRouteMap(routes)
 
