@@ -26,9 +26,5 @@ const routes = [
 
 const maps = createRouteMap(routes)
 
-describe('Creating Route Map', () => {
-  it('found 4 main routes', () => {
-    expect(Object.keys(maps.pathMap).length).toBe(4)
-    expect(Object.keys(maps.nameMap).length).toBe(4)
   })
 })
