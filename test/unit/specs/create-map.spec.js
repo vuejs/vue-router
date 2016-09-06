@@ -1,6 +1,5 @@
 /*eslint-disable no-undef*/
 import { createRouteMap } from '../../../src/create-route-map'
-// require('../../helpers/to-have-been-warned')
 
 const Home = { template: '<div>This is Home</div>' }
 const Foo = { template: '<div>This is Foo</div>' }
