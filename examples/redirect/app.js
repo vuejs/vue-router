@@ -27,8 +27,8 @@ const router = new VueRouter({
     },
     // absolute redirect
     { path: '/absolute-redirect', redirect: '/bar' },
-    // dynamic redirect
-    { path: '/dynamic-redirect', redirect: () => '/bar' },
+    // dynamic redirect, note that the target route `to` is available for the redirect function
+    { path: '/dynamic-redirect', redirect: to => '/bar' },
     // named redirect
     { path: '/named-redirect', redirect: { name: 'baz' }},
 

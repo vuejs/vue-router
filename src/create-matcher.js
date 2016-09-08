@@ -53,7 +53,9 @@ export function createMatcher (routes: Array<RouteConfig>): Matcher {
   ): Route {
     const { query, hash, params } = location
     const { redirect: originalRedirect } = record
-    const redirect = typeof originalRedirect === 'function' ? originalRedirect() : originalRedirect
+    const redirect = typeof originalRedirect === 'function'
+        ? originalRedirect(createRoute(record, location))
+        : originalRedirect
     const name = redirect && typeof redirect === 'object' && redirect.name
     if (name) {
       // resolved named direct
