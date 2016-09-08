@@ -28,7 +28,6 @@ export class AbstractHistory extends History {
 
   go (n: number) {
     const targetIndex = this.index + n
-    if (!this.stack) debugger
     if (targetIndex < 0 || targetIndex >= this.stack.length) {
       return
     }
