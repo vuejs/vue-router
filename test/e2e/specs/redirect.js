@@ -10,7 +10,7 @@ module.exports = {
       .assert.attributeContains('li:nth-child(3) a', 'href', '/redirect/absolute-redirect')
       .assert.attributeContains('li:nth-child(4) a', 'href', '/redirect/dynamic-redirect')
       .assert.attributeContains('li:nth-child(5) a', 'href', '/redirect/dynamic-redirect/123')
-      .assert.attributeContains('li:nth-child(6) a', 'href', '/redirect/dynamic-redirect?foooo')
+      .assert.attributeContains('li:nth-child(6) a', 'href', '/redirect/dynamic-redirect?to=foo')
       .assert.attributeContains('li:nth-child(7) a', 'href', '/redirect/dynamic-redirect#baz')
       .assert.attributeContains('li:nth-child(8) a', 'href', '/redirect/named-redirect')
       .assert.attributeContains('li:nth-child(9) a', 'href', '/redirect/redirect-with-params/123')
@@ -84,7 +84,7 @@ module.exports = {
       .assert.urlEquals('http://localhost:8080/redirect/with-params/123')
       .assert.containsText('.view', '123')
 
-    .url('http://localhost:8080/redirect/dynamic-redirect?foooo')
+    .url('http://localhost:8080/redirect/dynamic-redirect?to=foo')
       .waitForElementVisible('#app', 1000)
       .assert.urlEquals('http://localhost:8080/redirect/foo')
       .assert.containsText('.view', 'foo')
