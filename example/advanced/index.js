@@ -16,7 +16,7 @@ const router = new VueRouter({
 // configure router
 configRouter(router)
 
-// boostrap the app
+// bootstrap the app
 const App = Vue.extend(require('./app.vue'))
 router.start(App, '#app')
 
