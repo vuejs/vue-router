@@ -32,14 +32,26 @@ module.exports = {
       .assert.containsText('.view', 'bar')
 
       .click('li:nth-child(5) a')
-      .assert.urlEquals('http://localhost:8080/redirect/baz')
-      .assert.containsText('.view', 'baz')
-
-      .click('li:nth-child(6) a')
       .assert.urlEquals('http://localhost:8080/redirect/with-params/123')
       .assert.containsText('.view', '123')
 
+      .click('li:nth-child(6) a')
+      .assert.urlEquals('http://localhost:8080/redirect/foo')
+      .assert.containsText('.view', 'foo')
+
       .click('li:nth-child(7) a')
+      .assert.urlEquals('http://localhost:8080/redirect/baz')
+      .assert.containsText('.view', 'baz')
+
+      .click('li:nth-child(8) a')
+      .assert.urlEquals('http://localhost:8080/redirect/baz')
+      .assert.containsText('.view', 'baz')
+
+      .click('li:nth-child(9) a')
+      .assert.urlEquals('http://localhost:8080/redirect/with-params/123')
+      .assert.containsText('.view', '123')
+
+      .click('li:nth-child(10) a')
       .assert.urlEquals('http://localhost:8080/redirect/')
       .assert.containsText('.view', 'default')
 
@@ -63,6 +75,21 @@ module.exports = {
       .waitForElementVisible('#app', 1000)
       .assert.urlEquals('http://localhost:8080/redirect/bar')
       .assert.containsText('.view', 'bar')
+
+    .url('http://localhost:8080/redirect/dynamic-redirect/123')
+      .waitForElementVisible('#app', 1000)
+      .assert.urlEquals('http://localhost:8080/redirect/with-params/123')
+      .assert.containsText('.view', '123')
+
+    .url('http://localhost:8080/redirect/dynamic-redirect?foooo')
+      .waitForElementVisible('#app', 1000)
+      .assert.urlEquals('http://localhost:8080/redirect/foo')
+      .assert.containsText('.view', 'foo')
+
+    .url('http://localhost:8080/redirect/dynamic-redirect#baz')
+      .waitForElementVisible('#app', 1000)
+      .assert.urlEquals('http://localhost:8080/redirect/baz')
+      .assert.containsText('.view', 'baz')
 
     .url('http://localhost:8080/redirect/named-redirect')
       .waitForElementVisible('#app', 1000)
