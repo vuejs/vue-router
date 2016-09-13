@@ -35,11 +35,12 @@ export default {
       ? cache[props.name]
       : (cache[props.name] = matched.components[props.name])
 
-    const vnode = h(component, data, children)
     if (!inactive) {
-      matched.instances[props.name] = vnode
+      (data.hook || (data.hook = {})).init = vnode => {
+        matched.instances[props.name] = vnode.child
+      }
     }
 
-    return vnode
+    return h(component, data, children)
   }
 }

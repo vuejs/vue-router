@@ -57,7 +57,7 @@
     "rollup-watch": "^2.4.0",
     "selenium-server": "^2.53.1",
     "uglify-js": "^2.7.0",
-    "vue": "^2.0.0-rc.3",
+    "vue": "^2.0.0-rc.6",
     "vue-loader": "^9.4.0",
     "webpack": "^1.13.1",
     "webpack-dev-middleware": "^1.6.1"
