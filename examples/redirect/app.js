@@ -27,6 +27,25 @@ const router = new VueRouter({
     },
     // absolute redirect
     { path: '/absolute-redirect', redirect: '/bar' },
+    // dynamic redirect, note that the target route `to` is available for the redirect function
+    { path: '/dynamic-redirect/:id?',
+      redirect: to => {
+        const { hash, params, query } = to
+        if (query.to === 'foo') {
+          return '/foo'
+        }
+        if (hash === '#baz') {
+          return {
+            name: 'baz'
+          }
+        }
+        if (params.id) {
+          return '/with-params/:id'
+        } else {
+          return '/bar'
+        }
+      }
+    },
     // named redirect
     { path: '/named-redirect', redirect: { name: 'baz' }},
 
@@ -54,6 +73,22 @@ new Vue({
 
         <li><router-link to="/absolute-redirect">
           /absolute-redirect (redirects to /bar)
+        </router-link></li>
+        
+        <li><router-link to="/dynamic-redirect">
+          /dynamic-redirect (redirects to /bar)
+        </router-link></li>
+        
+        <li><router-link to="/dynamic-redirect/123">
+          /dynamic-redirect/123 (redirects to /with-params/123)
+        </router-link></li>
+        
+        <li><router-link to="/dynamic-redirect?to=foo">
+          /dynamic-redirect?to=foo (redirects to /foo)
+        </router-link></li>
+        
+        <li><router-link to="/dynamic-redirect#baz">
+          /dynamic-redirect#baz (redirects to /baz)
         </router-link></li>
 
         <li><router-link to="/named-redirect">
