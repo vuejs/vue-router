@@ -43,7 +43,7 @@
     "express": "^4.14.0",
     "express-urlrewrite": "^1.2.0",
     "flow-bin": "^0.31.1",
-    "jasmine": "^2.4.1",
+    "jasmine": "2.4.1",
     "nightwatch": "^0.9.5",
     "nightwatch-helpers": "^1.0.0",
     "path-to-regexp": "^1.5.3",
