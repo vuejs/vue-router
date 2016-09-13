@@ -2,9 +2,9 @@
 
 import Regexp from 'path-to-regexp'
 import { assert, warn } from './util/warn'
+import { createRoute } from './util/route'
 import { createRouteMap } from './create-route-map'
 import { resolvePath } from './util/path'
-import { stringifyQuery } from './util/query'
 import { normalizeLocation } from './util/location'
 
 const regexpCache: {
@@ -119,27 +119,6 @@ export function createMatcher (routes: Array<RouteConfig>): Matcher {
   return match
 }
 
-export function createRoute (
-  record: ?RouteRecord,
-  location: Location,
-  redirectedFrom?: Location
-): Route {
-  const route: Route = {
-    name: location.name || (record && record.name),
-    meta: (record && record.meta) || {},
-    path: location.path || '/',
-    hash: location.hash || '',
-    query: location.query || {},
-    params: location.params || {},
-    fullPath: getFullPath(location),
-    matched: record ? formatMatch(record) : []
-  }
-  if (redirectedFrom) {
-    route.redirectedFrom = getFullPath(redirectedFrom)
-  }
-  return Object.freeze(route)
-}
-
 function matchRoute (
   path: string,
   params: Object,
@@ -188,19 +167,6 @@ function fillParams (
   }
 }
 
-function formatMatch (record: ?RouteRecord): Array<RouteRecord> {
-  const res = []
-  while (record) {
-    res.unshift(record)
-    record = record.parent
-  }
-  return res
-}
-
 function resolveRecordPath (path: string, record: RouteRecord): string {
   return resolvePath(path, record.parent ? record.parent.path : '/', true)
-}
-
-function getFullPath ({ path, query = {}, hash = '' }) {
-  return (path || '/') + stringifyQuery(query) + hash
 }

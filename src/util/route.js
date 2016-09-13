@@ -1,6 +1,42 @@
 /* @flow */
-const trailingSlashRE = /\/$/
 
+import { stringifyQuery } from './query'
+
+export function createRoute (
+  record: ?RouteRecord,
+  location: Location,
+  redirectedFrom?: Location
+): Route {
+  const route: Route = {
+    name: location.name || (record && record.name),
+    meta: (record && record.meta) || {},
+    path: location.path || '/',
+    hash: location.hash || '',
+    query: location.query || {},
+    params: location.params || {},
+    fullPath: getFullPath(location),
+    matched: record ? formatMatch(record) : []
+  }
+  if (redirectedFrom) {
+    route.redirectedFrom = getFullPath(redirectedFrom)
+  }
+  return Object.freeze(route)
+}
+
+function formatMatch (record: ?RouteRecord): Array<RouteRecord> {
+  const res = []
+  while (record) {
+    res.unshift(record)
+    record = record.parent
+  }
+  return res
+}
+
+function getFullPath ({ path, query = {}, hash = '' }) {
+  return (path || '/') + stringifyQuery(query) + hash
+}
+
+const trailingSlashRE = /\/$/
 export function isSameRoute (a: Route, b: ?Route): boolean {
   if (!b) {
     return false

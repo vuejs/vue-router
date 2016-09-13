@@ -4,8 +4,7 @@ import type VueRouter from '../index'
 import { warn } from '../util/warn'
 import { inBrowser } from '../util/dom'
 import { runQueue } from '../util/async'
-import { isSameRoute } from '../util/route'
-import { createRoute } from '../create-matcher'
+import { createRoute, isSameRoute } from '../util/route'
 
 export class History {
   router: VueRouter;

@@ -1,12 +1,17 @@
+/* @flow */
+
 import { cleanPath } from '../util/path'
-import { isSameRoute, isIncludedRoute } from '../util/route'
+import { createRoute, isSameRoute, isIncludedRoute } from '../util/route'
 import { normalizeLocation } from '../util/location'
+
+// work around weird flow bug
+const toTypes: Array<Function> = [String, Object]
 
 export default {
   name: 'router-link',
   props: {
     to: {
-      type: [String, Object],
+      type: toTypes,
       required: true
     },
     tag: {
@@ -18,7 +23,7 @@ export default {
     replace: Boolean,
     activeClass: String
   },
-  render (h) {
+  render (h: Function) {
     const router = this.$router
     const current = this.$route
     const to = normalizeLocation(this.to, current, this.append)
@@ -28,12 +33,12 @@ export default {
     const href = base ? cleanPath(base + fullPath) : fullPath
     const classes = {}
     const activeClass = this.activeClass || router.options.linkActiveClass || 'router-link-active'
-    const compareTarget = to.path ? to : resolved
+    const compareTarget = to.path ? createRoute(null, to) : resolved
     classes[activeClass] = this.exact
       ? isSameRoute(current, compareTarget)
       : isIncludedRoute(current, compareTarget)
 
-    const data = {
+    const data: any = {
       class: classes,
       on: {
         click: (e) => {
