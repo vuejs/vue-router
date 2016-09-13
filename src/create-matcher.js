@@ -51,12 +51,27 @@ export function createMatcher (routes: Array<RouteConfig>): Matcher {
     record: RouteRecord,
     location: Location
   ): Route {
-    const { query, hash, params } = location
-    const { redirect: originalRedirect } = record
-    const redirect = typeof originalRedirect === 'function'
+    const originalRedirect = record.redirect
+    let redirect = typeof originalRedirect === 'function'
         ? originalRedirect(createRoute(record, location))
         : originalRedirect
-    const name = redirect && typeof redirect === 'object' && redirect.name
+
+    if (typeof redirect === 'string') {
+      redirect = { path: redirect }
+    }
+
+    if (!redirect || typeof redirect !== 'object') {
+      warn(false, `invalid redirect option: ${JSON.stringify(redirect)}`)
+      return _createRoute(null, location)
+    }
+
+    const re: Object = redirect
+    const { name, path } = re
+    let { query, hash, params } = location
+    query = re.hasOwnProperty('query') ? re.query : query
+    hash = re.hasOwnProperty('hash') ? re.hash : hash
+    params = re.hasOwnProperty('params') ? re.params : params
+
     if (name) {
       // resolved named direct
       const targetRecord = nameMap[name]
@@ -68,15 +83,15 @@ export function createMatcher (routes: Array<RouteConfig>): Matcher {
         hash,
         params
       }, undefined, location)
-    } else if (typeof redirect === 'string') {
+    } else if (path) {
       // 1. resolve relative redirect
-      const rawPath = resolveRecordPath(redirect, record)
+      const rawPath = resolveRecordPath(path, record)
       // 2. resolve params
-      const path = fillParams(rawPath, params, `redirect route with path "${rawPath}"`)
+      const resolvedPath = fillParams(rawPath, params, `redirect route with path "${rawPath}"`)
       // 3. rematch with existing query and hash
       return match({
         _normalized: true,
-        path,
+        path: resolvedPath,
         query,
         hash
       }, undefined, location)

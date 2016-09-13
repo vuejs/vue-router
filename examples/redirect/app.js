@@ -32,12 +32,10 @@ const router = new VueRouter({
       redirect: to => {
         const { hash, params, query } = to
         if (query.to === 'foo') {
-          return '/foo'
+          return { path: '/foo', query: null }
         }
         if (hash === '#baz') {
-          return {
-            name: 'baz'
-          }
+          return { name: 'baz', hash: '' }
         }
         if (params.id) {
           return '/with-params/:id'
@@ -74,19 +72,19 @@ new Vue({
         <li><router-link to="/absolute-redirect">
           /absolute-redirect (redirects to /bar)
         </router-link></li>
-        
+
         <li><router-link to="/dynamic-redirect">
           /dynamic-redirect (redirects to /bar)
         </router-link></li>
-        
+
         <li><router-link to="/dynamic-redirect/123">
           /dynamic-redirect/123 (redirects to /with-params/123)
         </router-link></li>
-        
+
         <li><router-link to="/dynamic-redirect?to=foo">
           /dynamic-redirect?to=foo (redirects to /foo)
         </router-link></li>
-        
+
         <li><router-link to="/dynamic-redirect#baz">
           /dynamic-redirect#baz (redirects to /baz)
         </router-link></li>
