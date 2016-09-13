@@ -1,5 +1,5 @@
 /**
- * vue-router v2.0.0-rc.4
+ * vue-router v2.0.0-rc.5
  * (c) 2016 Evan You
  * @license MIT
  */
@@ -51,12 +51,13 @@ var View = {
       ? cache[props.name]
       : (cache[props.name] = matched.components[props.name])
 
-    var vnode = h(component, data, children)
     if (!inactive) {
-      matched.instances[props.name] = vnode
+      (data.hook || (data.hook = {})).init = function (vnode) {
+        matched.instances[props.name] = vnode.child
+      }
     }
 
-    return vnode
+    return h(component, data, children)
   }
 }
 
@@ -134,58 +135,6 @@ function parsePath (path        )
 
 function cleanPath (path        )         {
   return path.replace(/\/\//g, '/')
-}
-
-/*       */
-
-function isSameRoute (a       , b        )          {
-  if (!b) {
-    return false
-  } else if (a.path && b.path) {
-    return (
-      a.path === b.path &&
-      a.hash === b.hash &&
-      isObjectEqual(a.query, b.query)
-    )
-  } else if (a.name && b.name) {
-    return (
-      a.name === b.name &&
-      a.hash === b.hash &&
-      isObjectEqual(a.query, b.query) &&
-      isObjectEqual(a.params, b.params)
-    )
-  } else {
-    return false
-  }
-}
-
-function isObjectEqual (a, b)          {
-  if ( a === void 0 ) a = {};
-  if ( b === void 0 ) b = {};
-
-  var aKeys = Object.keys(a)
-  var bKeys = Object.keys(b)
-  if (aKeys.length !== bKeys.length) {
-    return false
-  }
-  return aKeys.every(function (key) { return String(a[key]) === String(b[key]); })
-}
-
-function isIncludedRoute (current       , target       )          {
-  return (
-    current.path.indexOf(target.path) === 0 &&
-    (!target.hash || current.hash === target.hash) &&
-    queryIncludes(current.query, target.query)
-  )
-}
-
-function queryIncludes (current            , target            )          {
-  for (var key in target) {
-    if (!(key in current)) {
-      return false
-    }
-  }
-  return true
 }
 
 /*       */
@@ -292,6 +241,97 @@ function stringifyQuery (obj            )         {
 
 /*       */
 
+function createRoute (
+  record              ,
+  location          ,
+  redirectedFrom           
+)        {
+  var route        = {
+    name: location.name || (record && record.name),
+    meta: (record && record.meta) || {},
+    path: location.path || '/',
+    hash: location.hash || '',
+    query: location.query || {},
+    params: location.params || {},
+    fullPath: getFullPath(location),
+    matched: record ? formatMatch(record) : []
+  }
+  if (redirectedFrom) {
+    route.redirectedFrom = getFullPath(redirectedFrom)
+  }
+  return Object.freeze(route)
+}
+
+function formatMatch (record              )                     {
+  var res = []
+  while (record) {
+    res.unshift(record)
+    record = record.parent
+  }
+  return res
+}
+
+function getFullPath (ref) {
+  var path = ref.path;
+  var query = ref.query; if ( query === void 0 ) query = {};
+  var hash = ref.hash; if ( hash === void 0 ) hash = '';
+
+  return (path || '/') + stringifyQuery(query) + hash
+}
+
+var trailingSlashRE = /\/$/
+function isSameRoute (a       , b        )          {
+  if (!b) {
+    return false
+  } else if (a.path && b.path) {
+    return (
+      a.path.replace(trailingSlashRE, '') === b.path.replace(trailingSlashRE, '') &&
+      a.hash === b.hash &&
+      isObjectEqual(a.query, b.query)
+    )
+  } else if (a.name && b.name) {
+    return (
+      a.name === b.name &&
+      a.hash === b.hash &&
+      isObjectEqual(a.query, b.query) &&
+      isObjectEqual(a.params, b.params)
+    )
+  } else {
+    return false
+  }
+}
+
+function isObjectEqual (a, b)          {
+  if ( a === void 0 ) a = {};
+  if ( b === void 0 ) b = {};
+
+  var aKeys = Object.keys(a)
+  var bKeys = Object.keys(b)
+  if (aKeys.length !== bKeys.length) {
+    return false
+  }
+  return aKeys.every(function (key) { return String(a[key]) === String(b[key]); })
+}
+
+function isIncludedRoute (current       , target       )          {
+  return (
+    current.path.indexOf(target.path) === 0 &&
+    (!target.hash || current.hash === target.hash) &&
+    queryIncludes(current.query, target.query)
+  )
+}
+
+function queryIncludes (current            , target            )          {
+  for (var key in target) {
+    if (!(key in current)) {
+      return false
+    }
+  }
+  return true
+}
+
+/*       */
+
 function normalizeLocation (
   raw             ,
   current        ,
@@ -321,11 +361,16 @@ function normalizeLocation (
   }
 }
 
+/*       */
+
+// work around weird flow bug
+var toTypes                  = [String, Object]
+
 var Link = {
   name: 'router-link',
   props: {
     to: {
-      type: [String, Object],
+      type: toTypes,
       required: true
     },
     tag: {
@@ -337,7 +382,7 @@ var Link = {
     replace: Boolean,
     activeClass: String
   },
-  render: function render (h) {
+  render: function render (h          ) {
     var this$1 = this;
 
     var router = this.$router
@@ -349,12 +394,12 @@ var Link = {
     var href = base ? cleanPath(base + fullPath) : fullPath
     var classes = {}
     var activeClass = this.activeClass || router.options.linkActiveClass || 'router-link-active'
-    var compareTarget = to.path ? to : resolved
+    var compareTarget = to.path ? createRoute(null, to) : resolved
     classes[activeClass] = this.exact
       ? isSameRoute(current, compareTarget)
       : isIncludedRoute(current, compareTarget)
 
-    var data = {
+    var data      = {
       class: classes,
       on: {
         click: function (e) {
@@ -920,6 +965,10 @@ function addRouteRecord (
   }
 
   if (route.children) {
+    // Warn if route is named and has a default child route.
+    // If users navigate to this route by name, the default child will
+    // not be rendered (GH Issue #629)
+    if ("production" !== 'production') {}
     route.children.forEach(function (child) {
       addRouteRecord(pathMap, nameMap, child, record)
     })
@@ -994,11 +1043,30 @@ function createMatcher (routes                    )          {
     record             ,
     location          
   )        {
+    var originalRedirect = record.redirect
+    var redirect = typeof originalRedirect === 'function'
+        ? originalRedirect(createRoute(record, location))
+        : originalRedirect
+
+    if (typeof redirect === 'string') {
+      redirect = { path: redirect }
+    }
+
+    if (!redirect || typeof redirect !== 'object') {
+      warn(false, ("invalid redirect option: " + (JSON.stringify(redirect))))
+      return _createRoute(null, location)
+    }
+
+    var re         = redirect
+    var name = re.name;
+    var path = re.path;
     var query = location.query;
     var hash = location.hash;
     var params = location.params;
-    var redirect = record.redirect;
-    var name = redirect && typeof redirect === 'object' && redirect.name
+    query = re.hasOwnProperty('query') ? re.query : query
+    hash = re.hasOwnProperty('hash') ? re.hash : hash
+    params = re.hasOwnProperty('params') ? re.params : params
+
     if (name) {
       // resolved named direct
       var targetRecord = nameMap[name]
@@ -1010,15 +1078,15 @@ function createMatcher (routes                    )          {
         hash: hash,
         params: params
       }, undefined, location)
-    } else if (typeof redirect === 'string') {
+    } else if (path) {
       // 1. resolve relative redirect
-      var rawPath = resolveRecordPath(redirect, record)
+      var rawPath = resolveRecordPath(path, record)
       // 2. resolve params
-      var path = fillParams(rawPath, params, ("redirect route with path \"" + rawPath + "\""))
+      var resolvedPath = fillParams(rawPath, params, ("redirect route with path \"" + rawPath + "\""))
       // 3. rematch with existing query and hash
       return match({
         _normalized: true,
-        path: path,
+        path: resolvedPath,
         query: query,
         hash: hash
       }, undefined, location)
@@ -1062,27 +1130,6 @@ function createMatcher (routes                    )          {
   }
 
   return match
-}
-
-function createRoute (
-  record              ,
-  location          ,
-  redirectedFrom           
-)        {
-  var route        = {
-    name: location.name || (record && record.name),
-    meta: (record && record.meta) || {},
-    path: location.path || '/',
-    hash: location.hash || '',
-    query: location.query || {},
-    params: location.params || {},
-    fullPath: getFullPath(location),
-    matched: record ? formatMatch(record) : []
-  }
-  if (redirectedFrom) {
-    route.redirectedFrom = getFullPath(redirectedFrom)
-  }
-  return Object.freeze(route)
 }
 
 function matchRoute (
@@ -1133,25 +1180,8 @@ function fillParams (
   }
 }
 
-function formatMatch (record              )                     {
-  var res = []
-  while (record) {
-    res.unshift(record)
-    record = record.parent
-  }
-  return res
-}
-
 function resolveRecordPath (path        , record             )         {
   return resolvePath(path, record.parent ? record.parent.path : '/', true)
-}
-
-function getFullPath (ref) {
-  var path = ref.path;
-  var query = ref.query; if ( query === void 0 ) query = {};
-  var hash = ref.hash; if ( hash === void 0 ) hash = '';
-
-  return (path || '/') + stringifyQuery(query) + hash
 }
 
 /*       */
@@ -1180,9 +1210,13 @@ function runQueue (queue            , fn          , cb          ) {
     if (index >= queue.length) {
       cb()
     } else {
-      fn(queue[index], function () {
+      if (queue[index]) {
+        fn(queue[index], function () {
+          step(index + 1)
+        })
+      } else {
         step(index + 1)
-      })
+      }
     }
   }
   step(0)
@@ -1226,7 +1260,6 @@ History.prototype.confirmTransition = function confirmTransition (route     , cb
     var deactivated = ref.deactivated;
     var activated = ref.activated;
 
-  var postEnterCbs = []
   var queue = [].concat(
     // in-component leave guards
     extractLeaveGuards(deactivated),
@@ -1235,18 +1268,18 @@ History.prototype.confirmTransition = function confirmTransition (route     , cb
     // enter guards
     activated.map(function (m) { return m.beforeEnter; }),
     // async components
-    resolveAsyncComponents(activated),
-    // in-component enter guards
-    extractEnterGuards(activated, postEnterCbs)
-  ).filter(function (_) { return _; })
+    resolveAsyncComponents(activated)
+  )
 
   this.pending = route
   var redirect = function (location) { return this$1.push(location); }
+  var iterator = function (hook, next) { return hook(route, redirect, next); }
 
-  runQueue(
-    queue,
-    function (hook, next) { hook(route, redirect, next) },
-    function () {
+  runQueue(queue, iterator, function () {
+    var postEnterCbs = []
+    // wait until async components are resolved before
+    // extracting in-component enter guards
+    runQueue(extractEnterGuards(activated, postEnterCbs), iterator, function () {
       if (isSameRoute(route, this$1.pending)) {
         this$1.pending = null
         cb(route)
@@ -1254,8 +1287,8 @@ History.prototype.confirmTransition = function confirmTransition (route     , cb
           postEnterCbs.forEach(function (cb) { return cb(); })
         })
       }
-    }
-  )
+    })
+  })
 };
 
 History.prototype.updateRoute = function updateRoute (route     ) {
@@ -1323,7 +1356,7 @@ function extractEnterGuards (matched                    , cbs                 ) 
         return guard(route, redirect, function (cb) {
           next()
           cb && cbs.push(function () {
-            cb(match.instances[key] && match.instances[key].child)
+            cb(match.instances[key])
           })
         })
       }
@@ -1365,7 +1398,7 @@ function flatMapComponents (
   return Array.prototype.concat.apply([], matched.map(function (m) {
     return Object.keys(m.components).map(function (key) { return fn(
       m.components[key],
-      m.instances[key] && m.instances[key].child,
+      m.instances[key],
       m, key
     ); })
   }))
@@ -1678,7 +1711,6 @@ var AbstractHistory = (function (History) {
     var this$1 = this;
 
     var targetIndex = this.index + n
-    if (!this.stack) debugger
     if (targetIndex < 0 || targetIndex >= this.stack.length) {
       return
     }
