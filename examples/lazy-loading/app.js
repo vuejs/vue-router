@@ -25,17 +25,11 @@ const Foo = resolve => require(['./Foo.vue'], resolve)
 // const Foo = () => System.import('./Foo.vue')
 
 // If you want to group a number of components that belong to the same
-// nested route in the same async chunk, the syntax is a bit more verbose.
-// The repetition of the ensured list is necessary because the dependencies
-// must be statically analyzable by Webpack. (Please let me know if you
-// have a better way of handling this!)
-const Bar = resolve => require.ensure(['./Bar.vue', './Baz.vue'], () => {
-  resolve(require('./Bar.vue'))
-})
-
-const Baz = resolve => require.ensure(['./Bar.vue', './Baz.vue'], () => {
-  resolve(require('./Baz.vue'))
-})
+// nested route in the same async chunk, you will need to use
+// require.ensure. The 3rd argument is the chunk name they belong to -
+// modules that belong to the same chunk should use the same chunk name.
+const Bar = r => require.ensure([], () => r(require('./Bar.vue')), '/bar')
+const Baz = r => require.ensure([], () => r(require('./Baz.vue')), '/bar')
 
 const router = new VueRouter({
   mode: 'history',
