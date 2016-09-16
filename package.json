@@ -1,6 +1,6 @@
 {
   "name": "vue-router",
-  "version": "2.0.0-rc.4",
+  "version": "2.0.0-rc.5",
   "description": "Official router for Vue.js 2.0",
   "author": "Evan You",
   "license": "MIT",
@@ -18,7 +18,7 @@
   "scripts": {
     "dev": "node examples/server.js",
     "dev:dist": "rollup -wm -c build/rollup.config.js",
-    "build": "rollup -c build/rollup.config.js && uglifyjs dist/vue-router.js -cm --comments -o dist/vue-router.min.js",
+    "build": "rollup --environment NODE_ENV:production -c build/rollup.config.js && uglifyjs dist/vue-router.js -cm --comments -o dist/vue-router.min.js",
     "lint": "eslint src examples",
     "test": "npm run lint && flow check && npm run test:unit && npm run test:e2e",
     "test:unit": "jasmine JASMINE_CONFIG_PATH=test/unit/jasmine.json",
@@ -43,7 +43,7 @@
     "express": "^4.14.0",
     "express-urlrewrite": "^1.2.0",
     "flow-bin": "^0.31.1",
-    "jasmine": "^2.4.1",
+    "jasmine": "2.4.1",
     "nightwatch": "^0.9.5",
     "nightwatch-helpers": "^1.0.0",
     "path-to-regexp": "^1.5.3",
@@ -53,10 +53,11 @@
     "rollup-plugin-commonjs": "^3.1.0",
     "rollup-plugin-flow": "^1.0.0",
     "rollup-plugin-node-resolve": "^2.0.0",
+    "rollup-plugin-replace": "^1.1.1",
     "rollup-watch": "^2.4.0",
     "selenium-server": "^2.53.1",
     "uglify-js": "^2.7.0",
-    "vue": "^2.0.0-rc.3",
+    "vue": "^2.0.0-rc.6",
     "vue-loader": "^9.4.0",
     "webpack": "^1.13.1",
     "webpack-dev-middleware": "^1.6.1"

@@ -4,8 +4,7 @@ import type VueRouter from '../index'
 import { warn } from '../util/warn'
 import { inBrowser } from '../util/dom'
 import { runQueue } from '../util/async'
-import { isSameRoute } from '../util/route'
-import { createRoute } from '../create-matcher'
+import { createRoute, isSameRoute } from '../util/route'
 
 export class History {
   router: VueRouter;
@@ -148,7 +147,7 @@ function extractEnterGuards (matched: Array<RouteRecord>, cbs: Array<Function>):
         return guard(route, redirect, cb => {
           next()
           cb && cbs.push(() => {
-            cb(match.instances[key] && match.instances[key].child)
+            cb(match.instances[key])
           })
         })
       }
@@ -190,7 +189,7 @@ function flatMapComponents (
   return Array.prototype.concat.apply([], matched.map(m => {
     return Object.keys(m.components).map(key => fn(
       m.components[key],
-      m.instances[key] && m.instances[key].child,
+      m.instances[key],
       m, key
     ))
   }))
