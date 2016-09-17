@@ -54,3 +54,15 @@ npm run build
 ``` bash
 bower install vue-router
 ```
+
+### Trouble shooting for vue-router 2.0
+If the Vue 2.0 project is created by vue-cli using webpack-simple-2.0 template.
+It's necessary to add alias setting in webpack.config.js before using vue-router.
+```
+  resolve: {
+    alias: {
+      'vue': 'vue/dist/vue.js'
+    }
+  },
+```
+Without this setting and import from 'vue/dist/vue.js', some other plugins would work incorrectly such as vuex and vue-i18n.
