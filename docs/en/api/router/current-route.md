@@ -2,5 +2,5 @@
 
 Get router's current route.
 
-Returns a [Route](../types/route.md) or `undefined` is the router doesn't have
-an history yet.
+Returns a [Route](../types/route.md) or `undefined` if the router doesn't have
+any history yet.
