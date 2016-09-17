@@ -37,3 +37,5 @@
   - [beforeRouteEnter](api/beforeRouteEnter.md)
   - [beforeRouteLeave](api/beforeRouteLeave.md)
   - [beforeEnter](api/beforeEnter.md)
+  - [Types](api/types/README.md)
+    - [Route](api/types/route.md)
