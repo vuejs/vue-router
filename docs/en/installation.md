@@ -1,23 +1,8 @@
 # Installation
 
-### Direct Download
+### Direct Download / CDN
 
-See [dist folder](https://github.com/vuejs/vue-router/tree/dev/dist). Note the
-dist files are always the latest stable - it's not update-to-date with the `dev`
-branch source.
-
-### CDN
-Available on
-[jsdelivr](https://cdn.jsdelivr.net/vue.router/2.0.0-rc.3/vue-router.min.js) or
-[cdnjs](https://cdnjs.cloudflare.com/ajax/libs/vue-router/2.0.0-rc.3/vue-router.min.js)
-(takes some time to sync so the latest version might not be available yet)
-
-Alternatively you can use
-[npmcdn](https://npmcdn.com/vue-router@next/dist/vue-router.js) which will
-reflect the latest published version to npm. This is the preferred version when
-creating reproductions for bugs.
-
-
+Unpkg.com provides NPM-based CDN links. The latest release is available at [https://unpkg.com/vue-router@latest/dist/vue-router.js](https://unpkg.com/vue-router@latest/dist/vue-router.js) - you can also specify any other versions/tags available on NPM!
 
 ### NPM
 
@@ -25,11 +10,11 @@ creating reproductions for bugs.
 npm install vue-router
 ```
 
-When used in CommonJS, you must explicitly install the router via `Vue.use()`:
+When used with a module system, you must explicitly install the router via `Vue.use()`:
 
 ``` js
-var Vue = require('vue')
-var VueRouter = require('vue-router')
+import Vue from 'vue'
+import VueRouter from 'vue-router'
 
 Vue.use(VueRouter)
 ```
@@ -47,10 +32,4 @@ git clone https://github.com/vuejs/vue-router.git node_modules/vue-router
 cd node_modules/vue-router
 npm install
 npm run build
-```
-
-### Bower
-
-``` bash
-bower install vue-router
 ```

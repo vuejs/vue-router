@@ -1,17 +1,17 @@
 - [Installation](installation.md)
-- [Getting Started](getting-started/README.md)
+- Getting Started
   - [Basic Usage](getting-started/basic.md)
   - [Route Object & Route Matching](getting-started/route.md)
   - [Named Routes](getting-started/named-routes.md)
   - [Programmatic Navigation](getting-started/navigation.md)
-  - [router-link](getting-started/link.md)
-  - [router-view](getting-started/view.md)
-- [Advanced Routing](advanced-routing/README.md)
+  - [<router-link>](getting-started/link.md)
+  - [<router-view>](getting-started/view.md)
+- Advanced Routing
   - [Nested Routes](advanced-routing/nested.md)
   - [Named Views](advanced-routing/named-views.md)
   - [Lazy Loading Routes](advanced-routing/lazy.md)
   - [Async Routes](advanced-routing/async-routes.md)
-- [Navigation](navigation/README.md)
+- Navigation
   - [Router Hooks](navigation/router-hooks.md)
   - [Routes Hooks](navigation/routes-hooks.md)
   - [Views Transitions](navigation/views-transitions.md)
