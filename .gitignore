@@ -7,3 +7,4 @@ selenium-debug.log
 dist/*.gz
 dist/*.map
 explorations
+docs/_book

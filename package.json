@@ -23,6 +23,8 @@
     "test": "npm run lint && flow check && npm run test:unit && npm run test:e2e",
     "test:unit": "jasmine JASMINE_CONFIG_PATH=test/unit/jasmine.json",
     "test:e2e": "node test/e2e/runner.js",
+    "docs": "cd docs && gitbook serve",
+    "deploy-docs": "bash ./build/update-docs.sh",
     "release": "bash build/release.sh"
   },
   "devDependencies": {
@@ -43,6 +45,8 @@
     "express": "^4.14.0",
     "express-urlrewrite": "^1.2.0",
     "flow-bin": "^0.31.1",
+    "gitbook-plugin-edit-link": "^2.0.2",
+    "gitbook-plugin-github": "^2.0.0",
     "jasmine": "2.4.1",
     "nightwatch": "^0.9.5",
     "nightwatch-helpers": "^1.0.0",
