@@ -44,7 +44,7 @@ describe('Creating Route Map', function () {
   it('in development, has logged a warning concering named route of parent and default subroute', function () {
     process.env.NODE_ENV = 'development'
     this.maps = createRouteMap(routes)
-    expect('Remove the name from this route and use the name of the default child route for named links instead.').toHaveBeenWarned();
+    expect('Remove the name from this route and use the name of the default child route for named links instead.').toHaveBeenWarned()
   })
 
   it('in production, it has not logged this warning', function () {
@@ -55,6 +55,6 @@ describe('Creating Route Map', function () {
   it('in development, duplicate paths should have been warned', function() {
     process.env.NODE_ENV = 'development'
     this.maps = createRouteMap(routes)
-    expect('There is already a route config for').toHaveBeenWarned();
+    expect('There is already a route config for').toHaveBeenWarned()
   })
 })
