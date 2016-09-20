@@ -1,4 +1,4 @@
-# Basic Usage
+# Getting Started
 
 Creating a Single-page Application with Vue.js + vue-router is dead simple. With Vue.js, we are already dividing our application into components. When adding vue-router to the mix, all we need to do is map our components to the routes and let vue-router know where to render them. Here's a basic example:
 
@@ -11,10 +11,11 @@ Creating a Single-page Application with Vue.js + vue-router is dead simple. With
     <!-- use router-link component for navigation. -->
     <!-- specify the link by passing the `to` prop. -->
     <!-- <router-link> will be rendered as an `<a>` tag by default -->
-    <router-link :to="{ path: '/foo' }">Go to Foo</router-link>
+    <router-link to="/foo">Go to Foo</router-link>
     <router-link to="/bar">Go to Bar</router-link>
   </p>
   <!-- route outlet -->
+  <!-- component matched by the route will render here -->
   <router-view></router-view>
 </div>
 ```
@@ -27,7 +28,8 @@ Creating a Single-page Application with Vue.js + vue-router is dead simple. With
 // and injects $router and $route to all router-enabled child components
 Vue.use(VueRouter)
 
-// 2. Define route components
+// 2. Define route components.
+// These can be imported from other files
 var Foo = { template: '<div>foo</div>' }
 var Bar = { template: '<div>bar</div>' }
 
@@ -49,10 +51,8 @@ var router = new VueRouter({
 })
 
 // 5. Create and mount the root instance.
-// Make sure to inject the router.
-// Route components will be rendered inside <router-view>.
-// The root instance will mount to
-// the element matching the selector #app.
+// Make sure to inject the router with the router option to make the
+// whole app router-aware.
 new Vue({
   router: router
 }).$mount('#app')
@@ -60,10 +60,12 @@ new Vue({
 // Now the app has started!
 ```
 
-You can also checkout this example [live](http://jsfiddle.net/fnlCtrl/t49c0mqz/).
+You can also checkout this example [live](http://jsfiddle.net/yyx990803/xgrjzsup/).
 
 In addition:
 
-- The root Vue instance will be available as `router.app` once the initial render is complete.
+- Notice that a `<router-link>` automatically gets the `.router-link-active` class when its target route is matched. You can learn more about it in its [API reference](../api/router-link.md).
 
-- The router instance will be available in all descendants of the root instance as `this.$router`.
+- The root Vue instance will be available as `router.app` once the initial render is complete. You can learn more about the properties and methods available on the router instance [here](../api/router-instance.md).
+
+- The router instance will be available in all descendants of the root instance as `this.$router`. An object representing the current route state will also be available as [this.$route](../api/route-object.md).
