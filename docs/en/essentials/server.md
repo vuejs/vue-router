@@ -1,15 +1,14 @@
-# Server Configuration for history mode
+# Server Configuration for History Mode
 
-The Router's history mode enables the use of the HTML5 pushstate adding the ability for your app to change the URL of your site without refreshing the page, and without the use of the hashbang in the URL. Using this mode however requires some pre-configuration of your server otherwise when a user visits deep linked content they'll be served a 404 Not Found. Below you can find configuration samples for several server softwares.
+The default mode for `vue-router` is hash mode - it uses the URL hash to simulate a full URL so that the page won't be reloaded when the URL changes.
 
-There are a few caveats to this, in that your server will no longer report 404 errors as all paths will serve up your index.html file. To get around this issue you should implement a catch-all route and display a 404 page within your Vue app. See the [Caveats](#caveats) section for more information.
+To get rid of the ugly hash, we can use the HTML5 `history.pushState` API to achieve URL navigation without page reload. But for this mode to work properly, you need to configure your server properly.
 
- - [Server Configurations](#server-configurations)
-   - [Apache](#apache)
-   - [nginx](#nginx)
- - [Caveats](#caveats)
+Because when using history mode, the URL will look like a normal url, e.g. `http://yoursite.com/user/id`. Since our app is a single page client side app, without proper server configuration the users will get a 404 if they visit that URL directly.
 
-## Server Configurations
+Therefore you need to add a catch-all fallback route to your server: if the URL doesn't match any static assets, it should serve the same `index.html` page that your app lives in.
+
+## Example Server Configurations
 
 #### Apache
 
@@ -32,15 +31,21 @@ location / {
 }
 ```
 
+#### Node.js (Express)
+
+https://github.com/bripkens/connect-history-api-fallback
+
 ## Caveats
 
-To get around the issue that the server will no longer serve 404 errors you should implement a catch-all route within your Vue app to show a 404 page.
+There is a caveats to this, because that your server will no longer report 404 errors as all paths will serve up your `index.html` file. To get around the issue, you should implement a catch-all route within your Vue app to show a 404 page:
 
 ```javascript
-new VueRouter({
+const router = new VueRouter({
   mode: 'history',
   routes: [
     { path: '*', component: NotFoundComponent }
   ]
 })
 ```
+
+Alternatively, if you are using a Node.js server, you can implement the fallback by using the router on the server side to match the incoming URL, and respond with 404 if no route is matched.

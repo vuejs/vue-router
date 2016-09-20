@@ -1,15 +1,12 @@
 # Named Routes
 
-Sometimes it is more convenient to identify a route with a name, especially when
-performing navigations. You can give a route a name in the `routes` options
-while creating the Router instance:
+Sometimes it is more convenient to identify a route with a name, especially when linking to a route or performing navigations. You can give a route a name in the `routes` options while creating the Router instance:
 
 ``` js
 const router = new VueRouter({
   routes: [
-    // Foo is rendered when /foo is matched
     {
-      path: '/user/:userId',
+      path: '/user/:id',
       name: 'user',
       component: User
     }
@@ -31,3 +28,5 @@ router.push({ name: 'user', params: { userId: 123 }})
 ```
 
 In both cases, the router will navigate to the path `/user/123`.
+
+Full example [here](https://github.com/vuejs/vue-router/blob/next/examples/named-routes/app.js).
