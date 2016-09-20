@@ -6,7 +6,7 @@
 - [Installation](installation.md)
 - Essentials
   - [Getting Started](essentials/getting-started.md)
-  - [Dynamic Route Matching](essentials/matching.md)
+  - [Dynamic Route Matching](essentials/dynamic-matching.md)
   - [Nested Routes](essentials/nested-routes.md)
   - [Programmatic Navigation](essentials/navigation.md)
   - [Named Routes](essentials/named-routes.md)
@@ -14,7 +14,7 @@
   - [Redirect and Alias](essentials/redirect-and-alias.md)
   - [Server Config for History Mode](essentials/server.md)
 - Advanced
-  - [Navigation Guards](advanced/navigation-guards.md)
+  - [Navigation Hooks](advanced/navigation-guards.md)
   - [Animations](advanced/animations.md)
   - [Data Fetching](advanced/data-fetching.md)
   - [Scroll Behavior](advanced/scroll-behavior.md)
@@ -22,8 +22,8 @@
 - API Reference
   - [router-link](api/router-link.md)
   - [router-view](api/router-view.md)
+  - [The Route Object](api/route-object.md)
   - [Router Constructor Options](api/options.md)
-  - [Route Config Options](api/route-config.md)
+  - [Routes Configuration](api/route-config.md)
   - [Router Instance](api/router-instance.md)
-  - [The $route Object](api/route-object.md)
-  - [Component Route Hooks](api/component-hooks.md)
+  - [Component Injections](api/component-injections.md)
