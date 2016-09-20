@@ -1,6 +1,5 @@
 /*eslint-disable no-undef*/
 import { createRouteMap } from '../../../src/create-route-map'
-import '../../helpers/to-have-been-warned.js'
 
 const Home = { template: '<div>This is Home</div>' }
 const Foo = { template: '<div>This is Foo</div>' }
@@ -49,7 +48,7 @@ describe('Creating Route Map', function () {
 
   it('in production, it has not logged this warning', function () {
     this.maps = createRouteMap(routes)
-    expect(console.warn).not.toHaveBeenCalled()
+    expect('Remove the name from this route and use the name of the default child route for named links instead.').not.toHaveBeenWarned()
   })
 
   it('in development, duplicate paths should have been warned', function() {
