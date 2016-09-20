@@ -42,6 +42,12 @@ function addRouteRecord (
     meta: route.meta || {}
   }
 
+  if (process.env.NODE_ENV !== 'production') {
+    if (pathMap[record.path]) {
+      warn(false, `There is already a route config for '${route.path}', it will be overridden.`)
+    }
+  }
+
   if (route.children) {
     // Warn if route is named and has a default child route.
     // If users navigate to this route by name, the default child will
