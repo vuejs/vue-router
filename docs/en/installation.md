@@ -2,7 +2,16 @@
 
 ### Direct Download / CDN
 
-Unpkg.com provides NPM-based CDN links. The latest release is available at [https://unpkg.com/vue-router@latest/dist/vue-router.js](https://unpkg.com/vue-router@latest/dist/vue-router.js) - you can also specify any other versions/tags available on NPM!
+[https://unpkg.com/vue-router](https://unpkg.com/vue-router)
+
+[Unpkg.com](https://unpkg.com) provides NPM-based CDN links. The above link will always point to the latest release on NPM. You can also use a specific version/tag via URLs like `https://unpkg.com/vue-router@2.0.0`.
+
+Include `vue-router` after Vue and it will install itself automatically:
+
+``` html
+<script src="/path/to/vue.js"></script>
+<script src="/path/to/vue-router.js"></script>
+```
 
 ### NPM
 
@@ -19,8 +28,7 @@ import VueRouter from 'vue-router'
 Vue.use(VueRouter)
 ```
 
-You don't need to do this when using the standalone build because it installs
-itself automatically.
+You don't need to do this when using global script tags.
 
 ### Dev Build
 

@@ -1,9 +1,21 @@
 # Nested Routes
 
-Mapping nested routes to nested components is a common need, and it is also very
-simple with vue-router.
+Real app UIs are usually composed of components that are nested multiple levels deep. It is also very common that the segments of a URL corresponds to a certain structure of nested components, for example:
 
-Suppose we have the following app:
+```
+/user/foo/profile                     /user/foo/posts
++------------------+                  +-----------------+
+| User             |                  | User            |
+| +--------------+ |                  | +-------------+ |
+| | Profile      | |  +------------>  | | Posts       | |
+| |              | |                  | |             | |
+| +--------------+ |                  | +-------------+ |
++------------------+                  +-----------------+
+```
+
+With `vue-router`, it is very simple to express this relationship using nested route configurations.
+
+Given the app we created in the last chapter:
 
 ``` html
 <div id="app">
@@ -11,31 +23,25 @@ Suppose we have the following app:
 </div>
 ```
 
-The `<router-view>` here is a top-level outlet. It renders the component matched
-by a top level route:
-
 ``` js
-var Foo = { template: '<div>Foo</div>' }
+const User = {
+  template: '<div>User {{ $route.params.id }}</div>'
+}
+
 const router = new VueRouter({
   routes: [
-    // Foo is rendered when /foo is matched
-    {
-      path: '/foo',
-      component: Foo
-    }
+    { path: '/user/:id', component: User }
   ]
 })
 ```
 
-Similarly, a rendered component can also contain its own, nested
-`<router-view>`. For example, if we add one inside the `Foo` component's
-template:
+The `<router-view>` here is a top-level outlet. It renders the component matched by a top level route. Similarly, a rendered component can also contain its own, nested `<router-view>`. For example, if we add one inside the `User` component's template:
 
 ``` js
-var Foo = {
+const User = {
   template: `
-    <div class="foo">
-      <h2>This is Foo!</h2>
+    <div class="user">
+      <h2>User {{ $route.params.id }}</h2>
       <router-view></router-view>
     </div>
   `
@@ -48,21 +54,19 @@ option in `VueRouter` constructor config:
 ``` js
 const router = new VueRouter({
   routes: [
-    {
-      path: '/foo',
-      component: Foo
+    { path: '/user/:id', component: User,
       children: [
         {
-          // Bar will be rendered inside Foo's <router-view>
-          // when /foo/bar is matched
-          path: '/bar',
-          component: Bar
+          // UserProfile will be rendered inside User's <router-view>
+          // when /user/:id/profile is matched
+          path: 'profile',
+          component: UserProfile
         },
         {
-          // Bar will be rendered inside Foo's <router-view>
-          // when /foo/bar is matched
-          path: '/bar',
-          component: Bar
+          // UserPosts will be rendered inside User's <router-view>
+          // when /user/:id/posts is matched
+          path: 'posts',
+          component: UserPosts
         }
       ]
     }
@@ -70,28 +74,25 @@ const router = new VueRouter({
 })
 ```
 
-As you can see the `children` option has pretty much the same format as the
-`routes` option. Therefore, you can keep nesting views as much as you need.
+As you can see the `children` option is just another Array of route configuration objects like `routes` itself. Therefore, you can keep nesting views as much as you need.
 
-At this point, with the above configuration, when you visit `/foo`, nothing will be
-rendered inside `Foo`'s outlet, because no sub route is matched. Maybe you do
-want to render something there. In such case you can provide an empty subroute path:
+At this point, with the above configuration, when you visit `/user/foo`, nothing will be rendered inside `User`'s outlet, because no sub route is matched. Maybe you do want to render something there. In such case you can provide an empty subroute path:
 
 ``` js
 const router = new VueRouter({
   routes: [
     {
-      path: '/foo',
-      component: Foo
+      path: '/user/:id', component: User,
       children: [
-        // Default will be rendered inside Foo's <router-view>
-        // when /foo is matched
-        { path: '', component: Default },
-        // other sub routes
+        // UserHome will be rendered inside User's <router-view>
+        // when /user/:id is matched
+        { path: '', component: UserHome },
+
+        // ...other sub routes
       ]
     }
   ]
 })
 ```
 
-A working demo of this example can be found [here](https://jsfiddle.net/posva/wuczg0av/).
+A working demo of this example can be found [here](http://jsfiddle.net/yyx990803/L7hscd8h/).

@@ -6,9 +6,11 @@
 - [Installation](installation.md)
 - Essentials
   - [Getting Started](essentials/getting-started.md)
+  - [Dynamic Route Matching](essentials/matching.md)
   - [Nested Routes](essentials/nested-routes.md)
   - [Redirect and Alias](essentials/redirect-and-alias.md)
   - [Programmatic Navigation](essentials/navigation.md)
+  - [Server Config for History Mode](essentials/server.md)
 - Advanced
   - [Named Routes](advanced/named-routes.md)
   - [Named Views](advanced/named-views.md)
@@ -25,4 +27,3 @@
   - [Router Instance](api/router-instance.md)
   - [The $route Object](api/route-object.md)
   - [Component Route Hooks](api/component-hooks.md)
-  - [Route Matching Rules](api/matching.md)
