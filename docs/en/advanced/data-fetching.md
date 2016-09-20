@@ -1,4 +1,4 @@
-# Async Routes
+# Data Fetching
 
 Sometimes you need to fetch data from the server before rendering a route. For
 example, before visiting a user profile, you have to fetch his data from the
