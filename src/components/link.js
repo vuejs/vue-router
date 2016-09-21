@@ -38,27 +38,30 @@ export default {
       ? isSameRoute(current, compareTarget)
       : isIncludedRoute(current, compareTarget)
 
-    const data: any = {
-      class: classes,
-      on: {
-        click: (e) => {
-          e.preventDefault()
-          if (this.replace) {
-            router.replace(to)
-          } else {
-            router.push(to)
-          }
+    const on = {
+      click: (e) => {
+        e.preventDefault()
+        if (this.replace) {
+          router.replace(to)
+        } else {
+          router.push(to)
         }
       }
     }
 
+    const data: any = {
+      class: classes
+    }
+
     if (this.tag === 'a') {
+      data.on = on
       data.attrs = { href }
     } else {
-      // find the first <a> child and apply href
+      // find the first <a> child and apply listener and href
       const a = findAnchor(this.$slots.default)
       if (a) {
         const aData = a.data || (a.data = {})
+        aData.on = on
         const aAttrs = aData.attrs || (aData.attrs = {})
         aAttrs.href = href
       }
