@@ -1,84 +1,45 @@
 # Lazy Loading Routes
 
-When you are using bundlers like Webpack or Browserify, it's trivially easy to
-lazy-load a route component using Vue.js' built-in
-[async component functionality](http://vuejs.org/guide/components.html#Async-Components).
-Instead of directly defining your route component, you define it as a function
-that will asynchronously resolve the actual component definition:
+When building apps with a bundler, the JavaScript bundle can become quite large and thus affecting page load time. It would be more efficient if we can split each route's components into a separate chunk, and only load them when the route is visited.
+
+Combining Vue's [async component feature](http://vuejs.org/guide/components.html#Async-Components) and Webpack's [code splitting feature](https://webpack.github.io/docs/code-splitting.html), it's trivially easy to
+lazy-load route components.
+
+All we need to do is defining our route components as async components:
 
 ``` js
-const router = new VueRouter({
-  routes: [
-    {
-      path: '/async',
-      component: function (resolve) {
-        // somehow retrieve your component definition from server...
-        resolve(MyComponent)
-      }
-    }
-  ]
-})
-```
-
-Now, manually handling component retrieval is less than ideal, but bundlers like
-Webpack & Browserify both provides ways to make it easier.
-
-### Webpack
-
-Webpack has built-in support for async code-splitting. You can use the AMD-like
-`require` syntax in your code to indicate an async code-split point:
-
-``` js
-require(['./MyComponent.vue'], function (MyComponent) {
-  // code here runs after MyComponent.vue is asynchronously loaded.
-})
-```
-
-Combined with the router it can simply look like this:
-
-``` js
-const router = new VueRouter({
-  routes: [
-    {
-      path: '/async',
-      component: function (resolve) {
-        require(['./MyComponent.vue'], resolve)
-      }
-    }
-  ]
-})
-```
-
-Now, `MyComponent.vue`, along with any dependencies that are only used by itself,
-will be loaded asynchronously only when the route `/async` needs to be rendered.
-
-### Browserify
-
-TODO make this part as easy as wepack's
-
-It's a bit more tricky to achieve the same with Browserify, but it's possible
-with the
-[`partition-bundle` plugin](https://github.com/substack/browserify-handbook/blob/master/readme.markdown#partition-bundle).
-You will have to manually declare your bundle mappings in a `json` file:
-
-``` json
-{
-  "main.js": ["./main.js"],
-  "my-component.js": ["./MyComponent.vue"]
+const Foo = resolve => {
+  // require.ensure is Webpack's special syntax for a code-split point.
+  require.ensure(['./Foo.vue'], () => {
+    resolve(require('./Foo.vue'))
+  })
 }
 ```
 
-Then in `main.js` you would do something similar, using the `loadjs` function instead of `require`:
+There's also an alternative code-split syntax using AMD style require, so this can be simplified to:
+
+``` js
+const Foo = resolve => require(['./Foo.vue'], resolve)
+```
+
+Nothing needs to change in the route config, just use `Foo` as usual:
 
 ``` js
 const router = new VueRouter({
   routes: [
-    {
-      path: '/async',
-      component: function (resolve) {
-        loadjs(['./MyComponent.vue'], resolve)
-      }
-    }
+    { path: '/foo', component: Foo }
   ]
 })
 ```
+
+### Grouping Components in the Same Chunk
+
+Sometimes we may want to group all the components nested under the same route into the same async chunk. To achieve that we need to use [named chunks](https://webpack.github.io/docs/code-splitting.html#named-chunks) by providing a chunk name to `require.ensure` as the 3rd argument:
+
+``` js
+const Foo = r => require.ensure([], () => r(require('./Foo.vue')), 'group-foo')
+const Bar = r => require.ensure([], () => r(require('./Bar.vue')), 'group-foo')
+const Baz = r => require.ensure([], () => r(require('./Baz.vue')), 'group-foo')
+```
+
+Webpack will group any async module with the same chunk name into the same async chunk - this also means we don't need to explicitly list dependencies for `require.ensure` anymore (thus passing an empty array).

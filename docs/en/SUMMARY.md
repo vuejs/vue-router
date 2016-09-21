@@ -12,9 +12,10 @@
   - [Named Routes](essentials/named-routes.md)
   - [Named Views](essentials/named-views.md)
   - [Redirect and Alias](essentials/redirect-and-alias.md)
-  - [Server Config for History Mode](essentials/server.md)
+  - [HTML5 History Mode](essentials/history-mode.md)
 - Advanced
   - [Navigation Hooks](advanced/navigation-guards.md)
+  - [Route Meta Fields](advanced/meta.md)
   - [Transitions](advanced/transitions.md)
   - [Data Fetching](advanced/data-fetching.md)
   - [Scroll Behavior](advanced/scroll-behavior.md)

@@ -1,10 +1,17 @@
-# Server Configuration for History Mode
+# HTML5 History Mode
 
 The default mode for `vue-router` is hash mode - it uses the URL hash to simulate a full URL so that the page won't be reloaded when the URL changes.
 
-To get rid of the ugly hash, we can use the HTML5 `history.pushState` API to achieve URL navigation without page reload. But for this mode to work properly, you need to configure your server properly.
+To get rid of the ugly hash, we can use the router's **history mode**, which leverages the `history.pushState` API to achieve URL navigation without page reload:
 
-Because when using history mode, the URL will look like a normal url, e.g. `http://yoursite.com/user/id`. Since our app is a single page client side app, without proper server configuration the users will get a 404 if they visit that URL directly.
+``` js
+const router = new VueRouter({
+  mode: 'history',
+  routes: [...]
+})
+```
+
+But for this mode to work properly, you need to configure your server properly. When using history mode, the URL will look like a normal url, e.g. `http://yoursite.com/user/id`. Since our app is a single page client side app, without proper server configuration the users will get a 404 if they visit that URL directly.
 
 Therefore you need to add a catch-all fallback route to your server: if the URL doesn't match any static assets, it should serve the same `index.html` page that your app lives in.
 
