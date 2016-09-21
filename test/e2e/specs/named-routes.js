@@ -17,7 +17,7 @@ module.exports = {
       .assert.containsText('.view', 'Foo')
 
       .click('li:nth-child(3) a')
-      .assert.urlEquals('http://localhost:8080/named-routes/bar')
+      .assert.urlEquals('http://localhost:8080/named-routes/bar/123')
       .assert.containsText('p', 'Current route name: bar')
       .assert.containsText('.view', 'Bar 123')
 
