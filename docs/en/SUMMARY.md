@@ -15,7 +15,7 @@
   - [Server Config for History Mode](essentials/server.md)
 - Advanced
   - [Navigation Hooks](advanced/navigation-guards.md)
-  - [Animations](advanced/animations.md)
+  - [Transitions](advanced/transitions.md)
   - [Data Fetching](advanced/data-fetching.md)
   - [Scroll Behavior](advanced/scroll-behavior.md)
   - [Lazy Loading](advanced/lazy-loading.md)
