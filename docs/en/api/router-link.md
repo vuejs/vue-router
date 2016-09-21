@@ -10,7 +10,7 @@
 
 - When you are using the `base` option in HTML5 history mode, you don't need to include it in `to` prop's URLs.
 
-#### Props
+### Props
 
 - **to**
 
