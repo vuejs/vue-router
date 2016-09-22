@@ -13,7 +13,7 @@ declare type RouterOptions = {
   scrollBehavior?: Function;
 }
 
-declare type RedirectOption = string | { name: string } | Function
+declare type RedirectOption = RawLocation | Function
 
 declare type RouteConfig = {
   path: string;

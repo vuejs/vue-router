@@ -18,7 +18,7 @@ Global before guards are called in creation order, whenever a navigation is trig
 
 Every guard function receives three arguments:
 
-- `route: Route`: the target route object being navigated to.
+- `route: Route`: the target [Route Object](../api/route-object.md) being navigated to.
 
 - `redirect: Function`: calling this function will abort the current navigation and start a new navigation towards the redirect target.
 

@@ -14,7 +14,7 @@
 
 - **to**
 
-  - type: `string | Object`
+  - type: `string | Location`
 
   - required
 
@@ -86,7 +86,7 @@
 
   - default: `"router-link-active"`
 
-  Configure the active CSS class applied when the link is active.
+  Configure the active CSS class applied when the link is active. Note the default value can also be configured globally via the `linkActiveClass` router constructor option.
 
 - **exact**
 

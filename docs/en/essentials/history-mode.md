@@ -46,7 +46,7 @@ https://github.com/bripkens/connect-history-api-fallback
 
 There is a caveats to this, because that your server will no longer report 404 errors as all paths will serve up your `index.html` file. To get around the issue, you should implement a catch-all route within your Vue app to show a 404 page:
 
-```javascript
+``` js
 const router = new VueRouter({
   mode: 'history',
   routes: [

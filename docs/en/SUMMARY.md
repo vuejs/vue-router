@@ -14,7 +14,7 @@
   - [Redirect and Alias](essentials/redirect-and-alias.md)
   - [HTML5 History Mode](essentials/history-mode.md)
 - Advanced
-  - [Navigation Hooks](advanced/navigation-guards.md)
+  - [Navigation Guards](advanced/navigation-guards.md)
   - [Route Meta Fields](advanced/meta.md)
   - [Transitions](advanced/transitions.md)
   - [Data Fetching](advanced/data-fetching.md)
@@ -25,6 +25,5 @@
   - [router-view](api/router-view.md)
   - [The Route Object](api/route-object.md)
   - [Router Constructor Options](api/options.md)
-  - [Routes Configuration](api/route-config.md)
   - [Router Instance](api/router-instance.md)
   - [Component Injections](api/component-injections.md)
