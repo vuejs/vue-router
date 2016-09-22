@@ -55,7 +55,7 @@ const User = {
 
 ### Advanced Matching Patterns
 
-`vue-router` uses [path-to-regexp](https://github.com/pillarjs/path-to-regexp) as its path matching engine, so it supports many advanced matching patterns such as optional dynamic segments, zero or more / one or more requirements, and even custom regex patterns. Check out its [documentation](https://github.com/pillarjs/path-to-regexp#parameters) for these advanced patterns, and [this example](https://github.com/vuejs/vue-router/blob/next/examples/route-matching/app.js) of using them in `vue-router`.
+`vue-router` uses [path-to-regexp](https://github.com/pillarjs/path-to-regexp) as its path matching engine, so it supports many advanced matching patterns such as optional dynamic segments, zero or more / one or more requirements, and even custom regex patterns. Check out its [documentation](https://github.com/pillarjs/path-to-regexp#parameters) for these advanced patterns, and [this example](https://github.com/vuejs/vue-router/blob/dev/examples/route-matching/app.js) of using them in `vue-router`.
 
 ### Matching Priority
 

@@ -29,4 +29,4 @@ router.push({ name: 'user', params: { userId: 123 }})
 
 In both cases, the router will navigate to the path `/user/123`.
 
-Full example [here](https://github.com/vuejs/vue-router/blob/next/examples/named-routes/app.js).
+Full example [here](https://github.com/vuejs/vue-router/blob/dev/examples/named-routes/app.js).
