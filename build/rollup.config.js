@@ -1,5 +1,5 @@
 const buble = require('rollup-plugin-buble')
-const flow = require('rollup-plugin-flow')
+const flow = require('rollup-plugin-flow-no-whitespace')
 const cjs = require('rollup-plugin-commonjs')
 const node = require('rollup-plugin-node-resolve')
 const replace = require('rollup-plugin-replace')
