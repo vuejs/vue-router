@@ -20,9 +20,10 @@
     "dev:dist": "rollup -wm -c build/rollup.config.js",
     "build": "rollup --environment NODE_ENV:production -c build/rollup.config.js && uglifyjs dist/vue-router.js -cm --comments -o dist/vue-router.min.js",
     "lint": "eslint src examples",
-    "test": "npm run lint && flow check && npm run test:unit && npm run test:e2e",
+    "test": "npm run lint && flow check && npm run test:unit && npm run test:e2e && npm run test:types",
     "test:unit": "jasmine JASMINE_CONFIG_PATH=test/unit/jasmine.json",
     "test:e2e": "node test/e2e/runner.js",
+    "test:types": "tsc -p types/test",
     "docs": "cd docs && gitbook serve",
     "deploy-docs": "bash ./build/update-docs.sh",
     "release": "bash build/release.sh"
@@ -60,8 +61,9 @@
     "rollup-plugin-replace": "^1.1.1",
     "rollup-watch": "^2.4.0",
     "selenium-server": "^2.53.1",
+    "typescript": "^2.0.3",
     "uglify-js": "^2.7.0",
-    "vue": "^2.0.0-rc.6",
+    "vue": "vuejs/vue#eef05ac9e93a2b841caf576e5bc3e85d28472594",
     "vue-loader": "^9.4.0",
     "webpack": "^1.13.1",
     "webpack-dev-middleware": "^1.6.1"
