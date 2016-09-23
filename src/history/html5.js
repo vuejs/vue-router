@@ -86,7 +86,7 @@ export class HTML5History extends History {
         return
       }
       const isObject = typeof shouldScroll === 'object'
-      if (isObject && shouldScroll.selector) {
+      if (isObject && typeof shouldScroll.selector === 'string') {
         const el = document.querySelector(shouldScroll.selector)
         if (el) {
           position = getElementPosition(el)

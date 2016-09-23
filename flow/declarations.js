@@ -10,10 +10,14 @@ declare type RouterOptions = {
   mode?: string;
   base?: string;
   linkActiveClass?: string;
-  scrollBehavior?: Function;
+  scrollBehavior?: (
+    to: Route,
+    from: Route,
+    savedPosition: ?{ x: number, y: number }
+  ) => { x: number, y: number } | { selector: string } | ?{};
 }
 
-declare type RedirectOption = RawLocation | Function
+declare type RedirectOption = RawLocation | ((to: Route) => RawLocation)
 
 declare type RouteConfig = {
   path: string;
@@ -23,7 +27,11 @@ declare type RouteConfig = {
   redirect?: RedirectOption;
   alias?: string | Array<string>;
   children?: Array<RouteConfig>;
-  beforeEnter?: Function;
+  beforeEnter?: (
+    route: Route,
+    redirect: (location: RawLocation) => void,
+    next: () => void
+  ) => any;
   meta?: any;
 }
 
@@ -35,7 +43,11 @@ declare type RouteRecord = {
   parent: ?RouteRecord;
   redirect: ?RedirectOption;
   matchAs: ?string;
-  beforeEnter: ?Function;
+  beforeEnter: ?(
+    route: Route,
+    redirect: (location: RawLocation) => void,
+    next: () => void
+  ) => any;
   meta: any;
 }
 
