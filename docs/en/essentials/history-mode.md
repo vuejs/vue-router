@@ -1,8 +1,8 @@
 # HTML5 History Mode
 
-The default mode for `vue-router` is hash mode - it uses the URL hash to simulate a full URL so that the page won't be reloaded when the URL changes.
+The default mode for `vue-router` is _hash mode_ - it uses the URL hash to simulate a full URL so that the page won't be reloaded when the URL changes.
 
-To get rid of the ugly hash, we can use the router's **history mode**, which leverages the `history.pushState` API to achieve URL navigation without page reload:
+To get rid of the hash, we can use the router's **history mode**, which leverages the `history.pushState` API to achieve URL navigation without a page reload:
 
 ``` js
 const router = new VueRouter({
@@ -11,9 +11,11 @@ const router = new VueRouter({
 })
 ```
 
-But for this mode to work properly, you need to configure your server properly. When using history mode, the URL will look like a normal url, e.g. `http://yoursite.com/user/id`. Since our app is a single page client side app, without proper server configuration the users will get a 404 if they visit that URL directly.
+When using history mode, the URL will look "normal," e.g. `http://oursite.com/user/id`. Beautiful!
 
-Therefore you need to add a catch-all fallback route to your server: if the URL doesn't match any static assets, it should serve the same `index.html` page that your app lives in.
+Here comes a problem, though: Since our app is a single page client side app, without a proper server configuration, the users will get a 404 error if they access `http://oursite.com/user/id` directly in their browser. Now that's ugly.
+
+Not to worry: To fix the issue, all you need to do is add a simple catch-all fallback route to your server. If the URL doesn't match any static assets, it should serve the same `index.html` page that your app lives in. Beautiful, again! 
 
 ## Example Server Configurations
 
@@ -40,11 +42,11 @@ location / {
 
 #### Node.js (Express)
 
-https://github.com/bripkens/connect-history-api-fallback
+For Node.js/Express, consider using [connect-history-api-fallback middleware](https://github.com/bripkens/connect-history-api-fallback).
 
-## Caveats
+## Caveat
 
-There is a caveats to this, because that your server will no longer report 404 errors as all paths will serve up your `index.html` file. To get around the issue, you should implement a catch-all route within your Vue app to show a 404 page:
+There is a caveat to this: Your server will no longer report 404 errors as all not-found paths now serve up your `index.html` file. To get around the issue, you should implement a catch-all route within your Vue app to show a 404 page:
 
 ``` js
 const router = new VueRouter({
@@ -55,4 +57,4 @@ const router = new VueRouter({
 })
 ```
 
-Alternatively, if you are using a Node.js server, you can implement the fallback by using the router on the server side to match the incoming URL, and respond with 404 if no route is matched.
+Alternatively, if you are using a Node.js server, you can implement the fallback by using the router on the server side to match the incoming URL and respond with 404 if no route is matched.
