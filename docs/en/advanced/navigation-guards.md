@@ -61,12 +61,12 @@ Finally, you can directly define route navigation guards inside route components
 ``` js
 const Foo = {
   template: `...`,
-  beforeRouteEnter (route, redirect, next) => {
+  beforeRouteEnter (route, redirect, next) {
     // called before the route that renders this component is confirmed.
     // does NOT have access to `this` component instance,
     // because it has not been created yet when this guard is called!
   },
-  beforeRouteLeave (route, redirect, next) => {
+  beforeRouteLeave (route, redirect, next) {
     // called when the route that renders this component is about to
     // be navigated away from.
     // has access to `this` component instance.
@@ -79,7 +79,7 @@ The `beforeRouteEnter` guard does **NOT** have access to `this`, because the gua
 However, you can access the instance by passing a callback to `next`. The callback will be called when the navigation is confirmed, and the component instance will be passed to the callback as the argument:
 
 ``` js
-beforeRouteEnter (route, redirect, next) => {
+beforeRouteEnter (route, redirect, next) {
   next(vm => {
     // access to component instance via `vm`
   })
