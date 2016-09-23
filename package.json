@@ -5,10 +5,14 @@
   "author": "Evan You",
   "license": "MIT",
   "main": "dist/vue-router.js",
+  "typings": "types/index.d.ts",
   "files": [
     "dist/vue-router.js",
     "dist/vue-router.min.js",
-    "src"
+    "src",
+    "types/index.d.ts",
+    "types/router.d.ts",
+    "types/vue.d.ts"
   ],
   "keywords": [
     "vue",
