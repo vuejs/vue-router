@@ -8,6 +8,7 @@ const Baz = { template: '<div>This is Baz</div>' }
 
 const routes = [
   { path: '/', name: 'home', component: Home },
+  { path: '/foo', name: 'foo', component: Bar },
   { path: '/foo', name: 'foo', component: Foo },
   {
     path: '/bar',
@@ -25,11 +26,9 @@ const routes = [
 
 describe('Creating Route Map', function () {
   beforeAll(function () {
-    spyOn(console, 'warn')
     this.maps = createRouteMap(routes)
   })
   beforeEach(function () {
-    console.warn.calls.reset()
     process.env.NODE_ENV = 'production'
   })
 
@@ -44,11 +43,17 @@ describe('Creating Route Map', function () {
   it('in development, has logged a warning concering named route of parent and default subroute', function () {
     process.env.NODE_ENV = 'development'
     this.maps = createRouteMap(routes)
-    expect(console.warn).toHaveBeenCalled()
-    expect(console.warn.calls.argsFor(0)[0]).toMatch('vue-router] Named Route \'bar\'')
+    expect('Remove the name from this route and use the name of the default child route for named links instead.').toHaveBeenWarned()
   })
+
   it('in production, it has not logged this warning', function () {
     this.maps = createRouteMap(routes)
-    expect(console.warn).not.toHaveBeenCalled()
+    expect('Remove the name from this route and use the name of the default child route for named links instead.').not.toHaveBeenWarned()
+  })
+
+  it('in development, duplicate paths should have been warned', function() {
+    process.env.NODE_ENV = 'development'
+    this.maps = createRouteMap(routes)
+    expect('There is already a route config for').toHaveBeenWarned()
   })
 })
