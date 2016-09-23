@@ -5,6 +5,8 @@ declare module 'path-to-regexp' {
   }
 }
 
+declare type Dictionary<T> = { [key: string]: T }
+
 declare type RouterOptions = {
   routes?: Array<RouteConfig>;
   mode?: string;
@@ -23,7 +25,7 @@ declare type RouteConfig = {
   path: string;
   name?: string;
   component?: any;
-  components?: { [name: string]: any };
+  components?: Dictionary<any>;
   redirect?: RedirectOption;
   alias?: string | Array<string>;
   children?: Array<RouteConfig>;
@@ -37,8 +39,8 @@ declare type RouteConfig = {
 
 declare type RouteRecord = {
   path: string;
-  components: { [name: string]: any };
-  instances: { [name: string]: any };
+  components: Dictionary<any>;
+  instances: Dictionary<any>;
   name: ?string;
   parent: ?RouteRecord;
   redirect: ?RedirectOption;
@@ -51,19 +53,13 @@ declare type RouteRecord = {
   meta: any;
 }
 
-declare type RouteMap = {
-  [key: string]: RouteRecord;
-}
-
-declare type StringHash = { [key: string]: string }
-
 declare type Location = {
   _normalized?: boolean;
   name?: string;
   path?: string;
   hash?: string;
-  query?: StringHash;
-  params?: StringHash;
+  query?: Dictionary<string>;
+  params?: Dictionary<string>;
 }
 
 declare type RawLocation = string | Location
@@ -72,8 +68,8 @@ declare type Route = {
   path: string;
   name: ?string;
   hash: string;
-  query: StringHash;
-  params: StringHash;
+  query: Dictionary<string>;
+  params: Dictionary<string>;
   fullPath: string;
   matched: Array<RouteRecord>;
   redirectedFrom?: string;

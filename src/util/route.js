@@ -75,7 +75,7 @@ export function isIncludedRoute (current: Route, target: Route): boolean {
   )
 }
 
-function queryIncludes (current: StringHash, target: StringHash): boolean {
+function queryIncludes (current: Dictionary<string>, target: Dictionary<string>): boolean {
   for (const key in target) {
     if (!(key in current)) {
       return false

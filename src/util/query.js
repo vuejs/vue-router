@@ -7,8 +7,8 @@ const decode = decodeURIComponent
 
 export function resolveQuery (
   query: ?string,
-  extraQuery: StringHash = {}
-): StringHash {
+  extraQuery: Dictionary<string> = {}
+): Dictionary<string> {
   if (query) {
     let parsedQuery
     try {
@@ -26,7 +26,7 @@ export function resolveQuery (
   }
 }
 
-function parseQuery (query: string): StringHash {
+function parseQuery (query: string): Dictionary<string> {
   const res = Object.create(null)
 
   query = query.trim().replace(/^(\?|#|&)/, '')
@@ -54,7 +54,7 @@ function parseQuery (query: string): StringHash {
   return res
 }
 
-export function stringifyQuery (obj: StringHash): string {
+export function stringifyQuery (obj: Dictionary<string>): string {
   const res = obj ? Object.keys(obj).sort().map(key => {
     const val = obj[key]
 
