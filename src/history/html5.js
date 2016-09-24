@@ -52,7 +52,7 @@ export class HTML5History extends History {
 
   push (location: RawLocation) {
     const current = this.current
-    super.transitionTo(location, route => {
+    this.transitionTo(location, route => {
       pushState(cleanPath(this.base + route.fullPath))
       this.handleScroll(route, current, false)
     })
@@ -60,7 +60,7 @@ export class HTML5History extends History {
 
   replace (location: RawLocation) {
     const current = this.current
-    super.transitionTo(location, route => {
+    this.transitionTo(location, route => {
       replaceState(cleanPath(this.base + route.fullPath))
       this.handleScroll(route, current, false)
     })
@@ -79,7 +79,7 @@ export class HTML5History extends History {
     assert(typeof behavior === 'function', `scrollBehavior must be a function`)
 
     // wait until re-render finishes before scrolling
-    router.app.$nextTick(() => {
+    setTimeout(() => {
       let position = getScrollPosition(_key)
       const shouldScroll = behavior(to, from, isPop ? position : null)
       if (!shouldScroll) {
@@ -100,7 +100,7 @@ export class HTML5History extends History {
       if (position) {
         window.scrollTo(position.x, position.y)
       }
-    })
+    }, 0)
   }
 }
 
