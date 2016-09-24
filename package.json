@@ -29,7 +29,7 @@
     "test:e2e": "node test/e2e/runner.js",
     "test:types": "tsc -p types/test",
     "docs": "cd docs && gitbook serve",
-    "deploy-docs": "bash ./build/update-docs.sh",
+    "docs:deploy": "bash ./build/update-docs.sh",
     "release": "bash build/release.sh"
   },
   "devDependencies": {
