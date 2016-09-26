@@ -13,7 +13,7 @@ const router = new VueRouter({
 
 history モードを使用する時は、URL は "普通" に見えます e.g. `http://oursite.com/user/id`。美しいですね!
 
-しかしながら一つ問題があります。シングルページのクライアントサイドアプリケーションなので、適切なサーバーの設定をしないと、ユーザーがブラウザで直接 `http://oursite.com/user/id` にアクセスした場合に 404 エラーが発生します。
+しかしながら一点問題があります。シングルページのクライアントサイドアプリケーションなので、適切なサーバーの設定をしないと、ユーザーがブラウザで直接 `http://oursite.com/user/id` にアクセスした場合に 404 エラーが発生します。
 
 心配する必要はありません。この問題を直すためには、単純な catch-all フォールバックのためのルートをサーバー側で追加するだけです。もし URL がどの静的なアセットにもマッチしなかった時はあなたのアプリケーションが動作しているのと同じ `index.html` ページで受け付けましょう。これも美しいですね!
 
@@ -44,9 +44,9 @@ location / {
 
 Node.js/Express では [connect-history-api-fallback middleware](https://github.com/bripkens/connect-history-api-fallback) の利用を検討してください。
 
-## 議論
+## 注意
 
-この点に関して議論の余地があります。全ての not-found パスが `index.html` を提供するため、もはや 404 エラーをサーバーがレポートしなくなります。回避策として、Vue アプリケーション内で 404 ページを表示するために catch-all ルートを実装すべきです。
+この点に関して注意があります。全ての not-found パスが `index.html` を提供するため、もはや 404 エラーをサーバーがレポートしなくなります。回避策として、Vue アプリケーション内で 404 ページを表示するために catch-all ルートを実装すべきです。
 
 ``` js
 const router = new VueRouter({

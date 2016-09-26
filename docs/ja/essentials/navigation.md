@@ -13,7 +13,7 @@
 |-------------|--------------|
 | `<router-link :to="...">` | `router.push(...)` |
 
-引数は string のパス、もしくは、location を記述するオブジェクトが使えます。例:
+引数は文字列のパス、もしくは、location を記述するオブジェクトが使えます。例:
 
 ``` js
 // 文字列
@@ -40,18 +40,18 @@ router.push({ path: 'register', query: { plan: 'private' }})
 
 #### `router.go(n)`
 
-このメソッドは、history スタックの中でどのくらいステップを進めるか、もしくは戻るのか、を表す一つの integer をパラメーターとして受け取ります。`window.history.go(n)` と類似しています。
+このメソッドは、history スタックの中でどのくらいステップを進めるか、もしくは戻るのか、を表す 1 つの integer をパラメーターとして受け取ります。`window.history.go(n)` と類似しています。
 
 例
 
 ``` js
-// 一つレコードを進める。history.forward() と同じ
+// 1 つレコードを進める。history.forward() と同じ
 router.go(1)
 
-// 一つレコードを戻す。history.back() と同じ
+// 1 つレコードを戻す。history.back() と同じ
 router.go(-1)
 
-// 三つレコードを進める
+// 3 つレコードを進める
 router.go(3)
 
 // もし多くのレコードが存在しない場合、サイレントに失敗します
