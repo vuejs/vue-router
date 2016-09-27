@@ -30,7 +30,7 @@ router.push({ path: 'register', query: { plan: 'private' }})
 
 #### `router.replace(location)`
 
-It acts like `router.go`, the only difference is that it navigates without pushing a new history entry, as its name suggests - it replaces the current entry.
+It acts like `router.push`, the only difference is that it navigates without pushing a new history entry, as its name suggests - it replaces the current entry.
 
 | Declarative | Programmatic |
 |-------------|--------------|
