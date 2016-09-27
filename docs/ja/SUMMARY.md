@@ -27,4 +27,4 @@
   - [ルートオブジェクト](api/route-object.md)
   - [ルートコンストラクタオプション](api/options.md)
   - [ルートインスタンス](api/router-instance.md)
-  - [コンポーネント挿入](api/component-injections.md)
+  - [コンポーネント注入](api/component-injections.md)
