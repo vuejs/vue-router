@@ -41,6 +41,8 @@ export default {
     const on = {
       click: (e) => {
         e.preventDefault()
+        //prevent trigger parent link
+        e.stopPropagation()
         if (this.replace) {
           router.replace(to)
         } else {
