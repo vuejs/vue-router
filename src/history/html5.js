@@ -79,7 +79,7 @@ export class HTML5History extends History {
     assert(typeof behavior === 'function', `scrollBehavior must be a function`)
 
     // wait until re-render finishes before scrolling
-    setTimeout(() => {
+    router.app.$nextTick(() => {
       let position = getScrollPosition(_key)
       const shouldScroll = behavior(to, from, isPop ? position : null)
       if (!shouldScroll) {
@@ -100,7 +100,7 @@ export class HTML5History extends History {
       if (position) {
         window.scrollTo(position.x, position.y)
       }
-    }, 0)
+    })
   }
 }
 
