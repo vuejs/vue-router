@@ -23,6 +23,11 @@ export function createRoute (
   return Object.freeze(route)
 }
 
+// the starting route that represents the initial state
+export const START = createRoute(null, {
+  path: '/'
+})
+
 function formatMatch (record: ?RouteRecord): Array<RouteRecord> {
   const res = []
   while (record) {
@@ -38,7 +43,9 @@ function getFullPath ({ path, query = {}, hash = '' }) {
 
 const trailingSlashRE = /\/$/
 export function isSameRoute (a: Route, b: ?Route): boolean {
-  if (!b) {
+  if (b === START) {
+    return a === b
+  } else if (!b) {
     return false
   } else if (a.path && b.path) {
     return (

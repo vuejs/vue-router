@@ -9,11 +9,11 @@ import About from './components/About.vue'
 import Dashboard from './components/Dashboard.vue'
 import Login from './components/Login.vue'
 
-function requireAuth (route, redirect, next) {
+function requireAuth (to, from, next) {
   if (!auth.loggedIn()) {
-    redirect({
+    next({
       path: '/login',
-      query: { redirect: route.fullPath }
+      query: { redirect: to.fullPath }
     })
   } else {
     next()
@@ -28,9 +28,9 @@ const router = new VueRouter({
     { path: '/dashboard', component: Dashboard, beforeEnter: requireAuth },
     { path: '/login', component: Login },
     { path: '/logout',
-      beforeEnter (route, redirect) {
+      beforeEnter (to, from, next) {
         auth.logout()
-        redirect('/')
+        next('/')
       }
     }
   ]

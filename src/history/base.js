@@ -4,7 +4,7 @@ import type VueRouter from '../index'
 import { warn } from '../util/warn'
 import { inBrowser } from '../util/dom'
 import { runQueue } from '../util/async'
-import { createRoute, isSameRoute } from '../util/route'
+import { START, isSameRoute } from '../util/route'
 
 export class History {
   router: VueRouter;
@@ -23,9 +23,7 @@ export class History {
     this.router = router
     this.base = normalizeBase(base)
     // start with a route object that stands for "nowhere"
-    this.current = createRoute(null, {
-      path: '__vue_router_init__'
-    })
+    this.current = START
     this.pending = null
   }
 
@@ -43,7 +41,8 @@ export class History {
   }
 
   confirmTransition (route: Route, cb: Function) {
-    if (isSameRoute(route, this.current)) {
+    const current = this.current
+    if (isSameRoute(route, current)) {
       this.ensureURL()
       return
     }
@@ -65,15 +64,28 @@ export class History {
     )
 
     this.pending = route
-    const redirect = location => this.push(location)
-    const iterator = (hook, next) => hook(route, redirect, next)
+    const iterator = (hook, next) => {
+      if (this.pending !== route) return
+      hook(route, current, (to: any) => {
+        if (to === false) {
+          // next(false) -> abort navigation, ensure current URL
+          this.ensureURL()
+        } else if (typeof to === 'string' || typeof to === 'object') {
+          // next('/') or next({ path: '/' }) -> redirect
+          this.push(to)
+        } else {
+          // confirm transition and pass on the value
+          next(to)
+        }
+      })
+    }
 
     runQueue(queue, iterator, () => {
       const postEnterCbs = []
       // wait until async components are resolved before
       // extracting in-component enter guards
       runQueue(extractEnterGuards(activated, postEnterCbs), iterator, () => {
-        if (isSameRoute(route, this.pending)) {
+        if (this.pending === route) {
           this.pending = null
           cb(route)
           this.router.app.$nextTick(() => {
@@ -146,12 +158,14 @@ function extractEnterGuards (matched: Array<RouteRecord>, cbs: Array<Function>):
   return flatMapComponents(matched, (def, _, match, key) => {
     const guard = def && def.beforeRouteEnter
     if (guard) {
-      return function routeEnterGuard (route, redirect, next) {
-        return guard(route, redirect, cb => {
-          next()
-          cb && cbs.push(() => {
-            cb(match.instances[key])
-          })
+      return function routeEnterGuard (to, from, next) {
+        return guard(to, from, cb => {
+          next(cb)
+          if (typeof cb === 'function') {
+            cbs.push(() => {
+              cb(match.instances[key])
+            })
+          }
         })
       }
     }
@@ -166,7 +180,7 @@ function resolveAsyncComponents (matched: Array<RouteRecord>): Array<?Function> 
     // we want to halt the navigation until the incoming component has been
     // resolved.
     if (typeof def === 'function' && !def.options) {
-      return (route, redirect, next) => {
+      return (to, from, next) => {
         const resolve = resolvedDef => {
           match.components[key] = resolvedDef
           next()
@@ -174,6 +188,7 @@ function resolveAsyncComponents (matched: Array<RouteRecord>): Array<?Function> 
 
         const reject = reason => {
           warn(false, `Failed to resolve async component ${key}: ${reason}`)
+          next(false)
         }
 
         const res = def(resolve, reject)

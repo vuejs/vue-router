@@ -10,14 +10,17 @@ const Bar = { template: '<div>bar</div>' }
 /**
  * Signatre of all route guards:
  * @param {Route} route
- * @param {Function} redirect - redirect to another route
- * @param {Function} next - confirm the route
+ * @param {Function} next - confirm the navigation
+ * @param {Function} redirect - cancel and redirect to another route
+ * @param {Function} abort - abort the navigation
  */
-function guardRoute (route, redirect, next) {
-  if (window.confirm(`Navigate to ${route.path}?`)) {
+function guardRoute (to, from, next) {
+  if (window.confirm(`Navigate to ${to.path}?`)) {
     next()
   } else if (window.confirm(`Redirect to /baz?`)) {
-    redirect('/baz')
+    next('/baz')
+  } else {
+    next(false)
   }
 }
 
@@ -32,9 +35,11 @@ const Baz = {
       <button @click="saved = true">save</button>
     </div>
   `,
-  beforeRouteLeave (route, redirect, next) {
+  beforeRouteLeave (to, from, next) {
     if (this.saved || window.confirm('Not saved, are you sure you want to navigate away?')) {
       next()
+    } else {
+      next(false)
     }
   }
 }
@@ -47,7 +52,7 @@ const Qux = {
     }
   },
   template: `<div>{{ msg }}</div>`,
-  beforeRouteEnter (route, redirect, next) {
+  beforeRouteEnter (to, from, next) {
     // Note that enter hooks do not have access to `this`
     // because it is called before the component is even created.
     // However, we can provide a callback to `next` which will
@@ -92,9 +97,9 @@ const router = new VueRouter({
   ]
 })
 
-router.beforeEach((route, redirect, next) => {
-  if (route.matched.some(m => m.meta.needGuard)) {
-    guardRoute(route, redirect, next)
+router.beforeEach((to, from, next) => {
+  if (to.matched.some(m => m.meta.needGuard)) {
+    guardRoute(to, from, next)
   } else {
     next()
   }
