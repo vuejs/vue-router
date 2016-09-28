@@ -12,6 +12,7 @@ declare namespace VueRouter {
   export type RouteRecord = R.RouteRecord;
   export type Location = R.Location;
   export type Route = R.Route;
+  export type NavigationGuard = R.NavigationGuard;
 }
 
 // TS cannot merge imported class with namespace, declare a subclass to bypass

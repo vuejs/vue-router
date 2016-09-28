@@ -52,7 +52,7 @@ export class History {
       activated
     } = resolveQueue(this.current.matched, route.matched)
 
-    const queue = [].concat(
+    const queue: Array<?NavigationGuard> = [].concat(
       // in-component leave guards
       extractLeaveGuards(deactivated),
       // global before hooks
@@ -64,7 +64,7 @@ export class History {
     )
 
     this.pending = route
-    const iterator = (hook, next) => {
+    const iterator = (hook: NavigationGuard, next) => {
       if (this.pending !== route) return
       hook(route, current, (to: any) => {
         if (to === false) {

@@ -17,8 +17,8 @@ export default class VueRouter {
   history: HashHistory | HTML5History | AbstractHistory;
   match: Matcher;
   fallback: boolean;
-  beforeHooks: Array<?Function>;
-  afterHooks: Array<?Function>;
+  beforeHooks: Array<?NavigationGuard>;
+  afterHooks: Array<?((to: Route, from: Route) => any)>;
 
   constructor (options: RouterOptions = {}) {
     this.app = null

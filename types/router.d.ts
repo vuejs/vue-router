@@ -7,6 +7,11 @@ type Dictionary<T> = { [key: string]: T };
 export type RouterMode = "hash" | "history" | "abstract";
 export type RawLocation = string | Location;
 export type RedirectOption = RawLocation | ((to: Route) => RawLocation);
+export type NavigationGuard = (
+  to: Route,
+  from: Route,
+  next: (to?: RawLocation | false | ((vm: Vue) => any) | void) => void
+) => any
 
 declare class VueRouter {
   constructor (options?: RouterOptions);
@@ -15,14 +20,8 @@ declare class VueRouter {
   mode: RouterMode;
   currentRoute: Route;
 
-  beforeEach (
-    guard: (
-      route: Route,
-      redirect: (location: RawLocation) => void,
-      next: () => void
-    ) => any
-  ): void;
-  afterEach (hook: (route: Route) => any): void;
+  beforeEach (guard: NavigationGuard): void;
+  afterEach (hook: (to: Route, from: Route) => any): void;
   push (location: RawLocation): void;
   replace (location: RawLocation): void;
   go (n: number): void;
@@ -54,11 +53,7 @@ export interface RouteConfig {
   alias?: string | string[];
   children?: RouteConfig[];
   meta?: any;
-  beforeEnter?: (
-    route: Route,
-    redirect: (location: RawLocation) => void,
-    next: () => void
-  ) => any;
+  beforeEnter?: NavigationGuard;
 }
 
 export interface RouteRecord {

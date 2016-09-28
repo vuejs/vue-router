@@ -10,20 +10,22 @@ const Home = { template: "<div>home</div>" };
 const Foo = { template: "<div>foo</div>" };
 const Bar = { template: "<div>bar</div>" };
 
-const Hook: ComponentOptions<{ a: string } & Vue> = {
+const Hook: ComponentOptions<Vue> = {
   template: "<div>hook</div>",
 
-  beforeRouteEnter (route, redirect, next) {
+  beforeRouteEnter (to, from, next) {
     route.params;
-    redirect("/");
+    next("/");
+    next({ path: "/" });
     next(vm => {
-      vm.a = "done";
+      vm.$router;
     });
   },
 
-  beforeRouteLeave (route, redirect, next) {
+  beforeRouteLeave (to, from, next) {
     route.params;
-    redirect("/");
+    next("/");
+    next({ path: "/" });
     next();
   }
 };
@@ -54,9 +56,10 @@ const router = new VueRouter({
           bar: Bar
         },
         meta: { auth: true },
-        beforeEnter (route, redirect, next) {
-          route.params;
-          redirect({ name: "home" });
+        beforeEnter (to, from, next) {
+          to.params;
+          from.params;
+          next({ name: "home" });
           next();
         }
       },
@@ -98,14 +101,15 @@ matched.forEach(m => {
   const redirect: RedirectOption | undefined = m.redirect;
 });
 
-router.beforeEach((route, redirect, next) => {
-  route.params;
-  redirect("/");
+router.beforeEach((to, from, next) => {
+  to.params;
+  next("/");
   next();
 });
 
-router.afterEach(route => {
-  route.params;
+router.afterEach((to, from) => {
+  to.params;
+  from.params;
 });
 
 router.push({

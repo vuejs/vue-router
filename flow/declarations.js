@@ -7,6 +7,12 @@ declare module 'path-to-regexp' {
 
 declare type Dictionary<T> = { [key: string]: T }
 
+declare type NavigationGuard = (
+  to: Route,
+  from: Route,
+  next: (to?: RawLocation | false | Function | void) => void
+) => any
+
 declare type RouterOptions = {
   routes?: Array<RouteConfig>;
   mode?: string;
