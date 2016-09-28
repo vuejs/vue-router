@@ -82,10 +82,11 @@ export default {
       error: null
     }
   },
-  beforeRouteEnter (route, redirect, next) {
-    getPost(route.params.id, (err, post) => {
+  beforeRouteEnter (to, from, next) {
+    getPost(to.params.id, (err, post) => {
       if (err) {
         // display some global error message
+        next(false)
       } else {
         next(vm => {
           vm.post = post

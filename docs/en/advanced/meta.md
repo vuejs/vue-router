@@ -32,20 +32,20 @@ All route records matched by a route are exposed on the `$route` object (and als
 An example use case is checking for a meta field in the global navigation guard:
 
 ``` js
-router.beforeEach((route, redirect, next) => {
-  if (route.matched.some(record => record.meta.requiresAuth)) {
+router.beforeEach((to, from, next) => {
+  if (to.matched.some(record => record.meta.requiresAuth)) {
     // this route requires auth, check if logged in
     // if not, redirect to login page.
     if (!auth.loggedIn()) {
-      redirect({
+      next({
         path: '/login',
-        query: { redirect: route.fullPath }
+        query: { redirect: to.fullPath }
       })
     } else {
       next()
     }
   } else {
-    next()
+    next() // make sure to always call next()!
   }
 })
 ```
