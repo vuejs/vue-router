@@ -97,10 +97,11 @@ export class History {
   }
 
   updateRoute (route: Route) {
+    const prev = this.current
     this.current = route
     this.cb && this.cb(route)
     this.router.afterHooks.forEach(hook => {
-      hook && hook(route)
+      hook && hook(route, prev)
     })
   }
 }
