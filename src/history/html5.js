@@ -19,14 +19,7 @@ export class HTML5History extends History {
   constructor (router: VueRouter, base: ?string) {
     super(router, base)
 
-    const initialLocation = getLocation(this.base)
-    this.transitionTo(initialLocation, route => {
-      // possible redirect on start
-      const url = cleanPath(this.base + this.current.fullPath)
-      if (initialLocation !== url) {
-        replaceState(url)
-      }
-    })
+    this.transitionTo(getLocation(this.base))
 
     const expectScroll = router.options.scrollBehavior
     window.addEventListener('popstate', e => {
@@ -64,6 +57,12 @@ export class HTML5History extends History {
       replaceState(cleanPath(this.base + route.fullPath))
       this.handleScroll(route, current, false)
     })
+  }
+
+  ensureURL () {
+    if (getLocation(this.base) !== this.current.fullPath) {
+      replaceState(cleanPath(this.base + this.current.fullPath))
+    }
   }
 
   handleScroll (to: Route, from: Route, isPop: boolean) {

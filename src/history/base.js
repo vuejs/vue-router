@@ -17,6 +17,7 @@ export class History {
   go: (n: number) => void;
   push: (loc: RawLocation) => void;
   replace: (loc: RawLocation) => void;
+  ensureURL: () => void;
 
   constructor (router: VueRouter, base: ?string) {
     this.router = router
@@ -37,11 +38,13 @@ export class History {
     this.confirmTransition(route, () => {
       this.updateRoute(route)
       cb && cb(route)
+      this.ensureURL()
     })
   }
 
   confirmTransition (route: Route, cb: Function) {
     if (isSameRoute(route, this.current)) {
+      this.ensureURL()
       return
     }
 

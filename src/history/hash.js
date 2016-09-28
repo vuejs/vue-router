@@ -15,12 +15,7 @@ export class HashHistory extends History {
     }
 
     ensureSlash()
-    this.transitionTo(getHash(), route => {
-      // possible redirect on start
-      if (getHash() !== route.fullPath) {
-        replaceHash(route.fullPath)
-      }
-    })
+    this.transitionTo(getHash())
 
     window.addEventListener('hashchange', () => {
       this.onHashChange()
@@ -34,6 +29,12 @@ export class HashHistory extends History {
         cleanPath(this.base + '/#' + location)
       )
       return true
+    }
+  }
+
+  ensureURL () {
+    if (getHash() !== this.current.fullPath) {
+      replaceHash(this.current.fullPath)
     }
   }
 
