@@ -4,7 +4,7 @@
 
 **注意: この機能は HTML5 history モードでのみ動作します。**
 
-ルートインスタンスを作る時に、 `scrollBehavior` ファンクションを提供できます。
+ルートインスタンスを作る時に、 `scrollBehavior` 関数を提供できます。
 
 ``` js
 const router = new VueRouter({
@@ -15,9 +15,9 @@ const router = new VueRouter({
 })
 ```
 
-`scrollBehavior` ファンクションは  `to` と `from` のルートオブジェクトを受け取ります。第 3 引数の `savedPosition` は `popstate` ナビゲーション (ブラウザの戻る/進むボタンがトリガーされた) 時のみ利用可能です。
+`scrollBehavior` 関数は  `to` と `from` のルートオブジェクトを受け取ります。第 3 引数の `savedPosition` は `popstate` ナビゲーション (ブラウザの戻る/進むボタンがトリガーされた) 時のみ利用可能です。
 
-このファンクションはスクロールポジションオブジェクトを返すことができます。そのオブジェクトは以下のような形式です。
+この関数はスクロールポジションオブジェクトを返すことができます。そのオブジェクトは以下のような形式です。
 
 - `{ x: number, y: number }`
 - `{ selector: string }`
