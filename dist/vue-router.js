@@ -1,5 +1,5 @@
 /**
- * vue-router v2.0.0-rc.6
+ * vue-router v2.0.0-rc.7
  * (c) 2016 Evan You
  * @license MIT
  */
@@ -1609,12 +1609,6 @@ var HashHistory = (function (History) {
     }
   };
 
-  HashHistory.prototype.ensureURL = function ensureURL () {
-    if (getHash() !== this.current.fullPath) {
-      replaceHash(this.current.fullPath)
-    }
-  };
-
   HashHistory.prototype.onHashChange = function onHashChange () {
     if (!ensureSlash()) {
       return
@@ -1638,6 +1632,12 @@ var HashHistory = (function (History) {
 
   HashHistory.prototype.go = function go (n) {
     window.history.go(n)
+  };
+
+  HashHistory.prototype.ensureURL = function ensureURL () {
+    if (getHash() !== this.current.fullPath) {
+      replaceHash(this.current.fullPath)
+    }
   };
 
   return HashHistory;
@@ -1714,6 +1714,10 @@ var AbstractHistory = (function (History) {
       this$1.index = targetIndex
       this$1.updateRoute(location)
     })
+  };
+
+  AbstractHistory.prototype.ensureURL = function ensureURL () {
+    // noop
   };
 
   return AbstractHistory;
