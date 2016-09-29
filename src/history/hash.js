@@ -32,12 +32,6 @@ export class HashHistory extends History {
     }
   }
 
-  ensureURL () {
-    if (getHash() !== this.current.fullPath) {
-      replaceHash(this.current.fullPath)
-    }
-  }
-
   onHashChange () {
     if (!ensureSlash()) {
       return
@@ -61,6 +55,12 @@ export class HashHistory extends History {
 
   go (n: number) {
     window.history.go(n)
+  }
+
+  ensureURL () {
+    if (getHash() !== this.current.fullPath) {
+      replaceHash(this.current.fullPath)
+    }
   }
 }
 
