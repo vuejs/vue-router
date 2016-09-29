@@ -2,7 +2,7 @@
 
 > 注意: vue-router@2.x は Vue 2.x のみで動作します。
 
-- [0.7 のドキュメントをお探しですか?](https://github.com/vuejs/vue-router/tree/1.0/docs/en)
+- [0.7 のドキュメントをお探しですか?](https://github.com/vuejs/vue-router/tree/1.0/docs/ja)
 - [リリースノート](https://github.com/vuejs/vue-router/releases)
 - [インストール](installation.md)
 - 基本的な使い方
