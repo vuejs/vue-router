@@ -37,4 +37,8 @@ export class AbstractHistory extends History {
       this.updateRoute(location)
     })
   }
+
+  ensureURL () {
+    // noop
+  }
 }
