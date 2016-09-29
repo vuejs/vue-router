@@ -13,8 +13,8 @@ The route object can be found in multiple places:
 - Inside navigation guards as the first argument:
 
   ``` js
-  router.beforeEach((route, redirect, next) => {
-    // route here is a route object
+  router.beforeEach((to, from, next) => {
+    // to and from are both route objects
   })
   ```
 
