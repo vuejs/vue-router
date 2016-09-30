@@ -11,11 +11,11 @@
 
 - #### $route
 
-  当前激活的 [路由信息对象](route-object.md)。这个属性是只读的，里面的属性是 immutable 的，不过你可以 watch 它。
+  当前激活的 [路由信息对象](route-object.md)。这个属性是只读的，里面的属性是 immutable（不可变） 的，不过你可以 watch（监测变化） 它。
 
-### 组件增加配置
+### 允许的额外配置
 
 - **beforeRouteEnter**
 - **beforeRouteLeave**
 
-  查看 [组件级导航卫士](../advanced/navigation-guards.md#incomponent-guards).
+  查看 [组件级导航钩子](../advanced/navigation-guards.md#incomponent-guards).

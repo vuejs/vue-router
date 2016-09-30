@@ -1,21 +1,21 @@
-# The Route Object
+# 路由信息对象
 
-一个 **route object** 表示当前激活的路由的状态信息，包含了当前 URL 解析得到的信息，还有 URL 匹配到的 **route records**（路由参数）。
+一个 **route object（路由信息对象）** 表示当前激活的路由的状态信息，包含了当前 URL 解析得到的信息，还有 URL 匹配到的 **route records（路由记录）**。
 
 
-route object 是 immutable 的，每次成功的导航后都会产生一个新的对象。
+route object 是 immutable（不可变） 的，每次成功的导航后都会产生一个新的对象。
 
-route object 能在多个地方找到:
+route object 出现在多个地方:
 
-- 组件内的 `this.$route` 和 `$route` watcher 回调;
+- 组件内的 `this.$route` 和 `$route` watcher 回调（监测变化处理）;
 
 - `router.match(location)` 的返回值
 
-- 导航 (guard) 守卫的参数：
+- 导航钩子的参数：
 
   ``` js
   router.beforeEach((to, from, next) => {
-    // to and from are both route objects
+    // to 和 from 都是 路由信息对象
   })
   ```
 
@@ -24,49 +24,49 @@ route object 能在多个地方找到:
   ``` js
   const router = new VueRouter({
     scrollBehavior (to, from, savedPosition) {
-      // to and from are both route objects
+      // to 和 from 都是 路由信息对象
     }
   })
   ```
 
-### Route Object Properties
+### 路由信息对象的属性
 
 - **$route.path**
 
-  - type: `string`
+  - 类型: `string`
 
     字符串，对应当前路由的路径，总是解析为绝对路径，如 `"/foo/bar"`。
 
 - **$route.params**
 
-  - type: `Object`
+  - 类型: `Object`
 
   一个 key/value 对象，包含了 动态片段 和 全匹配片段，如果没有路由参数，就是一个空对象。
 
 - **$route.query**
 
-  - type: `Object`
+  - 类型: `Object`
 
     一个 key/value 对象，表示 URL 查询参数。例如，对于路径 `/foo?user=1`，则有 `$route.query.user == 1`，如果没有查询参数，则是个空对象。
 
 - **$route.hash**
 
-  - type: `string`
+  - 类型: `string`
 
     当前路由的 hash 值 (不带 `#`) ，如果没有 hash 值，则为空字符串。
 
 
 - **$route.fullPath**
 
-  - type: `string`
+  - 类型: `string`
 
     完成解析后的 URL，包含查询参数和 hash 的完整路径。
 
 - **$route.matched**
 
-  - type: `Array<RouteRecord>`
+  - 类型: `Array<RouteRecord>`
 
-  一个数组，包含当前路由的所有嵌套路径片段 **route records** 。Route records 就是 `routes` 配置数组中的对象副本（还有在 `children` 数组）。
+  一个数组，包含当前路由的所有嵌套路径片段的 **路由记录** 。路由记录就是 `routes` 配置数组中的对象副本（还有在 `children` 数组）。
 
   ``` js
   const router = new VueRouter({

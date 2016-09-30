@@ -1,4 +1,4 @@
-# 过渡动画
+# 过渡动效
 
 `<router-view>` 是基本的动态组件，所以我们可以用 `<transition>` 组件给它添加一些过渡效果：
 
@@ -9,7 +9,7 @@
 </transition>
 ```
 
-[关于 `<transition>` 的一切](http://vuejs.org/guide/transitions.html) works the same here.
+[`<transition>` 的所有功能](http://vuejs.org/guide/transitions.html) 在这里同样适用。
 
 ### 单个路由的过渡
 

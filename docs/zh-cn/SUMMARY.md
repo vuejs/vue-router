@@ -14,11 +14,11 @@
   - [重定向 和 别名](essentials/redirect-and-alias.md)
   - [HTML5 History 模式](essentials/history-mode.md)
 - 进阶
-  - [导航卫士](advanced/navigation-guards.md)
+  - [导航钩子](advanced/navigation-guards.md)
   - [路由元信息](advanced/meta.md)
   - [过渡动效](advanced/transitions.md)
   - [数据获取](advanced/data-fetching.md)
-  - [滚动](advanced/scroll-behavior.md)
+  - [滚动行为](advanced/scroll-behavior.md)
   - [懒加载](advanced/lazy-loading.md)
 - API 文档
   - [router-link](api/router-link.md)

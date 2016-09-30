@@ -8,7 +8,7 @@
 
 当你点击 `<router-link>` 时，这个方法会在内部调用，所以说，点击 `<router-link :to="...">` 等同于调用 `router.push(...)`。
 
-| Declarative | Programmatic |
+| 声明式 | 编程式 |
 |-------------|--------------|
 | `<router-link :to="...">` | `router.push(...)` |
 
@@ -32,7 +32,7 @@ router.push({ path: 'register', query: { plan: 'private' }})
 
 跟 `router.push` 很像，唯一的不同就是，它不会向 history 添加新记录，而是跟它的方法名一样 —— 替换掉当前的 history 记录。
 
-| Declarative | Programmatic |
+| 声明式 | 编程式 |
 |-------------|--------------|
 | `<router-link :to="..." replace>` | `router.replace(...)` |
 

@@ -15,39 +15,39 @@
 
 - **to**
 
-  - type: `string | Location`
+  - 类型: `string | Location`
 
   - required
 
   表示目标路由的链接。当被点击后，内部会立刻把 `to` 的值传到 `router.push()`，所以这个值可以是一个字符串或者是描述目标位置的对象。
 
   ``` html
-  <!-- literal string -->
+  <!-- 字符串 -->
   <router-link to="home">Home</router-link>
   <!-- renders to -->
   <a href="home">Home</a>
 
-  <!-- javascript expression using v-bind -->
+  <!-- 使用 v-bind 的 JS 表达式 -->
   <router-link v-bind:to="'home'">Home</router-link>
 
-  <!-- Omitting v-bind is fine, just as binding any other prop -->
+  <!-- 不写 v-bind 也可以，就像绑定别的属性一样 -->
   <router-link :to="'home'">Home</router-link>
 
-  <!-- same as above -->
+  <!-- 同上 -->
   <router-link :to="{ path: 'home' }">Home</router-link>
 
-  <!-- named route -->
+  <!-- 命名的路由 -->
   <router-link :to="{ name: 'user', params: { userId: 123 }}">User</router-link>
 
-  <!-- with query, resulting in /register?plan=private -->
+  <!-- 带查询参数，下面的结果为 /register?plan=private -->
   <router-link :to="{ path: 'register', query: { plan: 'private' }}">Register</router-link>
   ```
 
 - **replace**
 
-  - type: `boolean`
+  - 类型: `boolean`
 
-  - default: `false`
+  - 默认值: `false`
 
   设置 `replace` 属性的话，当点击时，会调用 `router.replace()` 而不是 `router.push()`，于是导航后不会留下 history 记录。
 
@@ -57,9 +57,9 @@
 
 - **append**
 
-  - type: `boolean`
+  - 类型: `boolean`
 
-  - default: `false`
+  - 默认值: `false`
 
 
   设置 `append` 属性后，则在当前（相对）路径前添加基路径。例如，我们从 `/a` 导航到一个相对路径 `b`，如果没有配置 `append`，则路径为 `/b`，如果配了，则为 `/a/b`
@@ -70,9 +70,9 @@
 
 - **tag**
 
-  - type: `string`
+  - 类型: `string`
 
-  - default: `"a"`
+  - 默认值: `"a"`
 
   有时候想要  `<router-link>` 渲染成某种标签，例如 `<li>`。
   于是我们使用 `tag` prop 类指定何种标签，同样它还是会监听点击，触发导航。 
@@ -85,17 +85,17 @@
 
 - **active-class**
 
-  - type: `string`
+  - 类型: `string`
 
-  - default: `"router-link-active"`
+  - 默认值: `"router-link-active"`
 
   设置 链接激活时使用的 CSS 类名。默认值可以通过路由的构造选项 `linkActiveClass` 来全局配置。
 
 - **exact**
 
-  - type: `boolean`
+  - 类型: `boolean`
 
-  - default: `false`
+  - 默认值: `false`
 
   "是否激活" 默认类名的依据是 **inclusive match** （全包含匹配）。
   举个例子，如果当前的路径是 `/a` 开头的，那么 `<router-link to="/a">` 也会被设置 CSS 类名。

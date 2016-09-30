@@ -10,7 +10,7 @@ const User = {
 
 const router = new VueRouter({
   routes: [
-    // 动态 segments 以冒号开头
+    // 动态路径参数 以冒号开头
     { path: '/user/:id', component: User }
   ]
 })
@@ -31,7 +31,7 @@ const User = {
 
 你可以在一个路由中设置多段『路径参数』，对应的值都会设置到 `$route.params` 中。例如：
 
-| pattern | matched path | $route.params |
+| 模式 | 匹配路径 | $route.params |
 |---------|------|--------|
 | /user/:username | /user/evan | `{ username: 'evan' }` |
 | /user/:username/post/:post_id | /user/evan/post/123 | `{ username: 'evan', post_id: 123 }` |
@@ -42,7 +42,7 @@ const User = {
 
 提醒一下，当使用路由参数时，例如从 `/user/foo` 导航到 `user/bar`，**原来的组件实例会被复用**。因为两个路由都渲染同个组件，比起销毁再创建，复用则显得更加高效。**不过，这也意味着组件的生命周期钩子不会再被调用**。
 
-复用组件时，想对路由参数的变化作出响应的话，你可以简单地 watch `$route` 对象：
+复用组件时，想对路由参数的变化作出响应的话，你可以简单地 watch（监测变化） `$route` 对象：
 
 ``` js
 const User = {

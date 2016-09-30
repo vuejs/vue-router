@@ -1,12 +1,12 @@
-# Navigation Guards
+# 导航钩子
 
->（译者：Navigation-路由正发生改变；Guard-守卫，就是有拦截功能的钩子。）
+>（译者：『导航』表示路由正在发生改变。）
 
-正如其名，`vue-router` 提供的导航守卫主要用来看守导航，让它完成跳转或取消。有多种方式可以在路由导航发生时执行钩子：全局的, 单个路由独享的, 或者组件级的。
+正如其名，`vue-router` 提供的导航钩子主要用来拦截导航，让它完成跳转或取消。有多种方式可以在路由导航发生时执行钩子：全局的, 单个路由独享的, 或者组件级的。
 
-### 全局 Guards
+### 全局钩子
 
-你可以使用 `router.beforeEach` 注册一个全局的 `before` 守卫：
+你可以使用 `router.beforeEach` 注册一个全局的 `before` 钩子：
 
 ``` js
 const router = new VueRouter({ ... })
@@ -16,9 +16,9 @@ router.beforeEach((to, from, next) => {
 })
 ```
 
-当一个导航触发时，全局的 `before` 守卫按照创建顺序调用。守卫是异步解析执行，此时导航在所有守卫钩子 resolve 完之前一直处于 **pending**。
+当一个导航触发时，全局的 `before` 钩子按照创建顺序调用。钩子是异步解析执行，此时导航在所有钩子 resolve 完之前一直处于 **等待中**。
 
-每个 guard 方法接收三个参数：
+每个钩子方法接收三个参数：
 
 - **`to: Route`**: 即将要进入的目标 [路由对象](../api/route-object.md)
 
@@ -35,7 +35,7 @@ router.beforeEach((to, from, next) => {
 **确保要调用 `next` 方法，否则钩子就不会被 resolved。**
 
 
-同样可以注册一个全局的 `after` 钩子，不过不像 守卫那样，`after` 钩子没有 `next` 方法，不能改变导航：
+同样可以注册一个全局的 `after` 钩子，不过它不像 `before` 钩子那样，`after` 钩子没有 `next` 方法，不能改变导航：
 
 ``` js
 router.afterEach(route => {
@@ -43,9 +43,9 @@ router.afterEach(route => {
 })
 ```
 
-### 单个路由独有 Guard
+### 某个路由独享的钩子
 
-你可以在路由配置上直接定义 `beforeEnter` 守卫：
+你可以在路由配置上直接定义 `beforeEnter` 钩子：
 
 ``` js
 const router = new VueRouter({
@@ -61,11 +61,11 @@ const router = new VueRouter({
 })
 ```
 
-这些守卫与全局 `before` 守卫的方法参数是一样的。
+这些钩子与全局 `before` 钩子的方法参数是一样的。
 
-### 组件内的守卫
+### 组件内的钩子
 
-最后，你可以使用 `beforeRouteEnter` 和 `beforeRouteLeave`，在路由组件内直接定义路由导航卫士，
+最后，你可以使用 `beforeRouteEnter` 和 `beforeRouteLeave`，在路由组件内直接定义路由导航钩子，
 
 ``` js
 const Foo = {
@@ -73,7 +73,7 @@ const Foo = {
   beforeRouteEnter (to, from, next) => {
     // 在渲染该组件的对应路由被 confirm 前调用
     // 不！能！获取组件实例 `this`
-    // 因为当守卫执行前，组件实例还没被创建
+    // 因为当钩子执行前，组件实例还没被创建
   },
   beforeRouteLeave (to, from, next) => {
     // 导航离开该组件的对应路由时调用
@@ -82,7 +82,7 @@ const Foo = {
 }
 ```
 
-`beforeRouteEnter` 守卫 **不能** 访问 `this`，因为守卫在导航确认前被调用,因此即将登场的新组件还没被创建。
+`beforeRouteEnter` 钩子 **不能** 访问 `this`，因为钩子在导航确认前被调用,因此即将登场的新组件还没被创建。
 
 不过，你可以通过传一个回调给 `next`来访问组件实例。在导航被确认的时候执行回调，并且把组件实例作为回调方法的参数。
 
@@ -94,4 +94,4 @@ beforeRouteEnter (to, from, next) => {
 }
 ```
 
-你可以 在 `beforeRouteLeave` 中直接访问 `this`。这个 `leave` 守卫通常用来禁止用户在还未保存修改前突然离开。可以通过 `next(false)` 来取消导航。
+你可以 在 `beforeRouteLeave` 中直接访问 `this`。这个 `leave` 钩子通常用来禁止用户在还未保存修改前突然离开。可以通过 `next(false)` 来取消导航。

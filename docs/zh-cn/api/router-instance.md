@@ -4,19 +4,19 @@
 
 #### router.app
 
-- type: `Vue instance`
+- 类型: `Vue instance`
 
-  `router` 所注入的 Vue 根实例。
+  配置了 `router` 的 Vue 根实例。
 
 #### router.mode
 
-- type: `string`
+- 类型: `string`
 
   路由使用的 [模式](options.md#mode)。
 
 #### router.currentRoute
 
-- type: `Route`
+- 类型: `Route`
 
   当前路由对应的 [路由信息对象](route-object.md).
 
@@ -25,7 +25,7 @@
 - **router.beforeEach(guard)**
 - **router.afterEach(hook)**
 
-  增加全局的导航卫士（钩子）。参考 [导航卫士](../advanced/navigation-guards.md).
+  增加全局的导航钩子。参考 [导航钩子](../advanced/navigation-guards.md).
 
 
 - **router.push(location)**

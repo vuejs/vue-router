@@ -2,7 +2,7 @@
 
 ### routes
 
-- type: `Array<RouteConfig>`
+- 类型: `Array<RouteConfig>`
 
   `RouteConfig` 的类型定义：
 
@@ -10,8 +10,8 @@
   declare type RouteConfig = {
     path: string;
     component?: Component;
-    name?: string; // for named routes
-    components?: { [name: string]: Component }; // for named views
+    name?: string; // for named routes (命名路由)
+    components?: { [name: string]: Component }; // for named views (命名视图组件)
     redirect?: string | Location | Function;
     alias?: string | Array<string>;
     children?: Array<RouteConfig>; // for nested routes
@@ -22,11 +22,11 @@
 
 ### mode
 
-- type: `string`
+- 类型: `string`
 
-- default: `"hash" (in browser) | "abstract" (in Node.js)`
+- 默认值: `"hash" (浏览器环境) | "abstract" (Node.js 环境)`
 
-- available values: `"hash" | "history" | "abstract"`
+- 可选值: `"hash" | "history" | "abstract"`
 
   配置路由模式:
 
@@ -38,23 +38,23 @@
 
 ### base
 
-- type: `string`
+- 类型: `string`
 
-- default: `"/"`
+- 默认值: `"/"`
 
   应用的基路径。例如，如果整个单页应用服务在 `/app/` 下，然后 `base` 就应该设为 `"/app/"`。
 
 ### linkActiveClass
 
-- type: `string`
+- 类型: `string`
 
-- default: `"router-link-active"`
+- 默认值: `"router-link-active"`
 
   全局配置 `<router-link>` 的默认『激活 class 类名』。参考 [router-link](router-link.md).
 
 ### scrollBehavior
 
-- type: `Function`
+- 类型: `Function`
 
   签名:
 
