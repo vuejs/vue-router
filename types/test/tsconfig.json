@@ -4,7 +4,13 @@
     "module": "commonjs",
     "noImplicitAny": true,
     "strictNullChecks": true,
-    "noEmit": true
+    "noEmit": true,
+    "lib": [
+      "es5",
+      "dom",
+      "es2015.promise",
+      "es2015.core"
+    ]
   },
   "include": [
     "*.ts",
