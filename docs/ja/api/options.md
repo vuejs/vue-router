@@ -32,7 +32,7 @@
 
   - `hash`: ルーティングに URL hash を使います。HTML5 History API をサポートしていないブラウザ含めて、全ての Vue がサポートしているブラウザで動作します。
 
-  - `history`: HTML5 History API とサーバーの設定が必要です。[HTML5 History モード](../essentials/history.md) をご参照ください。
+  - `history`: HTML5 History API とサーバーの設定が必要です。[HTML5 History モード](../essentials/history-mode.md) をご参照ください。
 
   - `abstract`: 全ての JavaScript の環境で動作します。 e.g. Node.js を使ったサーバーサイド。 **もしブラウザの API が存在しない場合、ルーターは自動的にこのモードに強制されます。**
 

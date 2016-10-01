@@ -32,7 +32,7 @@
 
   - `hash`: uses the URL hash for routing. Works in all Vue-supported browsers, including those that do not support HTML5 History API.
 
-  - `history`: requires HTML5 History API and server config. See [HTML5 History Mode](../essentials/history.md).
+  - `history`: requires HTML5 History API and server config. See [HTML5 History Mode](../essentials/history-mode.md).
 
   - `abstract`: works in all JavaScript environments, e.g. server-side with Node.js. **The router will automatically be forced into this mode if no browser API is present.**
 
