@@ -64,6 +64,9 @@ export default {
         aData.on = on
         const aAttrs = aData.attrs || (aData.attrs = {})
         aAttrs.href = href
+      } else {
+        // doesn't have <a> child, apply listener to self
+        data.on = on
       }
     }
 
