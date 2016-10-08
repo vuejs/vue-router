@@ -6,7 +6,7 @@ Sometimes it is more convenient to identify a route with a name, especially when
 const router = new VueRouter({
   routes: [
     {
-      path: '/user/:id',
+      path: '/user/:userId',
       name: 'user',
       component: User
     }
