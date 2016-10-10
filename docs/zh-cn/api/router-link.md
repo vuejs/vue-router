@@ -24,7 +24,7 @@
   ``` html
   <!-- 字符串 -->
   <router-link to="home">Home</router-link>
-  <!-- renders to -->
+  <!-- 渲染结果 -->
   <a href="home">Home</a>
 
   <!-- 使用 v-bind 的 JS 表达式 -->
@@ -79,7 +79,7 @@
 
   ``` html
   <router-link to="/foo" tag="li">foo</router-link>
-  <!-- renders as -->
+  <!-- 渲染结果 -->
   <li>foo</li>
   ```
 
@@ -105,15 +105,15 @@
 
 
   ``` html
-  <!-- this link will only be active at / -->
+  <!-- 这个链接只会在地址为 / 的时候被激活 -->
   <router-link to="/" exact>
   ```
 
   查看更多关于激活链接类名的例子 [可运行](http://jsfiddle.net/fnlCtrl/dokbyypq/).
 
-### Applying Active Class to Outer Element
+###  将"激活时的CSS类名"应用在外层元素
 
-有时候我们要让 "激活 class" 应用在外层元素，而不是 `<a>` 标签本身，那么可以用 `<router-link>` 渲染外层元素，包裹着内层的原生 `<a>` 标签：
+有时候我们要让 "激活时的CSS类名" 应用在外层元素，而不是 `<a>` 标签本身，那么可以用 `<router-link>` 渲染外层元素，包裹着内层的原生 `<a>` 标签：
 
 ``` html
 <router-link tag="li" to="/foo">
@@ -121,4 +121,4 @@
 </router-link>
 ```
 
-在这种情况下，`<a>` 将作为真实的链接（它会获得正确的 `href` 的），而 "激活 class" 则设置到外层的 `<li>`。
+在这种情况下，`<a>` 将作为真实的链接（它会获得正确的 `href` 的），而 "激活时的CSS类名" 则设置到外层的 `<li>`。
