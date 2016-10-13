@@ -190,7 +190,6 @@ function poll (cb, instances, key, isValid) {
     cb(instances[key])
   } else if (isValid()) {
     setTimeout(() => {
-      console.log('polling')
       poll(cb, instances, key, isValid)
     }, 16)
   }
