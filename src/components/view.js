@@ -31,13 +31,20 @@ export default {
       return h()
     }
 
+    const name = props.name
     const component = inactive
-      ? cache[props.name]
-      : (cache[props.name] = matched.components[props.name])
+      ? cache[name]
+      : (cache[name] = matched.components[name])
 
     if (!inactive) {
-      (data.hook || (data.hook = {})).init = vnode => {
-        matched.instances[props.name] = vnode.child
+      const hooks = data.hook || (data.hook = {})
+      hooks.init = vnode => {
+        matched.instances[name] = vnode.child
+      }
+      hooks.destroy = vnode => {
+        if (matched.instances[name] === vnode.child) {
+          matched.instances[name] = undefined
+        }
       }
     }
 
