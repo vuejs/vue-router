@@ -26,4 +26,4 @@ const router = new VueRouter({
 ```
 
 この例の動作しているデモは 
-[こちら](https://jsfiddle.net/posva/9b80nxx1/) です。
+[こちら](https://jsfiddle.net/posva/6du90epg/) です。
