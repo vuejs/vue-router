@@ -1,5 +1,5 @@
 /**
- * vue-router v2.0.0
+ * vue-router v2.0.1
  * (c) 2016 Evan You
  * @license MIT
  */
@@ -47,13 +47,20 @@ var View = {
       return h()
     }
 
+    var name = props.name
     var component = inactive
-      ? cache[props.name]
-      : (cache[props.name] = matched.components[props.name])
+      ? cache[name]
+      : (cache[name] = matched.components[name])
 
     if (!inactive) {
-      (data.hook || (data.hook = {})).init = function (vnode) {
-        matched.instances[props.name] = vnode.child
+      var hooks = data.hook || (data.hook = {})
+      hooks.init = function (vnode) {
+        matched.instances[name] = vnode.child
+      }
+      hooks.destroy = function (vnode) {
+        if (matched.instances[name] === vnode.child) {
+          matched.instances[name] = undefined
+        }
       }
     }
 
@@ -404,6 +411,15 @@ var Link = {
 
     var on = {
       click: function (e) {
+        // don't redirect with control keys
+        /* istanbul ignore if */
+        if (e.metaKey || e.ctrlKey || e.shiftKey) { return }
+        // don't redirect when preventDefault called
+        /* istanbul ignore if */
+        if (e.defaultPrevented) { return }
+        // don't redirect on right click
+        /* istanbul ignore if */
+        if (e.button !== 0) { return }
         e.preventDefault()
         if (this$1.replace) {
           router.replace(to)
@@ -428,6 +444,9 @@ var Link = {
         aData.on = on
         var aAttrs = aData.attrs || (aData.attrs = {})
         aAttrs.href = href
+      } else {
+        // doesn't have <a> child, apply listener to self
+        data.on = on
       }
     }
 
@@ -1271,9 +1290,12 @@ History.prototype.confirmTransition = function confirmTransition (route, cb) {
 
   runQueue(queue, iterator, function () {
     var postEnterCbs = []
+    var enterGuards = extractEnterGuards(activated, postEnterCbs, function () {
+      return this$1.current === route
+    })
     // wait until async components are resolved before
     // extracting in-component enter guards
-    runQueue(extractEnterGuards(activated, postEnterCbs), iterator, function () {
+    runQueue(enterGuards, iterator, function () {
       if (this$1.pending === route) {
         this$1.pending = null
         cb(route)
@@ -1340,7 +1362,11 @@ function extractLeaveGuards (matched) {
   }).reverse()
 }
 
-function extractEnterGuards (matched, cbs) {
+function extractEnterGuards (
+  matched,
+  cbs,
+  isValid
+) {
   return flatMapComponents(matched, function (def, _, match, key) {
     var guard = def && def.beforeRouteEnter
     if (guard) {
@@ -1349,13 +1375,28 @@ function extractEnterGuards (matched, cbs) {
           next(cb)
           if (typeof cb === 'function') {
             cbs.push(function () {
-              cb(match.instances[key])
+              // #750
+              // if a router-view is wrapped with an out-in transition,
+              // the instance may not have been registered at this time.
+              // we will need to poll for registration until current route
+              // is no longer valid.
+              poll(cb, match.instances, key, isValid)
             })
           }
         })
       }
     }
   })
+}
+
+function poll (cb, instances, key, isValid) {
+  if (instances[key]) {
+    cb(instances[key])
+  } else if (isValid()) {
+    setTimeout(function () {
+      poll(cb, instances, key, isValid)
+    }, 16)
+  }
 }
 
 function resolveAsyncComponents (matched) {
@@ -1588,10 +1629,10 @@ var HashHistory = (function (History) {
     }
 
     ensureSlash()
-    this.transitionTo(getHash())
-
-    window.addEventListener('hashchange', function () {
-      this$1.onHashChange()
+    this.transitionTo(getHash(), function () {
+      window.addEventListener('hashchange', function () {
+        this$1.onHashChange()
+      })
     })
   }
 
@@ -1619,13 +1660,13 @@ var HashHistory = (function (History) {
   };
 
   HashHistory.prototype.push = function push (location) {
-    History.prototype.transitionTo.call(this, location, function (route) {
+    this.transitionTo(location, function (route) {
       pushHash(route.fullPath)
     })
   };
 
   HashHistory.prototype.replace = function replace (location) {
-    History.prototype.transitionTo.call(this, location, function (route) {
+    this.transitionTo(location, function (route) {
       replaceHash(route.fullPath)
     })
   };
@@ -1678,7 +1719,7 @@ var AbstractHistory = (function (History) {
   function AbstractHistory (router) {
     History.call(this, router)
     this.stack = []
-    this.index = 0
+    this.index = -1
   }
 
   if ( History ) AbstractHistory.__proto__ = History;
@@ -1688,7 +1729,7 @@ var AbstractHistory = (function (History) {
   AbstractHistory.prototype.push = function push (location) {
     var this$1 = this;
 
-    History.prototype.transitionTo.call(this, location, function (route) {
+    this.transitionTo(location, function (route) {
       this$1.stack = this$1.stack.slice(0, this$1.index + 1).concat(route)
       this$1.index++
     })
@@ -1697,7 +1738,7 @@ var AbstractHistory = (function (History) {
   AbstractHistory.prototype.replace = function replace (location) {
     var this$1 = this;
 
-    History.prototype.transitionTo.call(this, location, function (route) {
+    this.transitionTo(location, function (route) {
       this$1.stack = this$1.stack.slice(0, this$1.index).concat(route)
     })
   };
@@ -1709,10 +1750,10 @@ var AbstractHistory = (function (History) {
     if (targetIndex < 0 || targetIndex >= this.stack.length) {
       return
     }
-    var location = this.stack[targetIndex]
-    this.confirmTransition(location, function () {
+    var route = this.stack[targetIndex]
+    this.confirmTransition(route, function () {
       this$1.index = targetIndex
-      this$1.updateRoute(location)
+      this$1.updateRoute(route)
     })
   };
 
