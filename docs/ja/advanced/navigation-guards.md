@@ -9,7 +9,7 @@
 ``` js
 const router = new VueRouter({ ... })
 
-router.beforeEach((route, redirect, next) => {
+router.beforeEach((to, from, next) => {
   // ...
 })
 ```
@@ -18,18 +18,22 @@ router.beforeEach((route, redirect, next) => {
 
 全てのガード関数は 3 つの引数を受け取ります。
 
-- `route: Route`: 次にナビゲーションされる対象の [ルートオブジェクト](../api/route-object.md)。
+- **`to: Route`**: 次にナビゲーションされる対象の [ルートオブジェクト](../api/route-object.md)。
 
-- `redirect: Function`: この関数を呼び出すことで現在のナビゲーションを中止してリダイレクト対象先の新しいナビゲーションが始まります。
+- **`from: Route`**: ナビゲーションされる前の現在のルートです。
 
-- `next: Function`: このガードを解決し、パイプラインの次のガードに進みます。もしフックが残っていない場合は、このナビゲーションは **確立** されます。
+- **`next: Function`**: フックを **解決** するためにこの関数を呼ぶ必要があります。この振る舞いは `next` に渡される引数に依存します:
 
-**もし `redirect` も `next` も呼ばれない場合、そのナビゲーションはキャンセルされます。**
+  - **`next()`**: パイプラインの次のフックに移動します。もしフックが残っていない場合は、このナビゲーションは **確立** されます。
 
-グローバル after フックを登録することもできます。しかしながら、ガードとは異なり、これらのフックはより単純で、ナビゲーションに影響を与えることはできません。
+  - **`next(false)`**: 現在のナビゲーションを中止します。もしブラウザのURLが変化した場合は（ユーザーが手動で変更した場合でも、戻るボタンの場合でも）、 `from` ルートのURLにリセットされます。
+
+  - **`next('/')` or `next({ path: '/' })`**: 異なる場所へリダイレクトします。現在のナビゲーションは中止され、あたらしいナビゲーションが始まります。
+
+グローバル after フックを登録することもできます。しかしながら、ガードとは異なり、これらのフックは `next` 関数を受け取らず、ナビゲーションに影響しません。
 
 ``` js
-router.afterEach(route => {
+router.afterEach((to, from) => {
   // ...
 })
 ```
@@ -44,7 +48,7 @@ const router = new VueRouter({
     {
       path: '/foo',
       component: Foo,
-      beforeEnter: (route, redirect, next) => {
+      beforeEnter: (to, from, next) => {
         // ...
       }
     }
@@ -61,12 +65,12 @@ const router = new VueRouter({
 ``` js
 const Foo = {
   template: `...`,
-  beforeRouteEnter (route, redirect, next) {
+  beforeRouteEnter (to, from, next) {
     // このコンポーネントをレンダリングするルートが確立する前に呼ばれます。
     // `this` でのこのコンポーネントへのアクセスはできません。
     // なぜならばこのガードが呼び出される時にまだ作られていないからです!
   },
-  beforeRouteLeave (route, redirect, next) {
+  beforeRouteLeave (to, from, next) {
     // このコンポーネントをレンダリングするルートが間もなく
     // ナビゲーションから離れていく時に呼ばれます。
     // `this` でのコンポーネントインスタンスへのアクセスができます。
@@ -79,11 +83,11 @@ const Foo = {
 しかしながら、 `next` にコールバックを渡すことでインスタンスにアクセスすることができます。このコールバックはナビゲーションが確立した時に呼ばれ、コンポーネントインスタンスはそのコールバックの引数として渡されます。
 
 ``` js
-beforeRouteEnter (route, redirect, next) {
+beforeRouteEnter (to, from, next) {
   next(vm => {
     // `vm` を通じてコンポーネントインスタンスにアクセス
   })
 }
 ```
 
-`beforeRouteLeave` 内で直接 `this` にアクセスすることができます。この去る際のガードは通常はユーザーが不意に編集を保存していない状態でこのルートを去ることを防ぐために使われます。このナビゲーションは単純に `next` もしくは `redirect` を呼ばなければキャンセルされます。
+`beforeRouteLeave` 内で直接 `this` にアクセスすることができます。この去る際のガードは通常はユーザーが不意に編集を保存していない状態でこのルートを去ることを防ぐために使われます。このナビゲーションは `next(false)` を呼ぶことでキャンセルされます。
