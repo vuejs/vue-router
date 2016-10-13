@@ -10,7 +10,7 @@ export class AbstractHistory extends History {
   constructor (router: VueRouter) {
     super(router)
     this.stack = []
-    this.index = 0
+    this.index = -1
   }
 
   push (location: RawLocation) {
@@ -31,10 +31,10 @@ export class AbstractHistory extends History {
     if (targetIndex < 0 || targetIndex >= this.stack.length) {
       return
     }
-    const location = this.stack[targetIndex]
-    this.confirmTransition(location, () => {
+    const route = this.stack[targetIndex]
+    this.confirmTransition(route, () => {
       this.index = targetIndex
-      this.updateRoute(location)
+      this.updateRoute(route)
     })
   }
 
