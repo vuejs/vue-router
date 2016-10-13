@@ -3,6 +3,7 @@ module.exports = {
     browser
     .url('http://localhost:8080/basic/')
       .waitForElementVisible('#app', 1000)
+      .assert.count('li', 4)
       .assert.count('li a', 3)
       // assert correct href with base
       .assert.attributeContains('li:nth-child(1) a', 'href', '/basic/')
@@ -21,6 +22,10 @@ module.exports = {
       .click('li:nth-child(1) a')
       .assert.urlEquals('http://localhost:8080/basic/')
       .assert.containsText('.view', 'home')
+
+      .click('li:nth-child(4)')
+      .assert.urlEquals('http://localhost:8080/basic/bar')
+      .assert.containsText('.view', 'bar')
 
     // check initial visit
     .url('http://localhost:8080/basic/foo')
