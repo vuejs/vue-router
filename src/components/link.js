@@ -40,6 +40,15 @@ export default {
 
     const on = {
       click: (e) => {
+        // don't redirect with control keys
+        /* istanbul ignore if */
+        if (e.metaKey || e.ctrlKey || e.shiftKey) return
+        // don't redirect when preventDefault called
+        /* istanbul ignore if */
+        if (e.defaultPrevented) return
+        // don't redirect on right click
+        /* istanbul ignore if */
+        if (e.button !== 0) return
         e.preventDefault()
         if (this.replace) {
           router.replace(to)
