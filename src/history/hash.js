@@ -15,10 +15,10 @@ export class HashHistory extends History {
     }
 
     ensureSlash()
-    this.transitionTo(getHash())
-
-    window.addEventListener('hashchange', () => {
-      this.onHashChange()
+    this.transitionTo(getHash(), () => {
+      window.addEventListener('hashchange', () => {
+        this.onHashChange()
+      })
     })
   }
 
