@@ -42,13 +42,13 @@ export class HashHistory extends History {
   }
 
   push (location: RawLocation) {
-    super.transitionTo(location, route => {
+    this.transitionTo(location, route => {
       pushHash(route.fullPath)
     })
   }
 
   replace (location: RawLocation) {
-    super.transitionTo(location, route => {
+    this.transitionTo(location, route => {
       replaceHash(route.fullPath)
     })
   }
