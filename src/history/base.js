@@ -82,9 +82,12 @@ export class History {
 
     runQueue(queue, iterator, () => {
       const postEnterCbs = []
+      const enterGuards = extractEnterGuards(activated, postEnterCbs, () => {
+        return this.current === route
+      })
       // wait until async components are resolved before
       // extracting in-component enter guards
-      runQueue(extractEnterGuards(activated, postEnterCbs), iterator, () => {
+      runQueue(enterGuards, iterator, () => {
         if (this.pending === route) {
           this.pending = null
           cb(route)
@@ -155,7 +158,11 @@ function extractLeaveGuards (matched: Array<RouteRecord>): Array<?Function> {
   }).reverse()
 }
 
-function extractEnterGuards (matched: Array<RouteRecord>, cbs: Array<Function>): Array<?Function> {
+function extractEnterGuards (
+  matched: Array<RouteRecord>,
+  cbs: Array<Function>,
+  isValid: () => boolean
+): Array<?Function> {
   return flatMapComponents(matched, (def, _, match, key) => {
     const guard = def && def.beforeRouteEnter
     if (guard) {
@@ -164,13 +171,29 @@ function extractEnterGuards (matched: Array<RouteRecord>, cbs: Array<Function>):
           next(cb)
           if (typeof cb === 'function') {
             cbs.push(() => {
-              cb(match.instances[key])
+              // #750
+              // if a router-view is wrapped with an out-in transition,
+              // the instance may not have been registered at this time.
+              // we will need to poll for registration until current route
+              // is no longer valid.
+              poll(cb, match.instances, key, isValid)
             })
           }
         })
       }
     }
   })
+}
+
+function poll (cb, instances, key, isValid) {
+  if (instances[key]) {
+    cb(instances[key])
+  } else if (isValid()) {
+    setTimeout(() => {
+      console.log('polling')
+      poll(cb, instances, key, isValid)
+    }, 16)
+  }
 }
 
 function resolveAsyncComponents (matched: Array<RouteRecord>): Array<?Function> {
