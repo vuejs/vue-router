@@ -32,20 +32,21 @@ const router = new VueRouter({
 メタフィールドをグローバルナビゲーションガードで確認するユースケースの例:
 
 ``` js
-router.beforeEach((route, redirect, next) => {
-  if (route.matched.some(record => record.meta.requiresAuth)) {
+router.beforeEach((to, from, next) => {
+  if (to.matched.some(record => record.meta.requiresAuth)) {
     // このルートはログインされているかどうか認証が必要です。
     // もしされていないならば、ログインページにリダイレクトします。
     if (!auth.loggedIn()) {
-      redirect({
+      next({
         path: '/login',
-        query: { redirect: route.fullPath }
+        query: { redirect: to.fullPath }
       })
     } else {
       next()
     }
   } else {
-    next()
+    next() // next() を常に呼び出すようにしてください!
   }
 })
+
 ```
