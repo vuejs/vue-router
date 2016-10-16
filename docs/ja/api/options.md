@@ -15,7 +15,7 @@
     redirect?: string | Location | Function;
     alias?: string | Array<string>;
     children?: Array<RouteConfig>; // ネストされたルート用
-    beforeEnter?: (route: Route, redirect: Function, next: Function) => void;
+    beforeEnter?: (to: Route, from: Route, next: Function) => void;
     meta?: any;
   }
   ```
