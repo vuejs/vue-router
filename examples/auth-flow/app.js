@@ -36,4 +36,10 @@ const router = new VueRouter({
   ]
 })
 
-new Vue(Vue.util.extend({ router }, App)).$mount('#app')
+/* eslint-disable no-new */
+new Vue({
+  el: '#app',
+  router,
+  // replace the content of <div id="app"></div> with App
+  render: h => h(App)
+})
