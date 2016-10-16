@@ -35,11 +35,7 @@ declare type RouteConfig = {
   redirect?: RedirectOption;
   alias?: string | Array<string>;
   children?: Array<RouteConfig>;
-  beforeEnter?: (
-    route: Route,
-    redirect: (location: RawLocation) => void,
-    next: () => void
-  ) => any;
+  beforeEnter?: NavigationGuard;
   meta?: any;
 }
 
@@ -51,11 +47,7 @@ declare type RouteRecord = {
   parent: ?RouteRecord;
   redirect: ?RedirectOption;
   matchAs: ?string;
-  beforeEnter: ?(
-    route: Route,
-    redirect: (location: RawLocation) => void,
-    next: () => void
-  ) => any;
+  beforeEnter: ?NavigationGuard;
   meta: any;
 }
 
