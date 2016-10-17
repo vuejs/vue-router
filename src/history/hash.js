@@ -15,11 +15,6 @@ export class HashHistory extends History {
     }
 
     ensureSlash()
-    this.transitionTo(getHash(), () => {
-      window.addEventListener('hashchange', () => {
-        this.onHashChange()
-      })
-    })
   }
 
   checkFallback () {
@@ -73,7 +68,7 @@ function ensureSlash (): boolean {
   return false
 }
 
-function getHash (): string {
+export function getHash (): string {
   // We can't use window.location.hash here because it's not
   // consistent across browsers - Firefox will pre-decode it!
   const href = window.location.href
