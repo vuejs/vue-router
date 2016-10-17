@@ -108,6 +108,14 @@ export class History {
       hook && hook(route, prev)
     })
   }
+
+  /**
+   * Dummy method to make flow happy...
+   * otherwise it won't let me call `this.history.onHashChange`
+   * inside a `switch case`...
+   * Advices on how to remove this method are much appreciated.
+   */
+  onHashChange () {}
 }
 
 function normalizeBase (base: ?string): string {

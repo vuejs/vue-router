@@ -19,8 +19,6 @@ export class HTML5History extends History {
   constructor (router: VueRouter, base: ?string) {
     super(router, base)
 
-    this.transitionTo(getLocation(this.base))
-
     const expectScroll = router.options.scrollBehavior
     window.addEventListener('popstate', e => {
       _key = e.state && e.state.key
