@@ -3,12 +3,13 @@ module.exports = {
     browser
     .url('http://localhost:8080/route-alias/')
       .waitForElementVisible('#app', 1000)
-      .assert.count('li a', 4)
+      .assert.count('li a', 5)
       // assert correct href with base
       .assert.attributeContains('li:nth-child(1) a', 'href', '/route-alias/foo')
       .assert.attributeContains('li:nth-child(2) a', 'href', '/route-alias/home/bar-alias')
       .assert.attributeContains('li:nth-child(3) a', 'href', '/route-alias/baz')
       .assert.attributeContains('li:nth-child(4) a', 'href', '/route-alias/home/baz-alias')
+      .assert.attributeEquals('li:nth-child(5) a', 'href', 'http://localhost:8080/route-alias/home')
 
       .click('li:nth-child(1) a')
       .assert.urlEquals('http://localhost:8080/route-alias/foo')
@@ -29,6 +30,10 @@ module.exports = {
       .assert.urlEquals('http://localhost:8080/route-alias/home/baz-alias')
       .assert.containsText('.view', 'Home')
       .assert.containsText('.view', 'baz')
+      .click('li:nth-child(5) a')
+      .assert.urlEquals('http://localhost:8080/route-alias/home')
+      .assert.containsText('.view', 'Home')
+      .assert.containsText('.view', 'default')
 
     // check initial visit
     .url('http://localhost:8080/route-alias/foo')
@@ -54,6 +59,12 @@ module.exports = {
       .assert.urlEquals('http://localhost:8080/route-alias/home/baz-alias')
       .assert.containsText('.view', 'Home')
       .assert.containsText('.view', 'baz')
+
+    .url('http://localhost:8080/route-alias/home')
+      .waitForElementVisible('#app', 1000)
+      .assert.urlEquals('http://localhost:8080/route-alias/home')
+      .assert.containsText('.view', 'Home')
+      .assert.containsText('.view', 'default')
       .end()
   }
 }

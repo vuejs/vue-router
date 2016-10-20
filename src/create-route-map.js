@@ -59,7 +59,7 @@ function addRouteRecord (
     })
   }
 
-  if (route.alias) {
+  if (route.alias !== undefined) {
     if (Array.isArray(route.alias)) {
       route.alias.forEach(alias => {
         addRouteRecord(pathMap, nameMap, { path: alias }, parent, record.path)
