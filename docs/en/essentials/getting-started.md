@@ -29,6 +29,7 @@ Creating a Single-page Application with Vue.js + vue-router is dead simple. With
 
 // 1. Define route components.
 // These can be imported from other files
+// This demo works only standalone version of Vue.js
 const Foo = { template: '<div>foo</div>' }
 const Bar = { template: '<div>bar</div>' }
 
