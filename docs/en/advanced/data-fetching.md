@@ -94,7 +94,7 @@ export default {
       }
     })
   },
-  // when route changes when this component is already rendered,
+  // when route changes and this component is already rendered,
   // the logic will be slightly different.
   watch: {
     $route () {
