@@ -30,7 +30,7 @@ export default {
     const resolved = router.match(to)
     const fullPath = resolved.redirectedFrom || resolved.fullPath
     const base = router.history.base
-    const href = base ? cleanPath(base + fullPath) : fullPath
+    const href = createHref(base, fullPath, router.mode)
     const classes = {}
     const activeClass = this.activeClass || router.options.linkActiveClass || 'router-link-active'
     const compareTarget = to.path ? createRoute(null, to) : resolved
@@ -96,4 +96,9 @@ function findAnchor (children) {
       }
     }
   }
+}
+
+function createHref (base, fullPath, mode) {
+  var path = mode === 'hash' ? '/#' + fullPath : fullPath
+  return base ? cleanPath(base + path) : path
 }
