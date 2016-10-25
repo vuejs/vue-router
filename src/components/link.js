@@ -53,7 +53,7 @@ export default {
         /* istanbul ignore if */
         const target = this.$el && this.$el.attributes.getNamedItem('target')
         if (target && target.value === '_blank') return
-        
+
         e.preventDefault()
         if (this.replace) {
           router.replace(to)
