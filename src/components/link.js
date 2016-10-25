@@ -52,7 +52,7 @@ export default {
         // don't redirect if `target="_blank"`
         /* istanbul ignore if */
         const target = this.$el && this.$el.getAttribute('target')
-        if (target && target.indexOf('_blank') > -1) return
+        if (target && target.split(' ').indexOf('_blank') > -1) return
 
         e.preventDefault()
         if (this.replace) {
