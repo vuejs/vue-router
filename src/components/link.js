@@ -51,8 +51,8 @@ export default {
         if (e.button !== 0) return
         // don't redirect if `target="_blank"`
         /* istanbul ignore if */
-        const target = this.$el && this.$el.attributes.getNamedItem('target')
-        if (target && target.value === '_blank') return
+        const target = this.$el && this.$el.getAttribute('target')
+        if (target && target.indexOf('_blank') > -1) return
 
         e.preventDefault()
         if (this.replace) {
