@@ -49,6 +49,11 @@ export default {
         // don't redirect on right click
         /* istanbul ignore if */
         if (e.button !== 0) return
+        // don't redirect if `target="_blank"`
+        /* istanbul ignore if */
+        const target = this.$el && this.$el.attributes.getNamedItem('target')
+        if (target && target.value === '_blank') return
+        
         e.preventDefault()
         if (this.replace) {
           router.replace(to)
