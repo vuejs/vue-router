@@ -10,7 +10,7 @@ The route object can be found in multiple places:
 
 - As the return value of calling `router.match(location)`;
 
-- Inside navigation guards as the first and second arguments:
+- Inside navigation guards as the first two arguments:
 
   ``` js
   router.beforeEach((to, from, next) => {
@@ -18,7 +18,7 @@ The route object can be found in multiple places:
   })
   ```
 
-- Inside the `scrollBehavior` function as the first and second arguments:
+- Inside the `scrollBehavior` function as the first two arguments:
 
   ``` js
   const router = new VueRouter({
