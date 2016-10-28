@@ -31,6 +31,19 @@ export function createMatcher (routes: Array<RouteConfig>): Matcher {
 
     if (name) {
       const record = nameMap[name]
+
+      if (typeof location.params !== 'object') {
+        location.params = {}
+      }
+
+      if (currentRoute && typeof currentRoute.params === 'object') {
+        for (const key in currentRoute.params) {
+          if (!(key in location.params)) {
+            location.params[key] = currentRoute.params[key]
+          }
+        }
+      }
+
       if (record) {
         location.path = fillParams(record.path, location.params, `named route "${name}"`)
         return _createRoute(record, location, redirectedFrom)
