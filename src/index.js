@@ -7,6 +7,8 @@ import { HTML5History } from './history/html5'
 import { AbstractHistory } from './history/abstract'
 import { inBrowser, supportsHistory } from './util/dom'
 import { assert } from './util/warn'
+import { cleanPath } from './util/path'
+import { normalizeLocation } from './util/location'
 
 export default class VueRouter {
   static install: () => void;
@@ -109,6 +111,28 @@ export default class VueRouter {
       })
     }))
   }
+
+  _resolve(to: RawLocation, current = this._route, append?: boolean): any {
+    const normalizedTo = normalizeLocation(to, current, append)
+    const resolved = this.match(normalizedTo)
+    const fullPath = resolved.redirectedFrom || resolved.fullPath
+    const base = this.history.base
+    const href = createHref(base, fullPath, this.mode)
+    return {
+      normalizedTo,
+      resolved,
+      href
+    }
+  }
+
+  resolve (to: RawLocation, current?: Route, append?: boolean): string {
+    return this._resolve(to, current, append).href;
+  }
+}
+
+function createHref (base, fullPath, mode) {
+  var path = mode === 'hash' ? '/#' + fullPath : fullPath
+  return base ? cleanPath(base + path) : path
 }
 
 VueRouter.install = install

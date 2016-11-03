@@ -1,6 +1,5 @@
 /* @flow */
 
-import { cleanPath } from '../util/path'
 import { createRoute, isSameRoute, isIncludedRoute } from '../util/route'
 import { normalizeLocation } from '../util/location'
 
@@ -26,14 +25,10 @@ export default {
   render (h: Function) {
     const router = this.$router
     const current = this.$route
-    const to = normalizeLocation(this.to, current, this.append)
-    const resolved = router.match(to)
-    const fullPath = resolved.redirectedFrom || resolved.fullPath
-    const base = router.history.base
-    const href = createHref(base, fullPath, router.mode)
+    const {href, resolved, normalizedTo} = router.resolve(this.to, current, this.append)
     const classes = {}
     const activeClass = this.activeClass || router.options.linkActiveClass || 'router-link-active'
-    const compareTarget = to.path ? createRoute(null, to) : resolved
+    const compareTarget = normalizedTo.path ? createRoute(null, normalizedTo) : resolved
     classes[activeClass] = this.exact
       ? isSameRoute(current, compareTarget)
       : isIncludedRoute(current, compareTarget)
@@ -96,9 +91,4 @@ function findAnchor (children) {
       }
     }
   }
-}
-
-function createHref (base, fullPath, mode) {
-  var path = mode === 'hash' ? '/#' + fullPath : fullPath
-  return base ? cleanPath(base + path) : path
 }
