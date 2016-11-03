@@ -6,31 +6,27 @@ Creating a Single-page Application with Vue.js + vue-router is dead simple. With
 
 > All examples will be using the standalone version of vue to make template parsing possible. See more details [here](http://vuejs.org/guide/installation.html#Standalone-vs-Runtime-only-Build)
 
-### HTML
+### HTML (index.html)
 
 ``` html
 <div id="app">
-  <h1>Hello App!</h1>
-  <p>
-    <!-- use router-link component for navigation. -->
-    <!-- specify the link by passing the `to` prop. -->
-    <!-- <router-link> will be rendered as an `<a>` tag by default -->
-    <router-link to="/foo">Go to Foo</router-link>
-    <router-link to="/bar">Go to Bar</router-link>
-  </p>
-  <!-- route outlet -->
-  <!-- component matched by the route will render here -->
-  <router-view></router-view>
 </div>
+<script src="assets/app.js"></script>
 ```
+the id "app" here is for late binding vue.
 
-### JavaScript
+### JavaScript (app.js)
 
 ``` js
 // 0. If using a module system, call Vue.use(VueRouter)
+// need to redefine the 'alias' config in bundler such as webpack or rollup
+import Vue from 'vue'
+import VueRouter from 'router'
 
 // 1. Define route components.
 // These can be imported from other files
+import App from './components/App.vue'
+
 const Foo = { template: '<div>foo</div>' }
 const Bar = { template: '<div>bar</div>' }
 
@@ -55,10 +51,35 @@ const router = new VueRouter({
 // Make sure to inject the router with the router option to make the
 // whole app router-aware.
 const app = new Vue({
-  router
-}).$mount('#app')
+  el: '#app'
+  router: router,
+  render: h => h(App)
+})
 
 // Now the app has started!
+```
+
+### Vue (app.vue)
+
+```  html
+<template>
+<h1>Hello App!</h1>
+  <p>
+    <!-- use router-link component for navigation. -->
+    <!-- specify the link by passing the `to` prop. -->
+    <!-- <router-link> will be rendered as an `<a>` tag by default -->
+    <router-link to="/foo">Go to Foo</router-link>
+    <router-link to="/bar">Go to Bar</router-link>
+  </p>
+  <!-- route outlet -->
+  <!-- component matched by the route will render here -->
+  <router-view></router-view>
+</template>
+<script>
+export default {
+  // can ignore the parameters first, however must export this function
+}
+</script>
 ```
 
 You can also checkout this example [live](http://jsfiddle.net/yyx990803/xgrjzsup/).
