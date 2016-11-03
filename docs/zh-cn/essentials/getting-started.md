@@ -2,33 +2,29 @@
 
 > 教程中的案例代码将使用 [ES2015](https://github.com/lukehoban/es6features) 来编写。
 
-用 Vue.js + vue-router 创建单页应用，是非常简单的。使用 Vue.js 时，我们就已经把组件组合成一个应用了，当你要把 vue-router 加进来，只需要配置组件和路由映射，然后告诉 vue-router 在哪里渲染它们。下面是个基本例子：
+用 Vue.js + vue-router 创建单页应用，是非常简单的。使用 Vue.js 时，我们就已经把组件组合成一个应用了，当你要把 vue-router 加进来，只需要配置组件和路由映射，然后告诉 vue-router 在哪里渲染它们。下面以vue-cli生成的project为例子讲解vue-router：
 
-### HTML
+### HTML (index.html)
 
 ``` html
 <div id="app">
-  <h1>Hello App!</h1>
-  <p>
-    <!-- 使用 router-link 组件来导航. -->
-    <!-- 通过传入 `to` 属性指定链接. -->
-    <!-- <router-link> 默认会被渲染成一个 `<a>` 标签 -->
-    <router-link to="/foo">Go to Foo</router-link>
-    <router-link to="/bar">Go to Bar</router-link>
-  </p>
-  <!-- 路由出口 -->
-  <!-- 路由匹配到的组件将渲染在这里 -->
-  <router-view></router-view>
 </div>
+<script src="assets/app.js"></script>
 ```
+这里的id 是用于new Vue的时候$mount绑定的。
 
-### JavaScript
+### JavaScript (app.js)
 
 ``` js
 // 0. 如果使用模块化机制编程， 要调用 Vue.use(VueRouter)
-
+// 如果使用webpack或者rollup.js打包，要在config文件中定义分别定义vue,vue-router的alias为vue, router， 
+// 否则import vue-router的时候会发生前缀解析错误
+import Vue from 'vue'
+import VueRouter from 'router'
 // 1. 定义（路由）组件。
 // 可以从其他文件 import 进来
+import App from './components/App.vue'
+
 const Foo = { template: '<div>foo</div>' }
 const Bar = { template: '<div>bar</div>' }
 
@@ -45,6 +41,7 @@ const routes = [
 // 3. 创建 router 实例，然后传 `routes` 配置
 // 你还可以传别的配置参数, 不过先这么简单着吧。
 const router = new VueRouter({
+  // 一个常用参数是mode: 'history', 目的是使项目的URL没有hashtag
   routes // （缩写）相当于 routes: routes
 })
 
@@ -52,10 +49,34 @@ const router = new VueRouter({
 // 记得要通过 router 配置参数注入路由，
 // 从而让整个应用都有路由功能
 const app = new Vue({
-  router
+  el: '#app'
+  router: router,
+  render: h => h(App)
 }).$mount('#app')
 
 // 现在，应用已经启动了！
+```
+### Vue (app.vue)
+
+```  html
+<template>
+<h1>Hello App!</h1>
+  <p>
+    <!-- use router-link component for navigation. -->
+    <!-- specify the link by passing the `to` prop. -->
+    <!-- <router-link> will be rendered as an `<a>` tag by default -->
+    <router-link to="/foo">Go to Foo</router-link>
+    <router-link to="/bar">Go to Bar</router-link>
+  </p>
+  <!-- route outlet -->
+  <!-- component matched by the route will render here -->
+  <router-view></router-view>
+</template>
+<script>
+export default {
+  // 这里可以先不写参数，但是一定要export
+}
+</script>
 ```
 
 你可以看看这个例子
