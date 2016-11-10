@@ -54,7 +54,7 @@ export class HashHistory extends History {
 
   ensureURL () {
     if (getHash() !== this.current.fullPath) {
-      replaceHash(this.current.fullPath)
+      pushHash(this.current.fullPath)
     }
   }
 }
