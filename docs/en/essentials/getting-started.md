@@ -9,6 +9,9 @@ Creating a Single-page Application with Vue.js + vue-router is dead simple. With
 ### HTML
 
 ``` html
+<script src="https://unpkg.com/vue/dist/vue.js"></script>
+<script src="https://unpkg.com/vue-router"></script>
+
 <div id="app">
   <h1>Hello App!</h1>
   <p>
@@ -27,7 +30,7 @@ Creating a Single-page Application with Vue.js + vue-router is dead simple. With
 ### JavaScript
 
 ``` js
-// 0. If using a module system, call Vue.use(VueRouter)
+// 0. If using a module system (e.g. via vue-cli), import Vue and VueRouter and than call Vue.use(VueRouter).
 
 // 1. Define route components.
 // These can be imported from other files
