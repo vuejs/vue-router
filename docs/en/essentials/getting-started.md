@@ -30,7 +30,7 @@ Creating a Single-page Application with Vue.js + vue-router is dead simple. With
 ### JavaScript
 
 ``` js
-// 0. If using a module system (e.g. via vue-cli), import Vue and VueRouter and than call Vue.use(VueRouter).
+// 0. If using a module system (e.g. via vue-cli), import Vue and VueRouter and then call Vue.use(VueRouter).
 
 // 1. Define route components.
 // These can be imported from other files
