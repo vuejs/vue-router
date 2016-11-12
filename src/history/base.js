@@ -147,9 +147,17 @@ function resolveQueue (
   }
 }
 
+function extractGuard (def, key) {
+  if (typeof def === 'function' && def.options) {
+    return def.options[key]
+  } else if (def) {
+    return def[key]
+  }
+}
+
 function extractLeaveGuards (matched: Array<RouteRecord>): Array<?Function> {
   return flatMapComponents(matched, (def, instance) => {
-    const guard = def && def.beforeRouteLeave
+    const guard = extractGuard(def, 'beforeRouteLeave')
     if (guard) {
       return function routeLeaveGuard () {
         return guard.apply(instance, arguments)
@@ -164,7 +172,7 @@ function extractEnterGuards (
   isValid: () => boolean
 ): Array<?Function> {
   return flatMapComponents(matched, (def, _, match, key) => {
-    const guard = def && def.beforeRouteEnter
+    const guard = extractGuard(def, 'beforeRouteEnter')
     if (guard) {
       return function routeEnterGuard (to, from, next) {
         return guard(to, from, cb => {
