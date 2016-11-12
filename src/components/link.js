@@ -69,9 +69,12 @@ export default {
       // find the first <a> child and apply listener and href
       const a = findAnchor(this.$slots.default)
       if (a) {
-        const aData = a.data || (a.data = {})
+        // in case the <a> is a static node
+        a.isStatic = false
+        const extend = this.constructor.super.util.extend
+        const aData = a.data = extend({}, a.data)
         aData.on = on
-        const aAttrs = aData.attrs || (aData.attrs = {})
+        const aAttrs = a.data.attrs = extend({}, a.data.attrs)
         aAttrs.href = href
       } else {
         // doesn't have <a> child, apply listener to self
