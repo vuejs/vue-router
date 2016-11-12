@@ -3,6 +3,7 @@
 import { cleanPath } from '../util/path'
 import { createRoute, isSameRoute, isIncludedRoute } from '../util/route'
 import { normalizeLocation } from '../util/location'
+import { _Vue } from '../install'
 
 // work around weird flow bug
 const toTypes: Array<Function> = [String, Object]
@@ -71,7 +72,7 @@ export default {
       if (a) {
         // in case the <a> is a static node
         a.isStatic = false
-        const extend = this.constructor.super.util.extend
+        const extend = _Vue.util.extend
         const aData = a.data = extend({}, a.data)
         aData.on = on
         const aAttrs = a.data.attrs = extend({}, a.data.attrs)

@@ -5,6 +5,7 @@ import { warn } from '../util/warn'
 import { inBrowser } from '../util/dom'
 import { runQueue } from '../util/async'
 import { START, isSameRoute } from '../util/route'
+import { _Vue } from '../install'
 
 export class History {
   router: VueRouter;
@@ -147,23 +148,35 @@ function resolveQueue (
   }
 }
 
-function extractGuard (def, key) {
-  if (typeof def === 'function' && def.options) {
-    return def.options[key]
-  } else if (def) {
-    return def[key]
+function extractGuard (
+  def: Object | Function,
+  key: string
+): NavigationGuard | Array<NavigationGuard> {
+  if (typeof def !== 'function') {
+    // extend now so that global mixins are applied.
+    def = _Vue.extend(def)
   }
+  return def.options[key]
 }
 
 function extractLeaveGuards (matched: Array<RouteRecord>): Array<?Function> {
-  return flatMapComponents(matched, (def, instance) => {
+  return flatten(flatMapComponents(matched, (def, instance) => {
     const guard = extractGuard(def, 'beforeRouteLeave')
     if (guard) {
-      return function routeLeaveGuard () {
-        return guard.apply(instance, arguments)
-      }
+      return Array.isArray(guard)
+        ? guard.map(guard => wrapLeaveGuard(guard, instance))
+        : wrapLeaveGuard(guard, instance)
     }
-  }).reverse()
+  }).reverse())
+}
+
+function wrapLeaveGuard (
+  guard: NavigationGuard,
+  instance: _Vue
+): NavigationGuard {
+  return function routeLeaveGuard () {
+    return guard.apply(instance, arguments)
+  }
 }
 
 function extractEnterGuards (
@@ -171,29 +184,46 @@ function extractEnterGuards (
   cbs: Array<Function>,
   isValid: () => boolean
 ): Array<?Function> {
-  return flatMapComponents(matched, (def, _, match, key) => {
+  return flatten(flatMapComponents(matched, (def, _, match, key) => {
     const guard = extractGuard(def, 'beforeRouteEnter')
     if (guard) {
-      return function routeEnterGuard (to, from, next) {
-        return guard(to, from, cb => {
-          next(cb)
-          if (typeof cb === 'function') {
-            cbs.push(() => {
-              // #750
-              // if a router-view is wrapped with an out-in transition,
-              // the instance may not have been registered at this time.
-              // we will need to poll for registration until current route
-              // is no longer valid.
-              poll(cb, match.instances, key, isValid)
-            })
-          }
-        })
-      }
+      return Array.isArray(guard)
+        ? guard.map(guard => wrapEnterGuard(guard, cbs, match, key, isValid))
+        : wrapEnterGuard(guard, cbs, match, key, isValid)
     }
-  })
+  }))
 }
 
-function poll (cb, instances, key, isValid) {
+function wrapEnterGuard (
+  guard: NavigationGuard,
+  cbs: Array<Function>,
+  match: RouteRecord,
+  key: string,
+  isValid: () => boolean
+): NavigationGuard {
+  return function routeEnterGuard (to, from, next) {
+    return guard(to, from, cb => {
+      next(cb)
+      if (typeof cb === 'function') {
+        cbs.push(() => {
+          // #750
+          // if a router-view is wrapped with an out-in transition,
+          // the instance may not have been registered at this time.
+          // we will need to poll for registration until current route
+          // is no longer valid.
+          poll(cb, match.instances, key, isValid)
+        })
+      }
+    })
+  }
+}
+
+function poll (
+  cb: any, // somehow flow cannot infer this is a function
+  instances: Object,
+  key: string,
+  isValid: () => boolean
+) {
   if (instances[key]) {
     cb(instances[key])
   } else if (isValid()) {
@@ -235,11 +265,15 @@ function flatMapComponents (
   matched: Array<RouteRecord>,
   fn: Function
 ): Array<?Function> {
-  return Array.prototype.concat.apply([], matched.map(m => {
+  return flatten(matched.map(m => {
     return Object.keys(m.components).map(key => fn(
       m.components[key],
       m.instances[key],
       m, key
     ))
   }))
+}
+
+function flatten (arr) {
+  return Array.prototype.concat.apply([], arr)
 }
