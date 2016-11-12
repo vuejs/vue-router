@@ -41,6 +41,9 @@ export default {
       hooks.init = vnode => {
         matched.instances[name] = vnode.child
       }
+      hooks.prepatch = (oldVnode, vnode) => {
+        matched.instances[name] = vnode.child
+      }
       hooks.destroy = vnode => {
         if (matched.instances[name] === vnode.child) {
           matched.instances[name] = undefined
