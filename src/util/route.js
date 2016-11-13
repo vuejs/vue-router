@@ -76,7 +76,7 @@ function isObjectEqual (a = {}, b = {}): boolean {
 
 export function isIncludedRoute (current: Route, target: Route): boolean {
   return (
-    current.path.indexOf(target.path) === 0 &&
+    current.path.indexOf(target.path.replace(/\/$/, '')) === 0 &&
     (!target.hash || current.hash === target.hash) &&
     queryIncludes(current.query, target.query)
   )

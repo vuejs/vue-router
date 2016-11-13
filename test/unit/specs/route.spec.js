@@ -37,8 +37,10 @@ describe('Route utils', () => {
       const a = { path: '/a/b' }
       const b = { path: '/a' }
       const c = { path: '/a/b/c' }
+      const d = { path: '/a/b/' }
       expect(isIncludedRoute(a, b)).toBe(true)
       expect(isIncludedRoute(a, c)).toBe(false)
+      expect(isIncludedRoute(a, d)).toBe(true)
     })
 
     it('with hash', () => {
