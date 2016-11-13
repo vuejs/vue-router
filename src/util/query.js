@@ -27,7 +27,7 @@ export function resolveQuery (
 }
 
 function parseQuery (query: string): Dictionary<string> {
-  const res = Object.create(null)
+  const res = {}
 
   query = query.trim().replace(/^(\?|#|&)/, '')
 
