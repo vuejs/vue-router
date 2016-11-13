@@ -65,20 +65,19 @@ export default class VueRouter {
 
     this.app = app
 
-    switch (this.mode) {
-      case 'history':
-        this.history.transitionTo(getLocation(this.history.base))
-        break
-      case 'hash':
-        this.history.transitionTo(getHash(), () => {
-          window.addEventListener('hashchange', () => {
-            this.history.onHashChange()
-          })
+    const history = this.history
+
+    if (history instanceof HTML5History) {
+      history.transitionTo(getLocation(history.base))
+    } else if (history instanceof HashHistory) {
+      history.transitionTo(getHash(), () => {
+        window.addEventListener('hashchange', () => {
+          history.onHashChange()
         })
-        break
+      })
     }
 
-    this.history.listen(route => {
+    history.listen(route => {
       this.app._route = route
     })
   }
