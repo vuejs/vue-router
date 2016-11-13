@@ -2,8 +2,8 @@
 
 import { install } from './install'
 import { createMatcher } from './create-matcher'
-import { HashHistory } from './history/hash'
-import { HTML5History } from './history/html5'
+import { HashHistory, getHash } from './history/hash'
+import { HTML5History, getLocation } from './history/html5'
 import { AbstractHistory } from './history/abstract'
 import { inBrowser, supportsHistory } from './util/dom'
 import { assert } from './util/warn'
@@ -36,6 +36,20 @@ export default class VueRouter {
       mode = 'abstract'
     }
     this.mode = mode
+
+    switch (mode) {
+      case 'history':
+        this.history = new HTML5History(this, options.base)
+        break
+      case 'hash':
+        this.history = new HashHistory(this, options.base, this.fallback)
+        break
+      case 'abstract':
+        this.history = new AbstractHistory(this)
+        break
+      default:
+        assert(false, `invalid mode: ${mode}`)
+    }
   }
 
   get currentRoute (): ?Route {
@@ -51,19 +65,17 @@ export default class VueRouter {
 
     this.app = app
 
-    const { mode, options, fallback } = this
-    switch (mode) {
+    switch (this.mode) {
       case 'history':
-        this.history = new HTML5History(this, options.base)
+        this.history.transitionTo(getLocation(this.history.base))
         break
       case 'hash':
-        this.history = new HashHistory(this, options.base, fallback)
+        this.history.transitionTo(getHash(), () => {
+          window.addEventListener('hashchange', () => {
+            this.history.onHashChange()
+          })
+        })
         break
-      case 'abstract':
-        this.history = new AbstractHistory(this)
-        break
-      default:
-        assert(false, `invalid mode: ${mode}`)
     }
 
     this.history.listen(route => {
