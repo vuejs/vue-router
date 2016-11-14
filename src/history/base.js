@@ -17,7 +17,7 @@ export class History {
   go: (n: number) => void;
   push: (loc: RawLocation) => void;
   replace: (loc: RawLocation) => void;
-  ensureURL: () => void;
+  ensureURL: (push?: boolean) => void;
 
   constructor (router: VueRouter, base: ?string) {
     this.router = router
@@ -69,7 +69,7 @@ export class History {
       hook(route, current, (to: any) => {
         if (to === false) {
           // next(false) -> abort navigation, ensure current URL
-          this.ensureURL()
+          this.ensureURL(true)
         } else if (typeof to === 'string' || typeof to === 'object') {
           // next('/') or next({ path: '/' }) -> redirect
           this.push(to)

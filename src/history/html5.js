@@ -59,9 +59,10 @@ export class HTML5History extends History {
     })
   }
 
-  ensureURL () {
+  ensureURL (push?: boolean) {
     if (getLocation(this.base) !== this.current.fullPath) {
-      pushState(cleanPath(this.base + this.current.fullPath))
+      const current = cleanPath(this.base + this.current.fullPath)
+      push ? pushState(current) : replaceState(current)
     }
   }
 

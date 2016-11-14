@@ -57,9 +57,10 @@ export class HashHistory extends History {
     window.history.go(n)
   }
 
-  ensureURL () {
-    if (getHash() !== this.current.fullPath) {
-      pushHash(this.current.fullPath)
+  ensureURL (push?: boolean) {
+    const current = this.current.fullPath
+    if (getHash() !== current) {
+      push ? pushHash(current) : replaceHash(current)
     }
   }
 }
