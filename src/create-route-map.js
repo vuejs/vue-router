@@ -70,7 +70,13 @@ function addRouteRecord (
   }
 
   pathMap[record.path] = record
-  if (name) nameMap[name] = record
+  if (name) {
+    if (!nameMap[name]) {
+      nameMap[name] = record
+    } else {
+      warn(false, `Duplicate named routes definition: { name: "${name}", path: "${record.path}" }`)
+    }
+  }
 }
 
 function normalizePath (path: string, parent?: RouteRecord): string {
