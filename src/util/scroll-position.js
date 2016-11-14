@@ -1,16 +1,18 @@
 /* @flow */
 
+const positionStore = Object.create(null)
+
 export function saveScrollPosition (key: string) {
   if (!key) return
-  window.sessionStorage.setItem(key, JSON.stringify({
+  positionStore[key] = {
     x: window.pageXOffset,
     y: window.pageYOffset
-  }))
+  }
 }
 
 export function getScrollPosition (key: string): ?Object {
   if (!key) return
-  return JSON.parse(window.sessionStorage.getItem(key))
+  return positionStore[key]
 }
 
 export function getElementPosition (el: Element): Object {
