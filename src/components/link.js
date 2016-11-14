@@ -28,7 +28,7 @@ export default {
     const router = this.$router
     const current = this.$route
     const to = normalizeLocation(this.to, current, this.append)
-    const resolved = router.match(to)
+    const resolved = router.match(to, current)
     const fullPath = resolved.redirectedFrom || resolved.fullPath
     const base = router.history.base
     const href = createHref(base, fullPath, router.mode)
