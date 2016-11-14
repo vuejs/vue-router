@@ -40,7 +40,7 @@ const Bar = { template: '<div>bar</div>' }
 // 2. Define some routes
 // Each route should map to a component. The "component" can
 // either be an actual component constructor created via
-// Vue.extend(), a component name created with Vue.component(),
+// Vue.extend(), a component id string registered via Vue.component(),
 // or just a component options object.
 // We'll talk about nested routes later.
 const routes = [
