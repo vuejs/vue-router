@@ -1,5 +1,5 @@
 /**
- * vue-router v2.0.1
+ * vue-router v2.0.2
  * (c) 2016 Evan You
  * @license MIT
  */
@@ -55,6 +55,9 @@ var View = {
     if (!inactive) {
       var hooks = data.hook || (data.hook = {})
       hooks.init = function (vnode) {
+        matched.instances[name] = vnode.child
+      }
+      hooks.prepatch = function (oldVnode, vnode) {
         matched.instances[name] = vnode.child
       }
       hooks.destroy = function (vnode) {
@@ -183,7 +186,7 @@ function resolveQuery (
 }
 
 function parseQuery (query) {
-  var res = Object.create(null)
+  var res = {}
 
   query = query.trim().replace(/^(\?|#|&)/, '')
 
@@ -325,7 +328,7 @@ function isObjectEqual (a, b) {
 
 function isIncludedRoute (current, target) {
   return (
-    current.path.indexOf(target.path) === 0 &&
+    current.path.indexOf(target.path.replace(/\/$/, '')) === 0 &&
     (!target.hash || current.hash === target.hash) &&
     queryIncludes(current.query, target.query)
   )
@@ -398,10 +401,10 @@ var Link = {
     var router = this.$router
     var current = this.$route
     var to = normalizeLocation(this.to, current, this.append)
-    var resolved = router.match(to)
+    var resolved = router.match(to, current)
     var fullPath = resolved.redirectedFrom || resolved.fullPath
     var base = router.history.base
-    var href = base ? cleanPath(base + fullPath) : fullPath
+    var href = createHref(base, fullPath, router.mode)
     var classes = {}
     var activeClass = this.activeClass || router.options.linkActiveClass || 'router-link-active'
     var compareTarget = to.path ? createRoute(null, to) : resolved
@@ -420,6 +423,11 @@ var Link = {
         // don't redirect on right click
         /* istanbul ignore if */
         if (e.button !== 0) { return }
+        // don't redirect if `target="_blank"`
+        /* istanbul ignore if */
+        var target = e.target.getAttribute('target')
+        if (/\b_blank\b/i.test(target)) { return }
+
         e.preventDefault()
         if (this$1.replace) {
           router.replace(to)
@@ -440,9 +448,12 @@ var Link = {
       // find the first <a> child and apply listener and href
       var a = findAnchor(this.$slots.default)
       if (a) {
-        var aData = a.data || (a.data = {})
+        // in case the <a> is a static node
+        a.isStatic = false
+        var extend = _Vue.util.extend
+        var aData = a.data = extend({}, a.data)
         aData.on = on
-        var aAttrs = aData.attrs || (aData.attrs = {})
+        var aAttrs = a.data.attrs = extend({}, a.data.attrs)
         aAttrs.href = href
       } else {
         // doesn't have <a> child, apply listener to self
@@ -469,9 +480,18 @@ function findAnchor (children) {
   }
 }
 
+function createHref (base, fullPath, mode) {
+  var path = mode === 'hash' ? '/#' + fullPath : fullPath
+  return base ? cleanPath(base + path) : path
+}
+
+var _Vue
+
 function install (Vue) {
   if (install.installed) { return }
   install.installed = true
+
+  _Vue = Vue
 
   Object.defineProperty(Vue.prototype, '$router', {
     get: function get () { return this.$root._router }
@@ -493,6 +513,10 @@ function install (Vue) {
 
   Vue.component('router-view', View)
   Vue.component('router-link', Link)
+
+  var strats = Vue.config.optionMergeStrategies
+  // use the same hook merging strategy for route hooks
+  strats.beforeRouteEnter = strats.beforeRouteLeave = strats.created
 }
 
 var __moduleExports = Array.isArray || function (arr) {
@@ -531,14 +555,16 @@ var PATH_REGEXP = new RegExp([
 /**
  * Parse a string for the raw tokens.
  *
- * @param  {string} str
+ * @param  {string}  str
+ * @param  {Object=} options
  * @return {!Array}
  */
-function parse (str) {
+function parse (str, options) {
   var tokens = []
   var key = 0
   var index = 0
   var path = ''
+  var defaultDelimiter = options && options.delimiter || '/'
   var res
 
   while ((res = PATH_REGEXP.exec(str)) != null) {
@@ -571,8 +597,8 @@ function parse (str) {
     var partial = prefix != null && next != null && next !== prefix
     var repeat = modifier === '+' || modifier === '*'
     var optional = modifier === '?' || modifier === '*'
-    var delimiter = res[2] || '/'
-    var pattern = capture || group || (asterisk ? '.*' : '[^' + delimiter + ']+?')
+    var delimiter = res[2] || defaultDelimiter
+    var pattern = capture || group
 
     tokens.push({
       name: name || key++,
@@ -582,7 +608,7 @@ function parse (str) {
       repeat: repeat,
       partial: partial,
       asterisk: !!asterisk,
-      pattern: escapeGroup(pattern)
+      pattern: pattern ? escapeGroup(pattern) : (asterisk ? '.*' : '[^' + escapeString(delimiter) + ']+?')
     })
   }
 
@@ -603,10 +629,11 @@ function parse (str) {
  * Compile a string to a template function for the path.
  *
  * @param  {string}             str
+ * @param  {Object=}            options
  * @return {!function(Object=, Object=)}
  */
-function compile (str) {
-  return tokensToFunction(parse(str))
+function compile (str, options) {
+  return tokensToFunction(parse(str, options))
 }
 
 /**
@@ -817,34 +844,28 @@ function arrayToRegexp (path, keys, options) {
  * @return {!RegExp}
  */
 function stringToRegexp (path, keys, options) {
-  var tokens = parse(path)
-  var re = tokensToRegExp(tokens, options)
-
-  // Attach keys back to the regexp.
-  for (var i = 0; i < tokens.length; i++) {
-    if (typeof tokens[i] !== 'string') {
-      keys.push(tokens[i])
-    }
-  }
-
-  return attachKeys(re, keys)
+  return tokensToRegExp(parse(path, options), keys, options)
 }
 
 /**
  * Expose a function for taking tokens and returning a RegExp.
  *
- * @param  {!Array}  tokens
- * @param  {Object=} options
+ * @param  {!Array}          tokens
+ * @param  {(Array|Object)=} keys
+ * @param  {Object=}         options
  * @return {!RegExp}
  */
-function tokensToRegExp (tokens, options) {
+function tokensToRegExp (tokens, keys, options) {
+  if (!isarray(keys)) {
+    options = /** @type {!Object} */ (keys || options)
+    keys = []
+  }
+
   options = options || {}
 
   var strict = options.strict
   var end = options.end !== false
   var route = ''
-  var lastToken = tokens[tokens.length - 1]
-  var endsWithSlash = typeof lastToken === 'string' && /\/$/.test(lastToken)
 
   // Iterate over the tokens and create our regexp string.
   for (var i = 0; i < tokens.length; i++) {
@@ -855,6 +876,8 @@ function tokensToRegExp (tokens, options) {
     } else {
       var prefix = escapeString(token.prefix)
       var capture = '(?:' + token.pattern + ')'
+
+      keys.push(token)
 
       if (token.repeat) {
         capture += '(?:' + prefix + capture + ')*'
@@ -874,12 +897,15 @@ function tokensToRegExp (tokens, options) {
     }
   }
 
+  var delimiter = escapeString(options.delimiter || '/')
+  var endsWithDelimiter = route.slice(-delimiter.length) === delimiter
+
   // In non-strict mode we allow a slash at the end of match. If the path to
   // match already ends with a slash, we remove it for consistency. The slash
   // is valid at the end of a path match, not in the middle. This is important
   // in non-ending mode, where "/test/" shouldn't match "/test//route".
   if (!strict) {
-    route = (endsWithSlash ? route.slice(0, -2) : route) + '(?:\\/(?=$))?'
+    route = (endsWithDelimiter ? route.slice(0, -delimiter.length) : route) + '(?:' + delimiter + '(?=$))?'
   }
 
   if (end) {
@@ -887,10 +913,10 @@ function tokensToRegExp (tokens, options) {
   } else {
     // In non-ending mode, we need the capturing groups to match as much as
     // possible by using a positive lookahead to the end or next path segment.
-    route += strict && endsWithSlash ? '' : '(?=\\/|$)'
+    route += strict && endsWithDelimiter ? '' : '(?=' + delimiter + '|$)'
   }
 
-  return new RegExp('^' + route, flags(options))
+  return attachKeys(new RegExp('^' + route, flags(options)), keys)
 }
 
 /**
@@ -906,14 +932,12 @@ function tokensToRegExp (tokens, options) {
  * @return {!RegExp}
  */
 function pathToRegexp (path, keys, options) {
-  keys = keys || []
-
   if (!isarray(keys)) {
-    options = /** @type {!Object} */ (keys)
+    options = /** @type {!Object} */ (keys || options)
     keys = []
-  } else if (!options) {
-    options = {}
   }
+
+  options = options || {}
 
   if (path instanceof RegExp) {
     return regexpToRegexp(path, /** @type {!Array} */ (keys))
@@ -980,7 +1004,7 @@ function addRouteRecord (
     })
   }
 
-  if (route.alias) {
+  if (route.alias !== undefined) {
     if (Array.isArray(route.alias)) {
       route.alias.forEach(function (alias) {
         addRouteRecord(pathMap, nameMap, { path: alias }, parent, record.path)
@@ -991,7 +1015,13 @@ function addRouteRecord (
   }
 
   pathMap[record.path] = record
-  if (name) { nameMap[name] = record }
+  if (name) {
+    if (!nameMap[name]) {
+      nameMap[name] = record
+    } else {
+      warn(false, ("Duplicate named routes definition: { name: \"" + name + "\", path: \"" + (record.path) + "\" }"))
+    }
+  }
 }
 
 function normalizePath (path, parent) {
@@ -1022,6 +1052,19 @@ function createMatcher (routes) {
 
     if (name) {
       var record = nameMap[name]
+
+      if (typeof location.params !== 'object') {
+        location.params = {}
+      }
+
+      if (currentRoute && typeof currentRoute.params === 'object') {
+        for (var key in currentRoute.params) {
+          if (!(key in location.params)) {
+            location.params[key] = currentRoute.params[key]
+          }
+        }
+      }
+
       if (record) {
         location.path = fillParams(record.path, location.params, ("named route \"" + name + "\""))
         return _createRoute(record, location, redirectedFrom)
@@ -1277,7 +1320,7 @@ History.prototype.confirmTransition = function confirmTransition (route, cb) {
     hook(route, current, function (to) {
       if (to === false) {
         // next(false) -> abort navigation, ensure current URL
-        this$1.ensureURL()
+        this$1.ensureURL(true)
       } else if (typeof to === 'string' || typeof to === 'object') {
         // next('/') or next({ path: '/' }) -> redirect
         this$1.push(to)
@@ -1351,15 +1394,35 @@ function resolveQueue (
   }
 }
 
+function extractGuard (
+  def,
+  key
+) {
+  if (typeof def !== 'function') {
+    // extend now so that global mixins are applied.
+    def = _Vue.extend(def)
+  }
+  return def.options[key]
+}
+
 function extractLeaveGuards (matched) {
-  return flatMapComponents(matched, function (def, instance) {
-    var guard = def && def.beforeRouteLeave
+  return flatten(flatMapComponents(matched, function (def, instance) {
+    var guard = extractGuard(def, 'beforeRouteLeave')
     if (guard) {
-      return function routeLeaveGuard () {
-        return guard.apply(instance, arguments)
-      }
+      return Array.isArray(guard)
+        ? guard.map(function (guard) { return wrapLeaveGuard(guard, instance); })
+        : wrapLeaveGuard(guard, instance)
     }
-  }).reverse()
+  }).reverse())
+}
+
+function wrapLeaveGuard (
+  guard,
+  instance
+) {
+  return function routeLeaveGuard () {
+    return guard.apply(instance, arguments)
+  }
 }
 
 function extractEnterGuards (
@@ -1367,29 +1430,46 @@ function extractEnterGuards (
   cbs,
   isValid
 ) {
-  return flatMapComponents(matched, function (def, _, match, key) {
-    var guard = def && def.beforeRouteEnter
+  return flatten(flatMapComponents(matched, function (def, _, match, key) {
+    var guard = extractGuard(def, 'beforeRouteEnter')
     if (guard) {
-      return function routeEnterGuard (to, from, next) {
-        return guard(to, from, function (cb) {
-          next(cb)
-          if (typeof cb === 'function') {
-            cbs.push(function () {
-              // #750
-              // if a router-view is wrapped with an out-in transition,
-              // the instance may not have been registered at this time.
-              // we will need to poll for registration until current route
-              // is no longer valid.
-              poll(cb, match.instances, key, isValid)
-            })
-          }
-        })
-      }
+      return Array.isArray(guard)
+        ? guard.map(function (guard) { return wrapEnterGuard(guard, cbs, match, key, isValid); })
+        : wrapEnterGuard(guard, cbs, match, key, isValid)
     }
-  })
+  }))
 }
 
-function poll (cb, instances, key, isValid) {
+function wrapEnterGuard (
+  guard,
+  cbs,
+  match,
+  key,
+  isValid
+) {
+  return function routeEnterGuard (to, from, next) {
+    return guard(to, from, function (cb) {
+      next(cb)
+      if (typeof cb === 'function') {
+        cbs.push(function () {
+          // #750
+          // if a router-view is wrapped with an out-in transition,
+          // the instance may not have been registered at this time.
+          // we will need to poll for registration until current route
+          // is no longer valid.
+          poll(cb, match.instances, key, isValid)
+        })
+      }
+    })
+  }
+}
+
+function poll (
+  cb, // somehow flow cannot infer this is a function
+  instances,
+  key,
+  isValid
+) {
   if (instances[key]) {
     cb(instances[key])
   } else if (isValid()) {
@@ -1431,7 +1511,7 @@ function flatMapComponents (
   matched,
   fn
 ) {
-  return Array.prototype.concat.apply([], matched.map(function (m) {
+  return flatten(matched.map(function (m) {
     return Object.keys(m.components).map(function (key) { return fn(
       m.components[key],
       m.instances[key],
@@ -1440,19 +1520,25 @@ function flatMapComponents (
   }))
 }
 
+function flatten (arr) {
+  return Array.prototype.concat.apply([], arr)
+}
+
 /*  */
+
+var positionStore = Object.create(null)
 
 function saveScrollPosition (key) {
   if (!key) { return }
-  window.sessionStorage.setItem(key, JSON.stringify({
+  positionStore[key] = {
     x: window.pageXOffset,
     y: window.pageYOffset
-  }))
+  }
 }
 
 function getScrollPosition (key) {
   if (!key) { return }
-  return JSON.parse(window.sessionStorage.getItem(key))
+  return positionStore[key]
 }
 
 function getElementPosition (el) {
@@ -1490,8 +1576,6 @@ var HTML5History = (function (History) {
     var this$1 = this;
 
     History.call(this, router, base)
-
-    this.transitionTo(getLocation(this.base))
 
     var expectScroll = router.options.scrollBehavior
     window.addEventListener('popstate', function (e) {
@@ -1539,9 +1623,10 @@ var HTML5History = (function (History) {
     })
   };
 
-  HTML5History.prototype.ensureURL = function ensureURL () {
+  HTML5History.prototype.ensureURL = function ensureURL (push) {
     if (getLocation(this.base) !== this.current.fullPath) {
-      replaceState(cleanPath(this.base + this.current.fullPath))
+      var current = cleanPath(this.base + this.current.fullPath)
+      push ? pushState(current) : replaceState(current)
     }
   };
 
@@ -1619,8 +1704,6 @@ function replaceState (url) {
 
 var HashHistory = (function (History) {
   function HashHistory (router, base, fallback) {
-    var this$1 = this;
-
     History.call(this, router, base)
 
     // check history fallback deeplinking
@@ -1629,11 +1712,6 @@ var HashHistory = (function (History) {
     }
 
     ensureSlash()
-    this.transitionTo(getHash(), function () {
-      window.addEventListener('hashchange', function () {
-        this$1.onHashChange()
-      })
-    })
   }
 
   if ( History ) HashHistory.__proto__ = History;
@@ -1675,9 +1753,10 @@ var HashHistory = (function (History) {
     window.history.go(n)
   };
 
-  HashHistory.prototype.ensureURL = function ensureURL () {
-    if (getHash() !== this.current.fullPath) {
-      replaceHash(this.current.fullPath)
+  HashHistory.prototype.ensureURL = function ensureURL (push) {
+    var current = this.current.fullPath
+    if (getHash() !== current) {
+      push ? pushHash(current) : replaceHash(current)
     }
   };
 
@@ -1784,6 +1863,20 @@ var VueRouter = function VueRouter (options) {
     mode = 'abstract'
   }
   this.mode = mode
+
+  switch (mode) {
+    case 'history':
+      this.history = new HTML5History(this, options.base)
+      break
+    case 'hash':
+      this.history = new HashHistory(this, options.base, this.fallback)
+      break
+    case 'abstract':
+      this.history = new AbstractHistory(this)
+      break
+    default:
+      assert(false, ("invalid mode: " + mode))
+  }
 };
 
 var prototypeAccessors = { currentRoute: {} };
@@ -1803,25 +1896,19 @@ VueRouter.prototype.init = function init (app /* Vue component instance */) {
 
   this.app = app
 
-  var ref = this;
-    var mode = ref.mode;
-    var options = ref.options;
-    var fallback = ref.fallback;
-  switch (mode) {
-    case 'history':
-      this.history = new HTML5History(this, options.base)
-      break
-    case 'hash':
-      this.history = new HashHistory(this, options.base, fallback)
-      break
-    case 'abstract':
-      this.history = new AbstractHistory(this)
-      break
-    default:
-      assert(false, ("invalid mode: " + mode))
+  var history = this.history
+
+  if (history instanceof HTML5History) {
+    history.transitionTo(getLocation(history.base))
+  } else if (history instanceof HashHistory) {
+    history.transitionTo(getHash(), function () {
+      window.addEventListener('hashchange', function () {
+        history.onHashChange()
+      })
+    })
   }
 
-  this.history.listen(function (route) {
+  history.listen(function (route) {
     this$1.app._route = route
   })
 };
