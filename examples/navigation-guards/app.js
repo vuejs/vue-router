@@ -9,10 +9,12 @@ const Bar = { template: '<div>bar</div>' }
 
 /**
  * Signatre of all route guards:
- * @param {Route} route
- * @param {Function} next - confirm the navigation
- * @param {Function} redirect - cancel and redirect to another route
- * @param {Function} abort - abort the navigation
+ * @param {Route} to
+ * @param {Route} from
+ * @param {Function} next
+ *
+ * See http://router.vuejs.org/en/advanced/navigation-guards.html
+ * for more details.
  */
 function guardRoute (to, from, next) {
   if (window.confirm(`Navigate to ${to.path}?`)) {
