@@ -95,7 +95,8 @@ class Router {
       hashbang: this._hashbang,
       onChange: (path, state, anchor) => {
         this._match(path, state, anchor)
-      }
+      },
+      saveScrollPosition: saveScrollPosition
     })
 
     // other options

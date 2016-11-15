@@ -3,7 +3,7 @@ const hashRE = /#.*$/
 
 export default class HTML5History {
 
-  constructor ({ root, onChange }) {
+  constructor ({ root, onChange, saveScrollPosition }) {
     if (root && root !== '/') {
       // make sure there's the starting slash
       if (root.charAt(0) !== '/') {
@@ -16,6 +16,7 @@ export default class HTML5History {
       this.root = null
     }
     this.onChange = onChange
+    this.saveScrollPosition = saveScrollPosition;
     // check base tag
     const baseEl = document.querySelector('base')
     this.base = baseEl && baseEl.getAttribute('href')
@@ -42,13 +43,15 @@ export default class HTML5History {
     if (replace) {
       history.replaceState({}, '', url)
     } else {
-      // record scroll position by replacing current state
-      history.replaceState({
-        pos: {
-          x: window.pageXOffset,
-          y: window.pageYOffset
-        }
-      }, '', location.href)
+      if (this.saveScrollPosition) {
+        // record scroll position by replacing current state
+        history.replaceState({
+          pos: {
+            x: window.pageXOffset,
+            y: window.pageYOffset
+          }
+        }, '', location.href)
+      }
       // then push new state
       history.pushState({}, '', url)
     }
