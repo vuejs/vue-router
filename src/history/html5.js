@@ -16,7 +16,7 @@ export default class HTML5History {
       this.root = null
     }
     this.onChange = onChange
-    this.saveScrollPosition = saveScrollPosition;
+    this.saveScrollPosition = saveScrollPosition
     // check base tag
     const baseEl = document.querySelector('base')
     this.base = baseEl && baseEl.getAttribute('href')
