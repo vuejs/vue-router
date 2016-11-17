@@ -14,6 +14,10 @@ const regexpCache: {
   }
 } = Object.create(null)
 
+const regexpParamsCache: {
+  [key: string]: Array<string>
+} = Object.create(null)
+
 const regexpCompileCache: {
   [key: string]: Function
 } = Object.create(null)
@@ -31,6 +35,7 @@ export function createMatcher (routes: Array<RouteConfig>): Matcher {
 
     if (name) {
       const record = nameMap[name]
+      const paramNames = getParams(record.path)
 
       if (typeof location.params !== 'object') {
         location.params = {}
@@ -38,7 +43,7 @@ export function createMatcher (routes: Array<RouteConfig>): Matcher {
 
       if (currentRoute && typeof currentRoute.params === 'object') {
         for (const key in currentRoute.params) {
-          if (!(key in location.params)) {
+          if (!(key in location.params) && paramNames.indexOf(key) > -1) {
             location.params[key] = currentRoute.params[key]
           }
         }
@@ -196,6 +201,26 @@ function fillParams (
     assert(false, `missing param for ${routeMsg}: ${e.message}`)
     return ''
   }
+}
+
+function getParams (path: string): Array<string> {
+  const hit = regexpParamsCache[path]
+
+  if (hit) {
+    return hit
+  }
+
+  const keys = []
+  const paramNames: Array<string> = []
+
+  Regexp(path, keys)
+
+  for (let i = 0, len = keys.length; i < len; ++i) {
+    const key = keys[i]
+    if (key && 'name' in key) paramNames.push(key.name)
+  }
+
+  return (regexpParamsCache[path] = paramNames)
 }
 
 function resolveRecordPath (path: string, record: RouteRecord): string {
