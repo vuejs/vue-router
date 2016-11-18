@@ -28,6 +28,14 @@ const Qux = {
     </div>
   `
 }
+const Quy = {
+  template: `
+    <div class="nested-parent-other">
+      <h3>quy</h3>
+      <pre>{{ JSON.stringify(Object.keys($route.params)) }}</pre>
+    </div>
+  `
+}
 const Quux = { template: '<div>quux</div>' }
 
 const router = new VueRouter({
@@ -57,7 +65,9 @@ const router = new VueRouter({
           path: 'qux/:quxId',
           component: Qux,
           children: [{ path: 'quux', name: 'quux', component: Quux }]
-        }
+        },
+
+        { path: 'quy/:quyId', component: Quy }
       ]
     }
   ]
@@ -74,6 +84,7 @@ new Vue({
         <li><router-link to="/parent/bar">/parent/bar</router-link></li>
         <li><router-link to="/baz">/baz</router-link></li>
         <li><router-link to="/parent/qux/123">/parent/qux</router-link></li>
+        <li><router-link to="/parent/quy/123">/parent/quy</router-link></li>
       </ul>
       <router-view class="view"></router-view>
     </div>
