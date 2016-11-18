@@ -1,5 +1,5 @@
 /**
- * vue-router v2.0.2
+ * vue-router v2.0.3
  * (c) 2016 Evan You
  * @license MIT
  */
@@ -1035,6 +1035,8 @@ function normalizePath (path, parent) {
 
 var regexpCache = Object.create(null)
 
+var regexpParamsCache = Object.create(null)
+
 var regexpCompileCache = Object.create(null)
 
 function createMatcher (routes) {
@@ -1052,6 +1054,7 @@ function createMatcher (routes) {
 
     if (name) {
       var record = nameMap[name]
+      var paramNames = getParams(record.path)
 
       if (typeof location.params !== 'object') {
         location.params = {}
@@ -1059,7 +1062,7 @@ function createMatcher (routes) {
 
       if (currentRoute && typeof currentRoute.params === 'object') {
         for (var key in currentRoute.params) {
-          if (!(key in location.params)) {
+          if (!(key in location.params) && paramNames.indexOf(key) > -1) {
             location.params[key] = currentRoute.params[key]
           }
         }
@@ -1174,13 +1177,10 @@ function createMatcher (routes) {
   return match
 }
 
-function matchRoute (
-  path,
-  params,
-  pathname
-) {
-  var keys, regexp
+function getRouteRegex (path) {
   var hit = regexpCache[path]
+  var keys, regexp
+
   if (hit) {
     keys = hit.keys
     regexp = hit.regexp
@@ -1189,6 +1189,18 @@ function matchRoute (
     regexp = index(path, keys)
     regexpCache[path] = { keys: keys, regexp: regexp }
   }
+
+  return { keys: keys, regexp: regexp }
+}
+
+function matchRoute (
+  path,
+  params,
+  pathname
+) {
+  var ref = getRouteRegex(path);
+  var regexp = ref.regexp;
+  var keys = ref.keys;
   var m = pathname.match(regexp)
 
   if (!m) {
@@ -1220,6 +1232,11 @@ function fillParams (
     assert(false, ("missing param for " + routeMsg + ": " + (e.message)))
     return ''
   }
+}
+
+function getParams (path) {
+  return regexpParamsCache[path] ||
+    (regexpParamsCache[path] = getRouteRegex(path).keys.map(function (key) { return key.name; }))
 }
 
 function resolveRecordPath (path, record) {
