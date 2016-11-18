@@ -155,13 +155,10 @@ export function createMatcher (routes: Array<RouteConfig>): Matcher {
   return match
 }
 
-function matchRoute (
-  path: string,
-  params: Object,
-  pathname: string
-): boolean {
-  let keys, regexp
+function getRouteRegex (path: string): Object {
   const hit = regexpCache[path]
+  let keys, regexp
+
   if (hit) {
     keys = hit.keys
     regexp = hit.regexp
@@ -170,6 +167,16 @@ function matchRoute (
     regexp = Regexp(path, keys)
     regexpCache[path] = { keys, regexp }
   }
+
+  return { keys, regexp }
+}
+
+function matchRoute (
+  path: string,
+  params: Object,
+  pathname: string
+): boolean {
+  const { regexp, keys } = getRouteRegex(path)
   const m = pathname.match(regexp)
 
   if (!m) {
@@ -204,23 +211,8 @@ function fillParams (
 }
 
 function getParams (path: string): Array<string> {
-  const hit = regexpParamsCache[path]
-
-  if (hit) {
-    return hit
-  }
-
-  const keys = []
-  const paramNames: Array<string> = []
-
-  Regexp(path, keys)
-
-  for (let i = 0, len = keys.length; i < len; ++i) {
-    const key = keys[i]
-    if (key && 'name' in key) paramNames.push(key.name)
-  }
-
-  return (regexpParamsCache[path] = paramNames)
+  return regexpParamsCache[path] ||
+    (regexpParamsCache[path] = getRouteRegex(path).keys.map(key => key.name))
 }
 
 function resolveRecordPath (path: string, record: RouteRecord): string {
