@@ -212,7 +212,9 @@ function fillParams (
 
 function getParams (path: string): Array<string> {
   return regexpParamsCache[path] ||
-    (regexpParamsCache[path] = getRouteRegex(path).keys.map(key => key.name))
+    (regexpParamsCache[path] = getRouteRegex(path).keys
+      .filter(key => !key.optional)
+      .map(key => key.name))
 }
 
 function resolveRecordPath (path: string, record: RouteRecord): string {
