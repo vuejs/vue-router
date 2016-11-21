@@ -47,9 +47,9 @@ export default class HashHistory {
   }
 
   formatPath (path, append) {
-    const isAbsoloute = path.charAt(0) === '/'
+    const isAbsolute = path.charAt(0) === '/'
     const prefix = '#' + (this.hashbang ? '!' : '')
-    return isAbsoloute
+    return isAbsolute
       ? prefix + path
       : prefix + resolvePath(
           location.hash.replace(/^#!?/, ''),
