@@ -55,7 +55,7 @@ function parseQuery (query: string): Dictionary<string> {
 }
 
 export function stringifyQuery (obj: Dictionary<string>): string {
-  const res = obj ? Object.keys(obj).sort().map(key => {
+  const res = obj ? Object.keys(obj).map(key => {
     const val = obj[key]
 
     if (val === undefined) {
