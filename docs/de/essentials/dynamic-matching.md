@@ -1,6 +1,6 @@
-# Dynamic Route Matching
+# Dynamisches Route-Matching
 
-Very often we will need to map routes with the given pattern to the same component. For example we may have a `User` component which should be rendered for all users but with different user IDs. In `vue-router` we can use a dynamic segment in the path to achieve that:
+Häufig müssen wir Routes unter Nutzung des gegebenen Musters mit der gleichen Komponente verbinden. Zum Beispiel haben wir eine `User`-Komponente, welche für alle User mit unterschiedlichen IDs gerendert werden soll. In `vue-router` ist ein dynamisches Segment im Pfad nutzbar, um das zu erreichen:
 
 ``` js
 const User = {
@@ -9,15 +9,15 @@ const User = {
 
 const router = new VueRouter({
   routes: [
-    // dynamic segments start with a colon
+    // dynamische Segmente beginnen mit Doppelpunkt
     { path: '/user/:id', component: User }
   ]
 })
 ```
 
-Now URLs like `/user/foo` and `/user/bar` will both map to the same route.
+Nun werden URLs wie `/user/foo` und `/user/bar` mit der gleichen Komponente verbunden.
 
-A dynamic segment is denoted by a colon `:`. When a route is matched, the value of the dynamic segments will be exposed as `this.$route.params` in every component. Therefore, we can render the current user ID by updating `User`'s template to this:
+Ein dynamisches Segment wird mit einem Doppelpunkt `:` definiert. Trifft eine Route überein, wird der Wert der dynamischen Segmente über `this.$route.params` in jeder Komponente ansprechbar. Deswegen ist es möglich die aktuelle User-ID zu rendern, indem das `User`-Template aktualisiert wird:
 
 ``` js
 const User = {
@@ -25,38 +25,40 @@ const User = {
 }
 ```
 
-You can checkout a live example [here](http://jsfiddle.net/yyx990803/4xfa2f19/).
+Ein Beispiel ist [hier](http://jsfiddle.net/yyx990803/4xfa2f19/) zu finden.
 
-You can have multiple dynamic segments in the same route, and they will map to corresponding fields on `$route.params`. Examples:
+Mehrere dynamische Segmente in der gleichen Route sind möglich, wobei sie dem entsprechenden Feld in `$route.params` zugeordnet werden. Beispiele:
 
-| pattern | matched path | $route.params |
+| Muster | passender Pfad | $route.params |
 |---------|------|--------|
 | /user/:username | /user/evan | `{ username: 'evan' }` |
 | /user/:username/post/:post_id | /user/evan/post/123 | `{ username: 'evan', post_id: 123 }` |
 
-In addition to `$route.params`, the `$route` object also exposes other useful information such as `$route.query` (if there is a query in the URL), `$route.hash`, etc. You can check out the full details in the [API Reference](../api/route-object.md).
+Neben `$route.params` bietet das `$route`-Objekt weitere nützliche Informationen wie `$route.query` - sofern eine Abfrage in der URL vorhanden ist.
 
-### Reacting to Params Changes
 
-One thing to note when using routes with params is that when the user navigates from `/user/foo` to `/user/bar`, **the same component instance will be reused**. Since both routes render the same component, this is more efficient than destroying the old instance and then creating a new one. **However, this also means that the lifecycle hooks of the component will not be called**.
+### Reagieren auf Änderungen von Parametern
 
-To react to params changes in the same component, you can simply watch the `$route` object:
+Wichtig bei der Nutzung von Parametern in Routes ist, dass **die selbe Komponenteninstanz genutzt wird,** wenn der Nutzer von `/user/foo` nach `/user/bar` navigiert. Da beide Routes die gleiche Komponente rendern, ist es effizienter als die alte zu zerstören und eine neue zu kreieren. **Allerdings bedeutet das auch, dass die Hooks der Lebenszyklen nicht aufgerufen werden.**
+
+Um auf Parameteränderungen in der gleichen Komponente zu reagieren, kann man einfach das `$route`-Objekt beobachten.
 
 ``` js
 const User = {
   template: '...',
   watch: {
     '$route' (to, from) {
-      // react to route changes...
+      // reagiere auf Route-Änderungen
     }
   }
 }
 ```
 
-### Advanced Matching Patterns
+### Erweiterte Übereinstimmungsmuster
 
-`vue-router` uses [path-to-regexp](https://github.com/pillarjs/path-to-regexp) as its path matching engine, so it supports many advanced matching patterns such as optional dynamic segments, zero or more / one or more requirements, and even custom regex patterns. Check out its [documentation](https://github.com/pillarjs/path-to-regexp#parameters) for these advanced patterns, and [this example](https://github.com/vuejs/vue-router/blob/dev/examples/route-matching/app.js) of using them in `vue-router`.
+`vue-router` nutzt [path-to-regexp](https://github.com/pillarjs/path-to-regexp) zur Prüfung seiner Pfadübereinstimmungen. Demnach unterstützt es viele erweiterte Übereinstimmungsmuster wie optionale dynamische Segmente, null oder mehr / ein oder mehr Anforderungen und sogar eigene RegEx-Muster.  
+Siehe [Dokumentation für erweiterte Muster](https://github.com/pillarjs/path-to-regexp#parameters) und [dieses Beispiel](https://github.com/vuejs/vue-router/blob/dev/examples/route-matching/app.js) der Nutzung mit `vue-router`.
 
-### Matching Priority
+### Priorität der Übereinstimmung
 
-Sometimes the same URL may be matched by multiple routes. In such a case the matching priority is determined by the order of route definition: the earlier a route is defined, the higher priority it gets.
+Manchmal trifft die URL auf mehrere Routes zu. In diesem Fall ist die Priorität durch die Anordnung der Routes definiert: **Je früher eine Route definiert ist, desto höher ihre Priorität.**
