@@ -1,6 +1,6 @@
 # vue-router 2
 
-> Merke: vue-router@2.x ist nur mit Vue 2.x kompatibel. Dokumentation für 0.7.x ist [hier (englisch)]((https://github.com/vuejs/vue-router/tree/1.0/docs/en)
+> Merke: vue-router@2.x ist nur mit Vue 2.x kompatibel. Dokumentation für 0.7.x ist [hier (englisch)](https://github.com/vuejs/vue-router/tree/1.0/docs/en)
 
 
 **[Versionshinweise (englisch)](https://github.com/vuejs/vue-router/releases)**
