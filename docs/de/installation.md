@@ -1,14 +1,14 @@
 # Installation
 
-### Direct Download / CDN
+### Direkter Download / CDN
 
 [https://unpkg.com/vue-router](https://unpkg.com/vue-router)
 
 <!--email_off-->
-[Unpkg.com](https://unpkg.com) provides NPM-based CDN links. The above link will always point to the latest release on NPM. You can also use a specific version/tag via URLs like `https://unpkg.com/vue-router@2.0.0`.
+[Unpkg.com](https://unpkg.com) bietet NPM-basierte CDN-Links an. Der obige Link führt immer zur aktuellsten Version auf NPM. Eine bestimmte Version kann via URL genutzt werden: `https://unpkg.com/vue-router@2.0.0`.
 <!--/email_off-->
 
-Include `vue-router` after Vue and it will install itself automatically:
+Füge `vue-router` nach Vue ein und es installiert sich selbst automatisch:
 
 ``` html
 <script src="/path/to/vue.js"></script>
@@ -21,7 +21,7 @@ Include `vue-router` after Vue and it will install itself automatically:
 npm install vue-router
 ```
 
-When used with a module system, you must explicitly install the router via `Vue.use()`:
+Wenn mit einem Modulsystem genutzt, muss der Router explizit via `Vue.use()` installiert werden:
 
 ``` js
 import Vue from 'vue'
@@ -30,12 +30,12 @@ import VueRouter from 'vue-router'
 Vue.use(VueRouter)
 ```
 
-You don't need to do this when using global script tags.
+Das muss nicht getan werden, wenn globale Skript-Tags genutzt werden.
 
 ### Dev Build
 
-You will have to clone directly from GitHub and build `vue-router` yourself if
-you want to use the latest dev build.
+Die Repo muss direkt von GitHub geklont und `vue-router`-Build selbst werden, wenn die aktuelle Dev-Version gewünscht ist.
+
 
 ``` bash
 git clone https://github.com/vuejs/vue-router.git node_modules/vue-router
