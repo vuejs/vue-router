@@ -28,4 +28,4 @@
   - [Das Route-Objekt](api/route-object.md)
   - [Router-Option](api/options.md)
   - [Router-Instanz](api/router-instance.md)
-  - [Komponentinjektion](api/component-injections.md)
+  - [Komponenteninjektion](api/component-injections.md)
