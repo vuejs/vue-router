@@ -1,6 +1,6 @@
 # vue-router 2
 
-> Merke: vue-router@2.x ist nur mit Vue 2.x kompatibel. Dokumentation für 0.7.x ist [hier (englisch)]((https://github.com/vuejs/vue-router/tree/1.0/docs/en))
+> Merke: vue-router@2.x ist nur mit Vue 2.x kompatibel. Dokumentation für 0.7.x ist [hier (englisch)]((https://github.com/vuejs/vue-router/tree/1.0/docs/en)
 
 
 **[Versionshinweise (englisch)](https://github.com/vuejs/vue-router/releases)**
@@ -8,7 +8,7 @@
 - [Installation](installation.md)
 - Grundlegendes
   - [Erste Schritte](essentials/getting-started.md)
-  - [Dynamische Route-Übereinstimmung](essentials/dynamic-matching.md)
+  - [Dynamisches Route-Matching](essentials/dynamic-matching.md)
   - [Verschachtelte Routes](essentials/nested-routes.md)
   - [Programmatische Navigation](essentials/navigation.md)
   - [Benannte Routes](essentials/named-routes.md)
