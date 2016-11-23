@@ -5,7 +5,7 @@ When building apps with a bundler, the JavaScript bundle can become quite large 
 Combining Vue's [async component feature](http://vuejs.org/guide/components.html#Async-Components) and Webpack's [code splitting feature](https://webpack.github.io/docs/code-splitting.html), it's trivially easy to
 lazy-load route components.
 
-All we need to do is defining our route components as async components:
+All we need to do is define our route components as async components:
 
 ``` js
 const Foo = resolve => {
