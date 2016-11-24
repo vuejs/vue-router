@@ -50,6 +50,8 @@ export default {
         if (/\b_blank\b/i.test(target)) return
 
         e.preventDefault()
+        // prevent trigger parent link
+        e.stopPropagation()
         if (this.replace) {
           router.replace(normalizedTo)
         } else {
