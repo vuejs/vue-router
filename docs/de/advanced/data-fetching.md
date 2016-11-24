@@ -1,24 +1,25 @@
-# Data Fetching
+# Daten Laden
 
+Manchmal müssen Daten von einem Server geladen werden sobald eine Route aktiviert wird. Zum Beispiel: Bevor ein Nutzerprofil angezeigt werden kann, müssen die Daten des Nutzers vom Server geladen werden. Dies kann auf zwei Arten gemacht werden:
 Sometimes you need to fetch data from the server when a route is activated. For example, before rendering a user profile, you need to fetch the user's data from the server. We can achieve this in two different ways:
 
-- **Fetching After Navigation**: perform the navigation first, and fetch data in the incoming component's lifecycle hook. Display a loading state while data is being fetched.
+- **Laden nach Navigation**: Navigiere zuerst und lade die Daten in der neuen Komponente. Während des Ladens kann ein Ladebalken oder ähnliches angezeigt werden.
 
-- **Fetching Before Navigation**: Fetch data before navigation in the route enter guard, and perform the navigation after data has been fetched.
+- **Laden vor Navigation**: Lade Daten bevor die Navigation der Route durchgeführt wird und navigiere nachdem die Daten geladen wurden.
 
-Technically, both are valid choices - it ultimately depends on the user experience you are aiming for.
+Technisch sind beide Optionen möglich - letztendlich hängt es davon ab welche Benutzererfahrung man erreichen möchte.
 
-## Fetching After Navigation
+## Laden Nach Navigation
 
-When using this approach, we navigate and render the incoming component immediately, and fetch data in the component's `created` hook. It gives us the opportunity to display a loading state while the data is being fetched over the network, and we can also handle loading differently for each view.
+In diesem Fall, navigieren und rendern wir die neue Komponente direkt und laden die daten in der `created` Funktion der Komponente. Dies ermöglicht es uns den Nutzer zu Informieren das Daten geladen werden während die Daten über das Netzwerk nachgeladen werden. Ausserdem können wir das Laden in jeder Komponente individuell einrichten und sind nicht an ein System gebunden.
 
-Let's assume we have a `Post` component that needs to fetch the data for a post based on `$route.params.id`:
+Im folgenden Beispiel haben wir eine `Post` Komponente, die Daten laden muss die mit `$route.params.id` identifiziert wird:
 
 ``` html
 <template>
   <div class="post">
     <div class="loading" v-if="loading">
-      Loading...
+      Lade...
     </div>
 
     <div v-if="error" class="error">
@@ -43,19 +44,19 @@ export default {
     }
   },
   created () {
-    // fetch the data when the view is created and the data is
-    // already being observed
+    // Lade die Daten wenn die Komponente erstellt wurde und die
+    // Daten bereits beobachtet werden
     this.fetchData()
   },
   watch: {
-    // call again the method if the route changes
+    // rufe die Funktion erneut auf wenn sich die Route ändert
     '$route': 'fetchData'
   },
   methods: {
     fetchData () {
       this.error = this.post = null
       this.loading = true
-      // replace getPost with your data fetching util / API wrapper
+      // ersetze getPost mit der AJAX API die verwendet wird
       getPost(this.$route.params.id, (err, post) => {
         this.loading = false
         if (err) {
@@ -69,10 +70,9 @@ export default {
 }
 ```
 
-## Fetching Before Navigation
+## Laden vor Navigation
 
-With this approach we fetch the data before actually navigating to the new
-route. We can perform the data fetching in the `beforeRouteEnter` guard in the incoming component, and only call `next` when the fetch is complete:
+In diesem Fall werden die Daten geladen bevor wir in die neue Route navigieren. Die Daten werden in der `beforeRouteEnter` Funktion der neuen Komponente geladen, die `next` Funktion wird erst aufgerufen wenn alles fertig geladen ist:
 
 ``` js
 export default {
@@ -85,7 +85,7 @@ export default {
   beforeRouteEnter (to, from, next) {
     getPost(to.params.id, (err, post) => {
       if (err) {
-        // display some global error message
+        // zeige eine globale Fehlermeldung
         next(false)
       } else {
         next(vm => {
@@ -94,8 +94,8 @@ export default {
       }
     })
   },
-  // when route changes and this component is already rendered,
-  // the logic will be slightly different.
+  // wenn die Route geändert wurde und die Komponente bereits angezeigt
+  // wird ist die Funktion etwas anders:
   watch: {
     $route () {
       this.post = null
@@ -111,4 +111,4 @@ export default {
 }
 ```
 
-The user will stay on the current view while the resource is being fetched for the incoming view. It is therefore recommended to display a progress bar or some kind of indicator while the data is being fetched. If the data fetch fails, it's also necessary to display some kind of global warning message.
+Der Nutzer bleibt auf der aktuellen Komponente bis die Daten der Neuen geladen wurden. Daher ist es empfehlenswert einen Ladebalken oder ähnliches anzuzeigen während die Daten geladen werden. Falls die Daten nicht geladen werden ist es ausserdem nötig eine Fehlermeldung auszugeben.
