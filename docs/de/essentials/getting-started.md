@@ -56,7 +56,7 @@ const router = new VueRouter({
 })
 
 // 4. Kreiere und 'mount' die Root-Instanz.
-// Stell sicher, der Router hat die Router-Options inne, um die App Router-bewusst zu rendern.
+// Stelle sicher, dass der Router mit Optionen initialisiert wird, damit die App diesen nutzen kann.
 
 const app = new Vue({
   router
