@@ -55,11 +55,9 @@ const router = new VueRouter({
   routes // kurz für routes: routes
 })
 
-// 4. Create and mount the root instance.
-// Make sure to inject the router with the router option to make the
-// whole app router-aware.
-// 4. Kreiere und 'mount' die Root-Instanz
-// Stell sicher, 
+// 4. Kreiere und 'mount' die Root-Instanz.
+// Stell sicher, der Router hat die Router-Options inne, um die App Router-bewusst zu rendern.
+
 const app = new Vue({
   router
 }).$mount('#app')
