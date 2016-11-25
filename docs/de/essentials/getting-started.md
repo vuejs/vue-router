@@ -48,17 +48,18 @@ const routes = [
   { path: '/bar', component: Bar }
 ]
 
-// 3. Create the router instance and pass the `routes` option
-// You can pass in additional options here, but let's
-// keep it simple for now.
-// 3. 
+// 3. Kreiere die Router-Instanz und leg ihr die `routes`-Option bei.
+// Individuelle Optionen sind auch möglich, jedoch wird es hier erstmal einfach gehalten.
+
 const router = new VueRouter({
-  routes // short for routes: routes
+  routes // kurz für routes: routes
 })
 
 // 4. Create and mount the root instance.
 // Make sure to inject the router with the router option to make the
 // whole app router-aware.
+// 4. Kreiere und 'mount' die Root-Instanz
+// Stell sicher, 
 const app = new Vue({
   router
 }).$mount('#app')
