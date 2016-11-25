@@ -1,10 +1,10 @@
-# Getting Started
+# Erste Schritte
 
-> We will be using [ES2015](https://github.com/lukehoban/es6features) in the code samples in the guide.
+> Wir werden [ES2015](https://github.com/lukehoban/es6features) in den Code-Beispielen nutzen.
 
-Creating a Single-page Application with Vue.js + vue-router is dead simple. With Vue.js, we are already composing our application with components. When adding vue-router to the mix, all we need to do is map our components to the routes and let vue-router know where to render them. Here's a basic example:
+Eine Single-Page-Applikation mit Vue.js und vue-router zu schreiben ist super einfach. Mit Vue.js erstellen wir unsere App bereits mit Komponenten. Wird vue-router hinzugefügt, müssen wir lediglich die Komponenten den Routes zuordnen, um vue-router wissen zu lassen, wo diese gerendert werden sollen. Hier ein einfaches Beispiel:
 
-> All examples will be using the standalone version of vue to make template parsing possible. See more details [here](http://vuejs.org/guide/installation.html#Standalone-vs-Runtime-only-Build)
+> Alle Beispiele nutzen die Standalone-Version von Vue, um Template-Parsing möglich zu machen. Mehr Details [hier (englisch)](http://vuejs.org/guide/installation.html#Standalone-vs-Runtime-only-Build)
 
 ### HTML
 
@@ -15,14 +15,14 @@ Creating a Single-page Application with Vue.js + vue-router is dead simple. With
 <div id="app">
   <h1>Hello App!</h1>
   <p>
-    <!-- use router-link component for navigation. -->
-    <!-- specify the link by passing the `to` prop. -->
-    <!-- <router-link> will be rendered as an `<a>` tag by default -->
+    <!-- nutze <router-link> zur Navigation -->
+    <!-- gib den Link mit der `to`-Eigenschaft an -->
+    <!-- <router-link> wird standardmäßig als <a> gerendert-->
     <router-link to="/foo">Go to Foo</router-link>
     <router-link to="/bar">Go to Bar</router-link>
   </p>
-  <!-- route outlet -->
-  <!-- component matched by the route will render here -->
+  <!-- Route-Ende -->
+  <!-- von der Route zutreffende Komponente wird hier gerendert-->
   <router-view></router-view>
 </div>
 ```
@@ -30,19 +30,19 @@ Creating a Single-page Application with Vue.js + vue-router is dead simple. With
 ### JavaScript
 
 ``` js
-// 0. If using a module system (e.g. via vue-cli), import Vue and VueRouter and then call Vue.use(VueRouter).
+// 0. Wenn ein Modulsystem genutzt wird (zB. via vue-cli), importiere Vue sowie VueRouter und rufe Vue.use(VueRouter) auf.
 
-// 1. Define route components.
-// These can be imported from other files
+// 1. Definiere Route-Komponenten
+// Diese können von anderen Dateien importiert werden.
 const Foo = { template: '<div>foo</div>' }
 const Bar = { template: '<div>bar</div>' }
 
-// 2. Define some routes
-// Each route should map to a component. The "component" can
-// either be an actual component constructor created via
-// Vue.extend(), a component id string registered via Vue.component(),
-// or just a component options object.
-// We'll talk about nested routes later.
+// 2. Definiere ein paar Routes
+// Jede Route sollte mit einer Komponente verbunden sein. 
+// Die "Komponente" kann entweder eine tatsächliche Komponente sein, die via Vue.extend() erstellt wird,
+// ein Komponenten-ID-String registriert via Vue.component() oder lediglich ein Optionsobjekt der Komponent.
+// Verschachtelte Routes erscheinen später in der Anleitung.
+
 const routes = [
   { path: '/foo', component: Foo },
   { path: '/bar', component: Bar }
@@ -51,6 +51,7 @@ const routes = [
 // 3. Create the router instance and pass the `routes` option
 // You can pass in additional options here, but let's
 // keep it simple for now.
+// 3. 
 const router = new VueRouter({
   routes // short for routes: routes
 })
