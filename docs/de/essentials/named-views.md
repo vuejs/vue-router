@@ -1,6 +1,6 @@
-# Named Views
+# Benannte Views
 
-Sometimes you need to display multiples views at the same time instead of nesting them, e.g. creating a layout with a `sidebar` view and a `main` view. This is where named views came in handy. Instead of having one single outlet in your view, you can have multiple and give each of them a name. A `router-view` without a name will be given `default` as its name.
+Manchmal muss man mehrere Views zur selben Zeit darstellen, anstatt sie zu verschachteln, zum Beispiel bei einem Layout mit Hauptteil und Sidebar. Hier helfen benannte Views aus. Anstelle eines einzigen Ortes für die View-Darstellung gibt es mehrere, die Namen tragen können. Ein `router-view` ohne Namen heißt standardmäßig `default`.
 
 ``` html
 <router-view class="view one"></router-view>
@@ -8,8 +8,7 @@ Sometimes you need to display multiples views at the same time instead of nestin
 <router-view class="view three" name="b"></router-view>
 ```
 
-A view is rendered by using a component, therefore multiple views require multiple components for the same route. Make sure to use the `components` (with
-an s) option:
+Ein View wird durch eine Komponente gerendert, deswegen benötigen mehrere Views auch mehrere Komponenten für die selbe Route. Dabei ist wichtig `components` (Plural) in den Optionen zu verwenden:
 
 ``` js
 const router = new VueRouter({
@@ -26,5 +25,5 @@ const router = new VueRouter({
 })
 ```
 
-A working demo of this example can be found
-[here](https://jsfiddle.net/posva/6du90epg/).
+Eine Demo zu diesem Beispiel ist
+[hier](https://jsfiddle.net/posva/6du90epg/) zu finden.
