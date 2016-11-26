@@ -1,67 +1,68 @@
-# Programmatic Navigation
+# Programmatische Navigation
 
-Aside from using `<router-link>` to create anchor tags for declarative navigation, we can do this programmatically using the router's instance methods.
+Neben der Nutzung von `router-link` zum Kreieren von Ankerpunkten für deklarative Navigation gibt es die Möglichkeit programmatisch zu navigieren mit Hilfe der Methoden der Router-Instanz.
 
 #### `router.push(location)`
 
-To navigate to a different URL, use `router.push`. This method pushes a new entry into the history stack, so when the user clicks the browser back button they will be taken to the previous URL.
+Um zu einer anderen URL zu navigieren, nutzt man `router.push`. Diese Methode setzt einen neuen Eintrag in den Browser-Verlauf, sodass der Nutzer, wenn er die Zurück-Schaltfläche des Browsers betätigt, auf die vorherige URL zurückkehrt.
 
-This is the method called internally when you click a `<router-link>`, so clicking `<router-link :to="...">` is the equivalent of calling `router.push(...)`.
+Das ist die Methode, die intern aufgerufen wird, wenn `<router-link>` geklickt wird. Demnach ist das Anlicken von `<router-link :to="...">` das Äquivalent zu `router.push(...)`.
 
-| Declarative | Programmatic |
+| Deklarativ | Programmatisch |
 |-------------|--------------|
 | `<router-link :to="...">` | `router.push(...)` |
 
-The argument can be a string path, or a location descriptor object. Examples:
+Das Argument kann ein String des Pfades oder eine Beschreibung des Ortes als Objekt sein.
 
 ``` js
-// literal string
+// String
 router.push('home')
 
-// object
+// Objekt
 router.push({ path: 'home' })
 
-// named route
+// benannte Route
 router.push({ name: 'user', params: { userId: 123 }})
 
-// with query, resulting in /register?plan=private
+// mit Abfrage, resultiert in /register?plan=private
 router.push({ path: 'register', query: { plan: 'private' }})
 ```
 
 #### `router.replace(location)`
 
-It acts like `router.push`, the only difference is that it navigates without pushing a new history entry, as its name suggests - it replaces the current entry.
+Es verhält sich wie `router.push`, allerdings erstellt es keinen neuen Eintrag im Browser-Verlauf. Es ersetzt lediglich den aktuellen Eintrag.
 
-| Declarative | Programmatic |
+| Deklarativ | Programmatisch |
 |-------------|--------------|
 | `<router-link :to="..." replace>` | `router.replace(...)` |
 
 
 #### `router.go(n)`
 
-This method takes a single integer as parameter that indicates by how many steps to go forwards or go backwards in the history stack, similar to `window.history.go(n)`.
+Diese Methode erlaut einen einfachen Integer als Parameter, welcher angibt, wie viele Schritte im Browser-Verlauf vor- oder rückwärts zu gehen sind - ähnlich dem `window.history.go(n)`.
 
-Examples
+Beispiele
 
 ``` js
-// go forward by one record, the same as history.forward()
+// gehe einen Eintrag vorwärts - gleich dem history.forward()
 router.go(1)
 
-// go back by one record, the same as history.back()
+// gehe einen Eintrag zurück - gleich dem history.back()
 router.go(-1)
 
-// go forward by 3 records
+// gehe drei Einträge vor
 router.go(3)
 
-// fails silently if there aren't that many records.
+// scheitert ohne Nachricht, wenn nicht genügend Einträge vorhanden sind
 router.go(-100)
 router.go(100)
 ```
 
-#### History Manipulation
+#### Manipulation des Verlaufs
 
-You may have noticed that `router.push`, `router.replace` and `router.go` are counterparts of [`window.history.pushState`, `window.history.replaceState` and `window.history.go`](https://developer.mozilla.org/en-US/docs/Web/API/History), and they do imitate the `window.history` APIs.
+Es fällt auf, dass `router.push`, `router.replace` und `router.go` Gegenstücke von [`window.history.pushState`, `window.history.replaceState` und `window.history.go`](https://developer.mozilla.org/de/docs/Web/API/History) sind, da sie die `window.history`-API imitieren.
 
-Therefore, if you are already familiar with [Browser History APIs](https://developer.mozilla.org/en-US/docs/Web/API/History_API), manipulating history will be super easy with vue-router.
+Deswegen ist es einfach den Verlauf zu manipulieren, wenn man sich mit den [Browser-Verlauf-APIs](https://developer.mozilla.org/de/docs/Web/Guide/DOM/Manipulating_the_browser_history)
+auskennt.
 
-It is worth mentioning that vue-router navigation methods (`push`, `replace`, `go`) work consistently in all router modes (`history`, `hash` and `abstract`).
+Erwähnenswert ist es, dass Navigationsmethoden von `vue-router` (`push`, `replace`, `go`) konstant in allen Modi (`history`, `hash`, `abstract`) funktionieren.
