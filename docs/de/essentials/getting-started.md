@@ -38,7 +38,7 @@ const Foo = { template: '<div>foo</div>' }
 const Bar = { template: '<div>bar</div>' }
 
 // 2. Definiere ein paar Routes
-// Jede Route sollte mit einer Komponente verbunden sein. 
+// Jede Route sollte mit einer Komponente verbunden sein.
 // Die "Komponente" kann entweder eine tatsächliche Komponente sein, die via Vue.extend() erstellt wird,
 // ein Komponenten-ID-String registriert via Vue.component() oder lediglich ein Optionsobjekt der Komponent.
 // Verschachtelte Routes erscheinen später in der Anleitung.
@@ -62,9 +62,8 @@ const app = new Vue({
   router
 }).$mount('#app')
 
-// Now the app has started!
+// Die App ist nun gestartet.
 ```
+Sieh dir auch dieses [Beispiel](http://jsfiddle.net/yyx990803/xgrjzsup/) an.
 
-You can also checkout this example [live](http://jsfiddle.net/yyx990803/xgrjzsup/).
-
-Notice that a `<router-link>` automatically gets the `.router-link-active` class when its target route is matched. You can learn more about it in its [API reference](../api/router-link.md).
+`<router-link>` erhält automatisch die Klasse `.router-link-active`, wenn dessen Ziel-Route übereinstimmt. Mehr Infos dazu in der [API-Referenz](../api/router-link.md).
