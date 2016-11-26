@@ -16,7 +16,7 @@ Eine Single-Page-Applikation mit Vue.js und vue-router zu schreiben ist super ei
   <h1>Hello App!</h1>
   <p>
     <!-- nutze <router-link> zur Navigation -->
-    <!-- gib den Link mit der `to`-Eigenschaft an -->
+    <!-- gib den Link mit dem `to`-Prop an -->
     <!-- <router-link> wird standardmäßig als <a> gerendert-->
     <router-link to="/foo">Go to Foo</router-link>
     <router-link to="/bar">Go to Bar</router-link>
