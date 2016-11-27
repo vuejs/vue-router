@@ -1,20 +1,20 @@
-# Component Injections
+# Injektion von Komponenten
 
-### Injected Properties
+### Injizierte Eigenschaften
 
-These properties are injected into every child component by passing the router instance to the root instance as the `router` option.
+Diese Eigenschaften werden in jede Child-Komponente durch Hinzufügen der Router-Instanz in die Grundinstanz als Router-Option injiziert.
 
 - #### $router
 
-  The router instance.
+  Die Router-Instanz.
 
 - #### $route
 
-  The current active [Route](route-object.md). This property is read-only and its properties are immutable, but it can be watched.
+  Die aktuelle aktive [Route](route-object.md). Diese Eigenschaft ist schreibgeschützt und dessen Eigenschaften sind unveränderbar, können aber überwacht werden.
 
-### Enabled Options
+### Aktivierte Optionen
 
 - **beforeRouteEnter**
 - **beforeRouteLeave**
 
-  See [In Component Guards](../advanced/navigation-guards.md#incomponent-guards).
+  Siehe [innerer Komponentenschutz](../advanced/navigation-guards.md#incomponent-guards).
