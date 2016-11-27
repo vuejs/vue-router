@@ -1,31 +1,32 @@
-# Router Instance
+# Router-Instanz
 
-### Properties
+### Eigenschaften
 
 #### router.app
 
-- type: `Vue instance`
+- Typ: `Vue instance`
 
-  The root Vue instance the `router` was injected into.
+  Die grundlegende Vue-Instanz, in die der `router` injiziert wurde.
 
 #### router.mode
 
-- type: `string`
+- Typ: `string`
 
-  The [mode](options.md#mode) the router is using.
+  Der [Modus](options.md#mode), den der Router nutzt.
+
 
 #### router.currentRoute
 
-- type: `Route`
+- Typ: `Route`
 
-  The current route represented as a [Route Object](route-object.md).
+  Die akuelle Route wiedergespiegelt als [Route-Objekt](route-object.md).
 
-### Methods
+### Methoden
 
 - **router.beforeEach(guard)**
 - **router.afterEach(hook)**
 
-  Add global navigation guards. See [Navigation Guards](../advanced/navigation-guards.md).
+  Füge globalen Navigationsschutz hinzu. Siehe [Navigationsschutz](../advanced/navigation-guards.md).
 
 
 - **router.push(location)**
@@ -34,12 +35,12 @@
 - **router.back()**
 - **router.forward()**
 
-  Programmatically navigate to a new URL. See [Programmatic Navigation](../essentials/navigation.md).
+  Navigiere programmatisch zu einer neuen URL. Siehe [Programmatische Navigation](../essentials/navigation.md).
 
 - **router.getMatchedComponents()**
 
-  Returns an Array of the components (definition/constructor, not instances) matched by the current route. This is mostly used during server-side rendering to perform data prefetching.
-  
+  Gibt einen Array von Komponenten (Definition/Konstruktor, nicht Instanz) wieder, die der aktuellen Route zutreffen. Wird meist genutzt bei serverseitigem Rendern, um ein Vorladen von Daten zu ermöglichen.
+
 - **router.resolve(location, current?, append?)**
 
-  Reverse URL resolving. Given location in form same as used in `<router-link/>`, returns object with string property `href`.
+  Umgekehrte URL-Umwandlung. Sofern ein Ort in gleicher Form wie in `<router-link>` vorhanden ist, gibt es ein Objekt mit dem String `href` wieder.
