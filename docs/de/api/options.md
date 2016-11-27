@@ -1,20 +1,20 @@
-# Router Construction Options
+# Optionen der Router-Konstruktion
 
 ### routes
 
-- type: `Array<RouteConfig>`
+- Typ: `Array<RouteConfig>`
 
-  Type declaration for `RouteConfig`:
+  Typendeklaration für `RouteConfig`:
 
   ``` js
   declare type RouteConfig = {
     path: string;
     component?: Component;
-    name?: string; // for named routes
-    components?: { [name: string]: Component }; // for named views
+    name?: string; // für benannte Routes
+    components?: { [name: string]: Component }; // für benannte Views
     redirect?: string | Location | Function;
     alias?: string | Array<string>;
-    children?: Array<RouteConfig>; // for nested routes
+    children?: Array<RouteConfig>; // für Verschachtelte Routes
     beforeEnter?: (to: Route, from: Route, next: Function) => void;
     meta?: any;
   }
@@ -22,41 +22,41 @@
 
 ### mode
 
-- type: `string`
+- Typ: `string`
 
-- default: `"hash" (in browser) | "abstract" (in Node.js)`
+- Default: `"hash" (in browser) | "abstract" (in Node.js)`
 
-- available values: `"hash" | "history" | "abstract"`
+- verfügbare Werte: `"hash" | "history" | "abstract"`
 
-  Configure the router mode.
+  Konfiguriere den Router-Mode.
 
-  - `hash`: uses the URL hash for routing. Works in all Vue-supported browsers, including those that do not support HTML5 History API.
+  - `hash`: nutzt den URL-Hash für Weiterleitungen. Funktioniert in allen Vue-unterstützten Browsern, inklusive derer, die HTML5 Verlaufs-API nicht unterstützen.
 
-  - `history`: requires HTML5 History API and server config. See [HTML5 History Mode](../essentials/history-mode.md).
+  - `history`: benötigt HTML5 Verlaufs-API und Serverkonfiguration. Siehe [HTML5 Verlaufsmodus](../essentials/history-mode.md).
 
-  - `abstract`: works in all JavaScript environments, e.g. server-side with Node.js. **The router will automatically be forced into this mode if no browser API is present.**
+  - `abstract`: funktioniert in jeder JavaScript-Umgebung, zB. serverseitig mit Node.js. **Der Router wird automatisch in diesen Modus gezwungen, wenn keine Browser-API vorhanden ist.**
 
 ### base
 
-- type: `string`
+- Typ: `string`
 
-- default: `"/"`
+- Default: `"/"`
 
-  The base URL of the app. For example, if the entire single page application is served under `/app/`, then `base` should use the value `"/app/"`.
+  Die Basis-URL der App. Ist zum Beispiel die gesamte Single-Page-Applikation unter `/app` vorhanden, sollte `base` den Wert `"/app"` haben.
 
 ### linkActiveClass
 
-- type: `string`
+- Typ: `string`
 
-- default: `"router-link-active"`
+- Default: `"router-link-active"`
 
-  Globally configure `<router-link>` default active class. Also see [router-link](router-link.md).
+  Global konfigurierte standardmäßige aktive Klasse für `<router-link>`. Siehe auch [router-link](router-link.md).
 
 ### scrollBehavior
 
-- type: `Function`
+- Typ: `Function`
 
-  Signature:
+  Signatur:
 
   ```
   (
@@ -66,4 +66,4 @@
   ) => { x: number, y: number } | { selector: string } | ?{}
   ```
 
-  For more details see [Scroll Behavior](../advanced/scroll-behavior.md).
+  Für mehr Details siehe [Scroll Behavior](../advanced/scroll-behavior.md).
