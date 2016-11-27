@@ -1,10 +1,10 @@
-# Getting Started
+# Начало работы
 
-> We will be using [ES2015](https://github.com/lukehoban/es6features) in the code samples in the guide.
+> В примерах этого руководства мы будем использовать синтаксис [ES2015](https://github.com/lukehoban/es6features).
 
-Creating a Single-page Application with Vue.js + vue-router is dead simple. With Vue.js, we are already composing our application with components. When adding vue-router to the mix, all we need to do is map our components to the routes and let vue-router know where to render them. Here's a basic example:
+Создать одностраничное приложение используя Vue.js и vue-router — проще простого. Используя Vue.js, мы уже собираем своё приложение из компонентов. Добавляя vue-router, мы просто сопоставляем компонентам пути, и указываем где именно их отображать. Вот простой пример:
 
-> All examples will be using the standalone version of vue to make template parsing possible. See more details [here](http://vuejs.org/guide/installation.html#Standalone-vs-Runtime-only-Build)
+> Во всех примерах мы используем standalone-версию Vue, что позволяет использовать парсинг шаблонов. Более подробно о разнице версий можно почитать [здесь](http://vuejs.org/guide/installation.html#Standalone-vs-Runtime-only-Build).
 
 ### HTML
 
@@ -15,14 +15,13 @@ Creating a Single-page Application with Vue.js + vue-router is dead simple. With
 <div id="app">
   <h1>Hello App!</h1>
   <p>
-    <!-- use router-link component for navigation. -->
-    <!-- specify the link by passing the `to` prop. -->
-    <!-- <router-link> will be rendered as an `<a>` tag by default -->
+    <!-- используйте компонент router-link для создания ссылок. -->
+    <!-- входной параметр `to` задаёт путь для перехода -->
+    <!-- по умолчанию <router-link> отображается тегом `<a>` -->
     <router-link to="/foo">Go to Foo</router-link>
     <router-link to="/bar">Go to Bar</router-link>
   </p>
-  <!-- route outlet -->
-  <!-- component matched by the route will render here -->
+  <!-- компонент, соответствующий пути, отобразится здесь -->
   <router-view></router-view>
 </div>
 ```
@@ -30,40 +29,39 @@ Creating a Single-page Application with Vue.js + vue-router is dead simple. With
 ### JavaScript
 
 ``` js
-// 0. If using a module system (e.g. via vue-cli), import Vue and VueRouter and then call Vue.use(VueRouter).
+// 0. Если вы используете модульную системы (напр. через vue-cli), импортируйте Vue и VueRouter и вызовите Vue.use(VueRouter).
 
-// 1. Define route components.
-// These can be imported from other files
+// 1. Определите используемые компоненты.
+// Их можно импортировать из внешних файлов
 const Foo = { template: '<div>foo</div>' }
 const Bar = { template: '<div>bar</div>' }
 
-// 2. Define some routes
-// Each route should map to a component. The "component" can
-// either be an actual component constructor created via
-// Vue.extend(), or just a component options object.
-// We'll talk about nested routes later.
+// 2. Определите пути
+// Каждому пути должен соответствовать компонент. "Компонентом" может
+// быть как созданный через Vue.extend() полноценный конструктор,
+// так и просто объект опций компонента.
+// Вложенные пути будут рассмотрены позднее.
 const routes = [
   { path: '/foo', component: Foo },
   { path: '/bar', component: Bar }
 ]
 
-// 3. Create the router instance and pass the `routes` option
-// You can pass in additional options here, but let's
-// keep it simple for now.
+// 3. Создайте инстанс роутера и передайте ему опцию `routes`
+// Можно передать и другие опции, но пока не будем усложнять
 const router = new VueRouter({
-  routes // short for routes: routes
+  routes // сокращение от routes: routes
 })
 
-// 4. Create and mount the root instance.
-// Make sure to inject the router with the router option to make the
-// whole app router-aware.
+// 4. Создайте и примонтируйте корневой инстанс приложения
+// Удостоверьтесь, что передали инстанс роутера в одноимённой опции,
+// что даст приложению знать о его присутствии
 const app = new Vue({
   router
 }).$mount('#app')
 
-// Now the app has started!
+// Всё, приложение работает ;)
 ```
 
-You can also checkout this example [live](http://jsfiddle.net/yyx990803/xgrjzsup/).
+Вживую этот пример доступен [здесь](http://jsfiddle.net/yyx990803/xgrjzsup/).
 
-Notice that a `<router-link>` automatically gets the `.router-link-active` class when its target route is matched. You can learn more about it in its [API reference](../api/router-link.md).
+Обратите внимание, что `<router-link>` автоматически получает класс `.router-link-active` при совпадении пути. Более подробно об этом можно почитать в [справочнике API](../api/router-link.md).
