@@ -3,7 +3,7 @@ module.exports = {
     browser
     .url('http://localhost:8080/nested-routes/')
       .waitForElementVisible('#app', 1000)
-      .assert.count('li a', 4)
+      .assert.count('li a', 8)
       .assert.urlEquals('http://localhost:8080/nested-routes/parent')
       .assert.containsText('.view', 'Parent')
       .assert.containsText('.view', 'default')
@@ -22,6 +22,46 @@ module.exports = {
       .assert.urlEquals('http://localhost:8080/nested-routes/baz')
       .assert.containsText('.view', 'Parent')
       .assert.containsText('.view', 'baz')
+
+      .click('li:nth-child(5) a')
+      .assert.urlEquals('http://localhost:8080/nested-routes/parent/qux/123')
+      .assert.containsText('.view', 'Parent')
+      .assert.containsText('.view', 'qux')
+
+      .click('.nested-parent a')
+      .assert.urlEquals('http://localhost:8080/nested-routes/parent/qux/123/quux')
+      .assert.containsText('.view', 'Parent')
+      .assert.containsText('.view', 'qux')
+      .assert.containsText('.view', 'quux')
+
+      .click('li:nth-child(6) a')
+      .assert.urlEquals('http://localhost:8080/nested-routes/parent/quy/123')
+      .assert.containsText('.view', 'Parent')
+      .assert.containsText('.view', 'quy')
+      .assert.evaluate(function () {
+        var params = JSON.parse(document.querySelector('pre').textContent)
+        return (
+          JSON.stringify(params) === JSON.stringify(['quyId'])
+        )
+      }, null, '/')
+
+      .click('li:nth-child(8) a')
+      .assert.urlEquals('http://localhost:8080/nested-routes/parent/zap/1')
+      .assert.containsText('.view', 'Parent')
+      .assert.containsText('.view', 'zap')
+      .assert.evaluate(function () {
+        var zapId = document.querySelector('pre').textContent
+        return (zapId === '1')
+      }, null, '/')
+
+      .click('li:nth-child(7) a')
+      .assert.urlEquals('http://localhost:8080/nested-routes/parent/zap')
+      .assert.containsText('.view', 'Parent')
+      .assert.containsText('.view', 'zap')
+      .assert.evaluate(function () {
+        var zapId = document.querySelector('pre').textContent
+        return (zapId === '')
+      }, null, '/')
 
     // check initial visit
     .url('http://localhost:8080/nested-routes/parent/foo')

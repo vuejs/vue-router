@@ -39,3 +39,7 @@
 - **router.getMatchedComponents()**
 
   Returns an Array of the components (definition/constructor, not instances) matched by the current route. This is mostly used during server-side rendering to perform data prefetching.
+  
+- **router.resolve(location, current?, append?)**
+
+  Reverse URL resolving. Given location in form same as used in `<router-link/>`, returns object with string property `href`.

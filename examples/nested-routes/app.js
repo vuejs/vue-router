@@ -19,6 +19,26 @@ const Foo = { template: '<div>foo</div>' }
 const Bar = { template: '<div>bar</div>' }
 const Baz = { template: '<div>baz</div>' }
 
+const Qux = {
+  template: `
+    <div class="nested-parent">
+      <h3>qux</h3>
+      <router-link :to="{ name: 'quux' }">/quux</router-link>
+      <router-view class="nested-child"></router-view>
+    </div>
+  `
+}
+const Quy = {
+  template: `
+    <div class="nested-parent-other">
+      <h3>quy</h3>
+      <pre>{{ JSON.stringify(Object.keys($route.params)) }}</pre>
+    </div>
+  `
+}
+const Quux = { template: '<div>quux</div>' }
+const Zap = { template: '<div><h3>zap</h3><pre>{{ $route.params.zapId }}</pre></div>' }
+
 const router = new VueRouter({
   mode: 'history',
   base: __dirname,
@@ -40,7 +60,17 @@ const router = new VueRouter({
         // this allows you to leverage the component nesting without being
         // limited to the nested URL.
         // components rendered at /baz: Root -> Parent -> Baz
-        { path: '/baz', component: Baz }
+        { path: '/baz', component: Baz },
+
+        {
+          path: 'qux/:quxId',
+          component: Qux,
+          children: [{ path: 'quux', name: 'quux', component: Quux }]
+        },
+
+        { path: 'quy/:quyId', component: Quy },
+
+        { name: 'zap', path: 'zap/:zapId?', component: Zap }
       ]
     }
   ]
@@ -56,6 +86,10 @@ new Vue({
         <li><router-link to="/parent/foo">/parent/foo</router-link></li>
         <li><router-link to="/parent/bar">/parent/bar</router-link></li>
         <li><router-link to="/baz">/baz</router-link></li>
+        <li><router-link to="/parent/qux/123">/parent/qux</router-link></li>
+        <li><router-link to="/parent/quy/123">/parent/quy</router-link></li>
+        <li><router-link :to="{name: 'zap'}">/parent/zap</router-link></li>
+        <li><router-link :to="{name: 'zap', params: {zapId: 1}}">/parent/zap/1</router-link></li>
       </ul>
       <router-view class="view"></router-view>
     </div>
