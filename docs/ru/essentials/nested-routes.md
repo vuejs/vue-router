@@ -1,6 +1,6 @@
-# Nested Routes
+# Вложенные пути
 
-Real app UIs are usually composed of components that are nested multiple levels deep. It is also very common that the segments of a URL corresponds to a certain structure of nested components, for example:
+Пользовательский интерфейс реальных приложений обычно составлен многоуровневой иерархией компонентов. Столь же обычно и соответствие сегментов URL некоторой структуре вложенности компонентов, например:
 
 ```
 /user/foo/profile                     /user/foo/posts
@@ -13,9 +13,9 @@ Real app UIs are usually composed of components that are nested multiple levels 
 +------------------+                  +-----------------+
 ```
 
-With `vue-router`, it is very simple to express this relationship using nested route configurations.
+Используя `vue-router`, мы можем с лёгкостью выразить эти взаимоотношения при помощи вложенных путей.
 
-Given the app we created in the last chapter:
+Рассмотрим созданное в предыдущем разделе приложение:
 
 ``` html
 <div id="app">
@@ -25,7 +25,7 @@ Given the app we created in the last chapter:
 
 ``` js
 const User = {
-  template: '<div>User {{ $route.params.id }}</div>'
+  template: '<div>Пользователь {{ $route.params.id }}</div>'
 }
 
 const router = new VueRouter({
@@ -35,21 +35,21 @@ const router = new VueRouter({
 })
 ```
 
-The `<router-view>` here is a top-level outlet. It renders the component matched by a top level route. Similarly, a rendered component can also contain its own, nested `<router-view>`. For example, if we add one inside the `User` component's template:
+Здесь `<router-view>` — это точка, в которой будет отображён компонент, соответствующий пути верхнего уровня. Аналогично, отображённый там компонент может и сам содержать вложенный `<router-view>`. Изменим немного шаблон компонента `User`:
 
 ``` js
 const User = {
   template: `
     <div class="user">
-      <h2>User {{ $route.params.id }}</h2>
+      <h2>Пользователь {{ $route.params.id }}</h2>
       <router-view></router-view>
     </div>
   `
 }
 ```
 
-To render components into this nested outlet, we need to use the `children`
-option in `VueRouter` constructor config:
+Для отображения компонентов в этой вложенной точке, нам понадобится опция `children`
+в конфигурации конструктора `VueRouter`:
 
 ``` js
 const router = new VueRouter({
@@ -57,14 +57,14 @@ const router = new VueRouter({
     { path: '/user/:id', component: User,
       children: [
         {
-          // UserProfile will be rendered inside User's <router-view>
-          // when /user/:id/profile is matched
+          // при совпадении пути с шаблоном /user/:id/profile
+          // в <router-view> компонента User будет отображён UserProfile
           path: 'profile',
           component: UserProfile
         },
         {
-          // UserPosts will be rendered inside User's <router-view>
-          // when /user/:id/posts is matched
+          // при совпадении с шаблоном /user/:id/posts
+          // в <router-view> компонента User будет отображён UserPosts
           path: 'posts',
           component: UserPosts
         }
@@ -74,11 +74,11 @@ const router = new VueRouter({
 })
 ```
 
-**Note that nested paths that start with `/` will be treated as a root path. This allows you to leverage the component nesting without having to use a nested URL.**
+**Обратите внимание, что вложенные пути, начинающиеся с `/`, будут считаться корневыми. Это позволяет задействовать вложенную структуру компонентов независимо от структуры URL.**
 
-As you can see the `children` option is just another Array of route configuration objects like `routes` itself. Therefore, you can keep nesting views as much as you need.
+Как вы могли заметить, опция `children` — это просто массив объектов конфигурации путей, такой же как и сам `routes`. Так что вложенность по глубине не ограничена.
 
-At this point, with the above configuration, when you visit `/user/foo`, nothing will be rendered inside `User`'s outlet, because no sub route is matched. Maybe you do want to render something there. In such case you can provide an empty subroute path:
+С текущим кодом, если перейти по пути `/user/foo`, внутри компонента `User` ничего отображено не будет, так как не произойдёт совпадения по второй части пути. Может быть, что-то в таких случаях отобразить всё же захочется — тогда стоит указать пустой путь:
 
 ``` js
 const router = new VueRouter({
@@ -86,15 +86,15 @@ const router = new VueRouter({
     {
       path: '/user/:id', component: User,
       children: [
-        // UserHome will be rendered inside User's <router-view>
-        // when /user/:id is matched
+        // при совпадении пути с шаблоном /user/:id
+        // в <router-view> компонента User будет отображён UserHome
         { path: '', component: UserHome },
 
-        // ...other sub routes
+        // ...остальные вложенные пути
       ]
     }
   ]
 })
 ```
 
-A working demo of this example can be found [here](http://jsfiddle.net/yyx990803/L7hscd8h/).
+Действующее демо этого примера можно найти [здесь](http://jsfiddle.net/yyx990803/L7hscd8h/).
