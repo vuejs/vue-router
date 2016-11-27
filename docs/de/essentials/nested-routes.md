@@ -1,6 +1,6 @@
-# Nested Routes
+# Verschachtelte Routes
 
-Real app UIs are usually composed of components that are nested multiple levels deep. It is also very common that the segments of a URL corresponds to a certain structure of nested components, for example:
+Reale App-UI ist normalerweise zusammengesetzt aus Komponenten, die mehrere Level tief verschachtelt sind. Es ist auch herkömmlich, dass Teile der URL gewisse Strukturen der Verschachtelung wiederspiegeln:
 
 ```
 /user/foo/profile                     /user/foo/posts
@@ -13,9 +13,7 @@ Real app UIs are usually composed of components that are nested multiple levels 
 +------------------+                  +-----------------+
 ```
 
-With `vue-router`, it is very simple to express this relationship using nested route configurations.
-
-Given the app we created in the last chapter:
+Wir bauen auf die App auf, die im letzten Kapitel erstellt wurde:
 
 ``` html
 <div id="app">
@@ -35,7 +33,7 @@ const router = new VueRouter({
 })
 ```
 
-The `<router-view>` here is a top-level outlet. It renders the component matched by a top level route. Similarly, a rendered component can also contain its own, nested `<router-view>`. For example, if we add one inside the `User` component's template:
+Der `router-view` hier ist ein Ausgangspunkt der höchsten Ebene. Es rendert die Komponente, welche zur Route der höchsten Ebene passt. Ebenso kann eine gerenderte Komponente selbst `router-view` enthalten. Im Beispiel wird eines in das Template der `User`-Komponente eingesetzt:
 
 ``` js
 const User = {
@@ -48,8 +46,7 @@ const User = {
 }
 ```
 
-To render components into this nested outlet, we need to use the `children`
-option in `VueRouter` constructor config:
+Um Komponenten in diesem verschachtelten Ausgangspunkt zu rendern, benötigt man die `children`-Option in der Konfiguration des `VueRouter`-Konstruktors.
 
 ``` js
 const router = new VueRouter({
@@ -57,14 +54,16 @@ const router = new VueRouter({
     { path: '/user/:id', component: User,
       children: [
         {
-          // UserProfile will be rendered inside User's <router-view>
-          // when /user/:id/profile is matched
+          // UserProfile wird innerhalb der
+          // <router-view> von User gerendert,
+          // wenn /user/:id/profile zutrifft.
           path: 'profile',
           component: UserProfile
         },
         {
-          // UserPosts will be rendered inside User's <router-view>
-          // when /user/:id/posts is matched
+          // UserPosts wird innerhalb der
+          // <router-view> von User gerendert,
+          // wenn /user/:id/posts zutrifft.
           path: 'posts',
           component: UserPosts
         }
@@ -74,11 +73,11 @@ const router = new VueRouter({
 })
 ```
 
-**Note that nested paths that start with `/` will be treated as a root path. This allows you to leverage the component nesting without having to use a nested URL.**
+**Merke, dass verschachtelte Pfade, die mit `/` starten, als Grundpfad (Root) behandelt werden. Das erlaubt verschachtelte Komponenten ohne angepasste URL.**
 
-As you can see the `children` option is just another Array of route configuration objects like `routes` itself. Therefore, you can keep nesting views as much as you need.
+Wie man sieht, ist die `children`-Option nur eine weitere Aneinanderkettung von Objekten der Router-Konfiguration wie `routes` selbst. Demnach kann man Views so oft ineinander verschachteln, wie man möchte.
 
-At this point, with the above configuration, when you visit `/user/foo`, nothing will be rendered inside `User`'s outlet, because no sub route is matched. Maybe you do want to render something there. In such case you can provide an empty subroute path:
+Mit der oben genannten Konfiguration wird hierbei, wenn `/user/foo` besucht wird, nichts im Ausgangspunkt von `User` gerendert, da keine Sub-Route zutrifft. Sollte man dennoch etwas darstellen wollen, kann man einen leeren Pfad zur Sub-Route kreieren.
 
 ``` js
 const router = new VueRouter({
@@ -86,15 +85,16 @@ const router = new VueRouter({
     {
       path: '/user/:id', component: User,
       children: [
-        // UserHome will be rendered inside User's <router-view>
-        // when /user/:id is matched
+        // UserHome wird in <router-view>
+        // von User gerendert,
+        // wenn /user/:id zutrifft.
         { path: '', component: UserHome },
 
-        // ...other sub routes
+        // ...weitere Sub-Routes
       ]
     }
   ]
 })
 ```
 
-A working demo of this example can be found [here](http://jsfiddle.net/yyx990803/L7hscd8h/).
+Eine Demo dazu kann [hier](http://jsfiddle.net/yyx990803/L7hscd8h/) gefunden werden.
