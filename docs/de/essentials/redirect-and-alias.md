@@ -1,8 +1,8 @@
-# Weiterleitung und Alias
+# Umleitung und Alias
 
-### Weiterleitung
+### Umleitung
 
-Eine Weiterleitung bedeutet, dass, wenn der Nutzer `/a` besucht, die URL mit `/b` ersetzt wird und auch die Komponente unter `/b` rendert. Dieses richtet man in der `routes`-Konfiguration ein:
+Eine Umleitung bedeutet, dass, wenn der Nutzer `/a` besucht, die URL mit `/b` ersetzt wird und auch die Komponente unter `/b` rendert. Dieses richtet man in der `routes`-Konfiguration ein:
 
 
 ``` js
@@ -13,7 +13,7 @@ const router = new VueRouter({
 })
 ```
 
-Die Weiterleitung kann auch an einer benannten Route angewandt werden:
+Die Umleitung kann auch an einer benannten Route angewandt werden:
 
 ``` js
 const router = new VueRouter({
@@ -23,14 +23,14 @@ const router = new VueRouter({
 })
 ```
 
-Oder auch mit einer Funktion für dynamische Weiterleitung:
+Oder auch mit einer Funktion für dynamische Umleitung:
 
 ``` js
 const router = new VueRouter({
   routes: [
     { path: '/a', redirect: to => {
       // Die Funktion erhält die Ziel-Route als Argument
-      // und gibt den Weiterleitungsort/-pfad hier aus.
+      // und gibt den Umleitungsort/-pfad hier aus.
     }}
   ]
 })
