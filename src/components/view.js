@@ -1,3 +1,5 @@
+import { resolveProps } from '../util/props'
+
 export default {
   name: 'router-view',
   functional: true,
@@ -49,6 +51,7 @@ export default {
           matched.instances[name] = undefined
         }
       }
+      data.props = resolveProps(route, component, matched.props && matched.props[name])
     }
 
     return h(component, data, children)

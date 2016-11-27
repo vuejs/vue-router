@@ -44,6 +44,7 @@ function addRouteRecord (
     name,
     parent,
     matchAs,
+    props: typeof route.props === 'undefined' ? {} : (route.components ? route.props : { default: route.props }),
     redirect: route.redirect,
     beforeEnter: route.beforeEnter,
     meta: route.meta || {}
