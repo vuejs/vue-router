@@ -6,11 +6,11 @@
 
 ルートオブジェクトは複数の場所に存在します。
 
-- コンポーネント内での `this.$route`、また、 `$route` watcher コールバック内部
+- コンポーネント内での `this.$route`、また、 `$route` watcher コールバック内部。
 
-- `router.match(location)` を呼び出した時の返り値
+- `router.match(location)` を呼び出した時の返り値。
 
-- ナビゲーションガード内での 1 つ目の引数
+- ナビゲーションガード内での第 1 引数、第 2 引数として:
 
   ``` js
   router.beforeEach((route, redirect, next) => {
@@ -18,7 +18,7 @@
   })
   ```
 
-- `scrollBehavior` function 内の引数
+- `scrollBehavior` 関数内の第 1 引数、第 2 引数として:
 
   ``` js
   const router = new VueRouter({
