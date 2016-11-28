@@ -39,3 +39,7 @@
 - **router.getMatchedComponents()**
 
   現在のルートにマッチしているコンポーネント (インスタンスではなく定義 / コンストラクタ) の配列を返します。これは大抵の場合データ取得を行うサーバーサイドレンダリングで使用されます。
+
+- **router.resolve(location, current?, append?)**
+
+  Reverse URL resolving. Given location in form same as used in `<router-link/>`, returns object with string property `href`.
