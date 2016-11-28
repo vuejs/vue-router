@@ -67,8 +67,9 @@
     "selenium-server": "^2.53.1",
     "typescript": "^2.0.3",
     "uglify-js": "^2.7.0",
-    "vue": "^2.0.0-rc.7",
-    "vue-loader": "^9.4.0",
+    "vue": "^2.1.0",
+    "vue-loader": "^10.0.0",
+    "vue-template-compiler": "^2.1.0",
     "webpack": "^1.13.1",
     "webpack-dev-middleware": "^1.6.1"
   }
