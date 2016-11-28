@@ -4,7 +4,7 @@
 
 Vue.js と vue-router を使ったシングルページアプリケーションの構築は驚くほど簡単です。Vue.js のコンポーネントを使ってアプリケーションを既に構成しています。vue-router を混ぜ込むには、コンポーネントとルートをマッピングさせて vue-router にどこでレンダリングするかを知らせるだけです。以下が基本的な例です。
 
-> All examples will be using the standalone version of vue to make template parsing possible. See more details [here](http://vuejs.org/guide/installation.html#Standalone-vs-Runtime-only-Build)
+> すべての example では、vue のスタンドアロンバージョンを使用してテンプレートを解析可能にしています。詳細は[こちら](http://jp.vuejs.org/v2/guide/installation.html#スタンドアロン-vs-ランタイム限定ビルド)を参照してください。
 
 ### HTML
 

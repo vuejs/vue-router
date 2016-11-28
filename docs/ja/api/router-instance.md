@@ -42,4 +42,4 @@
 
 - **router.resolve(location, current?, append?)**
 
-  Reverse URL resolving. Given location in form same as used in `<router-link/>`, returns object with string property `href`.
+  逆 URL 解決します。`<router-link/>` で使われているものと同じ形式の location が与えられた場合は、文字列プロパティ `href` のオブジェクトを返します。
