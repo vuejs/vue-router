@@ -1,6 +1,6 @@
-# Transitions
+# Анимация переходов
 
-Since the `<router-view>` is essentially a dynamic component, we can apply transition effects to it the same way using the `<transition>` component:
+Поскольку `<router-view>` — это просто динамический компонент, к нему можно применить анимированные переходы, используя `<transition>`:
 
 ``` html
 <transition>
@@ -8,11 +8,11 @@ Since the `<router-view>` is essentially a dynamic component, we can apply trans
 </transition>
 ```
 
-[Everything about `<transition>`](http://vuejs.org/guide/transitions.html) works the same here.
+[Всё, что сказано о `<transition>` в основной документации](http://vuejs.org/guide/transitions.html) применимо и здесь.
 
-### Per-Route Transition
+### Анимация переходов для конкретных путей
 
-The above usage will apply the same transition for all routes. If you want each route's component to have different transitions, you can instead use `<transition>` with different names inside each route component:
+Синтаксис выше применит одну и ту же анимацию перехода для всех путей. Если для различных путей хочется указать разные анимационные эффекты, можно использовать разноимённые `<transition>` непосредственно в шаблонах компонентов:
 
 ``` js
 const Foo = {
@@ -32,20 +32,21 @@ const Bar = {
 }
 ```
 
-### Route-Based Dynamic Transition
+### Динамические анимационные переходы для путей
 
-It is also possible to determine the transition to use dynamically based on the relationship between the target route and current route:
+Можно также определить переходы для путей динамически, в зависимости от соотношения между старым и новым путём:
 
 ``` html
-<!-- use a dynamic transition name -->
+<!-- используем динамическое имя анимационного перехода -->
 <transition :name="transitionName">
   <router-view></router-view>
 </transition>
 ```
 
 ``` js
-// then, in the parent component,
-// watch the $route to determine the transition to use
+// затем, в родительском компоненте, будем следить за переменной $route,
+// чтобы определить, какой анимационный переход применить
+
 watch: {
   '$route' (to, from) {
     const toDepth = to.path.split('/').length
@@ -55,4 +56,4 @@ watch: {
 }
 ```
 
-See full example [here](https://github.com/vuejs/vue-router/blob/dev/examples/transitions/app.js).
+Полный пример можно посмотреть [здесь](https://github.com/vuejs/vue-router/blob/dev/examples/transitions/app.js).
