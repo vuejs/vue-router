@@ -1,22 +1,22 @@
 # `<router-view>`
 
-The `<router-view>` component is a functional component that renders the matched component for the given path. Components rendered in `<router-view>` can also contain its own `<router-view>`, which will render components for nested paths.
+`<router-view>` — это функциональный компонент, отображающий соответствующее текущему пути представление. Компоненты, отображаемые на месте `<router-view>` могут сами содержать вложенные `<router-view>`, что позволяет организовать иерархию вложенных путей.
 
-### Props
+### Входные параметры
 
 - **name**
 
-  - type: `string`
+  - тип: `string`
 
-  - default: `"default"`
+  - значение по умолчанию: `"default"`
 
-  When a `<router-view>` has a name, it will render the component with the corresponding name in the matched route record's `components` option. See [Named Views](../essentials/named-views.md) for an example.
+  Если для `<router-view>` указывается имя, на его месте отобразится компонент, для которого в записи пути указано соответствующее имя в опции `components`. Для подробностей и примера см. [именованные представления](../essentials/named-views.md).
 
-### Behavior
+### Поведение
 
-Any non-name props will be passed along to the rendered component, however most of the time the per-route data is contained in the route's params.
+Все остальные входные параметры будут напрямую переданы отображащемому компоненту представления. Тем не менее, чаще всего данные уровня пути содержатся в параметрах пути (`$route.params`).
 
-Since it's just a component, it works with `<transition>` and `<keep-alive>`. When using the both together, make sure to use `<keep-alive>` inside:
+Поскольку мы имеем дело всего лишь с обыкновенным компонентом, можно использовать врапперы `<transition>` и `<keep-alive>`. Если вы используете оба, удостоверьтесь, что `<keep-alive>` расположен внутри:
 
 ``` html
 <transition>
