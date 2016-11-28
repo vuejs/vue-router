@@ -17,10 +17,10 @@
 - Продвинутые возможности
   - [Сторожевые хуки](advanced/navigation-guards.md)
   - [Метаданные путей](advanced/meta.md)
-  - [Переходы](advanced/transitions.md)
+  - [Анимация переходов](advanced/transitions.md)
   - [Запросы данных](advanced/data-fetching.md)
   - [Скроллинг](advanced/scroll-behavior.md)
-  - [Ленивая загрузка](advanced/lazy-loading.md)
+  - [Ленивая загрузка путей](advanced/lazy-loading.md)
 - Справочник API
   - [router-link](api/router-link.md)
   - [router-view](api/router-view.md)
