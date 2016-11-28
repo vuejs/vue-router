@@ -20,7 +20,11 @@ export default {
     exact: Boolean,
     append: Boolean,
     replace: Boolean,
-    activeClass: String
+    activeClass: String,
+    event: {
+      type: String,
+      default: 'click'
+    }
   },
   render (h: Function) {
     const router = this.$router
@@ -49,6 +53,18 @@ export default {
         const target = e.target.getAttribute('target')
         if (/\b_blank\b/i.test(target)) return
 
+        e.preventDefault()
+      }, // overridden if this.event is click
+      [this.event]: (e) => {
+        // don't redirect with control keys
+        /* istanbul ignore if */
+        if (e.metaKey || e.ctrlKey || e.shiftKey) return
+        // don't redirect when preventDefault called
+        /* istanbul ignore if */
+        if (e.defaultPrevented) return
+        // don't redirect on right click
+        /* istanbul ignore if */
+        if (e.type === 'click' && e.button !== 0) return
         e.preventDefault()
         if (this.replace) {
           router.replace(normalizedTo)
