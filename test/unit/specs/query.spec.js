@@ -10,14 +10,4 @@ describe('Query utils', () => {
       }))
     })
   })
-
-  describe('stringifyQuery', () => {
-    it('should work', () => {
-      expect(stringifyQuery({
-        foo: 'bar',
-        baz: 'qux',
-        arr: [1, 2]
-      })).toBe('?arr=1&arr=2&baz=qux&foo=bar') // sorted alphabetically
-    })
-  })
 })
