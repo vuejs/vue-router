@@ -1,31 +1,31 @@
-# Router Instance
+# Инстанс Router'а
 
-### Properties
+### Свойства
 
 #### router.app
 
-- type: `Vue instance`
+- тип: `Vue instance`
 
-  The root Vue instance the `router` was injected into.
+  Корневой инстанс Vue, в который был интегрирован `router`.
 
 #### router.mode
 
-- type: `string`
+- тип: `string`
 
-  The [mode](options.md#mode) the router is using.
+  [Режим](options.md#mode), используемый роутером.
 
 #### router.currentRoute
 
-- type: `Route`
+- тип: `Route`
 
-  The current route represented as a [Route Object](route-object.md).
+  Текущий путь в виде [объекта Route](route-object.md).
 
-### Methods
+### Методы
 
 - **router.beforeEach(guard)**
 - **router.afterEach(hook)**
 
-  Add global navigation guards. See [Navigation Guards](../advanced/navigation-guards.md).
+  См. [сторожевые хуки](../advanced/navigation-guards.md).
 
 
 - **router.push(location)**
@@ -34,8 +34,8 @@
 - **router.back()**
 - **router.forward()**
 
-  Programmatically navigate to a new URL. See [Programmatic Navigation](../essentials/navigation.md).
+  Методы для императивного перехода к новому URL. См. [Императивная навигация](../essentials/navigation.md).
 
 - **router.getMatchedComponents()**
 
-  Returns an Array of the components (definition/constructor, not instances) matched by the current route. This is mostly used during server-side rendering to perform data prefetching.
+  Возвращает массив компонентов (определение/конструктор, не инстансы), совпадающих с текущим путём. В основном используется во время рендеринга на сервере для получения необходимых данных.
