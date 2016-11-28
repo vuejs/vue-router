@@ -1,6 +1,6 @@
-# Named Views
+# Именованные представления
 
-Sometimes you need to display multiples views at the same time instead of nesting them, e.g. creating a layout with a `sidebar` view and a `main` view. This is where named views came in handy. Instead of having one single outlet in your view, you can have multiple and give each of them a name. A `router-view` without a name will be given `default` as its name.
+Иногда необходимо отобразить сразу несколько компонентов, не вкладывая их один в другой — например, при создании разметки с сайдбаром и основным контентом. В этой ситуации может быть удобно использовать именованные представления. Вместо указания единственного `<router-view>`, можно использовать несколько, присвоив каждому имя. Безымянный `router-view` автоматически получает имя `default`.
 
 ``` html
 <router-view class="view one"></router-view>
@@ -8,8 +8,7 @@ Sometimes you need to display multiples views at the same time instead of nestin
 <router-view class="view three" name="b"></router-view>
 ```
 
-A view is rendered by using a component, therefore multiple views require multiple components for the same route. Make sure to use the `components` (with
-an s) option:
+При использовании нескольких представлений, вместо единственного компонента при описании пути необходимо указывать объект. Удостоверьтесь, что используете окончание множественного числа (s) в ключе `components`:
 
 ``` js
 const router = new VueRouter({
@@ -26,5 +25,4 @@ const router = new VueRouter({
 })
 ```
 
-A working demo of this example can be found
-[here](https://jsfiddle.net/posva/6du90epg/).
+Рабочее демо этого примера можно найти [здесь](https://jsfiddle.net/posva/6du90epg/).
