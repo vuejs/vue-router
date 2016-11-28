@@ -9,6 +9,9 @@ Vue.js と vue-router を使ったシングルページアプリケーション�
 ### HTML
 
 ``` html
+<script src="https://unpkg.com/vue/dist/vue.js"></script>
+<script src="https://unpkg.com/vue-router"></script>
+
 <div id="app">
   <h1>Hello App!</h1>
   <p>
@@ -27,7 +30,7 @@ Vue.js と vue-router を使ったシングルページアプリケーション�
 ### JavaScript
 
 ``` js
-// 0. モジュールシステムを使っている場合、 Vue.use(VueRouter) を呼び出します
+// 0. モジュールシステムを使っている場合 (例: vue-clie 経由で)、 Vue.use(VueRouter) を呼び出す前に、Vue と VueRouter をインポートします
 
 // 1. ルートコンポーネントを定義します
 // 他のファイルからインポートすることもできます
