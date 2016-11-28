@@ -1,10 +1,10 @@
-# Navigation Guards
+# Сторожевые хуки
 
-As the name suggests, the navigation guards provided by `vue-router` are primarily used to guard navigations either by redirecting it or canceling it. There are a number of ways to hook into the route navigation process: globally, per-route, or in-component.
+Как следует из названия, сторожевые хуки `vue-router` используются для редиректов или отмены навигационных переходов. Есть несколько способов внедрить сторожевой хук: глобально, для конкретного пути, или для конкретного компонента.
 
-### Global Guards
+### Глобальные хуки
 
-You can register global before guards using `router.beforeEach`:
+Глобальный хук можно зарегистрировать через `router.beforeEach`:
 
 ``` js
 const router = new VueRouter({ ... })
@@ -14,25 +14,26 @@ router.beforeEach((to, from, next) => {
 })
 ```
 
-Global before guards are called in creation order, whenever a navigation is triggered. Guards may be resolved asynchronously, and the navigation is considered **pending** before all hooks have been resolved.
+Глобальные сторожевые хуки вызываются в порядке создания при каждом навигационном переходе. Допускается асинхронное разрешение хуков — в этом случае переход считается **незавершённым** до тех пор, пока не будут разрешены все хуки. 
 
-Every guard function receives three arguments:
+В каждый сторожевой хук передаётся три параметра:
 
-- **`to: Route`**: the target [Route Object](../api/route-object.md) being navigated to.
+- **`to: Route`**: целевой [объект Route](../api/route-object.md), к которому осуществляется переход.
 
-- **`from: Route`**: the current route being navigated away from.
+- **`from: Route`**: текущий путь, с которого осуществляется переход к новому.
 
 - **`next: Function`**: this function must be called to **resolve** the hook. The action depends on the arguments provided to `next`:
+- **`next: Function`**: функция, вызов которой **разрешает** хук. В зависимости от переданных в `next` аргументов, результатом будет:
 
-  - **`next()`**: move on to the next hook in the pipeline. If no hooks are left, the navigation is **confirmed**.
+  - **`next()`**: переход к следующему хуку в цепочке. Если хуков больше нет, переход считается **подтверждённым**.
 
-  - **`next(false)`**: abort the current navigation. If the browser URL was changed (either manually by the user or via back button), it will be reset to that of the `from` route.
+  - **`next(false)`**: отмена перехода. Если URL был изменён (вручную пользователем, или кнопкой "назад"), он будет сброшен на соответствующий пути `from`.
 
-  - **`next('/')` or `next({ path: '/' })`**: redirect to a different location. The current navigation will be aborted and a new one will be started.
+  - **`next('/')` or `next({ path: '/' })`**: редирект на другой путь. Текущий переход будет отменён, и процесс начнётся заново для нового пути.
 
-**Make sure to always call the `next` function, otherwise the hook will never be resolved.**
+**Удостоверьтесь, что функция `next` так или иначе будет вызвана, иначе хук никогда не будет разрешён.**
 
-You can also register global after hooks, however unlike guards, these hooks do not get a `next` function and cannot affect the navigation:
+Можно также зарегистрировать глобальные хуки, вызываемые после завершения перехода. Однако, в отличие от сторожевых хуков, в них не передаётся функция `next`, и на ход перехода они повлиять не могут:
 
 ``` js
 router.afterEach((to, from) => {
@@ -40,9 +41,9 @@ router.afterEach((to, from) => {
 })
 ```
 
-### Per-Route Guard
+### Указание хука для конкретного пути
 
-You can define `beforeEnter` guards directly on a route's configuration object:
+Сторожевые хуки `beforeEnter` можно указать напрямую для конкретного пути в его конфигурации:
 
 ``` js
 const router = new VueRouter({
@@ -58,38 +59,37 @@ const router = new VueRouter({
 })
 ```
 
-These guards have the exact same signature as global before guards.
+Эти хуки ничем не отличаются от глобальных.
 
-### In-Component Guards
+### Указание хука для конкретного компонента
 
-Finally, you can directly define route navigation guards inside route components with `beforeRouteEnter` and `beforeRouteLeave`:
+Наконец, сторожевой хук можно указать и непосредственно в компоненте, используя `beforeRouteEnter` и `beforeRouteLeave`:
 
 ``` js
 const Foo = {
   template: `...`,
   beforeRouteEnter (to, from, next) {
-    // called before the route that renders this component is confirmed.
-    // does NOT have access to `this` component instance,
-    // because it has not been created yet when this guard is called!
+    // вызывается до подтверждения пути, соответствующего этому компоненту.
+    // НЕ ИМЕЕТ доступа к контексту инстанса компонента `this`,
+    // так как к моменту вызова истанс ещё не создан!
   },
-  beforeRouteLeave (to, from, next) {
-    // called when the route that renders this component is about to
-    // be navigated away from.
-    // has access to `this` component instance.
+  beforeRouteLeave (to, from, next) {  
+    // вызывается перед переходом от пути, соответствующего текущему компоненту;
+    // имеет доступ к контексту инстанса компонента `this`.
   }
 }
 ```
 
-The `beforeRouteEnter` guard does **NOT** have access to `this`, because the guard is called before the navigation is confirmed, thus the new entering component has not even been created yet.
+Хук `beforeRouteEnter` **НЕ ИМЕЕТ** доступа к `this`, так как к моменту его вызова навигация ещё не подтверждена, а значит и инстанс компонента ещё не создан.
 
-However, you can access the instance by passing a callback to `next`. The callback will be called when the navigation is confirmed, and the component instance will be passed to the callback as the argument:
+Тем не менее, доступ к инстансу можно получить, передав коллбэк в `next`. Эта функция будет вызвана после подтверждения навигации, а экземпляр компонента будет передан в неё в качестве параметра:
 
 ``` js
 beforeRouteEnter (to, from, next) {
   next(vm => {
-    // access to component instance via `vm`
+    // инстанс компонента доступен как `vm`
   })
 }
 ```
 
-You can directly access `this` inside `beforeRouteLeave`. The leave guard is usually used to prevent the user from accidentally leaving the route with unsaved edits. The navigation can be canceled by calling `next(false)`.
+Внутри `beforeRouteLeave` можно обращаться к `this` напрямую. Этот сторожевой хук обычно используется для предотвращения случайного ухода пользователя с пути, содержащего несохранённые отредактированные данные. Переход можно отменить, вызвав `next(false)`.
