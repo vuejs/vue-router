@@ -4,7 +4,9 @@
 
 [https://unpkg.com/vue-router](https://unpkg.com/vue-router)
 
+<!--email_off-->
 [Unpkg.com](https://unpkg.com) provides NPM-based CDN links. The above link will always point to the latest release on NPM. You can also use a specific version/tag via URLs like `https://unpkg.com/vue-router@2.0.0`.
+<!--/email_off-->
 
 Include `vue-router` after Vue and it will install itself automatically:
 

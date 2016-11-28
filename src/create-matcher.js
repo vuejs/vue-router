@@ -35,7 +35,10 @@ export function createMatcher (routes: Array<RouteConfig>): Matcher {
 
     if (name) {
       const record = nameMap[name]
-      const paramNames = getParams(record.path)
+      const paramNames = regexpParamsCache[record.path] ||
+        (regexpParamsCache[record.path] = getRouteRegex(record.path).keys
+          .filter(key => !key.optional)
+          .map(key => key.name))
 
       if (typeof location.params !== 'object') {
         location.params = {}
@@ -208,11 +211,6 @@ function fillParams (
     assert(false, `missing param for ${routeMsg}: ${e.message}`)
     return ''
   }
-}
-
-function getParams (path: string): Array<string> {
-  return regexpParamsCache[path] ||
-    (regexpParamsCache[path] = getRouteRegex(path).keys.map(key => key.name))
 }
 
 function resolveRecordPath (path: string, record: RouteRecord): string {

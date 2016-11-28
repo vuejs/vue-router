@@ -4,7 +4,9 @@
 
 [https://unpkg.com/vue-router](https://unpkg.com/vue-router)
 
+<!--email_off-->
 [Unpkg.com](https://unpkg.com) は NPM ベースの CDN リンクです。 上記のリンクは常に NPM 上の最新のリリースを指します。 `https://unpkg.com/vue-router@2.0.0` のような URL を利用することで特定のバージョンやタグを指定することもできます。
+<!--/email_off-->
 
 Vue の後に `vue-router` を含めると自動的にインストールされます。
 

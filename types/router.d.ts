@@ -28,6 +28,7 @@ declare class VueRouter {
   back (): void;
   forward (): void;
   getMatchedComponentes (): Component;
+  resolve (to: RawLocation, current?: Route, append?: boolean): {href: string};
 
   static install: PluginFunction<never>;
 }
