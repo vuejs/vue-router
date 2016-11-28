@@ -1,28 +1,27 @@
-# Lazy Loading Routes
+# Lazy Loading
 
-When building apps with a bundler, the JavaScript bundle can become quite large and thus affecting page load time. It would be more efficient if we can split each route's components into a separate chunk, and only load them when the route is visited.
+Wenn Apps mit einem Bundler zusammengefügt werden, kann die Datei recht groß werden und so die Seitenladezeit beeinträchtigen. Es wäre effizienter, wenn man das Bundle in mehrere Router-Komponenten aufteilen könnte und sie nur dann lädt, wenn die Route besucht wird.
 
-Combining Vue's [async component feature](http://vuejs.org/guide/components.html#Async-Components) and Webpack's [code splitting feature](https://webpack.github.io/docs/code-splitting.html), it's trivially easy to
-lazy-load route components.
+Mit der Kombination von Vues [asynchronischem Komponenten-Feature](http://vuejs.org/guide/components.html#Async-Components) and Webpacks [Code-Aufteilungs-Feature (englisch)](https://webpack.github.io/docs/code-splitting.html) ist es einfach Lazy Loading von Route-Komponenten zu erreichen.
 
-All we need to do is defining our route components as async components:
+Alles was benötigt wird, ist die Definition der Route-Komponenten als asynchrone Komponenten:
 
 ``` js
 const Foo = resolve => {
-  // require.ensure is Webpack's special syntax for a code-split point.
+  // require.ensue ist Webpacks speziale Syntax für Code-Aufteilung.
   require.ensure(['./Foo.vue'], () => {
     resolve(require('./Foo.vue'))
   })
 }
 ```
 
-There's also an alternative code-split syntax using AMD style require, so this can be simplified to:
+Es gibt auch eine alternative Code-Teilungssyntax mit `require` im AMD-Stil:
 
 ``` js
 const Foo = resolve => require(['./Foo.vue'], resolve)
 ```
 
-Nothing needs to change in the route config, just use `Foo` as usual:
+Nichts muss geändert werden in der Route-Konfiguration - nutze `Foo` wie gewohnt:
 
 ``` js
 const router = new VueRouter({
@@ -32,9 +31,9 @@ const router = new VueRouter({
 })
 ```
 
-### Grouping Components in the Same Chunk
+### Gruppierung von Komponenten im selben Chunk
 
-Sometimes we may want to group all the components nested under the same route into the same async chunk. To achieve that we need to use [named chunks](https://webpack.github.io/docs/code-splitting.html#named-chunks) by providing a chunk name to `require.ensure` as the 3rd argument:
+Manchmal ist es gewollt alle Komponenten unter der selben Route in den selben ansynchronen Chunk zu gruppieren. Um das zu erreichen, werden [benannte Chunks (englisch)](https://webpack.github.io/docs/code-splitting.html#named-chunks) genutzt. Hierbei wird ein Chunk-Name `require.ensure` als drittes Argument hinzugefügt.
 
 ``` js
 const Foo = r => require.ensure([], () => r(require('./Foo.vue')), 'group-foo')
@@ -42,4 +41,4 @@ const Bar = r => require.ensure([], () => r(require('./Bar.vue')), 'group-foo')
 const Baz = r => require.ensure([], () => r(require('./Baz.vue')), 'group-foo')
 ```
 
-Webpack will group any async module with the same chunk name into the same async chunk - this also means we don't need to explicitly list dependencies for `require.ensure` anymore (thus passing an empty array).
+Webpack packt alle asynchronen Module mit dem gleichen Chunk-Namen in den selben asynchronen Chunk. Das bedeutet auch, dass keine Abhängigkeiten mehr für `require.ensure` explizit aufgelistet werden müssen - daher der leere Array als Argument.

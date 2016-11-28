@@ -1,10 +1,10 @@
-# Navigation Guards
+# Navigationsschutz
 
-As the name suggests, the navigation guards provided by `vue-router` are primarily used to guard navigations either by redirecting it or canceling it. There are a number of ways to hook into the route navigation process: globally, per-route, or in-component.
+Der Navigationsschutz bereit gestellt vom `vue-router` wird primär genutzt, um Navigationen durch Umleitung oder Unterbrechung zu schützen. Es gibt eine Vielzahl an Wege: global, per-route oder in der Komponente.
 
-### Global Guards
+### Globaler Schutz
 
-You can register global before guards using `router.beforeEach`:
+Man kann globalen Schutz für die Zeit direkt vor einer Navigation (globaler Vor-Schutz) mit `router.beforeEach` anwenden:
 
 ``` js
 const router = new VueRouter({ ... })
@@ -14,25 +14,25 @@ router.beforeEach((to, from, next) => {
 })
 ```
 
-Global before guards are called in creation order, whenever a navigation is triggered. Guards may be resolved asynchronously, and the navigation is considered **pending** before all hooks have been resolved.
+Globale Vor-Schutze werden in Kreierungsreihenfolge aufgerufen, wenn eine Navigation ausgelöst wird. Der Schutz darf auch asynchron angewandt werden, sodass die Navigation als **unerledigt** da steht, bis alle bearbeitet wurden.
 
-Every guard function receives three arguments:
+Jede Schutzfunktion erhält drei Argumente:
 
-- **`to: Route`**: the target [Route Object](../api/route-object.md) being navigated to.
+- **`to: Route`**: das [Route-Objekt](../api/route-object.md), zu dem navigiert wird
 
-- **`from: Route`**: the current route being navigated away from.
+- **`from: Route`**: die aktuelle Route, von der wegnavigiert wird
 
-- **`next: Function`**: this function must be called to **resolve** the hook. The action depends on the arguments provided to `next`:
+- **`next: Function`**: Diese Funktion muss aufgerufen werden, um den Hook aufzulösen. Die Aktion hängt von den Argumenten in `next` ab:
 
-  - **`next()`**: move on to the next hook in the pipeline. If no hooks are left, the navigation is **confirmed**.
+  - **`next()`**: Gehe zum nächsten Hook in der Leitung. Wenn keiner vorhanden, ist die Navigation **bestätigt**.
 
-  - **`next(false)`**: abort the current navigation. If the browser URL was changed (either manually by the user or via back button), it will be reset to that of the `from` route.
+  - **`next(false)`**: Brich die aktuelle Navigation ab. Wurde die URL geändert (entweder manuell durch den Nutzer oder via dem Zurück-Button), wird es zurückgesetzt zu dem, was die `from`-Route wiedergab.
 
-  - **`next('/')` or `next({ path: '/' })`**: redirect to a different location. The current navigation will be aborted and a new one will be started.
+  - **`next('/')` or `next({ path: '/' })`**: Umleitung zu einem anderen Ort. Die aktuelle Navigation wird abgebrochen und eine neue gestartet.
 
-**Make sure to always call the `next` function, otherwise the hook will never be resolved.**
+**Die `next`-Funktion muss immer aufgerufen werden, sonst kann der Hook nicht aufgelöst werden.**
 
-You can also register global after hooks, however unlike guards, these hooks do not get a `next` function and cannot affect the navigation:
+Man kann auch globale Nach-Hooks registrieren, allerdings erhalten diese keine `next`-Funktion wie der Navigationsschutz und beeinflussen nicht die Navigation selbst:
 
 ``` js
 router.afterEach((to, from) => {
@@ -40,9 +40,9 @@ router.afterEach((to, from) => {
 })
 ```
 
-### Per-Route Guard
+### Per-Route-Schutz
 
-You can define `beforeEnter` guards directly on a route's configuration object:
+Man kann den `beforeEnter`-Schutz direkt in der Router-Konfiguration definieren:
 
 ``` js
 const router = new VueRouter({
@@ -58,38 +58,37 @@ const router = new VueRouter({
 })
 ```
 
-These guards have the exact same signature as global before guards.
+Diese Schutze haben die exakt gleiche Signature als globale Vor-Schutze.
 
-### In-Component Guards
+### Schutz in Komponenten
 
-Finally, you can directly define route navigation guards inside route components with `beforeRouteEnter` and `beforeRouteLeave`:
+Letztendlich kann man auch Navigationsschutz in den Route-Komponenten mit `beforeRouteEnter` und `beforeRouteLeave` definieren:
 
 ``` js
 const Foo = {
   template: `...`,
   beforeRouteEnter (to, from, next) {
-    // called before the route that renders this component is confirmed.
-    // does NOT have access to `this` component instance,
-    // because it has not been created yet when this guard is called!
+    // Aufgerufen bevor die Router bestätigt wird, die die Komponenten rendert.
+    // hat keinen Zugang zum `this`-Kontext der Komponenteninstanz,
+    // da es noch nicht erstellt wurde, wenn der Schutz aufgerufen wird.
   },
   beforeRouteLeave (to, from, next) {
-    // called when the route that renders this component is about to
-    // be navigated away from.
-    // has access to `this` component instance.
+    // Aufgerufen, wenn von der Route, die die Komponente rendert, wegnavigiert wird.
+    // Hat Zugriff zum `this`-Kontext.
   }
 }
 ```
 
-The `beforeRouteEnter` guard does **NOT** have access to `this`, because the guard is called before the navigation is confirmed, thus the new entering component has not even been created yet.
+Der `beforeRouteEnter`-Schutz hat keinen Zugriff zum `this`-Kontext, weil der Schutz aufgerufen wird, bevor die Navigation bestätigt wurde, demnach wurde die Komponente noch gar nicht kreiert.
 
-However, you can access the instance by passing a callback to `next`. The callback will be called when the navigation is confirmed, and the component instance will be passed to the callback as the argument:
+Allerdings hat man Zugriff auf die Instanz, indem man einen Callback an `next` anfügt. Dieser wird aufgerufen, wenn die Navigation bestätigt wurde. Die Komponente wird im Callback als Argument hinzugefügt:
 
 ``` js
 beforeRouteEnter (to, from, next) {
   next(vm => {
-    // access to component instance via `vm`
+    // Zugriff auf Komponenteninstanz via 'vm'
   })
 }
 ```
 
-You can directly access `this` inside `beforeRouteLeave`. The leave guard is usually used to prevent the user from accidentally leaving the route with unsaved edits. The navigation can be canceled by calling `next(false)`.
+Man kann den `this`-Kontext in `beforeRouteLeave` aufrufen. Der Abgangsschutz wird normalerweise genutzt, um versehentliches verlassen der Route mit ungesicherten Arbeiten zu verhindern. Die Navigation kann mit `next(false)` abgebrochen werden.

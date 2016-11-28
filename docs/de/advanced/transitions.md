@@ -1,6 +1,6 @@
-# Transitions
+# Übergänge
 
-Since the `<router-view>` is essentially a dynamic component, we can apply transition effects to it the same way using the `<transition>` component:
+Da `<router-view>` im Grunde eine dynamische Komponente ist, kann man Übergangseffekte mit der `<transition>`-Komponente hinzufügen:
 
 ``` html
 <transition>
@@ -8,11 +8,11 @@ Since the `<router-view>` is essentially a dynamic component, we can apply trans
 </transition>
 ```
 
-[Everything about `<transition>`](http://vuejs.org/guide/transitions.html) works the same here.
+[Alles über `<transition>`](http://vuejs.org/guide/transitions.html) funktioniert auch hier.
 
-### Per-Route Transition
+### Per-Route-Übergang
 
-The above usage will apply the same transition for all routes. If you want each route's component to have different transitions, you can instead use `<transition>` with different names inside each route component:
+Das obige setzt den gleichen Übergangseffekt auf alle Routes. Wenn unterschiedliche Übergänge pro Route gewollt sind, kann man `<transition>` in der Route-Komponente jeweils andere Namen verpassen:
 
 ``` js
 const Foo = {
@@ -32,20 +32,20 @@ const Bar = {
 }
 ```
 
-### Route-Based Dynamic Transition
+### Route-basierter dynamischer Übergang
 
-It is also possible to determine the transition to use dynamically based on the relationship between the target route and current route:
+Es ist auch möglich den Übergang dynamisch anhand der Beziehung zwischen Ziel- und aktueller Route festzulegen:
 
 ``` html
-<!-- use a dynamic transition name -->
+<!-- nutze einen dynamischen Übergangsnamen -->
 <transition :name="transitionName">
   <router-view></router-view>
 </transition>
 ```
 
 ``` js
-// then, in the parent component,
-// watch the $route to determine the transition to use
+// überwache $route in der Parent-Komponente,
+// um den Übergang festzulegen
 watch: {
   '$route' (to, from) {
     const toDepth = to.path.split('/').length
@@ -55,4 +55,4 @@ watch: {
 }
 ```
 
-See full example [here](https://github.com/vuejs/vue-router/blob/dev/examples/transitions/app.js).
+Siehe als Beispiel [hier](https://github.com/vuejs/vue-router/blob/dev/examples/transitions/app.js).
