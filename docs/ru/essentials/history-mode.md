@@ -1,8 +1,8 @@
-# HTML5 History Mode
+# Режим HTML5 History
 
-The default mode for `vue-router` is _hash mode_ - it uses the URL hash to simulate a full URL so that the page won't be reloaded when the URL changes.
+Режимом по умолчанию для `vue-router` является _hash mode_ — для симуляции полного URL в этом случае используется хэш, что позволяет избежать перезагрузки страницы при изменении URL.
 
-To get rid of the hash, we can use the router's **history mode**, which leverages the `history.pushState` API to achieve URL navigation without a page reload:
+Мы можем обойтись без этого костыля, используя **history mode**, основывающийся на API `history.pushState` для достижения той же цели:
 
 ``` js
 const router = new VueRouter({
@@ -11,13 +11,13 @@ const router = new VueRouter({
 })
 ```
 
-When using history mode, the URL will look "normal," e.g. `http://oursite.com/user/id`. Beautiful!
+При использовании history mode, URL выглядят совершенно "нормально": например, `http://oursite.com/user/id`. Не прекрасно ли?
 
-Here comes a problem, though: Since our app is a single page client side app, without a proper server configuration, the users will get a 404 error if they access `http://oursite.com/user/id` directly in their browser. Now that's ugly.
+Возникает, однако, и проблема: поскольку наше приложение — одностраничное, не сконфигурировав соответствующим образом сервер мы заставим пользователей получать ошибку 404, если они перейдут по `http://oursite.com/user/id` напрямую. Вот это уже прекрасным не назвать.
 
-Not to worry: To fix the issue, all you need to do is add a simple catch-all fallback route to your server. If the URL doesn't match any static assets, it should serve the same `index.html` page that your app lives in. Beautiful, again! 
+Не спешите расстраиваться: всё, что нужно — единственная "резервная" запись в конфигурации сервера. Если URL не совпадает ни с одним статическим файлом, сервер должен просто отдать `index.html`, в котором и живёт наше приложение. Красота возвращена!
 
-## Example Server Configurations
+## Примеры конфигурации серверов
 
 #### Apache
 
@@ -42,11 +42,11 @@ location / {
 
 #### Node.js (Express)
 
-For Node.js/Express, consider using [connect-history-api-fallback middleware](https://github.com/bripkens/connect-history-api-fallback).
+При использовании Node.js/Express, мы рекомендуем пользоваться [connect-history-api-fallback middleware](https://github.com/bripkens/connect-history-api-fallback).
 
-## Caveat
+## Предостережение
 
-There is a caveat to this: Your server will no longer report 404 errors as all not-found paths now serve up your `index.html` file. To get around the issue, you should implement a catch-all route within your Vue app to show a 404 page:
+При таком подходе возникает одно неприятное последствие: сервер больше не будет выдавать ошибки 404, так как обслуживание всех путей отдаётся на откуп клиентскому роутингу. Частично эту проблему можно решить, указав путь по умолчанию во vue-router:
 
 ``` js
 const router = new VueRouter({
@@ -57,4 +57,4 @@ const router = new VueRouter({
 })
 ```
 
-Alternatively, if you are using a Node.js server, you can implement the fallback by using the router on the server side to match the incoming URL and respond with 404 if no route is matched.
+Если же вы используете на сервере Node.js, уже на стороне сервера можно задействовать конфигурацию роутера и решить таким образом проблему целиком.
