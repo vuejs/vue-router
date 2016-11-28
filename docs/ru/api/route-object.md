@@ -1,78 +1,78 @@
-# The Route Object
+# Объект Route
 
-A **route object** represents the state of the current active route. It contains parsed information of the current URL and the **route records** matched by the URL.
+**Объект Route** содержит состояние текущего активного пути, а именно: структурированную информацию о текущем URL и **записи путей**, совпавшие с ним.
 
-The route object is immutable. Every successful navigation will result in a fresh route object.
+Объект пути иммутабелен: при каждом навигационном переходе он пересоздаётся заново.
 
-The route object can be found in multiple places:
+Объект пути может быть обнаружен в нескольких местах:
 
-- Inside components as `this.$route`, and obvious inside `$route` watcher callbacks;
+- В компонентах, в виде `this.$route`, и как параметр коллбэков, наблюдающих за `$route`;
 
-- As the return value of calling `router.match(location)`;
+— Как возвращаемое значение при вызове `router.match(location)`;
 
-- Inside navigation guards as the first two arguments:
+- В качестве первых двух параметров сторожевых хуков:
 
   ``` js
   router.beforeEach((to, from, next) => {
-    // to and from are both route objects
+    // как to так и from являются объектами пути
   })
   ```
 
-- Inside the `scrollBehavior` function as the first two arguments:
+- В качестве первых двух параметров функции `scrollBehavior` :
 
   ``` js
   const router = new VueRouter({
     scrollBehavior (to, from, savedPosition) {
-      // to and from are both route objects
+      // как to так и from являются объектами пути
     }
   })
   ```
 
-### Route Object Properties
+### Свойства объекта Route
 
 - **$route.path**
 
-  - type: `string`
+  - тип: `string`
 
-    A string that equals the path of the current route, always resolved as an absolute path. e.g. `"/foo/bar"`.
+    Строковое значение path текущего пути, всегда в абсолютном формате, напр. `"/foo/bar"`.
 
 - **$route.params**
 
-  - type: `Object`
-
-    An object that contains key/value pairs of dynamic segments and star segments. If there are no params the value will be an empty object.
+  - тип: `Object`
+    
+    Объект, содержащий пары ключ/значение для динамических сегментов (включая *-сегменты). Будет пустым, если параметров у пути нет.
 
 - **$route.query**
 
-  - type: `Object`
-
-    An object that contains key/value pairs of the query string. For example, for a path `/foo?user=1`, we get `$route.query.user == 1`. If there is no query the value will be an empty object.
+  - тип: `Object`
+  
+    Объект, содержащий пары ключ/значение для строки запроса (query string). Например, для пути `/foo?user=1` получится `$route.query.user == 1`. При отсутствии строки запроса, будет пустым объектом.
 
 - **$route.hash**
 
-  - type: `string`
+  - тип: `string`
 
-    The hash of the current route (without `#`), if it has one. If no hash is present the value will be an empty string.
+    Хэш текущего пути (без символа `#`), если присутствует. В противном случае — пустая строка.
 
 - **$route.fullPath**
 
-  - type: `string`
+  - тип: `string`
 
-    The full resolved URL including query and hash.
+    Полная запись URL, включая строку запроса и хэш.
 
 - **$route.matched**
 
-  - type: `Array<RouteRecord>`
-
-  An Array containing **route records** for all nested path segments of the current route. Route records are the copies of the objects in the `routes` configuration Array (and in `children` Arrays):
+  - тип: `Array<RouteRecord>`
+  
+  Массив, содержащий **записи путей** для всех вложенных сегментов текущего пути. Записи путей — это копии объектов конфигурации из массива `routes` (и вложенных массивов `children`):
 
   ``` js
   const router = new VueRouter({
     routes: [
-      // the following object is a route record
+      // объект ниже — это запись пути
       { path: '/foo', component: Foo,
         children: [
-          // this is also a route record
+          // это — тоже запись пути
           { path: 'bar', component: Bar }
         ]
       }
@@ -80,8 +80,8 @@ The route object can be found in multiple places:
   })
   ```
 
-  When the URL is `/foo/bar`, `$route.matched` will be an Array containing both objects (cloned), in parent to child order.
+  Для URL, равного `/foo/bar`, `$route.matched` будет массивом, содержащим копии обоих объектов, в порядке сортировки от родителя к потомку.
 
 - **$route.name**
 
-  The name of the current route, if it has one. (See [Named Routes](../essentials/named-routes.md))
+  Имя текущего пути, если указано. (См. [Именованные пути](../essentials/named-routes.md))
