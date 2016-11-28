@@ -13,7 +13,7 @@ Reale App-UI ist normalerweise zusammengesetzt aus Komponenten, die mehrere Leve
 +------------------+                  +-----------------+
 ```
 
-Wir bauen auf die App auf, die im letzten Kapitel erstellt wurde:
+Wir bauen auf der App auf, die im letzten Kapitel erstellt wurde:
 
 ``` html
 <div id="app">
