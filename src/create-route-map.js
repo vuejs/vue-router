@@ -69,7 +69,9 @@ function addRouteRecord (
     }
   }
 
-  pathMap[record.path] = record
+  if (!pathMap[record.path]) {
+    pathMap[record.path] = record
+  }
   if (name) {
     if (!nameMap[name]) {
       nameMap[name] = record
