@@ -1,26 +1,11 @@
 /* @flow */
 
-import Regexp from 'path-to-regexp'
 import { assert, warn } from './util/warn'
 import { createRoute } from './util/route'
 import { createRouteMap } from './create-route-map'
 import { resolvePath } from './util/path'
 import { normalizeLocation } from './util/location'
-
-const regexpCache: {
-  [key: string]: {
-    keys: Array<?{ name: string }>,
-    regexp: RegExp
-  }
-} = Object.create(null)
-
-const regexpParamsCache: {
-  [key: string]: Array<string>
-} = Object.create(null)
-
-const regexpCompileCache: {
-  [key: string]: Function
-} = Object.create(null)
+import { getRouteRegex, fillParams } from './util/params'
 
 export function createMatcher (routes: Array<RouteConfig>): Matcher {
   const { pathMap, nameMap } = createRouteMap(routes)
@@ -35,10 +20,9 @@ export function createMatcher (routes: Array<RouteConfig>): Matcher {
 
     if (name) {
       const record = nameMap[name]
-      const paramNames = regexpParamsCache[record.path] ||
-        (regexpParamsCache[record.path] = getRouteRegex(record.path).keys
-          .filter(key => !key.optional)
-          .map(key => key.name))
+      const paramNames = getRouteRegex(record.path).keys
+        .filter(key => !key.optional)
+        .map(key => key.name)
 
       if (typeof location.params !== 'object') {
         location.params = {}
@@ -158,22 +142,6 @@ export function createMatcher (routes: Array<RouteConfig>): Matcher {
   return match
 }
 
-function getRouteRegex (path: string): Object {
-  const hit = regexpCache[path]
-  let keys, regexp
-
-  if (hit) {
-    keys = hit.keys
-    regexp = hit.regexp
-  } else {
-    keys = []
-    regexp = Regexp(path, keys)
-    regexpCache[path] = { keys, regexp }
-  }
-
-  return { keys, regexp }
-}
-
 function matchRoute (
   path: string,
   params: Object,
@@ -195,22 +163,6 @@ function matchRoute (
   }
 
   return true
-}
-
-function fillParams (
-  path: string,
-  params: ?Object,
-  routeMsg: string
-): string {
-  try {
-    const filler =
-      regexpCompileCache[path] ||
-      (regexpCompileCache[path] = Regexp.compile(path))
-    return filler(params || {}, { pretty: true })
-  } catch (e) {
-    assert(false, `missing param for ${routeMsg}: ${e.message}`)
-    return ''
-  }
 }
 
 function resolveRecordPath (path: string, record: RouteRecord): string {

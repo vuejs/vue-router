@@ -68,6 +68,26 @@ describe('Location utils', () => {
       }))
     })
 
+    it('relative params (named)', () => {
+      const loc = normalizeLocation({ params: { lang: 'fr' }}, {
+        name: 'hello',
+        params: { lang: 'en', id: 'foo' }
+      })
+      expect(loc._normalized).toBe(true)
+      expect(loc.name).toBe('hello')
+      expect(loc.params).toEqual({ lang: 'fr', id: 'foo' })
+    })
+
+    it('relative params (non-named)', () => {
+      const loc = normalizeLocation({ params: { lang: 'fr' }}, {
+        path: '/en/foo',
+        params: { lang: 'en', id: 'foo' },
+        matched: [{ path: '/:lang/:id' }]
+      })
+      expect(loc._normalized).toBe(true)
+      expect(loc.path).toBe('/fr/foo')
+    })
+
     it('object', () => {
       const loc = normalizeLocation({
         path: '/abc?foo=bar#hello',
