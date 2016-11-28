@@ -1,28 +1,27 @@
-# Lazy Loading Routes
+# Ленивая загрузка путей
 
-When building apps with a bundler, the JavaScript bundle can become quite large and thus affecting page load time. It would be more efficient if we can split each route's components into a separate chunk, and only load them when the route is visited.
+При использовании модульного сборщика, результирующая JavaScript-сборка может оказаться довольно большой, что негативно сказывается на времени загрузки страницы. В некоторых случаях было бы более эффективно разделить компоненты каждого пути на отдельные минисборки, и загружать их только при переходе к соответствующему пути.
 
-Combining Vue's [async component feature](http://vuejs.org/guide/components.html#Async-Components) and Webpack's [code splitting feature](https://webpack.github.io/docs/code-splitting.html), it's trivially easy to
-lazy-load route components.
+Совместное использование [асинхронной загрузки компонентов](http://vuejs.org/guide/components.html#Async-Components) Vue и [разделения кода](https://webpack.github.io/docs/code-splitting.html) WebPack делает реализацию ленивой загрузки компонентов в зависимости от путей тривиальной.
 
-All we need to do is defining our route components as async components:
+Всё, что требуется — определить компоненты путей как асинхронные:
 
 ``` js
 const Foo = resolve => {
-  // require.ensure is Webpack's special syntax for a code-split point.
+  // require.ensure — это специальный синтаксис Webpack'а для определения точки разделения кода.
   require.ensure(['./Foo.vue'], () => {
     resolve(require('./Foo.vue'))
   })
 }
 ```
 
-There's also an alternative code-split syntax using AMD style require, so this can be simplified to:
+Можно также упростить запись, используя альтернативный синтаксис разделения кода AMD:
 
 ``` js
 const Foo = resolve => require(['./Foo.vue'], resolve)
 ```
 
-Nothing needs to change in the route config, just use `Foo` as usual:
+В конфигурации путей ничего менять не нужно, просто используйте `Foo` как обычно:
 
 ``` js
 const router = new VueRouter({
@@ -32,9 +31,9 @@ const router = new VueRouter({
 })
 ```
 
-### Grouping Components in the Same Chunk
+### Объединение компонентов в единую минисборку
 
-Sometimes we may want to group all the components nested under the same route into the same async chunk. To achieve that we need to use [named chunks](https://webpack.github.io/docs/code-splitting.html#named-chunks) by providing a chunk name to `require.ensure` as the 3rd argument:
+Иногда может понадобиться объединить в единую минисборку все компоненты, расположенные по определённому пути. Для достижения этой цели можно использовать [именованные минисборки](https://webpack.github.io/docs/code-splitting.html#named-chunks), указывая имя как третий параметр при вызове `require.ensure`:
 
 ``` js
 const Foo = r => require.ensure([], () => r(require('./Foo.vue')), 'group-foo')
@@ -42,4 +41,4 @@ const Bar = r => require.ensure([], () => r(require('./Bar.vue')), 'group-foo')
 const Baz = r => require.ensure([], () => r(require('./Baz.vue')), 'group-foo')
 ```
 
-Webpack will group any async module with the same chunk name into the same async chunk - this also means we don't need to explicitly list dependencies for `require.ensure` anymore (thus passing an empty array).
+Webpack сгруппирует все одноимённые асинхронные модули в единую минисборку — что также значит, что больше нет необходимости явно указывать зависимости для `require.ensure` (поэтому мы передаём пустой массив).
