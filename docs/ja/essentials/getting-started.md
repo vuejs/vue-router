@@ -4,9 +4,14 @@
 
 Vue.js と vue-router を使ったシングルページアプリケーションの構築は驚くほど簡単です。Vue.js のコンポーネントを使ってアプリケーションを既に構成しています。vue-router を混ぜ込むには、コンポーネントとルートをマッピングさせて vue-router にどこでレンダリングするかを知らせるだけです。以下が基本的な例です。
 
+> すべての example では、vue のスタンドアロンバージョンを使用してテンプレートを解析可能にしています。詳細は[こちら](http://jp.vuejs.org/v2/guide/installation.html#スタンドアロン-vs-ランタイム限定ビルド)を参照してください。
+
 ### HTML
 
 ``` html
+<script src="https://unpkg.com/vue/dist/vue.js"></script>
+<script src="https://unpkg.com/vue-router"></script>
+
 <div id="app">
   <h1>Hello App!</h1>
   <p>
@@ -25,7 +30,7 @@ Vue.js と vue-router を使ったシングルページアプリケーション�
 ### JavaScript
 
 ``` js
-// 0. モジュールシステムを使っている場合、 Vue.use(VueRouter) を呼び出します
+// 0. モジュールシステムを使っている場合 (例: vue-clie 経由で)、Vue と VueRouter をインポートし、Vue.use(VueRouter) を呼び出します。
 
 // 1. ルートコンポーネントを定義します
 // 他のファイルからインポートすることもできます
@@ -34,8 +39,8 @@ const Bar = { template: '<div>bar</div>' }
 
 // 2. ルートをいくつか定義します
 // 各ルートは 1 つのコンポーネントとマッピングされる必要があります。
-// このコンポーネントは実際の Vue.extend() によって作られたコンポーネントコンストラクタでも
-// コンポーネントオプションのオブジェクトでも構いません
+// このコンポーネントは実際の Vue.extend()、Vue.component() 経由によってコンポーネント ID が登録された文字列、
+// またはコンポーネントオプションのオブジェクトでも構いません。
 // ネストされたルートに関しては後で説明します
 const routes = [
   { path: '/foo', component: Foo },
