@@ -20,7 +20,11 @@ export default {
     exact: Boolean,
     append: Boolean,
     replace: Boolean,
-    activeClass: String
+    activeClass: String,
+    event: {
+      type: [String, Array],
+      default: 'click'
+    }
   },
   render (h: Function) {
     const router = this.$router
@@ -33,29 +37,21 @@ export default {
       ? isSameRoute(current, compareTarget)
       : isIncludedRoute(current, compareTarget)
 
-    const on = {
-      click: (e) => {
-        // don't redirect with control keys
-        /* istanbul ignore if */
-        if (e.metaKey || e.ctrlKey || e.shiftKey) return
-        // don't redirect when preventDefault called
-        /* istanbul ignore if */
-        if (e.defaultPrevented) return
-        // don't redirect on right click
-        /* istanbul ignore if */
-        if (e.button !== 0) return
-        // don't redirect if `target="_blank"`
-        /* istanbul ignore if */
-        const target = e.target.getAttribute('target')
-        if (/\b_blank\b/i.test(target)) return
-
-        e.preventDefault()
+    const handler = e => {
+      if (guardEvent(e)) {
         if (this.replace) {
           router.replace(normalizedTo)
         } else {
           router.push(normalizedTo)
         }
       }
+    }
+
+    const on = { click: guardEvent }
+    if (Array.isArray(this.event)) {
+      this.event.forEach(e => { on[e] = handler })
+    } else {
+      on[this.event] = handler
     }
 
     const data: any = {
@@ -84,6 +80,25 @@ export default {
 
     return h(this.tag, data, this.$slots.default)
   }
+}
+
+function guardEvent (e) {
+  // don't redirect with control keys
+  /* istanbul ignore if */
+  if (e.metaKey || e.ctrlKey || e.shiftKey) return
+  // don't redirect when preventDefault called
+  /* istanbul ignore if */
+  if (e.defaultPrevented) return
+  // don't redirect on right click
+  /* istanbul ignore if */
+  if (e.button !== 0) return
+  // don't redirect if `target="_blank"`
+  /* istanbul ignore if */
+  const target = e.target.getAttribute('target')
+  if (/\b_blank\b/i.test(target)) return
+
+  e.preventDefault()
+  return true
 }
 
 function findAnchor (children) {
