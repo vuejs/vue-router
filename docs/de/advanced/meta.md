@@ -1,6 +1,6 @@
-# Route Meta Fields
+# Route-Metafelder
 
-You can include a `meta` field when defining a route:
+Man kann ein Metafeld einfügen, wenn die Route definiert wird:
 
 ``` js
 const router = new VueRouter({
@@ -12,7 +12,7 @@ const router = new VueRouter({
         {
           path: 'bar',
           component: Bar,
-          // a meta field
+          // ein Metafeld
           meta: { requiresAuth: true }
         }
       ]
@@ -21,21 +21,22 @@ const router = new VueRouter({
 })
 ```
 
-So how do we access this `meta` field?
+Wie greift man auf das `meta`-Feld zu?
 
-First, each route object in the `routes` configuration is called a **route record**. Route records may be nested. Therefore when a route is matched, it can potentially match more than one route record.
+Zunächst einmal wird jedes Route-Objekt in der `routes`-Konfiguration **Route-Eintrag** genannt. Route-Einträge können verschachtelt sein. Deswegen kann eine Route zu mehreren Route-Einträgen passen, wenn eine Route angepeilt wird.
 
-For example, with the above route config, the URL `/foo/bar` will match both the parent route record and the child route record.
+Zum Beispiel werden mit der obigen Konfiguration und der URL `/foo/bar` beide - Parent-Eintrag und Child-Eintrag - angesprochen.
 
-All route records matched by a route are exposed on the `$route` object (and also route objects in navigation guards) as the `$route.matched` Array. Therefore, we will need to iterate over `$route.matched` to check for meta fields in route records.
+Alle Route-Einträge, die auf eine Route zutreffen, sind im `$route`-Objekt und in Route-Objekten im Navigationschutz als `$route.matched`-Array vorzufinden. Deswegen muss eine Schleife auf `$route.matched` angewandt werden, um alle Metafelder im Route-Eintrag zu erhalten.
 
-An example use case is checking for a meta field in the global navigation guard:
+Ein Beispiel ist die Prüfung nach einem Metafeld im globalen Navigationsschutz:
 
 ``` js
 router.beforeEach((to, from, next) => {
   if (to.matched.some(record => record.meta.requiresAuth)) {
-    // this route requires auth, check if logged in
-    // if not, redirect to login page.
+    // Diese Route benötigt Authentifizierung und prüft,
+    // ob man eingeloggt ist.
+    // Wenn nicht, Umleitung zur Login-Seite.
     if (!auth.loggedIn()) {
       next({
         path: '/login',
@@ -45,7 +46,7 @@ router.beforeEach((to, from, next) => {
       next()
     }
   } else {
-    next() // make sure to always call next()!
+    next() // Rufe immer next() auf.
   }
 })
 ```
