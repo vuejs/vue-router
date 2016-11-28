@@ -58,4 +58,4 @@ scrollBehavior (to, from, savedPosition) {
 }
 ```
 
-Можно также использовать [метаданыне путей](meta.md) для более сложного управления скроллингом. Полная реализация подхода содержится в [этом примере](https://github.com/vuejs/vue-router/blob/dev/examples/scroll-behavior/app.js).
+Можно также использовать [метаданные путей](meta.md) для более сложного управления скроллингом. Полная реализация подхода содержится в [этом примере](https://github.com/vuejs/vue-router/blob/dev/examples/scroll-behavior/app.js).
