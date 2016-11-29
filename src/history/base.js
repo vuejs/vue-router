@@ -73,7 +73,7 @@ export class History {
           this.ensureURL(true)
         } else if (typeof to === 'string' || typeof to === 'object') {
           // next('/') or next({ path: '/' }) -> redirect
-          this.push(to)
+          (typeof to === 'object' && to.replace) ? this.replace(to) : this.push(to)
         } else {
           // confirm transition and pass on the value
           next(to)
