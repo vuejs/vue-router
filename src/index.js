@@ -72,11 +72,7 @@ export default class VueRouter {
     if (history instanceof HTML5History) {
       history.transitionTo(getLocation(history.base))
     } else if (history instanceof HashHistory) {
-      history.transitionTo(getHash(), () => {
-        window.addEventListener('hashchange', () => {
-          history.onHashChange()
-        })
-      })
+      history.transitionTo(getHash())
     }
 
     history.listen(route => {

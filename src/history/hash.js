@@ -8,6 +8,9 @@ import { cleanPath } from '../util/path'
 export class HashHistory extends History {
   constructor (router: VueRouter, base: ?string, fallback: boolean) {
     super(router, base)
+    window.addEventListener('hashchange', () => {
+      this.onHashChange()
+    })
 
     // check history fallback deeplinking
     if (fallback && this.checkFallback()) {
