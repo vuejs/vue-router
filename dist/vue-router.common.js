@@ -3,11 +3,7 @@
   * (c) 2016 Evan You
   * @license MIT
   */
-(function (global, factory) {
-  typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
-  typeof define === 'function' && define.amd ? define(factory) :
-  (global.VueRouter = factory());
-}(this, (function () { 'use strict';
+'use strict';
 
 var View = {
   name: 'router-view',
@@ -101,7 +97,7 @@ function resolveQuery (
     try {
       parsedQuery = parseQuery(query)
     } catch (e) {
-      "development" !== 'production' && warn(false, e.message)
+      process.env.NODE_ENV !== 'production' && warn(false, e.message)
       parsedQuery = {}
     }
     for (var key in extraQuery) {
@@ -522,7 +518,7 @@ function addRouteRecord (
 ) {
   var path = route.path;
   var name = route.name;
-  if ("development" !== 'production') {
+  if (process.env.NODE_ENV !== 'production') {
     assert(path != null, "\"path\" is required in a route configuration.")
     assert(
       typeof route.component !== 'string',
@@ -547,7 +543,7 @@ function addRouteRecord (
     // Warn if route is named and has a default child route.
     // If users navigate to this route by name, the default child will
     // not be rendered (GH Issue #629)
-    if ("development" !== 'production') {
+    if (process.env.NODE_ENV !== 'production') {
       if (route.name && route.children.some(function (child) { return /^\/?$/.test(child.path); })) {
         warn(false, ("Named Route '" + (route.name) + "' has a default child route.\n          When navigating to this named route (:to=\"{name: '" + (route.name) + "'\"), the default child route will not be rendered.\n          Remove the name from this route and use the name of the default child route for named links instead.")
         )
@@ -574,7 +570,7 @@ function addRouteRecord (
   if (name) {
     if (!nameMap[name]) {
       nameMap[name] = record
-    } else if ("development" !== 'production') {
+    } else if (process.env.NODE_ENV !== 'production') {
       warn(false, ("Duplicate named routes definition: { name: \"" + name + "\", path: \"" + (record.path) + "\" }"))
     }
   }
@@ -1056,7 +1052,7 @@ function fillParams (
       (regexpCompileCache[path] = index.compile(path))
     return filler(params || {}, { pretty: true })
   } catch (e) {
-    if ("development" !== 'production') {
+    if (process.env.NODE_ENV !== 'production') {
       warn(false, ("missing param for " + routeMsg + ": " + (e.message)))
     }
     return ''
@@ -1087,7 +1083,7 @@ function normalizeLocation (
     } else if (current.matched) {
       var rawPath = current.matched[current.matched.length - 1].path
       next.path = fillParams(rawPath, params, ("path " + (current.path)))
-    } else if ("development" !== 'production') {
+    } else if (process.env.NODE_ENV !== 'production') {
       warn(false, "relative params navigation requires a current route.")
     }
     return next
@@ -1182,7 +1178,7 @@ function createMatcher (routes) {
     }
 
     if (!redirect || typeof redirect !== 'object') {
-      "development" !== 'production' && warn(
+      process.env.NODE_ENV !== 'production' && warn(
         false, ("invalid redirect option: " + (JSON.stringify(redirect)))
       )
       return _createRoute(null, location)
@@ -1201,7 +1197,7 @@ function createMatcher (routes) {
     if (name) {
       // resolved named direct
       var targetRecord = nameMap[name]
-      if ("development" !== 'production') {
+      if (process.env.NODE_ENV !== 'production') {
         assert(targetRecord, ("redirect failed: named route \"" + name + "\" not found."))
       }
       return match({
@@ -1710,7 +1706,7 @@ var HTML5History = (function (History) {
     if (!behavior) {
       return
     }
-    if ("development" !== 'production') {
+    if (process.env.NODE_ENV !== 'production') {
       assert(typeof behavior === 'function', "scrollBehavior must be a function")
     }
 
@@ -1952,7 +1948,7 @@ var VueRouter = function VueRouter (options) {
       this.history = new AbstractHistory(this)
       break
     default:
-      "development" !== 'production' && assert(false, ("invalid mode: " + mode))
+      process.env.NODE_ENV !== 'production' && assert(false, ("invalid mode: " + mode))
   }
 };
 
@@ -1965,7 +1961,7 @@ prototypeAccessors.currentRoute.get = function () {
 VueRouter.prototype.init = function init (app /* Vue component instance */) {
     var this$1 = this;
 
-  "development" !== 'production' && assert(
+  process.env.NODE_ENV !== 'production' && assert(
     install.installed,
     "not installed. Make sure to call `Vue.use(VueRouter)` " +
     "before creating root instance."
@@ -2058,6 +2054,4 @@ if (inBrowser && window.Vue) {
   window.Vue.use(VueRouter)
 }
 
-return VueRouter;
-
-})));
+module.exports = VueRouter;
