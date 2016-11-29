@@ -1,7 +1,7 @@
 /* @flow */
 
 import Regexp from 'path-to-regexp'
-import { assert } from './warn'
+import { warn } from './warn'
 
 const regexpCache: {
   [key: string]: {
@@ -41,7 +41,9 @@ export function fillParams (
       (regexpCompileCache[path] = Regexp.compile(path))
     return filler(params || {}, { pretty: true })
   } catch (e) {
-    assert(false, `missing param for ${routeMsg}: ${e.message}`)
+    if (process.env.NODE_ENV !== 'production') {
+      warn(false, `missing param for ${routeMsg}: ${e.message}`)
+    }
     return ''
   }
 }

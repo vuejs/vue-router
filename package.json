@@ -4,11 +4,12 @@
   "description": "Official router for Vue.js 2.0",
   "author": "Evan You",
   "license": "MIT",
-  "main": "dist/vue-router.js",
+  "main": "dist/vue-router.common.js",
   "typings": "types/index.d.ts",
   "files": [
     "dist/vue-router.js",
     "dist/vue-router.min.js",
+    "dist/vue-router.common.js",
     "src",
     "types/index.d.ts",
     "types/router.d.ts",
@@ -21,7 +22,7 @@
   ],
   "scripts": {
     "dev": "node examples/server.js",
-    "dev:dist": "rollup -wm -c build/rollup.config.js",
+    "dev:dist": "rollup -wm -c build/dev.config.js",
     "build": "node build/build.js",
     "lint": "eslint src examples",
     "test": "npm run lint && flow check && npm run test:unit && npm run test:e2e && npm run test:types",

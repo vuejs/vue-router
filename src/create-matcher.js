@@ -66,7 +66,9 @@ export function createMatcher (routes: Array<RouteConfig>): Matcher {
     }
 
     if (!redirect || typeof redirect !== 'object') {
-      warn(false, `invalid redirect option: ${JSON.stringify(redirect)}`)
+      process.env.NODE_ENV !== 'production' && warn(
+        false, `invalid redirect option: ${JSON.stringify(redirect)}`
+      )
       return _createRoute(null, location)
     }
 
@@ -80,7 +82,9 @@ export function createMatcher (routes: Array<RouteConfig>): Matcher {
     if (name) {
       // resolved named direct
       const targetRecord = nameMap[name]
-      assert(targetRecord, `redirect failed: named route "${name}" not found.`)
+      if (process.env.NODE_ENV !== 'production') {
+        assert(targetRecord, `redirect failed: named route "${name}" not found.`)
+      }
       return match({
         _normalized: true,
         name,

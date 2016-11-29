@@ -3,7 +3,7 @@
 import { parsePath, resolvePath } from './path'
 import { resolveQuery } from './query'
 import { fillParams } from './params'
-import { assert } from './warn'
+import { warn } from './warn'
 
 export function normalizeLocation (
   raw: RawLocation,
@@ -27,8 +27,8 @@ export function normalizeLocation (
     } else if (current.matched) {
       const rawPath = current.matched[current.matched.length - 1].path
       next.path = fillParams(rawPath, params, `path ${current.path}`)
-    } else {
-      assert(false, `relative params navigation requires a current route.`)
+    } else if (process.env.NODE_ENV !== 'production') {
+      warn(false, `relative params navigation requires a current route.`)
     }
     return next
   }
