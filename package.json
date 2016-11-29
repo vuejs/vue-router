@@ -22,7 +22,7 @@
   "scripts": {
     "dev": "node examples/server.js",
     "dev:dist": "rollup -wm -c build/rollup.config.js",
-    "build": "rollup --environment NODE_ENV:production -c build/rollup.config.js && uglifyjs dist/vue-router.js -cm --comments -o dist/vue-router.min.js",
+    "build": "node build/build.js",
     "lint": "eslint src examples",
     "test": "npm run lint && flow check && npm run test:unit && npm run test:e2e && npm run test:types",
     "test:unit": "jasmine JASMINE_CONFIG_PATH=test/unit/jasmine.json",
