@@ -34,7 +34,7 @@ Das muss nicht getan werden, wenn globale Skript-Tags genutzt werden.
 
 ### Dev Build
 
-Die Repo muss direkt von GitHub geklont und `vue-router`-Build selbst werden, wenn die aktuelle Dev-Version gewünscht ist.
+Die Repo muss direkt von GitHub geklont und `vue-router`-Build selbst erstellt werden, wenn die aktuelle Dev-Version gewünscht ist.
 
 
 ``` bash
