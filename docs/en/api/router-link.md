@@ -103,7 +103,7 @@
   <router-link to="/" exact>
   ```
 
-  Checkout more examples explaining active link class [live](http://jsfiddle.net/fnlCtrl/dokbyypq/).
+  Checkout more examples explaining active link class [live](https://jsfiddle.net/8xrk1n9f/).
 
 - **events**
 

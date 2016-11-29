@@ -109,7 +109,7 @@
   <router-link to="/" exact>
   ```
 
-  查看更多关于激活链接类名的例子 [可运行](http://jsfiddle.net/fnlCtrl/dokbyypq/).
+  查看更多关于激活链接类名的例子 [可运行](https://jsfiddle.net/8xrk1n9f/).
 
 - **events**
 
