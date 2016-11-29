@@ -75,7 +75,7 @@
   - 默认值: `"a"`
 
   有时候想要  `<router-link>` 渲染成某种标签，例如 `<li>`。
-  于是我们使用 `tag` prop 类指定何种标签，同样它还是会监听点击，触发导航。 
+  于是我们使用 `tag` prop 类指定何种标签，同样它还是会监听点击，触发导航。
 
   ``` html
   <router-link to="/foo" tag="li">foo</router-link>
@@ -110,6 +110,16 @@
   ```
 
   查看更多关于激活链接类名的例子 [可运行](http://jsfiddle.net/fnlCtrl/dokbyypq/).
+
+- **events**
+
+  > 2.1.0+
+
+  - 类型: `string | Array<string>`
+
+  - 默认值: `'click'`
+
+  声明可以用来触发导航的事件。可以是一个字符串或是一个包含字符串的数组。
 
 ###  将"激活时的CSS类名"应用在外层元素
 

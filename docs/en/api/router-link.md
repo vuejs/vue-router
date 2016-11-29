@@ -105,6 +105,16 @@
 
   Checkout more examples explaining active link class [live](http://jsfiddle.net/fnlCtrl/dokbyypq/).
 
+- **events**
+
+  > 2.1.0+
+
+  - type: `string | Array<string>`
+
+  - default: `'click'`
+
+  Specify the event(s) that can trigger the link navigation.
+
 ### Applying Active Class to Outer Element
 
 Sometimes we may want the active class to be applied to an outer element rather than the `<a>` tag itself, in that case, you can render that outer element using `<router-link>` and wrap the raw `<a>` tag inside:

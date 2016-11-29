@@ -36,10 +36,20 @@
 
   Programmatically navigate to a new URL. See [Programmatic Navigation](../essentials/navigation.md).
 
-- **router.getMatchedComponents()**
+- **router.getMatchedComponents(location?)**
 
-  Returns an Array of the components (definition/constructor, not instances) matched by the current route. This is mostly used during server-side rendering to perform data prefetching.
-  
+  Returns an Array of the components (definition/constructor, not instances) matched by the provided location or the current route. This is mostly used during server-side rendering to perform data prefetching.
+
 - **router.resolve(location, current?, append?)**
 
-  Reverse URL resolving. Given location in form same as used in `<router-link/>`, returns object with string property `href`.
+  > 2.1.0+
+
+  Reverse URL resolving. Given location in form same as used in `<router-link/>`, returns object with the following resolved properties:
+
+  ``` js
+  {
+    normalizedTo: Location;
+    resolved: Route;
+    href: string;
+  }
+  ```
