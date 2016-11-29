@@ -58,6 +58,7 @@ declare type Location = {
   hash?: string;
   query?: Dictionary<string>;
   params?: Dictionary<string>;
+  append?: boolean;
 }
 
 declare type RawLocation = string | Location

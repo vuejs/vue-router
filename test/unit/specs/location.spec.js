@@ -88,6 +88,13 @@ describe('Location utils', () => {
       expect(loc.path).toBe('/fr/foo')
     })
 
+    it('relative append', () => {
+      const loc = normalizeLocation({ path: 'a' }, { path: '/b' }, true)
+      expect(loc.path).toBe('/b/a')
+      const loc2 = normalizeLocation({ path: 'a', append: true }, { path: '/b' })
+      expect(loc2.path).toBe('/b/a')
+    })
+
     it('object', () => {
       const loc = normalizeLocation({
         path: '/abc?foo=bar#hello',
