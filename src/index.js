@@ -150,8 +150,8 @@ export default class VueRouter {
 }
 
 function createHref (base: string, fullPath: string, mode) {
-  var path = mode === 'hash' ? '/#' + fullPath : fullPath
-  return base ? cleanPath(base + path) : path
+  var path = mode === 'hash' ? '#' + fullPath : fullPath
+  return base ? cleanPath(base + '/' + path) : path
 }
 
 VueRouter.install = install
