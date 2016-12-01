@@ -37,9 +37,9 @@
 
   Navigiere programmatisch zu einer neuen URL. Siehe [Programmatische Navigation](../essentials/navigation.md).
 
-- **router.getMatchedComponents()**
+- **router.getMatchedComponents(location?)**
 
-  Gibt einen Array von Komponenten (Definition/Konstruktor, nicht Instanz) wieder, die auf die aktuelle Route zutreffen. Wird meist genutzt bei serverseitigem Rendern, um ein Vorabladen von Daten zu ermöglichen.
+  Gibt einen Array von Komponenten (Definition/Konstruktor, nicht Instanz) wieder, der auf den gegebenen Ort oder die aktuelle Route zutrifft. Wird meist genutzt bei serverseitigem Rendern, um ein Vorabladen von Daten zu ermöglichen.
 
 - **router.resolve(location, current?, append?)**
 

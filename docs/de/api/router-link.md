@@ -107,6 +107,17 @@
 
   Siehe weitere Beispiele zur aktiven Linkklasse [hier](http://jsfiddle.net/fnlCtrl/dokbyypq/).
 
+  **events**
+
+  > 2.1.0+
+
+  - Typ: `string | Array<string>`
+
+  - Default: `'click'`
+
+  Lege das Evens fest, welche die Linknavigation auslöst.
+
+
 ### Angabe der aktiven Klasse bei äußeren Elementen
 
 Manchmal ist gewollt, dass die aktive Klasse an ein äußeres Element anstatt an das `<a>` gesetzt wird. In diesem Fall kann man das äußere Element als `<router-link>` rendern und damit den rohen `<a>`-Tag umschließen:
