@@ -1,4 +1,4 @@
-# Datenübertragung
+# Datenbeschaffung
 
 Manchmal müssen Daten von einem Server geladen werden, sobald eine Route aktiviert wird. Zum Beispiel müssen die Inhalte des Nutzers vom Server übertragen werden, bevor ein Nutzerprofil angezeigt werden kann. Dies wird auf zwei Arten erledigt:
 

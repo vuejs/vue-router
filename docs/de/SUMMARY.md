@@ -19,7 +19,7 @@
   - [Navigationsschutz](advanced/navigation-guards.md)
   - [Route-Metafelder](advanced/meta.md)
   - [Übergänge](advanced/transitions.md)
-  - [Datenübertragung](advanced/data-fetching.md)
+  - [Datenbeschaffung](advanced/data-fetching.md)
   - [Scroll-Verhalten](advanced/scroll-behavior.md)
   - [Lazy Loading](advanced/lazy-loading.md)
 - API-Referenz
