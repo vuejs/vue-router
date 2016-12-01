@@ -32,20 +32,21 @@ export class History {
     this.cb = cb
   }
 
-  transitionTo (location: RawLocation, cb?: Function) {
+  transitionTo (location: RawLocation, onComplete?: Function, onAbort?: Function) {
     const route = this.router.match(location, this.current)
     this.confirmTransition(route, () => {
       this.updateRoute(route)
-      cb && cb(route)
+      onComplete && onComplete(route)
       this.ensureURL()
-    })
+    }, onAbort)
   }
 
-  confirmTransition (route: Route, cb: Function) {
+  confirmTransition (route: Route, onComplete: Function, onAbort?: Function) {
     const current = this.current
+    const abort = () => { onAbort && onAbort() }
     if (isSameRoute(route, current)) {
       this.ensureURL()
-      return
+      return abort()
     }
 
     const {
@@ -66,14 +67,18 @@ export class History {
 
     this.pending = route
     const iterator = (hook: NavigationGuard, next) => {
-      if (this.pending !== route) return
+      if (this.pending !== route) {
+        return abort()
+      }
       hook(route, current, (to: any) => {
         if (to === false) {
           // next(false) -> abort navigation, ensure current URL
           this.ensureURL(true)
+          abort()
         } else if (typeof to === 'string' || typeof to === 'object') {
           // next('/') or next({ path: '/' }) -> redirect
           (typeof to === 'object' && to.replace) ? this.replace(to) : this.push(to)
+          abort()
         } else {
           // confirm transition and pass on the value
           next(to)
@@ -89,14 +94,15 @@ export class History {
       // wait until async components are resolved before
       // extracting in-component enter guards
       runQueue(enterGuards, iterator, () => {
-        if (this.pending === route) {
-          this.pending = null
-          cb(route)
-          if (this.router.app) {
-            this.router.app.$nextTick(() => {
-              postEnterCbs.forEach(cb => cb())
-            })
-          }
+        if (this.pending !== route) {
+          return abort()
+        }
+        this.pending = null
+        onComplete(route)
+        if (this.router.app) {
+          this.router.app.$nextTick(() => {
+            postEnterCbs.forEach(cb => cb())
+          })
         }
       })
     })
