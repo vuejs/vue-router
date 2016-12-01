@@ -40,7 +40,7 @@ Das Route-Objekt kann an mehreren Orten gefunden werden:
 
   - Typ: `Object`
 
-    Ein Objekt, welches Schlüssel/Wert-Paare von dynamischen und Sternsegmenten enthält. Gibt es keine Parameter, ist der Wert ein leeres Objekt.
+    Ein Objekt, welches Schlüssel/Wert-Paare von Stern- und dynamischen Segmenten enthält. Gibt es keine Parameter, ist der Wert ein leeres Objekt.
 
 - **$route.query**
 
@@ -58,7 +58,7 @@ Das Route-Objekt kann an mehreren Orten gefunden werden:
 
   - Typ: `string`
 
-    Die voll umgewandelte URL  inklusive Abfrage und Hash.
+    Die voll umgewandelte URL inklusive Abfrage und Hash.
 
 - **$route.matched**
 

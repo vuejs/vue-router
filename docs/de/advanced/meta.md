@@ -23,7 +23,7 @@ const router = new VueRouter({
 
 Wie greift man auf das `meta`-Feld zu?
 
-Zunächst einmal wird jedes Route-Objekt in der `routes`-Konfiguration **Route-Eintrag** genannt. Route-Einträge können verschachtelt sein. Deswegen kann eine Route zu mehreren Route-Einträgen passen, wenn eine Route angepeilt wird.
+Zunächst einmal wird jedes Route-Objekt in der `routes`-Konfiguration **Route-Eintrag** genannt. Route-Einträge können verschachtelt sein. Deswegen kann eine Route zu mehreren Einträgen passen, wenn sie besucht wird.
 
 Zum Beispiel werden mit der obigen Konfiguration und der URL `/foo/bar` beide - Parent-Eintrag und Child-Eintrag - angesprochen.
 

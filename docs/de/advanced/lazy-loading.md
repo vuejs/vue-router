@@ -2,13 +2,13 @@
 
 Wenn Apps mit einem Bundler zusammengefügt werden, kann die Datei recht groß werden und so die Seitenladezeit beeinträchtigen. Es wäre effizienter, wenn man das Bundle in mehrere Router-Komponenten aufteilen könnte und sie nur dann lädt, wenn die Route besucht wird.
 
-Mit der Kombination von Vues [asynchronischem Komponenten-Feature](http://vuejs.org/guide/components.html#Async-Components) and Webpacks [Code-Aufteilungs-Feature (englisch)](https://webpack.github.io/docs/code-splitting.html) ist es einfach Lazy Loading von Route-Komponenten zu erreichen.
+Mit der Kombination von Vues [asynchronischem Komponenten-Feature](http://vuejs.org/guide/components.html#Async-Components) und Webpacks Feature zur [Code-Aufteilung (englisch)](https://webpack.github.io/docs/code-splitting.html) ist es einfach Lazy Loading von Route-Komponenten zu erreichen.
 
 Alles was benötigt wird, ist die Definition der Route-Komponenten als asynchrone Komponenten:
 
 ``` js
 const Foo = resolve => {
-  // require.ensue ist Webpacks speziale Syntax für Code-Aufteilung.
+  // require.ensure ist Webpacks speziale Syntax für Code-Aufteilung.
   require.ensure(['./Foo.vue'], () => {
     resolve(require('./Foo.vue'))
   })
@@ -33,7 +33,7 @@ const router = new VueRouter({
 
 ### Gruppierung von Komponenten im selben Chunk
 
-Manchmal ist es gewollt alle Komponenten unter der selben Route in den selben ansynchronen Chunk zu gruppieren. Um das zu erreichen, werden [benannte Chunks (englisch)](https://webpack.github.io/docs/code-splitting.html#named-chunks) genutzt. Hierbei wird ein Chunk-Name `require.ensure` als drittes Argument hinzugefügt.
+Manchmal ist es gewollt, alle Komponenten unter der selben Route in den selben ansynchronen Chunk zu gruppieren. Um das zu erreichen, werden [benannte Chunks (englisch)](https://webpack.github.io/docs/code-splitting.html#named-chunks) genutzt. Hierbei wird ein Chunk-Name als drittes Argument für `require.ensure` hinzugefügt.
 
 ``` js
 const Foo = r => require.ensure([], () => r(require('./Foo.vue')), 'group-foo')

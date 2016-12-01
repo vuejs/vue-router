@@ -1,6 +1,6 @@
 # Benannte Views
 
-Manchmal muss man mehrere Views zur selben Zeit darstellen, anstatt sie zu verschachteln, zum Beispiel bei einem Layout mit Hauptteil und Sidebar. Hier helfen benannte Views aus. Anstelle eines einzigen Ortes für die View-Darstellung gibt es mehrere, die Namen tragen können. Ein `router-view` ohne Namen heißt standardmäßig `default`.
+Manchmal muss man mehrere Views zur selben Zeit darstellen, anstatt sie zu verschachteln, zum Beispiel bei einem Layout mit Hauptteil und Seitenleiste. Hier helfen benannte Views aus. Anstelle eines einzigen Ortes für die View-Darstellung gibt es mehrere, die Namen tragen können. Ein `router-view` ohne Namen heißt standardmäßig `default`.
 
 ``` html
 <router-view class="view one"></router-view>

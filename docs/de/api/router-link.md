@@ -1,10 +1,10 @@
 # `<router-link>`
 
-`<router-link>` ist eine Komponente zum Aktivieren von Nutzernavigationen in Router-aktivierten Apps. Der Zielort ist angegeben via dem `to`-Prop. Es wird als `<a>` und standardmäßig mit korrektem `href` gerendert, kann jedoch mit dem `tag`-Prop konfiguriert werden. Darüberhinaus erhält der Link automatisch die aktive CSS-Klasse, wenn die Ziel-Route aktiv ist.
+`<router-link>` ist eine Komponente zum Aktivieren von Nutzernavigationen in Router-aktivierten Apps. Der Zielort ist mit dem `to`-Prop angegeben. Es wird als `<a>` und standardmäßig mit korrektem `href` gerendert, kann jedoch mit dem `tag`-Prop konfiguriert werden. Darüberhinaus erhält der Link automatisch die aktive CSS-Klasse, wenn die Ziel-Route aktiv ist.
 
 `<router-link>` wird gegenüber fest eingebautem `<a href="">` aus folgenden Gründen bevorzugt:
 
-- Es funktioniert im HTML5-Verlaufsmodus wie auch im Hash-Modus. Demnach ändert sich nichts, wenn der Modus jemals gewechselt wird oder zurückfällt in den Hash-Modus für IE9.
+- Es funktioniert im HTML5-Verlaufsmodus wie auch im Hash-Modus. Demnach ändert sich nichts, wenn der Modus jemals gewechselt wird oder in den Hash-Modus für IE9 zurückfällt.
 
 - Im HTML5-Verlaufsmodus fängt `router-link` das Klick-Event ab, sodass der Browser nicht versucht das Fenster neuzuladen.
 
@@ -61,7 +61,7 @@
 
   - Default: `false`
 
-  Die Nutzung vom `append`-Prop hängt immer den relativen Pfad an den aktuellen an. Angenommen man navigiert von `/a` zu einem relativen Pfad `b`, ohne `append` ended man bei `/b`, mit `append` jedoch wird daraus `/a/b`.
+  Die Nutzung vom `append`-Prop hängt immer den relativen Pfad an den aktuellen an. Angenommen man navigiert von `/a` zu einem relativen Pfad `b` - ohne `append` ended man bei `/b`, mit `append` jedoch wird daraus `/a/b`.
 
   ``` html
   <router-link :to="{ path: 'relative/path'}" append></router-link>
@@ -77,7 +77,7 @@
 
   ``` html
   <router-link to="/foo" tag="li">foo</router-link>
-  <!-- renders as -->
+  <!-- gerendert als -->
   <li>foo</li>
   ```
 
@@ -88,7 +88,7 @@
   - Default: `"router-link-active"`
 
   Konfiguration der aktiven CSS-Klasse für den aktiven Link.
-  Der Standardwert kann ebenfalls global konfiguriert werden mit der `linkActiveClass`-Option des Router-Konstruktors.
+  Der Standardwert kann ebenfalls mit der `linkActiveClass`-Option des Router-Konstruktors global konfiguriert werden.
 
 - **exact**
 
@@ -101,7 +101,7 @@
   Die Konsequenz davon ist, dass `<router-link to=/>` für jede Route aktiv ist. Um den Link in exakten Abstimmungsmodus zu zwingen, wird der `exact`-Prop genutzt:
 
   ``` html
-  <!-- dieser Link wird nur bei / aktiv / -->
+  <!-- dieser Link wird nur bei '/' aktiv -->
   <router-link to="/" exact>
   ```
 

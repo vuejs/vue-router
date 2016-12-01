@@ -30,11 +30,11 @@
 
   Konfiguriere den Router-Mode.
 
-  - `hash`: nutzt den URL-Hash für Weiterleitungen. Funktioniert in allen Vue-unterstützten Browsern, inklusive derer, die HTML5 Verlaufs-API nicht unterstützen.
+  - `hash`: Nutzt den URL-Hash für Weiterleitungen. Funktioniert in allen Vue-unterstützten Browsern, inklusive derer, die HTML5 Verlaufs-API nicht unterstützen.
 
-  - `history`: benötigt HTML5 Verlaufs-API und Serverkonfiguration. Siehe [HTML5 Verlaufsmodus](../essentials/history-mode.md).
+  - `history`: Benötigt HTML5 Verlaufs-API und Serverkonfiguration. Siehe [HTML5 Verlaufsmodus](../essentials/history-mode.md).
 
-  - `abstract`: funktioniert in jeder JavaScript-Umgebung, zB. serverseitig mit Node.js. **Der Router wird automatisch in diesen Modus gezwungen, wenn keine Browser-API vorhanden ist.**
+  - `abstract`: Funktioniert in jeder JavaScript-Umgebung, zB. serverseitig mit Node.js. **Der Router wird automatisch in diesen Modus gezwungen, wenn keine Browser-API vorhanden ist.**
 
 ### base
 
@@ -66,4 +66,4 @@
   ) => { x: number, y: number } | { selector: string } | ?{}
   ```
 
-  Für mehr Details siehe [Scroll Behavior](../advanced/scroll-behavior.md).
+  Für mehr Details siehe [Scroll-Verhalten](../advanced/scroll-behavior.md).

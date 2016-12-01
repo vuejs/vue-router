@@ -56,7 +56,7 @@ const User = {
 
 ### Erweiterte Übereinstimmungsmuster
 
-`vue-router` nutzt [path-to-regexp](https://github.com/pillarjs/path-to-regexp) zur Prüfung seiner Pfadübereinstimmungen. Demnach unterstützt es viele erweiterte Übereinstimmungsmuster wie optionale dynamische Segmente, null oder mehr / ein oder mehr Anforderungen und sogar eigene RegEx-Muster.  
+`vue-router` nutzt [path-to-regexp](https://github.com/pillarjs/path-to-regexp) zur Prüfung seiner Pfadübereinstimmungen. Demnach unterstützt es viele erweiterte Übereinstimmungsmuster wie optionale dynamische Segmente, null oder mehr/ein oder mehr Anforderungen und sogar eigene RegEx-Muster.  
 Siehe [Dokumentation für erweiterte Muster](https://github.com/pillarjs/path-to-regexp#parameters) und [dieses Beispiel](https://github.com/vuejs/vue-router/blob/dev/examples/route-matching/app.js) der Nutzung mit `vue-router`.
 
 ### Priorität der Übereinstimmung

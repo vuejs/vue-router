@@ -1,4 +1,4 @@
-# HTML5 Verlaufsmodus
+# HTML5-Verlaufsmodus
 
 Der Standardmodus für `vue-router` ist der **Hash-Modus**. Es nutzt den URL-Hash, um eine komplette URL zu simulieren, damit die Seite nicht neu geladen wird, wenn sich die URL ändert.
 

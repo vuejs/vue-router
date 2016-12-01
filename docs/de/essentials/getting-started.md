@@ -2,7 +2,7 @@
 
 > Wir werden [ES2015](https://github.com/lukehoban/es6features) in den Code-Beispielen nutzen.
 
-Eine Single-Page-Applikation mit Vue.js und vue-router zu schreiben ist super einfach. Mit Vue.js erstellen wir unsere App bereits mit Komponenten. Wird vue-router hinzugefügt, müssen wir lediglich die Komponenten den Routes zuordnen, um vue-router wissen zu lassen, wo diese gerendert werden sollen. Hier ein einfaches Beispiel:
+Eine Single-Page-Applikation mit Vue.js und vue-router zu schreiben, ist super einfach. Mit Vue.js erstellen wir unsere App bereits mit Komponenten. Wird vue-router hinzugefügt, müssen wir lediglich die Komponenten den Routes zuordnen, um vue-router wissen zu lassen, wo diese gerendert werden sollen. Hier ein einfaches Beispiel:
 
 > Alle Beispiele nutzen die Standalone-Version von Vue, um Template-Parsing möglich zu machen. Mehr Details [hier (englisch)](http://vuejs.org/guide/installation.html#Standalone-vs-Runtime-only-Build)
 
@@ -21,7 +21,7 @@ Eine Single-Page-Applikation mit Vue.js und vue-router zu schreiben ist super ei
     <router-link to="/foo">Go to Foo</router-link>
     <router-link to="/bar">Go to Bar</router-link>
   </p>
-  <!-- Route-Ende -->
+  <!-- Route-Ausgang -->
   <!-- von der Route zutreffende Komponente wird hier gerendert-->
   <router-view></router-view>
 </div>
@@ -52,7 +52,7 @@ const routes = [
 // Individuelle Optionen sind auch möglich, jedoch wird es hier erstmal einfach gehalten.
 
 const router = new VueRouter({
-  routes // kurz für routes: routes
+  routes // kurz für 'routes: routes'
 })
 
 // 4. Kreiere und 'mount' die Root-Instanz.

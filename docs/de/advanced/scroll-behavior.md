@@ -1,6 +1,6 @@
 # Scroll-Verhalten
 
-Bei Browser-seitigem Routing ist manchmal gewollt nach oben zu scrollen, wenn zu einer neuen Route navigiert wird oder die Scroll-Position von Verlaufseinträgen wie beim Neuladen der Seite beizubehalten. `vue-router` erlaubt diese Vorgehensweisen und ermöglicht sogar das Scroll-Verhalten zu individualisieren.
+Bei browserseitigem Routing ist manchmal gewollt nach oben zu scrollen, wenn zu einer neuen Route navigiert wird oder die Scroll-Position von Verlaufseinträgen wie beim Neuladen der Seite beizubehalten. `vue-router` erlaubt diese Vorgehensweisen und ermöglicht sogar das Scroll-Verhalten zu individualisieren.
 
 > Merke: Dies funktioniert nur im HTML5-Verlaufsmodus.
 
@@ -22,7 +22,7 @@ Die Funktion gibt ein Objekt der Scroll-Position wieder. Das Objekt könnte folg
 - `{ x: number, y: number }`
 - `{ selector: string }`
 
-Wenn ein falscher (falsy) Wert oder ein leeres Objekt wiedergegeben wird, wird nicht gescrollt.
+Wenn ein falschartiger (falsy) Wert oder ein leeres Objekt wiedergegeben wird, wird nicht gescrollt.
 
 Beim folgenden Beispiel scrollt die Seite nach oben:
 ``` js

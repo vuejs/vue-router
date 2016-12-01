@@ -1,6 +1,6 @@
 # Programmatische Navigation
 
-Neben der Nutzung von `router-link` zum Kreieren von Ankerpunkten für deklarative Navigation gibt es die Möglichkeit programmatisch zu navigieren mit Hilfe der Methoden der Router-Instanz.
+Neben der Nutzung von `router-link` zum Kreieren von Ankerpunkten für deklarative Navigation gibt es die Möglichkeit programmatisch mit Hilfe der Methoden der Router-Instanz zu navigieren.
 
 #### `router.push(location)`
 

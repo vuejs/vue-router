@@ -6,7 +6,7 @@
 
 - Typ: `Vue instance`
 
-  Die grundlegende Vue-Instanz, in die der `router` injiziert wurde.
+  Die grundlegende Vue-Instanz, in die `router` injiziert wurde.
 
 #### router.mode
 
@@ -39,7 +39,7 @@
 
 - **router.getMatchedComponents()**
 
-  Gibt einen Array von Komponenten (Definition/Konstruktor, nicht Instanz) wieder, die der aktuellen Route zutreffen. Wird meist genutzt bei serverseitigem Rendern, um ein Vorladen von Daten zu ermöglichen.
+  Gibt einen Array von Komponenten (Definition/Konstruktor, nicht Instanz) wieder, die auf die aktuelle Route zutreffen. Wird meist genutzt bei serverseitigem Rendern, um ein Vorabladen von Daten zu ermöglichen.
 
 - **router.resolve(location, current?, append?)**
 

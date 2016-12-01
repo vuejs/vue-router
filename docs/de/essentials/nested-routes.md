@@ -56,14 +56,14 @@ const router = new VueRouter({
         {
           // UserProfile wird innerhalb der
           // <router-view> von User gerendert,
-          // wenn /user/:id/profile zutrifft.
+          // wenn '/user/:id/profile' zutrifft.
           path: 'profile',
           component: UserProfile
         },
         {
           // UserPosts wird innerhalb der
           // <router-view> von User gerendert,
-          // wenn /user/:id/posts zutrifft.
+          // wenn '/user/:id/posts' zutrifft.
           path: 'posts',
           component: UserPosts
         }

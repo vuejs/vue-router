@@ -1,6 +1,6 @@
 # Navigationsschutz
 
-Der Navigationsschutz bereit gestellt vom `vue-router` wird primär genutzt, um Navigationen durch Umleitung oder Unterbrechung zu schützen. Es gibt eine Vielzahl an Wege: global, per-route oder in der Komponente.
+Der Navigationsschutz bereit gestellt vom `vue-router` wird primär genutzt, um Navigationen vor Umleitung oder Unterbrechung zu schützen. Es gibt eine Vielzahl an Wege: global, per-route oder in der Komponente.
 
 ### Globaler Schutz
 
@@ -24,9 +24,9 @@ Jede Schutzfunktion erhält drei Argumente:
 
 - **`next: Function`**: Diese Funktion muss aufgerufen werden, um den Hook aufzulösen. Die Aktion hängt von den Argumenten in `next` ab:
 
-  - **`next()`**: Gehe zum nächsten Hook in der Leitung. Wenn keiner vorhanden, ist die Navigation **bestätigt**.
+  - **`next()`**: Gehe zum nächsten Hook in der Leitung. Wenn keiner vorhanden ist, ist die Navigation **bestätigt**.
 
-  - **`next(false)`**: Brich die aktuelle Navigation ab. Wurde die URL geändert (entweder manuell durch den Nutzer oder via dem Zurück-Button), wird es zurückgesetzt zu dem, was die `from`-Route wiedergab.
+  - **`next(false)`**: Brich die aktuelle Navigation ab. Wurde die URL geändert (entweder manuell durch den Nutzer oder via Zurück-Button), wird es zurückgesetzt zu dem, was die `from`-Route wiedergab.
 
   - **`next('/')` or `next({ path: '/' })`**: Umleitung zu einem anderen Ort. Die aktuelle Navigation wird abgebrochen und eine neue gestartet.
 
@@ -68,8 +68,8 @@ Letztendlich kann man auch Navigationsschutz in den Route-Komponenten mit `befor
 const Foo = {
   template: `...`,
   beforeRouteEnter (to, from, next) {
-    // Aufgerufen bevor die Router bestätigt wird, die die Komponenten rendert.
-    // hat keinen Zugang zum `this`-Kontext der Komponenteninstanz,
+    // Aufgerufen bevor die Route bestätigt wird, die die Komponenten rendert.
+    // Hat keinen Zugang zum `this`-Kontext der Komponenteninstanz,
     // da es noch nicht erstellt wurde, wenn der Schutz aufgerufen wird.
   },
   beforeRouteLeave (to, from, next) {
@@ -91,4 +91,4 @@ beforeRouteEnter (to, from, next) {
 }
 ```
 
-Man kann den `this`-Kontext in `beforeRouteLeave` aufrufen. Der Abgangsschutz wird normalerweise genutzt, um versehentliches verlassen der Route mit ungesicherten Arbeiten zu verhindern. Die Navigation kann mit `next(false)` abgebrochen werden.
+Man kann den `this`-Kontext in `beforeRouteLeave` aufrufen. Der Abgangsschutz wird normalerweise genutzt, um versehentliches Verlassen der Route mit ungesicherten Arbeiten zu verhindern. Die Navigation kann mit `next(false)` abgebrochen werden.

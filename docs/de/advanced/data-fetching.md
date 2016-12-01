@@ -55,7 +55,7 @@ export default {
     fetchData () {
       this.error = this.post = null
       this.loading = true
-      // Ersetze getPost mit einer beliebigen AJAX-API (fetch, $.ajax).
+      // Ersetze 'getPost' mit einer beliebigen AJAX-API (zB. fetch, $.ajax).
       getPost(this.$route.params.id, (err, post) => {
         this.loading = false
         if (err) {
@@ -93,7 +93,7 @@ export default {
       }
     })
   },
-  // Wenn die Route geändert wurde und die Komponente bereits gerendert wurde,
+  // Wenn die Route geändert und die Komponente bereits gerendert wurde,
   // ist der Aufbau etwas anders:
   watch: {
     $route () {
@@ -110,4 +110,4 @@ export default {
 }
 ```
 
-Der Nutzer bleibt im aktuellen View bis die Daten des neuen geladen wurden. Daher ist es empfehlenswert einen Ladebalken oder ähnliches anzuzeigen, während die Daten eingeholt werden. Falls die Inhalte nicht geladen werden, ist es außerdem nötig, eine Fehlermeldung auszugeben.
+Der Nutzer bleibt im aktuellen View, bis die Daten des neuen geladen wurden. Daher ist es empfehlenswert einen Ladebalken oder ähnliches anzuzeigen. Falls die Inhalte nicht komplett beschafft werden können, ist es außerdem von Vorteil, eine Fehlermeldung auszugeben.
