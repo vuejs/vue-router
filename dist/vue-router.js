@@ -1,5 +1,5 @@
 /**
-  * vue-router v2.1.0
+  * vue-router v2.1.1
   * (c) 2016 Evan You
   * @license MIT
   */
@@ -1347,24 +1347,25 @@ History.prototype.listen = function listen (cb) {
   this.cb = cb
 };
 
-History.prototype.transitionTo = function transitionTo (location, cb) {
+History.prototype.transitionTo = function transitionTo (location, onComplete, onAbort) {
     var this$1 = this;
 
   var route = this.router.match(location, this.current)
   this.confirmTransition(route, function () {
     this$1.updateRoute(route)
-    cb && cb(route)
+    onComplete && onComplete(route)
     this$1.ensureURL()
-  })
+  }, onAbort)
 };
 
-History.prototype.confirmTransition = function confirmTransition (route, cb) {
+History.prototype.confirmTransition = function confirmTransition (route, onComplete, onAbort) {
     var this$1 = this;
 
   var current = this.current
+  var abort = function () { onAbort && onAbort() }
   if (isSameRoute(route, current)) {
     this.ensureURL()
-    return
+    return abort()
   }
 
   var ref = resolveQueue(this.current.matched, route.matched);
@@ -1384,14 +1385,18 @@ History.prototype.confirmTransition = function confirmTransition (route, cb) {
 
   this.pending = route
   var iterator = function (hook, next) {
-    if (this$1.pending !== route) { return }
+    if (this$1.pending !== route) {
+      return abort()
+    }
     hook(route, current, function (to) {
       if (to === false) {
         // next(false) -> abort navigation, ensure current URL
         this$1.ensureURL(true)
+        abort()
       } else if (typeof to === 'string' || typeof to === 'object') {
         // next('/') or next({ path: '/' }) -> redirect
         (typeof to === 'object' && to.replace) ? this$1.replace(to) : this$1.push(to)
+        abort()
       } else {
         // confirm transition and pass on the value
         next(to)
@@ -1407,14 +1412,15 @@ History.prototype.confirmTransition = function confirmTransition (route, cb) {
     // wait until async components are resolved before
     // extracting in-component enter guards
     runQueue(enterGuards, iterator, function () {
-      if (this$1.pending === route) {
-        this$1.pending = null
-        cb(route)
-        if (this$1.router.app) {
-          this$1.router.app.$nextTick(function () {
-            postEnterCbs.forEach(function (cb) { return cb(); })
-          })
-        }
+      if (this$1.pending !== route) {
+        return abort()
+      }
+      this$1.pending = null
+      onComplete(route)
+      if (this$1.router.app) {
+        this$1.router.app.$nextTick(function () {
+          postEnterCbs.forEach(function (cb) { return cb(); })
+        })
       }
     })
   })
@@ -1776,18 +1782,11 @@ function replaceState (url) {
 
 var HashHistory = (function (History) {
   function HashHistory (router, base, fallback) {
-    var this$1 = this;
-
     History.call(this, router, base)
-    window.addEventListener('hashchange', function () {
-      this$1.onHashChange()
-    })
-
     // check history fallback deeplinking
     if (fallback && this.checkFallback()) {
       return
     }
-
     ensureSlash()
   }
 
@@ -1978,7 +1977,12 @@ VueRouter.prototype.init = function init (app /* Vue component instance */) {
   if (history instanceof HTML5History) {
     history.transitionTo(getLocation(history.base))
   } else if (history instanceof HashHistory) {
-    history.transitionTo(getHash())
+    var setupHashListener = function () {
+      window.addEventListener('hashchange', function () {
+        history.onHashChange()
+      })
+    }
+    history.transitionTo(getHash(), setupHashListener, setupHashListener)
   }
 
   history.listen(function (route) {
@@ -2048,8 +2052,8 @@ VueRouter.prototype.resolve = function resolve (
 Object.defineProperties( VueRouter.prototype, prototypeAccessors );
 
 function createHref (base, fullPath, mode) {
-  var path = mode === 'hash' ? '/#' + fullPath : fullPath
-  return base ? cleanPath(base + path) : path
+  var path = mode === 'hash' ? '#' + fullPath : fullPath
+  return base ? cleanPath(base + '/' + path) : path
 }
 
 VueRouter.install = install
