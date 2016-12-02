@@ -35,8 +35,7 @@ This allows you to use the component anywhere, which makes the component easier 
 
 ### Boolean mode
 
-When props is set to true, the router looks at the component and searches for props with the same name as the route.params.
-When a prop is found and its type is Number, String or not set, the param is passed as prop.
+When props is set to true, the route.params will be set as the component props.
 
 ### Object mode
 
