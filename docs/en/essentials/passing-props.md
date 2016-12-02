@@ -52,7 +52,7 @@ const router = new VueRouter({
 ### Function mode
 
 You can create a function that returns props.
-This allows you to mix static values and values based on the route.
+This allows you to to cast the parameter to another type, mix static values and route-based values, etc.
 
 ``` js
 const router = new VueRouter({
@@ -65,7 +65,7 @@ const router = new VueRouter({
 The url: `/search?q=vue` would pass `{query: "vue"}` as props to the SearchUser component.
 
 Try to keep the props function stateless, as it's only evaluated on route changes.
-Tip: If you need to set props based on route and state create a wrapper component.
+If route and state detemine the props on use wrapper component, that way vue can react to state changes.
 
 
 For advanced usage, checkout the [example](https://github.com/vuejs/vue-router/blob/dev/examples/route-props/app.js).

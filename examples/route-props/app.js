@@ -16,7 +16,7 @@ const router = new VueRouter({
   base: __dirname,
   routes: [
     { path: '/', component: Hello }, // No props, no nothing
-    { path: '/hello/:name', component: Hello, props: true }, // Match params to props (Only matches props with type: String, Number or untyped)
+    { path: '/hello/:name', component: Hello, props: true }, // Pass route.params to props
     { path: '/static', component: Hello, props: { name: 'world' }}, // static values
     { path: '/dynamic/:years', component: Hello, props: dynamicPropsFn } // custom logic for mapping between route and props
   ]
