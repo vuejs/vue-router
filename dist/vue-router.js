@@ -2056,7 +2056,8 @@ function createHref (base, fullPath, mode) {
   return base ? cleanPath(base + '/' + path) : path
 }
 
-VueRouter.install = install
+VueRouter.install = install;
+VueRouter.version = 'v2.1.1';
 
 if (inBrowser && window.Vue) {
   window.Vue.use(VueRouter)
