@@ -8,7 +8,7 @@
 </transition>
 ```
 
-[Всё, что сказано о `<transition>` в основной документации](http://vuejs.org/guide/transitions.html) применимо и здесь.
+Всё, [что сказано о `<transition>` в документации основной библиотеки](http://vuejs.org/guide/transitions.html), применимо и здесь.
 
 ### Анимация переходов для конкретных путей
 
