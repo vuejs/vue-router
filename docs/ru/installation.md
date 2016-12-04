@@ -2,9 +2,9 @@
 
 ### Локальный файл / CDN
 
-[https://unpkg.com/vue-router](https://unpkg.com/vue-router)
+[https://unpkg.com/vue-router/dist/vue-router.js](https://unpkg.com/vue-router/dist/vue-router.js)
 
-[Unpkg.com](https://unpkg.com) предоставляет CDN-ссылки для NPM-пакетов. Ссылка выше всегда указывает на самую свежую версию vue-router, доступную в NPM. Можно указать и конкретную версию или тег, используя ссылки вида `https://unpkg.com/vue-router@2.0.0`.
+[Unpkg.com](https://unpkg.com) предоставляет CDN-ссылки для NPM-пакетов. Ссылка выше всегда указывает на самую свежую версию vue-router, доступную в NPM. Можно указать и конкретную версию или тег, используя ссылки вида `https://unpkg.com/vue-router@2.0.0/dist/vue-router.js`.
 
 Подключите `vue-router` после Vue, и установка произойдёт автоматически:
 

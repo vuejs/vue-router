@@ -1,7 +1,7 @@
 # vue-router 2
-
+<!--email_off-->
 > Обратите внимание: vue-router@2.x работает только с Vue 2.x. Документация для версии 0.7.x находится [здесь (en)](https://github.com/vuejs/vue-router/tree/1.0/docs/en).
-
+<!--/email_off-->
 **[Release Notes](https://github.com/vuejs/vue-router/releases)**
 
 - [Установка](installation.md)
