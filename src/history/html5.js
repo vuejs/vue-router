@@ -74,7 +74,9 @@ export class HTML5History extends History {
     if (!behavior) {
       return
     }
-    assert(typeof behavior === 'function', `scrollBehavior must be a function`)
+    if (process.env.NODE_ENV !== 'production') {
+      assert(typeof behavior === 'function', `scrollBehavior must be a function`)
+    }
 
     // wait until re-render finishes before scrolling
     router.app.$nextTick(() => {

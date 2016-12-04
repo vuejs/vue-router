@@ -4,7 +4,7 @@
 
 Creating a Single-page Application with Vue.js + vue-router is dead simple. With Vue.js, we are already composing our application with components. When adding vue-router to the mix, all we need to do is map our components to the routes and let vue-router know where to render them. Here's a basic example:
 
-> All examples will be using the standalone version of vue to make template parsing possible. See more details [here](http://vuejs.org/guide/installation.html#Standalone-vs-Runtime-only-Build)
+> All examples will be using the standalone version of Vue to make template parsing possible. See more details [here](http://vuejs.org/guide/installation.html#Standalone-vs-Runtime-only-Build).
 
 ### HTML
 
@@ -40,8 +40,7 @@ const Bar = { template: '<div>bar</div>' }
 // 2. Define some routes
 // Each route should map to a component. The "component" can
 // either be an actual component constructor created via
-// Vue.extend(), a component id string registered via Vue.component(),
-// or just a component options object.
+// Vue.extend(), or just a component options object.
 // We'll talk about nested routes later.
 const routes = [
   { path: '/foo', component: Foo },
