@@ -28,7 +28,14 @@ function addRouteRecord (
   matchAs?: string
 ) {
   const { path, name } = route
-  assert(path != null, `"path" is required in a route configuration.`)
+  if (process.env.NODE_ENV !== 'production') {
+    assert(path != null, `"path" is required in a route configuration.`)
+    assert(
+      typeof route.component !== 'string',
+      `route config "component" for path: ${String(path || name)} cannot be a ` +
+      `string id. Use an actual component instead.`
+    )
+  }
 
   const record: RouteRecord = {
     path: normalizePath(path, parent),
@@ -69,11 +76,13 @@ function addRouteRecord (
     }
   }
 
-  pathMap[record.path] = record
+  if (!pathMap[record.path]) {
+    pathMap[record.path] = record
+  }
   if (name) {
     if (!nameMap[name]) {
       nameMap[name] = record
-    } else {
+    } else if (process.env.NODE_ENV !== 'production') {
       warn(false, `Duplicate named routes definition: { name: "${name}", path: "${record.path}" }`)
     }
   }

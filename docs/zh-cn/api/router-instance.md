@@ -36,6 +36,20 @@
 
   动态的导航到一个新 url。参考 [编程式导航](../essentials/navigation.md).
 
-- **router.getMatchedComponents()**
+- **router.getMatchedComponents(location?)**
 
-  返回当前路由匹配的组件数组（是数组的定义/构造类，不是实例）。通常在服务端渲染的数据预加载时时候。
+  返回目标位置或是当前路由匹配的组件数组（是数组的定义/构造类，不是实例）。通常在服务端渲染的数据预加载时时候。
+
+- **router.resolve(location, current?, append?)**
+
+  > 2.1.0+
+
+  解析目标位置（格式和 `<router-link>` 的 `to` prop 一样），返回包含如下属性的对象：
+
+  ``` js
+  {
+    normalizedTo: Location;
+    resolved: Route;
+    href: string;
+  }
+  ```

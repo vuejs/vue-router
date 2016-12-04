@@ -103,7 +103,17 @@
   <router-link to="/" exact>
   ```
 
-  Checkout more examples explaining active link class [live](http://jsfiddle.net/fnlCtrl/dokbyypq/).
+  Checkout more examples explaining active link class [live](https://jsfiddle.net/8xrk1n9f/).
+
+- **events**
+
+  > 2.1.0+
+
+  - type: `string | Array<string>`
+
+  - default: `'click'`
+
+  Specify the event(s) that can trigger the link navigation.
 
 ### Applying Active Class to Outer Element
 

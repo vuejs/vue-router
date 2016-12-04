@@ -8,12 +8,10 @@ import { cleanPath } from '../util/path'
 export class HashHistory extends History {
   constructor (router: VueRouter, base: ?string, fallback: boolean) {
     super(router, base)
-
     // check history fallback deeplinking
     if (fallback && this.checkFallback()) {
       return
     }
-
     ensureSlash()
   }
 

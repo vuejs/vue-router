@@ -27,8 +27,12 @@ declare class VueRouter {
   go (n: number): void;
   back (): void;
   forward (): void;
-  getMatchedComponentes (): Component;
-  resolve (to: RawLocation, current?: Route, append?: boolean): {href: string};
+  getMatchedComponentes (to?: RawLocation): Component[];
+  resolve (to: RawLocation, current?: Route, append?: boolean): {
+    normalizedTo: Location;
+    resolved: Route;
+    href: string;
+  };
 
   static install: PluginFunction<never>;
 }
@@ -79,6 +83,8 @@ export interface Location {
   hash?: string;
   query?: Dictionary<string>;
   params?: Dictionary<string>;
+  append?: boolean;
+  replace?: boolean;
 }
 
 export interface Route {

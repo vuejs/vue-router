@@ -17,7 +17,7 @@ describe('Query utils', () => {
         foo: 'bar',
         baz: 'qux',
         arr: [1, 2]
-      })).toBe('?arr=1&arr=2&baz=qux&foo=bar') // sorted alphabetically
+      })).toBe('?foo=bar&baz=qux&arr=1&arr=2')
     })
   })
 })
