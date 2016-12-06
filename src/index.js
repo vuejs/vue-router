@@ -12,6 +12,7 @@ import { normalizeLocation } from './util/location'
 
 export default class VueRouter {
   static install: () => void;
+  static version: string;
 
   app: any;
   options: RouterOptions;
@@ -155,6 +156,7 @@ function createHref (base: string, fullPath: string, mode) {
 }
 
 VueRouter.install = install
+VueRouter.version = '__VERSION__'
 
 if (inBrowser && window.Vue) {
   window.Vue.use(VueRouter)

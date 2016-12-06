@@ -66,6 +66,9 @@ function genConfig (opts) {
       flow(),
       node(),
       cjs(),
+      replace({
+        __VERSION__: version
+      }),
       buble()
     ]
   }
