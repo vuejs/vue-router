@@ -10,7 +10,7 @@ Eine Single-Page-Applikation mit Vue.js und vue-router zu schreiben, ist super e
 
 ``` html
 <script src="https://unpkg.com/vue/dist/vue.js"></script>
-<script src="https://unpkg.com/vue-router"></script>
+<script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
 
 <div id="app">
   <h1>Hello App!</h1>
