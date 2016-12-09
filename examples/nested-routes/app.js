@@ -90,6 +90,7 @@ new Vue({
         <li><router-link to="/parent/quy/123">/parent/quy</router-link></li>
         <li><router-link :to="{name: 'zap'}">/parent/zap</router-link></li>
         <li><router-link :to="{name: 'zap', params: {zapId: 1}}">/parent/zap/1</router-link></li>
+        <li><router-link :to="{ params: { zapId: 2 }}">{ params: { zapId: 2 }} (relative params)</router-link></li>
       </ul>
       <router-view class="view"></router-view>
     </div>

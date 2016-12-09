@@ -14,7 +14,7 @@ module.exports = {
       .assert.attributeContains('li:nth-child(6) a', 'href', '/active-links/users/evan#foo')
       .assert.attributeContains('li:nth-child(7) a', 'href', '/active-links/users/evan?foo=bar')
       .assert.attributeContains('li:nth-child(8) a', 'href', '/active-links/users/evan?foo=bar')
-      .assert.attributeContains('li:nth-child(9) a', 'href', '/active-links/users/evan?baz=qux&foo=bar')
+      .assert.attributeContains('li:nth-child(9) a', 'href', '/active-links/users/evan?foo=bar&baz=qux')
       .assert.attributeContains('li:nth-child(10) a', 'href', '/active-links/about')
       .assert.attributeContains('li:nth-child(11) a', 'href', '/active-links/about')
       .assert.containsText('.view', 'Home')

@@ -14,7 +14,7 @@ export function resolveQuery (
     try {
       parsedQuery = parseQuery(query)
     } catch (e) {
-      warn(false, e.message)
+      process.env.NODE_ENV !== 'production' && warn(false, e.message)
       parsedQuery = {}
     }
     for (const key in extraQuery) {
@@ -55,7 +55,7 @@ function parseQuery (query: string): Dictionary<string> {
 }
 
 export function stringifyQuery (obj: Dictionary<string>): string {
-  const res = obj ? Object.keys(obj).sort().map(key => {
+  const res = obj ? Object.keys(obj).map(key => {
     const val = obj[key]
 
     if (val === undefined) {

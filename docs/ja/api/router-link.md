@@ -103,7 +103,7 @@
   <router-link to="/" exact>
   ```
 
-  アクティブリンククラスをより説明している例としてこちらの [動作](http://jsfiddle.net/fnlCtrl/dokbyypq/) を確認してください。
+  アクティブリンククラスをより説明している例としてこちらの [動作](https://jsfiddle.net/8xrk1n9f/) を確認してください。
 
 ### 外側の要素へのアクティブクラスの適用
 

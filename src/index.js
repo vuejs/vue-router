@@ -12,6 +12,7 @@ import { normalizeLocation } from './util/location'
 
 export default class VueRouter {
   static install: () => void;
+  static version: string;
 
   app: any;
   options: RouterOptions;
@@ -50,7 +51,7 @@ export default class VueRouter {
         this.history = new AbstractHistory(this)
         break
       default:
-        assert(false, `invalid mode: ${mode}`)
+        process.env.NODE_ENV !== 'production' && assert(false, `invalid mode: ${mode}`)
     }
   }
 
@@ -59,7 +60,7 @@ export default class VueRouter {
   }
 
   init (app: any /* Vue component instance */) {
-    assert(
+    process.env.NODE_ENV !== 'production' && assert(
       install.installed,
       `not installed. Make sure to call \`Vue.use(VueRouter)\` ` +
       `before creating root instance.`
@@ -72,11 +73,12 @@ export default class VueRouter {
     if (history instanceof HTML5History) {
       history.transitionTo(getLocation(history.base))
     } else if (history instanceof HashHistory) {
-      history.transitionTo(getHash(), () => {
+      const setupHashListener = () => {
         window.addEventListener('hashchange', () => {
           history.onHashChange()
         })
-      })
+      }
+      history.transitionTo(getHash(), setupHashListener, setupHashListener)
     }
 
     history.listen(route => {
@@ -112,18 +114,29 @@ export default class VueRouter {
     this.go(1)
   }
 
-  getMatchedComponents (): Array<any> {
-    if (!this.currentRoute) {
+  getMatchedComponents (to?: RawLocation): Array<any> {
+    const route = to
+      ? this.resolve(to).resolved
+      : this.currentRoute
+    if (!route) {
       return []
     }
-    return [].concat.apply([], this.currentRoute.matched.map(m => {
+    return [].concat.apply([], route.matched.map(m => {
       return Object.keys(m.components).map(key => {
         return m.components[key]
       })
     }))
   }
 
-  resolve (to: RawLocation, current?: Route, append?: boolean): {href: string} {
+  resolve (
+    to: RawLocation,
+    current?: Route,
+    append?: boolean
+  ): {
+    normalizedTo: Location,
+    resolved: Route,
+    href: string
+  } {
     const normalizedTo = normalizeLocation(to, current || this.history.current, append)
     const resolved = this.match(normalizedTo, current)
     const fullPath = resolved.redirectedFrom || resolved.fullPath
@@ -138,11 +151,12 @@ export default class VueRouter {
 }
 
 function createHref (base: string, fullPath: string, mode) {
-  var path = mode === 'hash' ? '/#' + fullPath : fullPath
-  return base ? cleanPath(base + path) : path
+  var path = mode === 'hash' ? '#' + fullPath : fullPath
+  return base ? cleanPath(base + '/' + path) : path
 }
 
 VueRouter.install = install
+VueRouter.version = '__VERSION__'
 
 if (inBrowser && window.Vue) {
   window.Vue.use(VueRouter)
