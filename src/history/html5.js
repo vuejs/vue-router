@@ -2,6 +2,7 @@
 
 import type VueRouter from '../index'
 import { assert } from '../util/warn'
+import { inBrowser } from '../util/dom'
 import { cleanPath } from '../util/path'
 import { History } from './base'
 import {
@@ -12,7 +13,10 @@ import {
   getElementPosition
 } from '../util/scroll-position'
 
-const genKey = () => String(Date.now())
+// use User Timing api (if present) for more accurate key precision
+const Time = inBrowser ? (window.performance || Date) : Date
+
+const genKey = () => String(Time.now())
 let _key: string = genKey()
 
 export class HTML5History extends History {
