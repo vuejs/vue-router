@@ -28,7 +28,7 @@
 ### JavaScript
 
 ``` js
-// 0. 如果使用模块化机制编程，導入Vue和VueRouter，要调用 vue.use(vuerouter)
+// 0. 如果使用模块化机制编程，導入Vue和VueRouter，要调用 Vue.use(VueRouter)
 
 // 1. 定义（路由）组件。
 // 可以从其他文件 import 进来
