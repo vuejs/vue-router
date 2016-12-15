@@ -1,6 +1,6 @@
 # Lazy Loading Routes
 
-When building apps with a bundler, the JavaScript bundle can become quite large and thus affecting page load time. It would be more efficient if we can split each route's components into a separate chunk, and only load them when the route is visited.
+When building apps with a bundler, the JavaScript bundle can become quite large, and thus affect the page load time. It would be more efficient if we can split each route's components into a separate chunk, and only load them when the route is visited.
 
 Combining Vue's [async component feature](http://vuejs.org/guide/components.html#Async-Components) and Webpack's [code splitting feature](https://webpack.github.io/docs/code-splitting.html), it's trivially easy to
 lazy-load route components.
