@@ -20,6 +20,7 @@ export function createMatcher (routes: Array<RouteConfig>): Matcher {
 
     if (name) {
       const record = nameMap[name]
+      warn(record != null, "Route with name '" + name + "' does not exist");
       const paramNames = getRouteRegex(record.path).keys
         .filter(key => !key.optional)
         .map(key => key.name)
