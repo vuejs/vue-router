@@ -1,6 +1,6 @@
 # 동적 라우트 매칭
 
-주어진 패턴을 가진 라우트를 동일한 컴포넌트에 매핑해야하는 경우가 자주 있습니다. 예를 들어 모든 사용자에 대해 렌더링되지만 다른 사용자 ID로 렌더링되어야하는 `User` 컴포넌트가 있을 수 있습니다. `vue-router`에서 우리는 경로에서 동적 세그먼트를 사용하여 다음을 할 수 있습니다.
+주어진 패턴을 가진 라우트를 동일한 컴포넌트에 매핑해야하는 경우가 자주 있습니다. 예를 들어 모든 사용자에 대해 동일한 레이아웃을 가지지만 하지만 다른 사용자 ID로 렌더링되어야하는 `User` 컴포넌트가 있을 수 있습니다. `vue-router`에서 우리는 경로에서 동적 세그먼트를 사용하여 다음을 할 수 있습니다.
 
 ``` js
 const User = {
@@ -25,9 +25,9 @@ const User = {
 }
 ```
 
-실제 사용사례는 [이 곳](http://jsfiddle.net/yyx990803/4xfa2f19/)에 있습니다.
+실제 예제는 [여기](http://jsfiddle.net/yyx990803/4xfa2f19/)에 있습니다.
 
-동일한 라우트에 여러개의 동적 세그먼트를 가질 수 있으며, `$route.params`의 해당 필드에 매핑됩니다.
+동일한 라우트에 여러 동적 세그먼트를 가질 수 있으며, `$route.params`의 해당 필드에 매핑됩니다.
 
 예:
 
@@ -36,7 +36,7 @@ const User = {
 | /user/:username | /user/evan | `{ username: 'evan' }` |
 | /user/:username/post/:post_id | /user/evan/post/123 | `{ username: 'evan', post_id: 123 }` |
 
-`$route.params` 외에도 `$route` 객체는 `$route.query` (URL에 질의가있는 경우), `$route.hash` 등의 유용한 정보를 제공합니다. [API 레퍼런스](../api/route-object.md)에서 전체 세부 정보를 확인할 수 있습니다.
+`$route.params` 외에도 `$route` 객체는 `$route.query` (URL에 쿼리가 있는 경우), `$route.hash` 등의 유용한 정보를 제공합니다. [API 레퍼런스](../api/route-object.md)에서 전체 세부 정보를 확인할 수 있습니다.
 
 ### Params 변경 사항에 반응하기
 
@@ -57,7 +57,7 @@ const User = {
 
 ### 고급 매칭 패턴
 
-`vue-router`는 라우트 매칭 엔진으로 [path-to-regexp](https://github.com/pillarjs/path-to-regexp)를 사용하기 때문에 선택적 동적 세그먼트, 0개 이상/하나 이상의 요구 사항, 심지어 커스텀 정규식 패턴과 같은 많은 고급 매칭 패턴을 지원합니다. 이 고급 패턴들과`vue-router`에서 사용하는 [이 예제](https://github.com/vuejs/vue-router/blob/dev/examples/route-matching/app.js)에 대한 [문서](https://github.com/pillarjs/path-to-regexp#parameters)를 확인하십시오.
+`vue-router`는 라우트 매칭 엔진으로 [path-to-regexp](https://github.com/pillarjs/path-to-regexp)를 사용하기 때문에 선택적 동적 세그먼트, 0개 이상/하나 이상의 요구 사항, 심지어 커스텀 정규식 패턴과 같은 많은 고급 매칭 패턴을 지원합니다. 이 고급 패턴들과 `vue-router`에서 사용하는 [예제](https://github.com/vuejs/vue-router/blob/dev/examples/route-matching/app.js)에 대한 [문서](https://github.com/pillarjs/path-to-regexp#parameters)를 확인하십시오.
 
 ### 매칭 우선순위
 

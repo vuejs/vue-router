@@ -15,7 +15,7 @@ const router = new VueRouter({
 })
 ```
 
-`scrollBehavior` 함수는 `to`와 `from` 라우트 객체를받습니다. 세 번째 전달인자 인 `savedPosition`은 브라우저의 뒤로/앞으로 버튼으로 트리거되는 `popstate` 네비게이션인 경우에만 사용할 수 있습니다.
+`scrollBehavior` 함수는 `to`와 `from` 라우트 객체를받습니다. 세 번째 전달인자인 `savedPosition`은 브라우저의 뒤로/앞으로 버튼으로 트리거되는 `popstate` 네비게이션인 경우에만 사용할 수 있습니다.
 
 이 함수는 스크롤 위치 객체를 반환 할 수 있습니다. 객체는 다음과 같은 형태 일 수 있습니다.
 

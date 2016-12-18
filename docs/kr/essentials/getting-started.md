@@ -2,9 +2,9 @@
 
 > 가이드의 샘플 코드는[ES2015](https://github.com/lukehoban/es6features)를 사용합니다.
 
-Vue.js + vue-router로 단일 페이지 응용 프로그램 만드는 것은 간단합니다. Vue.js를 통해 우리는 이미 컴포넌트로 애플리케이션을 구성하고 있습니다. vue-router를 추가 할 때, 우리가해야 할 일은 우리의 컴포넌트를 route에 매핑하고 vue-router가 어디서 렌더링할 지 지정하는 것입니다. 다음은 기본적인 예입니다.
+Vue.js와 vue-router로 단일 페이지 애플리케이션을 만드는 것은 간단합니다. Vue.js를 통해 우리는 이미 컴포넌트로 애플리케이션을 구성하고 있습니다. vue-router를 추가 할 때, 우리가해야 할 일은 우리의 컴포넌트를 route에 매핑하고 vue-router가 어디서 렌더링할 지 지정하는 것입니다. 다음은 기본적인 예입니다.
 
-> 모든 예제는 Vue의 독립형 버전을 사용하여 템플릿 구문 분석을 가능하게합니다. 자세한 내용은 [이 곳에](http://vuejs.org/guide/installation.html#Standalone-vs-Runtime-only-Build) 있습니다.
+> 모든 예제는 Vue의 독립형 버전을 사용하여 템플릿 구문 분석을 가능하게합니다. 자세한 내용은 [여기](http://vuejs.org/guide/installation.html#Standalone-vs-Runtime-only-Build) 있습니다.
 
 ### HTML
 
