@@ -25,4 +25,4 @@ const router = new VueRouter({
 })
 ```
 
-이 예제의 작업 데모는 [이 곳](https://jsfiddle.net/posva/6du90epg/)에서 확인할 수 있습니다.
+이 예제는 [여기](https://jsfiddle.net/posva/6du90epg/)에서 확인할 수 있습니다.

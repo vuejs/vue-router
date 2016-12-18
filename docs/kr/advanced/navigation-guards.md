@@ -4,7 +4,7 @@
 
 ### 전역 가드
 
-`router.beforeEach`를 사용하여 보호 이전에 전역 등록을 할 수 있습니다 :
+`router.beforeEach`를 사용하여 보호하기 이전에 전역 등록을 할 수 있습니다 :
 
 ``` js
 const router = new VueRouter({ ... })

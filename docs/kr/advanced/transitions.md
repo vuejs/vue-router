@@ -1,6 +1,6 @@
 # 전환
 
-`<router-view>`는 본질적으로 동적인 컴포넌트이기 때문에 `<transition>` 컴포넌트를 사용하는 것과 같은 방식으로 전환 효과를 적용 할 수 있습니다.
+`<router-view>`는 본질적으로 동적인 컴포넌트이기 때문에 `<transition>` 컴포넌트를 사용하는 것과 같은 방식으로 전환 효과를 적용할 수 있습니다.
 
 ``` html
 <transition>
@@ -54,4 +54,4 @@ watch: {
 }
 ```
 
-전체 예제는 [이 곳](https://github.com/vuejs/vue-router/blob/dev/examples/transitions/app.js)에 있습니다.
+전체 예제는 [여기](https://github.com/vuejs/vue-router/blob/dev/examples/transitions/app.js)에 있습니다.
