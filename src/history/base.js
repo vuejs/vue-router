@@ -57,7 +57,7 @@ export class History {
       // enter guards
       route.matched.matched.map(m => m.beforeEnter),
       // async components
-      resolveAsyncComponents(activated)
+      resolveAsyncComponents(route.matched)
     )
 
     this.pending = route
