@@ -49,18 +49,13 @@ export class History {
       return abort()
     }
 
-    const {
-      deactivated,
-      activated
-    } = resolveQueue(this.current.matched, route.matched)
-
     const queue: Array<?NavigationGuard> = [].concat(
       // in-component leave guards
-      extractLeaveGuards(deactivated),
+      extractLeaveGuards(this.current.matched),
       // global before hooks
       this.router.beforeHooks,
       // enter guards
-      activated.map(m => m.beforeEnter),
+      route.matched.matched.map(m => m.beforeEnter),
       // async components
       resolveAsyncComponents(activated)
     )
@@ -134,26 +129,6 @@ function normalizeBase (base: ?string): string {
   }
   // remove trailing slash
   return base.replace(/\/$/, '')
-}
-
-function resolveQueue (
-  current: Array<RouteRecord>,
-  next: Array<RouteRecord>
-): {
-  activated: Array<RouteRecord>,
-  deactivated: Array<RouteRecord>
-} {
-  let i
-  const max = Math.max(current.length, next.length)
-  for (i = 0; i < max; i++) {
-    if (current[i] !== next[i]) {
-      break
-    }
-  }
-  return {
-    activated: next.slice(i),
-    deactivated: current.slice(i)
-  }
 }
 
 function extractGuard (
