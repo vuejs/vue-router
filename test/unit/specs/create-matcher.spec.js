@@ -16,7 +16,7 @@ describe('Creating Matcher', function () {
     process.env.NODE_ENV = 'production'
   })
 
-  it('in development, has logged a warning concering named route does ot exist', function () {
+  it('in development, has logged a warning if a named route does not exist', function () {
     process.env.NODE_ENV = 'development'
     expect(() => {
       this.match({ name: 'bar' }, routes[0]);
