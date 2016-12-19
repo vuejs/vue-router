@@ -55,7 +55,7 @@ export class History {
       // global before hooks
       this.router.beforeHooks,
       // enter guards
-      route.matched.matched.map(m => m.beforeEnter),
+      route.matched.map(m => m.beforeEnter),
       // async components
       resolveAsyncComponents(route.matched)
     )
