@@ -83,7 +83,7 @@ export class History {
 
     runQueue(queue, iterator, () => {
       const postEnterCbs = []
-      const enterGuards = extractEnterGuards(activated, postEnterCbs, () => {
+      const enterGuards = extractEnterGuards(route.matched, postEnterCbs, () => {
         return this.current === route
       })
       // wait until async components are resolved before
