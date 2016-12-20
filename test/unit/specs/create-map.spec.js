@@ -41,7 +41,7 @@ describe('Creating Route Map', function () {
     expect(this.maps.nameMap['bar.baz']).not.toBeUndefined()
   })
 
-  it('in development, has logged a warning concering named route of parent and default subroute', function () {
+  it('in development, has logged a warning concerning named route of parent and default subroute', function () {
     process.env.NODE_ENV = 'development'
     this.maps = createRouteMap(routes)
     expect(console.warn).toHaveBeenCalled()
