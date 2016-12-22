@@ -48,7 +48,7 @@ export default class VueRouter {
         this.history = new HashHistory(this, options.base, this.fallback)
         break
       case 'abstract':
-        this.history = new AbstractHistory(this)
+        this.history = new AbstractHistory(this, options.base)
         break
       default:
         process.env.NODE_ENV !== 'production' && assert(false, `invalid mode: ${mode}`)
