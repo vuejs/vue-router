@@ -7,8 +7,8 @@ export class AbstractHistory extends History {
   index: number;
   stack: Array<Route>;
 
-  constructor (router: VueRouter) {
-    super(router)
+  constructor (router: VueRouter, base: ?string) {
+    super(router, base)
     this.stack = []
     this.index = -1
   }
