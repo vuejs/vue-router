@@ -2,7 +2,7 @@
 
 import { warn } from './warn'
 
-const encode = encodeURIComponent
+const noEncode = s => s
 const decode = decodeURIComponent
 
 export function resolveQuery (
@@ -54,7 +54,15 @@ function parseQuery (query: string): Dictionary<string> {
   return res
 }
 
-export function stringifyQuery (obj: Dictionary<string>): string {
+export function stringifyQuery (
+  obj: Dictionary<string>,
+  encodeQuery: Function | boolean = true
+): string {
+  // use the encodeURIComponent by default
+  // if false, don't encode, otherwise use encodeQuery as a function
+  const encode = encodeQuery === true
+          ? encodeURIComponent
+          : encodeQuery || noEncode
   const res = obj ? Object.keys(obj).map(key => {
     const val = obj[key]
 
