@@ -78,10 +78,12 @@ export interface RouteRecord {
 }
 
 export interface Location {
+  _normalized?: boolean;
   name?: string;
   path?: string;
   hash?: string;
   query?: Dictionary<string>;
+  encodeQuery?: Function | boolean;
   params?: Dictionary<string>;
   append?: boolean;
   replace?: boolean;
