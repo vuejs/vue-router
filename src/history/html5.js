@@ -129,7 +129,7 @@ function pushState (url: string, replace?: boolean) {
     }
     saveScrollPosition(_key)
   } catch (e) {
-    window.location[replace ? 'assign' : 'replace'](url)
+    window.location[replace ? 'replace' : 'assign'](url)
   }
 }
 

@@ -105,7 +105,7 @@
 
   Checkout more examples explaining active link class [live](https://jsfiddle.net/8xrk1n9f/).
 
-- **events**
+- **event**
 
   > 2.1.0+
 
