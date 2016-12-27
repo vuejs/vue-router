@@ -6,9 +6,11 @@ The route object is immutable. Every successful navigation will result in a fres
 
 The route object can be found in multiple places:
 
-- Inside components as `this.$route`, and obvious inside `$route` watcher callbacks;
+- Inside components as `this.$route`
 
-- As the return value of calling `router.match(location)`;
+- Inside `$route` watcher callbacks
+
+- As the return value of calling `router.match(location)`
 
 - Inside navigation guards as the first two arguments:
 
