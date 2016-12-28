@@ -24,7 +24,7 @@
 - API 레퍼런스
   - [router-link](api/router-link.md)
   - [router-view](api/router-view.md)
-  - [라우터 객체](api/route-object.md)
+  - [라우트 객체](api/route-object.md)
   - [라우터 생성자 옵션](api/options.md)
   - [라우터 인스턴스](api/router-instance.md)
   - [컴포넌트 주입](api/component-injections.md)
