@@ -1,7 +1,7 @@
 {
   "name": "vue-router",
   "main": "dist/vue-router.js",
-  "description": "the official router for Vue.js",
+  "description": "official router for Vue.js",
   "authors": "Evan You",
   "license": "MIT",
   "ignore": [
