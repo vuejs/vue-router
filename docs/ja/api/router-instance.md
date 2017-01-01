@@ -36,10 +36,20 @@
 
   プログラムによる新しい URL へのナビゲーション。 [プログラムによるナビゲーション](../essentials/navigation.md) をご参照ください。
 
-- **router.getMatchedComponents()**
+- **router.getMatchedComponents(location?)**
 
-  現在のルートにマッチしているコンポーネント (インスタンスではなく定義 / コンストラクタ) の配列を返します。これは大抵の場合データ取得を行うサーバーサイドレンダリングで使用されます。
+  現在のルートまたは提供されたロケーションにマッチしているコンポーネント (インスタンスではなく定義 / コンストラクタ) の配列を返します。これは大抵の場合データ取得を行うサーバーサイドレンダリングで使用されます。
 
 - **router.resolve(location, current?, append?)**
 
-  逆 URL 解決します。`<router-link/>` で使われているものと同じ形式の location が与えられた場合は、文字列プロパティ `href` のオブジェクトを返します。
+  > 2.1.0+
+
+  逆 URL 解決します。`<router-link/>` で使われているものと同じ形式の location が与えられた場合は、以下の解決されたプロパティを返します。
+
+  ``` js
+  {
+    normalizedTo: Location;
+    resolved: Route;
+    href: string;
+  }
+  ```
