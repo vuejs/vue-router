@@ -1,0 +1,19 @@
+{
+  "name": "vue-router",
+  "main": "dist/vue-router.js",
+  "description": "official router for Vue.js",
+  "authors": "Evan You",
+  "license": "MIT",
+  "ignore": [
+    "examples",
+    "test",
+    "docs",
+    ".gitignore",
+    ".eslintrc",
+    ".babelrc",
+    "*.json",
+    "*.md",
+    "*.yml",
+    "*.lock"
+  ]
+}
