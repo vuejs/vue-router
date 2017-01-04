@@ -2,6 +2,8 @@
 
 As the name suggests, the navigation guards provided by `vue-router` are primarily used to guard navigations either by redirecting it or canceling it. There are a number of ways to hook into the route navigation process: globally, per-route, or in-component.
 
+Remember **Params or queries changes won't trigger navigation guards**. Simply [watch the `$route` object](../essentials/dynamic-matching.md#reacting-to-params-changes) to react to those changes.
+
 ### Global Guards
 
 You can register global before guards using `router.beforeEach`:
