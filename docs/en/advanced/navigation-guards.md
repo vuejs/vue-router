@@ -64,7 +64,7 @@ These guards have the exact same signature as global before guards.
 
 ### In-Component Guards
 
-Finally, you can directly define route navigation guards inside route components with `beforeRouteEnter` and `beforeRouteLeave`:
+Finally, you can directly define route navigation guards inside route components (the ones passed to the router configuration) with `beforeRouteEnter` and `beforeRouteLeave`:
 
 ``` js
 const Foo = {
