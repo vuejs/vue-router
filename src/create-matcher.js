@@ -20,6 +20,9 @@ export function createMatcher (routes: Array<RouteConfig>): Matcher {
 
     if (name) {
       const record = nameMap[name]
+      if (process.env.NODE_ENV !== 'production') {
+        warn(record, `Route with name '${name}' does not exist`)
+      }
       const paramNames = getRouteRegex(record.path).keys
         .filter(key => !key.optional)
         .map(key => key.name)
