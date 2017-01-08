@@ -4,9 +4,9 @@
 
 [https://unpkg.com/vue-router/dist/vue-router.js](https://unpkg.com/vue-router/dist/vue-router.js)
 
-[Unpkg.com](https://unpkg.com) предоставляет CDN-ссылки для NPM-пакетов. Ссылка выше всегда указывает на самую последнюю версию vue-router на NPM. Вы также можете использовать конкретную версию используя ссылки вида `https://unpkg.com/vue-router@2.0.0/dist/vue-router.js`.
+[Unpkg.com](https://unpkg.com) предоставляет CDN-ссылки для NPM-пакетов. Ссылка выше всегда указывает на самую последнюю версию Vue-router на NPM. Вы также можете использовать конкретную версию используя ссылки вида `https://unpkg.com/vue-router@2.0.0/dist/vue-router.js`.
 
-Подключите `vue-router` после Vue, и установка произойдёт автоматически:
+Подключите `Vue-router` после Vue, и установка произойдёт автоматически:
 
 ``` html
 <script src="/path/to/vue.js"></script>
@@ -32,7 +32,7 @@ Vue.use(VueRouter)
 
 ### Сборка версии, находящейся в разработке
 
-Если вы хотите использовать версию `vue-router` в разработке, склонируйте репозиторий с GitHub и выполните сборку вручную:
+Если вы хотите использовать версию `Vue-router` в разработке, склонируйте репозиторий с GitHub и выполните сборку вручную:
 
 ``` bash
 git clone https://github.com/vuejs/vue-router.git node_modules/vue-router
