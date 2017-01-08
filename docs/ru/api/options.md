@@ -1,20 +1,20 @@
-# Router Construction Options
+# Опции конструктора Router'а
 
 ### routes
 
-- type: `Array<RouteConfig>`
+- тип: `Array<RouteConfig>`
 
-  Type declaration for `RouteConfig`:
+  Декларация типа для `RouteConfig`:
 
   ``` js
   declare type RouteConfig = {
     path: string;
     component?: Component;
-    name?: string; // for named routes
-    components?: { [name: string]: Component }; // for named views
+    name?: string; // для именованных путей
+    components?: { [name: string]: Component }; // для именованных представлений
     redirect?: string | Location | Function;
     alias?: string | Array<string>;
-    children?: Array<RouteConfig>; // for nested routes
+    children?: Array<RouteConfig>; // для вложенных путей
     beforeEnter?: (to: Route, from: Route, next: Function) => void;
     meta?: any;
   }
@@ -22,41 +22,41 @@
 
 ### mode
 
-- type: `string`
+- тип: `string`
 
-- default: `"hash" (in browser) | "abstract" (in Node.js)`
+- значение по умолчанию: `"hash" (in browser) | "abstract" (in Node.js)`
 
-- available values: `"hash" | "history" | "abstract"`
+- возможные значения: `"hash" | "history" | "abstract"`
 
-  Configure the router mode.
+  Указывает режим работы роутера.
 
-  - `hash`: uses the URL hash for routing. Works in all Vue-supported browsers, including those that do not support HTML5 History API.
+  - `hash`: для роутинга будут использоваться URL-хэши. Работает во всех поддерживаемых браузерах, включая те, что не поддерживают HTML5 History API.
 
-  - `history`: requires HTML5 History API and server config. See [HTML5 History Mode](../essentials/history-mode.md).
+  - `history`: требует для работы поддержку HTML5 History API в браузере с соответствующую конфигурацию сервера. См. [раздел документации об использовании режима HTML5 History](../essentials/history-mode.md).
 
-  - `abstract`: works in all JavaScript environments, e.g. server-side with Node.js. **The router will automatically be forced into this mode if no browser API is present.**
+  - `abstract`: работает в любом JavaScript-окружении, включая серверный рендеринг с помощью Node.js. **Роутер переключается в этот режим автоматически, если не обнаруживает API браузера.**
 
 ### base
 
-- type: `string`
+- тип: `string`
 
-- default: `"/"`
+- значение по умолчанию: `"/"`
 
-  The base URL of the app. For example, if the entire single page application is served under `/app/`, then `base` should use the value `"/app/"`.
+  Базовый URL приложения. Например, если SPA находится по пути `/app/`, значением `base` также должно быть `"/app/"`.
 
 ### linkActiveClass
 
-- type: `string`
+- тип: `string`
 
-- default: `"router-link-active"`
+- значение по умолчанию: `"router-link-active"`
 
-  Globally configure `<router-link>` default active class. Also see [router-link](router-link.md).
+  Глобальная конфигурация css-класса по умолчанию для активных ссылок `<router-link>`. См. также [router-link](router-link.md).
 
 ### scrollBehavior
 
-- type: `Function`
+- тип: `Function`
 
-  Signature:
+  Сигнатура:
 
   ```
   (
@@ -66,4 +66,4 @@
   ) => { x: number, y: number } | { selector: string } | ?{}
   ```
 
-  For more details see [Scroll Behavior](../advanced/scroll-behavior.md).
+  Для подробностей см. [Скроллинг](../advanced/scroll-behavior.md).

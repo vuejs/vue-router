@@ -1,54 +1,55 @@
 # `<router-link>`
 
-`<router-link>` is the component for enabling user navigation in a router-enabled app. The target location is specified with the `to` prop. It renders as an `<a>` tag with correct `href` by default, but can be configured with the `tag` prop. In addition, the link automatically gets an active CSS class when the target route is active.
+`<router-link>` — это компонент, используемый для создания ссылок в приложениях, использующих клиентский роутинг. Целевой путь указывается во входном параметре `to`. По умолчанию используется тег `<a>` и параметр `href`, но это поведение можно изменить указанием входного параметра `tag`. Кроме того, для ссылки автоматически устанавливается CSS-класс при активации соответствующего пути.
 
-`<router-link>` is preferred over hard-coded `<a href="...">` for the following reasons:
+Использование `<router-link>` предпочтительнее, чем создание ссылок `<a href="...">` вручную, по следующим причинам:
 
-- It works the same way in both HTML5 history mode and hash mode, so if you ever decide to switch mode, or when the router falls back to hash mode in IE9, nothing needs to be changed.
+- Единообразие вне зависимости от используемого режима навигации (HTML history или хеши), из-за чего не потребуется вносить изменения в код, если вы захотите сменить режим (или если приложение окажется открыто в IE9, не поддерживающем HTML history mode).
 
-- In HTML5 history mode, `router-link` will intercept the click event so that the browser doesn't try to reload the page.
+- В HTML5 history mode, `router-link` перехватывает клики, что предотвращает попытки браузера перезагрузить страницу.
 
-- When you are using the `base` option in HTML5 history mode, you don't need to include it in `to` prop's URLs.
+- При использовании опции `base` в HTML5 history mode нет необходимости включать префиксы URL при указании входных параметров `to`.
 
-### Props
+
+### Входные параметры
 
 - **to**
 
-  - type: `string | Location`
+  - тип: `string | Location`
 
-  - required
+  - обязательный
 
-  Denotes the target route of the link. When clicked, the value of the `to` prop will be passed to `router.push()` internally, so the value can be either a string or a location descriptor object.
+  Указывает целевой путь ссылки. При клике, значение `to` будет передано в `router.push()` — поэтому им может быть как строка, так и описывающий путь объект.
 
   ``` html
-  <!-- literal string -->
+  <!-- строка -->
   <router-link to="home">Home</router-link>
-  <!-- renders to -->
+  <!-- результат рендеринга -->
   <a href="home">Home</a>
 
-  <!-- javascript expression using v-bind -->
+  <!-- javascript-выражение через v-bind -->
   <router-link v-bind:to="'home'">Home</router-link>
 
-  <!-- Omitting v-bind is fine, just as binding any other prop -->
+  <!-- Можно использовать сокращенную запись v-bind -->
   <router-link :to="'home'">Home</router-link>
 
-  <!-- same as above -->
+  <!-- даст тот же результат -->
   <router-link :to="{ path: 'home' }">Home</router-link>
 
-  <!-- named route -->
+  <!-- с использованием именованного пути -->
   <router-link :to="{ name: 'user', params: { userId: 123 }}">User</router-link>
 
-  <!-- with query, resulting in /register?plan=private -->
+  <!-- с использованием строки запроса, получим /register?plan=private -->
   <router-link :to="{ path: 'register', query: { plan: 'private' }}">Register</router-link>
   ```
 
 - **replace**
 
-  - type: `boolean`
+  - тип: `boolean`
 
-  - default: `false`
+  - значение по умолчанию: `false`
 
-  Setting `replace` prop will call `router.replace()` instead of `router.push()` when clicked, so the navigation will not leave a history record.
+  При указании параметра `replace` вместо `router.push()` при клике будет вызываться `router.replace()`, и переход не оставит следов в браузерной истории.
 
   ``` html
   <router-link :to="{ path: '/abc'}" replace></router-link>
@@ -56,11 +57,11 @@
 
 - **append**
 
-  - type: `boolean`
+  - тип: `boolean`
 
-  - default: `false`
+  - значение по умолчанию: `false`
 
-  Setting `append` prop always appends the relative path to the current path. For example, assuming we are navigating from `/a` to a relative link `b`, without `append` we will end up at `/b`, but with `append` we will end up at `/a/b`.
+  Указание параметра `append` заставляет считать пути по умолчанию относительными. Например, при переходе с `/a` по относительной ссылке `b`, без указания `append` мы получим `/b`, а с указанием этого параметра — `/a/b`.
 
   ``` html
   <router-link :to="{ path: 'relative/path'}" append></router-link>
@@ -68,46 +69,56 @@
 
 - **tag**
 
-  - type: `string`
+  - тип: `string`
 
-  - default: `"a"`
+  - значение по умолчанию: `"a"`
 
-  Sometimes we want `<router-link>` to render as another tag, e.g `<li>`. Then we can use `tag` prop to specify which tag to render to, and it will still listen to click events for navigation.
+  Время от времени хотелось бы, чтобы `<router-link>` использовал иной тег, например `<li>`. Мы можем использовать входной параметр `tag` для этих целей, и получившийся элемент всё так же будет реагировать на клики для навигации.
 
   ``` html
   <router-link to="/foo" tag="li">foo</router-link>
-  <!-- renders as -->
+  <!-- отобразится как -->
   <li>foo</li>
   ```
 
 - **active-class**
 
-  - type: `string`
+  - тип: `string`
 
-  - default: `"router-link-active"`
+  - значение по умолчанию: `"router-link-active"`
 
-  Configure the active CSS class applied when the link is active. Note the default value can also be configured globally via the `linkActiveClass` router constructor option.
+  В этом параметре можно изменить CSS-класс, применяемый к активным ссылкам. Обратите внимание, что значение по умолчанию тоже может быть изменено при помощи опции `linkActiveClass` конструктора роутера.
 
 - **exact**
 
-  - type: `boolean`
+  - тип: `boolean`
 
-  - default: `false`
+  - значение по умолчанию: `false`
 
-  The default active class matching behavior is **inclusive match**. For example, `<router-link to="/a">` will get this class applied as long as the current path starts with `/a`.
+  По умолчанию активность ссылки устанавливается по стратегии **совпадения по включению**. Например, для `<router-link to="/a">` класс активности будет применён для всех ссылок, начинающися с `/a`.
 
-  One consequence of this is that `<router-link to="/">` will be active for every route! To force the link into "exact match mode", use the `exact` prop:
+  Одним из следствий этого подхода является тот факт, что корневая ссылка `<router-link to="/">` будет считаться активной всегда. Чтобы заставить ссылку считаться активной только при полном совпадении, используйте входной параметр `exact`:
 
   ``` html
-  <!-- this link will only be active at / -->
+  <!-- эта ссылка будет активной только для корневого пути / -->
   <router-link to="/" exact>
   ```
 
-  Checkout more examples explaining active link class [live](http://jsfiddle.net/fnlCtrl/dokbyypq/).
+  Больше примеров с подробными объяснениями использования класса активности можно найти [здесь](http://jsfiddle.net/fnlCtrl/dokbyypq/).
 
-### Applying Active Class to Outer Element
+- **events**
 
-Sometimes we may want the active class to be applied to an outer element rather than the `<a>` tag itself, in that case, you can render that outer element using `<router-link>` and wrap the raw `<a>` tag inside:
+  > 2.1.0+
+
+  - тип: `string | Array<string>`
+
+  - значение по умолчанию: `'click'`
+
+  Указывает событие(я), способные вызвать переход по ссылке.
+
+### Применение класса активности ко внешнему элементу
+
+Иногда хочется применить класс активности не к самому тегу `<a>`, а к другому элементу. Для этих целей можно использовать `<router-link>` для наружного элемента, а ссылку разместить внутри, вручную:
 
 ``` html
 <router-link tag="li" to="/foo">
@@ -115,4 +126,4 @@ Sometimes we may want the active class to be applied to an outer element rather 
 </router-link>
 ```
 
-In this case the `<a>` will be the actual link (and will get the correct `href`), but the active class will be applied to the outer `<li>`.
+Vue-router поймёт, что в качестве ссылки нужно использовать вложенный элемент (и укажет правильное значение `href` для неё), но вот класс активности будет применяться ко внешнему элементу `<li>`.

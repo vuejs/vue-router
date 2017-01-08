@@ -91,11 +91,13 @@ function guardEvent (e) {
   if (e.defaultPrevented) return
   // don't redirect on right click
   /* istanbul ignore if */
-  if (e.button !== 0) return
+  if (e.button !== undefined && e.button !== 0) return
   // don't redirect if `target="_blank"`
   /* istanbul ignore if */
-  const target = e.target.getAttribute('target')
-  if (/\b_blank\b/i.test(target)) return
+  if (e.target && e.target.getAttribute) {
+    const target = e.target.getAttribute('target')
+    if (/\b_blank\b/i.test(target)) return
+  }
 
   e.preventDefault()
   return true

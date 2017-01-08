@@ -12,6 +12,7 @@ import { normalizeLocation } from './util/location'
 
 export default class VueRouter {
   static install: () => void;
+  static version: string;
 
   app: any;
   options: RouterOptions;
@@ -47,7 +48,7 @@ export default class VueRouter {
         this.history = new HashHistory(this, options.base, this.fallback)
         break
       case 'abstract':
-        this.history = new AbstractHistory(this)
+        this.history = new AbstractHistory(this, options.base)
         break
       default:
         process.env.NODE_ENV !== 'production' && assert(false, `invalid mode: ${mode}`)
@@ -155,6 +156,7 @@ function createHref (base: string, fullPath: string, mode) {
 }
 
 VueRouter.install = install
+VueRouter.version = '__VERSION__'
 
 if (inBrowser && window.Vue) {
   window.Vue.use(VueRouter)

@@ -1,20 +1,20 @@
-# Component Injections
+# Интеграция с компонентами Vue
 
-### Injected Properties
+### Добавляемые свойства
 
-These properties are injected into every child component by passing the router instance to the root instance as the `router` option.
+Нижеперечисленные свойства становятся доступными в каждом дочернем компоненте при передаче роутера через опцию `router` корневого инстанса приложения.
 
 - #### $router
 
-  The router instance.
+  Инстанс роутера.
 
 - #### $route
 
-  The current active [Route](route-object.md). This property is read-only and its properties are immutable, but it can be watched.
+  Объект [Route](route-object.md), соответствующий текущему активному пути. Это свойство доступно только на чтение и его параметры иммутабельны, но над ними можно установить наблюдение.
 
-### Enabled Options
+### Доступные опции
 
 - **beforeRouteEnter**
 - **beforeRouteLeave**
 
-  See [In Component Guards](../advanced/navigation-guards.md#incomponent-guards).
+  См. [раздел документации о сторожевых хуках](../advanced/navigation-guards.md#incomponent-guards).

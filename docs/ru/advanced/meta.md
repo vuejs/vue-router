@@ -1,6 +1,6 @@
-# Route Meta Fields
+# Метаданные путей
 
-You can include a `meta` field when defining a route:
+При определении пути можно указывать метаданные в поле `meta`:
 
 ``` js
 const router = new VueRouter({
@@ -12,7 +12,7 @@ const router = new VueRouter({
         {
           path: 'bar',
           component: Bar,
-          // a meta field
+          // метаданные
           meta: { requiresAuth: true }
         }
       ]
@@ -21,21 +21,21 @@ const router = new VueRouter({
 })
 ```
 
-So how do we access this `meta` field?
+Как получить к нему доступ?
 
-First, each route object in the `routes` configuration is called a **route record**. Route records may be nested. Therefore when a route is matched, it can potentially match more than one route record.
+Прежде всего, каждый объект пути в конфигурации `routes` называется **записью пути**. Записи путей могут быть вложенными. Поэтому, при совпадении пути, потенциально могут быть активированы несколько записей путей.
 
-For example, with the above route config, the URL `/foo/bar` will match both the parent route record and the child route record.
+Например, для конфигурации выше, URL `/foo/bar` совпадёт как с родительской, так и с дочерней записями путей.
 
-All route records matched by a route are exposed on the `$route` object (and also route objects in navigation guards) as the `$route.matched` Array. Therefore, we will need to iterate over `$route.matched` to check for meta fields in route records.
+Все совпавшие записи путей оказываются доступны через объект `$route` (а также через объекты пути в сторожевых хуках), в виде массива `$route.matched`. Таким образом, для проверки метаданных в записях путей нам понадобиться обойти `$route.matched` в цикле.
 
-An example use case is checking for a meta field in the global navigation guard:
+В качестве примера можно привести проверку метаданных в глобальном сторожевом хуке:
 
 ``` js
 router.beforeEach((to, from, next) => {
   if (to.matched.some(record => record.meta.requiresAuth)) {
-    // this route requires auth, check if logged in
-    // if not, redirect to login page.
+    // этот путь требует авторизации, проверяем залогинен ли
+    // пользователь, и если нет, перенаправляем на страницу логина
     if (!auth.loggedIn()) {
       next({
         path: '/login',
@@ -45,7 +45,7 @@ router.beforeEach((to, from, next) => {
       next()
     }
   } else {
-    next() // make sure to always call next()!
+    next() // всегда так или иначе нужно вызвать next()!
   }
 })
 ```
