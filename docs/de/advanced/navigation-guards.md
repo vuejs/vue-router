@@ -62,7 +62,7 @@ Diese Schutze haben die exakt gleiche Signature als globale Vor-Schutze.
 
 ### Schutz in Komponenten
 
-Letztendlich kann man auch Navigationsschutz in den Route-Komponenten mit `beforeRouteEnter` und `beforeRouteLeave` definieren:
+Letztendlich kann man auch Navigationsschutz in den Route-Komponenten (die, die der Router-Konfiguration hinzugefügt werden) mit `beforeRouteEnter` und `beforeRouteLeave` definieren:
 
 ``` js
 const Foo = {
