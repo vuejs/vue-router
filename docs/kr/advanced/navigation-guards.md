@@ -2,9 +2,11 @@
 
 이름에서 알 수 있듯이 `vue-router`가 제공하는 네비게이션 가드는 주로 리디렉션하거나 취소하여 네비게이션을 보호하는 데 사용됩니다. 라우트 탐색 프로세스에 연결하는 방법에는 전역, 라우트별 또는 컴포넌트가 있습니다.
 
+**Params 또는 쿼리를 변경하면 네비게이션 가드가 실행되지 않습니다**. 단순히 [`$route` 객체를 감시](../essentials/dynamic-matching.md#reacting-to-params-changes)하고 그 변화에 반응하십시오.
+
 ### 전역 가드
 
-`router.beforeEach`를 사용하여 보호하기 이전에 전역 등록을 할 수 있습니다 :
+`router.beforeEach`를 사용하여 보호하기 이전에 전역 등록을 할 수 있습니다.
 
 ``` js
 const router = new VueRouter({ ... })
@@ -62,7 +64,7 @@ const router = new VueRouter({
 
 ### 컴포넌트 내부 가드
 
-마지막으로 `beforeRouteEnter` 와 `beforeRouteLeave`를 사용하여 라우트 컴포넌트 안에 라우트 네비게이션 가드를 직접 정의 할 수 있습니다.
+마지막으로 `beforeRouteEnter` 와 `beforeRouteLeave`를 사용하여 라우트 컴포넌트(라우터 설정으로 전달되는 컴포넌트) 안에 라우트 네비게이션 가드를 직접 정의 할 수 있습니다.
 
 ``` js
 const Foo = {
