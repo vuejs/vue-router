@@ -62,6 +62,6 @@ router.go(100)
 
 Вы могли заметить, что `router.push`, `router.replace` и `router.go` соответствуют [`window.history.pushState`, `window.history.replaceState` и `window.history.go`](https://developer.mozilla.org/en-US/docs/Web/API/History), имитируя таким образом API `window.history`.
 
-По этой причине, если вы уже знакомы с [API истории переходов браузера](https://developer.mozilla.org/en-US/docs/Web/API/History_API), то и со vue-router неожиданностей не возникнет.
+По этой причине, если вы уже знакомы с [API истории переходов браузера](https://developer.mozilla.org/en-US/docs/Web/API/History_API), то и со Vue-router неожиданностей не возникнет.
 
-Стоит отметить, что методы навигации vue-router'а (`push`, `replace`, `go`) работают консистентно во всех режимах роутера (`history`, `hash` и `abstract`).
+Стоит отметить, что методы навигации Vue-router'а (`push`, `replace`, `go`) работают одинаково во всех режимах роутера (`history`, `hash` и `abstract`).
