@@ -6,9 +6,11 @@ Das Route-Objekt ist unveränderbar. Jede erfolgreiche Navigation resultiert in 
 
 Das Route-Objekt kann an mehreren Orten gefunden werden:
 
-- innerhalb von Komponenten als `this.$route` und offensichtlich innerhalb von Überwachungen des `$route`-Callbacks
+- innerhalb von Komponenten als `this.$route`
 
-- als der wiedergegebene Wert von `router.match(location)`
+- innerhalb `$route` Callbacks des Watchers
+
+- als wiedergegebener Wert nach Ausrufen von `router.match(location)`
 
 - innerhalb des Navigationsschutzes als die ersten zwei Argumente:
 
