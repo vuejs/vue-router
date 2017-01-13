@@ -46,6 +46,8 @@ export default class RouteTransition {
       // on initial load, it gets caught in an infinite loop.
       const abortingOnLoad = !this.from.path && this.to.path === '/'
       if (!abortingOnLoad) {
+        // When aborting, we have to decode the Path, because router.replace()
+        // will encode it again. (https://github.com/vuejs/vue-router/issues/760)
         const path = this.from.path ? tryDecode(this.from.path, true) : '/'
         this.router.replace(path)
       }
