@@ -128,7 +128,7 @@ router.go(-1);
 router.back();
 router.forward();
 
-const Components: ComponentOptions<Vue> | typeof Vue = router.getMatchedComponentes();
+const Components: ComponentOptions<Vue> | typeof Vue = router.getMatchedComponents();
 
 const vm = new Vue({
   router,
