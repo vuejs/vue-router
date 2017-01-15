@@ -1,7 +1,7 @@
 # vue-router 2
-
+<!--email_off-->
 > 注意: vue-router@2.x 只适用于 Vue 2.x 版本。1.x 版本的文档在 [这里](https://github.com/vuejs/vue-router/tree/1.0/docs/en)。
-
+<!--/email_off-->
 **[版本说明](https://github.com/vuejs/vue-router/releases)**
 
 - [安装](installation.md)
