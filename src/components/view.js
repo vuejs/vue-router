@@ -57,8 +57,8 @@ export default {
       if (matched.instances[name] === vnode.child) {
         matched.instances[name] = undefined
       }
-      data.props = resolveProps(route, component, matched.props && matched.props[name])
     }
+    data.props = resolveProps(route, component, matched.props && matched.props[name])
 
     return h(component, data, children)
   }

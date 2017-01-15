@@ -1,6 +1,4 @@
 // http://nightwatchjs.org/guide#settings-file
-var seleniumServer = require('selenium-server');
-var chromedriver = require('chromedriver');
 
 module.exports = {
   'src_folders': ['test/e2e/specs'],
@@ -10,7 +8,7 @@ module.exports = {
 
   'selenium': {
     'start_process': true,
-    'server_path': seleniumServer.path,
+    'server_path': require('selenium-server').path,
     'host': '127.0.0.1',
     'port': 4444,
     'cli_args': {
