@@ -13,6 +13,7 @@ import {
   canReuse
 } from './pipeline'
 
+import { tryDecode } from '../lib/route-recognizer'
 /**
  * A RouteTransition object manages the pipeline of a
  * router-view switching process. This is also the object
@@ -45,7 +46,10 @@ export default class RouteTransition {
       // on initial load, it gets caught in an infinite loop.
       const abortingOnLoad = !this.from.path && this.to.path === '/'
       if (!abortingOnLoad) {
-        this.router.replace(this.from.path || '/')
+        // When aborting, we have to decode the Path, because router.replace()
+        // will encode it again. (https://github.com/vuejs/vue-router/issues/760)
+        const path = this.from.path ? tryDecode(this.from.path, true) : '/'
+        this.router.replace(path)
       }
     }
   }
