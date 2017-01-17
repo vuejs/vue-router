@@ -66,23 +66,35 @@ function addRouteRecord (
       }
     }
     route.children.forEach(child => {
-      addRouteRecord(pathMap, nameMap, child, record)
+      const childMatchAs = matchAs
+        ? cleanPath(`${matchAs}/${child.path}`)
+        : undefined
+      addRouteRecord(pathMap, nameMap, child, record, childMatchAs)
     })
   }
 
   if (route.alias !== undefined) {
     if (Array.isArray(route.alias)) {
       route.alias.forEach(alias => {
-        addRouteRecord(pathMap, nameMap, { path: alias }, parent, record.path)
+        const aliasRoute = {
+          path: alias,
+          children: route.children
+        }
+        addRouteRecord(pathMap, nameMap, aliasRoute, parent, record.path)
       })
     } else {
-      addRouteRecord(pathMap, nameMap, { path: route.alias }, parent, record.path)
+      const aliasRoute = {
+        path: route.alias,
+        children: route.children
+      }
+      addRouteRecord(pathMap, nameMap, aliasRoute, parent, record.path)
     }
   }
 
   if (!pathMap[record.path]) {
     pathMap[record.path] = record
   }
+
   if (name) {
     if (!nameMap[name]) {
       nameMap[name] = record
