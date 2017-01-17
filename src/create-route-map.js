@@ -55,9 +55,13 @@ function addRouteRecord (
     // not be rendered (GH Issue #629)
     if (process.env.NODE_ENV !== 'production') {
       if (route.name && route.children.some(child => /^\/?$/.test(child.path))) {
-        warn(false, `Named Route '${route.name}' has a default child route.
-          When navigating to this named route (:to="{name: '${route.name}'"), the default child route will not be rendered.
-          Remove the name from this route and use the name of the default child route for named links instead.`
+        warn(
+          false,
+          `Named Route '${route.name}' has a default child route. ` +
+          `When navigating to this named route (:to="{name: '${route.name}'"), ` +
+          `the default child route will not be rendered. Remove the name from ` +
+          `this route and use the name of the default child route for named ` +
+          `links instead.`
         )
       }
     }
@@ -83,7 +87,11 @@ function addRouteRecord (
     if (!nameMap[name]) {
       nameMap[name] = record
     } else if (process.env.NODE_ENV !== 'production') {
-      warn(false, `Duplicate named routes definition: { name: "${name}", path: "${record.path}" }`)
+      warn(
+        false,
+        `Duplicate named routes definition: ` +
+        `{ name: "${name}", path: "${record.path}" }`
+      )
     }
   }
 }
