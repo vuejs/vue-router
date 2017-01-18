@@ -74,5 +74,16 @@ describe('Route utils', () => {
       expect(isIncludedRoute(a, d)).toBe(false)
       expect(isIncludedRoute(a, e)).toBe(false)
     })
+
+    it('trailing slash', () => {
+      const a = { path: 'user/1' }
+      const b = { path: 'user/10' }
+      const c = { path: 'user/10/' }
+      const d = { path: 'user/1/' }
+      expect(isIncludedRoute(a, b)).toBe(false)
+      expect(isIncludedRoute(a, c)).toBe(false)
+      expect(isIncludedRoute(b, d)).toBe(false)
+      expect(isIncludedRoute(c, d)).toBe(false)
+    })
   })
 })

@@ -2,6 +2,8 @@
 
 import { stringifyQuery } from './query'
 
+const trailingSlashRE = /\/?$/
+
 export function createRoute (
   record: ?RouteRecord,
   location: Location,
@@ -41,7 +43,6 @@ function getFullPath ({ path, query = {}, hash = '' }) {
   return (path || '/') + stringifyQuery(query) + hash
 }
 
-const trailingSlashRE = /\/$/
 export function isSameRoute (a: Route, b: ?Route): boolean {
   if (b === START) {
     return a === b
@@ -76,7 +77,9 @@ function isObjectEqual (a = {}, b = {}): boolean {
 
 export function isIncludedRoute (current: Route, target: Route): boolean {
   return (
-    current.path.indexOf(target.path.replace(/\/$/, '')) === 0 &&
+    current.path.replace(trailingSlashRE, '/').indexOf(
+      target.path.replace(trailingSlashRE, '/')
+    ) === 0 &&
     (!target.hash || current.hash === target.hash) &&
     queryIncludes(current.query, target.query)
   )

@@ -94,7 +94,7 @@
 
   - default: `false`
 
-  The default active class matching behavior is **inclusive match**. For example, `<router-link to="/a">` will get this class applied as long as the current path starts with `/a`.
+  The default active class matching behavior is **inclusive match**. For example, `<router-link to="/a">` will get this class applied as long as the current path starts with `/a/` or is `/a`.
 
   One consequence of this is that `<router-link to="/">` will be active for every route! To force the link into "exact match mode", use the `exact` prop:
 
