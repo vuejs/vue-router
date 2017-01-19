@@ -53,3 +53,9 @@
     href: string;
   }
   ```
+
+- **router.addRoute(routes)**
+
+  > 2.2.0+
+
+  Dynamically add more routes to the router. The argument must be an Array using the same route config format with the `routes` constructor option.
