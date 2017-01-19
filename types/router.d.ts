@@ -28,6 +28,7 @@ declare class VueRouter {
   back (): void;
   forward (): void;
   getMatchedComponents (to?: RawLocation): Component[];
+  addRoutes (routes: RouteConfig[]): void;
   resolve (to: RawLocation, current?: Route, append?: boolean): {
     normalizedTo: Location;
     resolved: Route;

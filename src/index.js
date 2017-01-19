@@ -2,13 +2,14 @@
 
 import { install } from './install'
 import { createMatcher } from './create-matcher'
-import { HashHistory, getHash } from './history/hash'
-import { HTML5History, getLocation } from './history/html5'
+import { HashHistory } from './history/hash'
+import { HTML5History } from './history/html5'
 import { AbstractHistory } from './history/abstract'
 import { inBrowser, supportsHistory } from './util/dom'
 import { assert } from './util/warn'
 import { cleanPath } from './util/path'
 import { normalizeLocation } from './util/location'
+import { START } from './util/route'
 
 export default class VueRouter {
   static install: () => void;
@@ -51,7 +52,9 @@ export default class VueRouter {
         this.history = new AbstractHistory(this, options.base)
         break
       default:
-        process.env.NODE_ENV !== 'production' && assert(false, `invalid mode: ${mode}`)
+        if (process.env.NODE_ENV !== 'production') {
+          assert(false, `invalid mode: ${mode}`)
+        }
     }
   }
 
@@ -71,14 +74,18 @@ export default class VueRouter {
     const history = this.history
 
     if (history instanceof HTML5History) {
-      history.transitionTo(getLocation(history.base))
+      history.transitionTo(history.getCurrentLocation())
     } else if (history instanceof HashHistory) {
       const setupHashListener = () => {
         window.addEventListener('hashchange', () => {
           history.onHashChange()
         })
       }
-      history.transitionTo(getHash(), setupHashListener, setupHashListener)
+      history.transitionTo(
+        history.getCurrentLocation(),
+        setupHashListener,
+        setupHashListener
+      )
     }
 
     history.listen(route => {
@@ -146,6 +153,14 @@ export default class VueRouter {
       normalizedTo,
       resolved,
       href
+    }
+  }
+
+  addRoutes (routes: Array<RouteConfig>) {
+    routes = this.options.routes = (this.options.routes || []).concat(routes)
+    this.match = createMatcher(routes)
+    if (this.history.current !== START) {
+      this.history.transitionTo(this.history.getCurrentLocation())
     }
   }
 }

@@ -38,6 +38,11 @@ export class AbstractHistory extends History {
     })
   }
 
+  getCurrentLocation () {
+    const current = this.stack[this.stack.length - 1]
+    return current ? current.fullPath : '/'
+  }
+
   ensureURL () {
     // noop
   }

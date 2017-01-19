@@ -70,6 +70,10 @@ export class HTML5History extends History {
     }
   }
 
+  getCurrentLocation (): string {
+    return getLocation(this.base)
+  }
+
   handleScroll (to: Route, from: Route, isPop: boolean) {
     const router = this.router
     if (!router.app) {

@@ -5,6 +5,7 @@ import { _Vue } from '../install'
 
 // work around weird flow bug
 const toTypes: Array<Function> = [String, Object]
+const eventTypes: Array<Function> = [String, Array]
 
 export default {
   name: 'router-link',
@@ -22,7 +23,7 @@ export default {
     replace: Boolean,
     activeClass: String,
     event: {
-      type: [String, Array],
+      type: eventTypes,
       default: 'click'
     }
   },

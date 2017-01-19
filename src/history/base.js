@@ -19,6 +19,7 @@ export class History {
   push: (loc: RawLocation) => void;
   replace: (loc: RawLocation) => void;
   ensureURL: (push?: boolean) => void;
+  getCurrentLocation: () => string;
 
   constructor (router: VueRouter, base: ?string) {
     this.router = router
@@ -44,7 +45,11 @@ export class History {
   confirmTransition (route: Route, onComplete: Function, onAbort?: Function) {
     const current = this.current
     const abort = () => { onAbort && onAbort() }
-    if (isSameRoute(route, current)) {
+    if (
+      isSameRoute(route, current) &&
+      // in the case the route map has been dynamically appended to
+      route.matched.length === current.matched.length
+    ) {
       this.ensureURL()
       return abort()
     }

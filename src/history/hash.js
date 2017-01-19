@@ -56,6 +56,10 @@ export class HashHistory extends History {
       push ? pushHash(current) : replaceHash(current)
     }
   }
+
+  getCurrentLocation () {
+    return getHash()
+  }
 }
 
 function ensureSlash (): boolean {

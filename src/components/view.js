@@ -75,9 +75,7 @@ function resolveProps (route, config) {
     case 'function':
       return config(route)
     case 'boolean':
-      if (config) {
-        return route.params
-      }
+      return config ? route.params : undefined
     default:
       warn(false, `props in "${route.path}" is a ${typeof config}, expecting an object, function or boolean.`)
   }
