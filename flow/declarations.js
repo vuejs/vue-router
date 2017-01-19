@@ -59,6 +59,7 @@ declare type Location = {
   path?: string;
   hash?: string;
   query?: Dictionary<string>;
+  encodeQuery?: Function | boolean;
   params?: Dictionary<string>;
   append?: boolean;
   replace?: boolean;

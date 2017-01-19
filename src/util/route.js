@@ -39,8 +39,8 @@ function formatMatch (record: ?RouteRecord): Array<RouteRecord> {
   return res
 }
 
-function getFullPath ({ path, query = {}, hash = '' }) {
-  return (path || '/') + stringifyQuery(query) + hash
+function getFullPath ({ path, query = {}, hash = '', encodeQuery }) {
+  return (path || '/') + stringifyQuery(query, encodeQuery) + hash
 }
 
 export function isSameRoute (a: Route, b: ?Route): boolean {

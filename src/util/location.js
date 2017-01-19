@@ -48,6 +48,7 @@ export function normalizeLocation (
     _normalized: true,
     path,
     query,
+    encodeQuery: next.encodeQuery,
     hash
   }
 }
