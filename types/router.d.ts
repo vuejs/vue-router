@@ -59,6 +59,7 @@ export interface RouteConfig {
   children?: RouteConfig[];
   meta?: any;
   beforeEnter?: NavigationGuard;
+  props?: boolean | Object | Function;
 }
 
 export interface RouteRecord {
@@ -75,6 +76,7 @@ export interface RouteRecord {
     redirect: (location: RawLocation) => void,
     next: () => void
   ) => any;
+  props: boolean | Object | Function | Dictionary<boolean | Object | Function>;
 }
 
 export interface Location {
