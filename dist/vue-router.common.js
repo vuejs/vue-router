@@ -1,5 +1,5 @@
 /**
-  * vue-router v2.1.2
+  * vue-router v2.1.3
   * (c) 2017 Evan You
   * @license MIT
   */
@@ -1677,7 +1677,9 @@ function isNumber (v) {
 
 
 // use User Timing api (if present) for more accurate key precision
-var Time = inBrowser ? (window.performance || Date) : Date
+var Time = inBrowser && window.performance && window.performance.now
+  ? window.performance
+  : Date
 
 var genKey = function () { return String(Time.now()); }
 var _key = genKey()
@@ -2092,7 +2094,7 @@ function createHref (base, fullPath, mode) {
 }
 
 VueRouter.install = install
-VueRouter.version = '2.1.2'
+VueRouter.version = '2.1.3'
 
 if (inBrowser && window.Vue) {
   window.Vue.use(VueRouter)
