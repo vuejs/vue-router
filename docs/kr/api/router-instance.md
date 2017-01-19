@@ -45,11 +45,11 @@
   > 2.1.0+
 
   역방향 URL 해석. `<router-link/>`에서 사용된 것과 같은 형식의 위치가 주어지면 다음과 같이 처리된 속성을 가진 객체를 반환합니다.
-  
+
   ``` js
   {
-    normalizedTo: Location;
-    resolved: Route;
+    location: Location;
+    route: Route;
     href: string;
   }
   ```

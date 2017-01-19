@@ -123,7 +123,7 @@ export default class VueRouter {
 
   getMatchedComponents (to?: RawLocation): Array<any> {
     const route = to
-      ? this.resolve(to).resolved
+      ? this.resolve(to).route
       : this.currentRoute
     if (!route) {
       return []
@@ -140,19 +140,25 @@ export default class VueRouter {
     current?: Route,
     append?: boolean
   ): {
+    location: Location,
+    route: Route,
+    href: string,
+    // for backwards compat
     normalizedTo: Location,
-    resolved: Route,
-    href: string
+    resolved: Route
   } {
-    const normalizedTo = normalizeLocation(to, current || this.history.current, append)
-    const resolved = this.match(normalizedTo, current)
-    const fullPath = resolved.redirectedFrom || resolved.fullPath
+    const location = normalizeLocation(to, current || this.history.current, append)
+    const route = this.match(location, current)
+    const fullPath = route.redirectedFrom || route.fullPath
     const base = this.history.base
     const href = createHref(base, fullPath, this.mode)
     return {
-      normalizedTo,
-      resolved,
-      href
+      location,
+      route,
+      href,
+      // for backwards compat
+      normalizedTo: location,
+      resolved: route
     }
   }
 

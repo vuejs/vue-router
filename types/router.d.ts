@@ -30,9 +30,12 @@ declare class VueRouter {
   getMatchedComponents (to?: RawLocation): Component[];
   addRoutes (routes: RouteConfig[]): void;
   resolve (to: RawLocation, current?: Route, append?: boolean): {
+    location: Location;
+    route: Route;
+    href: string;
+    // backwards compat
     normalizedTo: Location;
     resolved: Route;
-    href: string;
   };
 
   static install: PluginFunction<never>;

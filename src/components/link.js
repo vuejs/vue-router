@@ -30,10 +30,10 @@ export default {
   render (h: Function) {
     const router = this.$router
     const current = this.$route
-    const { normalizedTo, resolved, href } = router.resolve(this.to, current, this.append)
+    const { location, route, href } = router.resolve(this.to, current, this.append)
     const classes = {}
     const activeClass = this.activeClass || router.options.linkActiveClass || 'router-link-active'
-    const compareTarget = normalizedTo.path ? createRoute(null, normalizedTo) : resolved
+    const compareTarget = location.path ? createRoute(null, location) : route
     classes[activeClass] = this.exact
       ? isSameRoute(current, compareTarget)
       : isIncludedRoute(current, compareTarget)
@@ -41,9 +41,9 @@ export default {
     const handler = e => {
       if (guardEvent(e)) {
         if (this.replace) {
-          router.replace(normalizedTo)
+          router.replace(location)
         } else {
-          router.push(normalizedTo)
+          router.push(location)
         }
       }
     }
