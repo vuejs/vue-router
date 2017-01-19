@@ -14,7 +14,9 @@ import {
 } from '../util/scroll-position'
 
 // use User Timing api (if present) for more accurate key precision
-const Time = inBrowser ? (window.performance || Date) : Date
+const Time = inBrowser && window.performance && window.performance.now
+  ? window.performance
+  : Date
 
 const genKey = () => String(Time.now())
 let _key: string = genKey()
