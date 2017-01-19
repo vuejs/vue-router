@@ -1,4 +1,4 @@
-import { resolveProps } from '../util/props'
+import { warn } from '../util/warn'
 
 export default {
   name: 'router-view',
@@ -58,8 +58,27 @@ export default {
         matched.instances[name] = undefined
       }
     }
-    data.props = resolveProps(route, component, matched.props && matched.props[name])
+
+    // resolve props
+    data.props = resolveProps(route, matched.props && matched.props[name])
 
     return h(component, data, children)
+  }
+}
+
+function resolveProps (route, config) {
+  switch (typeof config) {
+    case 'undefined':
+      return
+    case 'object':
+      return config
+    case 'function':
+      return config(route)
+    case 'boolean':
+      if (config) {
+        return route.params
+      }
+    default:
+      warn(false, `props in "${route.path}" is a ${typeof config}, expecting an object, function or boolean.`)
   }
 }
