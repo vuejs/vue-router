@@ -98,8 +98,10 @@ function guardEvent (e) {
     const target = e.target.getAttribute('target')
     if (/\b_blank\b/i.test(target)) return
   }
-
-  e.preventDefault()
+  // this may be a Weex event which doesn't have this method
+  if (e.preventDefault) {
+    e.preventDefault()
+  }
   return true
 }
 
