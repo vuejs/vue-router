@@ -14,11 +14,13 @@ const Bar = { template: '<div>bar</div>' }
 // 3. Create the router
 const router = new VueRouter({
   mode: 'history',
+  encodeQuery: false,
   base: __dirname,
   routes: [
     { path: '/', component: Home },
     { path: '/foo', component: Foo },
-    { path: '/bar', component: Bar }
+    { path: '/bar', component: Bar },
+    { path: '/query', component: Bar }
   ]
 })
 
@@ -37,6 +39,7 @@ new Vue({
         <router-link tag="li" to="/bar" :event="['mousedown', 'touchstart']">
           <a>/bar</a>
         </router-link>
+        <li><router-link to="/query?opts=a,b,c">/query?opts=a,b,c</router-link></li>
       </ul>
       <router-view class="view"></router-view>
     </div>

@@ -138,6 +138,9 @@ export default class VueRouter {
     href: string
   } {
     const normalizedTo = normalizeLocation(to, current || this.history.current, append)
+    normalizedTo.encodeQuery = normalizedTo.encodeQuery === undefined
+      ? this.options.encodeQuery
+      : normalizedTo.encodeQuery
     const resolved = this.match(normalizedTo, current)
     const fullPath = resolved.redirectedFrom || resolved.fullPath
     const base = this.history.base

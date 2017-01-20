@@ -28,6 +28,10 @@ module.exports = {
       .assert.urlEquals('http://localhost:8080/basic/bar')
       .assert.containsText('.view', 'bar')
 
+      .click('li:nth-child(5) a')
+      .assert.urlEquals('http://localhost:8080/basic/query?opts=a,b,c')
+      .assert.containsText('.view', 'bar')
+
     // check initial visit
     .url('http://localhost:8080/basic/foo')
       .waitForElementVisible('#app', 1000)
