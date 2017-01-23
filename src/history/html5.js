@@ -1,17 +1,10 @@
 /* @flow */
 
-import type VueRouter from '../index'
-import { assert } from '../util/warn'
+import type Router from '../index'
+import { History } from './base'
 import { inBrowser } from '../util/dom'
 import { cleanPath } from '../util/path'
-import { History } from './base'
-import {
-  saveScrollPosition,
-  getScrollPosition,
-  isValidPosition,
-  normalizePosition,
-  getElementPosition
-} from '../util/scroll-position'
+import { handleScroll, saveScrollPosition } from '../util/scroll'
 
 // use User Timing api (if present) for more accurate key precision
 const Time = inBrowser && window.performance && window.performance.now
@@ -22,7 +15,7 @@ const genKey = () => String(Time.now())
 let _key: string = genKey()
 
 export class HTML5History extends History {
-  constructor (router: VueRouter, base: ?string) {
+  constructor (router: Router, base: ?string) {
     super(router, base)
 
     const expectScroll = router.options.scrollBehavior
@@ -31,7 +24,7 @@ export class HTML5History extends History {
       const current = this.current
       this.transitionTo(getLocation(this.base), next => {
         if (expectScroll) {
-          this.handleScroll(next, current, true)
+          handleScroll(router, _key, next, current, true)
         }
       })
     })
@@ -51,7 +44,7 @@ export class HTML5History extends History {
     const current = this.current
     this.transitionTo(location, route => {
       pushState(cleanPath(this.base + route.fullPath))
-      this.handleScroll(route, current, false)
+      handleScroll(this.router, _key, route, current, false)
       onComplete && onComplete(route)
     }, onAbort)
   }
@@ -60,7 +53,7 @@ export class HTML5History extends History {
     const current = this.current
     this.transitionTo(location, route => {
       replaceState(cleanPath(this.base + route.fullPath))
-      this.handleScroll(route, current, false)
+      handleScroll(this.router, _key, route, current, false)
       onComplete && onComplete(route)
     }, onAbort)
   }
@@ -74,45 +67,6 @@ export class HTML5History extends History {
 
   getCurrentLocation (): string {
     return getLocation(this.base)
-  }
-
-  handleScroll (to: Route, from: Route, isPop: boolean) {
-    const router = this.router
-    if (!router.app) {
-      return
-    }
-
-    const behavior = router.options.scrollBehavior
-    if (!behavior) {
-      return
-    }
-    if (process.env.NODE_ENV !== 'production') {
-      assert(typeof behavior === 'function', `scrollBehavior must be a function`)
-    }
-
-    // wait until re-render finishes before scrolling
-    router.app.$nextTick(() => {
-      let position = getScrollPosition(_key)
-      const shouldScroll = behavior(to, from, isPop ? position : null)
-      if (!shouldScroll) {
-        return
-      }
-      const isObject = typeof shouldScroll === 'object'
-      if (isObject && typeof shouldScroll.selector === 'string') {
-        const el = document.querySelector(shouldScroll.selector)
-        if (el) {
-          position = getElementPosition(el)
-        } else if (isValidPosition(shouldScroll)) {
-          position = normalizePosition(shouldScroll)
-        }
-      } else if (isObject && isValidPosition(shouldScroll)) {
-        position = normalizePosition(shouldScroll)
-      }
-
-      if (position) {
-        window.scrollTo(position.x, position.y)
-      }
-    })
   }
 }
 
