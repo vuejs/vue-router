@@ -16,6 +16,7 @@ export default class VueRouter {
   static version: string;
 
   app: any;
+  apps: Array<any>;
   options: RouterOptions;
   mode: string;
   history: HashHistory | HTML5History | AbstractHistory;
@@ -26,6 +27,7 @@ export default class VueRouter {
 
   constructor (options: RouterOptions = {}) {
     this.app = null
+    this.apps = []
     this.options = options
     this.beforeHooks = []
     this.afterHooks = []
@@ -69,6 +71,13 @@ export default class VueRouter {
       `before creating root instance.`
     )
 
+    this.apps.push(app)
+
+    // main app already initialized.
+    if (this.app) {
+      return
+    }
+
     this.app = app
 
     const history = this.history
@@ -89,7 +98,9 @@ export default class VueRouter {
     }
 
     history.listen(route => {
-      this.app._route = route
+      this.apps.forEach((app) => {
+        app._route = route
+      })
     })
   }
 
