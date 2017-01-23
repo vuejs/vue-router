@@ -34,16 +34,18 @@ export class HashHistory extends History {
     })
   }
 
-  push (location: RawLocation) {
+  push (location: RawLocation, onComplete?: Function, onAbort?: Function) {
     this.transitionTo(location, route => {
       pushHash(route.fullPath)
-    })
+      onComplete && onComplete(route)
+    }, onAbort)
   }
 
-  replace (location: RawLocation) {
+  replace (location: RawLocation, onComplete?: Function, onAbort?: Function) {
     this.transitionTo(location, route => {
       replaceHash(route.fullPath)
-    })
+      onComplete && onComplete(route)
+    }, onAbort)
   }
 
   go (n: number) {

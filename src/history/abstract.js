@@ -13,17 +13,19 @@ export class AbstractHistory extends History {
     this.index = -1
   }
 
-  push (location: RawLocation) {
+  push (location: RawLocation, onComplete?: Function, onAbort?: Function) {
     this.transitionTo(location, route => {
       this.stack = this.stack.slice(0, this.index + 1).concat(route)
       this.index++
-    })
+      onComplete && onComplete(route)
+    }, onAbort)
   }
 
-  replace (location: RawLocation) {
+  replace (location: RawLocation, onComplete?: Function, onAbort?: Function) {
     this.transitionTo(location, route => {
       this.stack = this.stack.slice(0, this.index).concat(route)
-    })
+      onComplete && onComplete(route)
+    }, onAbort)
   }
 
   go (n: number) {

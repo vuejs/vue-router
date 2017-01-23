@@ -101,12 +101,12 @@ export default class VueRouter {
     this.afterHooks.push(fn)
   }
 
-  push (location: RawLocation) {
-    this.history.push(location)
+  push (location: RawLocation, onComplete?: Function, onAbort?: Function) {
+    this.history.push(location, onComplete, onAbort)
   }
 
-  replace (location: RawLocation) {
-    this.history.replace(location)
+  replace (location: RawLocation, onComplete?: Function, onAbort?: Function) {
+    this.history.replace(location, onComplete, onAbort)
   }
 
   go (n: number) {
