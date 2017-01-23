@@ -1,6 +1,6 @@
 import Router from '../../../src/index'
 
-fdescribe('Programmatic navigation callbacks', () => {
+describe('Programmatic navigation callbacks', () => {
   let calls = []
   let router, spy1, spy2
 
