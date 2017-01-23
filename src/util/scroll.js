@@ -2,12 +2,22 @@
 
 import type Router from '../index'
 import { assert } from './warn'
+import { getStateKey, setStateKey } from './push-state'
 
 const positionStore = Object.create(null)
 
+export function setupScroll () {
+  window.addEventListener('popstate', e => {
+    if (e.state && e.state.key) {
+      setStateKey(e.state.key)
+    }
+  })
+
+  window.addEventListener('scroll', saveScrollPosition)
+}
+
 export function handleScroll (
   router: Router,
-  key: string,
   to: Route,
   from: Route,
   isPop: boolean
@@ -27,7 +37,7 @@ export function handleScroll (
 
   // wait until re-render finishes before scrolling
   router.app.$nextTick(() => {
-    let position = getScrollPosition(key)
+    let position = getScrollPosition()
     const shouldScroll = behavior(to, from, isPop ? position : null)
     if (!shouldScroll) {
       return
@@ -50,17 +60,21 @@ export function handleScroll (
   })
 }
 
-export function saveScrollPosition (key: string) {
-  if (!key) return
-  positionStore[key] = {
-    x: window.pageXOffset,
-    y: window.pageYOffset
+export function saveScrollPosition () {
+  const key = getStateKey()
+  if (key) {
+    positionStore[key] = {
+      x: window.pageXOffset,
+      y: window.pageYOffset
+    }
   }
 }
 
-function getScrollPosition (key: string): ?Object {
-  if (!key) return
-  return positionStore[key]
+function getScrollPosition (): ?Object {
+  const key = getStateKey()
+  if (key) {
+    return positionStore[key]
+  }
 }
 
 function getElementPosition (el: Element): Object {

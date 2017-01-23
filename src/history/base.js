@@ -1,6 +1,6 @@
 /* @flow */
 
-import type VueRouter from '../index'
+import type Router from '../index'
 import { warn } from '../util/warn'
 import { inBrowser } from '../util/dom'
 import { runQueue } from '../util/async'
@@ -8,7 +8,7 @@ import { START, isSameRoute } from '../util/route'
 import { _Vue } from '../install'
 
 export class History {
-  router: VueRouter;
+  router: Router;
   base: string;
   current: Route;
   pending: ?Route;
@@ -21,7 +21,7 @@ export class History {
   ensureURL: (push?: boolean) => void;
   getCurrentLocation: () => string;
 
-  constructor (router: VueRouter, base: ?string) {
+  constructor (router: Router, base: ?string) {
     this.router = router
     this.base = normalizeBase(base)
     // start with a route object that stands for "nowhere"

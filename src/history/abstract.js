@@ -1,13 +1,13 @@
 /* @flow */
 
-import type VueRouter from '../index'
+import type Router from '../index'
 import { History } from './base'
 
 export class AbstractHistory extends History {
   index: number;
   stack: Array<Route>;
 
-  constructor (router: VueRouter, base: ?string) {
+  constructor (router: Router, base: ?string) {
     super(router, base)
     this.stack = []
     this.index = -1

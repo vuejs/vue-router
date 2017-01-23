@@ -1,36 +1,30 @@
 /* @flow */
 
-import type VueRouter from '../index'
+import type Router from '../index'
 import { History } from './base'
-import { getLocation } from './html5'
 import { cleanPath } from '../util/path'
+import { getLocation } from './html5'
 
 export class HashHistory extends History {
-  constructor (router: VueRouter, base: ?string, fallback: boolean) {
+  constructor (router: Router, base: ?string, fallback: boolean) {
     super(router, base)
     // check history fallback deeplinking
-    if (fallback && this.checkFallback()) {
+    if (fallback && checkFallback(this.base)) {
       return
     }
     ensureSlash()
   }
 
-  checkFallback () {
-    const location = getLocation(this.base)
-    if (!/^\/#/.test(location)) {
-      window.location.replace(
-        cleanPath(this.base + '/#' + location)
-      )
-      return true
-    }
-  }
-
-  onHashChange () {
-    if (!ensureSlash()) {
-      return
-    }
-    this.transitionTo(getHash(), route => {
-      replaceHash(route.fullPath)
+  // this is delayed until the app mounts
+  // to avoid the hashchange listener being fired too early
+  setupListeners () {
+    window.addEventListener('hashchange', () => {
+      if (!ensureSlash()) {
+        return
+      }
+      this.transitionTo(getHash(), route => {
+        replaceHash(route.fullPath)
+      })
     })
   }
 
@@ -61,6 +55,16 @@ export class HashHistory extends History {
 
   getCurrentLocation () {
     return getHash()
+  }
+}
+
+function checkFallback (base) {
+  const location = getLocation(base)
+  if (!/^\/#/.test(location)) {
+    window.location.replace(
+      cleanPath(base + '/#' + location)
+    )
+    return true
   }
 }
 

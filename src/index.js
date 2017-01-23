@@ -1,15 +1,17 @@
 /* @flow */
 
 import { install } from './install'
+import { START } from './util/route'
+import { assert } from './util/warn'
+import { inBrowser } from './util/dom'
+import { cleanPath } from './util/path'
 import { createMatcher } from './create-matcher'
+import { normalizeLocation } from './util/location'
+import { supportsPushState } from './util/push-state'
+
 import { HashHistory } from './history/hash'
 import { HTML5History } from './history/html5'
 import { AbstractHistory } from './history/abstract'
-import { inBrowser, supportsHistory } from './util/dom'
-import { assert } from './util/warn'
-import { cleanPath } from './util/path'
-import { normalizeLocation } from './util/location'
-import { START } from './util/route'
 
 export default class VueRouter {
   static install: () => void;
@@ -34,7 +36,7 @@ export default class VueRouter {
     this.match = createMatcher(options.routes || [])
 
     let mode = options.mode || 'hash'
-    this.fallback = mode === 'history' && !supportsHistory
+    this.fallback = mode === 'history' && !supportsPushState
     if (this.fallback) {
       mode = 'hash'
     }
@@ -86,9 +88,7 @@ export default class VueRouter {
       history.transitionTo(history.getCurrentLocation())
     } else if (history instanceof HashHistory) {
       const setupHashListener = () => {
-        window.addEventListener('hashchange', () => {
-          history.onHashChange()
-        })
+        history.setupListeners()
       }
       history.transitionTo(
         history.getCurrentLocation(),
