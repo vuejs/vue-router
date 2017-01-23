@@ -15,8 +15,8 @@ export default class VueRouter {
   static install: () => void;
   static version: string;
 
-  apps: Array<?any>;
   app: any;
+  apps: Array<any>;
   options: RouterOptions;
   mode: string;
   history: HashHistory | HTML5History | AbstractHistory;
@@ -72,6 +72,12 @@ export default class VueRouter {
     )
 
     this.apps.push(app)
+
+    // main app already initialized.
+    if (this.app) {
+      return
+    }
+
     this.app = app
 
     const history = this.history
@@ -93,9 +99,7 @@ export default class VueRouter {
 
     history.listen(route => {
       this.apps.forEach((app) => {
-        if (app) {
-          app._route = route
-        }
+        app._route = route
       })
     })
   }
