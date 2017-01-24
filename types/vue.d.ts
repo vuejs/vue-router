@@ -18,5 +18,6 @@ declare module "vue/types/options" {
     router?: VueRouter;
     beforeRouteEnter?: NavigationGuard;
     beforeRouteLeave?: NavigationGuard;
+    beforeRouteUpdate?: NavigationGuard;
   }
 }
