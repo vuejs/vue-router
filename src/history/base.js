@@ -54,20 +54,15 @@ export class History {
       return abort()
     }
 
-    const {
-      deactivated,
-      activated
-    } = resolveQueue(this.current.matched, route.matched)
-
     const queue: Array<?NavigationGuard> = [].concat(
       // in-component leave guards
-      extractLeaveGuards(deactivated),
+      extractLeaveGuards(this.current.matched),
       // global before hooks
       this.router.beforeHooks,
       // enter guards
-      activated.map(m => m.beforeEnter),
+      route.matched.map(m => m.beforeEnter),
       // async components
-      resolveAsyncComponents(activated)
+      resolveAsyncComponents(route.matched)
     )
 
     this.pending = route
@@ -93,7 +88,7 @@ export class History {
 
     runQueue(queue, iterator, () => {
       const postEnterCbs = []
-      const enterGuards = extractEnterGuards(activated, postEnterCbs, () => {
+      const enterGuards = extractEnterGuards(route.matched, postEnterCbs, () => {
         return this.current === route
       })
       // wait until async components are resolved before
@@ -139,26 +134,6 @@ function normalizeBase (base: ?string): string {
   }
   // remove trailing slash
   return base.replace(/\/$/, '')
-}
-
-function resolveQueue (
-  current: Array<RouteRecord>,
-  next: Array<RouteRecord>
-): {
-  activated: Array<RouteRecord>,
-  deactivated: Array<RouteRecord>
-} {
-  let i
-  const max = Math.max(current.length, next.length)
-  for (i = 0; i < max; i++) {
-    if (current[i] !== next[i]) {
-      break
-    }
-  }
-  return {
-    activated: next.slice(i),
-    deactivated: current.slice(i)
-  }
 }
 
 function extractGuard (
