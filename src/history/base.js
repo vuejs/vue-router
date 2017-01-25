@@ -13,6 +13,8 @@ export class History {
   current: Route;
   pending: ?Route;
   cb: (r: Route) => void;
+  ready: boolean;
+  readyCbs: Array<Function>;
 
   // implemented by sub-classes
   go: (n: number) => void;
@@ -27,10 +29,20 @@ export class History {
     // start with a route object that stands for "nowhere"
     this.current = START
     this.pending = null
+    this.ready = false
+    this.readyCbs = []
   }
 
   listen (cb: Function) {
     this.cb = cb
+  }
+
+  onReady (cb: Function) {
+    if (this.ready) {
+      cb()
+    } else {
+      this.readyCbs.push(cb)
+    }
   }
 
   transitionTo (location: RawLocation, onComplete?: Function, onAbort?: Function) {
@@ -39,6 +51,14 @@ export class History {
       this.updateRoute(route)
       onComplete && onComplete(route)
       this.ensureURL()
+
+      // fire ready cbs once
+      if (!this.ready) {
+        this.ready = true
+        this.readyCbs.forEach(cb => {
+          cb(route)
+        })
+      }
     }, onAbort)
   }
 

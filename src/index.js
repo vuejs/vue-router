@@ -19,6 +19,8 @@ export default class VueRouter {
 
   app: any;
   apps: Array<any>;
+  ready: boolean;
+  readyCbs: Array<Function>;
   options: RouterOptions;
   mode: string;
   history: HashHistory | HTML5History | AbstractHistory;
@@ -110,6 +112,10 @@ export default class VueRouter {
 
   afterEach (fn: Function) {
     this.afterHooks.push(fn)
+  }
+
+  onReady (cb: Function) {
+    this.history.onReady(cb)
   }
 
   push (location: RawLocation, onComplete?: Function, onAbort?: Function) {
