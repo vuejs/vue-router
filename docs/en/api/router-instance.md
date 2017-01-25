@@ -59,3 +59,9 @@
   > 2.2.0+
 
   Dynamically add more routes to the router. The argument must be an Array using the same route config format with the `routes` constructor option.
+
+- **router.onReady(callback)**
+
+  > 2.2.0+
+
+  Queue a callback to be called when the router has completed the initial navigation. This is useful when you need to wait until all asynchronous route enter hooks / async components have been resolved, e.g. in server-side rendering.
