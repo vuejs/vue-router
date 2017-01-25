@@ -29,7 +29,7 @@
     "test:unit": "jasmine JASMINE_CONFIG_PATH=test/unit/jasmine.json",
     "test:e2e": "node test/e2e/runner.js",
     "test:types": "tsc -p types/test",
-    "docs": "cd docs && gitbook serve",
+    "docs": "cd docs && gitbook install && gitbook serve",
     "docs:deploy": "bash ./build/update-docs.sh",
     "release": "bash build/release.sh"
   },
