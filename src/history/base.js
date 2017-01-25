@@ -286,7 +286,9 @@ function resolveAsyncComponents (matched: Array<RouteRecord>): Array<?Function> 
     if (typeof def === 'function' && !def.options) {
       return (to, from, next) => {
         const resolve = resolvedDef => {
-          match.components[key] = resolvedDef
+          if (resolvedDef) {
+            match.components[key] = resolvedDef
+          }
           next()
         }
 
