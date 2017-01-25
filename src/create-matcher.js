@@ -7,8 +7,17 @@ import { resolvePath } from './util/path'
 import { normalizeLocation } from './util/location'
 import { getRouteRegex, fillParams } from './util/params'
 
+export type Matcher = {
+  match: (raw: RawLocation, current?: Route, redirectedFrom?: Location) => Route;
+  addRoutes: (routes: Array<RouteConfig>) => void;
+};
+
 export function createMatcher (routes: Array<RouteConfig>): Matcher {
   const { pathMap, nameMap } = createRouteMap(routes)
+
+  function addRoutes (routes) {
+    createRouteMap(routes, pathMap, nameMap)
+  }
 
   function match (
     raw: RawLocation,
@@ -146,7 +155,10 @@ export function createMatcher (routes: Array<RouteConfig>): Matcher {
     return createRoute(record, location, redirectedFrom)
   }
 
-  return match
+  return {
+    match,
+    addRoutes
+  }
 }
 
 function matchRoute (

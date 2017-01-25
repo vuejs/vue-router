@@ -3,12 +3,16 @@
 import { assert, warn } from './util/warn'
 import { cleanPath } from './util/path'
 
-export function createRouteMap (routes: Array<RouteConfig>): {
-  pathMap: Dictionary<RouteRecord>,
-  nameMap: Dictionary<RouteRecord>
+export function createRouteMap (
+  routes: Array<RouteConfig>,
+  oldPathMap?: Dictionary<RouteRecord>,
+  oldNameMap?: Dictionary<RouteRecord>
+): {
+  pathMap: Dictionary<RouteRecord>;
+  nameMap: Dictionary<RouteRecord>;
 } {
-  const pathMap: Dictionary<RouteRecord> = Object.create(null)
-  const nameMap: Dictionary<RouteRecord> = Object.create(null)
+  const pathMap: Dictionary<RouteRecord> = oldPathMap || Object.create(null)
+  const nameMap: Dictionary<RouteRecord> = oldNameMap || Object.create(null)
 
   routes.forEach(route => {
     addRouteRecord(pathMap, nameMap, route)

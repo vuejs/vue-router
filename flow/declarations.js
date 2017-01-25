@@ -77,5 +77,3 @@ declare type Route = {
   redirectedFrom?: string;
   meta?: any;
 }
-
-declare type Matcher = (location: RawLocation, current?: Route) => Route;

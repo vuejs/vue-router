@@ -13,6 +13,8 @@ import { HashHistory } from './history/hash'
 import { HTML5History } from './history/html5'
 import { AbstractHistory } from './history/abstract'
 
+import type { Matcher } from './create-matcher'
+
 export default class VueRouter {
   static install: () => void;
   static version: string;
@@ -24,7 +26,7 @@ export default class VueRouter {
   options: RouterOptions;
   mode: string;
   history: HashHistory | HTML5History | AbstractHistory;
-  match: Matcher;
+  matcher: Matcher;
   fallback: boolean;
   beforeHooks: Array<?NavigationGuard>;
   afterHooks: Array<?((to: Route, from: Route) => any)>;
@@ -35,7 +37,7 @@ export default class VueRouter {
     this.options = options
     this.beforeHooks = []
     this.afterHooks = []
-    this.match = createMatcher(options.routes || [])
+    this.matcher = createMatcher(options.routes || [])
 
     let mode = options.mode || 'hash'
     this.fallback = mode === 'history' && !supportsPushState
@@ -62,6 +64,14 @@ export default class VueRouter {
           assert(false, `invalid mode: ${mode}`)
         }
     }
+  }
+
+  match (
+    raw: RawLocation,
+    current?: Route,
+    redirectedFrom?: Location
+  ): Route {
+    return this.matcher.match(raw, current, redirectedFrom)
   }
 
   get currentRoute (): ?Route {
@@ -180,8 +190,7 @@ export default class VueRouter {
   }
 
   addRoutes (routes: Array<RouteConfig>) {
-    routes = this.options.routes = (this.options.routes || []).concat(routes)
-    this.match = createMatcher(routes)
+    this.matcher.addRoutes(routes)
     if (this.history.current !== START) {
       this.history.transitionTo(this.history.getCurrentLocation())
     }
