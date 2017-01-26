@@ -107,7 +107,7 @@ function addRouteRecord (
   if (name) {
     if (!nameMap[name]) {
       nameMap[name] = record
-    } else if (process.env.NODE_ENV !== 'production') {
+    } else if (process.env.NODE_ENV !== 'production' && !matchAs) {
       warn(
         false,
         `Duplicate named routes definition: ` +
