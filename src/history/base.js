@@ -285,12 +285,20 @@ function resolveAsyncComponents (matched: Array<RouteRecord>): Array<?Function> 
     // resolved.
     if (typeof def === 'function' && !def.options) {
       return (to, from, next) => {
+        // in Webpack 2, require.ensure now also returns a Promise
+        // so the resolve/reject functions may get called an extra time
+        let called = false
+
         const resolve = resolvedDef => {
+          if (called) return
+          called = true
           match.components[key] = resolvedDef
           next()
         }
 
         const reject = reason => {
+          if (called) return
+          called = true
           warn(false, `Failed to resolve async component ${key}: ${reason}`)
           next(false)
         }
