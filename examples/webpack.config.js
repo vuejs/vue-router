@@ -24,9 +24,9 @@ module.exports = {
   },
 
   module: {
-    loaders: [
-      { test: /\.js$/, exclude: /node_modules/, loader: 'babel' },
-      { test: /\.vue$/, loader: 'vue' }
+    rules: [
+      { test: /\.js$/, exclude: /node_modules/, loader: 'babel-loader' },
+      { test: /\.vue$/, loader: 'vue-loader' }
     ]
   },
 
@@ -44,7 +44,10 @@ module.exports = {
   },
 
   plugins: [
-    new webpack.optimize.CommonsChunkPlugin('shared.js'),
+    new webpack.optimize.CommonsChunkPlugin({
+      name: 'shared',
+      filename: 'shared.js'
+    }),
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'development')
     })

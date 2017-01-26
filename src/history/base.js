@@ -285,23 +285,15 @@ function resolveAsyncComponents (matched: Array<RouteRecord>): Array<?Function> 
     // resolved.
     if (typeof def === 'function' && !def.options) {
       return (to, from, next) => {
-        // in Webpack 2, require.ensure now also returns a Promise
-        // so the resolve/reject functions may get called an extra time
-        let called = false
-
-        const resolve = resolvedDef => {
-          if (called) return
-          called = true
+        const resolve = once(resolvedDef => {
           match.components[key] = resolvedDef
           next()
-        }
+        })
 
-        const reject = reason => {
-          if (called) return
-          called = true
+        const reject = once(reason => {
           warn(false, `Failed to resolve async component ${key}: ${reason}`)
           next(false)
-        }
+        })
 
         const res = def(resolve, reject)
         if (res && typeof res.then === 'function') {
@@ -327,4 +319,17 @@ function flatMapComponents (
 
 function flatten (arr) {
   return Array.prototype.concat.apply([], arr)
+}
+
+// in Webpack 2, require.ensure now also returns a Promise
+// so the resolve/reject functions may get called an extra time
+// if the user uses an arrow function shorthand that happens to
+// return that Promise.
+function once (fn) {
+  let called = false
+  return function () {
+    if (called) return
+    called = true
+    return fn.apply(this, arguments)
+  }
 }
