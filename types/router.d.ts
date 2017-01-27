@@ -28,7 +28,7 @@ declare class VueRouter {
   back (): void;
   forward (): void;
   getMatchedComponents (to?: RawLocation): Component[];
-  onReady (cb: Function);
+  onReady (cb: Function): void;
   addRoutes (routes: RouteConfig[]): void;
   resolve (to: RawLocation, current?: Route, append?: boolean): {
     location: Location;
@@ -54,6 +54,8 @@ export interface RouterOptions {
   ) => { x: number, y: number } | { selector: string } | void;
 }
 
+type RoutePropsFunction = (route: Route) => Object;
+
 export interface RouteConfig {
   path: string;
   name?: string;
@@ -64,7 +66,7 @@ export interface RouteConfig {
   children?: RouteConfig[];
   meta?: any;
   beforeEnter?: NavigationGuard;
-  props?: boolean | Object | Function;
+  props?: boolean | Object | RoutePropsFunction;
 }
 
 export interface RouteRecord {
@@ -81,7 +83,7 @@ export interface RouteRecord {
     redirect: (location: RawLocation) => void,
     next: () => void
   ) => any;
-  props: boolean | Object | Function | Dictionary<boolean | Object | Function>;
+  props: boolean | Object | RoutePropsFunction | Dictionary<boolean | Object | RoutePropsFunction>;
 }
 
 export interface Location {
