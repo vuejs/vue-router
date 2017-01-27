@@ -66,6 +66,10 @@ const router = new VueRouter({
 
 마지막으로 `beforeRouteEnter` 와 `beforeRouteLeave`를 사용하여 라우트 컴포넌트(라우터 설정으로 전달되는 컴포넌트) 안에 라우트 네비게이션 가드를 직접 정의 할 수 있습니다.
 
+- `beforeRouteEnter`
+- `beforeRouteUpdate` (2.2 버전에 추가)
+- `beforeRouteLeave`
+
 ``` js
 const Foo = {
   template: `...`,
