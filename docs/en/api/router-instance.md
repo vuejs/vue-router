@@ -28,8 +28,8 @@
   Add global navigation guards. See [Navigation Guards](../advanced/navigation-guards.md).
 
 
-- **router.push(location)**
-- **router.replace(location)**
+- **router.push(location, onComplete?, onAbort?)**
+- **router.replace(location, onComplete?, onAbort?)**
 - **router.go(n)**
 - **router.back()**
 - **router.forward()**
@@ -64,4 +64,6 @@
 
   > 2.2.0+
 
-  Queue a callback to be called when the router has completed the initial navigation. This is useful when you need to wait until all asynchronous route enter hooks / async components have been resolved, e.g. in server-side rendering.
+  This method queues a callback to be called when the router has completed the initial navigation, which means it has resolved all async enter hooks and async components that are associated with the initial route.
+
+  This is useful in server-side rendering to ensure consistent output on both the server and the client.
