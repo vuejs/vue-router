@@ -13,6 +13,7 @@
   - [이름을 가진 라우트](essentials/named-routes.md)
   - [이름을 가진 뷰](essentials/named-views.md)
   - [리다이렉트와 별칭](essentials/redirect-and-alias.md)
+  - [라우트 컴포넌트에 속성 전달](essentials/passing-props.md)
   - [HTML5 History 모드](essentials/history-mode.md)
 - 고급
   - [네비게이션 가드](advanced/navigation-guards.md)

@@ -2,7 +2,7 @@
 
 `<router-link>`를 사용하여 선언적 네비게이션용 anchor 태그를 만드는 것 외에도 라우터의 인스턴스 메소드를 사용하여 프로그래밍으로 이를 수행 할 수 있습니다.
 
-#### `router.push(location)`
+#### `router.push(location, onComplete?, onAbort?)`
 
 다른 URL로 이동하려면 `router.push`를 사용하십시오. 이 메소드는 새로운 항목을 히스토리 스택에 넣기 때문에 사용자가 브라우저의 뒤로 가기 버튼을 클릭하면 이전 URL로 이동하게된다.
 
@@ -29,6 +29,9 @@ router.push({ name: 'user', params: { userId: 123 }})
 // 쿼리와 함께 사용, 결과는 /register?plan=private 입니다.
 router.push({ path: 'register', query: { plan: 'private' }})
 ```
+
+2.2.0 버전이후로 선택적으로 `router.push` 또는 `router.replace`에 두번째와 세번째 전달인자로 `onComplete`와 `onAbort` 콜백을 제공합니다.
+이 콜백은 탐색이 성공적으로 완료되거나(모든 비동기 훅이 해결된 후) 또는 중단(현재 탐색이 완료되기 전에 동일한 경로로 이동하거나 다른 경로 이동)될 때 호출 됩니다.
 
 #### `router.replace(location)`
 
