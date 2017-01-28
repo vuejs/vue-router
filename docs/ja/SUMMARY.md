@@ -13,6 +13,7 @@
   - [名前付きルート](essentials/named-routes.md)
   - [名前付きビュー](essentials/named-views.md)
   - [リダイレクトとエイリアス](essentials/redirect-and-alias.md)
+  - [Passing Props to Route Components](essentials/passing-props.md)
   - [HTML5 History モード](essentials/history-mode.md)
 - 高度な使い方
   - [ナビゲーションガード](advanced/navigation-guards.md)
