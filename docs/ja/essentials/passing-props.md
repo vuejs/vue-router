@@ -1,10 +1,10 @@
-# Passing Props to Route Components
+# ルートコンポーネントにプロパティを渡す
 
-Using `$route` in your component creates a tight coupling with the route which limits the flexibility of the component as it can only be used on certain urls.
+コンポーネントで `$route` を使うと特定のURLでしか使用できないコンポーネントの柔軟性が制限されるルートで密結合を作り出します。
 
-To decouple this component from the router use props:
+このコンポーネントをルーターが使用するプロパティからこのコンポーネントを分離するには:
 
-**❌ Coupled to $route**
+**❌ $route に結合**
 
 ``` js
 const User = {
@@ -17,7 +17,7 @@ const router = new VueRouter({
 })
 ```
 
-**👍 Decoupled with props**
+**👍 プロパティによる分離**
 
 ``` js
 const User = {
@@ -31,16 +31,16 @@ const router = new VueRouter({
 })
 ```
 
-This allows you to use the component anywhere, which makes the component easier to reuse and test.
+これにより、コンポーネントをどこからでも使用できるようになり、コンポーネントの再利用とテストが容易になります。
 
-### Boolean mode
+### Boolean モード
 
-When props is set to true, the route.params will be set as the component props.
+props を true に設定すると、route.params がコンポーネントのプロパティとして設定されます。
 
-### Object mode
+### Object モード
 
-When props is an object, this will be set as the component props as-is.
-Useful for when the props are static.
+props がオブジェクトの場合、これはコンポーネントプロパティとしてそのまま設定されます。
+プロパティが静的なときに便利です。
 
 ``` js
 const router = new VueRouter({
@@ -50,10 +50,10 @@ const router = new VueRouter({
 })
 ```
 
-### Function mode
+### Function モード
 
-You can create a function that returns props.
-This allows you to to cast the parameter to another type, combine static values with route-based values, etc.
+プロパティを返す関数を作成することができます。
+これにより、パラメータを別のタイプにキャストし、静的な値をルートベースの値などと組み合わせることができます。
 
 ``` js
 const router = new VueRouter({
@@ -63,10 +63,9 @@ const router = new VueRouter({
 })
 ```
 
-The url: `/search?q=vue` would pass `{query: "vue"}` as props to the SearchUser component.
+url `/search?q=vue` は `{query: "vue"}` をプロパティとして SearchUser コンポーネントに渡します。
 
-Try to keep the props function stateless, as it's only evaluated on route changes.
-Use a wrapper component if you need state to define the props, that way vue can react to state changes.
+ルート変更時にのみ評価されるため、プロパティの機能はステートレスにしてください。
+ラッパーコンポーネントを使用すると、状態を変更して状態を変更することができます。
 
-
-For advanced usage, checkout the [example](https://github.com/vuejs/vue-router/blob/dev/examples/route-props/app.js).
+高度な使い方については、[example](https://github.com/vuejs/vue-router/blob/dev/examples/route-props/app.js)を参照してください。
