@@ -14,6 +14,7 @@
   - [Именованные пути](essentials/named-routes.md)
   - [Именованные представления](essentials/named-views.md)
   - [Редиректы и псевдонимы](essentials/redirect-and-alias.md)
+  - [Передача входных параметров в компоненты маршрутов](essentials/passing-props.md)
   - [Режим HTML5 History](essentials/history-mode.md)
 - Продвинутые возможности
   - [Сторожевые хуки](advanced/navigation-guards.md)
