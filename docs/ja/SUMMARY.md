@@ -13,6 +13,7 @@
   - [名前付きルート](essentials/named-routes.md)
   - [名前付きビュー](essentials/named-views.md)
   - [リダイレクトとエイリアス](essentials/redirect-and-alias.md)
+  - [ルートコンポーネントにプロパティを渡す](essentials/passing-props.md)
   - [HTML5 History モード](essentials/history-mode.md)
 - 高度な使い方
   - [ナビゲーションガード](advanced/navigation-guards.md)
@@ -25,6 +26,6 @@
   - [router-link](api/router-link.md)
   - [router-view](api/router-view.md)
   - [ルートオブジェクト](api/route-object.md)
-  - [ルートコンストラクタオプション](api/options.md)
-  - [ルートインスタンス](api/router-instance.md)
+  - [ルーターコンストラクタオプション](api/options.md)
+  - [ルーターインスタンス](api/router-instance.md)
   - [コンポーネント注入](api/component-injections.md)

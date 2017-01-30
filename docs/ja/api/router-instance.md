@@ -28,8 +28,8 @@
   グローバルなナビゲーションガードの追加。[ナビゲーションガード](../advanced/navigation-guards.md) をご参照ください。
 
 
-- **router.push(location)**
-- **router.replace(location)**
+- **router.push(location, onComplete?, onAbort?)**
+- **router.replace(location, onComplete?, onAbort?)**
 - **router.go(n)**
 - **router.back()**
 - **router.forward()**
@@ -53,3 +53,17 @@
     href: string;
   }
   ```
+
+- **router.addRoute(routes)**
+
+  > 2.2.0+
+
+  動的にルートをルーターに追加します。引数は `routes` コンストラクタオプションで同じルート設定形式を使用する配列でなければなりません。
+
+- **router.onReady(callback)**
+
+  > 2.2.0+
+
+  このメソッドは、ルーターが初期ナビゲーションを完了したときに呼び出されるコールバックをキューに入れます。つまり、初期ルートに関連付けられているすべての非同期 enter フックと非同期コンポーネントを解決したことを意味します。
+
+  これは、サーバーとクライアントの両方で一貫した出力を保証するために、サーバーサイドレンダリングに役立ちます。
