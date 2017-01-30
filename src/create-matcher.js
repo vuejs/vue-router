@@ -9,7 +9,7 @@ import { getRouteRegex, fillParams } from './util/params'
 
 export type Matcher = {
   match: (raw: RawLocation, current?: Route, redirectedFrom?: Location) => Route;
-  addRoutes: (routes: Array<RouteConfig>) => void;
+  addRoutes: (routes: Array<RouteConfig>, overwriteNames?: Boolean) => void;
 };
 
 export function createMatcher (routes: Array<RouteConfig>): Matcher {
