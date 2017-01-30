@@ -49,7 +49,7 @@ describe('router.addRoutes', () => {
     const router = new Router({
       mode: 'abstract',
       routes: [
-        { path: '/a', component: { name: 'A' }}
+        { path: '/a', component: { name: 'A' }, name: 'routeA' }
       ]
     })
 
@@ -63,7 +63,7 @@ describe('router.addRoutes', () => {
     expect(components.length).toBe(0)
 
     router.addRoutes([
-      { path: '/b', component: { name: 'B' }}
+      { path: '/b', component: { name: 'B' }, name: 'routeB' }
     ])
     components = router.getMatchedComponents()
     expect(components.length).toBe(1)
@@ -74,6 +74,31 @@ describe('router.addRoutes', () => {
     components = router.getMatchedComponents()
     expect(components.length).toBe(1)
     expect(components[0].name).toBe('A')
+
+    // adding same name route with overwriteNames parameter set to true
+    router.addRoutes([
+      { path: '/c', component: { name: 'C' }, name: 'routeB' }
+    ], true)
+    router.push({ name: 'routeB' })
+    components = router.getMatchedComponents()
+    expect(components.length).toBe(1)
+    expect(components[0].name).toBe('C')
+    expect(router.currentRoute.path).toBe('/c')
+    expect(router.currentRoute.name).toBe('routeB')
+
+    // make sure it preserves previous routes
+    router.push('/a')
+    components = router.getMatchedComponents()
+    expect(components.length).toBe(1)
+    expect(components[0].name).toBe('A')
+    expect(router.currentRoute.path).toBe('/a')
+    expect(router.currentRoute.name).toBe('routeA')
+    router.push('/b')
+    components = router.getMatchedComponents()
+    expect(components.length).toBe(1)
+    expect(components[0].name).toBe('B')
+    expect(router.currentRoute.path).toBe('/b')
+    expect(router.currentRoute.name).toBe('routeB')
   })
 })
 
