@@ -15,8 +15,11 @@ export type Matcher = {
 export function createMatcher (routes: Array<RouteConfig>): Matcher {
   const { pathMap, nameMap } = createRouteMap(routes)
 
-  function addRoutes (routes) {
-    createRouteMap(routes, pathMap, nameMap)
+  function addRoutes (
+    routes,
+    overwriteNames?: Boolean
+  ) {
+    createRouteMap(routes, pathMap, nameMap, overwriteNames)
   }
 
   function match (

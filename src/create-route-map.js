@@ -6,7 +6,8 @@ import { cleanPath } from './util/path'
 export function createRouteMap (
   routes: Array<RouteConfig>,
   oldPathMap?: Dictionary<RouteRecord>,
-  oldNameMap?: Dictionary<RouteRecord>
+  oldNameMap?: Dictionary<RouteRecord>,
+  overwriteNames?: Boolean
 ): {
   pathMap: Dictionary<RouteRecord>;
   nameMap: Dictionary<RouteRecord>;
@@ -15,7 +16,7 @@ export function createRouteMap (
   const nameMap: Dictionary<RouteRecord> = oldNameMap || Object.create(null)
 
   routes.forEach(route => {
-    addRouteRecord(pathMap, nameMap, route)
+    addRouteRecord(pathMap, nameMap, route, undefined, undefined, overwriteNames)
   })
 
   return {
@@ -29,7 +30,8 @@ function addRouteRecord (
   nameMap: Dictionary<RouteRecord>,
   route: RouteConfig,
   parent?: RouteRecord,
-  matchAs?: string
+  matchAs?: string,
+  overwriteNames?: Boolean
 ) {
   const { path, name } = route
   if (process.env.NODE_ENV !== 'production') {
@@ -105,7 +107,7 @@ function addRouteRecord (
   }
 
   if (name) {
-    if (!nameMap[name]) {
+    if (!nameMap[name] || overwriteNames) {
       nameMap[name] = record
     } else if (process.env.NODE_ENV !== 'production' && !matchAs) {
       warn(
