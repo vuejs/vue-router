@@ -18,9 +18,9 @@
   - [HTML5-Verlaufsmodus](essentials/history-mode.md)
 - Fortgeschritten
   - [Navigations-Guards](advanced/navigation-guards.md)
-  - [Route-Metafelder](advanced/meta.md)
-  - [Übergänge (Transitions)](advanced/transitions.md)
-  - [Daten abrufen](advanced/data-fetching.md)
+  - [Route Meta-Felder](advanced/meta.md)
+  - [Transitions (Übergänge)](advanced/transitions.md)
+  - [Daten laden](advanced/data-fetching.md)
   - [Scroll-Verhalten](advanced/scroll-behavior.md)
   - [Lazy Loading](advanced/lazy-loading.md)
 - API-Referenz
