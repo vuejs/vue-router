@@ -1,8 +1,8 @@
-# Umleitung und Alias
+# Redirect und Alias
 
-### Umleitung
+### Redirect (Umleitung)
 
-Eine Umleitung bedeutet, dass, wenn der Nutzer `/a` besucht, die URL mit `/b` ersetzt wird und auch die Komponente unter `/b` rendert. Dieses richtet man in der `routes`-Konfiguration ein:
+Ein Redirect bedeutet, dass, wenn der Nutzer `/a` besucht, die URL mit `/b` ersetzt wird und auch die Komponente der Route zu `/b` rendert. Das richtet man in der `routes`-Konfiguration folgendermaßen ein:
 
 
 ``` js
@@ -13,7 +13,7 @@ const router = new VueRouter({
 })
 ```
 
-Die Umleitung kann auch an einer benannten Route angewandt werden:
+Der Redirect kann auch auf eine benannten Route angewandt werden:
 
 ``` js
 const router = new VueRouter({
@@ -23,7 +23,7 @@ const router = new VueRouter({
 })
 ```
 
-Oder auch mit einer Funktion für dynamische Umleitung:
+Oder auch mit einer Funktion für dynamische Redirects:
 
 ``` js
 const router = new VueRouter({
@@ -36,9 +36,11 @@ const router = new VueRouter({
 })
 ```
 
-Für andere erweiterte Nutzungen siehe auch dieses [Beispiel](https://github.com/vuejs/vue-router/blob/dev/examples/redirect/app.js).
+Für erweiterte Anwendungsmöglichkeiten siehe auch dieses [Beispiel](https://github.com/vuejs/vue-router/blob/dev/examples/redirect/app.js).
 
 ### Alias
+
+Ein Redirect bedeutet: Wenn wir die URL `/a` besuchen, wird die URL mit `/b` ersetzt und dann mit der Route für `/b` gematched. Aber was ist dann ein *Alias*?
 
 Ein Alias von `/a` als `/b` bedeutet, dass die URL `/b` bleibt, wenn diese besucht wird, jedoch die Komponente von `/a` gerendert wird.
 
@@ -52,7 +54,7 @@ const router = new VueRouter({
 })
 ```
 
-Ein Alias gibt die Möglichkeit eine gewisse UI-Struktur einer
+Ein Alias gibt die Möglichkeit eine bestimmte UI-Struktur einer
 beliebigen URL zuzuordnen, anstatt von der verschachtelten Struktur der Konfiguration eingeschränkt zu werden.
 
-Für erweiterte Nutzung siehe folgendes [Beispiel](https://github.com/vuejs/vue-router/blob/dev/examples/route-alias/app.js).
+Für die erweiterte Anwendung siehe folgendes [Beispiel](https://github.com/vuejs/vue-router/blob/dev/examples/route-alias/app.js).
