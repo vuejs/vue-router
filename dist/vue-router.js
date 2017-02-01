@@ -544,13 +544,14 @@ function cleanPath (path) {
 function createRouteMap (
   routes,
   oldPathMap,
-  oldNameMap
+  oldNameMap,
+  overwriteNames
 ) {
   var pathMap = oldPathMap || Object.create(null);
   var nameMap = oldNameMap || Object.create(null);
 
   routes.forEach(function (route) {
-    addRouteRecord(pathMap, nameMap, route);
+    addRouteRecord(pathMap, nameMap, route, undefined, undefined, overwriteNames);
   });
 
   return {
@@ -564,7 +565,8 @@ function addRouteRecord (
   nameMap,
   route,
   parent,
-  matchAs
+  matchAs,
+  overwriteNames
 ) {
   var path = route.path;
   var name = route.name;
@@ -641,7 +643,7 @@ function addRouteRecord (
   }
 
   if (name) {
-    if (!nameMap[name]) {
+    if (!nameMap[name] || overwriteNames) {
       nameMap[name] = record;
     } else if ("development" !== 'production' && !matchAs) {
       warn(
@@ -1199,8 +1201,11 @@ function createMatcher (routes) {
   var pathMap = ref.pathMap;
   var nameMap = ref.nameMap;
 
-  function addRoutes (routes) {
-    createRouteMap(routes, pathMap, nameMap);
+  function addRoutes (
+    routes,
+    overwriteNames
+  ) {
+    createRouteMap(routes, pathMap, nameMap, overwriteNames);
   }
 
   function match (
@@ -2259,8 +2264,8 @@ VueRouter.prototype.resolve = function resolve (
   }
 };
 
-VueRouter.prototype.addRoutes = function addRoutes (routes) {
-  this.matcher.addRoutes(routes);
+VueRouter.prototype.addRoutes = function addRoutes (routes, overwriteNames) {
+  this.matcher.addRoutes(routes, overwriteNames);
   if (this.history.current !== START) {
     this.history.transitionTo(this.history.getCurrentLocation());
   }
