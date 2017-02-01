@@ -7,7 +7,7 @@ export function createRouteMap (
   routes: Array<RouteConfig>,
   oldPathMap?: Dictionary<RouteRecord>,
   oldNameMap?: Dictionary<RouteRecord>,
-  overwriteNames?: Boolean
+  overwriteNames?: boolean
 ): {
   pathMap: Dictionary<RouteRecord>;
   nameMap: Dictionary<RouteRecord>;
@@ -31,7 +31,7 @@ function addRouteRecord (
   route: RouteConfig,
   parent?: RouteRecord,
   matchAs?: string,
-  overwriteNames?: Boolean
+  overwriteNames?: boolean
 ) {
   const { path, name } = route
   if (process.env.NODE_ENV !== 'production') {
