@@ -105,7 +105,7 @@
 
   active 링크 클래스를 설명하는 추가 [예제](https://jsfiddle.net/8xrk1n9f/)를 확인 하십시오.
 
-- **events**
+- **event**
 
   > 2.1.0+
 
