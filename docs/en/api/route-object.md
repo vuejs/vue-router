@@ -54,7 +54,7 @@ The route object can be found in multiple places:
 
   - type: `string`
 
-    The hash of the current route (without `#`), if it has one. If no hash is present the value will be an empty string.
+    The hash of the current route (with the `#`), if it has one. If no hash is present the value will be an empty string.
 
 - **$route.fullPath**
 
