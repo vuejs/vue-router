@@ -77,13 +77,36 @@ describe('router.addRoutes', () => {
 
     // adding same name route with overwriteNames parameter set to true
     router.addRoutes([
-      { path: '/c', component: { name: 'C' }, name: 'routeB' }
+      { path: '/c', component: { name: 'C' }, name: 'routeA' }
     ], true)
-    router.push({ name: 'routeB' })
+    router.push({ name: 'routeA' })
     components = router.getMatchedComponents()
     expect(components.length).toBe(1)
     expect(components[0].name).toBe('C')
     expect(router.currentRoute.path).toBe('/c')
+    expect(router.currentRoute.name).toBe('routeA')
+
+    // overwriting a route name with a nested route name
+    router.addRoutes([
+      {
+        path: '/d',
+        name: 'routeD',
+        component: { name: 'D' },
+        children: [
+          {
+            path: 'e',
+            component: { name: 'E' },
+            name: 'routeB'
+          }
+        ]
+      }
+    ], true)
+    router.push({ name: 'routeB' })
+    components = router.getMatchedComponents()
+    expect(components.length).toBe(2)
+    expect(components[0].name).toBe('D')
+    expect(components[1].name).toBe('E')
+    expect(router.currentRoute.path).toBe('/d/e')
     expect(router.currentRoute.name).toBe('routeB')
 
     // make sure it preserves previous routes
