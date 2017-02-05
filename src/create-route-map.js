@@ -80,7 +80,7 @@ function addRouteRecord (
       const childMatchAs = matchAs
         ? cleanPath(`${matchAs}/${child.path}`)
         : undefined
-      addRouteRecord(pathMap, nameMap, child, record, childMatchAs)
+      addRouteRecord(pathMap, nameMap, child, record, childMatchAs, overwriteNames)
     })
   }
 
@@ -91,14 +91,14 @@ function addRouteRecord (
           path: alias,
           children: route.children
         }
-        addRouteRecord(pathMap, nameMap, aliasRoute, parent, record.path)
+        addRouteRecord(pathMap, nameMap, aliasRoute, parent, record.path, overwriteNames)
       })
     } else {
       const aliasRoute = {
         path: route.alias,
         children: route.children
       }
-      addRouteRecord(pathMap, nameMap, aliasRoute, parent, record.path)
+      addRouteRecord(pathMap, nameMap, aliasRoute, parent, record.path, overwriteNames)
     }
   }
 
