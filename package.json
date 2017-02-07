@@ -74,6 +74,6 @@
   "jspm": {
     "main": "src/index.js",
     "registry": "npm",
-    "format": "esm"
+    "format": "es6"
   }
 }
