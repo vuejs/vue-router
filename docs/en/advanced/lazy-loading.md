@@ -2,7 +2,7 @@
 
 When building apps with a bundler, the JavaScript bundle can become quite large, and thus affect the page load time. It would be more efficient if we can split each route's components into a separate chunk, and only load them when the route is visited.
 
-Combining Vue's [async component feature](http://vuejs.org/guide/components.html#Async-Components) and Webpack's [code splitting feature](https://webpack.github.io/docs/code-splitting.html), it's trivially easy to
+Combining Vue's [async component feature](http://vuejs.org/guide/components.html#Async-Components) and Webpack's [code splitting feature](https://webpack.js.org/guides/code-splitting-require/), it's trivially easy to
 lazy-load route components.
 
 All we need to do is define our route components as async components:
@@ -34,7 +34,7 @@ const router = new VueRouter({
 
 ### Grouping Components in the Same Chunk
 
-Sometimes we may want to group all the components nested under the same route into the same async chunk. To achieve that we need to use [named chunks](https://webpack.github.io/docs/code-splitting.html#named-chunks) by providing a chunk name to `require.ensure` as the 3rd argument:
+Sometimes we may want to group all the components nested under the same route into the same async chunk. To achieve that we need to use [named chunks](https://webpack.js.org/guides/code-splitting-require/#chunkname) by providing a chunk name to `require.ensure` as the 3rd argument:
 
 ``` js
 const Foo = r => require.ensure([], () => r(require('./Foo.vue')), 'group-foo')

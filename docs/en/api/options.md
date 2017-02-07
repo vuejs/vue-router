@@ -13,6 +13,7 @@
     name?: string; // for named routes
     components?: { [name: string]: Component }; // for named views
     redirect?: string | Location | Function;
+    props?: boolean | string | Function;
     alias?: string | Array<string>;
     children?: Array<RouteConfig>; // for nested routes
     beforeEnter?: (to: Route, from: Route, next: Function) => void;

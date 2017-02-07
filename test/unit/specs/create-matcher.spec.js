@@ -7,10 +7,13 @@ const routes = [
 ]
 
 describe('Creating Matcher', function () {
+  let match
+
   beforeAll(function () {
     spyOn(console, 'warn')
-    this.match = createMatcher(routes)
+    match = createMatcher(routes).match
   })
+
   beforeEach(function () {
     console.warn.calls.reset()
     process.env.NODE_ENV = 'production'
@@ -19,13 +22,14 @@ describe('Creating Matcher', function () {
   it('in development, has logged a warning if a named route does not exist', function () {
     process.env.NODE_ENV = 'development'
     expect(() => {
-      this.match({ name: 'bar' }, routes[0]);
+      match({ name: 'bar' }, routes[0]);
     }).toThrow(new TypeError('Cannot read property \'path\' of undefined'));
     expect(console.warn).toHaveBeenCalled()
     expect(console.warn.calls.argsFor(0)[0]).toMatch('Route with name \'bar\' does not exist');
   })
+
   it('in production, it has not logged this warning', function () {
-    this.match({ name: 'foo' }, routes[0]);
+    match({ name: 'foo' }, routes[0]);
     expect(console.warn).not.toHaveBeenCalled()
   })
 })

@@ -64,7 +64,11 @@ These guards have the exact same signature as global before guards.
 
 ### In-Component Guards
 
-Finally, you can directly define route navigation guards inside route components (the ones passed to the router configuration) with `beforeRouteEnter` and `beforeRouteLeave`:
+Finally, you can directly define route navigation guards inside route components (the ones passed to the router configuration) with the following options:
+
+- `beforeRouteEnter`
+- `beforeRouteUpdate` (added in 2.2)
+- `beforeRouteLeave`
 
 ``` js
 const Foo = {
@@ -73,6 +77,14 @@ const Foo = {
     // called before the route that renders this component is confirmed.
     // does NOT have access to `this` component instance,
     // because it has not been created yet when this guard is called!
+  },
+  beforeRouteUpdate (to, from, next) {
+    // called when the route that renders this component has changed,
+    // but this component is reused in the new route.
+    // For example, for a route with dynamic params /foo/:id, when we
+    // navigate between /foo/1 and /foo/2, the same Foo component instance
+    // will be reused, and this hook will be called when that happens.
+    // has access to `this` component instance.
   },
   beforeRouteLeave (to, from, next) {
     // called when the route that renders this component is about to

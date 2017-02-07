@@ -2,6 +2,8 @@
 
 Der Navigationsschutz bereit gestellt vom `vue-router` wird primär genutzt, um Navigationen vor Umleitung oder Unterbrechung zu schützen. Es gibt eine Vielzahl an Wege: global, per-route oder in der Komponente.
 
+Merke, dass Parameter oder Query-Abfragen den Navigationsschutz nicht auslosen. Beobachte einfach [das `$route`-Objekt](../essentials/dynamic-matching.md#reacting-to-params-changes), um auf Änderungen zu reagieren.
+
 ### Globaler Schutz
 
 Man kann globalen Schutz für die Zeit direkt vor einer Navigation (globaler Vor-Schutz) mit `router.beforeEach` anwenden:
@@ -62,7 +64,7 @@ Diese Schutze haben die exakt gleiche Signature als globale Vor-Schutze.
 
 ### Schutz in Komponenten
 
-Letztendlich kann man auch Navigationsschutz in den Route-Komponenten mit `beforeRouteEnter` und `beforeRouteLeave` definieren:
+Letztendlich kann man auch Navigationsschutz in den Route-Komponenten (die, die der Router-Konfiguration hinzugefügt werden) mit `beforeRouteEnter` und `beforeRouteLeave` definieren:
 
 ``` js
 const Foo = {

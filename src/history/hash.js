@@ -1,49 +1,45 @@
 /* @flow */
 
-import type VueRouter from '../index'
+import type Router from '../index'
 import { History } from './base'
-import { getLocation } from './html5'
 import { cleanPath } from '../util/path'
+import { getLocation } from './html5'
 
 export class HashHistory extends History {
-  constructor (router: VueRouter, base: ?string, fallback: boolean) {
+  constructor (router: Router, base: ?string, fallback: boolean) {
     super(router, base)
     // check history fallback deeplinking
-    if (fallback && this.checkFallback()) {
+    if (fallback && checkFallback(this.base)) {
       return
     }
     ensureSlash()
   }
 
-  checkFallback () {
-    const location = getLocation(this.base)
-    if (!/^\/#/.test(location)) {
-      window.location.replace(
-        cleanPath(this.base + '/#' + location)
-      )
-      return true
-    }
-  }
-
-  onHashChange () {
-    if (!ensureSlash()) {
-      return
-    }
-    this.transitionTo(getHash(), route => {
-      replaceHash(route.fullPath)
+  // this is delayed until the app mounts
+  // to avoid the hashchange listener being fired too early
+  setupListeners () {
+    window.addEventListener('hashchange', () => {
+      if (!ensureSlash()) {
+        return
+      }
+      this.transitionTo(getHash(), route => {
+        replaceHash(route.fullPath)
+      })
     })
   }
 
-  push (location: RawLocation) {
+  push (location: RawLocation, onComplete?: Function, onAbort?: Function) {
     this.transitionTo(location, route => {
       pushHash(route.fullPath)
-    })
+      onComplete && onComplete(route)
+    }, onAbort)
   }
 
-  replace (location: RawLocation) {
+  replace (location: RawLocation, onComplete?: Function, onAbort?: Function) {
     this.transitionTo(location, route => {
       replaceHash(route.fullPath)
-    })
+      onComplete && onComplete(route)
+    }, onAbort)
   }
 
   go (n: number) {
@@ -55,6 +51,20 @@ export class HashHistory extends History {
     if (getHash() !== current) {
       push ? pushHash(current) : replaceHash(current)
     }
+  }
+
+  getCurrentLocation () {
+    return getHash()
+  }
+}
+
+function checkFallback (base) {
+  const location = getLocation(base)
+  if (!/^\/#/.test(location)) {
+    window.location.replace(
+      cleanPath(base + '/#' + location)
+    )
+    return true
   }
 }
 

@@ -53,7 +53,7 @@ route object 出现在多个地方:
 
   - 类型: `string`
 
-    当前路由的 hash 值 (不带 `#`) ，如果没有 hash 值，则为空字符串。
+    当前路由的 hash 值 (带 `#`) ，如果没有 hash 值，则为空字符串。
 
 
 - **$route.fullPath**

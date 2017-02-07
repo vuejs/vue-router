@@ -28,8 +28,8 @@
   Add global navigation guards. See [Navigation Guards](../advanced/navigation-guards.md).
 
 
-- **router.push(location)**
-- **router.replace(location)**
+- **router.push(location, onComplete?, onAbort?)**
+- **router.replace(location, onComplete?, onAbort?)**
 - **router.go(n)**
 - **router.back()**
 - **router.forward()**
@@ -48,8 +48,22 @@
 
   ``` js
   {
-    normalizedTo: Location;
-    resolved: Route;
+    location: Location;
+    route: Route;
     href: string;
   }
   ```
+
+- **router.addRoutes(routes)**
+
+  > 2.2.0+
+
+  Dynamically add more routes to the router. The argument must be an Array using the same route config format with the `routes` constructor option.
+
+- **router.onReady(callback)**
+
+  > 2.2.0+
+
+  This method queues a callback to be called when the router has completed the initial navigation, which means it has resolved all async enter hooks and async components that are associated with the initial route.
+
+  This is useful in server-side rendering to ensure consistent output on both the server and the client.

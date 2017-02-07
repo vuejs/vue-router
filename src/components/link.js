@@ -5,6 +5,7 @@ import { _Vue } from '../install'
 
 // work around weird flow bug
 const toTypes: Array<Function> = [String, Object]
+const eventTypes: Array<Function> = [String, Array]
 
 export default {
   name: 'router-link',
@@ -22,17 +23,17 @@ export default {
     replace: Boolean,
     activeClass: String,
     event: {
-      type: [String, Array],
+      type: eventTypes,
       default: 'click'
     }
   },
   render (h: Function) {
     const router = this.$router
     const current = this.$route
-    const { normalizedTo, resolved, href } = router.resolve(this.to, current, this.append)
+    const { location, route, href } = router.resolve(this.to, current, this.append)
     const classes = {}
     const activeClass = this.activeClass || router.options.linkActiveClass || 'router-link-active'
-    const compareTarget = normalizedTo.path ? createRoute(null, normalizedTo) : resolved
+    const compareTarget = location.path ? createRoute(null, location) : route
     classes[activeClass] = this.exact
       ? isSameRoute(current, compareTarget)
       : isIncludedRoute(current, compareTarget)
@@ -40,9 +41,9 @@ export default {
     const handler = e => {
       if (guardEvent(e)) {
         if (this.replace) {
-          router.replace(normalizedTo)
+          router.replace(location)
         } else {
-          router.push(normalizedTo)
+          router.push(location)
         }
       }
     }
@@ -84,22 +85,20 @@ export default {
 
 function guardEvent (e) {
   // don't redirect with control keys
-  /* istanbul ignore if */
   if (e.metaKey || e.ctrlKey || e.shiftKey) return
   // don't redirect when preventDefault called
-  /* istanbul ignore if */
   if (e.defaultPrevented) return
   // don't redirect on right click
-  /* istanbul ignore if */
   if (e.button !== undefined && e.button !== 0) return
   // don't redirect if `target="_blank"`
-  /* istanbul ignore if */
   if (e.target && e.target.getAttribute) {
     const target = e.target.getAttribute('target')
     if (/\b_blank\b/i.test(target)) return
   }
-
-  e.preventDefault()
+  // this may be a Weex event which doesn't have this method
+  if (e.preventDefault) {
+    e.preventDefault()
+  }
   return true
 }
 
