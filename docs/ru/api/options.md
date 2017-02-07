@@ -50,7 +50,7 @@
 
 - значение по умолчанию: `"router-link-active"`
 
-  Глобальная конфигурация css-класса по умолчанию для активных ссылок `<router-link>`. См. также [router-link](router-link.md).
+  Глобальная конфигурация CSS-класса по умолчанию для активных ссылок `<router-link>`. См. также [router-link](router-link.md).
 
 ### scrollBehavior
 

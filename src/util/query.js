@@ -2,7 +2,17 @@
 
 import { warn } from './warn'
 
-const encode = encodeURIComponent
+const encodeReserveRE = /[!'()*]/g
+const encodeReserveReplacer = c => '%' + c.charCodeAt(0).toString(16)
+const commaRE = /%2C/g
+
+// fixed encodeURIComponent which is more comformant to RFC3986:
+// - escapes [!'()*]
+// - preserve commas
+const encode = str => encodeURIComponent(str)
+  .replace(encodeReserveRE, encodeReserveReplacer)
+  .replace(commaRE, ',')
+
 const decode = decodeURIComponent
 
 export function resolveQuery (

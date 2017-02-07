@@ -22,16 +22,21 @@ declare class VueRouter {
 
   beforeEach (guard: NavigationGuard): void;
   afterEach (hook: (to: Route, from: Route) => any): void;
-  push (location: RawLocation): void;
-  replace (location: RawLocation): void;
+  push (location: RawLocation, onComplete?: Function, onAbort?: Function): void;
+  replace (location: RawLocation, onComplete?: Function, onAbort?: Function): void;
   go (n: number): void;
   back (): void;
   forward (): void;
-  getMatchedComponentes (to?: RawLocation): Component[];
+  getMatchedComponents (to?: RawLocation): Component[];
+  onReady (cb: Function): void;
+  addRoutes (routes: RouteConfig[]): void;
   resolve (to: RawLocation, current?: Route, append?: boolean): {
+    location: Location;
+    route: Route;
+    href: string;
+    // backwards compat
     normalizedTo: Location;
     resolved: Route;
-    href: string;
   };
 
   static install: PluginFunction<never>;
@@ -49,6 +54,8 @@ export interface RouterOptions {
   ) => { x: number, y: number } | { selector: string } | void;
 }
 
+type RoutePropsFunction = (route: Route) => Object;
+
 export interface RouteConfig {
   path: string;
   name?: string;
@@ -59,6 +66,7 @@ export interface RouteConfig {
   children?: RouteConfig[];
   meta?: any;
   beforeEnter?: NavigationGuard;
+  props?: boolean | Object | RoutePropsFunction;
 }
 
 export interface RouteRecord {
@@ -75,6 +83,7 @@ export interface RouteRecord {
     redirect: (location: RawLocation) => void,
     next: () => void
   ) => any;
+  props: boolean | Object | RoutePropsFunction | Dictionary<boolean | Object | RoutePropsFunction>;
 }
 
 export interface Location {

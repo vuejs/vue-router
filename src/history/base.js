@@ -1,6 +1,6 @@
 /* @flow */
 
-import type VueRouter from '../index'
+import type Router from '../index'
 import { warn } from '../util/warn'
 import { inBrowser } from '../util/dom'
 import { runQueue } from '../util/async'
@@ -8,28 +8,41 @@ import { START, isSameRoute } from '../util/route'
 import { _Vue } from '../install'
 
 export class History {
-  router: VueRouter;
+  router: Router;
   base: string;
   current: Route;
   pending: ?Route;
   cb: (r: Route) => void;
+  ready: boolean;
+  readyCbs: Array<Function>;
 
   // implemented by sub-classes
   go: (n: number) => void;
   push: (loc: RawLocation) => void;
   replace: (loc: RawLocation) => void;
   ensureURL: (push?: boolean) => void;
+  getCurrentLocation: () => string;
 
-  constructor (router: VueRouter, base: ?string) {
+  constructor (router: Router, base: ?string) {
     this.router = router
     this.base = normalizeBase(base)
     // start with a route object that stands for "nowhere"
     this.current = START
     this.pending = null
+    this.ready = false
+    this.readyCbs = []
   }
 
   listen (cb: Function) {
     this.cb = cb
+  }
+
+  onReady (cb: Function) {
+    if (this.ready) {
+      cb()
+    } else {
+      this.readyCbs.push(cb)
+    }
   }
 
   transitionTo (location: RawLocation, onComplete?: Function, onAbort?: Function) {
@@ -38,18 +51,31 @@ export class History {
       this.updateRoute(route)
       onComplete && onComplete(route)
       this.ensureURL()
+
+      // fire ready cbs once
+      if (!this.ready) {
+        this.ready = true
+        this.readyCbs.forEach(cb => {
+          cb(route)
+        })
+      }
     }, onAbort)
   }
 
   confirmTransition (route: Route, onComplete: Function, onAbort?: Function) {
     const current = this.current
     const abort = () => { onAbort && onAbort() }
-    if (isSameRoute(route, current)) {
+    if (
+      isSameRoute(route, current) &&
+      // in the case the route map has been dynamically appended to
+      route.matched.length === current.matched.length
+    ) {
       this.ensureURL()
       return abort()
     }
 
     const {
+      updated,
       deactivated,
       activated
     } = resolveQueue(this.current.matched, route.matched)
@@ -59,7 +85,9 @@ export class History {
       extractLeaveGuards(deactivated),
       // global before hooks
       this.router.beforeHooks,
-      // enter guards
+      // in-component update hooks
+      extractUpdateHooks(updated),
+      // in-config enter guards
       activated.map(m => m.beforeEnter),
       // async components
       resolveAsyncComponents(activated)
@@ -88,9 +116,8 @@ export class History {
 
     runQueue(queue, iterator, () => {
       const postEnterCbs = []
-      const enterGuards = extractEnterGuards(activated, postEnterCbs, () => {
-        return this.current === route
-      })
+      const isValid = () => this.current === route
+      const enterGuards = extractEnterGuards(activated, postEnterCbs, isValid)
       // wait until async components are resolved before
       // extracting in-component enter guards
       runQueue(enterGuards, iterator, () => {
@@ -140,6 +167,7 @@ function resolveQueue (
   current: Array<RouteRecord>,
   next: Array<RouteRecord>
 ): {
+  updated: Array<RouteRecord>,
   activated: Array<RouteRecord>,
   deactivated: Array<RouteRecord>
 } {
@@ -151,9 +179,27 @@ function resolveQueue (
     }
   }
   return {
+    updated: next.slice(0, i),
     activated: next.slice(i),
     deactivated: current.slice(i)
   }
+}
+
+function extractGuards (
+  records: Array<RouteRecord>,
+  name: string,
+  bind: Function,
+  reverse?: boolean
+): Array<?Function> {
+  const guards = flatMapComponents(records, (def, instance, match, key) => {
+    const guard = extractGuard(def, name)
+    if (guard) {
+      return Array.isArray(guard)
+        ? guard.map(guard => bind(guard, instance, match, key))
+        : bind(guard, instance, match, key)
+    }
+  })
+  return flatten(reverse ? guards.reverse() : guards)
 }
 
 function extractGuard (
@@ -167,46 +213,35 @@ function extractGuard (
   return def.options[key]
 }
 
-function extractLeaveGuards (matched: Array<RouteRecord>): Array<?Function> {
-  return flatten(flatMapComponents(matched, (def, instance) => {
-    const guard = extractGuard(def, 'beforeRouteLeave')
-    if (guard) {
-      return Array.isArray(guard)
-        ? guard.map(guard => wrapLeaveGuard(guard, instance))
-        : wrapLeaveGuard(guard, instance)
-    }
-  }).reverse())
+function extractLeaveGuards (deactivated: Array<RouteRecord>): Array<?Function> {
+  return extractGuards(deactivated, 'beforeRouteLeave', bindGuard, true)
 }
 
-function wrapLeaveGuard (
-  guard: NavigationGuard,
-  instance: _Vue
-): NavigationGuard {
-  return function routeLeaveGuard () {
+function extractUpdateHooks (updated: Array<RouteRecord>): Array<?Function> {
+  return extractGuards(updated, 'beforeRouteUpdate', bindGuard)
+}
+
+function bindGuard (guard: NavigationGuard, instance: _Vue): NavigationGuard {
+  return function boundRouteGuard () {
     return guard.apply(instance, arguments)
   }
 }
 
 function extractEnterGuards (
-  matched: Array<RouteRecord>,
+  activated: Array<RouteRecord>,
   cbs: Array<Function>,
   isValid: () => boolean
 ): Array<?Function> {
-  return flatten(flatMapComponents(matched, (def, _, match, key) => {
-    const guard = extractGuard(def, 'beforeRouteEnter')
-    if (guard) {
-      return Array.isArray(guard)
-        ? guard.map(guard => wrapEnterGuard(guard, cbs, match, key, isValid))
-        : wrapEnterGuard(guard, cbs, match, key, isValid)
-    }
-  }))
+  return extractGuards(activated, 'beforeRouteEnter', (guard, _, match, key) => {
+    return bindEnterGuard(guard, match, key, cbs, isValid)
+  })
 }
 
-function wrapEnterGuard (
+function bindEnterGuard (
   guard: NavigationGuard,
-  cbs: Array<Function>,
   match: RouteRecord,
   key: string,
+  cbs: Array<Function>,
   isValid: () => boolean
 ): NavigationGuard {
   return function routeEnterGuard (to, from, next) {
@@ -250,15 +285,15 @@ function resolveAsyncComponents (matched: Array<RouteRecord>): Array<?Function> 
     // resolved.
     if (typeof def === 'function' && !def.options) {
       return (to, from, next) => {
-        const resolve = resolvedDef => {
+        const resolve = once(resolvedDef => {
           match.components[key] = resolvedDef
           next()
-        }
+        })
 
-        const reject = reason => {
+        const reject = once(reason => {
           warn(false, `Failed to resolve async component ${key}: ${reason}`)
           next(false)
-        }
+        })
 
         const res = def(resolve, reject)
         if (res && typeof res.then === 'function') {
@@ -284,4 +319,17 @@ function flatMapComponents (
 
 function flatten (arr) {
   return Array.prototype.concat.apply([], arr)
+}
+
+// in Webpack 2, require.ensure now also returns a Promise
+// so the resolve/reject functions may get called an extra time
+// if the user uses an arrow function shorthand that happens to
+// return that Promise.
+function once (fn) {
+  let called = false
+  return function () {
+    if (called) return
+    called = true
+    return fn.apply(this, arguments)
+  }
 }

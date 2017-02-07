@@ -27,6 +27,13 @@ const Hook: ComponentOptions<Vue> = {
     next("/");
     next({ path: "/" });
     next();
+  },
+
+  beforeRouteUpdate (to, from, next) {
+    route.params;
+    next("/");
+    next({ path: "/" });
+    next();
   }
 };
 
@@ -72,6 +79,9 @@ const router = new VueRouter({
       }
     ]},
     { path: "/home", alias: "/" },
+    { path: "/foo", props: true },
+    { path: "/bar", props: { id: 123 }},
+    { path: "/baz", props: (route: Route) => route.params },
     { path: "*", redirect: "/" }
   ]
 });
@@ -124,11 +134,20 @@ router.push({
 });
 router.replace({ name: "home" });
 
+router.push('/', () => {}, () => {})
+router.replace('/foo', () => {}, () => {});
+
+router.onReady(() => {});
+
+router.addRoutes([
+  { path: '/more' }
+]);
+
 router.go(-1);
 router.back();
 router.forward();
 
-const Components: ComponentOptions<Vue> | typeof Vue = router.getMatchedComponentes();
+const Components: ComponentOptions<Vue> | typeof Vue = router.getMatchedComponents();
 
 const vm = new Vue({
   router,

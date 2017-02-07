@@ -107,7 +107,7 @@
 
   Siehe weitere Beispiele zur aktiven Linkklasse [hier](http://jsfiddle.net/fnlCtrl/dokbyypq/).
 
-- **events**
+- **event**
 
   > 2.1.0+
 

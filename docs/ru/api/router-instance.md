@@ -48,8 +48,8 @@
 
   ``` js
   {
-    normalizedTo: Location;
-    resolved: Route;
+    location: Location;
+    route: Route;
     href: string;
   }
   ```

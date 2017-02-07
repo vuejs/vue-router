@@ -14,7 +14,7 @@ if (args.indexOf('--env') === -1) {
 }
 var i = args.indexOf('--test')
 if (i > -1) {
-  args[i + 1] = 'test/e2e/specs/' + args[i + 1]
+  args[i + 1] = 'test/e2e/specs/' + args[i + 1].replace(/\.js$/, '') + '.js'
 }
 if (args.indexOf('phantomjs') > -1) {
   process.env.PHANTOMJS = true

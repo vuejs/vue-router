@@ -71,6 +71,22 @@ const Qux = {
   }
 }
 
+// Quux implements an in-component beforeRouteUpdate hook.
+// this hook is called when the component is reused, but the route is updated.
+// For example, when navigating from /quux/1 to /quux/2.
+const Quux = {
+  data () {
+    return {
+      prevId: 0
+    }
+  },
+  template: `<div>id:{{ $route.params.id }} prevId:{{ prevId }}</div>`,
+  beforeRouteUpdate (to, from, next) {
+    this.prevId = from.params.id
+    next()
+  }
+}
+
 const router = new VueRouter({
   mode: 'history',
   base: __dirname,
@@ -95,7 +111,10 @@ const router = new VueRouter({
       setTimeout(() => {
         resolve(Qux)
       }, 0)
-    } }
+    } },
+
+    // in-component beforeRouteUpdate hook
+    { path: '/quux/:id', component: Quux }
   ]
 })
 
@@ -119,6 +138,8 @@ new Vue({
         <li><router-link to="/baz">/baz</router-link></li>
         <li><router-link to="/qux">/qux</router-link></li>
         <li><router-link to="/qux-async">/qux-async</router-link></li>
+        <li><router-link to="/quux/1">/quux/1</router-link></li>
+        <li><router-link to="/quux/2">/quux/2</router-link></li>
       </ul>
       <router-view class="view"></router-view>
     </div>

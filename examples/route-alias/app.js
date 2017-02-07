@@ -8,6 +8,8 @@ const Foo = { template: '<div>foo</div>' }
 const Bar = { template: '<div>bar</div>' }
 const Baz = { template: '<div>baz</div>' }
 const Default = { template: '<div>default</div>' }
+const Nested = { template: '<router-view/>' }
+const NestedFoo = { template: '<div>nested foo</div>' }
 
 const router = new VueRouter({
   mode: 'history',
@@ -22,7 +24,13 @@ const router = new VueRouter({
         // multiple aliases
         { path: 'baz', component: Baz, alias: ['/baz', 'baz-alias'] },
         // default child route with empty string as alias.
-        { path: 'default', component: Default, alias: '' }
+        { path: 'default', component: Default, alias: '' },
+        // nested alias
+        { path: 'nested', component: Nested, alias: 'nested-alias',
+          children: [
+            { path: 'foo', component: NestedFoo }
+          ]
+        }
       ]
     }
   ]
@@ -52,6 +60,10 @@ new Vue({
 
         <li><router-link to="/home">
           /home (renders /home/default)
+        </router-link></li>
+
+        <li><router-link to="/home/nested-alias/foo">
+          /home/nested-alias/foo (renders /home/nested/foo)
         </router-link></li>
       </ul>
       <router-view class="view"></router-view>
