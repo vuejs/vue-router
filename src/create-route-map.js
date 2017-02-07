@@ -51,6 +51,7 @@ function addRouteRecord (
     redirect: route.redirect,
     beforeEnter: route.beforeEnter,
     meta: route.meta || {},
+    params: route.params || {},
     props: route.props == null
       ? {}
       : route.components

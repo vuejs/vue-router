@@ -82,6 +82,7 @@ const router = new VueRouter({
     { path: "/foo", props: true },
     { path: "/bar", props: { id: 123 }},
     { path: "/baz", props: (route: Route) => route.params },
+    { path: "/number/:id", params: { id: Number }},
     { path: "*", redirect: "/" }
   ]
 });

@@ -55,6 +55,7 @@ export interface RouterOptions {
 }
 
 type RoutePropsFunction = (route: Route) => Object;
+type RouteParamsFunction = (value: string) => any;
 
 export interface RouteConfig {
   path: string;
@@ -66,6 +67,7 @@ export interface RouteConfig {
   children?: RouteConfig[];
   meta?: any;
   beforeEnter?: NavigationGuard;
+  params?: Dictionary<RouteParamsFunction>;
   props?: boolean | Object | RoutePropsFunction;
 }
 
@@ -101,7 +103,7 @@ export interface Route {
   name?: string;
   hash: string;
   query: Dictionary<string>;
-  params: Dictionary<string>;
+  params: Dictionary<any>;
   fullPath: string;
   matched: RouteRecord[];
   redirectedFrom?: string;

@@ -9,13 +9,23 @@ export function createRoute (
   location: Location,
   redirectedFrom?: Location
 ): Route {
+  // Cast params
+  const params: Object = {}
+  const locationParams: Object = location.params || {}
+  const recordParams: Dictionary<ParamCastFunction> = (record && record.params) || {}
+  Object.keys(locationParams).forEach((key: string): void => {
+    const value: string = locationParams[key]
+    const caster: ParamCastFunction = recordParams[key]
+    params[key] = caster ? caster(value) : value
+  })
+
   const route: Route = {
     name: location.name || (record && record.name),
     meta: (record && record.meta) || {},
     path: location.path || '/',
     hash: location.hash || '',
     query: location.query || {},
-    params: location.params || {},
+    params,
     fullPath: getFullPath(location),
     matched: record ? formatMatch(record) : []
   }

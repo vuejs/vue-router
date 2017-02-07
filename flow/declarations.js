@@ -27,6 +27,8 @@ declare type RouterOptions = {
 
 declare type RedirectOption = RawLocation | ((to: Route) => RawLocation)
 
+declare type ParamCastFunction = (value: string) => any
+
 declare type RouteConfig = {
   path: string;
   name?: string;
@@ -37,6 +39,7 @@ declare type RouteConfig = {
   children?: Array<RouteConfig>;
   beforeEnter?: NavigationGuard;
   meta?: any;
+  params?: Dictionary<ParamCastFunction>;
   props?: boolean | Object | Function;
 }
 
@@ -50,6 +53,7 @@ declare type RouteRecord = {
   matchAs: ?string;
   beforeEnter: ?NavigationGuard;
   meta: any;
+  params: Dictionary<ParamCastFunction>;
   props: boolean | Object | Function | Dictionary<boolean | Object | Function>;
 }
 
@@ -71,7 +75,7 @@ declare type Route = {
   name: ?string;
   hash: string;
   query: Dictionary<string>;
-  params: Dictionary<string>;
+  params: Dictionary<any>;
   fullPath: string;
   matched: Array<RouteRecord>;
   redirectedFrom?: string;
