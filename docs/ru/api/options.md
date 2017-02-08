@@ -13,6 +13,7 @@
     name?: string; // для именованных путей
     components?: { [name: string]: Component }; // для именованных представлений
     redirect?: string | Location | Function;
+    props?: boolean | string | Function;
     alias?: string | Array<string>;
     children?: Array<RouteConfig>; // для вложенных путей
     beforeEnter?: (to: Route, from: Route, next: Function) => void;
