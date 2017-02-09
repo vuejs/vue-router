@@ -5,6 +5,7 @@ import { START } from './util/route'
 import { assert } from './util/warn'
 import { inBrowser } from './util/dom'
 import { cleanPath } from './util/path'
+import { resolveProps } from './util/props'
 import { createMatcher } from './create-matcher'
 import { normalizeLocation } from './util/location'
 import { supportsPushState } from './util/push-state'
@@ -157,6 +158,7 @@ export default class VueRouter {
     }
     return [].concat.apply([], route.matched.map(m => {
       return Object.keys(m.components).map(key => {
+        m.components[key].$props = resolveProps(route, m.props[key])
         return m.components[key]
       })
     }))

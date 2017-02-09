@@ -38,7 +38,7 @@
 
 - **router.getMatchedComponents(location?)**
 
-  Returns an Array of the components (definition/constructor, not instances) matched by the provided location or the current route. This is mostly used during server-side rendering to perform data prefetching.
+  Returns an Array of the components (definition/constructor, not instances) matched by the provided location or the current route. This is mostly used during server-side rendering to perform data prefetching. Resolved props are available on `$props` for each component.
 
 - **router.resolve(location, current?, append?)**
 
