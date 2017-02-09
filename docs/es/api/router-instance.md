@@ -1,0 +1,69 @@
+# La instancia de Router
+
+### Propiedades
+
+#### router.app
+
+- tipo: `Vue instance`
+
+  La instancia principal de Vue donde `router` fue inyectado.
+
+#### router.mode
+
+- tipo: `string`
+
+  El [modo](options.md#mode) que el enrutador está utilizando.
+
+#### router.currentRoute
+
+- tipo: `Route`
+
+  La ruta actual representada como un [objeto Route](route-object.md).
+
+### Métodos
+
+- **router.beforeEach(guard)**
+- **router.afterEach(hook)**
+
+  Agrega guardias de navegación globales. Vea [Guardias de navegación](../advanced/navigation-guards.md).
+
+
+- **router.push(location, onComplete?, onAbort?)**
+- **router.replace(location, onComplete?, onAbort?)**
+- **router.go(n)**
+- **router.back()**
+- **router.forward()**
+
+  Navega programáticamente a una nueva URL. Vea [navegación programática](../essentials/navigation.md).
+
+- **router.getMatchedComponents(location?)**
+
+  Devuelve un arreglo de componentes (definiciones/constructores, no instancias) que coincidan con la ubicación provista o la ruta actual. Se utiliza principalmente durante el renderizado del lado servidor para realizar precarga de datos.
+
+- **router.resolve(location, current?, append?)**
+
+  > 2.1.0+
+
+  Resolución inversa de URL. Dada una ubicación de la misma forma que las usadas en `<router-link/>`, devuelve un objeto con las siguiente propiedades:
+
+  ``` js
+  {
+    location: Location;
+    route: Route;
+    href: string;
+  }
+  ```
+
+- **router.addRoutes(routes)**
+
+  > 2.2.0+
+
+  Agrega dinámicamente más rutas al enrutador. El argumento debe ser un arreglo utilizando el mismo formato de configuración que las opciones del constructor de `routes`.
+
+- **router.onReady(callback)**
+
+  > 2.2.0+
+
+  Este método pone una _callback_ en espera a ser llamada cuando el enrutador haya completado la navegación inicial, lo cual significa que ya ha resuelto todos los _hooks_ de entrada asíncronos y los componentes asíncronos asociados con la ruta inicial.
+
+  Esto es útil en el renderizado del lado servidor para asegurar un resultado consistente tanto en el servidor como en el cliente.
