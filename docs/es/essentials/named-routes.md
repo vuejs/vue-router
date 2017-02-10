@@ -1,6 +1,6 @@
 # Rutas con nombre
 
- A veces es conveniente identificar una ruta con un nombre, especialmente cuando enlazamos a esa ruta o navegamos programáticamente. Puede darle un nombre a una ruta en las opciones de `routes` cuando se crea la instancia de Router:
+ A veces es conveniente identificar una ruta con un nombre, especialmente cuando enlazamos a esa ruta o navegamos programáticamente. Puedes darle un nombre a una ruta en las opciones de `routes` cuando se crea la instancia de Router:
 
 ``` js
 const router = new VueRouter({
@@ -14,7 +14,7 @@ const router = new VueRouter({
 })
 ```
 
-Para enlazar a una ruta con nombre, puede pasar un objeto a la propiedad `to` del componente `router-link`:
+Para enlazar a una ruta con nombre, puedes pasar un objeto a la propiedad `to` del componente `router-link`:
 
 ``` html
 <router-link :to="{ name: 'user', params: { userId: 123 }}">User</router-link>
@@ -28,4 +28,4 @@ router.push({ name: 'user', params: { userId: 123 }})
 
 En ambos casos, el enrutador navegará a la ruta `/user/123`.
 
-Vea un ejemplo completo [aquí](https://github.com/vuejs/vue-router/blob/dev/examples/named-routes/app.js).
+Revisa un ejemplo completo [aquí](https://github.com/vuejs/vue-router/blob/dev/examples/named-routes/app.js).

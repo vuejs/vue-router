@@ -66,7 +66,7 @@ El objeto de ruta puede encontrarse en diferentes lugares.
 
   - tipo: `Array<RouteRecord>`
 
-  Un arreglo que contiene **registro de ruta** para todos los segmentos anidados de la ruta actual. Los registros de ruta son copias de los objetos en el arreglo de configuración `routes` (y en los arreglos `children`):
+  Un arreglo que contiene **registros de ruta** para todos los segmentos anidados de la ruta actual. Los registros de ruta son copias de los objetos en el arreglo de configuración `routes` (y en los arreglos `children`):
 
   ``` js
   const router = new VueRouter({
@@ -86,4 +86,4 @@ El objeto de ruta puede encontrarse en diferentes lugares.
 
 - **$route.name**
 
-  El nombre de la ruta acutal, si tiene. (Vea [Rutas con nombre](../essentials/named-routes.md))
+  El nombre de la ruta acutal, si tiene. (Más información en [rutas con nombre](../essentials/named-routes.md))

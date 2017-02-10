@@ -25,7 +25,7 @@ const User = {
 }
 ```
 
-Puede consultar en el siguiente [ejemplo](http://jsfiddle.net/yyx990803/4xfa2f19/).
+Puedes consultar el siguiente [ejemplo](http://jsfiddle.net/yyx990803/4xfa2f19/).
 
 Se pueden tener múltiples segmentos dinámicos en la misma ruta, y todos serán mapeados a los correspondientes campos en `$route.params`. Por ejemplo:
 
@@ -34,13 +34,13 @@ Se pueden tener múltiples segmentos dinámicos en la misma ruta, y todos serán
 | /user/:username | /user/evan | `{ username: 'evan' }` |
 | /user/:username/post/:post_id | /user/evan/post/123 | `{ username: 'evan', post_id: 123 }` |
 
-Además de `$route.params`, el objeto `$route` expone más información útil, como `$route.query` (si hay alguna _query_ en la URL), `$route.hash`, etc. Puede verificar todos los detalles en la documentación de la [API](../api/route-object.md).
+Además de `$route.params`, el objeto `$route` expone más información útil, como `$route.query` (si hay alguna _query_ en la URL), `$route.hash`, etc. Puedes verificar todos los detalles en la documentación de la [API](../api/route-object.md).
 
 ### Reaccionando a cambios en los parámetros
 
 Una cosa a tener en cuenta cuando se usan rutas con parámetros es que cuando el usuario navega de `/user/foo` a `/user/bar`, **la misma instancia del componente será reutilizada**. Dado que ambas rutas renderizan el mismo componente, esto es más eficiente que destruir la instancia anterior y crear una nueva. **Sin embargo, esto significa que los eventos del ciclo de vida del componentes no serán emitidos**.
 
-Para detectar cambios en los parámetros en el mismo componente, puede simplemente observar el objeto `$route`:
+Para detectar cambios en los parámetros en el mismo componente, puedes observar el objeto `$route`:
 
 ``` js
 const User = {
@@ -59,4 +59,4 @@ const User = {
 
 ### Prioridad en la coincidencia de patrones
 
-A veces la misma URL puede coinciide con múltiples rutas. E ese caso, la prioridad en la coincidencia se determina por el orden de la definición de las rutas: la primera ruta definida será la que tenga mayor prioridad.
+A veces la misma URL puede coinciide con múltiples rutas. En ese caso, la prioridad en la coincidencia se determina por el orden de la definición de las rutas: la primera ruta definida será la que tenga mayor prioridad.

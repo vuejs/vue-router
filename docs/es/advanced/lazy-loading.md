@@ -21,7 +21,7 @@ Hay una alternativa a la sintaxis de división de código utilizando _require_ c
 const Foo = resolve => require(['./Foo.vue'], resolve)
 ```
 
-Nada debe cambiarse en la configuración del enrutador, simplemente utilice `Foo` normalmente:
+Nada debe cambiarse en la configuración del enrutador, simplemente utiliza `Foo` normalmente:
 
 ``` js
 const router = new VueRouter({

@@ -25,7 +25,7 @@
 - **router.beforeEach(guard)**
 - **router.afterEach(hook)**
 
-  Agrega guardias de navegación globales. Vea [Guardias de navegación](../advanced/navigation-guards.md).
+  Agrega guardias de navegación globales. Info: [guardias de navegación](../advanced/navigation-guards.md).
 
 
 - **router.push(location, onComplete?, onAbort?)**
@@ -34,7 +34,7 @@
 - **router.back()**
 - **router.forward()**
 
-  Navega programáticamente a una nueva URL. Vea [navegación programática](../essentials/navigation.md).
+  Navega programáticamente a una nueva URL. Info: [navegación programática](../essentials/navigation.md).
 
 - **router.getMatchedComponents(location?)**
 

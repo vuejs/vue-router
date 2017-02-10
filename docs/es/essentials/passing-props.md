@@ -1,10 +1,10 @@
 # Pasando Props a componentes de ruteo
 
-Usar `$route` en su componente crea un estrecho acoplamiento con la ruta, lo cual limita la flexibilidad del componente dado que solo puede utilizarse en ciertas URL.
+Usar `$route` en tu componente genera un estrecho acoplamiento con la ruta, lo cual limita la flexibilidad del componente dado que solo puede utilizarse en ciertas URL.
 
-Para desacoplar el componente del enrutador utilice _props_:
+Para desacoplar el componente del enrutador utiliza _props_:
 
-**❌ Acoplado a$route**
+**❌ Acoplado a $route**
 
 ``` js
 const User = {
@@ -31,7 +31,7 @@ const router = new VueRouter({
 })
 ```
 
-Esto le permite utilizar el componente en cualquier lugar, lo cual hace al mismo reutilizable y más simple de testear.
+Esto te permite utilizar el componente en cualquier lugar, lo cual hace al mismo reutilizable y más simple de testear.
 
 ### Modo booleano
 
@@ -52,8 +52,8 @@ const router = new VueRouter({
 
 ### Modo función
 
-Puede crear una función que retorne _props_.
-Esto le permite convertir los parámetros a otro tipo, combinar valores estáticos con valores basados en rutas, etc.
+Puedes crear una función que retorne _props_.
+Esto te permite convertir los parámetros a otro tipo, combinar valores estáticos con valores basados en rutas, etc.
 
 ``` js
 const router = new VueRouter({
@@ -65,8 +65,8 @@ const router = new VueRouter({
 
 La URL: `/search?q=vue` pasaría `{query: "vue"}` como _props_ al componente SearchUser.
 
-Intente crear funciones _props_ sin estado, dado que solo se evalúan cuando ocurren cambios de ruta.
-Use un componente envolvente si necesita estado para definir las _props_, de esa manera Vue puede reaccionar a cambios de estado.
+Intenta crear funciones _props_ sin estado, dado que solo se evalúan cuando ocurren cambios de ruta.
+Utiliza un componente envolvente si necesitas estado para definir las _props_, de esa manera Vue puede reaccionar a cambios de estado.
 
 
-Para un uso avanzado, vea el siguiente [ejemplo](https://github.com/vuejs/vue-router/blob/dev/examples/route-props/app.js).
+Para un uso avanzado, aquí hay un [ejemplo](https://github.com/vuejs/vue-router/blob/dev/examples/route-props/app.js).

@@ -1,6 +1,6 @@
 # Campos Meta en las rutas
 
-Puede incluir un campo `meta` cuando defina una ruta:
+Puedes incluir un campo `meta` cuando definas una ruta:
 
 ``` js
 const router = new VueRouter({
@@ -45,7 +45,7 @@ router.beforeEach((to, from, next) => {
       next()
     }
   } else {
-    next() // ¡Asegúrese de ejecutar next siempre!
+    next() // ¡Asegúrate de ejecutar next siempre!
   }
 })
 ```

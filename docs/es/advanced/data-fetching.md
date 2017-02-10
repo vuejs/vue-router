@@ -1,12 +1,12 @@
 # Obtención de datos
 
-Puede que necesite obtener datos desde el servidor cuando una ruta es activada. Por ejemplo, antes de renderizar un perfil de usuario, puede obtener la información de ese usuario desde el servidor. Podemos lograr esto de dos maneras diferentes:
+Puede que necesites obtener datos desde el servidor cuando una ruta es activada. Por ejemplo, antes de renderizar un perfil de usuario, puedes obtener la información de ese usuario desde el servidor. Podemos lograr esto de dos maneras diferentes:
 
-- **Obtener la información después de la navegación**: realice la navegación primero y luego obtenga los datos en el _hook_ del ciclo de vida del componente entrante. Muestre algún tipo de indicador de carga mientras espera llegada de la información.
+- **Obtener la información después de la navegación**: realiza la navegación primero y luego obtén los datos en un _hook_ del ciclo de vida del componente entrante. Muestra algún tipo de indicador de carga mientras se espera la llegada de la información.
 
-- **Obtener la información antes de la navegación**: Obtenga los datos antes de la navegación en el guardia de entrada de la ruta, y realice la navegación luego de haberla obtenido.
+- **Obtener la información antes de la navegación**: Obtén los datos antes de la navegación en el guardia de entrada de la ruta, y realiza la navegación luego de haberla obtenido.
 
-Técnicamente, ambas opciones son válidas - depende de la experiencia de usuario a la que apunte.
+Técnicamente, ambas opciones son válidas - depende de la experiencia de usuario a la que apuntes.
 
 ## Obtener la información después de la navegación
 
@@ -43,19 +43,19 @@ export default {
     }
   },
   created () {
-    // obtener los datos cuando la vista es creada y _data_ ya
+    // obtén los datos cuando la vista es creada y _data_ ya
     // está siendo observada
     this.fetchData()
   },
   watch: {
-    // ejecutar nuevamente el método si la ruta cambia
+    // ejecuta nuevamente el método si la ruta cambia
     '$route': 'fetchData'
   },
   methods: {
     fetchData () {
       this.error = this.post = null
       this.loading = true
-      // reemplace getPost con lo que corresponda
+      // reemplaza getPost con lo que corresponda
       getPost(this.$route.params.id, (err, post) => {
         this.loading = false
         if (err) {
@@ -71,7 +71,7 @@ export default {
 
 ## Obtener la información antes de la navegación
 
-Con este enfoque, obtenemos la información antes de navegar a la nueva ruta. Podemos obtener los datos en el guardia `beforeRouteEnter` en el componente entrante, y solo ejecutar `next` cuando se haya completado:
+Con este enfoque, obtenemos la información antes de navegar a la nueva ruta. Podemos obtener los datos en el guardia `beforeRouteEnter` del componente entrante, y solo ejecutar `next` cuando se haya completado:
 
 ``` js
 export default {
@@ -84,7 +84,7 @@ export default {
   beforeRouteEnter (to, from, next) {
     getPost(to.params.id, (err, post) => {
       if (err) {
-        // mostrar algún mensaje global de error
+        // muestra algún mensaje global de error
         next(false)
       } else {
         next(vm => {

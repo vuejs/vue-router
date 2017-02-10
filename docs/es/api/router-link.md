@@ -4,11 +4,11 @@
 
 Es preferible utilizar `<router-link>` en lugar de escribir directamente `<a href="...">` por las siguientes razones:
 
-- Funciona de la misma manera tanto en el modo _hash_ como en el modo historial de HTML5, por lo que si decide intercambiar modos, o cuando el router utiliza el modo _hash_ en IE9, no deberá cambiar nada.
+- Funciona de la misma manera tanto en el modo _hash_ como en el modo historial de HTML5, por lo que si decides intercambiar modos, o cuando el router utiliza el modo _hash_ en IE9, no deberás cambiar nada.
 
 - En el modo historial de HTML5, `router-link` interceptará el evento _click_ para que el navegador no intente recargar la página.
 
-- Cuando este utilizando la opción `base` en el modo historial de HTML5, no necesita incluirla en la URL de la propiedad `to`.
+- Cuando estés utilizando la opción `base` en el modo historial de HTML5, no necesitas incluirla en la URL de la propiedad `to`.
 
 ### Propiedades
 
@@ -72,7 +72,7 @@ Es preferible utilizar `<router-link>` en lugar de escribir directamente `<a hre
 
   - valor por defecto: `"a"`
 
-  A veces puede querer que `<router-link>` se renderice como otra etiqueta, por ejemplo `<li>`. Puede utilizar la propiedad `tag` para especificar que etiqueta renderizar, y seguirá escuchando eventos _click_ para la navegación.
+  A veces puede que quieras que `<router-link>` se renderice como otra etiqueta, por ejemplo `<li>`. Puedes utilizar la propiedad `tag` para especificar que etiqueta renderizar, y seguirá escuchando eventos _click_ para la navegación.
 
   ``` html
   <router-link to="/foo" tag="li">foo</router-link>
@@ -86,7 +86,7 @@ Es preferible utilizar `<router-link>` en lugar de escribir directamente `<a hre
 
   - valor por defecto: `"router-link-active"`
 
-  Configura la clase CSS que se aplicará al enlace cuando este activo. Note que el valor por defecto puede ser configurado de manera global a través de la opción `linkActiveClass`  del constructor del enrutador.
+  Configura la clase CSS que se aplicará al enlace cuando este activo. Nota que el valor por defecto puede ser configurado de manera global a través de la opción `linkActiveClass`  del constructor del enrutador.
 
 - **exact**
 
@@ -96,14 +96,14 @@ Es preferible utilizar `<router-link>` en lugar de escribir directamente `<a hre
 
   El comportamiento por defecto para la aplicación de la clase CSS activa en las coincidencias de rutas es **inclusivo**. Por ejemplo, `<router-link to="/a">` obtendrá la clase CSS mientras la ruta actual comience con `/a/` o sea `/a`.
 
-  Una consecuencia de esto es que `<router-link to="/">` ¡permanecerá activa para todas las rutas! Para forzar una coincidencia exacta, utilice la propiedad `exact`:
+  Una consecuencia de esto es que `<router-link to="/">` ¡permanecerá activa para todas las rutas! Para forzar una coincidencia exacta, utiliza la propiedad `exact`:
 
   ``` html
   <!-- este enlace estará activo solamente para la ruta / -->
   <router-link to="/" exact>
   ```
 
-  Vea más ejemplos explicando la clase activa [aquí](https://jsfiddle.net/8xrk1n9f/).
+  Más ejemplos explicando la clase activa [aquí](https://jsfiddle.net/8xrk1n9f/).
 
 - **event**
 
@@ -117,7 +117,7 @@ Es preferible utilizar `<router-link>` en lugar de escribir directamente `<a hre
 
 ### Aplicar la clase activa al elemento envolvente.
 
-A veces podemos querer que la clase activa se aplique al elemento envolvente en lugar de aplicarla directamente a la etiqueta `<a>`, en ese caso, puede renderizar el elemento envolvente utilizando `<router-link>` y luego una etiqueta `<a>` dentro:
+A veces podemos querer que la clase activa se aplique al elemento envolvente en lugar de aplicarla directamente a la etiqueta `<a>`, en ese caso, puedes renderizar el elemento envolvente utilizando `<router-link>` y luego una etiqueta `<a>` dentro:
 
 ``` html
 <router-link tag="li" to="/foo">

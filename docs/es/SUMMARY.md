@@ -6,8 +6,8 @@
 
 - [Instalación](installation.md)
 - Esenciales
-  - [Empezando](essentials/getting-started.md)
-  - [Coincidencia diámica de rutas](essentials/dynamic-matching.md)
+  - [Primeros pasos](essentials/getting-started.md)
+  - [Coincidencia dinámica de rutas](essentials/dynamic-matching.md)
   - [Rutas anidadas](essentials/nested-routes.md)
   - [Navegación programática](essentials/navigation.md)
   - [Rutas con nombre](essentials/named-routes.md)

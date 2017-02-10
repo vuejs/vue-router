@@ -1,10 +1,10 @@
 # Comportamiento del desplazamiento
 
-Cuando se utiliza enturamiento del lado cliente, podemos querer desplazarnos hacia el inicio de la página cuando naveguemos a una nueva ruta, o preservar la posicón actual, tal cual lo hace una recarga de la página. `vue-router` le permite lograr esto e incluso más, le permite personalizar completamente el comportamiento del desplazamiento en las navegaciones.
+Cuando se utiliza enrutamiento del lado cliente, podemos querer desplazarnos hacia el tope de la página cuando naveguemos a una nueva ruta, o preservar la posicón actual, tal cual lo hace una recarga de la página. `vue-router` te permite lograr esto e incluso más: permite personalizar completamente el comportamiento del desplazamiento en las navegaciones.
 
 **Nota: esta característica solo funciona en el modo historial de HTML5.**
 
-Cuando cree una instancia del enrutador, puede incluir la función `scrollBehavior`:
+Cuando crees una instancia del enrutador, puedes incluir la función `scrollBehavior`:
 
 ``` js
 const router = new VueRouter({
@@ -15,9 +15,9 @@ const router = new VueRouter({
 })
 ```
 
-La función `scrollBehavior` recibe los objetos de ruta `to` y `from`. El tercer argumento, `savedPosition`, solo está disponible si estamos en una navegación `popstate` (cuando se utilizan los botones _atras_ o _adelante_ en el navegador).
+La función `scrollBehavior` recibe los objetos de ruta `to` y `from`. El tercer parámetro, `savedPosition`, solo está disponible si estamos en una navegación `popstate` (cuando se utilizan los botones _atras_ o _adelante_ en el navegador).
 
-La función puede devolver un objeto de posición de desplazamiento. EL objeto puede ser de la forma:
+La función puede devolver un objeto de posición de desplazamiento. El objeto puede ser de la forma:
 
 - `{ x: number, y: number }`
 - `{ selector: string }`
@@ -32,7 +32,7 @@ scrollBehavior (to, from, savedPosition) {
 }
 ```
 
-Esto hará que la página se desplace hacia el inicio para todas las navegaciones a la ruta.
+Esto hará que la página se desplace hacia el tope para todas las navegaciones a la ruta.
 
 Devolver `savedPosition` hará que el comportamiento cuando se utilicen los botones _atras_ o _adelante_ sea el nativo:
 
@@ -46,7 +46,7 @@ scrollBehavior (to, from, savedPosition) {
 }
 ```
 
-Si desea simular el desplazamiento a anclas:
+Si deseas simular el desplazamiento a anclas:
 
 ``` js
 scrollBehavior (to, from, savedPosition) {
@@ -58,4 +58,4 @@ scrollBehavior (to, from, savedPosition) {
 }
 ```
 
-También podemos utilizar [campos meta](meta.md) para implementar un control de desplazamientoto fino. Vea un ejemplo completo [aquí](https://github.com/vuejs/vue-router/blob/dev/examples/scroll-behavior/app.js).
+También podemos utilizar [campos meta](meta.md) para implementar un control de desplazamientoto fino. Un ejemplo completo [aquí](https://github.com/vuejs/vue-router/blob/dev/examples/scroll-behavior/app.js).

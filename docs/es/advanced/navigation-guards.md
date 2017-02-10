@@ -2,11 +2,11 @@
 
 Como el nombre sugiere, los guardias de navegación provistas por `vue-router` son básicamente utilizadas para proteger rutas de navegación ya sea redireccionando o cancelandolas. Hay varias maneras de engancharse en el proceso de navegación de rutas: globalmente, por ruta o dentro de los componentes.
 
-Recuerde **Los cambios en los parámetros o las _queries_ no harán que se ejecuten los guardias de navegación**. Simplemente [observe el objeto `$route`](../essentials/dynamic-matching.md#reacting-to-params-changes) para obtener reactividad frente a esos cambios.
+Recuerda: **Los cambios en los parámetros o las _queries_ no harán que se ejecuten los guardias de navegación**. Simplemente [observa el objeto `$route`](../essentials/dynamic-matching.md#reacting-to-params-changes) para obtener reactividad frente a esos cambios.
 
 ### Guardias globales
 
-Puede registrar guardias _before_ globales usando `router.beforeEach`:
+Puedes registrar guardias _before_ globales usando `router.beforeEach`:
 
 ``` js
 const router = new VueRouter({ ... })
@@ -34,7 +34,7 @@ Cada función guardia recibe tres argumentos:
 
 **Asegúrese de llamar siempre a la función `next`, de otra manera el _hook_ nunca será resuelto.**
 
-También puede registrar _hooks after_ globales. Sin embargo, a diferencia de los guardias, estos _hooks_ no reciben una función `next` y no pueden afectar la navegación:
+También puedes registrar _hooks after_ globales. Sin embargo, a diferencia de los guardias, estos _hooks_ no reciben una función `next` y no pueden afectar la navegación:
 
 ``` js
 router.afterEach((to, from) => {
@@ -44,7 +44,7 @@ router.afterEach((to, from) => {
 
 ### Guardias por ruta
 
-Puede definier guardias `beforeEnter` directamente en el objeto de configuración de una ruta:
+Puedes definir guardias `beforeEnter` directamente en el objeto de configuración de una ruta:
 
 ``` js
 const router = new VueRouter({
@@ -64,7 +64,7 @@ Estos guardias tienen exactamente la misma firma que los guardias _before_ globa
 
 ### Guardias en componentes
 
-Por último, puede directamente definir guardias de navegación dentro de los componentes de ruta (los que son pasados a la configuración del enrutador) con las siguientes opciones:
+Por último, puedes directamente definir guardias de navegación dentro de los componentes de ruta (los que son pasados a la configuración del enrutador) con las siguientes opciones:
 
 - `beforeRouteEnter`
 - `beforeRouteUpdate` (agregado en la versión 2.2)
@@ -96,14 +96,14 @@ const Foo = {
 
 El guardia `beforeRouteEnter` **NO** tiene acceso a `this`, porque es ejecutado antes que la navegación sea confirmada, por lo tanto el componente destino todavía no ha sido creado.
 
-Sin embargo, puede acceder a la instancia pasando una _callback_ a `next`. La _callback_ se ejecutará cuando la navegación sea confirmada, y la instancia del componente será pasada como argumento:
+Sin embargo, puedes acceder a la instancia pasando una _callback_ a `next`. La _callback_ se ejecutará cuando la navegación sea confirmada, y la instancia del componente será pasada como argumento:
 
 ``` js
 beforeRouteEnter (to, from, next) {
   next(vm => {
-    // acceda a la instancia del componente a través de `vm`
+    // accede a la instancia del componente a través de `vm`
   })
 }
 ```
 
-Puede acceder directamente a `this` dentro de `beforeRouteLeave`. El guardia _leave_ se usa normalmente para prevenir al usuario cuando intenta abandonar la ruta accidentalmente sin guardar cambios. La navegación puede ser cancelada ejecutando `next(false)`.
+Puedes acceder directamente a `this` dentro de `beforeRouteLeave`. El guardia _leave_ se usa normalmente para prevenir al usuario cuando intenta abandonar la ruta accidentalmente sin guardar cambios. La navegación puede ser cancelada ejecutando `next(false)`.

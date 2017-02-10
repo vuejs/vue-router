@@ -22,20 +22,20 @@ const router = new VueRouter({
 })
 ```
 
-O incluso puede utilizar una función para un redireccionamiento dinámico:
+O incluso puedes utilizar una función para un redireccionamiento dinámico:
 
 ``` js
 const router = new VueRouter({
   routes: [
     { path: '/a', redirect: to => {
       // la función recibe la ruta destino como argumento
-      // retorne aquí la ruta de redirección.
+      // retorna aquí la ruta de redirección.
     }}
   ]
 })
 ```
 
-Para otros usos avanzados, vea el siguiente [ejemplo](https://github.com/vuejs/vue-router/blob/dev/examples/redirect/app.js).
+Para otros usos avanzados, tienes el siguiente [ejemplo](https://github.com/vuejs/vue-router/blob/dev/examples/redirect/app.js).
 
 ### Alias
 
@@ -53,6 +53,6 @@ const router = new VueRouter({
 })
 ```
 
-Un alias le da la libertad de mapear una estructura de _UI_ a una URL arbitraria, en lugar de estar restringido por la estructura anidada de la configuración.
+Un alias te da la libertad de mapear una estructura de _UI_ a una URL arbitraria, en lugar de estar restringido por la estructura anidada de la configuración.
 
-Para otros usos avanzados, vea el siguiente [ejemplo](https://github.com/vuejs/vue-router/blob/dev/examples/route-alias/app.js).
+Para otros usos avanzados, aquí tienes un [ejemplo](https://github.com/vuejs/vue-router/blob/dev/examples/route-alias/app.js).

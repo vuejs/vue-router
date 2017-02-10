@@ -12,7 +12,7 @@ Dado que `<router-view>` es esencialmente un componente dinámico, podemos aplic
 
 ### Transiciones por ruta
 
-El ejemplo anterior aplicará la misma transición a todas las rutas. Si desea que cada componente de ruta tenga diferentes transiciones, puede utilizar `<transition>` con diferentes nombres dentro de cada componente de ruta:
+El ejemplo anterior aplicará la misma transición a todas las rutas. Si deseas que cada componente de ruta tenga diferentes transiciones, puedes utilizar `<transition>` con diferentes nombres dentro de cada componente de ruta:
 
 ``` js
 const Foo = {
@@ -37,7 +37,7 @@ const Bar = {
 También es posible determinar dinámicamente la transición a utilizar basado en las relaciones entre la ruta destino y la ruta actual:
 
 ``` html
-<!-- use un nombre de transición dinámico -->
+<!-- utiliza un nombre de transición dinámico -->
 <transition :name="transitionName">
   <router-view></router-view>
 </transition>
@@ -45,7 +45,7 @@ También es posible determinar dinámicamente la transición a utilizar basado e
 
 ``` js
 // luego, en el componente padre,
-// observe $route para determinar que transición utilizar
+// observa $route para determinar que transición utilizar
 watch: {
   '$route' (to, from) {
     const toDepth = to.path.split('/').length
@@ -55,4 +55,4 @@ watch: {
 }
 ```
 
-Vea un ejemplo completo [aquí](https://github.com/vuejs/vue-router/blob/dev/examples/transitions/app.js).
+Tienes un ejemplo completo [aquí](https://github.com/vuejs/vue-router/blob/dev/examples/transitions/app.js).

@@ -17,4 +17,4 @@ Estas propiedades son inyectadas dentro de cada componente hijo pasando la insta
 - **beforeRouteEnter**
 - **beforeRouteLeave**
 
-  Vea [Guardias en componentes](../advanced/navigation-guards.md#incomponent-guards).
+  Más información en [guardias en componentes](../advanced/navigation-guards.md#incomponent-guards).

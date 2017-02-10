@@ -1,6 +1,6 @@
 # Vistas con nombre
 
-A veces es necesario mostrar múltiples vistas al mismo tiempo en lugar de anidarlas, por ejemplo, cuando se crea una plantilla con una vista `sidebar` y una vista `main`. Aquí es cuando las vistas con nombre se vuelven útiles. En lugar de tener un solo _outlet_ es su vista, puede tener varios y darle a cada uno un nombre diferente. Por defecto, un `router-view` sin nombre se llamará `default`.
+A veces es necesario mostrar múltiples vistas al mismo tiempo en lugar de anidarlas, por ejemplo, cuando se crea una plantilla con una vista `sidebar` y una vista `main`. Aquí es cuando las vistas con nombre se vuelven útiles. En lugar de tener un solo _outlet_ es tu vista, puedes tener varios y darle a cada uno un nombre diferente. Por defecto, un `router-view` sin nombre se llamará `default`.
 
 ``` html
 <router-view class="view one"></router-view>
@@ -8,7 +8,7 @@ A veces es necesario mostrar múltiples vistas al mismo tiempo en lugar de anida
 <router-view class="view three" name="b"></router-view>
 ```
 
-Una vista se renderiza utilizando un componente, por lo tanto, múltiples vistas requerirán múltiples componentes para la misma ruta. Asegúrese de usar la opción `components` (con una _s_ al final):
+Una vista se renderiza utilizando un componente, por lo tanto, múltiples vistas requerirán múltiples componentes para la misma ruta. Asegúrater de usar la opción `components` (con una _s_ al final):
 
 ``` js
 const router = new VueRouter({
@@ -25,5 +25,4 @@ const router = new VueRouter({
 })
 ```
 
-Puede ver una demostración de este ejemplo 
-[aquí](https://jsfiddle.net/posva/6du90epg/).
+Puedes ver una demostración de este ejemplo [aquí](https://jsfiddle.net/posva/6du90epg/).

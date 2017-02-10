@@ -35,7 +35,7 @@ const router = new VueRouter({
 })
 ```
 
-Aquí, `<router-view>` es un _outlet_ de nivel superior. Renderiza el componente que coincida con una ruta de nivel superior. Así, un componente renderizado puede contener su propio `<router-view>` anidado. Por ejemplo, si agregamos uno dentro de la plantilla del componente `User`:
+Aquí, `<router-view>` es un contenedor de nivel superior. Renderiza el componente que coincida con una ruta de nivel superior. Así, un componente renderizado puede contener su propio `<router-view>` anidado. Por ejemplo, si agregamos uno dentro de la plantilla del componente `User`:
 
 ``` js
 const User = {
@@ -48,7 +48,7 @@ const User = {
 }
 ```
 
-Para renderizar componentes dentro de este _outlet_ anidado, necesitamos usar la opción `children` en la configuración del constructor de `VueRouter`:
+Para renderizar componentes dentro de este contenedor anidado, necesitamos usar la opción `children` en la configuración del constructor de `VueRouter`:
 
 ``` js
 const router = new VueRouter({
@@ -73,11 +73,11 @@ const router = new VueRouter({
 })
 ```
 
-**Note que las rutas anidadas que empiecen con `/` serán tratadas como absolutas. Esto permite aprovechar el anidamiento de componentes sin tener que usar URL anidadas.**
+**Nota que las rutas anidadas que empiecen con `/` serán tratadas como absolutas. Esto permite aprovechar el anidamiento de componentes sin tener que usar URL anidadas.**
 
-Como puede ver, la opción `children` es simplemente otro arreglo de objetos de configuración de rutas, como `routes`. Por lo tanto, puede anidar tantas vistas como necesite.
+Como puedes ver, la opción `children` es simplemente otro arreglo de objetos de configuración de rutas, como `routes`. Por lo tanto, puedes anidar tantas vistas como necesites.
 
-En este punto, con la configuración anterior, cuando visite `/user/foo`, nada será renderizado dentro de, _outlet_ de  `User`, porque ninguna sub ruta coincidió. Tal vez quiera renderizar algo ahí. En ese caso, puede proveer una sub ruta vacía:
+En este punto, con la configuración anterior, cuando visites `/user/foo`, nada será renderizado dentro del contenedor de  `User`, porque ninguna sub ruta coincidió. Tal vez quieras renderizar algo ahí. En ese caso, puedes pasar una sub ruta vacía:
 
 ``` js
 const router = new VueRouter({
@@ -96,4 +96,4 @@ const router = new VueRouter({
 })
 ```
 
-Puede encontrar una demostración de este ejemplo [aquí](http://jsfiddle.net/yyx990803/L7hscd8h/).
+Puedes encontrar una demostración de este ejemplo [aquí](http://jsfiddle.net/yyx990803/L7hscd8h/).
