@@ -1,14 +1,14 @@
 # `<router-link>`
 
-`<router-link>` ist eine Komponente zum Aktivieren von Nutzernavigationen in Router-aktivierten Apps. Der Zielort ist mit dem `to`-Prop angegeben. Es wird als `<a>` und standardmäßig mit korrektem `href` gerendert, kann jedoch mit dem `tag`-Prop konfiguriert werden. Darüberhinaus erhält der Link automatisch die aktive CSS-Klasse, wenn die Ziel-Route aktiv ist.
+`<router-link>` ist eine Komponente zum Auslösen von Nutzernavigationen. Die Ziel-Route wird mit der `to`-Prop angegeben. Sie wird standardmäßig als `<a>` mit korrektem `href` Attribut gerendert, das Element kann jedoch mit dem `tag`-Prop geändert werden. Darüberhinaus erhält der Link automatisch die "active" CSS-Klasse, wenn die Ziel-Route gerade aktiv ist.
 
-`<router-link>` wird gegenüber fest eingebautem `<a href="">` aus folgenden Gründen bevorzugt:
+`<router-link>` ist aus folgenden Gründen gegenüber fest definierten `<a href="">` links zu bevorzugen:
 
-- Es funktioniert im HTML5-Verlaufsmodus wie auch im Hash-Modus. Demnach ändert sich nichts, wenn der Modus jemals gewechselt wird oder in den Hash-Modus für IE9 zurückfällt.
+- Funktioniert in allen Router-Modi (history, hash, abstract) gleich. Daher muss man nichts ändern, wenn man Modus jemals wechslen muss oder er automatisch in den Hash-Modus für IE9 zurückfällt.
 
-- Im HTML5-Verlaufsmodus fängt `router-link` das Klick-Event ab, sodass der Browser nicht versucht das Fenster neuzuladen.
+- Im HTML5-Verlaufsmodus fängt `router-link` das `click`-Event ab, sodass der Browser nicht versucht das Fenster neu zu laden.
 
-- Wenn die `base`-Option im HTML5-Verlaufsmodus genutzt wird, ist keine Angabe der URL des Props in `to` nötig.
+- Wenn die `base`-Option im HTML5-Verlaufsmodus genutzt wird, muss man die Base-URL nicht immer wieder in `to` mit angeben.
 
 ### Props
 
@@ -16,9 +16,9 @@
 
   - Typ: `string | Location`
 
-  - notwendig
+  - Pflichtfeld
 
-  Kennzeichnet die Ziel-Route des Links. Wenn geklickt, wird der Wert von `to` und `router.push()` intern übergeben, sodass der Wert entweder ein String oder ein Objekt der Ortsbeschreibung sein kann.
+  Kennzeichnet die Ziel-Route des Links. Wenn die Komponente geklickt wird, wird der Wert von `to` intern an `router.push()` übergeben - der Wert kann also wie entweder ein String oder ein Objekt sein kann.
 
 
   ``` html
@@ -33,13 +33,13 @@
   <!-- Auslassen von v-bind ist okay wie bei jedem anderen Prop -->
   <router-link :to="'home'">Home</router-link>
 
-  <!-- gleich wie oben -->
+  <!-- entspricht dem obigen Link -->
   <router-link :to="{ path: 'home' }">Home</router-link>
 
   <!-- benannte Route -->
   <router-link :to="{ name: 'user', params: { userId: 123 }}">User</router-link>
 
-  <!-- mit Abfrage, resultiert in /register?plan=private -->
+  <!-- mit Query, resultiert in /register?plan=private -->
   <router-link :to="{ path: 'register', query: { plan: 'private' }}">Register</router-link>
   ```
 
@@ -49,7 +49,7 @@
 
   - Default: `false`
 
-  Die Nutzung vom `replace`-Prop aktiviert `router.replace()` anstelle von `router.push()`, wenn geklickt. Die Navigation hinterlässt einen Verlaufseintrag.
+  Das Setzen von `replace` aktiviert `router.replace()` anstelle von `router.push()`. Die Navigation hinterlässt also keinen Verlaufseintrag.
 
   ``` html
   <router-link :to="{ path: '/abc'}" replace></router-link>
@@ -61,7 +61,7 @@
 
   - Default: `false`
 
-  Die Nutzung vom `append`-Prop hängt immer den relativen Pfad an den aktuellen an. Angenommen man navigiert von `/a` zu einem relativen Pfad `b` - ohne `append` ended man bei `/b`, mit `append` jedoch wird daraus `/a/b`.
+  Das Setzen von `append` hängt immer den relativen Pfad an den aktuellen an. Angenommen man navigiert von `/a` zu einem relativen Pfad `b` - ohne `append` gelangt man zu `/b`, mit `append` jedoch wird daraus `/a/b`.
 
   ``` html
   <router-link :to="{ path: 'relative/path'}" append></router-link>
@@ -73,7 +73,7 @@
 
   - Default: `"a"`
 
-  Manchmal ist gewollt, dass `<router-link>` einen anderen Tag rendert, zB. `<li>`. Durch Nutzung des `tag`-Props kann man einen speziellen Tag zum Rendern definieren, welcher nach wie vor auf Klick-Events für die Navigation reagiert.
+  Manchmal soll `<router-link>` einen anderen Tag rendern, zB. `<li>`. Mit Hilfe des `tag`-Props kann man definieren, welcher tag gerednert werden soll. Der Tag reagiert nach wie vor auf Klick-Events für die Navigation.
 
   ``` html
   <router-link to="/foo" tag="li">foo</router-link>
@@ -87,7 +87,7 @@
 
   - Default: `"router-link-active"`
 
-  Konfiguration der aktiven CSS-Klasse für den aktiven Link.
+  Festlegen der aktiven CSS-Klasse die zugewiesen wird, wenn der Link aktiv ist.
   Der Standardwert kann ebenfalls mit der `linkActiveClass`-Option des Router-Konstruktors global konfiguriert werden.
 
 - **exact**
@@ -96,9 +96,9 @@
 
   - Default: `false`
 
-  Das standardmäßige Abstimmungsverfahren der aktiven Klasse ist **eingeschlossene Abstimmung**. Zum Beispiel erhält `<router-link to="/a">` die Klasse, solange der aktuelle Pfad mit `/a` beginnt.
+  Das standardmäßige Matching-Verfahren der aktiven Klasse ist ein **inklusives Match**. Zum Beispiel erhält `<router-link to="/a">` die Klasse, solange der aktuelle Pfad mit `/a` beginnt.
 
-  Die Konsequenz davon ist, dass `<router-link to=/>` für jede Route aktiv ist. Um den Link in exakten Abstimmungsmodus zu zwingen, wird der `exact`-Prop genutzt:
+  Eine Konsequenz daraus ist, dass `<router-link to=/>` für jede Route aktiv ist! Um den "exakten Match-Modus" zu aktivieren, nutzt man die `exact`-Prop:
 
   ``` html
   <!-- dieser Link wird nur bei '/' aktiv -->
@@ -115,12 +115,12 @@
 
   - Default: `'click'`
 
-  Lege das Evens fest, welche die Linknavigation auslöst.
+  Lege das Event fest, das die Navigation auslöst.
 
 
-### Angabe der aktiven Klasse bei äußeren Elementen
+### "active" Klasse auf ein äußeres Element anwenden
 
-Manchmal ist gewollt, dass die aktive Klasse an ein äußeres Element anstatt an das `<a>` gesetzt wird. In diesem Fall kann man das äußere Element als `<router-link>` rendern und damit den rohen `<a>`-Tag umschließen:
+Machmal soll die aktive Klasse an ein äußeres Element anstatt an das `<a>` gesetzt werden. In diesem Fall kann man das äußere Element als `<router-link>` rendern und damit den `<a>`-Tag umschließen:
 
 ``` html
 <router-link tag="li" to="/foo">
@@ -128,4 +128,4 @@ Manchmal ist gewollt, dass die aktive Klasse an ein äußeres Element anstatt an
 </router-link>
 ```
 
-In diesem Fall ist `<a>` der eigentliche Link und erhält den korrekten `href`, aber die aktive Klasse wird auf das äußere `li` gesetzt.
+In diesem Fall ist `<a>` der eigentliche Link und erhält das korrekte `href` attribut, aber die aktive Klasse wird auf das äußere `<li>` gesetzt.
