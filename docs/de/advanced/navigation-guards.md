@@ -42,7 +42,7 @@ router.afterEach((to, from) => {
 })
 ```
 
-### Guard in der Route
+### Guards in der Route
 
 Man kann den `beforeEnter`-Guard direkt in der Router-Konfiguration definieren:
 
