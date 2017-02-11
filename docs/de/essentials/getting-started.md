@@ -2,7 +2,7 @@
 
 > Hinweis: Wir benutzen [ES2015](https://github.com/lukehoban/es6features) in den Code-Beispielen.
 
-Eine Single-Page-Applikation mit Vue.js und vue-router zu erstellen ist wirklich simpel. Mit Vue.js stellen wir unsere App ja bereits aus Components (Komponenten) zusammen. Wenn wir nun vue-router ins Spiel bringen, müssen wir lediglich unsere Components den "Routes" zuordnen und vue-router mitteilen, wo diese Components gerendert werden sollen. Hier ein einfaches Beispiel:
+Eine Single-Page-Applikation mit Vue.js und vue-router zu erstellen ist wirklich simpel. Mit Vue.js stellen wir unsere App ja bereits aus Komponenenten zusammen. Wenn wir nun vue-router ins Spiel bringen, müssen wir lediglich unsere Komponenenten den "Routes" zuordnen und vue-router mitteilen, wo diese Komponenenten gerendert werden sollen. Hier ein einfaches Beispiel:
 
 > Alle Beispiele nutzen die Standalone-Version von Vue, um Template-Parsing nutzen zu können. Mehr Details [hier (englisch)](http://vuejs.org/guide/installation.html#Standalone-vs-Runtime-only-Build)
 
@@ -32,16 +32,16 @@ Eine Single-Page-Applikation mit Vue.js und vue-router zu erstellen ist wirklich
 ``` js
 // 0. Wenn du Module-System wie Webpack oder Browserify benutzt, (zB. via vue-cli), importiere Vue sowie VueRouter und rufe Vue.use(VueRouter) auf.
 
-// 1. Definiere die Route-Components
+// 1. Definiere die Route-Komponenenten
 // Diese können auch aus anderen Dateien importiert werden.
 const Foo = { template: '<div>foo</div>' }
 const Bar = { template: '<div>bar</div>' }
 
 // 2. Definiere ein paar Routes
-// Jede Route sollte mit einer Component verbunden sein.
-// Die Component kann entweder eine tatsächliche Komponente sein, die via Vue.extend() erstellt wird,
+// Jede Route sollte mit einer Komponenente verbunden sein.
+// Die Komponenente kann entweder eine tatsächliche Komponente sein, die via Vue.extend() erstellt wird,
 // ein Komponenten-ID-String der via Vue.component() registriert wurde,
-// oder lediglich ein Optionsobjekt der Component.
+// oder lediglich ein Optionsobjekt der Komponenente.
 // Hinweis: Verschachtelte (engl: "nested") Routes werden später in dieser Anleitung behandelt.
 
 const routes = [
