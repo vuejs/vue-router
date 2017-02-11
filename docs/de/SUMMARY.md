@@ -12,8 +12,8 @@
   - [Dynamisches Route-Matching](essentials/dynamic-matching.md)
   - [Verschachtelte Routes](essentials/nested-routes.md)
   - [Programmatische Navigation](essentials/navigation.md)
-  - [Named Routes](essentials/named-routes.md)
-  - [Named Views](essentials/named-views.md)
+  - [Benannte Routes](essentials/named-routes.md)
+  - [Benannte Views](essentials/named-views.md)
   - [Redirect und Alias](essentials/redirect-and-alias.md)
   - [HTML5-Verlaufsmodus](essentials/history-mode.md)
 - Fortgeschritten
