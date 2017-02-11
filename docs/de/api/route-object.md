@@ -1,16 +1,18 @@
 # Das Route-Objekt
 
-Das **Route-Objekt** repräsentiert den Zustand der aktuell aktivierten Route. Es enthält geparste Informationen zur aktuellen URL und den Route-Einträgen, die mit der URL zusammentreffen.
+Das **Route-Objekt** repräsentiert den Zustand der aktuell aktiven Route. Es enthält geparste Informationen zur aktuellen URL und den Route-Einträgen, die mit der URL gematched wurden.
 
-Das Route-Objekt ist unveränderbar. Jede erfolgreiche Navigation resultiert in einem neuen Route-Objekt.
+Das Route-Objekt ist 'immutable' (unveränderbar). Jede erfolgreiche Navigation resultiert in einem neuen Route-Objekt.
 
 Das Route-Objekt kann an mehreren Orten gefunden werden:
 
-- innerhalb von Komponenten als `this.$route` und offensichtlich innerhalb von Überwachungen des `$route`-Callbacks
+- in Komponenten als `this.$route`
 
-- als der wiedergegebene Wert von `router.match(location)`
+- in `$route`-Watcher-Callbacks.
 
-- innerhalb des Navigationsschutzes als die ersten zwei Argumente:
+- als Rückgabewert von `router.match(location)`
+
+- in Navigation-Guards als die ersten zwei Argumente:
 
   ``` js
   router.beforeEach((to, from, next) => {
@@ -18,7 +20,7 @@ Das Route-Objekt kann an mehreren Orten gefunden werden:
   })
   ```
 
-- innerhalb der `scrollBehavior`-Funktion als die ersten zwei Argumente:
+- in der `scrollBehavior`-Funktion als die ersten zwei Argumente:
 
   ``` js
   const router = new VueRouter({
@@ -34,7 +36,7 @@ Das Route-Objekt kann an mehreren Orten gefunden werden:
 
   - Typ: `string`
 
-    Ein String, der gleich dem Pfad der aktuellen Route ist und immer in einen absoluten umgewandelt wird, zB. `"/foo/bar"`.
+    Ein String, der gleich dem Pfad der aktuellen Route ist immer als absoluter Pfad ausgegeben wird, zB. `"/foo/bar"`.
 
 - **$route.params**
 
@@ -46,13 +48,13 @@ Das Route-Objekt kann an mehreren Orten gefunden werden:
 
   - Typ: `Object`
 
-    Ein Objekt, welches Schlüssel/Wert-Paare des Abfrage-Strings enthält. Für den Pfad `/foo?user=1` erhält man zum Beispiel `$route.query.user == 1`. Gibt es keine Abfrage, ist der Wert ein leeres Objekt.
+    Ein Objekt, welches Schlüssel/Wert-Paare des Query-Strings enthält. Für den Pfad `/foo?user=1` erhält man zum Beispiel `$route.query.user == 1`. Gibt es keine Query, ist der Wert ein leeres Objekt.
 
 - **$route.hash**
 
   - Typ: `string`
 
-    Der Hash der aktuellen Route (ohne `#`). Gibt es keinen Hash, ist dessen Wert ein leerer String.
+    Der Hash der aktuellen Route (mit `#`). Gibt es keinen Hash, ist dessen Wert ein leerer String.
 
 - **$route.fullPath**
 
@@ -64,7 +66,7 @@ Das Route-Objekt kann an mehreren Orten gefunden werden:
 
   - Typ: `Array<RouteRecord>`
 
-  Ein Array von **Route-Einträgen** für alle verschachtelten Pfadsegmente der aktuellen Route. Route-Einträge sind Kopien des Objekts im Array der `routes`-Konfiguration und in `children`-Arrays:
+  Ein Array von **Route-Einträgen** für alle verschachtelten Pfadsegmente der aktuellen Route. Route-Einträge sind Kopien der Objekte im Array der `routes`-Konfiguration (und deren `children`-Arrays):
 
   ``` js
   const router = new VueRouter({

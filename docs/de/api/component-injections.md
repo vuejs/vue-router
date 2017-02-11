@@ -2,7 +2,7 @@
 
 ### Injizierte Eigenschaften
 
-Diese Eigenschaften werden in jede Child-Komponente durch Hinzufügen der Router-Instanz in die Grundinstanz als Router-Option injiziert.
+Die folgenden Eigenschaften werden in jede Child-Komponente injiziert, wenn man die Router-Instanz in die Root-Instanz der App als `router:`-Option übergibt.
 
 - #### $router
 
@@ -10,11 +10,11 @@ Diese Eigenschaften werden in jede Child-Komponente durch Hinzufügen der Router
 
 - #### $route
 
-  Die aktuelle aktive [Route](route-object.md). Diese Eigenschaft ist schreibgeschützt und dessen Eigenschaften sind unveränderbar, können aber überwacht werden.
+  Die aktuell aktive [Route](route-object.md). Diese Eigenschaft ist schreibgeschützt und ihre Eigenschaften sind unveränderbar, aber sie kann überwacht werden.
 
 ### Aktivierte Optionen
 
 - **beforeRouteEnter**
 - **beforeRouteLeave**
 
-  Siehe [innerer Komponentenschutz](../advanced/navigation-guards.md#incomponent-guards).
+  Siehe [Guards in Komponenten Komponentenschutz](../advanced/navigation-guards.md#guards-in-komponenten).

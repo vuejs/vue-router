@@ -1,4 +1,4 @@
-# Optionen der Router-Konstruktion
+# Optionen des Router-Konstruktors
 
 ### routes
 
@@ -28,9 +28,9 @@
 
 - verfügbare Werte: `"hash" | "history" | "abstract"`
 
-  Konfiguriere den Router-Mode.
+  Bestimmt den Router-Mode.
 
-  - `hash`: Nutzt den URL-Hash für Weiterleitungen. Funktioniert in allen Vue-unterstützten Browsern, inklusive derer, die HTML5 Verlaufs-API nicht unterstützen.
+  - `hash`: Nutzt den URL-Hash für das Routing. Funktioniert in allen Vue-unterstützten Browsern, inklusive derer, die HTML5 Verlaufs-API nicht unterstützen.
 
   - `history`: Benötigt HTML5 Verlaufs-API und Serverkonfiguration. Siehe [HTML5 Verlaufsmodus](../essentials/history-mode.md).
 
@@ -42,7 +42,7 @@
 
 - Default: `"/"`
 
-  Die Basis-URL der App. Ist zum Beispiel die gesamte Single-Page-Applikation unter `/app` vorhanden, sollte `base` den Wert `"/app"` haben.
+  Die Basis-URL der App. Läuft zum Beispiel die gesamte Single-Page-Applikation unter `/app`, sollte `base` den Wert `"/app"` haben.
 
 ### linkActiveClass
 
@@ -50,7 +50,7 @@
 
 - Default: `"router-link-active"`
 
-  Global konfigurierte standardmäßige aktive Klasse für `<router-link>`. Siehe auch [router-link](router-link.md).
+  Definiert global den Namen der "active" Klasse für `<router-link>`. Siehe auch [router-link](router-link.md).
 
 ### scrollBehavior
 

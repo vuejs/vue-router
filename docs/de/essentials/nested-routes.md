@@ -1,6 +1,6 @@
 # Verschachtelte Routes
 
-Reale App-UI ist normalerweise zusammengesetzt aus Komponenten, die mehrere Level tief verschachtelt sind. Es ist auch herkömmlich, dass Teile der URL gewisse Strukturen der Verschachtelung wiederspiegeln:
+Echte App-UIs bestehen normalerweise aus Komponenten, die mehrere Ebenen tief verschachtelt sind. Und es ist durchaus üblich, dass die Segmente der URL die Struktur der Verschachtelung wiederspiegeln, zum Beispiel so:
 
 ```
 /user/foo/profile                     /user/foo/posts
@@ -12,6 +12,8 @@ Reale App-UI ist normalerweise zusammengesetzt aus Komponenten, die mehrere Leve
 | +--------------+ |                  | +-------------+ |
 +------------------+                  +-----------------+
 ```
+
+Mit `vue-router` können wir derartige Beziehungen sehr leicht mit einer verschachtelten (englisch: "nested") Route-Konfiguration abbilden.
 
 Wir bauen auf der App auf, die im letzten Kapitel erstellt wurde:
 
@@ -33,7 +35,7 @@ const router = new VueRouter({
 })
 ```
 
-Der `router-view` hier ist ein Ausgangspunkt der höchsten Ebene. Es rendert die Komponente, welche zur Route der höchsten Ebene passt. Ebenso kann eine gerenderte Komponente selbst `router-view` enthalten. Im Beispiel wird eines in das Template der `User`-Komponente eingesetzt:
+Die `router-view` Komponente ist das Outlet der obersten Ebene. Sie rendert die Komponenten, welche zu Routes der obersten Ebene gehören. Eine dort gerenderte Komponente kann selbst wiederum eine `router-view` Komponente enthalten. Wenn wir zum Beispiel eine `router-view` Komponente im Template der User-Komponente platzieren, sieht das so aus:
 
 ``` js
 const User = {
@@ -46,7 +48,7 @@ const User = {
 }
 ```
 
-Um Komponenten in diesem verschachtelten Ausgangspunkt zu rendern, benötigt man die `children`-Option in der Konfiguration des `VueRouter`-Konstruktors.
+Um Komponenten in diesem verschachtelten Outlet zu rendern, müssen wir die `children`-Option in der Konfiguration des `VueRouter`-Konstruktors verwenden.
 
 ``` js
 const router = new VueRouter({
@@ -56,14 +58,14 @@ const router = new VueRouter({
         {
           // UserProfile wird innerhalb der
           // <router-view> von User gerendert,
-          // wenn '/user/:id/profile' zutrifft.
+          // wenn '/user/:id/profile' gematched wird.
           path: 'profile',
           component: UserProfile
         },
         {
           // UserPosts wird innerhalb der
           // <router-view> von User gerendert,
-          // wenn '/user/:id/posts' zutrifft.
+          // wenn '/user/:id/posts' gematched wird.
           path: 'posts',
           component: UserPosts
         }
@@ -73,11 +75,11 @@ const router = new VueRouter({
 })
 ```
 
-**Merke, dass verschachtelte Pfade, die mit `/` starten, als Grundpfad (Root) behandelt werden. Das erlaubt verschachtelte Komponenten ohne angepasste URL.**
+**Hinweis: Verschachtelte Pfade, die mit `/` starten, werden als "root-path" (zu deutsch: "Wurzel-Pfad") behandelt. Damit kann man eine verschachtelte Route mit einem direkten Pfad erreichen, ohne dass die verschachtelten Pfadsegmente der übergeordneten Routes enthalten sein müssen.**
 
-Wie man sieht, ist die `children`-Option nur eine weitere Aneinanderkettung von Objekten der Router-Konfiguration wie `routes` selbst. Demnach kann man Views so oft ineinander verschachteln, wie man möchte.
+Wie du sieht, ist die `children`-Option nur eine weiteres Array mit Route-Konfigurationsobjekten - wie das `routes`-Array selbst. Daher können wir Views so oft ineinander verschachteln, wie wir möchten.
 
-Mit der oben genannten Konfiguration wird hierbei, wenn `/user/foo` besucht wird, nichts im Ausgangspunkt von `User` gerendert, da keine Sub-Route zutrifft. Sollte man dennoch etwas darstellen wollen, kann man einen leeren Pfad zur Sub-Route kreieren.
+Wenn du nun aber mit mit der aktuellen Konfiguration `/user/foo` aufrufst, wird nichts im `router-view` Outlet von `User` gerendert, da keine Sub-Route gematched wurde. Wollen wir in dem Fall dennoch eine Komponente rendern, erreichen wir das ganz einfach mit einer Route im `children`-Array, die einen leeren String als Pfad hat:
 
 ``` js
 const router = new VueRouter({
@@ -97,4 +99,4 @@ const router = new VueRouter({
 })
 ```
 
-Eine Demo dazu kann [hier](http://jsfiddle.net/yyx990803/L7hscd8h/) gefunden werden.
+Eine Demo dazu findest du [hier](http://jsfiddle.net/yyx990803/L7hscd8h/)
