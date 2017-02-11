@@ -54,7 +54,7 @@ Das Route-Objekt kann an mehreren Orten gefunden werden:
 
   - Typ: `string`
 
-    Der Hash der aktuellen Route (ohne `#`). Gibt es keinen Hash, ist dessen Wert ein leerer String.
+    Der Hash der aktuellen Route (mit `#`). Gibt es keinen Hash, ist dessen Wert ein leerer String.
 
 - **$route.fullPath**
 
