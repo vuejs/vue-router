@@ -256,7 +256,7 @@ function bindEnterGuard (
           poll(cb, match.instances, key, isValid, next)
         })
       } else {
-        next(cb);
+        next(cb)
       }
     })
   }
@@ -267,7 +267,7 @@ function poll (
   instances: Object,
   key: string,
   isValid: () => boolean,
-  next: (Vue) => void
+  next: (vm: Vue) => void
 ) {
   if (instances[key]) {
     cb(instances[key])
