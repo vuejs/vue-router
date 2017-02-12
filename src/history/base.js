@@ -246,7 +246,6 @@ function bindEnterGuard (
 ): NavigationGuard {
   return function routeEnterGuard (to, from, next) {
     return guard(to, from, cb => {
-      next(cb)
       if (typeof cb === 'function') {
         cbs.push(() => {
           // #750
@@ -254,8 +253,10 @@ function bindEnterGuard (
           // the instance may not have been registered at this time.
           // we will need to poll for registration until current route
           // is no longer valid.
-          poll(cb, match.instances, key, isValid)
+          poll(cb, match.instances, key, isValid, next)
         })
+      } else {
+        next(cb);
       }
     })
   }
@@ -265,13 +266,15 @@ function poll (
   cb: any, // somehow flow cannot infer this is a function
   instances: Object,
   key: string,
-  isValid: () => boolean
+  isValid: () => boolean,
+  next: (Vue) => void
 ) {
   if (instances[key]) {
     cb(instances[key])
+    next()
   } else if (isValid()) {
     setTimeout(() => {
-      poll(cb, instances, key, isValid)
+      poll(cb, instances, key, isValid, next)
     }, 16)
   }
 }
