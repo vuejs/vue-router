@@ -267,7 +267,7 @@ function poll (
   instances: Object,
   key: string,
   isValid: () => boolean,
-  next: (vm: Vue) => void
+  next: (vm: _Vue) => void
 ) {
   if (instances[key]) {
     cb(instances[key])
