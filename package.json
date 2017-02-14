@@ -5,6 +5,10 @@
   "author": "Evan You",
   "license": "MIT",
   "main": "dist/vue-router.common.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/vuejs/vue-router.git"
+  },
   "typings": "types/index.d.ts",
   "files": [
     "dist/vue-router.js",
