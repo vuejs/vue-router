@@ -540,13 +540,14 @@ function cleanPath (path) {
 function createRouteMap (
   routes,
   oldPathMap,
-  oldNameMap
+  oldNameMap,
+  overwriteNames
 ) {
   var pathMap = oldPathMap || Object.create(null);
   var nameMap = oldNameMap || Object.create(null);
 
   routes.forEach(function (route) {
-    addRouteRecord(pathMap, nameMap, route);
+    addRouteRecord(pathMap, nameMap, route, undefined, undefined, overwriteNames);
   });
 
   return {
@@ -560,7 +561,8 @@ function addRouteRecord (
   nameMap,
   route,
   parent,
-  matchAs
+  matchAs,
+  overwriteNames
 ) {
   var path = route.path;
   var name = route.name;
@@ -610,7 +612,7 @@ function addRouteRecord (
       var childMatchAs = matchAs
         ? cleanPath((matchAs + "/" + (child.path)))
         : undefined;
-      addRouteRecord(pathMap, nameMap, child, record, childMatchAs);
+      addRouteRecord(pathMap, nameMap, child, record, childMatchAs, overwriteNames);
     });
   }
 
@@ -621,14 +623,14 @@ function addRouteRecord (
           path: alias,
           children: route.children
         };
-        addRouteRecord(pathMap, nameMap, aliasRoute, parent, record.path);
+        addRouteRecord(pathMap, nameMap, aliasRoute, parent, record.path, overwriteNames);
       });
     } else {
       var aliasRoute = {
         path: route.alias,
         children: route.children
       };
-      addRouteRecord(pathMap, nameMap, aliasRoute, parent, record.path);
+      addRouteRecord(pathMap, nameMap, aliasRoute, parent, record.path, overwriteNames);
     }
   }
 
@@ -637,7 +639,7 @@ function addRouteRecord (
   }
 
   if (name) {
-    if (!nameMap[name]) {
+    if (!nameMap[name] || overwriteNames) {
       nameMap[name] = record;
     } else if (process.env.NODE_ENV !== 'production' && !matchAs) {
       warn(
@@ -1195,8 +1197,11 @@ function createMatcher (routes) {
   var pathMap = ref.pathMap;
   var nameMap = ref.nameMap;
 
-  function addRoutes (routes) {
-    createRouteMap(routes, pathMap, nameMap);
+  function addRoutes (
+    routes,
+    overwriteNames
+  ) {
+    createRouteMap(routes, pathMap, nameMap, overwriteNames);
   }
 
   function match (
@@ -2254,8 +2259,8 @@ VueRouter.prototype.resolve = function resolve (
   }
 };
 
-VueRouter.prototype.addRoutes = function addRoutes (routes) {
-  this.matcher.addRoutes(routes);
+VueRouter.prototype.addRoutes = function addRoutes (routes, overwriteNames) {
+  this.matcher.addRoutes(routes, overwriteNames);
   if (this.history.current !== START) {
     this.history.transitionTo(this.history.getCurrentLocation());
   }
