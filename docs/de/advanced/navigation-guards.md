@@ -1,12 +1,12 @@
-# Navigationsschutz
+# Navigation Guards ("Navigations-Wächter")
 
-Der Navigationsschutz bereit gestellt vom `vue-router` wird primär genutzt, um Navigationen vor Umleitung oder Unterbrechung zu schützen. Es gibt eine Vielzahl an Wege: global, per-route oder in der Komponente.
+Wie der Name schon andeutet, werden "navigation guards" `vue-router` primär genutzt, um Navigationen zu "bewachen", indem diese bei Bedarf redirected oder abebrochen werden. Es gibt dabei verschiedene Möglichkeiten, sich in den Navigationsprozess einzuklinken: global, in der Route Definition oder direkt in der Komponente.
 
-Merke, dass Parameter oder Query-Abfragen den Navigationsschutz nicht auslosen. Beobachte einfach [das `$route`-Objekt](../essentials/dynamic-matching.md#reacting-to-params-changes), um auf Änderungen zu reagieren.
+Hinweis: Guards werden nicht ausgelöst, wenn du Params oder Querys änderst. Beobachte in diesen Fällen einfach [das `$route`-Objekt](../essentials/dynamic-matching.md#reacting-to-params-changes), um auf Änderungen zu reagieren.
 
-### Globaler Schutz
+### Globale Guards
 
-Man kann globalen Schutz für die Zeit direkt vor einer Navigation (globaler Vor-Schutz) mit `router.beforeEach` anwenden:
+Man kann globale Before-Guards ("davor-guards") mit `router.beforeEach` registrieren:
 
 ``` js
 const router = new VueRouter({ ... })
@@ -16,25 +16,25 @@ router.beforeEach((to, from, next) => {
 })
 ```
 
-Globale Vor-Schutze werden in Kreierungsreihenfolge aufgerufen, wenn eine Navigation ausgelöst wird. Der Schutz darf auch asynchron angewandt werden, sodass die Navigation als **unerledigt** da steht, bis alle bearbeitet wurden.
+Globale Before-Guards werden in der Reihenfolge aufgerufen, in der du sie registriert hast, wann immer eine Navigation ausgelöst wird. Der guard lann auch auch asynchron beendet werden, und die Navigation ist solange im Status **pending**, bis alle bearbeitet wurden.
 
-Jede Schutzfunktion erhält drei Argumente:
+Jede Guard Funktion erhält drei Argumente:
 
 - **`to: Route`**: das [Route-Objekt](../api/route-object.md), zu dem navigiert wird
 
 - **`from: Route`**: die aktuelle Route, von der wegnavigiert wird
 
-- **`next: Function`**: Diese Funktion muss aufgerufen werden, um den Hook aufzulösen. Die Aktion hängt von den Argumenten in `next` ab:
+- **`next: Function`**: Diese Funktion muss aufgerufen werden, um den guard zu beenden. Die daraus resultierende Aktion hängt von den Argumenten in `next` ab:
 
-  - **`next()`**: Gehe zum nächsten Hook in der Leitung. Wenn keiner vorhanden ist, ist die Navigation **bestätigt**.
+  - **`next()`**: Gehe zum nächsten guard in der Riehe. Wenn keine mehr vorhanden sind, ist die Navigation **bestätigt**.
 
-  - **`next(false)`**: Brich die aktuelle Navigation ab. Wurde die URL geändert (entweder manuell durch den Nutzer oder via Zurück-Button), wird es zurückgesetzt zu dem, was die `from`-Route wiedergab.
+  - **`next(false)`**: Brich die aktuelle Navigation ab. Wurde die URL geändert (entweder manuell durch den Nutzer oder über den Zurück-Button), wird sie zurückgesetzt auf die der `from`-Route.
 
-  - **`next('/')` or `next({ path: '/' })`**: Umleitung zu einem anderen Ort. Die aktuelle Navigation wird abgebrochen und eine neue gestartet.
+  - **`next('/')` or `next({ path: '/' })`**: Umleitung zu einer anderen Route. Die aktuelle Navigation wird abgebrochen und eine neue gestartet.
 
-**Die `next`-Funktion muss immer aufgerufen werden, sonst kann der Hook nicht aufgelöst werden.**
+**Die `next`-Funktion muss immer aufgerufen werden, sonst kann der Guard nicht aufgelöst werden.**
 
-Man kann auch globale Nach-Hooks registrieren, allerdings erhalten diese keine `next`-Funktion wie der Navigationsschutz und beeinflussen nicht die Navigation selbst:
+Man kann auch globale After-Guards ("Danach-Guards") registrieren, allerdings erhalten diese keine `next`-Funktion wie der Navigationsschutz und beeinflussen nicht die Navigation selbst:
 
 ``` js
 router.afterEach((to, from) => {
@@ -42,9 +42,9 @@ router.afterEach((to, from) => {
 })
 ```
 
-### Per-Route-Schutz
+### Guards in der Route
 
-Man kann den `beforeEnter`-Schutz direkt in der Router-Konfiguration definieren:
+Man kann den `beforeEnter`-Guard direkt in der Router-Konfiguration definieren:
 
 ``` js
 const router = new VueRouter({
@@ -60,30 +60,30 @@ const router = new VueRouter({
 })
 ```
 
-Diese Schutze haben die exakt gleiche Signature als globale Vor-Schutze.
+Diese Guards haben die exakt gleiche Signatur wie globale Before-Guards.
 
-### Schutz in Komponenten
+### Guards in Komponenten
 
-Letztendlich kann man auch Navigationsschutz in den Route-Komponenten (die, die der Router-Konfiguration hinzugefügt werden) mit `beforeRouteEnter` und `beforeRouteLeave` definieren:
+Zu guter Letzt kann man Guards auch direkt in den Route-Komponenten (die, die der Router-Konfiguration hinzugefügt werden) mit `beforeRouteEnter` und `beforeRouteLeave` definieren:
 
 ``` js
 const Foo = {
   template: `...`,
   beforeRouteEnter (to, from, next) {
-    // Aufgerufen bevor die Route bestätigt wird, die die Komponenten rendert.
-    // Hat keinen Zugang zum `this`-Kontext der Komponenteninstanz,
-    // da es noch nicht erstellt wurde, wenn der Schutz aufgerufen wird.
+    // Wird aufgerufen bevor die Route bestätigt wird, die diese Komponenten rendert.
+    // Hat keinen Zugriff auf den `this`-Kontext der Komponenteninstanz,
+    // da diese noch nicht erstellt wurde, wenn die Guard-Funktion aufgerufen wird.
   },
   beforeRouteLeave (to, from, next) {
-    // Aufgerufen, wenn von der Route, die die Komponente rendert, wegnavigiert wird.
+    // Wird aufgerufen, wenn von der Route, die diese Komponente rendert, wegnavigiert wird.
     // Hat Zugriff zum `this`-Kontext.
   }
 }
 ```
 
-Der `beforeRouteEnter`-Schutz hat keinen Zugriff zum `this`-Kontext, weil der Schutz aufgerufen wird, bevor die Navigation bestätigt wurde, demnach wurde die Komponente noch gar nicht kreiert.
+Der `beforeRouteEnter`-Guard hat keinen Zugriff auf den `this`-Kontext, weil der Guard aufgerufen wird, bevor die Navigation bestätigt wurde, weshalb die Komponente noch gar nicht erzeugt wurde.
 
-Allerdings hat man Zugriff auf die Instanz, indem man einen Callback an `next` anfügt. Dieser wird aufgerufen, wenn die Navigation bestätigt wurde. Die Komponente wird im Callback als Argument hinzugefügt:
+Allerdings bekommt man Zugriff auf die Instanz, indem man einen Callback an `next` übergibt. Der Callback wird ausgeführt wenn die Navigation bestätigt wurde. Die Komponente wird im Callback als Argument übergeben:
 
 ``` js
 beforeRouteEnter (to, from, next) {
@@ -93,4 +93,4 @@ beforeRouteEnter (to, from, next) {
 }
 ```
 
-Man kann den `this`-Kontext in `beforeRouteLeave` aufrufen. Der Abgangsschutz wird normalerweise genutzt, um versehentliches Verlassen der Route mit ungesicherten Arbeiten zu verhindern. Die Navigation kann mit `next(false)` abgebrochen werden.
+In `beforeRouteLeave`-Guards kann man den `this`-Kontext aufrufen. Dieser Guard wird normalerweise verwendet, zu verhindern dass ein Benutzer die Route versehentlich verlässt, ohne ungesicherten Arbeit zu speichern. Die Navigation kann mit `next(false)` abgebrochen werden.

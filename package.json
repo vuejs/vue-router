@@ -1,10 +1,14 @@
 {
   "name": "vue-router",
-  "version": "2.2.0",
+  "version": "2.2.1",
   "description": "Official router for Vue.js 2",
   "author": "Evan You",
   "license": "MIT",
   "main": "dist/vue-router.common.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/vuejs/vue-router.git"
+  },
   "typings": "types/index.d.ts",
   "files": [
     "dist/vue-router.js",
@@ -75,5 +79,6 @@
     "vue-template-compiler": "^2.1.0",
     "webpack": "^2.2.0",
     "webpack-dev-middleware": "^1.9.0"
-  }
+  },
+  "unpkg": "dist/vue-router.js"
 }

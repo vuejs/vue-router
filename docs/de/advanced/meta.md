@@ -1,6 +1,6 @@
-# Route-Metafelder
+# Route Meta-Felder
 
-Man kann ein Metafeld einfügen, wenn die Route definiert wird:
+In der Route-Definition kann man ein Meta-Feld definieren:
 
 ``` js
 const router = new VueRouter({
@@ -21,22 +21,22 @@ const router = new VueRouter({
 })
 ```
 
-Wie greift man auf das `meta`-Feld zu?
+Und wie greifen wir auf das `meta`-Feld zu?
 
-Zunächst einmal wird jedes Route-Objekt in der `routes`-Konfiguration **Route-Eintrag** genannt. Route-Einträge können verschachtelt sein. Deswegen kann eine Route zu mehreren Einträgen passen, wenn sie besucht wird.
+Zunächst einmal: Wir nennen jedes Route-Objekt in der `routes`-Konfiguration **Route-Record**. Route-Records können verschachtelt sein, weshalb eine URL potentiell zu mehreren Route-Records passen kann.
 
-Zum Beispiel werden mit der obigen Konfiguration und der URL `/foo/bar` beide - Parent-Eintrag und Child-Eintrag - angesprochen.
+Zum Beispiel werden mit der obigen Konfiguration und der URL `/foo/bar` beide - Parent-Record und Child-Record - gematched.
 
-Alle Route-Einträge, die auf eine Route zutreffen, sind im `$route`-Objekt und in Route-Objekten im Navigationschutz als `$route.matched`-Array vorzufinden. Deswegen muss eine Schleife auf `$route.matched` angewandt werden, um alle Metafelder im Route-Eintrag zu erhalten.
+Alle Route-Records, die auf eine URL zutreffen, sind im `$route`-Objekt und in den Route-Objekten in Navigation-Guards im `$route.matched`-Array zu finden. Deswegen müssen wir mit einer Schleife das `$route.matched` Array durchlaufen, um alle Route-Records auf Metafelder zu prüfen.
 
-Ein Beispiel ist die Prüfung nach einem Metafeld im globalen Navigationsschutz:
+Ein Anwendungsfall ist die Prüfung nach einem Metafeld im globalen Before-Guard:
 
 ``` js
 router.beforeEach((to, from, next) => {
   if (to.matched.some(record => record.meta.requiresAuth)) {
     // Diese Route benötigt Authentifizierung und prüft,
     // ob man eingeloggt ist.
-    // Wenn nicht, Umleitung zur Login-Seite.
+    // Wenn nicht, Redirect zur Login-Seite.
     if (!auth.loggedIn()) {
       next({
         path: '/login',

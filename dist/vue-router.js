@@ -1,5 +1,5 @@
 /**
-  * vue-router v2.2.0
+  * vue-router v2.2.1
   * (c) 2017 Evan You
   * @license MIT
   */
@@ -544,14 +544,13 @@ function cleanPath (path) {
 function createRouteMap (
   routes,
   oldPathMap,
-  oldNameMap,
-  overwriteNames
+  oldNameMap
 ) {
   var pathMap = oldPathMap || Object.create(null);
   var nameMap = oldNameMap || Object.create(null);
 
   routes.forEach(function (route) {
-    addRouteRecord(pathMap, nameMap, route, undefined, undefined, overwriteNames);
+    addRouteRecord(pathMap, nameMap, route);
   });
 
   return {
@@ -565,8 +564,7 @@ function addRouteRecord (
   nameMap,
   route,
   parent,
-  matchAs,
-  overwriteNames
+  matchAs
 ) {
   var path = route.path;
   var name = route.name;
@@ -616,7 +614,7 @@ function addRouteRecord (
       var childMatchAs = matchAs
         ? cleanPath((matchAs + "/" + (child.path)))
         : undefined;
-      addRouteRecord(pathMap, nameMap, child, record, childMatchAs, overwriteNames);
+      addRouteRecord(pathMap, nameMap, child, record, childMatchAs);
     });
   }
 
@@ -627,14 +625,14 @@ function addRouteRecord (
           path: alias,
           children: route.children
         };
-        addRouteRecord(pathMap, nameMap, aliasRoute, parent, record.path, overwriteNames);
+        addRouteRecord(pathMap, nameMap, aliasRoute, parent, record.path);
       });
     } else {
       var aliasRoute = {
         path: route.alias,
         children: route.children
       };
-      addRouteRecord(pathMap, nameMap, aliasRoute, parent, record.path, overwriteNames);
+      addRouteRecord(pathMap, nameMap, aliasRoute, parent, record.path);
     }
   }
 
@@ -643,7 +641,7 @@ function addRouteRecord (
   }
 
   if (name) {
-    if (!nameMap[name] || overwriteNames) {
+    if (!nameMap[name]) {
       nameMap[name] = record;
     } else if ("development" !== 'production' && !matchAs) {
       warn(
@@ -1201,11 +1199,8 @@ function createMatcher (routes) {
   var pathMap = ref.pathMap;
   var nameMap = ref.nameMap;
 
-  function addRoutes (
-    routes,
-    overwriteNames
-  ) {
-    createRouteMap(routes, pathMap, nameMap, overwriteNames);
+  function addRoutes (routes) {
+    createRouteMap(routes, pathMap, nameMap);
   }
 
   function match (
@@ -1389,12 +1384,11 @@ var positionStore = Object.create(null);
 
 function setupScroll () {
   window.addEventListener('popstate', function (e) {
+    saveScrollPosition();
     if (e.state && e.state.key) {
       setStateKey(e.state.key);
     }
   });
-
-  window.addEventListener('scroll', saveScrollPosition);
 }
 
 function handleScroll (
@@ -1519,6 +1513,7 @@ function setStateKey (key) {
 }
 
 function pushState (url, replace) {
+  saveScrollPosition();
   // try...catch the pushState call to get around Safari
   // DOM Exception 18 where it limits to 100 pushState calls
   var history = window.history;
@@ -1529,7 +1524,6 @@ function pushState (url, replace) {
       _key = genKey();
       history.pushState({ key: _key }, '', url);
     }
-    saveScrollPosition();
   } catch (e) {
     window.location[replace ? 'replace' : 'assign'](url);
   }
@@ -2264,8 +2258,8 @@ VueRouter.prototype.resolve = function resolve (
   }
 };
 
-VueRouter.prototype.addRoutes = function addRoutes (routes, overwriteNames) {
-  this.matcher.addRoutes(routes, overwriteNames);
+VueRouter.prototype.addRoutes = function addRoutes (routes) {
+  this.matcher.addRoutes(routes);
   if (this.history.current !== START) {
     this.history.transitionTo(this.history.getCurrentLocation());
   }
@@ -2279,7 +2273,7 @@ function createHref (base, fullPath, mode) {
 }
 
 VueRouter.install = install;
-VueRouter.version = '2.2.0';
+VueRouter.version = '2.2.1';
 
 if (inBrowser && window.Vue) {
   window.Vue.use(VueRouter);

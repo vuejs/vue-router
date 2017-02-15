@@ -7,7 +7,7 @@ const Home = { template: '<div>home</div>' }
 
 // In Webpack we can use special require syntax to signify a "split point"
 // Webpack will automatically split and lazy-load the split modules.
-// - https://webpack.github.io/docs/code-splitting.html
+// - https://webpack.js.org/guides/code-splitting-require/
 
 // Combine that with Vue's async components, we can easily make our route
 // components lazy-loaded only when the given route is matched.
