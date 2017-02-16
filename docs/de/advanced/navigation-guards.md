@@ -93,4 +93,4 @@ beforeRouteEnter (to, from, next) {
 }
 ```
 
-In `beforeRouteLeave`-Guards kann man den `this`-Kontext aufrufen. Dieser Guard wird normalerweise verwendet, zu verhindern dass ein Benutzer die Route versehentlich verlässt, ohne ungesicherten Arbeit zu speichern. Die Navigation kann mit `next(false)` abgebrochen werden.
+In `beforeRouteLeave`-Guards kann man den `this`-Kontext aufrufen. Dieser Guard wird normalerweise verwendet um zu verhindern, dass ein Benutzer die Route versehentlich verlässt ohne ungesicherten Arbeit zu speichern. Die Navigation kann mit `next(false)` abgebrochen werden.
