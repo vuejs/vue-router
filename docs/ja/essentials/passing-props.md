@@ -65,7 +65,6 @@ const router = new VueRouter({
 
 url `/search?q=vue` は `{query: "vue"}` をプロパティとして SearchUser コンポーネントに渡します。
 
-ルート変更時にのみ評価されるため、プロパティの機能はステートレスにしてください。
-ラッパーコンポーネントを使用すると、状態を変更して状態を変更することができます。
+ルート変更時にのみ評価されるため、props 関数はステートレスにしてください。プロパティを定義するために状態を必要とする場合はラッパーコンポーネントを使用してください。その方法で vue は状態変更に対応することができます。
 
 高度な使い方については、[example](https://github.com/vuejs/vue-router/blob/dev/examples/route-props/app.js)を参照してください。
