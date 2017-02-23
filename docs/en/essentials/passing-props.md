@@ -32,7 +32,7 @@ const router = new VueRouter({
     {
       path: '/user/:id', 
       components: { default: User, sidebar: Sidebar },
-      props: {default: true, sidebar: true }
+      props: {default: true, sidebar: false }
     }
   ]
 })
