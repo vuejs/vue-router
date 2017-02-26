@@ -1,16 +1,16 @@
-# Datenbeschaffung
+# Daten laden
 
-Manchmal müssen Daten von einem Server geladen werden, sobald eine Route aktiviert wird. Zum Beispiel müssen die Inhalte des Nutzers vom Server übertragen werden, bevor ein Nutzerprofil angezeigt werden kann. Dies wird auf zwei Arten erledigt:
+Oftmals Müssen wir Daten von einem Server laden, sobald eine Route aktiviert wird. Zum Beispiel müssen die Daten des Users vom Server geladen werden, bevor das Userprofil angezeigt werden kann. Dies kann auf zwei Arten erreicht werden:
 
-- **Laden nach Navigation**: Navigiere zuerst und lade die Daten anschließend in der neuen Komponente. Während der Übertragung kann ein Ladebalken oder ähnliches angezeigt werden.
+- **Laden nach der Navigation**: Der Router schließt zuerst die Navigation ab und wir laden die Daten anschließend in der neuen Komponente. Während der Übertragung kann ein Ladebalken oder ähnliches angezeigt in der Komponente werden.
 
-- **Laden vor Navigation**: Lade Daten bevor die Navigation der Route durchgeführt wird und navigiere nachdem die Daten geladen wurden.
+- **Laden der Navigation**: Wir laden Daten bevor die Navigation der Route durchgeführt wird und navigieren danach erst zur neuen Route.
 
-Technisch sind beide Optionen möglich - letztendlich hängt es davon ab, welche Benutzererfahrung man erreichen möchte.
+Technisch gesehen sind beide Optionen gleich "gut" - letztendlich hängt es davon ab, welche Benutzererfahrung man erreichen möchte.
 
-## Laden nach Navigation
+## Laden nach der Navigation
 
-In diesem Fall navigieren und rendern wir die neue Komponente direkt und laden die Daten in der `created`-Funktion der Komponente. Dies ermöglicht es uns den Nutzer zu informieren, dass Daten übertragen werden, während die Inhalte über das Netzwerk nachgereicht werden. Außerdem können wir die Übertragung in jeder Komponente individuell einrichten und sind nicht an ein System gebunden.
+In diesem Fall navigieren und rendern wir die neue Komponente direkt und laden die Daten im `created`-Hook der Komponente. Das ermöglicht es uns dem Nutzer in der neuen Komponente einen Ladebalken oder ähnliches anzuzeigen während der Content vom Server geladen wird. Außerdem können wir so den Ladevorgang in jeder Komponente individuell gestalten.
 
 Im folgenden Beispiel haben wir eine `Post`-Komponente, welche Daten für einen Blog-Post basierend auf `$route.params.id` einholt:
 
@@ -44,7 +44,7 @@ export default {
   },
   created () {
     // Lade die Daten, wenn die Komponente erstellt wurde und die
-    // Daten bereits überwacht werden.
+    // Daten bereits observed ("beobachtet") werden.
     this.fetchData()
   },
   watch: {
@@ -55,7 +55,7 @@ export default {
     fetchData () {
       this.error = this.post = null
       this.loading = true
-      // Ersetze 'getPost' mit einer beliebigen AJAX-API (zB. fetch, $.ajax).
+      // Ersetze 'getPost' mit einem beliebigen AJAX-tool / API-Wrapper
       getPost(this.$route.params.id, (err, post) => {
         this.loading = false
         if (err) {
@@ -69,9 +69,9 @@ export default {
 }
 ```
 
-## Laden vor Navigation
+## Laden vor der Navigation
 
-In diesem Fall werden die Daten geladen, bevor wir in die neue Route navigieren. Die Inhalte werden in dem `beforeRouteEnter`-Schutz der neuen Komponente eingefügt. Die `next`-Funktion wird erst aufgerufen, wenn alles komplett geladen wurde:
+In diesem Fall werden die Daten geladen, bevor wir in die neue Route navigieren. Die Inhalte werden in dem `beforeRouteEnter`-Guard der neuen Komponente geladen. Die `next`-Funktion wird erst aufgerufen, wenn der Vorgang abgeschlossen ist:
 
 ``` js
 export default {
@@ -110,4 +110,4 @@ export default {
 }
 ```
 
-Der Nutzer bleibt im aktuellen View, bis die Daten des neuen geladen wurden. Daher ist es empfehlenswert einen Ladebalken oder ähnliches anzuzeigen. Falls die Inhalte nicht komplett beschafft werden können, ist es außerdem von Vorteil, eine Fehlermeldung auszugeben.
+Der Nutzer bleibt im aktuellen View, während die Daten für den neuen View geladen werden. Daher ist es empfehlenswert, derwiel anderswo in der App einen Ladebalken oder ähnliches anzuzeigen. Wenn der Ladevorgang fehlschlägt, ist es außerdem wichtig, eine Fehlermeldung auszugeben.

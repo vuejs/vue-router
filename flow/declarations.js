@@ -1,3 +1,5 @@
+declare var document: Document;
+
 declare module 'path-to-regexp' {
   declare var exports: {
     (path: string, keys: Array<?{ name: string }>): RegExp;

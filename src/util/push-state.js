@@ -38,6 +38,7 @@ export function setStateKey (key: string) {
 }
 
 export function pushState (url?: string, replace?: boolean) {
+  saveScrollPosition()
   // try...catch the pushState call to get around Safari
   // DOM Exception 18 where it limits to 100 pushState calls
   const history = window.history
@@ -48,7 +49,6 @@ export function pushState (url?: string, replace?: boolean) {
       _key = genKey()
       history.pushState({ key: _key }, '', url)
     }
-    saveScrollPosition()
   } catch (e) {
     window.location[replace ? 'replace' : 'assign'](url)
   }

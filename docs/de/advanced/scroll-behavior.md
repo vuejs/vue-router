@@ -1,30 +1,30 @@
 # Scroll-Verhalten
 
-Bei browserseitigem Routing ist manchmal gewollt nach oben zu scrollen, wenn zu einer neuen Route navigiert wird oder die Scroll-Position von Verlaufseinträgen wie beim Neuladen der Seite beizubehalten. `vue-router` erlaubt diese Vorgehensweisen und ermöglicht sogar das Scroll-Verhalten zu individualisieren.
+Oft wollen wir, dass die Seite nach oben scrollt, wenn zu einer neuen Route navigiert wird, oder dass die Scroll-Position von Verlaufseinträgen wie beim Neuladen einer Seite beibehalten wird. `vue-router` ermöglichst das und noch mehr - wir könne das Scroll-Verhalten komplett individualisieren.
 
-> Merke: Dies funktioniert nur im HTML5-Verlaufsmodus.
+> Merke: Dies funktioniert nur im HTML5-Verlaufsmodus ("history mode").
 
-Bei Kreierung der Router-Instanz fügt man die `scrollBehavior`-Funktion hinzu:
+Beim Erzeugen der Router-Instanz fügt man die `scrollBehavior`-Funktion hinzu:
 
 ``` js
 const router = new VueRouter({
   routes: [...],
   scrollBehavior (to, from, savedPosition) {
-    // Wiedergabe der gewünschten Position
+    // zurückgeben der gewünschten Position
   }
 })
 ```
 
-Die `scrollBehavior`-Funktion erhält die Route-Objeke `to` und `from`. Das dritte Argument `savedPosition` steht nur zur Verfügung, wenn es sich um eine `popstate`-Navigation (ausgeführt durch Vor-/Zurück-Button des Browsers) handelt.
+Die `scrollBehavior`-Funktion erhält die Route-Objeke `to` und `from` als Argumente. Das dritte Argument `savedPosition` steht nur zur Verfügung, wenn es sich um eine `popstate`-Navigation handelt (d.h. der Vor-/Zurück-Button des Browsers hat die Navigation ausgelöst).
 
-Die Funktion gibt ein Objekt der Scroll-Position wieder. Das Objekt könnte folgendermaßen aussehen:
+Die Funktion sollte ein Objekt zurückgeben, dass die Scroll-Position beschreibt. Das Objekt kann folgendermaßen aussehen:
 
 - `{ x: number, y: number }`
 - `{ selector: string }`
 
-Wenn ein falschartiger (falsy) Wert oder ein leeres Objekt wiedergegeben wird, wird nicht gescrollt.
+Wenn ein falsch-artiger (falsy) Wert oder ein leeres Objekt zurückgegeben wird, wird nicht gescrollt.
 
-Beim folgenden Beispiel scrollt die Seite nach oben:
+Im folgenden Beispiel scrollt die Seite komplett nach oben:
 ``` js
 scrollBehavior (to, from, savedPosition) {
   return { x: 0, y: 0 }
@@ -32,7 +32,7 @@ scrollBehavior (to, from, savedPosition) {
 ```
 
 
-Wiedergabe von `savedPosition` resultiert in einem nativähnlichen Verhalten, wenn mit den Vor-/Zurück-Buttons des Browsers navigiert wird.
+Wenn die Function das `savedPosition`-Object zurückgibt, verhält sich die Seite ähnlich wie bei der Browser selbst bei normalen Websites, wenn mit den Vor-/Zurück-Buttons des Browsers navigiert wird.
 
 ``` js
 scrollBehavior (to, from, savedPosition) {
@@ -44,7 +44,7 @@ scrollBehavior (to, from, savedPosition) {
 }
 ```
 
-Für die Simulation des "Scroll zum Anker"-Verhalten:
+Simulation des "Scrolle zum Anchor"-Verhaltens:
 ``` js
 scrollBehavior (to, from, savedPosition) {
   if (to.hash) {
@@ -55,4 +55,4 @@ scrollBehavior (to, from, savedPosition) {
 }
 ```
 
-Die Implementierung von [Route-Metafelder](meta.md) kann auch für feine Kontrolle über das Scroll-Verhalten genutzt werden. Siehe [hier](https://github.com/vuejs/vue-router/blob/dev/examples/scroll-behavior/app.js) für ein Beispiel.
+Du kannst außerdem die [Route Meta-Felder](meta.md) für eine noch genauere Kontrolle des Scroll-Verhaltens nutzen.  [Hier](https://github.com/vuejs/vue-router/blob/dev/examples/scroll-behavior/app.js) findest du ein Beispiel.

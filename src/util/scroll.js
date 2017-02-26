@@ -8,12 +8,11 @@ const positionStore = Object.create(null)
 
 export function setupScroll () {
   window.addEventListener('popstate', e => {
+    saveScrollPosition()
     if (e.state && e.state.key) {
       setStateKey(e.state.key)
     }
   })
-
-  window.addEventListener('scroll', saveScrollPosition)
 }
 
 export function handleScroll (
@@ -78,7 +77,8 @@ function getScrollPosition (): ?Object {
 }
 
 function getElementPosition (el: Element): Object {
-  const docRect = document.documentElement.getBoundingClientRect()
+  const docEl: any = document.documentElement
+  const docRect = docEl.getBoundingClientRect()
   const elRect = el.getBoundingClientRect()
   return {
     x: elRect.left - docRect.left,
