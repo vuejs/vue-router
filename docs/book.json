@@ -3,7 +3,7 @@
   "plugins": ["edit-link", "theme-vuejs@git+https://github.com/pearofducks/gitbook-plugin-theme-vuejs.git", "-fontsettings", "github"],
   "pluginsConfig": {
     "edit-link": {
-      "base": "https://github.com/vuejs/vue-router/tree/master/docs",
+      "base": "https://github.com/vuejs/vue-router/tree/dev/docs",
       "label": "Edit This Page"
     },
     "github": {

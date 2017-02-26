@@ -1,6 +1,6 @@
-# Übergänge
+# Transitions (Übergänge)
 
-Da `<router-view>` im Grunde eine dynamische Komponente ist, kann man Übergangseffekte mit der `<transition>`-Komponente hinzufügen:
+Da `<router-view>` im Grunde eine dynamische Komponente ist, kann man Übergangs-Effekte mit der `<transition>`-Komponente hinzufügen:
 
 ``` html
 <transition>
@@ -8,11 +8,11 @@ Da `<router-view>` im Grunde eine dynamische Komponente ist, kann man Übergangs
 </transition>
 ```
 
-[Alles über `<transition>`](http://vuejs.org/guide/transitions.html) funktioniert auch hier.
+[Alle Features von `<transition>`](http://vuejs.org/guide/transitions.html) funktionieren hier genauso.
 
-### Per-Route-Übergang
+### Übergang für einzelne Routes
 
-Das obige setzt den gleichen Übergangseffekt auf alle Routes. Wenn unterschiedliche Übergänge pro Route gewollt sind, kann man `<transition>` in der Route-Komponente jeweils andere Namen verpassen:
+Das obige Beispiel nutzt den gleichen Übergangseffekt für alle Routes. Wenn unterschiedliche Übergänge je Route gewollt sind, kann man `<transition>` stattdessen *in* der Route-Komponente mit jeweils anderen Namen verwenden:
 
 ``` js
 const Foo = {
@@ -55,4 +55,4 @@ watch: {
 }
 ```
 
-Siehe als Beispiel [hier](https://github.com/vuejs/vue-router/blob/dev/examples/transitions/app.js).
+Komplette Beispiel [hier](https://github.com/vuejs/vue-router/blob/dev/examples/transitions/app.js) ansehen.

@@ -27,6 +27,13 @@ const User = {
 const router = new VueRouter({
   routes: [
     { path: '/user/:id', component: User, props: true }
+    
+    // for routes with named views, you have to define the props option for each named view:
+    {
+      path: '/user/:id', 
+      components: { default: User, sidebar: Sidebar },
+      props: { default: true, sidebar: false }
+    }
   ]
 })
 ```
@@ -53,7 +60,7 @@ const router = new VueRouter({
 ### Function mode
 
 You can create a function that returns props.
-This allows you to to cast the parameter to another type, combine static values with route-based values, etc.
+This allows you to cast the parameter to another type, combine static values with route-based values, etc.
 
 ``` js
 const router = new VueRouter({

@@ -5,7 +5,7 @@
 [https://unpkg.com/vue-router](https://unpkg.com/vue-router)
 
 <!--email_off-->
-[Unpkg.com](https://unpkg.com) bietet NPM-basierte CDN-Links an. Der obige Link führt immer zur aktuellsten Version auf NPM. Eine bestimmte Version kann via URL genutzt werden: `https://unpkg.com/vue-router@2.0.0`.
+[Unpkg.com](https://unpkg.com) bietet NPM-basierte CDN-Links an. Der obige Link führt immer zur aktuellsten Version auf NPM. Eine genaue Version kann via URL genutzt werden: `https://unpkg.com/vue-router@2.0.0`.
 <!--/email_off-->
 
 Füge `vue-router` nach Vue ein und es installiert sich selbst automatisch:
@@ -21,7 +21,7 @@ Füge `vue-router` nach Vue ein und es installiert sich selbst automatisch:
 npm install vue-router
 ```
 
-Wenn mit einem Modulsystem genutzt, muss der Router explizit via `Vue.use()` installiert werden:
+Wenn ein Module-System genutzt wird (z.B. Webpack, Browserify), muss der Router explizit via `Vue.use()` installiert werden:
 
 ``` js
 import Vue from 'vue'
@@ -30,11 +30,11 @@ import VueRouter from 'vue-router'
 Vue.use(VueRouter)
 ```
 
-Das muss nicht getan werden, wenn globale Skript-Tags genutzt werden.
+Wenn globale Skript-Tags genutzt werden ist das nicht notwendig.
 
-### Dev Build
+### Dev Build (Entwicklungs-Version)
 
-Die Repo muss direkt von GitHub geklont und `vue-router`-Build selbst erstellt werden, wenn die aktuelle Dev-Version gewünscht ist.
+Wenn die aktuelle Dev-Version genutzt werden soll, muss das Repository direkt von GitHub geklont und die aktuelle `vue-router`-Build selbst erstellt werden, .
 
 
 ``` bash
