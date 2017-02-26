@@ -5,6 +5,8 @@
   "author": "Evan You",
   "license": "MIT",
   "main": "dist/vue-router.common.js",
+  "module": "dist/vue-router.esm.js",
+  "unpkg": "dist/vue-router.js",
   "repository": {
     "type": "git",
     "url": "https://github.com/vuejs/vue-router.git"
@@ -14,6 +16,7 @@
     "dist/vue-router.js",
     "dist/vue-router.min.js",
     "dist/vue-router.common.js",
+    "dist/vue-router.esm.js",
     "src",
     "types/index.d.ts",
     "types/router.d.ts",
@@ -79,6 +82,5 @@
     "vue-template-compiler": "^2.1.0",
     "webpack": "^2.2.0",
     "webpack-dev-middleware": "^1.9.0"
-  },
-  "unpkg": "dist/vue-router.js"
+  }
 }
