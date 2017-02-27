@@ -37,6 +37,10 @@ build([
   {
     dest: resolve('dist/vue-router.common.js'),
     format: 'cjs'
+  },
+  {
+    dest: resolve('dist/vue-router.esm.js'),
+    format: 'es'
   }
 ].map(genConfig))
 

@@ -1,10 +1,12 @@
 {
   "name": "vue-router",
-  "version": "2.2.1",
+  "version": "2.3.0",
   "description": "Official router for Vue.js 2",
   "author": "Evan You",
   "license": "MIT",
   "main": "dist/vue-router.common.js",
+  "module": "dist/vue-router.esm.js",
+  "unpkg": "dist/vue-router.js",
   "repository": {
     "type": "git",
     "url": "https://github.com/vuejs/vue-router.git"
@@ -14,6 +16,7 @@
     "dist/vue-router.js",
     "dist/vue-router.min.js",
     "dist/vue-router.common.js",
+    "dist/vue-router.esm.js",
     "src",
     "types/index.d.ts",
     "types/router.d.ts",
@@ -53,12 +56,12 @@
     "eslint": "^3.0.1",
     "eslint-config-vue": "^2.0.1",
     "eslint-plugin-flow-vars": "^0.5.0",
-    "eslint-plugin-vue": "^1.0.0",
+    "eslint-plugin-vue": "^2.0.1",
     "express": "^4.14.0",
     "express-urlrewrite": "^1.2.0",
-    "flow-bin": "^0.33.0",
+    "flow-bin": "^0.40.0",
     "gitbook-plugin-edit-link": "^2.0.2",
-    "gitbook-plugin-github": "^2.0.0",
+    "gitbook-plugin-github": "^3.0.0",
     "jasmine": "2.5.3",
     "nightwatch": "^0.9.5",
     "nightwatch-helpers": "^1.0.0",
@@ -75,10 +78,9 @@
     "typescript": "^2.0.3",
     "uglify-js": "^2.7.0",
     "vue": "^2.1.0",
-    "vue-loader": "^10.0.0",
+    "vue-loader": "^11.0.0",
     "vue-template-compiler": "^2.1.0",
     "webpack": "^2.2.0",
     "webpack-dev-middleware": "^1.9.0"
-  },
-  "unpkg": "dist/vue-router.js"
+  }
 }

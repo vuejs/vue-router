@@ -77,7 +77,8 @@ function getScrollPosition (): ?Object {
 }
 
 function getElementPosition (el: Element): Object {
-  const docRect = document.documentElement.getBoundingClientRect()
+  const docEl: any = document.documentElement
+  const docRect = docEl.getBoundingClientRect()
   const elRect = el.getBoundingClientRect()
   return {
     x: elRect.left - docRect.left,

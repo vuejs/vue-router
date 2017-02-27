@@ -17,11 +17,11 @@ export class History {
   readyCbs: Array<Function>;
 
   // implemented by sub-classes
-  go: (n: number) => void;
-  push: (loc: RawLocation) => void;
-  replace: (loc: RawLocation) => void;
-  ensureURL: (push?: boolean) => void;
-  getCurrentLocation: () => string;
+  +go: (n: number) => void;
+  +push: (loc: RawLocation) => void;
+  +replace: (loc: RawLocation) => void;
+  +ensureURL: (push?: boolean) => void;
+  +getCurrentLocation: () => string;
 
   constructor (router: Router, base: ?string) {
     this.router = router
@@ -150,7 +150,7 @@ function normalizeBase (base: ?string): string {
     if (inBrowser) {
       // respect <base> tag
       const baseEl = document.querySelector('base')
-      base = baseEl ? baseEl.getAttribute('href') : '/'
+      base = (baseEl && baseEl.getAttribute('href')) || '/'
     } else {
       base = '/'
     }
