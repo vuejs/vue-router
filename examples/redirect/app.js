@@ -54,7 +54,7 @@ const router = new VueRouter({
     { path: '/foobar', redirect: '/FooBar', caseSensitive: true },
 
     // redirect with pathToRegexpOptions
-    { path: '/FooBar', redirect: '/bar', pathToRegexpOptions: { sensitive: true }},
+    { path: '/FooBar', redirect: '/FOOBAR', pathToRegexpOptions: { sensitive: true }},
 
     // catch all redirect
     { path: '*', redirect: '/' }
