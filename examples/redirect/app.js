@@ -50,6 +50,12 @@ const router = new VueRouter({
     // redirect with params
     { path: '/redirect-with-params/:id', redirect: '/with-params/:id' },
 
+    // redirect with caseSensitive
+    { path: '/foobar', redirect: '/FooBar', caseSensitive: true },
+
+    // redirect with pathToRegexpOptions
+    { path: '/FooBar', redirect: '/bar', pathToRegexpOptions: { sensitive: true }},
+
     // catch all redirect
     { path: '*', redirect: '/' }
   ]
@@ -95,6 +101,14 @@ new Vue({
 
         <li><router-link to="/redirect-with-params/123">
           /redirect-with-params/123 (redirects to /with-params/123)
+        </router-link></li>
+        
+        <li><router-link to="/foobar">
+          /foobar (redirects to /FooBar)
+        </router-link></li>
+        
+        <li><router-link to="/FooBar">
+          /FooBar (redirects to /bar)
         </router-link></li>
 
         <li><router-link to="/not-found">
