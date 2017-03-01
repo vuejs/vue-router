@@ -108,7 +108,7 @@ new Vue({
         </router-link></li>
         
         <li><router-link to="/FooBar">
-          /FooBar (redirects to /bar)
+          /FooBar (redirects to /FOOBAR)
         </router-link></li>
 
         <li><router-link to="/not-found">
