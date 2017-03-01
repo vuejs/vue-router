@@ -21,7 +21,14 @@ const router = new VueRouter({
     // asterisk can match anything
     { path: '/asterisk/*' },
     // make part of the path optional by wrapping with parens and add "?"
-    { path: '/optional-group/(foo/)?bar' }
+    { path: '/optional-group/(foo/)?bar' },
+
+    // caseSensitive match
+    { path: '/FooBar', caseSensitive: true },
+    { path: '/FOOBar', pathToRegexpOptions: { sensitive: true }},
+    // Not case sensitive (which is default)
+    { path: '/foo', caseSensitive: false },
+    { path: '/FOO', caseSensitive: false } // Should match /foo
   ]
 })
 
@@ -41,6 +48,10 @@ new Vue({
         <li><router-link to="/asterisk/foo/bar">/asterisk/foo/bar</router-link></li>
         <li><router-link to="/optional-group/bar">/optional-group/bar</router-link></li>
         <li><router-link to="/optional-group/foo/bar">/optional-group/foo/bar</router-link></li>
+        <li><router-link to="/FooBar">/FooBar</router-link></li>
+        <li><router-link to="/FOOBar">/FOOBar</router-link></li>
+        <li><router-link to="/foo">/foo</router-link></li>
+        <li><router-link to="/FOO">/FOO</router-link></li>
       </ul>
       <p>Route context</p>
       <pre>{{ JSON.stringify($route, null, 2) }}</pre>

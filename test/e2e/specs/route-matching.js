@@ -3,7 +3,7 @@ module.exports = {
     browser
     .url('http://localhost:8080/route-matching/')
       .waitForElementVisible('#app', 1000)
-      .assert.count('li a', 10)
+      .assert.count('li a', 14)
       .assert.evaluate(function () {
         var route = JSON.parse(document.querySelector('pre').textContent)
         return (
@@ -125,6 +125,53 @@ module.exports = {
         )
       }, null, '/optional-group/foo/bar')
 
+      .click('li:nth-child(11) a')
+      .assert.evaluate(function () {
+        var route = JSON.parse(document.querySelector('pre').textContent)
+        return (
+          route.matched.length === 1 &&
+          route.matched[0].path === '/FooBar' &&
+          route.fullPath === '/FooBar' &&
+          JSON.stringify(route.params) === JSON.stringify({}) &&
+          route.matched[0].pathToRegexpOptions.sensitive === true
+        )
+      }, null, '/FooBar')
+
+      .click('li:nth-child(12) a')
+      .assert.evaluate(function () {
+        var route = JSON.parse(document.querySelector('pre').textContent)
+        return (
+          route.matched.length === 1 &&
+          route.matched[0].path === '/FOOBar' &&
+          route.fullPath === '/FOOBar' &&
+          JSON.stringify(route.params) === JSON.stringify({}) &&
+          route.matched[0].pathToRegexpOptions.sensitive === true
+        )
+      }, null, '/FOOBar')
+
+      .click('li:nth-child(13) a')
+      .assert.evaluate(function () {
+        var route = JSON.parse(document.querySelector('pre').textContent)
+        return (
+          route.matched.length === 1 &&
+          route.matched[0].path === '/foo' &&
+          route.fullPath === '/foo' &&
+          JSON.stringify(route.params) === JSON.stringify({}) &&
+          route.matched[0].pathToRegexpOptions.sensitive === false
+        )
+      }, null, '/foo')
+
+      .click('li:nth-child(14) a')
+      .assert.evaluate(function () {
+        var route = JSON.parse(document.querySelector('pre').textContent)
+        return (
+          route.matched.length === 1 &&
+          route.matched[0].path === '/foo' &&
+          route.fullPath === '/FOO' &&
+          JSON.stringify(route.params) === JSON.stringify({}) &&
+          route.matched[0].pathToRegexpOptions.sensitive === false
+        )
+      }, null, '/FOOBar')
       .end()
   }
 }
