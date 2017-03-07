@@ -40,6 +40,8 @@ const router = new VueRouter({
 
 This allows you to use the component anywhere, which makes the component easier to reuse and test.
 
+> Note that nested route views receive props from their parent component and therefore cannot be passed passed props from the route.
+
 ### Boolean mode
 
 When props is set to true, the route.params will be set as the component props.
