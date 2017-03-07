@@ -13,14 +13,9 @@
   },
   "typings": "types/index.d.ts",
   "files": [
-    "dist/vue-router.js",
-    "dist/vue-router.min.js",
-    "dist/vue-router.common.js",
-    "dist/vue-router.esm.js",
     "src",
-    "types/index.d.ts",
-    "types/router.d.ts",
-    "types/vue.d.ts"
+    "dist/*.js",
+    "types/*.d.ts"
   ],
   "keywords": [
     "vue",
