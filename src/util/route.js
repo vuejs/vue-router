@@ -11,6 +11,7 @@ export function createRoute (
 ): Route {
   const route: Route = {
     name: location.name || (record && record.name),
+    title: (record && record.title) || '',
     meta: (record && record.meta) || {},
     path: location.path || '/',
     hash: location.hash || '',
