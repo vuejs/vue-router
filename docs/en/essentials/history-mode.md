@@ -44,7 +44,7 @@ location / {
 
 For Node.js/Express, consider using [connect-history-api-fallback middleware](https://github.com/bripkens/connect-history-api-fallback).
 
-### Internet Information Services (IIS)
+#### Internet Information Services (IIS)
 ```
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
