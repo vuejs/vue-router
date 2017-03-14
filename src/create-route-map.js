@@ -81,7 +81,7 @@ function addRouteRecord (
       : route.components
         ? route.props
         : { default: route.props },
-    pathToRegexpOptions: pathToRegexpOptions
+    pathToRegexpOptions
   }
 
   if (route.children) {
