@@ -171,7 +171,7 @@ module.exports = {
           JSON.stringify(route.params) === JSON.stringify({}) &&
           route.matched[0].pathToRegexpOptions.sensitive === false
         )
-      }, null, '/FOOBar')
+      }, null, '/FOO')
       .end()
   }
 }
