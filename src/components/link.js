@@ -82,7 +82,12 @@ export default {
     return h(this.tag, data, this.$slots.default)
   }
 }
-
+// return first anchor parent of element
+function getAnchorParent (event) {
+  return event.path.find(parent => {
+    return parent.localName === 'a'
+  })
+}
 function guardEvent (e) {
   // don't redirect with control keys
   if (e.metaKey || e.ctrlKey || e.shiftKey) return
@@ -91,8 +96,16 @@ function guardEvent (e) {
   // don't redirect on right click
   if (e.button !== undefined && e.button !== 0) return
   // don't redirect if `target="_blank"`
+
   if (e.target && e.target.getAttribute) {
-    const target = e.target.getAttribute('target')
+    let target
+    // check if anchor tag
+    if (e.target.localName === 'a') {
+      target = e.target.getAttribute('target')
+    } else {
+      // get anchor parent of element and assign target attribute
+      target = getAnchorParent(e).getAttribute('target')
+    }
     if (/\b_blank\b/i.test(target)) return
   }
   // this may be a Weex event which doesn't have this method
