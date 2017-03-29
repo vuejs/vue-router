@@ -1,5 +1,5 @@
 /**
-  * vue-router v2.2.1
+  * vue-router v2.3.1
   * (c) 2017 Evan You
   * @license MIT
   */
@@ -1449,7 +1449,8 @@ function getScrollPosition () {
 }
 
 function getElementPosition (el) {
-  var docRect = document.documentElement.getBoundingClientRect();
+  var docEl = document.documentElement;
+  var docRect = docEl.getBoundingClientRect();
   var elRect = el.getBoundingClientRect();
   return {
     x: elRect.left - docRect.left,
@@ -1680,7 +1681,7 @@ function normalizeBase (base) {
     if (inBrowser) {
       // respect <base> tag
       var baseEl = document.querySelector('base');
-      base = baseEl ? baseEl.getAttribute('href') : '/';
+      base = (baseEl && baseEl.getAttribute('href')) || '/';
     } else {
       base = '/';
     }
@@ -1895,9 +1896,11 @@ var HTML5History = (function (History$$1) {
   HTML5History.prototype.push = function push (location, onComplete, onAbort) {
     var this$1 = this;
 
+    var ref = this;
+    var fromRoute = ref.current;
     this.transitionTo(location, function (route) {
       pushState(cleanPath(this$1.base + route.fullPath));
-      handleScroll(this$1.router, route, this$1.current, false);
+      handleScroll(this$1.router, route, fromRoute, false);
       onComplete && onComplete(route);
     }, onAbort);
   };
@@ -1905,9 +1908,11 @@ var HTML5History = (function (History$$1) {
   HTML5History.prototype.replace = function replace (location, onComplete, onAbort) {
     var this$1 = this;
 
+    var ref = this;
+    var fromRoute = ref.current;
     this.transitionTo(location, function (route) {
       replaceState(cleanPath(this$1.base + route.fullPath));
-      handleScroll(this$1.router, route, this$1.current, false);
+      handleScroll(this$1.router, route, fromRoute, false);
       onComplete && onComplete(route);
     }, onAbort);
   };
@@ -2269,7 +2274,7 @@ function createHref (base, fullPath, mode) {
 }
 
 VueRouter.install = install;
-VueRouter.version = '2.2.1';
+VueRouter.version = '2.3.1';
 
 if (inBrowser && window.Vue) {
   window.Vue.use(VueRouter);
