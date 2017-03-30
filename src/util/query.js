@@ -21,7 +21,7 @@ export function resolveQuery (
 ): Dictionary<string> {
   let parsedQuery
   try {
-    parsedQuery = parseQuery(query)
+    parsedQuery = parseQuery(query || '')
   } catch (e) {
     process.env.NODE_ENV !== 'production' && warn(false, e.message)
     parsedQuery = {}
