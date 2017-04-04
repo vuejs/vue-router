@@ -91,8 +91,8 @@ function guardEvent (e) {
   // don't redirect on right click
   if (e.button !== undefined && e.button !== 0) return
   // don't redirect if `target="_blank"`
-  if (e.target && e.target.getAttribute) {
-    const target = e.target.getAttribute('target')
+  if (e.currentTarget && e.currentTarget.getAttribute) {
+    const target = e.currentTarget.getAttribute('target')
     if (/\b_blank\b/i.test(target)) return
   }
   // this may be a Weex event which doesn't have this method

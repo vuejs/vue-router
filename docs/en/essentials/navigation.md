@@ -15,7 +15,7 @@ This is the method called internally when you click a `<router-link>`, so clicki
 The argument can be a string path, or a location descriptor object. Examples:
 
 ``` js
-// literal string
+// literal string path
 router.push('home')
 
 // object
