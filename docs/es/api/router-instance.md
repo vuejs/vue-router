@@ -12,7 +12,7 @@
 
 - tipo: `string`
 
-  El [modo](options.md#mode) que el enrutador está utilizando.
+  El [modo](options.md#mode) que `router` está utilizando.
 
 #### router.currentRoute
 
@@ -34,11 +34,11 @@
 - **router.back()**
 - **router.forward()**
 
-  Navega programáticamente a una nueva URL. Info: [navegación programática](../essentials/navigation.md).
+  Navega mediante código a una nueva URL. Info: [navegación mediante código](../essentials/navigation.md).
 
 - **router.getMatchedComponents(location?)**
 
-  Devuelve un arreglo de componentes (definiciones/constructores, no instancias) que coincidan con la ubicación provista o la ruta actual. Se utiliza principalmente durante el renderizado del lado servidor para realizar precarga de datos.
+  Devuelve un vector de componentes (definiciones/constructores, no instancias) que coincidan con la ubicación provista o la ruta actual. Se utiliza principalmente durante el renderizado del lado servidor para realizar precarga de datos.
 
 - **router.resolve(location, current?, append?)**
 
@@ -58,12 +58,12 @@
 
   > 2.2.0+
 
-  Agrega dinámicamente más rutas al enrutador. El argumento debe ser un arreglo utilizando el mismo formato de configuración que las opciones del constructor de `routes`.
+  Agrega dinámicamente más rutas al `router`. El argumento debe ser un vector utilizando el mismo formato de configuración que las opciones del constructor de `routes`.
 
 - **router.onReady(callback)**
 
   > 2.2.0+
 
-  Este método pone una _callback_ en espera a ser llamada cuando el enrutador haya completado la navegación inicial, lo cual significa que ya ha resuelto todos los _hooks_ de entrada asíncronos y los componentes asíncronos asociados con la ruta inicial.
+  Este método pone una _función callback_ en espera a ser llamada cuando el `router` haya completado la navegación inicial, lo cual significa que ya ha resuelto todos los _hooks_ de entrada asíncronos y los componentes asíncronos asociados con la ruta inicial.
 
   Esto es útil en el renderizado del lado servidor para asegurar un resultado consistente tanto en el servidor como en el cliente.

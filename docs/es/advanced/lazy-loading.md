@@ -21,7 +21,7 @@ Hay una alternativa a la sintaxis de división de código utilizando _require_ c
 const Foo = resolve => require(['./Foo.vue'], resolve)
 ```
 
-Nada debe cambiarse en la configuración del enrutador, simplemente utiliza `Foo` normalmente:
+Nada debe cambiarse en la configuración del _router_, solo utiliza `Foo` como lo harías normalmente:
 
 ``` js
 const router = new VueRouter({
@@ -41,4 +41,4 @@ const Bar = r => require.ensure([], () => r(require('./Bar.vue')), 'group-foo')
 const Baz = r => require.ensure([], () => r(require('./Baz.vue')), 'group-foo')
 ```
 
-Webpack agrupará los módulos asíncronos con el mismo nombre dentro de la misma porción asíncrona - esto también significa que no necesitamos más listar explícitamente las dependencias de `require.ensure` (por lo tanto pasamos un arreglo vacio).
+Webpack agrupará los módulos asíncronos con el mismo nombre dentro de la misma porción asíncrona - esto también significa que no necesitamos más listar explícitamente las dependencias de `require.ensure` (por lo tanto pasamos un vector vacío).

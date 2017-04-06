@@ -27,7 +27,7 @@ Primero, cada objeto route en la configuración de `routes` se llama **registro 
 
 Por ejemplo, con la configuración anterior, la URL `/foo/bar` coincidirá tanto con el registro de ruta padre como con el hijo.
 
-Todos los registros de rutas que hayan coincidido son expuestos en el objeto `$route` (y también a los objetos route en los guardias de navegación) como el arreglo `$route.matched`. Por ende, necesitaremos iterar sobre `$route.matched` para verificar campos meta en los registros de rutas.
+Todos los registros de rutas que hayan coincidido son expuestos en el objeto `$route` (y también a los objetos route en las guardias de navegación) como el arreglo `$route.matched`. Por ende, necesitaremos iterar sobre `$route.matched` para verificar campos meta en los registros de rutas.
 
 Un caso de uso de ejemplo es verificar la existencia de campos metas en los guardias de navegación global:
 

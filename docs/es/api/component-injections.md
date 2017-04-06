@@ -2,11 +2,11 @@
 
 ### Propiedades inyectadas
 
-Estas propiedades son inyectadas dentro de cada componente hijo pasando la instancia del enrutador a la instancia principal como la opción `router`.
+Estas propiedades son inyectadas dentro de cada componente hijo pasando la instancia del `router` a la instancia principal como la opción `router`.
 
 - #### $router
 
-  La instancia del enrutador.
+  La instancia del `router`.
 
 - #### $route
 

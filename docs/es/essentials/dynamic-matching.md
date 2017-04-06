@@ -17,7 +17,7 @@ const router = new VueRouter({
 
 Ahora, las URL como `/user/foo` y `/user/bar` mapearán a la misma ruta.
 
-Un segmento dinámico se representa con dos puntos `:`. Cuando se encuentra una coincidencia en la ruta, el valor del segmento dinámico se expondrá como `this.$route.params` en cada componente. Por lo tanto, podremos renderizar el ID del usuario actual modificando el template de `User`de la siguiente manera:
+Un segmento dinámico se representa mediante dos puntos `:`. Cuando se encuentra una coincidencia en la ruta, el valor del segmento dinámico se expondrá como `this.$route.params` en cada componente. Por lo tanto, podremos renderizar el ID del usuario actual modificando el template de `User`de la siguiente manera:
 
 ``` js
 const User = {
@@ -36,9 +36,9 @@ Se pueden tener múltiples segmentos dinámicos en la misma ruta, y todos serán
 
 Además de `$route.params`, el objeto `$route` expone más información útil, como `$route.query` (si hay alguna _query_ en la URL), `$route.hash`, etc. Puedes verificar todos los detalles en la documentación de la [API](../api/route-object.md).
 
-### Reaccionando a cambios en los parámetros
+### Reaccionando ante cambios de los parámetros
 
-Una cosa a tener en cuenta cuando se usan rutas con parámetros es que cuando el usuario navega de `/user/foo` a `/user/bar`, **la misma instancia del componente será reutilizada**. Dado que ambas rutas renderizan el mismo componente, esto es más eficiente que destruir la instancia anterior y crear una nueva. **Sin embargo, esto significa que los eventos del ciclo de vida del componentes no serán emitidos**.
+Una cosa a tener en cuenta cuando se usan rutas con parámetros es que cuando el usuario navega de `/user/foo` a `/user/bar`, **la misma instancia del componente será reutilizada**. Dado que ambas rutas renderizan el mismo componente, esto es más eficiente que destruir la instancia anterior y crear una nueva. **Sin embargo, esto significa que los hooks del ciclo de vida del componentes no serán emitidos**.
 
 Para detectar cambios en los parámetros en el mismo componente, puedes observar el objeto `$route`:
 

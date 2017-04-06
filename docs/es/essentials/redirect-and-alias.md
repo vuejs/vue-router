@@ -2,7 +2,7 @@
 
 ### Redireccionamiento
 
-El redireccionamiento se realiza en la configuración de `routes`. Para redireccionar de `/a` a `/b`:
+El redireccionamiento también se realiza en la configuración de `routes`. Para redireccionar desde `/a` hasta `/b`:
 
 ``` js
 const router = new VueRouter({
@@ -43,7 +43,7 @@ Una redirección significa que el usuario visita `/a`, y la URL será reemplazad
 
 **Un alias de `/a` como `/b` significa que cuando el usuario visita `/b`, la URL se mantiene como `/b`, pero el código ejecutado corresponderá al mismo que si el usuario visitase `/a`.**
 
-Lo anterior puede ser expresado en la configuracion de enrutamiento como:
+Lo anterior puede ser expresado en la configuración de enrutamiento como:
 
 ``` js
 const router = new VueRouter({

@@ -1,10 +1,10 @@
 # `<router-link>`
 
-`<router-link>` es el componente para posibilitar la navegación de los usuarios en una aplicación con el enrutador habilitado. La ubicación destino se especifica con la propiedad `to`. Por defecto, renderiza una etiqueta `<a>` en el atributo `href` correspondiente, pero puede configurarse con la propiedad `tag`. Además, el enlace obtiene una clase CSS cuando la ruta a la que apunta es activada.
+`<router-link>` es el componente para posibilitar la navegación de los usuarios en una aplicación con el `router` habilitado. La ubicación destino se especifica con la propiedad `to`. Por defecto, renderiza una etiqueta `<a>` con el atributo `href` correspondiente, pero puede configurarse mediante la propiedad `tag`. Además, el enlace obtiene una clase CSS cuando la ruta a la que apunta es activada.
 
 Es preferible utilizar `<router-link>` en lugar de escribir directamente `<a href="...">` por las siguientes razones:
 
-- Funciona de la misma manera tanto en el modo _hash_ como en el modo historial de HTML5, por lo que si decides intercambiar modos, o cuando el router utiliza el modo _hash_ en IE9, no deberás cambiar nada.
+- Funciona de la misma manera tanto en el modo _hash_ como en el modo historial de HTML5, por lo que si decides intercambiar modos, o cuando el `router` utiliza el modo _hash_ en IE9, no deberás modificar nada.
 
 - En el modo historial de HTML5, `router-link` interceptará el evento _click_ para que el navegador no intente recargar la página.
 
@@ -18,7 +18,7 @@ Es preferible utilizar `<router-link>` en lugar de escribir directamente `<a hre
 
   - requerida
 
-  Identifica la ruta destino del enlace. Cuando es accedida, el valor de la propiedad `to` será pasada a `router.push()` internamente, por lo que el valor puede ser tanto una cadena de texto como un objeto descriptor de ubicación.
+  Identifica la ruta destino del enlace. Cuando es accedida, el valor de la propiedad `to` será pasado a `router.push()` internamente, por lo que el valor puede ser tanto una cadena de texto como un objeto descriptor de ubicación.
 
   ``` html
   <!-- cadena de texto -->
@@ -86,7 +86,7 @@ Es preferible utilizar `<router-link>` en lugar de escribir directamente `<a hre
 
   - valor por defecto: `"router-link-active"`
 
-  Configura la clase CSS que se aplicará al enlace cuando este activo. Nota que el valor por defecto puede ser configurado de manera global a través de la opción `linkActiveClass`  del constructor del enrutador.
+  Configura la clase CSS que se aplicará al enlace cuando este activo. Nota que el valor por defecto puede ser configurado de manera global a través de la opción `linkActiveClass`  del constructor del `router`.
 
 - **exact**
 
@@ -113,11 +113,11 @@ Es preferible utilizar `<router-link>` en lugar de escribir directamente `<a hre
 
   - valor por defecto: `'click'`
 
-  Especifica el evento(s) que serán disparados cuando se acceda al enlace.
+  Especifica el evento(s) que será(n) disparado(s) cuando se acceda al enlace.
 
 ### Aplicar la clase activa al elemento envolvente.
 
-A veces podemos querer que la clase activa se aplique al elemento envolvente en lugar de aplicarla directamente a la etiqueta `<a>`, en ese caso, puedes renderizar el elemento envolvente utilizando `<router-link>` y luego una etiqueta `<a>` dentro:
+A veces puede que queramos que la clase activa se aplique al elemento envolvente en lugar de aplicarla directamente a la etiqueta `<a>`. En ese caso, puedes renderizar el elemento envolvente utilizando `<router-link>` y luego una etiqueta `<a>` dentro:
 
 ``` html
 <router-link tag="li" to="/foo">

@@ -1,18 +1,18 @@
 # El objeto Route
 
-Un **objeto de ruta** representa el estado de la ruta activa actualmente. Contiene información analizada de la URL actual y los **registros de rutas** que coinciden con ella.
+Un **objeto Route** representa el estado de la ruta activa actualmente. Contiene información analizada de la URL actual y los **registros de rutas** que coinciden con ella.
 
-El objeto ruta es inmutable. Cada navegación exitosa resultará en un nuevo objeto de ruta.
+El objeto `Route` es inmutable. Cada navegación exitosa resultará en un nuevo objeto `Route`.
 
-El objeto de ruta puede encontrarse en diferentes lugares.
+El objeto `Route` puede encontrarse en diferentes lugares.
 
 - Dentro de los componentes, como `this.$route`
 
-- Dentro de las _callbacks_ de observación de `$route`
+- Dentro de las _funciones callbacks_ de observación de `$route`
 
 - Como valor de retorno de la función `router.match(location)`
 
-- Dentro de los guardias de navegación como los primeros dos argumentos:
+- Dentro de las guardias de navegación como los primeros dos argumentos:
 
   ``` js
   router.beforeEach((to, from, next) => {
@@ -30,7 +30,7 @@ El objeto de ruta puede encontrarse en diferentes lugares.
   })
   ```
 
-### Propiedades del objeto Ruta
+### Propiedades del objeto Route
 
 - **$route.path**
 
@@ -66,7 +66,7 @@ El objeto de ruta puede encontrarse en diferentes lugares.
 
   - tipo: `Array<RouteRecord>`
 
-  Un arreglo que contiene **registros de ruta** para todos los segmentos anidados de la ruta actual. Los registros de ruta son copias de los objetos en el arreglo de configuración `routes` (y en los arreglos `children`):
+  Un vector que contiene **registros de ruta** para todos los segmentos anidados de la ruta actual. Los registros de ruta son copias de los objetos en el vector de configuración `routes` (y en los vectores `children`):
 
   ``` js
   const router = new VueRouter({

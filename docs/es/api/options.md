@@ -25,17 +25,17 @@
 
 - tipo: `string`
 
-- valor por defecto: `"hash" (in browser) | "abstract" (in Node.js)`
+- valor por defecto: `"hash" (en navegadores) | "abstract" (en Node.js)`
 
 - valores disponibles: `"hash" | "history" | "abstract"`
 
-  Configura el modo del enrutador.
+  Configura el modo del `router`.
 
   - `hash`: utiliza el _hash_ en la URL para el enrutamiento. Funciona en todos los navegadores que soportan Vue, incluidos aquellos que no soportan la API de historial de HTML5 .
 
   - `history`: requiere la API de historial de HTML y configuración del lado servidor. [Modo historial HTML5](../essentials/history-mode.md).
 
-  - `abstract`: funciona en todos los ambientes de JavaScript, por ejemplo, del lado servidor con Node.js. **Se forzará este modo de trabajo en el enrutador si no se detecta la API de navegador.**
+  - `abstract`: funciona en todos los ambientes de JavaScript, por ejemplo, del lado servidor con Node.js. **Se forzará este modo de trabajo en el router si no se detecta la API de navegador.**
 
 ### base
 
@@ -67,4 +67,4 @@
   ) => { x: number, y: number } | { selector: string } | ?{}
   ```
 
-  Para más detalles, [comportamiento del desplazamiento](../advanced/scroll-behavior.md).
+  Para más detalles, [comportamiento del scroll](../advanced/scroll-behavior.md).

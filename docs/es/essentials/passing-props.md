@@ -1,6 +1,6 @@
-# Pasando Props a componentes de ruteo
+# Pasando propiedades a componentes de ruteo
 
-Usar `$route` en tu componente genera un estrecho acoplamiento con la ruta, lo cual limita la flexibilidad del componente dado que solo puede utilizarse en ciertas URL.
+Usar `$route` en tu componente genera un acoplamiento estrecho con la ruta, lo cual limita la flexibilidad del componente dado que solo puede utilizarse en ciertas URL.
 
 Para desacoplar el componente del enrutador utiliza _props_:
 
@@ -31,11 +31,11 @@ const router = new VueRouter({
 })
 ```
 
-Esto te permite utilizar el componente en cualquier lugar, lo cual hace al mismo reutilizable y más simple de testear.
+Esto te permite utilizar el componente en cualquier lugar, lo cual hace al mismo reutilizable y más sencillo de testear.
 
-### Modo booleano
+### Modo boolean
 
-Cuando _props_ tiene asignado el valor true, route.params serán asignados como las _props_ del componente.
+Cuando _props_ tiene asignado el valor true, `route.params` serán asignados como las _props_ del componente.
 
 ### Modo objeto
 

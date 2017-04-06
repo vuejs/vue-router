@@ -13,7 +13,7 @@ Las interfaces de usuario (UI por sus siglas en inglés) de aplicaciones reales 
 +------------------+                  +-----------------+
 ```
 
-Con `vue-router` es muy simple expresar esta relación usando configuraciones de rutas anidadas.
+Con `vue-router` es muy sencillo expresar esta relación usando configuraciones de rutas anidadas.
 
 Dada la aplicación que creamos en el capítulo anterior:
 
@@ -75,9 +75,9 @@ const router = new VueRouter({
 
 **Nota que las rutas anidadas que empiecen con `/` serán tratadas como absolutas. Esto permite aprovechar el anidamiento de componentes sin tener que usar URL anidadas.**
 
-Como puedes ver, la opción `children` es simplemente otro arreglo de objetos de configuración de rutas, como `routes`. Por lo tanto, puedes anidar tantas vistas como necesites.
+Como puedes ver, la opción `children` es simplemente otro vector de objetos de configuración de rutas, como `routes`. Por lo tanto, puedes anidar tantas vistas como necesites.
 
-En este punto, con la configuración anterior, cuando visites `/user/foo`, nada será renderizado dentro del contenedor de  `User`, porque ninguna sub ruta coincidió. Tal vez quieras renderizar algo ahí. En ese caso, puedes pasar una sub ruta vacía:
+En este punto, con la configuración anterior, cuando visites `/user/foo`, nada será renderizado dentro del contenedor de  `User` porque ninguna sub ruta coincidió. Tal vez quieras renderizar algo ahí. En ese caso, puedes pasar una sub ruta vacía:
 
 ``` js
 const router = new VueRouter({

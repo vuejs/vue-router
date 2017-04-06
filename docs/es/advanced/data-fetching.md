@@ -2,9 +2,9 @@
 
 Puede que necesites obtener datos desde el servidor cuando una ruta es activada. Por ejemplo, antes de renderizar un perfil de usuario, puedes obtener la información de ese usuario desde el servidor. Podemos lograr esto de dos maneras diferentes:
 
-- **Obtener la información después de la navegación**: realiza la navegación primero y luego obtén los datos en un _hook_ del ciclo de vida del componente entrante. Muestra algún tipo de indicador de carga mientras se espera la llegada de la información.
+- **Obtener la información después de la navegación**: realiza la navegación primero y luego obtén los datos en un _hook_ del ciclo de vida del componente entrante. Muestra algún tipo de indicador de carga mientras esperas la llegada de la información.
 
-- **Obtener la información antes de la navegación**: Obtén los datos antes de la navegación en el guardia de entrada de la ruta, y realiza la navegación luego de haberla obtenido.
+- **Obtener la información antes de la navegación**: Obtén los datos antes de la navegación en la guardia de entrada de la ruta, y realiza la navegación luego de haberla obtenido.
 
 Técnicamente, ambas opciones son válidas - depende de la experiencia de usuario a la que apuntes.
 
