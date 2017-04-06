@@ -19,21 +19,18 @@ export function resolveQuery (
   query: ?string,
   extraQuery: Dictionary<string> = {}
 ): Dictionary<string> {
-  if (query) {
-    let parsedQuery
-    try {
-      parsedQuery = parseQuery(query)
-    } catch (e) {
-      process.env.NODE_ENV !== 'production' && warn(false, e.message)
-      parsedQuery = {}
-    }
-    for (const key in extraQuery) {
-      parsedQuery[key] = extraQuery[key]
-    }
-    return parsedQuery
-  } else {
-    return extraQuery
+  let parsedQuery
+  try {
+    parsedQuery = parseQuery(query || '')
+  } catch (e) {
+    process.env.NODE_ENV !== 'production' && warn(false, e.message)
+    parsedQuery = {}
   }
+  for (const key in extraQuery) {
+    const val = extraQuery[key]
+    parsedQuery[key] = Array.isArray(val) ? val.slice() : val
+  }
+  return parsedQuery
 }
 
 function parseQuery (query: string): Dictionary<string> {
