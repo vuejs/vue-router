@@ -7,6 +7,12 @@ declare module 'path-to-regexp' {
   }
 }
 
+declare module 'qs' {
+  declare var exports: {
+    stringify(obj: Dictionary<any>, option: Dictionary<any>): string
+  }
+}
+
 declare type Dictionary<T> = { [key: string]: T }
 
 declare type NavigationGuard = (
