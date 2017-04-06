@@ -3,10 +3,12 @@ import { resolveQuery, stringifyQuery, parseQuery } from '../../../src/util/quer
 describe('Query utils', () => {
   describe('resolveQuery', () => {
     it('should work', () => {
-      const query = resolveQuery('foo=bar&foo=k', { baz: 'qux' })
+      const query = resolveQuery('foo=bar&foo=k', { baz: 'qux', quux: { corge: 'grault' }, arr: [1, 2] })
       expect(JSON.stringify(query)).toBe(JSON.stringify({
         foo: ['bar', 'k'],
-        baz: 'qux'
+        baz: 'qux',
+        quux: { corge: 'grault' },
+        arr: [1, 2]
       }))
     })
   })
@@ -36,34 +38,6 @@ describe('Query utils', () => {
       expect(stringifyQuery({
         list: '1,2,3'
       })).toBe('?list=1,2,3')
-    })
-  })
-
-  describe('parseQuery', () => {
-    it('should work', () => {
-      expect(parseQuery('?foo=bar&baz=qux&arr=1&arr=2')).toBe({
-        foo: 'bar',
-        baz: 'qux',
-        arr: [1, 2]
-      })
-
-      expect(parseQuery('?foo=bar&quux%5Bcorge%5D=grault&arr=1&arr=2')).toBe({
-        foo: 'bar',
-        quux: { corge: 'grault' },
-        arr: [1, 2]
-      })
-    })
-
-    it('should escape reserved chars', () => {
-      expect(parseQuery('?a=%2a%28%29%21')).toBe({
-        a: '*()!'
-      })
-    })
-
-    it('should preserve commas', () => {
-      expect(parseQuery('?list=1,2,3')).toBe({
-        list: '1,2,3'
-      })
     })
   })
 })
