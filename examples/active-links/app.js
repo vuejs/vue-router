@@ -60,7 +60,11 @@ new Vue({
             /users/evan?foo=bar&baz=qux
           </router-link>
         </li>
-
+        <li>
+          <router-link :to="{ path: '/users/evan', query: { quux: { corge: 'grault' }}}">
+            /active-links/users/evan?quux[corge]=grault
+          </router-link>
+        </li>
         <li><router-link to="/about">/about</router-link></li>
 
         <router-link tag="li" to="/about">
