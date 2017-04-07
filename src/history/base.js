@@ -276,32 +276,52 @@ function poll (
   }
 }
 
-function resolveAsyncComponents (matched: Array<RouteRecord>): Array<?Function> {
-  return flatMapComponents(matched, (def, _, match, key) => {
-    // if it's a function and doesn't have Vue options attached,
+function resolveAsyncComponents (matched: Array<RouteRecord>): Function {
+  let _next
+  let pending = 0
+  let rejected = false
+
+  flatMapComponents(matched, (def, _, match, key) => {
+    // if it's a function and doesn't have cid attached,
     // assume it's an async component resolve function.
     // we are not using Vue's default async resolving mechanism because
     // we want to halt the navigation until the incoming component has been
     // resolved.
-    if (typeof def === 'function' && !def.options) {
-      return (to, from, next) => {
-        const resolve = once(resolvedDef => {
-          match.components[key] = resolvedDef
-          next()
-        })
+    if (typeof def === 'function' && def.cid === undefined) {
+      pending++
 
-        const reject = once(reason => {
-          warn(false, `Failed to resolve async component ${key}: ${reason}`)
-          next(false)
-        })
-
-        const res = def(resolve, reject)
-        if (res && typeof res.then === 'function') {
-          res.then(resolve, reject)
+      const resolve = once(resolvedDef => {
+        match.components[key] = resolvedDef
+        pending--
+        if (pending <= 0 && _next) {
+          _next()
         }
+      })
+
+      const reject = once(reason => {
+        warn(false, `Failed to resolve async component ${key}: ${reason}`)
+        if (!rejected) {
+          rejected = true
+          if (_next) _next(false)
+        }
+      })
+
+      const res = def(resolve, reject)
+      if (res && typeof res.then === 'function') {
+        res.then(resolve, reject)
       }
     }
   })
+
+  return (to, from, next) => {
+    if (rejected) {
+      next(false)
+    } else if (pending <= 0) {
+      next()
+    } else {
+      _next = next
+    }
+  }
 }
 
 function flatMapComponents (
