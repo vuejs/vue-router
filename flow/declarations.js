@@ -39,7 +39,7 @@ declare type RouteConfig = {
   children?: Array<RouteConfig>;
   beforeEnter?: NavigationGuard;
   meta?: any;
-  props?: boolean | Object | Function;
+  props?: any;
 }
 
 declare type RouteRecord = {
@@ -52,7 +52,7 @@ declare type RouteRecord = {
   matchAs: ?string;
   beforeEnter: ?NavigationGuard;
   meta: any;
-  props: boolean | Object | Function | Dictionary<boolean | Object | Function>;
+  props: Dictionary<boolean | Object | Function>;
 }
 
 declare type Location = {
