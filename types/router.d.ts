@@ -3,9 +3,14 @@ import { ComponentOptions, PluginFunction } from "vue";
 
 type Component = ComponentOptions<Vue> | typeof Vue;
 type Dictionary<T> = { [key: string]: T };
-
 export type RouterMode = "hash" | "history" | "abstract";
-export type RawLocation = string | Location;
+export interface LocationObject {
+    name?: string
+    path?: string
+    params?: Object
+    query?: Object
+}
+export type RawLocation = string | Location | LocationObject;
 export type RedirectOption = RawLocation | ((to: Route) => RawLocation);
 export type NavigationGuard = (
   to: Route,
