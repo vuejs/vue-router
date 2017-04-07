@@ -321,6 +321,10 @@ function resolveAsyncComponents (matched: Array<RouteRecord>): Function {
       pending++
 
       const resolve = once(resolvedDef => {
+        // save resolved on async factory in case it's used elsewhere
+        def.resolved = typeof resolvedDef === 'function'
+          ? resolvedDef
+          : _Vue.extend(resolvedDef)
         match.components[key] = resolvedDef
         pending--
         if (pending <= 0 && _next) {
@@ -345,8 +349,16 @@ function resolveAsyncComponents (matched: Array<RouteRecord>): Function {
       } catch (e) {
         reject(e)
       }
-      if (res && typeof res.then === 'function') {
-        res.then(resolve, reject)
+      if (res) {
+        if (typeof res.then === 'function') {
+          res.then(resolve, reject)
+        } else {
+          // new syntax in Vue 2.3
+          const comp = res.component
+          if (comp && typeof comp.then === 'function') {
+            comp.then(resolve, reject)
+          }
+        }
       }
     }
   })
