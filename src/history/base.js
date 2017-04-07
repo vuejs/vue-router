@@ -15,6 +15,8 @@ export class History {
   cb: (r: Route) => void;
   ready: boolean;
   readyCbs: Array<Function>;
+  readyErrorCbs: Array<Function>;
+  errorCbs: Array<Function>;
 
   // implemented by sub-classes
   +go: (n: number) => void;
@@ -31,18 +33,27 @@ export class History {
     this.pending = null
     this.ready = false
     this.readyCbs = []
+    this.readyErrorCbs = []
+    this.errorCbs = []
   }
 
   listen (cb: Function) {
     this.cb = cb
   }
 
-  onReady (cb: Function) {
+  onReady (cb: Function, errorCb: ?Function) {
     if (this.ready) {
       cb()
     } else {
       this.readyCbs.push(cb)
+      if (errorCb) {
+        this.readyErrorCbs.push(errorCb)
+      }
     }
+  }
+
+  onError (errorCb: Function) {
+    this.errorCbs.push(errorCb)
   }
 
   transitionTo (location: RawLocation, onComplete?: Function, onAbort?: Function) {
@@ -55,16 +66,27 @@ export class History {
       // fire ready cbs once
       if (!this.ready) {
         this.ready = true
-        this.readyCbs.forEach(cb => {
-          cb(route)
-        })
+        this.readyCbs.forEach(cb => { cb(route) })
       }
-    }, onAbort)
+    }, err => {
+      if (onAbort) {
+        onAbort(err)
+      }
+      if (err && !this.ready) {
+        this.ready = true
+        this.readyErrorCbs.forEach(cb => { cb(err) })
+      }
+    })
   }
 
   confirmTransition (route: Route, onComplete: Function, onAbort?: Function) {
     const current = this.current
-    const abort = () => { onAbort && onAbort() }
+    const abort = err => {
+      if (err instanceof Error) {
+        this.errorCbs.forEach(cb => { cb(err) })
+      }
+      onAbort && onAbort(err)
+    }
     if (
       isSameRoute(route, current) &&
       // in the case the route map has been dynamically appended to
@@ -98,20 +120,28 @@ export class History {
       if (this.pending !== route) {
         return abort()
       }
-      hook(route, current, (to: any) => {
-        if (to === false) {
-          // next(false) -> abort navigation, ensure current URL
-          this.ensureURL(true)
-          abort()
-        } else if (typeof to === 'string' || typeof to === 'object') {
-          // next('/') or next({ path: '/' }) -> redirect
-          (typeof to === 'object' && to.replace) ? this.replace(to) : this.push(to)
-          abort()
-        } else {
-          // confirm transition and pass on the value
-          next(to)
-        }
-      })
+      try {
+        hook(route, current, (to: any) => {
+          if (to === false || to instanceof Error) {
+            // next(false) -> abort navigation, ensure current URL
+            this.ensureURL(true)
+            abort(to)
+          } else if (typeof to === 'string' || typeof to === 'object') {
+            // next('/') or next({ path: '/' }) -> redirect
+            abort()
+            if (typeof to === 'object' && to.replace) {
+              this.replace(to)
+            } else {
+              this.push(to)
+            }
+          } else {
+            // confirm transition and pass on the value
+            next(to)
+          }
+        })
+      } catch (e) {
+        abort(e)
+      }
     }
 
     runQueue(queue, iterator, () => {
@@ -128,7 +158,7 @@ export class History {
         onComplete(route)
         if (this.router.app) {
           this.router.app.$nextTick(() => {
-            postEnterCbs.forEach(cb => cb())
+            postEnterCbs.forEach(cb => { cb() })
           })
         }
       })
@@ -279,7 +309,7 @@ function poll (
 function resolveAsyncComponents (matched: Array<RouteRecord>): Function {
   let _next
   let pending = 0
-  let rejected = false
+  let error = null
 
   flatMapComponents(matched, (def, _, match, key) => {
     // if it's a function and doesn't have cid attached,
@@ -299,14 +329,22 @@ function resolveAsyncComponents (matched: Array<RouteRecord>): Function {
       })
 
       const reject = once(reason => {
-        warn(false, `Failed to resolve async component ${key}: ${reason}`)
-        if (!rejected) {
-          rejected = true
-          if (_next) _next(false)
+        const msg = `Failed to resolve async component ${key}: ${reason}`
+        process.env.NODE_ENV !== 'production' && warn(false, msg)
+        if (!error) {
+          error = reason instanceof Error
+            ? reason
+            : new Error(msg)
+          if (_next) _next(error)
         }
       })
 
-      const res = def(resolve, reject)
+      let res
+      try {
+        res = def(resolve, reject)
+      } catch (e) {
+        reject(e)
+      }
       if (res && typeof res.then === 'function') {
         res.then(resolve, reject)
       }
@@ -314,8 +352,8 @@ function resolveAsyncComponents (matched: Array<RouteRecord>): Function {
   })
 
   return (to, from, next) => {
-    if (rejected) {
-      next(false)
+    if (error) {
+      next(error)
     } else if (pending <= 0) {
       next()
     } else {

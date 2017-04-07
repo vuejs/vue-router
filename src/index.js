@@ -124,8 +124,12 @@ export default class VueRouter {
     this.afterHooks.push(fn)
   }
 
-  onReady (cb: Function) {
-    this.history.onReady(cb)
+  onReady (cb: Function, errorCb?: Function) {
+    this.history.onReady(cb, errorCb)
+  }
+
+  onError (errorCb: Function) {
+    this.history.onError(errorCb)
   }
 
   push (location: RawLocation, onComplete?: Function, onAbort?: Function) {

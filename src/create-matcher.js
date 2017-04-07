@@ -78,9 +78,11 @@ export function createMatcher (routes: Array<RouteConfig>): Matcher {
     }
 
     if (!redirect || typeof redirect !== 'object') {
-      process.env.NODE_ENV !== 'production' && warn(
-        false, `invalid redirect option: ${JSON.stringify(redirect)}`
-      )
+      if (process.env.NODE_ENV !== 'production') {
+        warn(
+          false, `invalid redirect option: ${JSON.stringify(redirect)}`
+        )
+      }
       return _createRoute(null, location)
     }
 
@@ -117,7 +119,9 @@ export function createMatcher (routes: Array<RouteConfig>): Matcher {
         hash
       }, undefined, location)
     } else {
-      warn(false, `invalid redirect option: ${JSON.stringify(redirect)}`)
+      if (process.env.NODE_ENV !== 'production') {
+        warn(false, `invalid redirect option: ${JSON.stringify(redirect)}`)
+      }
       return _createRoute(null, location)
     }
   }
