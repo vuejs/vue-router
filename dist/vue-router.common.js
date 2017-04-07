@@ -111,7 +111,7 @@ var encodeReserveRE = /[!'()*]/g;
 var encodeReserveReplacer = function (c) { return '%' + c.charCodeAt(0).toString(16); };
 var commaRE = /%2C/g;
 
-// fixed encodeURIComponent which is more comformant to RFC3986:
+// fixed encodeURIComponent which is more conformant to RFC3986:
 // - escapes [!'()*]
 // - preserve commas
 var encode = function (str) { return encodeURIComponent(str)
@@ -399,8 +399,8 @@ function guardEvent (e) {
   // don't redirect on right click
   if (e.button !== undefined && e.button !== 0) { return }
   // don't redirect if `target="_blank"`
-  if (e.target && e.target.getAttribute) {
-    var target = e.target.getAttribute('target');
+  if (e.currentTarget && e.currentTarget.getAttribute) {
+    var target = e.currentTarget.getAttribute('target');
     if (/\b_blank\b/i.test(target)) { return }
   }
   // this may be a Weex event which doesn't have this method
@@ -470,11 +470,12 @@ function resolvePath (
   base,
   append
 ) {
-  if (relative.charAt(0) === '/') {
+  var firstChar = relative.charAt(0);
+  if (firstChar === '/') {
     return relative
   }
 
-  if (relative.charAt(0) === '?' || relative.charAt(0) === '#') {
+  if (firstChar === '?' || firstChar === '#') {
     return base + relative
   }
 
@@ -491,11 +492,9 @@ function resolvePath (
   var segments = relative.replace(/^\//, '').split('/');
   for (var i = 0; i < segments.length; i++) {
     var segment = segments[i];
-    if (segment === '.') {
-      continue
-    } else if (segment === '..') {
+    if (segment === '..') {
       stack.pop();
-    } else {
+    } else if (segment !== '.') {
       stack.push(segment);
     }
   }
@@ -540,13 +539,14 @@ function cleanPath (path) {
 function createRouteMap (
   routes,
   oldPathMap,
-  oldNameMap
+  oldNameMap,
+  overwriteNames
 ) {
   var pathMap = oldPathMap || Object.create(null);
   var nameMap = oldNameMap || Object.create(null);
 
   routes.forEach(function (route) {
-    addRouteRecord(pathMap, nameMap, route);
+    addRouteRecord(pathMap, nameMap, route, undefined, undefined, overwriteNames);
   });
 
   return {
@@ -560,7 +560,8 @@ function addRouteRecord (
   nameMap,
   route,
   parent,
-  matchAs
+  matchAs,
+  overwriteNames
 ) {
   var path = route.path;
   var name = route.name;
@@ -610,7 +611,7 @@ function addRouteRecord (
       var childMatchAs = matchAs
         ? cleanPath((matchAs + "/" + (child.path)))
         : undefined;
-      addRouteRecord(pathMap, nameMap, child, record, childMatchAs);
+      addRouteRecord(pathMap, nameMap, child, record, childMatchAs, overwriteNames);
     });
   }
 
@@ -621,14 +622,14 @@ function addRouteRecord (
           path: alias,
           children: route.children
         };
-        addRouteRecord(pathMap, nameMap, aliasRoute, parent, record.path);
+        addRouteRecord(pathMap, nameMap, aliasRoute, parent, record.path, overwriteNames);
       });
     } else {
       var aliasRoute = {
         path: route.alias,
         children: route.children
       };
-      addRouteRecord(pathMap, nameMap, aliasRoute, parent, record.path);
+      addRouteRecord(pathMap, nameMap, aliasRoute, parent, record.path, overwriteNames);
     }
   }
 
@@ -637,7 +638,7 @@ function addRouteRecord (
   }
 
   if (name) {
-    if (!nameMap[name]) {
+    if (!nameMap[name] || overwriteNames) {
       nameMap[name] = record;
     } else if (process.env.NODE_ENV !== 'production' && !matchAs) {
       warn(
@@ -1195,8 +1196,11 @@ function createMatcher (routes) {
   var pathMap = ref.pathMap;
   var nameMap = ref.nameMap;
 
-  function addRoutes (routes) {
-    createRouteMap(routes, pathMap, nameMap);
+  function addRoutes (
+    routes,
+    overwriteNames
+  ) {
+    createRouteMap(routes, pathMap, nameMap, overwriteNames);
   }
 
   function match (
@@ -2259,8 +2263,8 @@ VueRouter.prototype.resolve = function resolve (
   }
 };
 
-VueRouter.prototype.addRoutes = function addRoutes (routes) {
-  this.matcher.addRoutes(routes);
+VueRouter.prototype.addRoutes = function addRoutes (routes, overwriteNames) {
+  this.matcher.addRoutes(routes, overwriteNames);
   if (this.history.current !== START) {
     this.history.transitionTo(this.history.getCurrentLocation());
   }

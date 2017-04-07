@@ -6,7 +6,8 @@ import { cleanPath } from './util/path'
 export function createRouteMap (
   routes: Array<RouteConfig>,
   oldPathMap?: Dictionary<RouteRecord>,
-  oldNameMap?: Dictionary<RouteRecord>
+  oldNameMap?: Dictionary<RouteRecord>,
+  overwriteNames?: boolean
 ): {
   pathMap: Dictionary<RouteRecord>;
   nameMap: Dictionary<RouteRecord>;
@@ -15,7 +16,7 @@ export function createRouteMap (
   const nameMap: Dictionary<RouteRecord> = oldNameMap || Object.create(null)
 
   routes.forEach(route => {
-    addRouteRecord(pathMap, nameMap, route)
+    addRouteRecord(pathMap, nameMap, route, undefined, undefined, overwriteNames)
   })
 
   return {
@@ -29,7 +30,8 @@ function addRouteRecord (
   nameMap: Dictionary<RouteRecord>,
   route: RouteConfig,
   parent?: RouteRecord,
-  matchAs?: string
+  matchAs?: string,
+  overwriteNames?: boolean
 ) {
   const { path, name } = route
   if (process.env.NODE_ENV !== 'production') {
@@ -78,7 +80,7 @@ function addRouteRecord (
       const childMatchAs = matchAs
         ? cleanPath(`${matchAs}/${child.path}`)
         : undefined
-      addRouteRecord(pathMap, nameMap, child, record, childMatchAs)
+      addRouteRecord(pathMap, nameMap, child, record, childMatchAs, overwriteNames)
     })
   }
 
@@ -89,14 +91,14 @@ function addRouteRecord (
           path: alias,
           children: route.children
         }
-        addRouteRecord(pathMap, nameMap, aliasRoute, parent, record.path)
+        addRouteRecord(pathMap, nameMap, aliasRoute, parent, record.path, overwriteNames)
       })
     } else {
       const aliasRoute = {
         path: route.alias,
         children: route.children
       }
-      addRouteRecord(pathMap, nameMap, aliasRoute, parent, record.path)
+      addRouteRecord(pathMap, nameMap, aliasRoute, parent, record.path, overwriteNames)
     }
   }
 
@@ -105,7 +107,7 @@ function addRouteRecord (
   }
 
   if (name) {
-    if (!nameMap[name]) {
+    if (!nameMap[name] || overwriteNames) {
       nameMap[name] = record
     } else if (process.env.NODE_ENV !== 'production' && !matchAs) {
       warn(

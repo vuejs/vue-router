@@ -193,8 +193,8 @@ export default class VueRouter {
     }
   }
 
-  addRoutes (routes: Array<RouteConfig>) {
-    this.matcher.addRoutes(routes)
+  addRoutes (routes: Array<RouteConfig>, overwriteNames?: boolean) {
+    this.matcher.addRoutes(routes, overwriteNames)
     if (this.history.current !== START) {
       this.history.transitionTo(this.history.getCurrentLocation())
     }

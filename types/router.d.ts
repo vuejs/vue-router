@@ -29,7 +29,7 @@ declare class VueRouter {
   forward (): void;
   getMatchedComponents (to?: RawLocation): Component[];
   onReady (cb: Function): void;
-  addRoutes (routes: RouteConfig[]): void;
+  addRoutes (routes: RouteConfig[], overwriteNames?: boolean): void;
   resolve (to: RawLocation, current?: Route, append?: boolean): {
     location: Location;
     route: Route;
