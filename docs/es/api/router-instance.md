@@ -38,7 +38,7 @@
 
 - **router.getMatchedComponents(location?)**
 
-  Devuelve un vector de componentes (definiciones/constructores, no instancias) que coincidan con la ubicación provista o la ruta actual. Se utiliza principalmente durante el renderizado del lado servidor para realizar precarga de datos.
+  Devuelve un array de componentes (definiciones/constructores, no instancias) que coincidan con la ubicación provista o la ruta actual. Se utiliza principalmente durante el renderizado del lado servidor para realizar precarga de datos.
 
 - **router.resolve(location, current?, append?)**
 
@@ -58,7 +58,7 @@
 
   > 2.2.0+
 
-  Agrega dinámicamente más rutas al `router`. El argumento debe ser un vector utilizando el mismo formato de configuración que las opciones del constructor de `routes`.
+  Agrega dinámicamente más rutas al `router`. El argumento debe ser un array utilizando el mismo formato de configuración que las opciones del constructor de `routes`.
 
 - **router.onReady(callback)**
 

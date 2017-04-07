@@ -66,7 +66,7 @@ El objeto `Route` puede encontrarse en diferentes lugares.
 
   - tipo: `Array<RouteRecord>`
 
-  Un vector que contiene **registros de ruta** para todos los segmentos anidados de la ruta actual. Los registros de ruta son copias de los objetos en el vector de configuración `routes` (y en los vectores `children`):
+  Un array que contiene **registros de ruta** para todos los segmentos anidados de la ruta actual. Los registros de ruta son copias de los objetos en el array de configuración `routes` (y en los arrays `children`):
 
   ``` js
   const router = new VueRouter({
@@ -82,7 +82,7 @@ El objeto `Route` puede encontrarse en diferentes lugares.
   })
   ```
 
-  Cuando la URL es `/foo/bar`, `$route.matched` será un arreglo que contendrá ambos objetos (clonados), en orden descendente de padre a hijo.
+  Cuando la URL es `/foo/bar`, `$route.matched` será un array que contendrá ambos objetos (clonados), en orden descendente de padre a hijo.
 
 - **$route.name**
 

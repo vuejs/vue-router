@@ -15,7 +15,7 @@
     redirect?: string | Location | Function;
     props?: boolean | string | Function;
     alias?: string | Array<string>;
-    children?: Array<RouteConfig>; // para rutas anidadas
+    children?: Array<RouteConfig>; // para sub-rutas
     beforeEnter?: (to: Route, from: Route, next: Function) => void;
     meta?: any;
   }

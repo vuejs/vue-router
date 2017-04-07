@@ -1,6 +1,6 @@
 # `<router-view>`
 
-El componente `<router-view>` es un componente funcional que renderiza a otro en base a la ruta seleccionada. Los componentes renderizados en `<router-view>` pueden contener su propio `<router-view>`, el cual renderizará componentes para rutas anidadas.
+El componente `<router-view>` es un componente funcional que renderiza a otro en base a la ruta seleccionada. Los componentes renderizados en `<router-view>` pueden contener su propio `<router-view>`, el cual renderizará componentes para sub-rutas.
 
 ### Propiedades
 

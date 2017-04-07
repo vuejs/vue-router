@@ -40,7 +40,7 @@ const Bar = { template: '<div>bar</div>' }
 // Cada ruta debe mapear a un componente. El "componente" puede
 // ser un constructor de componente creado a través de
 // Vue.extend(), o simplemente un objeto de opciones de componente.
-// Más tarde hablaremos acerca de las rutas anidadas.
+// Más tarde hablaremos acerca de las sub-rutas.
 const routes = [
   { path: '/foo', component: Foo },
   { path: '/bar', component: Bar }

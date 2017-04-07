@@ -8,7 +8,7 @@
 - Esenciales
   - [Primeros pasos](essentials/getting-started.md)
   - [Coincidencia dinámica de rutas](essentials/dynamic-matching.md)
-  - [Rutas anidadas](essentials/nested-routes.md)
+  - [Sub-rutas](essentials/nested-routes.md)
   - [Navegación mediante código](essentials/navigation.md)
   - [Rutas con nombre](essentials/named-routes.md)
   - [Vistas con nombre](essentials/named-views.md)

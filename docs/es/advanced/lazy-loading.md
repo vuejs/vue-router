@@ -41,4 +41,4 @@ const Bar = r => require.ensure([], () => r(require('./Bar.vue')), 'group-foo')
 const Baz = r => require.ensure([], () => r(require('./Baz.vue')), 'group-foo')
 ```
 
-Webpack agrupará los módulos asíncronos con el mismo nombre dentro de la misma porción asíncrona - esto también significa que no necesitamos más listar explícitamente las dependencias de `require.ensure` (por lo tanto pasamos un vector vacío).
+Webpack agrupará los módulos asíncronos con el mismo nombre dentro de la misma porción asíncrona - esto también significa que no necesitamos más listar explícitamente las dependencias de `require.ensure` (por lo tanto pasamos un array vacío).
