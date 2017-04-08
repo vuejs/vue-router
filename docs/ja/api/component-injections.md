@@ -12,7 +12,7 @@
 
   現在のアクティブな [ルート](route-object.md) 。このプロパティは読み出しのみ可能かつ変更不可ですが、watch は可能です。
 
-### Enabled Options
+### 有効になるオプション
 
 - **beforeRouteEnter**
 - **beforeRouteUpdate** (2.2 で追加)
