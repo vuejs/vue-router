@@ -68,3 +68,11 @@
   ```
 
   For more details see [Scroll Behavior](../advanced/scroll-behavior.md).
+
+### parseQuery / stringifyQuery
+
+> 2.4.0+
+
+- type: `Function`
+
+  Provide custom query string parse / stringify functions. Overrides the default.
