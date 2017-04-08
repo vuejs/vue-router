@@ -48,13 +48,13 @@ export default {
     // inject instance registration hooks
     const hooks = data.hook || (data.hook = {})
     hooks.init = vnode => {
-      matched.instances[name] = vnode.child
+      matched.instances[name] = vnode.componentInstance
     }
     hooks.prepatch = (oldVnode, vnode) => {
-      matched.instances[name] = vnode.child
+      matched.instances[name] = vnode.componentInstance
     }
     hooks.destroy = vnode => {
-      if (matched.instances[name] === vnode.child) {
+      if (matched.instances[name] === vnode.componentInstance) {
         matched.instances[name] = undefined
       }
     }
