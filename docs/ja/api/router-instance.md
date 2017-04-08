@@ -60,10 +60,24 @@
 
   動的にルートをルーターに追加します。引数は `routes` コンストラクタオプションで同じルート設定形式を使用する配列でなければなりません。
 
-- **router.onReady(callback)**
+- **router.onReady(callback, [errorCallback])**
 
   > 2.2.0+
 
   このメソッドは、ルーターが初期ナビゲーションを完了したときに呼び出されるコールバックをキューに入れます。つまり、初期ルートに関連付けられているすべての非同期 enter フックと非同期コンポーネントを解決したことを意味します。
 
   これは、サーバーとクライアントの両方で一貫した出力を保証するために、サーバーサイドレンダリングに役立ちます。
+
+  The second argument `errorCallback` is only supported in 2.4+. It will be called when the initial route resolution runs into an error (e.g. failed to resolve an async component).
+
+- **router.onError(callback)**
+
+  > 2.4.0+
+
+  Register a callback which will be called when an error is caught during a route navigation. Note for an error to be called, it must be one of the following scenarios:
+
+  - The error is thrown synchronously inside a route guard function;
+
+  - The error is caught and asynchronously handled by calling `next(err)` inside a route guard function;
+
+  - An error occurred when trying to resolve an async component that is required to render a route.

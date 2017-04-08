@@ -67,3 +67,11 @@
   ```
 
   より詳細ついては [スクロールの振る舞い](../advanced/scroll-behavior.md) をご参照ください。
+
+### parseQuery / stringifyQuery
+
+> 2.4.0+
+
+- type: `Function`
+
+  Provide custom query string parse / stringify functions. Overrides the default.

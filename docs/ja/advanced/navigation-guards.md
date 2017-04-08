@@ -20,17 +20,19 @@ router.beforeEach((to, from, next) => {
 
 全てのガード関数は 3 つの引数を受け取ります。
 
-- **`to: Route`**: 次にナビゲーションされる対象の [ルートオブジェクト](../api/route-object.md)。
-
-- **`from: Route`**: ナビゲーションされる前の現在のルートです。
-
-- **`next: Function`**: フックを **解決** するためにこの関数を呼ぶ必要があります。この振る舞いは `next` に渡される引数に依存します:
+  - **`to: Route`**: 次にナビゲーションされる対象の [ルートオブジェクト](../api/route-object.md)。
+  
+  - **`from: Route`**: ナビゲーションされる前の現在のルートです。
+  
+  - **`next: Function`**: フックを **解決** するためにこの関数を呼ぶ必要があります。この振る舞いは `next` に渡される引数に依存します:
 
   - **`next()`**: パイプラインの次のフックに移動します。もしフックが残っていない場合は、このナビゲーションは **確立** されます。
 
   - **`next(false)`**: 現在のナビゲーションを中止します。もしブラウザのURLが変化した場合は（ユーザーが手動で変更した場合でも、戻るボタンの場合でも）、 `from` ルートのURLにリセットされます。
 
   - **`next('/')` or `next({ path: '/' })`**: 異なる場所へリダイレクトします。現在のナビゲーションは中止され、あたらしいナビゲーションが始まります。
+
+  - **`next(error)`**: (2.4.0+) if the argument passed to `next` is an instance of `Error`, the navigation will be aborted and the error will be passed to callbacks registered via `router.onError()`.
 
 グローバル after フックを登録することもできます。しかしながら、ガードとは異なり、これらのフックは `next` 関数を受け取らず、ナビゲーションに影響しません。
 
