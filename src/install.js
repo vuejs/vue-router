@@ -17,13 +17,26 @@ export function install (Vue) {
     get () { return this.$root._route }
   })
 
+  const isDef = v => v !== undefined
+
+  const registerInstance = (vm, callVal) => {
+    let i = vm.$options._parentVnode
+    if (isDef(i) && isDef(i = i.data) && isDef(i = i.registerRouteInstance)) {
+      i(vm, callVal)
+    }
+  }
+
   Vue.mixin({
     beforeCreate () {
-      if (this.$options.router) {
+      if (isDef(this.$options.router)) {
         this._router = this.$options.router
         this._router.init(this)
         Vue.util.defineReactive(this, '_route', this._router.history.current)
       }
+      registerInstance(this, this)
+    },
+    destroyed () {
+      registerInstance(this)
     }
   })
 

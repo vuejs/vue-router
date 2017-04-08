@@ -45,17 +45,12 @@ export default {
 
     const component = cache[name] = matched.components[name]
 
-    // inject instance registration hooks
-    const hooks = data.hook || (data.hook = {})
-    hooks.init = vnode => {
-      matched.instances[name] = vnode.componentInstance
-    }
-    hooks.prepatch = (oldVnode, vnode) => {
-      matched.instances[name] = vnode.componentInstance
-    }
-    hooks.destroy = vnode => {
-      if (matched.instances[name] === vnode.componentInstance) {
-        matched.instances[name] = undefined
+    // attach instance registration hook
+    // this will be called in the instance's injected lifecycle hooks
+    data.registerRouteInstance = (vm, val) => {
+      // val could be undefined for unregistration
+      if (matched.instances[name] !== vm) {
+        matched.instances[name] = val
       }
     }
 
