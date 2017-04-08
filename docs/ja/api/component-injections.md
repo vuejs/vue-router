@@ -15,6 +15,7 @@
 ### Enabled Options
 
 - **beforeRouteEnter**
+- **beforeRouteUpdate** (2.2 で追加)
 - **beforeRouteLeave**
 
   [コンポーネント内ガード](../advanced/navigation-guards.md#incomponent-guards) をご参照ください。
