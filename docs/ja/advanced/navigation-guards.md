@@ -30,9 +30,9 @@ router.beforeEach((to, from, next) => {
 
   - **`next(false)`**: 現在のナビゲーションを中止します。もしブラウザのURLが変化した場合は（ユーザーが手動で変更した場合でも、戻るボタンの場合でも）、 `from` ルートのURLにリセットされます。
 
-  - **`next('/')` or `next({ path: '/' })`**: 異なる場所へリダイレクトします。現在のナビゲーションは中止され、あたらしいナビゲーションが始まります。
+  - **`next('/')` または `next({ path: '/' })`**: 異なる場所へリダイレクトします。現在のナビゲーションは中止され、あたらしいナビゲーションが始まります。
 
-  - **`next(error)`**: (2.4.0+) if the argument passed to `next` is an instance of `Error`, the navigation will be aborted and the error will be passed to callbacks registered via `router.onError()`.
+  - **`next(error)`**: (2.4.0+) `next` に渡された引数が `Error` インスタンスである場合、ナビゲーションは中止され、エラーは `router.onError()` を介して登録されたコールバックに渡されます。
 
 グローバル after フックを登録することもできます。しかしながら、ガードとは異なり、これらのフックは `next` 関数を受け取らず、ナビゲーションに影響しません。
 

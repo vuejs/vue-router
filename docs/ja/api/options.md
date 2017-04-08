@@ -72,6 +72,6 @@
 
 > 2.4.0+
 
-- type: `Function`
+- 型: `Function`
 
-  Provide custom query string parse / stringify functions. Overrides the default.
+  カスタムクエリ構文解析関数 / 文字列化関数を提供します。デフォルトを上書きします。
