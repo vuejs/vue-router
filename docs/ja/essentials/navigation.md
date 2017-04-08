@@ -4,7 +4,7 @@
 
 #### `router.push(location, onComplete?, onAbort?)`
 
-**Note: Inside of a Vue instance, you have access to the router instance as `$router`. You can therefore call `this.$router.push`.**
+**注意: Vue インスタンスの内部では、`$router` としてルーターインスタンスにアクセスする必要があります。従って、`this.$router.push` で呼ぶことができます。**
 
 異なる URL へ遷移するときに `router.push` が使えます。このメソッドは history スタックに新しいエントリを追加します。それによってユーザーがブラウザの戻るボタンをクリックした時に前の URL に戻れるようになります。
 
