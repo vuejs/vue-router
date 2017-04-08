@@ -1,11 +1,11 @@
 /* @flow */
 
+import { _Vue } from '../install'
 import type Router from '../index'
 import { warn } from '../util/warn'
 import { inBrowser } from '../util/dom'
 import { runQueue } from '../util/async'
 import { START, isSameRoute } from '../util/route'
-import { _Vue } from '../install'
 
 export class History {
   router: Router;

@@ -17,11 +17,13 @@ const decode = decodeURIComponent
 
 export function resolveQuery (
   query: ?string,
-  extraQuery: Dictionary<string> = {}
+  extraQuery: Dictionary<string> = {},
+  _parseQuery: ?Function
 ): Dictionary<string> {
+  const parse = _parseQuery || parseQuery
   let parsedQuery
   try {
-    parsedQuery = parseQuery(query || '')
+    parsedQuery = parse(query || '')
   } catch (e) {
     process.env.NODE_ENV !== 'production' && warn(false, e.message)
     parsedQuery = {}

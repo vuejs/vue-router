@@ -31,9 +31,13 @@ export default {
     const router = this.$router
     const current = this.$route
     const { location, route, href } = router.resolve(this.to, current, this.append)
+
     const classes = {}
     const activeClass = this.activeClass || router.options.linkActiveClass || 'router-link-active'
-    const compareTarget = location.path ? createRoute(null, location) : route
+    const compareTarget = location.path
+      ? createRoute(null, location, null, router)
+      : route
+
     classes[activeClass] = this.exact
       ? isSameRoute(current, compareTarget)
       : isIncludedRoute(current, compareTarget)
