@@ -1,5 +1,6 @@
 /* @flow */
 
+import type VueRouter from './index'
 import { assert, warn } from './util/warn'
 import { createRoute } from './util/route'
 import { createRouteMap } from './create-route-map'
@@ -12,7 +13,10 @@ export type Matcher = {
   addRoutes: (routes: Array<RouteConfig>) => void;
 };
 
-export function createMatcher (routes: Array<RouteConfig>): Matcher {
+export function createMatcher (
+  routes: Array<RouteConfig>,
+  router: VueRouter
+): Matcher {
   const { pathMap, nameMap } = createRouteMap(routes)
 
   function addRoutes (routes) {
@@ -24,7 +28,7 @@ export function createMatcher (routes: Array<RouteConfig>): Matcher {
     currentRoute?: Route,
     redirectedFrom?: Location
   ): Route {
-    const location = normalizeLocation(raw, currentRoute)
+    const location = normalizeLocation(raw, currentRoute, false, router)
     const { name } = location
 
     if (name) {
@@ -70,7 +74,7 @@ export function createMatcher (routes: Array<RouteConfig>): Matcher {
   ): Route {
     const originalRedirect = record.redirect
     let redirect = typeof originalRedirect === 'function'
-        ? originalRedirect(createRoute(record, location))
+        ? originalRedirect(createRoute(record, location, null, router))
         : originalRedirect
 
     if (typeof redirect === 'string') {
@@ -78,9 +82,11 @@ export function createMatcher (routes: Array<RouteConfig>): Matcher {
     }
 
     if (!redirect || typeof redirect !== 'object') {
-      process.env.NODE_ENV !== 'production' && warn(
-        false, `invalid redirect option: ${JSON.stringify(redirect)}`
-      )
+      if (process.env.NODE_ENV !== 'production') {
+        warn(
+          false, `invalid redirect option: ${JSON.stringify(redirect)}`
+        )
+      }
       return _createRoute(null, location)
     }
 
@@ -117,7 +123,9 @@ export function createMatcher (routes: Array<RouteConfig>): Matcher {
         hash
       }, undefined, location)
     } else {
-      warn(false, `invalid redirect option: ${JSON.stringify(redirect)}`)
+      if (process.env.NODE_ENV !== 'production') {
+        warn(false, `invalid redirect option: ${JSON.stringify(redirect)}`)
+      }
       return _createRoute(null, location)
     }
   }
@@ -152,7 +160,7 @@ export function createMatcher (routes: Array<RouteConfig>): Matcher {
     if (record && record.matchAs) {
       return alias(record, location, record.matchAs)
     }
-    return createRoute(record, location, redirectedFrom)
+    return createRoute(record, location, redirectedFrom, router)
   }
 
   return {

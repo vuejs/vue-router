@@ -21,7 +21,10 @@ export default {
     exact: Boolean,
     append: Boolean,
     replace: Boolean,
-    activeClass: String,
+    activeClass: {
+      type: String,
+      default: 'router-link-active'
+    },
     event: {
       type: eventTypes,
       default: 'click'
@@ -31,9 +34,16 @@ export default {
     const router = this.$router
     const current = this.$route
     const { location, route, href } = router.resolve(this.to, current, this.append)
+
     const classes = {}
-    const activeClass = this.activeClass || router.options.linkActiveClass || 'router-link-active'
-    const compareTarget = location.path ? createRoute(null, location) : route
+    const globalActiveClass = router.options.linkActiveClass
+    const activeClass = globalActiveClass == null
+      ? this.activeClass
+      : globalActiveClass
+    const compareTarget = location.path
+      ? createRoute(null, location, null, router)
+      : route
+
     classes[activeClass] = this.exact
       ? isSameRoute(current, compareTarget)
       : isIncludedRoute(current, compareTarget)
@@ -91,8 +101,8 @@ function guardEvent (e) {
   // don't redirect on right click
   if (e.button !== undefined && e.button !== 0) return
   // don't redirect if `target="_blank"`
-  if (e.target && e.target.getAttribute) {
-    const target = e.target.getAttribute('target')
+  if (e.currentTarget && e.currentTarget.getAttribute) {
+    const target = e.currentTarget.getAttribute('target')
     if (/\b_blank\b/i.test(target)) return
   }
   // this may be a Weex event which doesn't have this method

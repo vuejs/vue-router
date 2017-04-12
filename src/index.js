@@ -37,7 +37,7 @@ export default class VueRouter {
     this.options = options
     this.beforeHooks = []
     this.afterHooks = []
-    this.matcher = createMatcher(options.routes || [])
+    this.matcher = createMatcher(options.routes || [], this)
 
     let mode = options.mode || 'hash'
     this.fallback = mode === 'history' && !supportsPushState
@@ -124,8 +124,12 @@ export default class VueRouter {
     this.afterHooks.push(fn)
   }
 
-  onReady (cb: Function) {
-    this.history.onReady(cb)
+  onReady (cb: Function, errorCb?: Function) {
+    this.history.onReady(cb, errorCb)
+  }
+
+  onError (errorCb: Function) {
+    this.history.onError(errorCb)
   }
 
   push (location: RawLocation, onComplete?: Function, onAbort?: Function) {
@@ -174,7 +178,12 @@ export default class VueRouter {
     normalizedTo: Location,
     resolved: Route
   } {
-    const location = normalizeLocation(to, current || this.history.current, append)
+    const location = normalizeLocation(
+      to,
+      current || this.history.current,
+      append,
+      this
+    )
     const route = this.match(location, current)
     const fullPath = route.redirectedFrom || route.fullPath
     const base = this.history.base

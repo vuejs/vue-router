@@ -67,3 +67,11 @@
   ```
 
   より詳細ついては [スクロールの振る舞い](../advanced/scroll-behavior.md) をご参照ください。
+
+### parseQuery / stringifyQuery
+
+> 2.4.0+
+
+- 型: `Function`
+
+  カスタムクエリ構文解析関数 / 文字列化関数を提供します。デフォルトを上書きします。

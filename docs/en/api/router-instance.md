@@ -60,10 +60,24 @@
 
   Dynamically add more routes to the router. The argument must be an Array using the same route config format with the `routes` constructor option.
 
-- **router.onReady(callback)**
+- **router.onReady(callback, [errorCallback])**
 
   > 2.2.0+
 
   This method queues a callback to be called when the router has completed the initial navigation, which means it has resolved all async enter hooks and async components that are associated with the initial route.
 
   This is useful in server-side rendering to ensure consistent output on both the server and the client.
+
+  The second argument `errorCallback` is only supported in 2.4+. It will be called when the initial route resolution runs into an error (e.g. failed to resolve an async component).
+
+- **router.onError(callback)**
+
+  > 2.4.0+
+
+  Register a callback which will be called when an error is caught during a route navigation. Note for an error to be called, it must be one of the following scenarios:
+
+  - The error is thrown synchronously inside a route guard function;
+
+  - The error is caught and asynchronously handled by calling `next(err)` inside a route guard function;
+
+  - An error occurred when trying to resolve an async component that is required to render a route.

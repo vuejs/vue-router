@@ -1,5 +1,6 @@
 /* @flow */
 
+import type VueRouter from '../index'
 import { parsePath, resolvePath } from './path'
 import { resolveQuery } from './query'
 import { fillParams } from './params'
@@ -7,8 +8,9 @@ import { warn } from './warn'
 
 export function normalizeLocation (
   raw: RawLocation,
-  current?: Route,
-  append?: boolean
+  current: ?Route,
+  append: ?boolean,
+  router: ?VueRouter
 ): Location {
   let next: Location = typeof raw === 'string' ? { path: raw } : raw
   // named target
@@ -38,7 +40,13 @@ export function normalizeLocation (
   const path = parsedPath.path
     ? resolvePath(parsedPath.path, basePath, append || next.append)
     : (current && current.path) || '/'
-  const query = resolveQuery(parsedPath.query, next.query)
+
+  const query = resolveQuery(
+    parsedPath.query,
+    next.query,
+    router && router.options.parseQuery
+  )
+
   let hash = next.hash || parsedPath.hash
   if (hash && hash.charAt(0) !== '#') {
     hash = `#${hash}`

@@ -45,17 +45,12 @@ export default {
 
     const component = cache[name] = matched.components[name]
 
-    // inject instance registration hooks
-    const hooks = data.hook || (data.hook = {})
-    hooks.init = vnode => {
-      matched.instances[name] = vnode.child
-    }
-    hooks.prepatch = (oldVnode, vnode) => {
-      matched.instances[name] = vnode.child
-    }
-    hooks.destroy = vnode => {
-      if (matched.instances[name] === vnode.child) {
-        matched.instances[name] = undefined
+    // attach instance registration hook
+    // this will be called in the instance's injected lifecycle hooks
+    data.registerRouteInstance = (vm, val) => {
+      // val could be undefined for unregistration
+      if (matched.instances[name] !== vm) {
+        matched.instances[name] = val
       }
     }
 
@@ -77,6 +72,12 @@ function resolveProps (route, config) {
     case 'boolean':
       return config ? route.params : undefined
     default:
-      warn(false, `props in "${route.path}" is a ${typeof config}, expecting an object, function or boolean.`)
+      if (process.env.NODE_ENV !== 'production') {
+        warn(
+          false,
+          `props in "${route.path}" is a ${typeof config}, ` +
+          `expecting an object, function or boolean.`
+        )
+      }
   }
 }
