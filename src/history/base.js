@@ -307,70 +307,65 @@ function poll (
 }
 
 function resolveAsyncComponents (matched: Array<RouteRecord>): Function {
-  let _next
-  let pending = 0
-  let error = null
+  return (to, from, next) => {
+    let hasAsync = false
+    let pending = 0
+    let error = null
 
-  flatMapComponents(matched, (def, _, match, key) => {
-    // if it's a function and doesn't have cid attached,
-    // assume it's an async component resolve function.
-    // we are not using Vue's default async resolving mechanism because
-    // we want to halt the navigation until the incoming component has been
-    // resolved.
-    if (typeof def === 'function' && def.cid === undefined) {
-      pending++
+    flatMapComponents(matched, (def, _, match, key) => {
+      // if it's a function and doesn't have cid attached,
+      // assume it's an async component resolve function.
+      // we are not using Vue's default async resolving mechanism because
+      // we want to halt the navigation until the incoming component has been
+      // resolved.
+      if (typeof def === 'function' && def.cid === undefined) {
+        hasAsync = true
+        pending++
 
-      const resolve = once(resolvedDef => {
-        // save resolved on async factory in case it's used elsewhere
-        def.resolved = typeof resolvedDef === 'function'
-          ? resolvedDef
-          : _Vue.extend(resolvedDef)
-        match.components[key] = resolvedDef
-        pending--
-        if (pending <= 0 && _next) {
-          _next()
+        const resolve = once(resolvedDef => {
+          // save resolved on async factory in case it's used elsewhere
+          def.resolved = typeof resolvedDef === 'function'
+            ? resolvedDef
+            : _Vue.extend(resolvedDef)
+          match.components[key] = resolvedDef
+          pending--
+          if (pending <= 0) {
+            next()
+          }
+        })
+
+        const reject = once(reason => {
+          const msg = `Failed to resolve async component ${key}: ${reason}`
+          process.env.NODE_ENV !== 'production' && warn(false, msg)
+          if (!error) {
+            error = reason instanceof Error
+              ? reason
+              : new Error(msg)
+            next(error)
+          }
+        })
+
+        let res
+        try {
+          res = def(resolve, reject)
+        } catch (e) {
+          reject(e)
         }
-      })
-
-      const reject = once(reason => {
-        const msg = `Failed to resolve async component ${key}: ${reason}`
-        process.env.NODE_ENV !== 'production' && warn(false, msg)
-        if (!error) {
-          error = reason instanceof Error
-            ? reason
-            : new Error(msg)
-          if (_next) _next(error)
-        }
-      })
-
-      let res
-      try {
-        res = def(resolve, reject)
-      } catch (e) {
-        reject(e)
-      }
-      if (res) {
-        if (typeof res.then === 'function') {
-          res.then(resolve, reject)
-        } else {
-          // new syntax in Vue 2.3
-          const comp = res.component
-          if (comp && typeof comp.then === 'function') {
-            comp.then(resolve, reject)
+        if (res) {
+          if (typeof res.then === 'function') {
+            res.then(resolve, reject)
+          } else {
+            // new syntax in Vue 2.3
+            const comp = res.component
+            if (comp && typeof comp.then === 'function') {
+              comp.then(resolve, reject)
+            }
           }
         }
       }
-    }
-  })
+    })
 
-  return (to, from, next) => {
-    if (error) {
-      next(error)
-    } else if (pending <= 0) {
-      next()
-    } else {
-      _next = next
-    }
+    if (!hasAsync) next()
   }
 }
 
