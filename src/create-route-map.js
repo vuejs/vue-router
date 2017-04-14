@@ -5,26 +5,32 @@ import { cleanPath } from './util/path'
 
 export function createRouteMap (
   routes: Array<RouteConfig>,
+  oldPathList?: Array<string>,
   oldPathMap?: Dictionary<RouteRecord>,
   oldNameMap?: Dictionary<RouteRecord>
 ): {
+  pathList: Array<string>;
   pathMap: Dictionary<RouteRecord>;
   nameMap: Dictionary<RouteRecord>;
 } {
+  // the path list is used to control path matching priority
+  const pathList: Array<string> = oldPathList || []
   const pathMap: Dictionary<RouteRecord> = oldPathMap || Object.create(null)
   const nameMap: Dictionary<RouteRecord> = oldNameMap || Object.create(null)
 
   routes.forEach(route => {
-    addRouteRecord(pathMap, nameMap, route)
+    addRouteRecord(pathList, pathMap, nameMap, route)
   })
 
   return {
+    pathList,
     pathMap,
     nameMap
   }
 }
 
 function addRouteRecord (
+  pathList: Array<string>,
   pathMap: Dictionary<RouteRecord>,
   nameMap: Dictionary<RouteRecord>,
   route: RouteConfig,
@@ -78,7 +84,7 @@ function addRouteRecord (
       const childMatchAs = matchAs
         ? cleanPath(`${matchAs}/${child.path}`)
         : undefined
-      addRouteRecord(pathMap, nameMap, child, record, childMatchAs)
+      addRouteRecord(pathList, pathMap, nameMap, child, record, childMatchAs)
     })
   }
 
@@ -89,18 +95,19 @@ function addRouteRecord (
           path: alias,
           children: route.children
         }
-        addRouteRecord(pathMap, nameMap, aliasRoute, parent, record.path)
+        addRouteRecord(pathList, pathMap, nameMap, aliasRoute, parent, record.path)
       })
     } else {
       const aliasRoute = {
         path: route.alias,
         children: route.children
       }
-      addRouteRecord(pathMap, nameMap, aliasRoute, parent, record.path)
+      addRouteRecord(pathList, pathMap, nameMap, aliasRoute, parent, record.path)
     }
   }
 
   if (!pathMap[record.path]) {
+    pathList.push(record.path)
     pathMap[record.path] = record
   }
 

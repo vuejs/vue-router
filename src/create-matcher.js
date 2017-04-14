@@ -17,10 +17,10 @@ export function createMatcher (
   routes: Array<RouteConfig>,
   router: VueRouter
 ): Matcher {
-  const { pathMap, nameMap } = createRouteMap(routes)
+  const { pathList, pathMap, nameMap } = createRouteMap(routes)
 
   function addRoutes (routes) {
-    createRouteMap(routes, pathMap, nameMap)
+    createRouteMap(routes, pathList, pathMap, nameMap)
   }
 
   function match (
@@ -58,7 +58,8 @@ export function createMatcher (
       }
     } else if (location.path) {
       location.params = {}
-      for (const path in pathMap) {
+      for (let i = 0; i < pathList.length; i++) {
+        const path = pathList[i]
         if (matchRoute(path, location.params, location.path)) {
           return _createRoute(pathMap[path], location, redirectedFrom)
         }
