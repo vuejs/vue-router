@@ -22,6 +22,15 @@ export function createRouteMap (
     addRouteRecord(pathList, pathMap, nameMap, route)
   })
 
+  // ensure wildcard routes are always at the end
+  for (let i = 0, l = pathList.length; i < l; i++) {
+    if (pathList[i] === '*') {
+      pathList.push(pathList.splice(i, 1)[0])
+      l--
+      i--
+    }
+  }
+
   return {
     pathList,
     pathMap,

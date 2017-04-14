@@ -9,6 +9,7 @@ const Baz = { template: '<div>This is Baz</div>' }
 const routes = [
   { path: '/', name: 'home', component: Home },
   { path: '/foo', name: 'foo', component: Foo },
+  { path: '*', name: 'wildcard', component: Baz },
   {
     path: '/bar',
     name: 'bar',
@@ -38,6 +39,10 @@ describe('Creating Route Map', function () {
 
   it('has a pathMap object for default subroute at /bar/', function () {
     expect(maps.pathMap['/bar/']).not.toBeUndefined()
+  })
+
+  it('has a pathList which places wildcards at the end', () => {
+    expect(maps.pathList).toEqual(['', '/foo', '/bar/', '/bar', '*'])
   })
 
   it('has a nameMap object for default subroute at \'bar.baz\'', function () {
