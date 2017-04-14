@@ -58,7 +58,7 @@ export function createMatcher (
       }
     } else if (location.path) {
       location.params = {}
-      for (let i = 0; i < pathList.length; i++) {
+      for (let i = 0, l = pathList.length; i < l; i++) {
         const path = pathList[i]
         if (matchRoute(path, location.params, location.path)) {
           return _createRoute(pathMap[path], location, redirectedFrom)
