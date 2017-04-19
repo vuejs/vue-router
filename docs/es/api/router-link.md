@@ -94,9 +94,9 @@ Es preferible utilizar `<router-link>` en lugar de escribir directamente `<a hre
 
   - valor por defecto: `false`
 
-  El comportamiento por defecto para la aplicación de la clase CSS activa en las coincidencias de rutas es **inclusivo**. Por ejemplo, `<router-link to="/a">` obtendrá la clase CSS mientras la ruta actual comience con `/a/` o sea `/a`.
+  El comportamiento por defecto para la aplicación de la clase CSS activa en matching dinámico de rutas es **inclusivo**. Por ejemplo, `<router-link to="/a">` obtendrá la clase CSS mientras la ruta actual comience con `/a/` o sea `/a`.
 
-  Una consecuencia de esto es que `<router-link to="/">` ¡permanecerá activa para todas las rutas! Para forzar una coincidencia exacta, utiliza la propiedad `exact`:
+  Una consecuencia de esto es que `<router-link to="/">` ¡permanecerá activa para todas las rutas! Para forzar un matching exacto, utiliza la propiedad `exact`:
 
   ``` html
   <!-- este enlace estará activo solamente para la ruta / -->

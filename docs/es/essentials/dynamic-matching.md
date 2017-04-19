@@ -1,4 +1,4 @@
-# Coincidencia dinámica de rutas
+# Matching dinámico de rutas
 
 Es bastante común tener que mapear rutas con un patrón determinado al mismo componente. Por ejemplo, puede que tengamos un componente `User` el cual debería ser renderizado para todos los usuarios, pero con diferente ID. En `vue-router` podemos usar un segmento dinámico en el _path_ para lograrlo:
 
@@ -29,7 +29,7 @@ Puedes consultar el siguiente [ejemplo](http://jsfiddle.net/yyx990803/4xfa2f19/)
 
 Se pueden tener múltiples segmentos dinámicos en la misma ruta, y todos serán mapeados a los correspondientes campos en `$route.params`. Por ejemplo:
 
-| patrón | coincidencia de ruta | $route.params |
+| patrón | matching de ruta | $route.params |
 |---------|------|--------|
 | /user/:username | /user/evan | `{ username: 'evan' }` |
 | /user/:username/post/:post_id | /user/evan/post/123 | `{ username: 'evan', post_id: 123 }` |
@@ -53,10 +53,10 @@ const User = {
 }
 ```
 
-### Patrones de coincidencia avanzados
+### Patrones de matching avanzados
 
-`vue-router` usa [path-to-regexp](https://github.com/pillarjs/path-to-regexp) como su motor de búsqueda de patrones, por lo que soporta varios patrones de coincidencia avanzados tales como segmentos dinámicos opcionales, requerimientos del tipo cero o más / uno o más, e incluso patrones _regex_ personalizados. Verifica la  [documentación](https://github.com/pillarjs/path-to-regexp#parameters) para estos patrones avanzados, y [este ejemplo](https://github.com/vuejs/vue-router/blob/dev/examples/route-matching/app.js) de como usarlos con `vue-router`.
+`vue-router` usa [path-to-regexp](https://github.com/pillarjs/path-to-regexp) como su motor de búsqueda de patrones, por lo que soporta varios patrones de matching avanzados tales como segmentos dinámicos opcionales, requerimientos del tipo cero o más / uno o más, e incluso patrones _regex_ personalizados. Verifica la  [documentación](https://github.com/pillarjs/path-to-regexp#parameters) para estos patrones avanzados, y [este ejemplo](https://github.com/vuejs/vue-router/blob/dev/examples/route-matching/app.js) de como usarlos con `vue-router`.
 
-### Prioridad en la coincidencia de patrones
+### Prioridad en el matching de patrones
 
-A veces la misma URL puede coinciide con múltiples rutas. En ese caso, la prioridad en la coincidencia se determina por el orden de la definición de las rutas: la primera ruta definida será la que tenga mayor prioridad.
+A veces la misma URL puede coincidir con múltiples rutas. En ese caso, la prioridad se determina por el orden de la definición de las rutas: la primera ruta definida será la que tenga mayor prioridad.

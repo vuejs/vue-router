@@ -1,4 +1,4 @@
-# Inyección de componentes
+# Inyección en componentes
 
 ### Propiedades inyectadas
 

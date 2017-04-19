@@ -1,8 +1,8 @@
-# Carga diferida de rutas
+# Lazy loading
 
 Cuando se construyen aplicaciones con un sistema de empaquetamiento de módulos, el archivo JavaScript resultante puede terminar siendo muy grande, afectando los tiempos de carga de la página. Sería más eficiente si pudiesemos dividir los componentes de cada ruta en porciones separadas y cargarlas solo cuando esa ruta es visitada.
 
-Combinando [las características asíncronas de componentes de Vue](http://vuejs.org/guide/components.html#Async-Components) y las características de división de código de [Webpack](https://webpack.js.org/guides/code-splitting-require/), es trivial la carga diferida de componentes de ruta.
+Combinando [las características asíncronas de componentes de Vue](http://vuejs.org/guide/components.html#Async-Components) y las características de división de código de [Webpack](https://webpack.js.org/guides/code-splitting-require/), es trivial el _lazy loading_ de componentes de ruta.
 
 Todo lo que necesitamos es definir nuestros componentes de rutas como asíncronos:
 

@@ -1,16 +1,16 @@
 # Obtención de datos
 
-Puede que necesites obtener datos desde el servidor cuando una ruta es activada. Por ejemplo, antes de renderizar un perfil de usuario, puedes obtener la información de ese usuario desde el servidor. Podemos lograr esto de dos maneras diferentes:
+A veces es necesario obtener datos del servidor cuando una ruta es activada. Por ejemplo, antes de renderizar un perfil de usuario, puedes obtener la información de ese usuario desde el servidor. Podemos lograr esto de dos maneras diferentes:
 
-- **Obtener la información después de la navegación**: realiza la navegación primero y luego obtén los datos en un _hook_ del ciclo de vida del componente entrante. Mientras esperas la respuesta del servidor, este _hook_ puede ser usado para mostrar un indicador de carga.
+- **Obtener la información después de la navegación**: realiza la navegación primero y luego obtén los datos en un _hook_ del ciclo de vida del componente entrante. Puedes mostrar un indicador de carga mientras se obtienen los datos.
 
-- **Obtener la información antes de la navegación**: Obtén los datos antes de la navegación en la guardia de entrada de la ruta, y realiza la navegación luego de haberla obtenido.
+- **Obtener la información antes de la navegación**: Obtén los datos antes de la navegación en la guardia de entrada de la ruta, y realiza la navegación una vez estos obtenidos.
 
-Técnicamente, ambas opciones son válidas - depende de la experiencia de usuario a la que apuntes.
+Técnicamente, ambas opciones son válidas - todo depende de la experiencia de usuario a la que apuntes.
 
 ## Obtener la información después de la navegación
 
-Cuando utilizamos este enfoque, navegamos y renderizamos el componente entrante inmediatamente, y obtenemos los datos en el _hook_ `create` del componente. Nos posibilita mostrar un indicador de estado de carga mientras se obtiene la información desde un servidor remoto, y también podemos manejar la carga de datos de manera diferente para cada vista.
+Cuando utilizamos este enfoque, navegamos y renderizamos el componente entrante inmediatamente, y obtenemos los datos en el _hook_ `created` del componente. Esto nos permite mostrar un indicador de estado de carga mientras se obtiene la información desde un servidor remoto, y también manejar la carga de datos según la ruta.
 
 Asumamos que tenemos un componente `Post` que necesita obtener datos de un _post_ basándose en `$route.params.id`:
 
@@ -110,4 +110,4 @@ export default {
 }
 ```
 
-El usuario permanecerá en la vista actual mientras se esté obteniendo el recurso para la vista entrante. Por lo tanto, es recomendable mostrar algún tipo de indicador o barra de progreso. Si la obtención de datos falla, es necesario mostrar algún tipo de mensaje global de advertencia.
+El usuario permanecerá en la vista actual mientras se esté obteniendo el recurso para la vista entrante. Por lo tanto, es recomendable mostrar algún tipo de indicador o barra de progreso. Si la obtención de datos falla, es necesario mostrar algún tipo de advertencia global.
