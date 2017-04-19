@@ -64,7 +64,7 @@ export function getLocation (base: string): string {
 
   // Special handling for cases where base contains hash ('#')
   if (base && base.indexOf('#') > -1) {
-    path = window.location.href
+    path = window.location.href.replace(window.location.origin, '')
     if (path.indexOf(base) === 0) {
       // Leave the rest of the url as-is
       return (path.slice(base.length) || '/')
