@@ -561,7 +561,9 @@ function parsePath (path) {
 }
 
 function cleanPath (path) {
-  return path.replace(/\/\//g, '/')
+  var ishttp = /^\w+:\/\//.exec(path);
+  var http = Array.isArray(ishttp) ? ishttp[0] : '';
+  return http + path.substr(http.length).replace(/\/{2,}/g, '/');
 }
 
 /*  */
@@ -1759,7 +1761,9 @@ function normalizeBase (base) {
     }
   }
   // make sure there's the starting slash
-  if (base.charAt(0) !== '/') {
+  if(/^[a-z]+:\/\//i.test(base)){
+    
+  }else if (base.charAt(0) !== '/') {
     base = '/' + base;
   }
   // remove trailing slash
