@@ -40,7 +40,7 @@ Every guard function receives three arguments:
 
 > New in 2.5.0
 
-In 2.5.0+ you can register a global guard with `router.onResolve`. This is similar to `router.beforeEach`, with the difference that resolve guards will be called right before the navigation is confirmed, **after all in-component guards and async route components are resolved**.
+In 2.5.0+ you can register a global guard with `router.beforeResolve`. This is similar to `router.beforeEach`, with the difference that resolve guards will be called right before the navigation is confirmed, **after all in-component guards and async route components are resolved**.
 
 ### Global After Hooks
 
@@ -118,7 +118,7 @@ beforeRouteEnter (to, from, next) {
 
 You can directly access `this` inside `beforeRouteLeave`. The leave guard is usually used to prevent the user from accidentally leaving the route with unsaved edits. The navigation can be canceled by calling `next(false)`.
 
-### The Full Guard Resolution Flow
+### The Full Navigation Resolution Flow
 
 1. Navigation triggered
 2. Call leave guards in deactivated components
