@@ -126,7 +126,13 @@ export class History {
             // next(false) -> abort navigation, ensure current URL
             this.ensureURL(true)
             abort(to)
-          } else if (typeof to === 'string' || typeof to === 'object') {
+          } else if (
+            typeof to === 'string' ||
+            (typeof to === 'object' && (
+              typeof to.path === 'string' ||
+              typeof to.name === 'string'
+            ))
+          ) {
             // next('/') or next({ path: '/' }) -> redirect
             abort()
             if (typeof to === 'object' && to.replace) {
