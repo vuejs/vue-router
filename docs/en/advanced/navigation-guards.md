@@ -2,7 +2,7 @@
 
 As the name suggests, the navigation guards provided by `vue-router` are primarily used to guard navigations either by redirecting it or canceling it. There are a number of ways to hook into the route navigation process: globally, per-route, or in-component.
 
-Remember **Params or queries changes won't trigger navigation guards**. Simply [watch the `$route` object](../essentials/dynamic-matching.md#reacting-to-params-changes) to react to those changes.
+Remember that **params or query changes won't trigger enter/leave navigation guards**. You can either [watch the `$route` object](../essentials/dynamic-matching.md#reacting-to-params-changes) to react to those changes, or use the `beforeRouteUpadte` in-component guard.
 
 ### Global Guards
 
@@ -35,6 +35,14 @@ Every guard function receives three arguments:
   - **`next(error)`**: (2.4.0+) if the argument passed to `next` is an instance of `Error`, the navigation will be aborted and the error will be passed to callbacks registered via `router.onError()`.
 
 **Make sure to always call the `next` function, otherwise the hook will never be resolved.**
+
+### Global Resolve Guards
+
+> New in 2.5.0
+
+In 2.5.0+ you can register a global guard with `router.onResolve`. This is similar to `router.beforeEach`, with the difference that resolve guards will be called right before the navigation is confirmed, **after all in-component guards and async route components are resolved**.
+
+### Global After Hooks
 
 You can also register global after hooks, however unlike guards, these hooks do not get a `next` function and cannot affect the navigation:
 
@@ -109,3 +117,18 @@ beforeRouteEnter (to, from, next) {
 ```
 
 You can directly access `this` inside `beforeRouteLeave`. The leave guard is usually used to prevent the user from accidentally leaving the route with unsaved edits. The navigation can be canceled by calling `next(false)`.
+
+### The Full Guard Resolution Flow
+
+1. Navigation triggered
+2. Call leave guards in deactivated components
+3. Call global `beforeEach` guards
+4. Call `beforeRouteUpdate` guards in reused components (2.2+)
+5. Call `beforeEnter` in route configs
+6. Resolve async route components
+7. Call `beforeRouteEnter` in activated components
+8. Call global `beforeResolve` guards (2.5+)
+9. Navigation confirmed.
+10. Call global `afterEach` hooks.
+11. DOM updates triggered.
+12. Call callbacks passed to `next` in `beforeRouteEnter` guards with instantiated instances.

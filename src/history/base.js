@@ -147,10 +147,11 @@ export class History {
     runQueue(queue, iterator, () => {
       const postEnterCbs = []
       const isValid = () => this.current === route
-      const enterGuards = extractEnterGuards(activated, postEnterCbs, isValid)
       // wait until async components are resolved before
       // extracting in-component enter guards
-      runQueue(enterGuards, iterator, () => {
+      const enterGuards = extractEnterGuards(activated, postEnterCbs, isValid)
+      const queue = enterGuards.concat(this.router.resolveHooks)
+      runQueue(queue, iterator, () => {
         if (this.pending !== route) {
           return abort()
         }

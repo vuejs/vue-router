@@ -23,6 +23,7 @@
 ### Methods
 
 - **router.beforeEach(guard)**
+- **router.beforeResolve(guard)** (2.5.0+)
 - **router.afterEach(hook)**
 
   Add global navigation guards. See [Navigation Guards](../advanced/navigation-guards.md).
