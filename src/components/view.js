@@ -54,6 +54,10 @@ export default {
       }
     }
 
+    ;(data.hook || (data.hook = {})).prepatch = (_, vnode) => {
+      matched.instances[name] = vnode.componentInstance
+    }
+
     // resolve props
     data.props = resolveProps(route, matched.props && matched.props[name])
 
