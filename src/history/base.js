@@ -83,7 +83,12 @@ export class History {
     const current = this.current
     const abort = err => {
       if (err instanceof Error) {
-        this.errorCbs.forEach(cb => { cb(err) })
+        if (this.errorCbs.length) {
+          this.errorCbs.forEach(cb => { cb(err) })
+        } else {
+          warn(false, 'uncaught error during route navigation:')
+          console.error(err)
+        }
       }
       onAbort && onAbort(err)
     }
