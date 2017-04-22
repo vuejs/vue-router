@@ -21,7 +21,7 @@ declare class VueRouter {
   currentRoute: Route;
 
   beforeEach (guard: NavigationGuard): void;
-  onResolve (guard: NavigationGuard): void;
+  beforeResolve (guard: NavigationGuard): void;
   afterEach (hook: (to: Route, from: Route) => any): void;
   push (location: RawLocation, onComplete?: Function, onAbort?: Function): void;
   replace (location: RawLocation, onComplete?: Function, onAbort?: Function): void;

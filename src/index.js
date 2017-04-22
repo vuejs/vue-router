@@ -122,7 +122,7 @@ export default class VueRouter {
     this.beforeHooks.push(fn)
   }
 
-  onResolve (fn: Function) {
+  beforeResolve (fn: Function) {
     this.resolveHooks.push(fn)
   }
 
