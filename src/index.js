@@ -30,7 +30,7 @@ export default class VueRouter {
   fallback: boolean;
   beforeHooks: Array<?NavigationGuard>;
   resolveHooks: Array<?NavigationGuard>;
-  afterHooks: Array<?((to: Route, from: Route) => any)>;
+  afterHooks: Array<?AfterNavigationHook>;
 
   constructor (options: RouterOptions = {}) {
     this.app = null
@@ -118,16 +118,16 @@ export default class VueRouter {
     })
   }
 
-  beforeEach (fn: Function) {
-    this.beforeHooks.push(fn)
+  beforeEach (fn: Function): Function {
+    return registerHook(this.beforeHooks, fn)
   }
 
-  beforeResolve (fn: Function) {
-    this.resolveHooks.push(fn)
+  beforeResolve (fn: Function): Function {
+    return registerHook(this.resolveHooks, fn)
   }
 
-  afterEach (fn: Function) {
-    this.afterHooks.push(fn)
+  afterEach (fn: Function): Function {
+    return registerHook(this.afterHooks, fn)
   }
 
   onReady (cb: Function, errorCb?: Function) {
@@ -209,6 +209,14 @@ export default class VueRouter {
     if (this.history.current !== START) {
       this.history.transitionTo(this.history.getCurrentLocation())
     }
+  }
+}
+
+function registerHook (list: Array<any>, fn: Function): Function {
+  list.push(fn)
+  return () => {
+    const i = list.indexOf(fn)
+    if (i > -1) list.splice(i, 1)
   }
 }
 

@@ -20,9 +20,9 @@ declare class VueRouter {
   mode: RouterMode;
   currentRoute: Route;
 
-  beforeEach (guard: NavigationGuard): void;
-  beforeResolve (guard: NavigationGuard): void;
-  afterEach (hook: (to: Route, from: Route) => any): void;
+  beforeEach (guard: NavigationGuard): Function;
+  beforeResolve (guard: NavigationGuard): Function;
+  afterEach (hook: (to: Route, from: Route) => any): Function;
   push (location: RawLocation, onComplete?: Function, onAbort?: Function): void;
   replace (location: RawLocation, onComplete?: Function, onAbort?: Function): void;
   go (n: number): void;

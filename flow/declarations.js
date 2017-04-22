@@ -15,6 +15,8 @@ declare type NavigationGuard = (
   next: (to?: RawLocation | false | Function | void) => void
 ) => any
 
+declare type AfterNavigationHook = (to: Route, from: Route) => any
+
 declare type RouterOptions = {
   routes?: Array<RouteConfig>;
   mode?: string;
