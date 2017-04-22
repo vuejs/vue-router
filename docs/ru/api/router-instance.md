@@ -23,6 +23,7 @@
 ### Методы
 
 - **router.beforeEach(guard)**
+- **router.beforeResolve(guard)** (добавлено в версии 2.5.0+)
 - **router.afterEach(hook)**
 
   См. [сторожевые хуки](../advanced/navigation-guards.md).
