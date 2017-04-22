@@ -21,10 +21,7 @@ export default {
     exact: Boolean,
     append: Boolean,
     replace: Boolean,
-    activeClass: {
-      type: String,
-      default: 'router-link-active'
-    },
+    activeClass: String,
     event: {
       type: eventTypes,
       default: 'click'
@@ -37,9 +34,13 @@ export default {
 
     const classes = {}
     const globalActiveClass = router.options.linkActiveClass
-    const activeClass = globalActiveClass == null
-      ? this.activeClass
-      : globalActiveClass
+    // Support global empty active class
+    const activeClassFallback = globalActiveClass == null
+            ? 'router-link-active'
+            : globalActiveClass
+    const activeClass = this.activeClass == null
+            ? activeClassFallback
+            : this.activeClass
     const compareTarget = location.path
       ? createRoute(null, location, null, router)
       : route
