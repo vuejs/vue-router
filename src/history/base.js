@@ -263,9 +263,11 @@ function extractUpdateHooks (updated: Array<RouteRecord>): Array<?Function> {
   return extractGuards(updated, 'beforeRouteUpdate', bindGuard)
 }
 
-function bindGuard (guard: NavigationGuard, instance: _Vue): NavigationGuard {
-  return function boundRouteGuard () {
-    return guard.apply(instance, arguments)
+function bindGuard (guard: NavigationGuard, instance: ?_Vue): ?NavigationGuard {
+  if (instance) {
+    return function boundRouteGuard () {
+      return guard.apply(instance, arguments)
+    }
   }
 }
 
