@@ -53,6 +53,16 @@
 
   Глобальная конфигурация CSS-класса по умолчанию для активных ссылок `<router-link>`. См. также [router-link](router-link.md).
 
+### linkExactActiveClass
+
+> Добавлено в версии 2.5.0+
+
+- Тип: `string`
+
+- По умолчанию: `"router-link-exact-active"`
+
+  Глобально настраивает для `<router-link>` активный класс по умолчанию для точных совпадений маршрута. См. также [router-link](router-link.md).
+
 ### scrollBehavior
 
 - тип: `Function`
