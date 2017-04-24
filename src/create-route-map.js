@@ -141,8 +141,8 @@ function compileRouteRegex (path: string): RouteRegExp {
   if (process.env.NODE_ENV !== 'production') {
     const keys: any = {}
     regex.keys.forEach(key => {
-      warn(!keys[key], `Duplicate param keys in route with path: "${path}"`)
-      keys[key] = true
+      warn(!keys[key.name], `Duplicate param keys in route with path: "${path}"`)
+      keys[key.name] = true
     })
   }
   return regex
