@@ -1,5 +1,5 @@
 /**
-  * vue-router v2.5.0
+  * vue-router v2.5.1
   * (c) 2017 Evan You
   * @license MIT
   */
@@ -1178,8 +1178,8 @@ function compileRouteRegex (path) {
   {
     var keys = {};
     regex.keys.forEach(function (key) {
-      warn(!keys[key], ("Duplicate param keys in route with path: \"" + path + "\""));
-      keys[key] = true;
+      warn(!keys[key.name], ("Duplicate param keys in route with path: \"" + path + "\""));
+      keys[key.name] = true;
     });
   }
   return regex
@@ -2450,7 +2450,7 @@ function createHref (base, fullPath, mode) {
 }
 
 VueRouter.install = install;
-VueRouter.version = '2.5.0';
+VueRouter.version = '2.5.1';
 
 if (inBrowser && window.Vue) {
   window.Vue.use(VueRouter);
