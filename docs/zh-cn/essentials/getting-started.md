@@ -2,7 +2,7 @@
 
 > 教程中的案例代码将使用 [ES2015](https://github.com/lukehoban/es6features) 来编写。
 
-用 Vue.js + vue-router 创建单页应用，是非常简单的。使用 Vue.js，我们已经可以通过组合组件来组成应用程序，当你要把 vue-router 填加进来，我们需要做的是，将组件(components)映射到路由(routes)，然后告诉 vue-router 在哪里渲染它们。下面是个基本例子：
+用 Vue.js + vue-router 创建单页应用，是非常简单的。使用 Vue.js，我们已经可以通过组合组件来组成应用程序，当你要把 vue-router 添加进来，我们需要做的是，将组件(components)映射到路由(routes)，然后告诉 vue-router 在哪里渲染它们。下面是个基本例子：
 
 ### HTML
 
