@@ -54,12 +54,14 @@ describe('Route utils', () => {
     })
 
     it('with query', () => {
-      const a = { path: '/a/b', query: { foo: 'bar', baz: 'qux' }}
+      const a = { path: '/a/b', query: { foo: 'bar', baz: 'qux', quux: { corge: 1 }}}
       const b = { path: '/a', query: {}}
       const c = { path: '/a', query: { foo: 'bar' }}
       const d = { path: '/a', query: { foo: 'bar', a: 'b' }}
+      const e = { path: '/a', query: { quux: { corge: 1 }}}
       expect(isIncludedRoute(a, b)).toBe(true)
       expect(isIncludedRoute(a, c)).toBe(true)
+      expect(isIncludedRoute(a, e)).toBe(true)
       expect(isIncludedRoute(a, d)).toBe(false)
     })
 
