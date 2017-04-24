@@ -1,12 +1,12 @@
 /* @flow */
 
 import type VueRouter from './index'
+import { resolvePath } from './util/path'
 import { assert, warn } from './util/warn'
 import { createRoute } from './util/route'
+import { fillParams } from './util/params'
 import { createRouteMap } from './create-route-map'
-import { resolvePath } from './util/path'
 import { normalizeLocation } from './util/location'
-import { getRouteRegex, fillParams } from './util/params'
 
 export type Matcher = {
   match: (raw: RawLocation, current?: Route, redirectedFrom?: Location) => Route;
@@ -17,10 +17,10 @@ export function createMatcher (
   routes: Array<RouteConfig>,
   router: VueRouter
 ): Matcher {
-  const { pathMap, nameMap } = createRouteMap(routes)
+  const { pathList, pathMap, nameMap } = createRouteMap(routes)
 
   function addRoutes (routes) {
-    createRouteMap(routes, pathMap, nameMap)
+    createRouteMap(routes, pathList, pathMap, nameMap)
   }
 
   function match (
@@ -36,7 +36,7 @@ export function createMatcher (
       if (process.env.NODE_ENV !== 'production') {
         warn(record, `Route with name '${name}' does not exist`)
       }
-      const paramNames = getRouteRegex(record.path).keys
+      const paramNames = record.regex.keys
         .filter(key => !key.optional)
         .map(key => key.name)
 
@@ -58,9 +58,11 @@ export function createMatcher (
       }
     } else if (location.path) {
       location.params = {}
-      for (const path in pathMap) {
-        if (matchRoute(path, location.params, location.path)) {
-          return _createRoute(pathMap[path], location, redirectedFrom)
+      for (let i = 0; i < pathList.length; i++) {
+        const path = pathList[i]
+        const record = pathMap[path]
+        if (matchRoute(record.regex, location.path, location.params)) {
+          return _createRoute(record, location, redirectedFrom)
         }
       }
     }
@@ -170,12 +172,11 @@ export function createMatcher (
 }
 
 function matchRoute (
+  regex: RouteRegExp,
   path: string,
-  params: Object,
-  pathname: string
+  params: Object
 ): boolean {
-  const { regexp, keys } = getRouteRegex(path)
-  const m = pathname.match(regexp)
+  const m = path.match(regex)
 
   if (!m) {
     return false
@@ -184,9 +185,11 @@ function matchRoute (
   }
 
   for (let i = 1, len = m.length; i < len; ++i) {
-    const key = keys[i - 1]
+    const key = regex.keys[i - 1]
     const val = typeof m[i] === 'string' ? decodeURIComponent(m[i]) : m[i]
-    if (key) params[key.name] = val
+    if (key) {
+      params[key.name] = val
+    }
   }
 
   return true

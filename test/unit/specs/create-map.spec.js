@@ -9,6 +9,7 @@ const Baz = { template: '<div>This is Baz</div>' }
 const routes = [
   { path: '/', name: 'home', component: Home },
   { path: '/foo', name: 'foo', component: Foo },
+  { path: '*', name: 'wildcard', component: Baz },
   {
     path: '/bar',
     name: 'bar',
@@ -40,6 +41,10 @@ describe('Creating Route Map', function () {
     expect(maps.pathMap['/bar/']).not.toBeUndefined()
   })
 
+  it('has a pathList which places wildcards at the end', () => {
+    expect(maps.pathList).toEqual(['', '/foo', '/bar/', '/bar', '*'])
+  })
+
   it('has a nameMap object for default subroute at \'bar.baz\'', function () {
     expect(maps.nameMap['bar.baz']).not.toBeUndefined()
   })
@@ -54,5 +59,19 @@ describe('Creating Route Map', function () {
   it('in production, it has not logged this warning', function () {
     maps = createRouteMap(routes)
     expect(console.warn).not.toHaveBeenCalled()
+  })
+
+  it('in development, warn duplicate param keys', () => {
+    process.env.NODE_ENV = 'development'
+    maps = createRouteMap([
+      {
+        path: '/foo/:id', component: Foo,
+        children: [
+          { path: 'bar/:id', component: Bar }
+        ]
+      }
+    ])
+    expect(console.warn).toHaveBeenCalled()
+    expect(console.warn.calls.argsFor(0)[0]).toMatch('vue-router] Duplicate param keys in route with path: "/foo/:id/bar/:id"')
   })
 })

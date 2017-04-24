@@ -8,6 +8,7 @@ describe('error handling', () => {
     const router = new VueRouter()
     const err = new Error('foo')
     router.beforeEach(() => { throw err })
+    router.onError(() => {})
 
     const onReady = jasmine.createSpy('ready')
     const onError = jasmine.createSpy('error')

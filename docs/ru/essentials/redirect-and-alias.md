@@ -27,7 +27,7 @@ const router = new VueRouter({
 ``` js
 const router = new VueRouter({
   routes: [
-    { path: '/a', redirect: to => {      
+    { path: '/a', redirect: to => {
       // в функцию в качестве аргумента передаётся путь
       // возвращаемым значением должна быть строка или объект пути
     }}

@@ -53,6 +53,16 @@
 
   Globally configure `<router-link>` default active class. Also see [router-link](router-link.md).
 
+### linkExactActiveClass
+
+> 2.5.0+
+
+- type: `string`
+
+- default: `"router-link-exact-active"`
+
+  Globally configure `<router-link>` default active class for exact matches. Also see [router-link](router-link.md).
+
 ### scrollBehavior
 
 - type: `Function`

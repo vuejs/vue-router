@@ -23,10 +23,12 @@
 ### Methods
 
 - **router.beforeEach(guard)**
+- **router.beforeResolve(guard)** (2.5.0+)
 - **router.afterEach(hook)**
 
   Add global navigation guards. See [Navigation Guards](../advanced/navigation-guards.md).
 
+  In 2.5.0+ all three methods return a function that removes the registered guard/hook.
 
 - **router.push(location, onComplete?, onAbort?)**
 - **router.replace(location, onComplete?, onAbort?)**
