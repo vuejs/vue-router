@@ -20,15 +20,17 @@ declare class VueRouter {
   mode: RouterMode;
   currentRoute: Route;
 
-  beforeEach (guard: NavigationGuard): void;
-  afterEach (hook: (to: Route, from: Route) => any): void;
+  beforeEach (guard: NavigationGuard): Function;
+  beforeResolve (guard: NavigationGuard): Function;
+  afterEach (hook: (to: Route, from: Route) => any): Function;
   push (location: RawLocation, onComplete?: Function, onAbort?: Function): void;
   replace (location: RawLocation, onComplete?: Function, onAbort?: Function): void;
   go (n: number): void;
   back (): void;
   forward (): void;
   getMatchedComponents (to?: RawLocation): Component[];
-  onReady (cb: Function): void;
+  onReady (cb: Function, errorCb?: Function): void;
+  onError (cb: Function): void;
   addRoutes (routes: RouteConfig[]): void;
   resolve (to: RawLocation, current?: Route, append?: boolean): {
     location: Location;
@@ -47,6 +49,8 @@ export interface RouterOptions {
   mode?: RouterMode;
   base?: string;
   linkActiveClass?: string;
+  parseQuery?: (query: string) => Object;
+  stringifyQuery?: (query: Object) => string;
   scrollBehavior?: (
     to: Route,
     from: Route,
@@ -71,6 +75,7 @@ export interface RouteConfig {
 
 export interface RouteRecord {
   path: string;
+  regex: RegExp;
   components: Dictionary<Component>;
   instances: Dictionary<Vue>;
   name?: string;

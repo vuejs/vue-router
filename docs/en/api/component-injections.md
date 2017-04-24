@@ -15,6 +15,7 @@ These properties are injected into every child component by passing the router i
 ### Enabled Options
 
 - **beforeRouteEnter**
+- **beforeRouteUpdate** (added in 2.2)
 - **beforeRouteLeave**
 
   See [In Component Guards](../advanced/navigation-guards.md#incomponent-guards).

@@ -20,7 +20,7 @@ const router = new VueRouter({
 <router-link :to="{ name: 'user', params: { userId: 123 }}">User</router-link>
 ```
 
-이것은 `router.push()`와 프로그램적으로 사용되는 것과 정확히 같은 객체이다.
+이것은 `router.push()`와 프로그램적으로 사용되는 것과 정확히 같은 객체입니다.
 
 ``` js
 router.push({ name: 'user', params: { userId: 123 }})

@@ -5,11 +5,12 @@ export function resolvePath (
   base: string,
   append?: boolean
 ): string {
-  if (relative.charAt(0) === '/') {
+  const firstChar = relative.charAt(0)
+  if (firstChar === '/') {
     return relative
   }
 
-  if (relative.charAt(0) === '?' || relative.charAt(0) === '#') {
+  if (firstChar === '?' || firstChar === '#') {
     return base + relative
   }
 
@@ -26,11 +27,9 @@ export function resolvePath (
   const segments = relative.replace(/^\//, '').split('/')
   for (let i = 0; i < segments.length; i++) {
     const segment = segments[i]
-    if (segment === '.') {
-      continue
-    } else if (segment === '..') {
+    if (segment === '..') {
       stack.pop()
-    } else {
+    } else if (segment !== '.') {
       stack.push(segment)
     }
   }

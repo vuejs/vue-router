@@ -53,7 +53,7 @@
 }
 ```
 
-- **router.addRoute(routes)**
+- **router.addRoutes(routes)**
 
   > 2.2.0+
 

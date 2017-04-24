@@ -115,6 +115,16 @@
 
   Specify the event(s) that can trigger the link navigation.
 
+- **exact-active-class**
+
+  > 2.5.0+
+
+  - type: `string`
+
+  - default: `"router-link-exact-active"`
+
+  Configure the active CSS class applied when the link is active with exact match. Note the default value can also be configured globally via the `linkExactActiveClass` router constructor option.
+
 ### Applying Active Class to Outer Element
 
 Sometimes we may want the active class to be applied to an outer element rather than the `<a>` tag itself, in that case, you can render that outer element using `<router-link>` and wrap the raw `<a>` tag inside:

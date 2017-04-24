@@ -1,30 +1,46 @@
 /* @flow */
 
-import { assert, warn } from './util/warn'
+import Regexp from 'path-to-regexp'
 import { cleanPath } from './util/path'
+import { assert, warn } from './util/warn'
 
 export function createRouteMap (
   routes: Array<RouteConfig>,
+  oldPathList?: Array<string>,
   oldPathMap?: Dictionary<RouteRecord>,
   oldNameMap?: Dictionary<RouteRecord>
 ): {
+  pathList: Array<string>;
   pathMap: Dictionary<RouteRecord>;
   nameMap: Dictionary<RouteRecord>;
 } {
+  // the path list is used to control path matching priority
+  const pathList: Array<string> = oldPathList || []
   const pathMap: Dictionary<RouteRecord> = oldPathMap || Object.create(null)
   const nameMap: Dictionary<RouteRecord> = oldNameMap || Object.create(null)
 
   routes.forEach(route => {
-    addRouteRecord(pathMap, nameMap, route)
+    addRouteRecord(pathList, pathMap, nameMap, route)
   })
 
+  // ensure wildcard routes are always at the end
+  for (let i = 0, l = pathList.length; i < l; i++) {
+    if (pathList[i] === '*') {
+      pathList.push(pathList.splice(i, 1)[0])
+      l--
+      i--
+    }
+  }
+
   return {
+    pathList,
     pathMap,
     nameMap
   }
 }
 
 function addRouteRecord (
+  pathList: Array<string>,
   pathMap: Dictionary<RouteRecord>,
   nameMap: Dictionary<RouteRecord>,
   route: RouteConfig,
@@ -41,8 +57,10 @@ function addRouteRecord (
     )
   }
 
+  const normalizedPath = normalizePath(path, parent)
   const record: RouteRecord = {
-    path: normalizePath(path, parent),
+    path: normalizedPath,
+    regex: compileRouteRegex(normalizedPath),
     components: route.components || { default: route.component },
     instances: {},
     name,
@@ -78,7 +96,7 @@ function addRouteRecord (
       const childMatchAs = matchAs
         ? cleanPath(`${matchAs}/${child.path}`)
         : undefined
-      addRouteRecord(pathMap, nameMap, child, record, childMatchAs)
+      addRouteRecord(pathList, pathMap, nameMap, child, record, childMatchAs)
     })
   }
 
@@ -89,18 +107,19 @@ function addRouteRecord (
           path: alias,
           children: route.children
         }
-        addRouteRecord(pathMap, nameMap, aliasRoute, parent, record.path)
+        addRouteRecord(pathList, pathMap, nameMap, aliasRoute, parent, record.path)
       })
     } else {
       const aliasRoute = {
         path: route.alias,
         children: route.children
       }
-      addRouteRecord(pathMap, nameMap, aliasRoute, parent, record.path)
+      addRouteRecord(pathList, pathMap, nameMap, aliasRoute, parent, record.path)
     }
   }
 
   if (!pathMap[record.path]) {
+    pathList.push(record.path)
     pathMap[record.path] = record
   }
 
@@ -115,6 +134,18 @@ function addRouteRecord (
       )
     }
   }
+}
+
+function compileRouteRegex (path: string): RouteRegExp {
+  const regex = Regexp(path)
+  if (process.env.NODE_ENV !== 'production') {
+    const keys: any = {}
+    regex.keys.forEach(key => {
+      warn(!keys[key], `Duplicate param keys in route with path: "${path}"`)
+      keys[key] = true
+    })
+  }
+  return regex
 }
 
 function normalizePath (path: string, parent?: RouteRecord): string {

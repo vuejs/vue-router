@@ -111,10 +111,18 @@ matched.forEach(m => {
   const redirect: RedirectOption | undefined = m.redirect;
 });
 
-router.beforeEach((to, from, next) => {
+const unregister = router.beforeEach((to, from, next) => {
   to.params;
   next("/");
   next();
+});
+
+unregister();
+
+router.beforeResolve((to, from, next) => {
+  to.params;
+  from.params;
+  next()
 });
 
 router.afterEach((to, from) => {

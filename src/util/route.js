@@ -1,5 +1,6 @@
 /* @flow */
 
+import type VueRouter from '../index'
 import { stringifyQuery } from './query'
 
 const trailingSlashRE = /\/?$/
@@ -7,8 +8,10 @@ const trailingSlashRE = /\/?$/
 export function createRoute (
   record: ?RouteRecord,
   location: Location,
-  redirectedFrom?: Location
+  redirectedFrom?: ?Location,
+  router?: VueRouter
 ): Route {
+  const stringifyQuery = router && router.options.stringifyQuery
   const route: Route = {
     name: location.name || (record && record.name),
     meta: (record && record.meta) || {},
@@ -16,11 +19,11 @@ export function createRoute (
     hash: location.hash || '',
     query: location.query || {},
     params: location.params || {},
-    fullPath: getFullPath(location),
+    fullPath: getFullPath(location, stringifyQuery),
     matched: record ? formatMatch(record) : []
   }
   if (redirectedFrom) {
-    route.redirectedFrom = getFullPath(redirectedFrom)
+    route.redirectedFrom = getFullPath(redirectedFrom, stringifyQuery)
   }
   return Object.freeze(route)
 }
@@ -39,8 +42,12 @@ function formatMatch (record: ?RouteRecord): Array<RouteRecord> {
   return res
 }
 
-function getFullPath ({ path, query = {}, hash = '' }) {
-  return (path || '/') + stringifyQuery(query) + hash
+function getFullPath (
+  { path, query = {}, hash = '' },
+  _stringifyQuery
+): string {
+  const stringify = _stringifyQuery || stringifyQuery
+  return (path || '/') + stringify(query) + hash
 }
 
 export function isSameRoute (a: Route, b: ?Route): boolean {
