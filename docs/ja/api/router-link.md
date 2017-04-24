@@ -115,6 +115,16 @@
 
   リンクナビゲーションをトリガーできるイベントを指定します。
 
+- **exact-active-class**
+
+  > 2.5.0+
+
+  - type: `string`
+
+  - default: `"router-link-exact-active"`
+
+  Configure the active CSS class applied when the link is active with exact match. Note the default value can also be configured globally via the `linkExactActiveClass` router constructor option.
+
 ### 外側の要素へのアクティブクラスの適用
 
 アクティブクラスを `<a>` タグ自身よりも、外側の要素に対して適用したいことがあるでしょう。その場合、 `<router-link>` を使って外側の要素レンダリングして、その内側に生の `<a>` タグをラップすることができます。

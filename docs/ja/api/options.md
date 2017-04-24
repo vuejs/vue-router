@@ -52,6 +52,16 @@
 
   グローバルに設定される `<router-link>` のデフォルトのアクティブクラスです。こちらの [router-link](router-link.md) もご参照ください。
 
+### linkExactActiveClass
+
+> 2.5.0+
+
+- type: `string`
+
+- default: `"router-link-exact-active"`
+
+  Globally configure `<router-link>` default active class for exact matches. Also see [router-link](router-link.md).
+
 ### scrollBehavior
 
 - 型: `Function`
