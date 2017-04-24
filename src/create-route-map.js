@@ -1,7 +1,8 @@
 /* @flow */
 
-import { assert, warn } from './util/warn'
+import Regexp from 'path-to-regexp'
 import { cleanPath } from './util/path'
+import { assert, warn } from './util/warn'
 
 export function createRouteMap (
   routes: Array<RouteConfig>,
@@ -56,8 +57,10 @@ function addRouteRecord (
     )
   }
 
+  const normalizedPath = normalizePath(path, parent)
   const record: RouteRecord = {
-    path: normalizePath(path, parent),
+    path: normalizedPath,
+    regex: compileRouteRegex(normalizedPath),
     components: route.components || { default: route.component },
     instances: {},
     name,
@@ -131,6 +134,18 @@ function addRouteRecord (
       )
     }
   }
+}
+
+function compileRouteRegex (path: string): RouteRegExp {
+  const regex = Regexp(path)
+  if (process.env.NODE_ENV !== 'production') {
+    const keys: any = {}
+    regex.keys.forEach(key => {
+      warn(!keys[key], `Duplicate param keys in route with path: "${path}"`)
+      keys[key] = true
+    })
+  }
+  return regex
 }
 
 function normalizePath (path: string, parent?: RouteRecord): string {

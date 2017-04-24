@@ -60,4 +60,18 @@ describe('Creating Route Map', function () {
     maps = createRouteMap(routes)
     expect(console.warn).not.toHaveBeenCalled()
   })
+
+  it('in development, warn duplicate param keys', () => {
+    process.env.NODE_ENV = 'development'
+    maps = createRouteMap([
+      {
+        path: '/foo/:id', component: Foo,
+        children: [
+          { path: 'bar/:id', component: Bar }
+        ]
+      }
+    ])
+    expect(console.warn).toHaveBeenCalled()
+    expect(console.warn.calls.argsFor(0)[0]).toMatch('vue-router] Duplicate param keys in route with path: "/foo/:id/bar/:id"')
+  })
 })

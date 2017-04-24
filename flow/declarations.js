@@ -1,8 +1,12 @@
 declare var document: Document;
 
+declare class RouteRegExp extends RegExp {
+  keys: Array<{ name: string, optional: boolean }>;
+}
+
 declare module 'path-to-regexp' {
   declare var exports: {
-    (path: string, keys: Array<?{ name: string }>): RegExp;
+    (path: string, keys?: Array<?{ name: string }>): RouteRegExp;
     compile: (path: string) => (params: Object) => string;
   }
 }
@@ -48,6 +52,7 @@ declare type RouteConfig = {
 
 declare type RouteRecord = {
   path: string;
+  regex: RouteRegExp;
   components: Dictionary<any>;
   instances: Dictionary<any>;
   name: ?string;

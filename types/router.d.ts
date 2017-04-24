@@ -75,6 +75,7 @@ export interface RouteConfig {
 
 export interface RouteRecord {
   path: string;
+  regex: RegExp;
   components: Dictionary<Component>;
   instances: Dictionary<Vue>;
   name?: string;
