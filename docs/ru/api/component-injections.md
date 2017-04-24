@@ -18,4 +18,4 @@
 - **beforeRouteUpdate** (добавлено в версии 2.2)
 - **beforeRouteLeave**
 
-  См. [раздел документации о сторожевых хуках](../advanced/navigation-guards.md#incomponent-guards).
+  См. [раздел документации о сторожевых хуках](../advanced/navigation-guards.md#указание-хука-для-конкретного-компонента).
