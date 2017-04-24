@@ -19,27 +19,33 @@ module.exports = {
       .assert.attributeContains('li:nth-child(11) a', 'href', '/active-links/about')
       .assert.containsText('.view', 'Home')
 
-    assertActiveLinks(1, [1, 2])
-    assertActiveLinks(2, [1, 2])
-    assertActiveLinks(3, [1, 3, 4])
-    assertActiveLinks(4, [1, 3, 4])
-    assertActiveLinks(5, [1, 3, 5])
-    assertActiveLinks(6, [1, 3, 5, 6])
-    assertActiveLinks(7, [1, 3, 5, 7, 8])
-    assertActiveLinks(8, [1, 3, 5, 7, 8])
-    assertActiveLinks(9, [1, 3, 5, 7, 9])
-    assertActiveLinks(10, [1, 10], [11])
-    assertActiveLinks(11, [1, 10], [11])
+    assertActiveLinks(1, [1, 2], null, [1, 2])
+    assertActiveLinks(2, [1, 2], null, [1, 2])
+    assertActiveLinks(3, [1, 3, 4], null, [3, 4])
+    assertActiveLinks(4, [1, 3, 4], null, [3, 4])
+    assertActiveLinks(5, [1, 3, 5], null, [5])
+    assertActiveLinks(6, [1, 3, 5, 6], null, [6])
+    assertActiveLinks(7, [1, 3, 5, 7, 8], null, [7, 8])
+    assertActiveLinks(8, [1, 3, 5, 7, 8], null, [7, 8])
+    assertActiveLinks(9, [1, 3, 5, 7, 9], null, [9])
+    assertActiveLinks(10, [1, 10], [11], [10], [11])
+    assertActiveLinks(11, [1, 10], [11], [10], [11])
 
     browser.end()
 
-    function assertActiveLinks (n, activeA, activeLI) {
+    function assertActiveLinks (n, activeA, activeLI, exactActiveA, exactActiveLI) {
       browser.click(`li:nth-child(${n}) a`)
       activeA.forEach(i => {
         browser.assert.cssClassPresent(`li:nth-child(${i}) a`, 'router-link-active')
       })
       activeLI && activeLI.forEach(i => {
         browser.assert.cssClassPresent(`li:nth-child(${i})`, 'router-link-active')
+      })
+      exactActiveA.forEach(i => {
+        browser.assert.cssClassPresent(`li:nth-child(${i}) a`, 'router-link-exact-active')
+      })
+      exactActiveLI && exactActiveLI.forEach(i => {
+        browser.assert.cssClassPresent(`li:nth-child(${i})`, 'router-link-exact-active')
       })
     }
   }
