@@ -1,5 +1,5 @@
 /**
-  * vue-router v2.5.1
+  * vue-router v2.5.2
   * (c) 2017 Evan You
   * @license MIT
   */
@@ -28,7 +28,7 @@ var View = {
       default: 'default'
     }
   },
-  render: function render (h, ref) {
+  render: function render (_, ref) {
     var props = ref.props;
     var children = ref.children;
     var parent = ref.parent;
@@ -36,6 +36,9 @@ var View = {
 
     data.routerView = true;
 
+    // directly use parent context's createElement() function
+    // so that components rendered by router-view can resolve named slots
+    var h = parent.$createElement;
     var name = props.name;
     var route = parent.$route;
     var cache = parent._routerViewCache || (parent._routerViewCache = {});
@@ -1686,7 +1689,7 @@ History.prototype.confirmTransition = function confirmTransition (route, onCompl
 
   var current = this.current;
   var abort = function (err) {
-    if (err instanceof Error) {
+    if (isError(err)) {
       if (this$1.errorCbs.length) {
         this$1.errorCbs.forEach(function (cb) { cb(err); });
       } else {
@@ -1730,7 +1733,7 @@ History.prototype.confirmTransition = function confirmTransition (route, onCompl
     }
     try {
       hook(route, current, function (to) {
-        if (to === false || to instanceof Error) {
+        if (to === false || isError(to)) {
           // next(false) -> abort navigation, ensure current URL
           this$1.ensureURL(true);
           abort(to);
@@ -1950,7 +1953,7 @@ function resolveAsyncComponents (matched) {
           var msg = "Failed to resolve async component " + key + ": " + reason;
           process.env.NODE_ENV !== 'production' && warn(false, msg);
           if (!error) {
-            error = reason instanceof Error
+            error = isError(reason)
               ? reason
               : new Error(msg);
             next(error);
@@ -2009,6 +2012,10 @@ function once (fn) {
     called = true;
     return fn.apply(this, arguments)
   }
+}
+
+function isError (err) {
+  return Object.prototype.toString.call(err).indexOf('Error') > -1
 }
 
 /*  */
@@ -2446,7 +2453,7 @@ function createHref (base, fullPath, mode) {
 }
 
 VueRouter.install = install;
-VueRouter.version = '2.5.1';
+VueRouter.version = '2.5.2';
 
 if (inBrowser && window.Vue) {
   window.Vue.use(VueRouter);
