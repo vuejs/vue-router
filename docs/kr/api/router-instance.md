@@ -23,10 +23,12 @@
 ### Methods
 
 - **router.beforeEach(guard)**
+- **router.beforeResolve(guard)** (2.5.0+)
 - **router.afterEach(hook)**
 
-  전역 네비게이션 가드 추가. [네비게이션 가드](../advanced/navigation-guards.md)를 보십시오.
+전역 네비게이션 가드 추가. [네비게이션 가드](../advanced/navigation-guards.md)를 보십시오.
 
+2.5.0이상에서 세 가지 메소드 모두 등록된 guard / hook을 제거하는 함수를 반환합니다.
 
 - **router.push(location, onComplete?, onAbort?)**
 - **router.replace(location, onComplete?, onAbort?)**
@@ -60,10 +62,20 @@
 
   라우터에 동적으로 더 많은 라우트를 추가할 수 있습니다. 전달인자는 `routes` 생성자 옵션과 동일한 경로 설정 포맷을 사용하는 배열이어야 합니다.
 
-- **router.onReady(callback)**
+- **router.onReady(callback, [errorCallback])**
 
   > 2.2.0+
 
   이 메소드는 라우터가 초기 탐색을 완료할 때 호출하는 콜백을 대기시킵니다. 즉, 초기 라우트와 연결된 모든 비동기 입력 훅 및 비동기 컴포넌트를 해결합니다.
 
   이는 서버와 클라이언트 모두 일관된 출력을 보장하기 위해 서버측 렌더링을 사용할 때 유용합니다.
+
+- **router.onError(callback)**
+
+  > 2.4.0+
+
+라우트 탐색 중에 에러가 발견되면 호출 될 콜백을 등록하십시오. 호출 할 에러에 유의하십시오. 에러는 다음 시나리오 중 하나이어야합니다.
+
+  - 에러는 라우트 가드 기능 내에서 동기적으로 발생한 경우.
+  - 에러는 라우트 가드 함수 내에서 `next(err)`를 호출하여 캐치한 경우
+  - 라우트를 렌더링하는데 필요한 비동기 컴포넌트를 처리하려고 할 때 에러가 발생한 경우.

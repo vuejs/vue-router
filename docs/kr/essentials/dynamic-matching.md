@@ -55,6 +55,17 @@ const User = {
 }
 ```
 
+또는 2.2에서 소개된 `beforeRouteUpdate` 가드를 사용하십시오.
+```js
+const User = {
+  template: '...',
+  beforeRouteUpdate (to, from, next) {
+    // react to route changes...
+    // don't forget to call next()
+  }
+}
+```
+
 ### 고급 매칭 패턴
 
 `vue-router`는 라우트 매칭 엔진으로 [path-to-regexp](https://github.com/pillarjs/path-to-regexp)를 사용하기 때문에 선택적 동적 세그먼트, 0개 이상/하나 이상의 요구 사항, 심지어 커스텀 정규식 패턴과 같은 많은 고급 매칭 패턴을 지원합니다. 이 고급 패턴들과 `vue-router`에서 사용하는 [예제](https://github.com/vuejs/vue-router/blob/dev/examples/route-matching/app.js)에 대한 [문서](https://github.com/pillarjs/path-to-regexp#parameters)를 확인하십시오.

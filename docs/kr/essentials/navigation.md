@@ -4,6 +4,8 @@
 
 #### `router.push(location, onComplete?, onAbort?)`
 
+**참고: Vue 인스턴스 내부에서 라우터 인스턴스에 `$router`로 액세스 할 수 있습니다. 그러므로`this.$router.push`를 사용 할 수 있습니다.**
+
 다른 URL로 이동하려면 `router.push`를 사용하십시오. 이 메소드는 새로운 항목을 히스토리 스택에 넣기 때문에 사용자가 브라우저의 뒤로 가기 버튼을 클릭하면 이전 URL로 이동하게된다.
 
 이것은 `<router-link>`를 클릭 할 때 내부적으로 호출되는 메소드이므로 `<router-link :to="...">`를 클릭하면 `router.push(...)`를 호출하는 것과 같습니다.
