@@ -28,6 +28,7 @@
 
   См. [сторожевые хуки](../advanced/navigation-guards.md).
 
+  С версии 2.5.0+ все три метода возвращают функцию, которая удаляет зарегистрированный хук.
 
 - **router.push(location, onComplete?, onAbort?)**
 - **router.replace(location, onComplete?, onAbort?)**
