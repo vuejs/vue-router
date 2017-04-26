@@ -41,7 +41,6 @@ router.beforeEach((to, from, next) => {
 
 > 2.5.0에서 추가됨
 
-In 2.5.0+ you can register a global guard with `router.onResolve`. This is similar to `router.beforeEach`, with the difference that resolve guards will be called right before the navigation is confirmed, **after all in-component guards and async route components are resolved**.
 2.5.0 이후로 `router.onResolve`를 사용하여 글로벌 가드를 등록 할 수 있습니다. 이는 `router.beforeEach`와 유사합니다. 모든 컴포넌트 가드와 비동기 라우트 컴포넌트를 불러온 후 네비게이션 가드를 확인하기 전에 호출된다는 차이가 있습니다
 
 ### Global After Hooks
