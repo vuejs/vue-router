@@ -2,7 +2,7 @@
 
 이름에서 알 수 있듯이 `vue-router`가 제공하는 네비게이션 가드는 주로 리디렉션하거나 취소하여 네비게이션을 보호하는 데 사용됩니다. 라우트 탐색 프로세스에 연결하는 방법에는 전역, 라우트별 또는 컴포넌트가 있습니다.
 
-**Params 또는 쿼리를 변경하면 네비게이션 가드가 실행되지 않습니다**. 단순히 [`$route` 객체를 감시](../essentials/dynamic-matching.md#reacting-to-params-changes)하고 그 변화에 반응하십시오.
+**Params 또는 쿼리를 변경하면 네비게이션 가드가 실행되지 않습니다**. 단순히 [`$route` 객체를 감시](../essentials/dynamic-matching.md#reacting-to-params-changes)하고 그 변화에 반응하십시오. 또는 컴포넌트 가드의 `beforeRouteUpadte`를 사용하십시오
 
 ### 전역 가드
 
@@ -32,7 +32,18 @@ router.beforeEach((to, from, next) => {
 
   - **`next('/')` 또는 `next({ path: '/' })`**: 다른 위치로 리디렉션합니다. 현재 네비게이션이 중단되고 새 네비게이션이 시작됩니다.
 
+  - **`next(error)`**: (2.4.0 이후 추가) `next`에 전달된 인자가 `Error` 의 인스턴스이면 탐색이 중단되고 `router.onError()`를 이용해 등록 된 콜백에 에러가 전달됩니다.
+
+
 **항상 `next` 함수를 호출하십시오. 그렇지 않으면 훅이 절대 불러지지 않습니다.**
+
+### Global Resolve Guards
+
+> 2.5.0에서 추가됨
+
+2.5.0 이후로 `router.onResolve`를 사용하여 글로벌 가드를 등록 할 수 있습니다. 이는 `router.beforeEach`와 유사합니다. 모든 컴포넌트 가드와 비동기 라우트 컴포넌트를 불러온 후 네비게이션 가드를 확인하기 전에 호출된다는 차이가 있습니다
+
+### Global After Hooks
 
 전역 훅을 등록 할 수도 있지만, 가드와 달리 이 훅은 `next` 함수를 얻지 못하며 네비게이션에 영향을 줄 수 없습니다.
 
@@ -98,3 +109,18 @@ beforeRouteEnter (to, from, next) {
 ```
 
 `beforeRouteLeave` 안에서 `this`에 직접 접근 할 수 있습니다. leave 가드는 일반적으로 사용자가 저장하지 않은 편집 내용을 두고 실수로 라우트를 떠나는 것을 방지하는데 사용됩니다. 탐색은 `next(false)`를 호출하여 취소할 수 있습니다.
+
+### 전체 가드 시나리오
+
+1. 네비게이션이 트리거됨
+2. 비활성화될 컴포넌트에서 가드를 호출
+3. 전역  `beforeEach` 가드 호출
+4. 재사용되는 컴포넌트에서 `beforeRouteUpdate` 가드 호출 (2.2 이상)
+5. 라우트 설정에서 `beforeEnter` 호출
+6. 비동기 라우트 컴포넌트 해결
+7. 활성화된 컴포넌트에서 `beforeRouteEnter` 호출
+8. 전역 `beforeResolve` 가드 호출 (2.5이상)
+9. 네비게이션 완료.
+10. 전역 `afterEach` 훅 호출
+11. DOM 갱신 트리거 됨
+12. 인스턴스화 된 인스턴스들의 `beforeRouteEnter`가드에서 `next`에 전달 된 콜백을 호출합니다
