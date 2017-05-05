@@ -1,65 +1,27 @@
 # vue-router [![Build Status](https://img.shields.io/circleci/project/vuejs/vue-router/dev.svg)](https://circleci.com/gh/vuejs/vue-router)
 
-> This is vue-router 2.0 which works only with Vue 2.0. For the 1.x router see the [1.0 branch](https://github.com/vuejs/vue-router/tree/1.0).
 
-### Introduction
+### Traduction
 
-`vue-router` is the official router for [Vue.js](http://vuejs.org). It deeply integrates with Vue.js core to make building Single Page Applications with Vue.js a breeze. Features include:
+Cette branche de travail `working` est volontairement mise en avant et doit uniquement être mise à jour dans le sens :
 
-- Nested route/view mapping
-- Modular, component-based router configuration
-- Route params, query, wildcards
-- View transition effects powered by Vue.js' transition system
-- Fine-grained navigation control
-- Links with automatic active CSS classes
-- HTML5 history mode or hash mode, with auto-fallback in IE9
-- Customizable Scroll Behavior
+`vuejs/vuejs-fr/vue-router:dev` --> `vuejs-fr/vue-router:working`.
 
-Get started with the [documentation](http://vuejs.github.io/vue-router), or play with the [examples](https://github.com/vuejs/vue-router/tree/dev/examples) (see how to run them below).
+Nous traduisons les fichiers directement dans le dossier `docs/en` sans les renommer. Cela permet lors de la mise à jour de la documentation via l'utilisation des commandes :
 
-### Development Setup
-
-``` bash
-# install deps
-npm install
-
-# build dist files
-npm run build
-
-# serve examples at localhost:8080
-npm run dev
-
-# lint & run all tests
-npm test
-
-# serve docs at localhost:4000 (requires global gitbook-cli)
-npm run docs
+```
+git fetch upstream
+git merge upstream/master
 ```
 
-## Questions
+d'obtenir des conflits **sur les pages déjà traduites** et ainsi maintenir la documentation à jour en fonction des modifications à travers **les documents déjà traduits**.
 
-For questions and support please use the [Gitter chat room](https://gitter.im/vuejs/vue) or [the official forum](http://forum.vuejs.org). The issue list of this repo is **exclusively** for bug reports and feature requests.
+### Reverssement
 
-## Issues
+Quand un fichier traduit est validé par pull request, on le met à jour dans le dossier `docs/fr` de `vuejs-fr/vue-router:dev` puis on propose une pull request au site principal :
 
-Please make sure to read the [Issue Reporting Checklist](https://github.com/vuejs/vue/blob/dev/.github/CONTRIBUTING.md#issue-reporting-guidelines) before opening an issue. Issues not conforming to the guidelines may be closed immediately.
+`vuejs-fr/vue-router:dev` --> `vuejs/vue-router:dev`
 
-## Contribution
+ainsi le dossier officiel hébergeant la documentation possède bien le dossier `docs/fr` en français et le dossier `docs/en` en anglais.
 
-Please make sure to read the [Contributing Guide](https://github.com/vuejs/vue/blob/dev/.github/CONTRIBUTING.md) before making a pull request.
-
-## Changelog
-
-Details changes for each release are documented in the [release notes](https://github.com/vuejs/vue-router/releases).
-
-## Stay In Touch
-
-- For latest releases and announcements, follow on Twitter: [@vuejs](https://twitter.com/vuejs)
-
-## License
-
-[MIT](http://opensource.org/licenses/MIT)
-
-Copyright (c) 2013-2016 Evan You
-
-
+Note : il peut être intéressant de faire une pull request par ficher validé et donc de créer une branche dérivée de `vuejs-fr/vue-router:dev` pour faire la pull request (`vuejs-fr/vue-router:dev` --> `vuejs-fr/vue-router:only_one_changed_file_from_master` --> `vuejs/vue-router:dev`)
