@@ -32,7 +32,7 @@ Vue.use(VueRouter)
 
 Vous n'avez pas besoin de faire cela lors de l'utilisation des tags `<script>`.
 
-### Dev Build
+### Build de développement
 
 Vous aurez besoin de cloner directement `vue-router` depuis GitHub et le construire vous-même si vous souhaitez utiliser la dernière dev build.
 
