@@ -5,10 +5,10 @@
 [https://unpkg.com/vue-router/dist/vue-router.js](https://unpkg.com/vue-router/dist/vue-router.js)
 
 <!--email_off-->
-[Unpkg.com](https://unpkg.com) met à disposition des liens CDN basés sur NPM. Le lien ci-dessus pointera toujours vers la dernière release publiée sur NPM. Vous pouvez également spécifier une certain-e version/tag via l'URL comme `https://unpkg.com/vue-router@2.0.0/dist/vue-router.js`.
+[Unpkg.com](https://unpkg.com) fournit des liens CDN basés sur NPM. Le lien ci-dessus pointera toujours vers la dernière release sur NPM. Vous pouvez aussi utiliser un tag ou une version spécifique via une URL comme `https://unpkg.com/vue-router@2.0.0/dist/vue-router.js`.
 <!--/email_off-->
 
-Inclure `vue-router` après Vue, et il s'installera automatiquement de lui-même :
+Incluez `vue-router` après Vue, et l'installation sera automatique :
 
 ``` html
 <script src="/path/to/vue.js"></script>
@@ -30,11 +30,11 @@ import VueRouter from 'vue-router'
 Vue.use(VueRouter)
 ```
 
-Vous n'avez pas besoin de faire cela lors de l'utilisation des tags `<script>`.
+Vous n'avez pas besoin de faire cela lors de l'utilisation des balises de script globales (`<script>`).
 
 ### Build de développement
 
-Vous aurez besoin de cloner directement `vue-router` depuis GitHub et le construire vous-même si vous souhaitez utiliser la dernière dev build.
+Vous aurez besoin de cloner directement `vue-router` depuis GitHub et le compiler vous-même si vous souhaitez utiliser le dernier build de développement.
 
 ``` bash
 git clone https://github.com/vuejs/vue-router.git node_modules/vue-router
