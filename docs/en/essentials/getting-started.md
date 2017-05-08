@@ -2,7 +2,7 @@
 
 > Nous utiliserons [ES2015](https://github.com/lukehoban/es6features) dans les exemples de code dans ce guide.
 
-Créer une application monopage avec Vue.js + vue-router est vraiment simple. Avec Vue.js, nous concevons déjà notre application avec des composants. En ajoutant vue-router dans notre application, tout ce qu'il nous reste à faire est de relier nos composants aux routes, et de laisser vue-router en faire le rendu. Voici un exemple de base :
+Créer une application monopage avec Vue.js + vue-router est vraiment simple. Avec Vue.js, nous concevons déjà notre application avec des composants. En ajoutant vue-router dans notre application, tout ce qu'il nous reste à faire est de relier nos composants aux routes, et de laisser vue-router faire le rendu. Voici un exemple de base :
 
 > Tous les exemples utiliseront la version standalone de Vue pour rendre l'analyse de template possible. Plus de détails [ici](https://fr.vuejs.org/guide/installation.html#Runtime-Compiler-vs-Runtime-seul).
 
@@ -30,7 +30,7 @@ Créer une application monopage avec Vue.js + vue-router est vraiment simple. Av
 ### JavaScript
 
 ``` js
-// 0. Si vous utilisez un système de modules (e.g. via vue-cli), il faut importer Vue et VueRouter et ensuite appeler Vue.use(VueRouter). 
+// 0. Si vous utilisez un système de module (e.g. via vue-cli), il faut importer Vue et VueRouter et ensuite appeler Vue.use(VueRouter). 
 
 // 1. Définir des composants.
 // Ces derniers peuvent être importés depuis d'autre fichier
@@ -61,7 +61,7 @@ const app = new Vue({
   router
 }).$mount('#app')
 
-// Now the app has started!
+// L'application est maintenant en marche !
 ```
 
 Vous pouvez aussi regarder cet [exemple](http://jsfiddle.net/yyx990803/xgrjzsup/).
