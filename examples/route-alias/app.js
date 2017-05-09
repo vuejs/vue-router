@@ -51,8 +51,8 @@ new Vue({
         </router-link></li>
 
         <li><router-link to="/baz">
-          /baz (renders /home/baz)</router-link>
-        </li>
+          /baz (renders /home/baz)
+        </router-link></li>
 
         <li><router-link to="/home/baz-alias">
           /home/baz-alias (renders /home/baz)
