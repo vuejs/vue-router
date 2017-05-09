@@ -1,14 +1,14 @@
-# Installation (En) <br><br> *Cette page est en cours de traduction française. Revenez une autre fois pour lire une traduction achevée ou [participez à la traduction française ici](https://github.com/vuejs-fr/vue-ssr-docs).*
+# Installation
 
-### Direct Download / CDN
+### Téléchargement direct / CDN
 
 [https://unpkg.com/vue-router/dist/vue-router.js](https://unpkg.com/vue-router/dist/vue-router.js)
 
 <!--email_off-->
-[Unpkg.com](https://unpkg.com) provides NPM-based CDN links. The above link will always point to the latest release on NPM. You can also use a specific version/tag via URLs like `https://unpkg.com/vue-router@2.0.0/dist/vue-router.js`.
+[Unpkg.com](https://unpkg.com) fournit des liens CDN basés sur NPM. Le lien ci-dessus pointera toujours vers la dernière release sur NPM. Vous pouvez aussi utiliser un tag ou une version spécifique via une URL comme `https://unpkg.com/vue-router@2.0.0/dist/vue-router.js`.
 <!--/email_off-->
 
-Include `vue-router` after Vue and it will install itself automatically:
+Incluez `vue-router` après Vue, et l'installation sera automatique :
 
 ``` html
 <script src="/path/to/vue.js"></script>
@@ -21,7 +21,7 @@ Include `vue-router` after Vue and it will install itself automatically:
 npm install vue-router
 ```
 
-When used with a module system, you must explicitly install the router via `Vue.use()`:
+Lorsqu'il est utilisé avec un système de module, vous devez explicitement installer le router via `Vue.use()` :
 
 ``` js
 import Vue from 'vue'
@@ -30,12 +30,11 @@ import VueRouter from 'vue-router'
 Vue.use(VueRouter)
 ```
 
-You don't need to do this when using global script tags.
+Vous n'avez pas besoin de faire cela lors de l'utilisation des balises de script globales (`<script>`).
 
-### Dev Build
+### Build de développement
 
-You will have to clone directly from GitHub and build `vue-router` yourself if
-you want to use the latest dev build.
+Vous aurez besoin de cloner directement `vue-router` depuis GitHub et le compiler vous-même si vous souhaitez utiliser le dernier build de développement.
 
 ``` bash
 git clone https://github.com/vuejs/vue-router.git node_modules/vue-router
