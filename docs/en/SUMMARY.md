@@ -4,7 +4,7 @@
 <!--/email_off-->
 **[Notes de release](https://github.com/vuejs/vue-router/releases)**
 
-- [Installation (En)](installation.md)
+- [Installation](installation.md)
 - Essentiel
   - [Pour commencer](essentials/getting-started.md)
   - [Dynamic Route Matching (En)](essentials/dynamic-matching.md)
