@@ -1,65 +1,53 @@
-# vue-router [![Build Status](https://img.shields.io/circleci/project/vuejs/vue-router/dev.svg)](https://circleci.com/gh/vuejs/vue-router)
+# Comment faire ? #
 
-> This is vue-router 2.0 which works only with Vue 2.0. For the 1.x router see the [1.0 branch](https://github.com/vuejs/vue-router/tree/1.0).
+- [Pour savoir ce qu'il reste à traduire c'est par ici](https://github.com/vuejs-fr/vue-router/issues/1)
 
-### Introduction
+Pour tous ceux qui souhaitent traduire les page de la doc officielle en français :
 
-`vue-router` is the official router for [Vue.js](http://vuejs.org). It deeply integrates with Vue.js core to make building Single Page Applications with Vue.js a breeze. Features include:
+## Conseils ##
 
-- Nested route/view mapping
-- Modular, component-based router configuration
-- Route params, query, wildcards
-- View transition effects powered by Vue.js' transition system
-- Fine-grained navigation control
-- Links with automatic active CSS classes
-- HTML5 history mode or hash mode, with auto-fallback in IE9
-- Customizable Scroll Behavior
-
-Get started with the [documentation](http://vuejs.github.io/vue-router), or play with the [examples](https://github.com/vuejs/vue-router/tree/dev/examples) (see how to run them below).
-
-### Development Setup
-
-``` bash
-# install deps
-npm install
-
-# build dist files
-npm run build
-
-# serve examples at localhost:8080
-npm run dev
-
-# lint & run all tests
-npm test
-
-# serve docs at localhost:4000 (requires global gitbook-cli)
-npm run docs
-```
-
-## Questions
-
-For questions and support please use the [Gitter chat room](https://gitter.im/vuejs/vue) or [the official forum](http://forum.vuejs.org). The issue list of this repo is **exclusively** for bug reports and feature requests.
-
-## Issues
-
-Please make sure to read the [Issue Reporting Checklist](https://github.com/vuejs/vue/blob/dev/.github/CONTRIBUTING.md#issue-reporting-guidelines) before opening an issue. Issues not conforming to the guidelines may be closed immediately.
-
-## Contribution
-
-Please make sure to read the [Contributing Guide](https://github.com/vuejs/vue/blob/dev/.github/CONTRIBUTING.md) before making a pull request.
-
-## Changelog
-
-Details changes for each release are documented in the [release notes](https://github.com/vuejs/vue-router/releases).
-
-## Stay In Touch
-
-- For latest releases and announcements, follow on Twitter: [@vuejs](https://twitter.com/vuejs)
-
-## License
-
-[MIT](http://opensource.org/licenses/MIT)
-
-Copyright (c) 2013-2016 Evan You
+> Si vous avez **beaucoup de temps** à consacrer à cette tâche par jour, **traduisez les premières pages** du guide.
+> Si vous avez **peu de temps** à consacrer à cette tâche par jour, **traduisez des pages plus éloignées** dans le guide, ou les pages des autres dossiers.
 
 
+### Important ###
+
+Il faut conserver le même nombre de lignes entre le fichier original et le fichier traduit et s'assurer que chaque numéro de ligne original corresponde à son numéro de ligne traduit. Cela nous permettra de suivre plus facilement les pans de texte qui ont changés dans le futur ou même d'avoir version EN/FR en concordance dans nos pulls request ligne par ligne — ce qui est plus pratique pour les reviews.
+
+## Étapes ##
+
+### 1. Informer
+
+Dites ici que vous allez entreprendre la traduction d'une page. Éditez le premier post et changez l'état de la liste si vous en avez le droit.
+
+### 2. Faire un fork
+
+Faites un fork du dépôt `vuejs-fr/vue-router:working` (ce dépôt) vers `{your-username}/vuejs.org:working` (chez vous).
+
+### 3. Créer une branche
+
+Créez une nouvelle branche {branch} dédiée spécifiquement au changement de votre fichier.
+
+#### 4. Débuter la traduction
+
+Commencez à traduire votre fichier directement depuis `en` pour pouvoir effectuer au moins un premier commit.
+
+#### 5. Demander de l'aide
+
+Faites une pull request depuis votre branche de fork `{your-username}/vue-router:{branch}` vers notre branche de dépôt `vuejs-fr/vue-router:working` pour que tout le monde puisse garder un œil sur l'avancée de votre traduction et que vous puissiez éventuellement demander des conseils. Assignez (*assignees*) vous cette pull request.
+
+#### 6. Réclamer des reviews
+
+Quand votre traduction est assez mûr pour une review, affectez des personnes en tant que reviewer (probablement celles qui vous auront aidé lors de la traduction) pour qu'elles sachent qu'elles peuvent consacrer un temps plus conséquent à la relecture minutieuse de votre travail.
+
+#### 7. Itérez les ajustements 
+
+De la même manière qu'avant review votre traduction a été mis à jour au fur et à mesure de vos commits sur la pull request ; vous mettez à jour maintenant les remarques de review pour solidifier votre travail toujours avec des commits. Au moins 3 relecteurs sont recommandés.
+
+#### 8. Merger
+
+Une fois tout en ordre et que toutes les reviews sont approuvées vous pouvez merger votre travail. Il sera ensuite reverser sur la branche `vuejs-fr/vue-router:dev` dans le dossier `fr` et proposer en pull request au repository officiel `vuejs/vue-router:dev`.
+
+## Voir le résultat sur le site https://router.vuejs.org/fr/
+
+La monter en production n'est pas de notre ressort, soyez patient !
