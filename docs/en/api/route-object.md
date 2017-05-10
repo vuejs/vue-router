@@ -1,4 +1,4 @@
-# The Route Object
+# The Route Object (En) <br><br> *Cette page est en cours de traduction française. Revenez une autre fois pour lire une traduction achevée ou [participez à la traduction française ici](https://github.com/vuejs-fr/vue-router).*
 
 A **route object** represents the state of the current active route. It contains parsed information of the current URL and the **route records** matched by the URL.
 
