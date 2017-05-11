@@ -66,4 +66,4 @@ const app = new Vue({
 
 Vous pouvez aussi regarder cet [exemple](http://jsfiddle.net/yyx990803/xgrjzsup/).
 
-Notez qu'un `<router-link>` obtiendra automatiquement la classe `.router-link-active` lorsque sa route cible correspond avec la route actuelle. Vous pouvez en apprendre plus à propos de cela dans sa [documentation d'API](../api/router-link.md).
+Notez qu'un `<router-link>` obtiendra automatiquement la classe `.router-link-active` lorsque sa route cible correspond à la route actuelle. Vous pouvez en apprendre plus à propos de cela dans sa [documentation d'API](../api/router-link.md).
