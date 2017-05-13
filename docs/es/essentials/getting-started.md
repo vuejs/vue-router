@@ -4,7 +4,7 @@
 
 Crear una aplicación de una sola página (SPA por sus siglas en inglés) con Vue.js + vue-router es muy sencillo. Con Vue.js, ya estamos estructurando nuestra aplicación con componentes. Cuando agregamos vue-router, todo lo que debemos hacer es mapear nuestros componentes a las rutas e informar a vue-router donde renderizarlas. Aquí hay un ejemplo básico:
 
-> Todos los ejemplos utilizarán la versión independiente de Vue para hacer posible el análisis de plantillas. Más detalles [aquí](http://vuejs.org/guide/installation.html#Standalone-vs-Runtime-only-Build).
+> Todos los ejemplos utilizarán la versión independiente de Vue para hacer posible el análisis de plantillas. Más detalles [aquí](https://vuejs.org/v2/guide/installation.html#Runtime-Compiler-vs-Runtime-only).
 
 ### HTML
 

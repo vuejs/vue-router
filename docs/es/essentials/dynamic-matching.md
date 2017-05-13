@@ -53,6 +53,18 @@ const User = {
 }
 ```
 
+O utiliza el guardia de navegación `beforeRouteUpdate` introducido en la versión 2.2:
+
+``` js
+const User = {
+  template: '...',
+  beforeRouteUpdate (to, from, next) {
+    // Código que responde al cambio
+    // no olvides ejecutar next()
+  }
+}
+```
+
 ### Patrones de matching avanzados
 
 `vue-router` usa [path-to-regexp](https://github.com/pillarjs/path-to-regexp) como su motor de búsqueda de patrones, por lo que soporta varios patrones de matching avanzados tales como segmentos dinámicos opcionales, requerimientos del tipo cero o más / uno o más, e incluso patrones _regex_ personalizados. Verifica la  [documentación](https://github.com/pillarjs/path-to-regexp#parameters) para estos patrones avanzados, y [este ejemplo](https://github.com/vuejs/vue-router/blob/dev/examples/route-matching/app.js) de como usarlos con `vue-router`.

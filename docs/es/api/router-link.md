@@ -113,7 +113,7 @@ Es preferible utilizar `<router-link>` en lugar de escribir directamente `<a hre
 
   - valor por defecto: `'click'`
 
-  Especifica el evento(s) que será(n) disparado(s) cuando se acceda al enlace.
+  Son los eventos que permiten lanzar la navegacion.
 
 ### Aplicar la clase activa al elemento envolvente.
 

@@ -1,6 +1,6 @@
 # Comportamiento del scroll
 
-Cuando se utiliza enrutamiento del lado cliente, podemos querer hacer `scroll` hacia el inicio de la página cuando naveguemos a una nueva ruta, o preservar la posición actual, tal cual lo hace una recarga de la página. `vue-router` te permite lograr esto e incluso más: permite personalizar completamente el comportamiento del `scroll` durante la navegacion.
+Cuando se utiliza enrutamiento del lado cliente, podemos querer hacer `scroll` hacia el inicio de la página cuando naveguemos a una nueva ruta, o preservar la posición actual, tal cual lo hace una recarga de la página. `vue-router` te permite lograr esto e incluso más: permite personalizar completamente el comportamiento del `scroll` durante la navegación.
 
 **Nota: esta característica solo funciona en el modo historial de HTML5.**
 
@@ -15,7 +15,7 @@ const router = new VueRouter({
 })
 ```
 
-La función `scrollBehavior` recibe los objetos de ruta `to` y `from`. El tercer parámetro, `savedPosition`, solo está disponible si estamos en una navegación `popstate` (cuando se utilizan los botones _atras_ o _adelante_ en el navegador).
+La función `scrollBehavior` recibe los objetos de ruta `to` y `from`. El tercer parámetro, `savedPosition`, solo está disponible si estamos en una navegación `popstate` (cuando se utilizan los botones _atrás_ o _adelante_ en el navegador).
 
 La función puede devolver un objeto de posición de `scroll`. El objeto puede ser de la forma:
 
@@ -34,7 +34,7 @@ scrollBehavior (to, from, savedPosition) {
 
 Esto hará que la página se desplace hacia el inicio para todas las navegaciones a la ruta.
 
-Devolver `savedPosition` hará que el comportamiento cuando se utilicen los botones _atras_ o _adelante_ sea el nativo:
+Devolver `savedPosition` hará que el comportamiento cuando se utilicen los botones _atrás_ o _adelante_ sea el nativo:
 
 ``` js
 scrollBehavior (to, from, savedPosition) {

@@ -1,6 +1,6 @@
 # Navegación mediante código
 
-Además de utilizar `<router-link>` para crear etiquetas _a_ para una navegación declarativa, podemos hacer lo mismo a través de código usando los métodos de la instancia del enrutador.
+Además de utilizar `<router-link>` para crear etiquetas `a` para una navegación declarativa, podemos hacer lo mismo a través de código usando los métodos de la instancia del enrutador.
 
 #### `router.push(location, onComplete?, onAbort?)`
 
