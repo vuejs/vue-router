@@ -30,7 +30,7 @@ Vue.js と vue-router を使ったシングルページアプリケーション�
 ### JavaScript
 
 ``` js
-// 0. モジュールシステムを使っている場合 (例: vue-clie 経由で)、Vue と VueRouter をインポートし、Vue.use(VueRouter) を呼び出します。
+// 0. モジュールシステムを使っている場合 (例: vue-cli 経由で)、Vue と VueRouter をインポートし、Vue.use(VueRouter) を呼び出します。
 
 // 1. ルートコンポーネントを定義します
 // 他のファイルからインポートすることもできます
