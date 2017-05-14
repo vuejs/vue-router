@@ -28,6 +28,7 @@
 
   グローバルなナビゲーションガードの追加。[ナビゲーションガード](../advanced/navigation-guards.md) をご参照ください。
 
+  2.5.0 以降では、3 つのメソッドすべてが、登録されたガード/フックを削除する関数を返します。
 
 - **router.push(location, onComplete?, onAbort?)**
 - **router.replace(location, onComplete?, onAbort?)**
