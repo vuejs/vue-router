@@ -39,6 +39,12 @@ export default class VueRouter {
     this.beforeHooks = []
     this.resolveHooks = []
     this.afterHooks = []
+
+    if (!options.routes) {
+      assert(false, "routes key is mandatory");
+      return;
+    }
+
     this.matcher = createMatcher(options.routes || [], this)
 
     let mode = options.mode || 'hash'
