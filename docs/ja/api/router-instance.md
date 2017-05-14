@@ -23,6 +23,7 @@
 ### メソッド
 
 - **router.beforeEach(guard)**
+- **router.beforeResolve(guard)** (2.5.0+)
 - **router.afterEach(hook)**
 
   グローバルなナビゲーションガードの追加。[ナビゲーションガード](../advanced/navigation-guards.md) をご参照ください。
