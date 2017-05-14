@@ -119,11 +119,11 @@
 
   > 2.5.0+
 
-  - type: `string`
+  - 型 `string`
 
-  - default: `"router-link-exact-active"`
+  - デフォルト: `"router-link-exact-active"`
 
-  Configure the active CSS class applied when the link is active with exact match. Note the default value can also be configured globally via the `linkExactActiveClass` router constructor option.
+  完全一致によってリンクがアクティブになっているときに適用されるアクティブな CSS クラスを設定します。デフォルト値は `linkExactActiveClass` ルーターコンストラクタのオプション経由でグローバルに設定することもできます。
 
 ### 外側の要素へのアクティブクラスの適用
 

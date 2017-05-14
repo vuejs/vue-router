@@ -56,11 +56,11 @@
 
 > 2.5.0+
 
-- type: `string`
+- 型: `string`
 
-- default: `"router-link-exact-active"`
+- デフォルト: `"router-link-exact-active"`
 
-  Globally configure `<router-link>` default active class for exact matches. Also see [router-link](router-link.md).
+  完全一致に対してグローバルな `<router-link>` デフォルトアクティブクラスを設定します。[router-link](router-link.md)も参照してください。
 
 ### scrollBehavior
 
