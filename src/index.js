@@ -32,7 +32,7 @@ export default class VueRouter {
   resolveHooks: Array<?NavigationGuard>;
   afterHooks: Array<?AfterNavigationHook>;
 
-  constructor (options: RouterOptions = {}) {
+  constructor (options: RouterOptions) {
     this.app = null
     this.apps = []
     this.options = options
