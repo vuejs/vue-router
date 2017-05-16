@@ -59,7 +59,7 @@ const User = {
 const User = {
   template: '...',
   beforeRouteUpdate (to, from, next) {
-    // ルート変更にリアクティブにする...
+    // ルート変更に反応する...
     // next() を呼び出すのを忘れないでください
   }
 }

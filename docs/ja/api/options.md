@@ -76,7 +76,7 @@
   ) => { x: number, y: number } | { selector: string } | ?{}
   ```
 
-  より詳細ついては [スクロールの振る舞い](../advanced/scroll-behavior.md) を参照してください。
+  より詳細については [スクロールの振る舞い](../advanced/scroll-behavior.md) を参照してください。
 
 ### parseQuery / stringifyQuery
 
