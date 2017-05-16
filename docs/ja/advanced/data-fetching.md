@@ -83,30 +83,28 @@ export default {
   },
   beforeRouteEnter (route, redirect, next) {
     getPost(route.params.id, (err, post) => {
-      if (err) {
-        // 何らかのグローバルエラーメッセージを表示する
-      } else {
-        next(vm => {
-          vm.post = post
-        })
-      }
+      next(vm => vm.setData(err, post))
     })
   },
   // コンポーネントが既にレンダリングされている際のルート変更時は
   // ロジックが少し異なります
-  watch: {
-    $route () {
-      this.post = null
-      getPost(this.$route.params.id, (err, post) => {
-        if (err) {
-          this.error = err.toString()
-        } else {
-          this.post = post
-        }
-      })
+  beforeRouteUpdate (to, from, next) {
+    this.post = null
+    getPost(to.params.id, (err, post) => {
+      this.setData(err, post)
+      next()
+    })
+  },
+  methods: {
+    setData (err, post) {
+      if (err) {
+        this.error = err.toString()
+      } else {
+        this.post = post
+      }
     }
   }
 }
 ```
 
-次に入ってくる view へのリソースを取得している間、ユーザーは現在の view に滞在します。したがって、データ取得中にプログレスバーや何らかの指標を表示することをオススメします。また、もしデータ取得が失敗した場合、何かグローバルな警告メッセージのようなものを表示する必要があります。
+次に入ってくる view へのリソースを取得している間、ユーザーは前の view に滞在します。したがって、データ取得中にプログレスバーや何らかの指標を表示することをオススメします。また、もしデータ取得が失敗した場合、何かグローバルな警告メッセージのようなものを表示する必要があります。

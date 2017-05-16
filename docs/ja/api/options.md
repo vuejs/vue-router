@@ -32,7 +32,7 @@
 
   - `hash`: ルーティングに URL hash を使います。HTML5 History API をサポートしていないブラウザ含めて、全ての Vue がサポートしているブラウザで動作します。
 
-  - `history`: HTML5 History API とサーバーの設定が必要です。[HTML5 History モード](../essentials/history-mode.md) をご参照ください。
+  - `history`: HTML5 History API とサーバーの設定が必要です。[HTML5 History モード](../essentials/history-mode.md) を参照してください。
 
   - `abstract`: 全ての JavaScript の環境で動作します。 e.g. Node.js を使ったサーバーサイド。 **もしブラウザの API が存在しない場合、ルーターは自動的にこのモードに強制されます。**
 
@@ -50,7 +50,17 @@
 
 - デフォルト: `"router-link-active"`
 
-  グローバルに設定される `<router-link>` のデフォルトのアクティブクラスです。こちらの [router-link](router-link.md) もご参照ください。
+  グローバルに設定される `<router-link>` のデフォルトのアクティブクラスです。こちらの [router-link](router-link.md) も参照してください。
+
+### linkExactActiveClass
+
+> 2.5.0+
+
+- 型: `string`
+
+- デフォルト: `"router-link-exact-active"`
+
+  完全一致に対してグローバルな `<router-link>` デフォルトアクティブクラスを設定します。[router-link](router-link.md) も参照してください。
 
 ### scrollBehavior
 
@@ -66,7 +76,7 @@
   ) => { x: number, y: number } | { selector: string } | ?{}
   ```
 
-  より詳細ついては [スクロールの振る舞い](../advanced/scroll-behavior.md) をご参照ください。
+  より詳細については [スクロールの振る舞い](../advanced/scroll-behavior.md) を参照してください。
 
 ### parseQuery / stringifyQuery
 
