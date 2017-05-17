@@ -85,12 +85,52 @@ describe('Creating Route Map', function () {
       { path: '/foobar', name: 'foobar', component: Foobar, caseSensitive: true }
     ]
 
-    it('caseSensitive option in routes', function () {
+    it('caseSensitive option in route', function () {
       const { nameMap } = createRouteMap(routes)
 
       expect(nameMap.FooBar.regex.ignoreCase).toBe(false)
       expect(nameMap.bar.regex.ignoreCase).toBe(true)
       expect(nameMap.foo.regex.ignoreCase).toBe(true)
+    })
+
+    it('pathToRegexpOptions option in route', function () {
+      const { nameMap } = createRouteMap([
+        {
+          name: 'foo',
+          path: '/foo',
+          component: Foo,
+          pathToRegexpOptions: {
+            sensitive: true
+          }
+        },
+        {
+          name: 'bar',
+          path: '/bar',
+          component: Bar,
+          pathToRegexpOptions: {
+            sensitive: false
+          }
+        }
+      ])
+
+      expect(nameMap.foo.regex.ignoreCase).toBe(false)
+      expect(nameMap.bar.regex.ignoreCase).toBe(true)
+    })
+
+    it('caseSensitive over pathToRegexpOptions in route', function () {
+      const { nameMap } = createRouteMap([
+        {
+          name: 'foo',
+          path: '/foo',
+          component: Foo,
+          caseSensitive: true,
+          pathToRegexpOptions: {
+            sensitive: false
+          }
+        }
+      ])
+
+      expect(nameMap.foo.regex.ignoreCase).toBe(false)
     })
   })
 })
