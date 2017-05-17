@@ -66,8 +66,7 @@ function addRouteRecord (
 
   const record: RouteRecord = {
     path: normalizedPath,
-    // TODO pass pathToRegexpOptions
-    regex: compileRouteRegex(normalizedPath),
+    regex: compileRouteRegex(normalizedPath, pathToRegexpOptions),
     components: route.components || { default: route.component },
     instances: {},
     name,
@@ -145,8 +144,8 @@ function addRouteRecord (
 }
 
 // TODO add regex options
-function compileRouteRegex (path: string): RouteRegExp {
-  const regex = Regexp(path)
+function compileRouteRegex (path: string, pathToRegexpOptions: PathToRegexpOptions): RouteRegExp {
+  const regex = Regexp(path, [], pathToRegexpOptions)
   if (process.env.NODE_ENV !== 'production') {
     const keys: any = {}
     regex.keys.forEach(key => {

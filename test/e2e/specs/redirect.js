@@ -57,12 +57,12 @@ module.exports = {
       .assert.containsText('.view', '123')
 
       .click('li:nth-child(10) a')
-      .assert.urlEquals('http://localhost:8080/redirect/')
-      .assert.containsText('.view', 'default')
+      .assert.urlEquals('http://localhost:8080/redirect/foobar')
+      .assert.containsText('.view', 'foobar')
 
       .click('li:nth-child(11) a')
-      .assert.urlEquals('http://localhost:8080/redirect/')
-      .assert.containsText('.view', 'default')
+      .assert.urlEquals('http://localhost:8080/redirect/FooBar')
+      .assert.containsText('.view', 'FooBar')
 
       .click('li:nth-child(12) a')
       .assert.urlEquals('http://localhost:8080/redirect/')
@@ -113,6 +113,16 @@ module.exports = {
       .waitForElementVisible('#app', 1000)
       .assert.urlEquals('http://localhost:8080/redirect/with-params/123')
       .assert.containsText('.view', '123')
+
+    .url('http://localhost:8080/redirect/foobar')
+      .waitForElementVisible('#app', 1000)
+      .assert.urlEquals('http://localhost:8080/redirect/foobar')
+      .assert.containsText('.view', 'foobar')
+
+    .url('http://localhost:8080/redirect/FooBar')
+      .waitForElementVisible('#app', 1000)
+      .assert.urlEquals('http://localhost:8080/redirect/FooBar')
+      .assert.containsText('.view', 'FooBar')
 
     .url('http://localhost:8080/redirect/not-found')
       .waitForElementVisible('#app', 1000)

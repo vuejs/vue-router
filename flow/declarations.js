@@ -6,7 +6,7 @@ declare class RouteRegExp extends RegExp {
 
 declare module 'path-to-regexp' {
   declare var exports: {
-    (path: string, keys?: Array<?{ name: string }>): RouteRegExp;
+    (path: string, keys?: Array<?{ name: string }>, options?: Object): RouteRegExp;
     compile: (path: string) => (params: Object) => string;
   }
 }
