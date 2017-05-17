@@ -16,7 +16,7 @@ router.beforeEach((to, from, next) => {
 })
 ```
 
-Las guardias _before_ globales son llamadas por orden de creación, cuando una navegación comienza. Las guardias pueden ejecutarse asincrónicamente, y la navegación se considera **pendiente** hasta tanto todos los _hooks_ sean resueltos. 
+Las guardias _before_ globales son llamadas por orden de creación, cuando una navegación comienza. Las guardias pueden ejecutarse asincrónicamente, y la navegación se considera **pendiente** hasta que todos los _hooks_ sean resueltos. 
 
 Cada función guardia recibe tres argumentos:
 
@@ -32,7 +32,7 @@ Cada función guardia recibe tres argumentos:
 
   - **`next('/')` o `next({ path: '/' })`**: redirecciona a una ruta diferente. La navegación actual será abortada y una nueva será iniciada.
 
-**Asegúrese de llamar siempre a la función `next`, de otra manera el _hook_ nunca será resuelto.**
+**Asegúrese de llamar siempre a la función `next`, sino el _hook_ nunca será resuelto.**
 
 También puedes registrar _hooks after_ globales. Sin embargo, a diferencia de las guardias, estos _hooks_ no reciben una función `next` y no pueden afectar la navegación:
 
