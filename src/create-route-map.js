@@ -79,8 +79,7 @@ function addRouteRecord (
       ? {}
       : route.components
         ? route.props
-        : { default: route.props },
-    pathToRegexpOptions
+        : { default: route.props }
   }
 
   if (route.children) {
@@ -143,7 +142,6 @@ function addRouteRecord (
   }
 }
 
-// TODO add regex options
 function compileRouteRegex (path: string, pathToRegexpOptions: PathToRegexpOptions): RouteRegExp {
   const regex = Regexp(path, [], pathToRegexpOptions)
   if (process.env.NODE_ENV !== 'production') {
