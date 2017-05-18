@@ -15,9 +15,9 @@ Créer une application monopage avec Vue.js + vue-router est vraiment simple. Av
 <div id="app">
   <h1>Bonjour l'application !</h1>
   <p>
-    <!-- utilisez le composant `router-link` pour la navigation. -->
+    <!-- utilisez le composant router-link pour la navigation. -->
     <!-- spécifiez le lien en le passant à la prop `to` -->
-    <!-- <router-link> sera rendu en tag `<a>` par défaut -->
+    <!-- `<router-link>` sera rendu en tag `<a>` par défaut -->
     <router-link to="/foo">Aller à Foo</router-link>
     <router-link to="/bar">Aller à Bar</router-link>
   </p>
@@ -30,7 +30,7 @@ Créer une application monopage avec Vue.js + vue-router est vraiment simple. Av
 ### JavaScript
 
 ``` js
-// 0. Si vous utilisez un système de module (ex : via vue-cli), il faut importer Vue et VueRouter et ensuite appeler Vue.use(VueRouter). 
+// 0. Si vous utilisez un système de module (ex : via vue-cli), il faut importer Vue et VueRouter et ensuite appeler Vue.use(VueRouter).
 
 // 1. Définissez les composants de route.
 // Ces derniers peuvent être importés depuis d'autre fichier
@@ -39,8 +39,8 @@ const Bar = { template: '<div>bar</div>' }
 
 // 2. Définissez des routes.
 // Chaque route doit correspondre à un composant. Le « composant » peut
-// soit être un véritable composant créé via `Vue.extend()`, ou juste un 
-// objet d'options. 
+// soit être un véritable composant créé via `Vue.extend()`, ou juste un
+// objet d'options.
 // Nous parlerons plus tard des routes imbriquées.
 const routes = [
   { path: '/foo', component: Foo },
@@ -48,14 +48,14 @@ const routes = [
 ]
 
 // 3. Créez l'instance du routeur et passez l'option `routes`.
-// Vous pouvez également passer des options supplémentaires, 
+// Vous pouvez également passer des options supplémentaires,
 // mais nous allons faire simple pour l'instant.
 const router = new VueRouter({
   routes // raccourci pour `routes: routes`
 })
 
 // 5. Créez et montez l'instance de Vue.
-// Soyez sûr d'injecter le routeur avec l'option `router` pour 
+// Soyez sûr d'injecter le routeur avec l'option `router` pour
 // permettre à l'application tout entière d'être à l'écoute du routeur.
 const app = new Vue({
   router
