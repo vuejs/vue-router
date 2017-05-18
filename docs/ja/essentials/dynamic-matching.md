@@ -53,6 +53,18 @@ const User = {
 }
 ```
 
+または、2.2 で導入された `beforeRouteUpdate` ガードを使用します:
+
+``` js
+const User = {
+  template: '...',
+  beforeRouteUpdate (to, from, next) {
+    // ルート変更に反応する...
+    // next() を呼び出すのを忘れないでください
+  }
+}
+```
+
 ### 高度なマッチングパターン
 
 `vue-router` はパスのマッチングエンジンとして [path-to-regexp](https://github.com/pillarjs/path-to-regexp) を使っています。これは Optional による動的なセグメント、Zero or more / One or more に対する要求、また、カスタム正規表現パターンまでもサポートしています。 これらの高度なパターンについてはこちらの [ドキュメンテーション](https://github.com/pillarjs/path-to-regexp#parameters) または、 `vue-router` の中でそれらを使っている [こちらの例](https://github.com/vuejs/vue-router/blob/dev/examples/route-matching/app.js) をご参照ください。
