@@ -27,6 +27,13 @@ const User = {
 const router = new VueRouter({
   routes: [
     { path: '/user/:id', component: User, props: true }
+
+    // utilizando vistas con nombre, tienes que definir la opción prop para cada una de ellas:
+    {
+      path: '/user/:id', 
+      components: { default: User, sidebar: Sidebar },
+      props: { default: true, sidebar: false }
+    }
   ]
 })
 ```
