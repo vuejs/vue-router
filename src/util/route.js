@@ -19,8 +19,13 @@ export function createRoute (
     hash: location.hash || '',
     query: location.query || {},
     params: location.params || {},
+    search: '',
     fullPath: getFullPath(location, stringifyQuery),
     matched: record ? formatMatch(record) : []
+  }
+  route.search = route.fullPath.split('?')[1] || ''
+  if (route.search.indexOf('#') > -1) {
+    route.search = route.search.split('#')[0]
   }
   if (redirectedFrom) {
     route.redirectedFrom = getFullPath(redirectedFrom, stringifyQuery)
