@@ -83,6 +83,7 @@ declare type Route = {
   hash: string;
   query: Dictionary<string>;
   params: Dictionary<string>;
+  search: string;
   fullPath: string;
   matched: Array<RouteRecord>;
   redirectedFrom?: string;
