@@ -61,6 +61,13 @@ export class HTML5History extends History {
 
 export function getLocation (base: string): string {
   let path = window.location.pathname
+  const baseURI = document.baseURI
+  if (baseURI) {
+    const a = document.createElement('a')
+    a.href = baseURI
+    path = a.pathname
+  }
+
   if (base && path.indexOf(base) === 0) {
     path = path.slice(base.length)
   }

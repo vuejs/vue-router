@@ -3,7 +3,6 @@
 import { _Vue } from '../install'
 import type Router from '../index'
 import { warn } from '../util/warn'
-import { inBrowser } from '../util/dom'
 import { runQueue } from '../util/async'
 import { START, isSameRoute } from '../util/route'
 
@@ -189,13 +188,7 @@ export class History {
 
 function normalizeBase (base: ?string): string {
   if (!base) {
-    if (inBrowser) {
-      // respect <base> tag
-      const baseEl = document.querySelector('base')
-      base = (baseEl && baseEl.getAttribute('href')) || '/'
-    } else {
-      base = '/'
-    }
+    base = '/'
   }
   // make sure there's the starting slash
   if (base.charAt(0) !== '/') {
