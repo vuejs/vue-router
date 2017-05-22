@@ -85,4 +85,4 @@
 
 - tipo: `Function`
 
-  Provee funciones parse / stringify para _query string_ personalizadas. Sobre escribe la función por defecto.
+  Provee funciones parse / stringify para _query string_ personalizadas. Sobreescribe la función por defecto.

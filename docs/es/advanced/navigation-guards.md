@@ -40,11 +40,11 @@ Cada función guardia recibe tres argumentos:
 
 > Nuevo en 2.5.0
 
-A oartir de la versión 2.5.0 puedes registrar un guardia global con `router.beforeResolve`. Esto es similar a `router.beforeEach`, con la diferencia que los guardias de resolución serán lamados justo antes de que la navegación sea confirmada, **después que todos los guardias en el componente y los componentes de rutas asíncronos sean resueltos**.
+A partir de la versión 2.5.0 puedes registrar un guardia global con `router.beforeResolve`. Esto es similar a `router.beforeEach`, con la diferencia que los guardias de resolución serán llamados justo antes de que la navegación sea confirmada, **después que todos los guardias en el componente y los componentes de rutas asíncronos sean resueltos**.
 
-### 'Hooks after' globales
+### Post _hooks_ globales
 
-También puedes registrar _hooks after_ globales. Sin embargo, a diferencia de las guardias, estos _hooks_ no reciben una función `next` y no pueden afectar la navegación:
+También puedes registrar _hooks_ globales que se ejecutarán luego de que la navegación sea confirmada. Sin embargo, a diferencia de los guardias, estos _hooks_ no reciben una función `next` y no pueden afectar la navegación:
 
 ``` js
 router.afterEach((to, from) => {
