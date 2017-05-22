@@ -44,7 +44,7 @@ A partir de la versión 2.5.0 puedes registrar un guardia global con `router.bef
 
 ### Post _hooks_ globales
 
-También puedes registrar _hooks_ globales que se ejecutarán luego de que la navegación sea confirmada. Sin embargo, a diferencia de los guardias, estos _hooks_ no reciben una función `next` y no pueden afectar la navegación:
+También puedes registrar _hooks_ globales que se ejecutarán después de que la navegación sea confirmada. Sin embargo, a diferencia de los guardias, estos _hooks_ no reciben una función `next` y no pueden afectar la navegación:
 
 ``` js
 router.afterEach((to, from) => {
