@@ -83,31 +83,28 @@ export default {
   },
   beforeRouteEnter (to, from, next) {
     getPost(to.params.id, (err, post) => {
-      if (err) {
-        // muestra algún mensaje global de error
-        next(false)
-      } else {
-        next(vm => {
-          vm.post = post
-        })
-      }
+      next(vm => vm.setData(err, post))
     })
   },
   // cuando la ruta cambie y este componente ya haya sido renderizado,
   // la lógica será ligeramente diferente
-  watch: {
-    $route () {
-      this.post = null
-      getPost(this.$route.params.id, (err, post) => {
-        if (err) {
-          this.error = err.toString()
-        } else {
-          this.post = post
-        }
-      })
+  beforeRouteUpdate (to, from, next) {
+    this.post = null
+    getPost(to.params.id, (err, post) => {
+      this.setData(err, post)
+      next()
+    })
+  },
+  methods: {
+    setData (err, post) {
+      if (err) {
+        this.error = err.toString()
+      } else {
+        this.post = post
+      }
     }
   }
 }
 ```
 
-El usuario permanecerá en la vista actual mientras se esté obteniendo el recurso para la vista entrante. Por lo tanto, es recomendable mostrar algún tipo de indicador o barra de progreso. Si la obtención de datos falla, es necesario mostrar algún tipo de advertencia global.
+El usuario permanecerá en la vista anterior mientras se esté obteniendo el recurso para la vista entrante. Por lo tanto, es recomendable mostrar algún tipo de indicador o barra de progreso. Si la obtención de datos falla, es necesario mostrar algún tipo de advertencia global.

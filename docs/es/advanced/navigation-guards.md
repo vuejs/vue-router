@@ -2,7 +2,7 @@
 
 Como el nombre sugiere, las guardias de navegación provistas por `vue-router` son básicamente utilizadas para proteger rutas de navegación ya sea redireccionando o cancelándolas. Hay varias maneras de engancharse en el proceso de navegación de rutas: globalmente, por ruta o dentro de los componentes.
 
-Recuerda: **Los cambios en los parámetros o las _queries_ no harán que se ejecuten los guardias de navegación**. Simplemente [observa el objeto `$route`](../essentials/dynamic-matching.md#reacting-to-params-changes) para poder reaccionar frente a esos cambios.
+Recuerda: **Los cambios en los parámetros o las _queries_ no harán que se ejecuten los guardias de navegación**. Simplemente [observa el objeto `$route`](../essentials/dynamic-matching.md#reacting-to-params-changes) para poder reaccionar frente a esos cambios o utiliza el guardia `beforeRouteUpdate` en el componente.
 
 ### Guardias globales
 
@@ -32,9 +32,19 @@ Cada función guardia recibe tres argumentos:
 
   - **`next('/')` o `next({ path: '/' })`**: redirecciona a una ruta diferente. La navegación actual será abortada y una nueva será iniciada.
 
+  - **`next(error)`**: (2.4.0+) si el argumento pasado a `next` es una instancia de `Error`, la navegación se abortará y el error será pasado a las _funciones callback_ registradas a través de `router.onError()`.
+
 **Asegúrese de llamar siempre a la función `next`, sino el _hook_ nunca será resuelto.**
 
-También puedes registrar _hooks after_ globales. Sin embargo, a diferencia de las guardias, estos _hooks_ no reciben una función `next` y no pueden afectar la navegación:
+### Guardias de resolución globales
+
+> Nuevo en 2.5.0
+
+A partir de la versión 2.5.0 puedes registrar un guardia global con `router.beforeResolve`. Esto es similar a `router.beforeEach`, con la diferencia que los guardias de resolución serán llamados justo antes de que la navegación sea confirmada, **después que todos los guardias en el componente y los componentes de rutas asíncronos sean resueltos**.
+
+### Post _hooks_ globales
+
+También puedes registrar _hooks_ globales que se ejecutarán después de que la navegación sea confirmada. Sin embargo, a diferencia de los guardias, estos _hooks_ no reciben una función `next` y no pueden afectar la navegación:
 
 ``` js
 router.afterEach((to, from) => {
@@ -107,3 +117,18 @@ beforeRouteEnter (to, from, next) {
 ```
 
 Puedes acceder directamente a `this` dentro de `beforeRouteLeave`. La guardia _leave_ se utiliza normalmente para prevenir al usuario cuando intenta abandonar la ruta accidentalmente sin guardar cambios. La navegación puede ser cancelada ejecutando `next(false)`.
+
+### El flujo de resolución de navegación completo
+
+1. Se dispara la navegación.
+2. Se llaman a los guardias _leave_ en los componentes desactivados.
+3. Se llaman a los guardias `beforeEach` globales.
+4. Se llaman a los guardias `beforeRouteUpdate` en los componentes reutilizados (2.2+).
+5. Se llama a `beforeEnter` en las configuraciones de rutas.
+6. Se resuelven componentes de rutas asíncronos.
+7. Se llama a `beforeRouteEnter` en los componentes activados.
+8. Se llama a los guardias globales `beforeResolve` (2.5+).
+9. Se confirma la navegación.
+10. Se llaman a los _hook_ globales`afterEach`.
+11. Se disparan las actualizaciones del DOM.
+12. Se llaman a las _funciones callback_ pasadas a `next` en los guardias `beforeRouteEnter` con las instancias creadas.
