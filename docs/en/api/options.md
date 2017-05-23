@@ -1,21 +1,21 @@
-# Router Construction Options (En) <br><br> *Cette page est en cours de traduction française. Revenez une autre fois pour lire une traduction achevée ou [participez à la traduction française ici](https://github.com/vuejs-fr/vue-router).*
+# Options de Construction du Routeur
 
 ### routes
 
 - type: `Array<RouteConfig>`
 
-  Type declaration for `RouteConfig`:
+  Déclaration de type pour `RouteConfig` :
 
   ``` js
   declare type RouteConfig = {
     path: string;
     component?: Component;
-    name?: string; // for named routes
-    components?: { [name: string]: Component }; // for named views
+    name?: string; // pour les routes nommées
+    components?: { [name: string]: Component }; // pour les vues nommées
     redirect?: string | Location | Function;
     props?: boolean | string | Function;
     alias?: string | Array<string>;
-    children?: Array<RouteConfig>; // for nested routes
+    children?: Array<RouteConfig>; // pour les routes imbriquées
     beforeEnter?: (to: Route, from: Route, next: Function) => void;
     meta?: any;
   }
@@ -23,51 +23,51 @@
 
 ### mode
 
-- type: `string`
+- type : `string`
 
-- default: `"hash" (in browser) | "abstract" (in Node.js)`
+- défaut : `"hash" (dans le navigateur) | "abstract" (dans Node.js)`
 
-- available values: `"hash" | "history" | "abstract"`
+- valeurs disponibles : `"hash" | "history" | "abstract"`
 
-  Configure the router mode.
+  Configure le mode du routeur.
 
-  - `hash`: uses the URL hash for routing. Works in all Vue-supported browsers, including those that do not support HTML5 History API.
+  - `hash` : utilise le hash de l'URL pour le routage. Fonctionne dans tous les navigateurs supportés par Vue, ainsi que ceux qui ne supportent pas l'API History d'HTML5.
 
-  - `history`: requires HTML5 History API and server config. See [HTML5 History Mode](../essentials/history-mode.md).
+  - `history` : nécessite l'API History d'HTML 5 et la configuration du serveur. Voir [Mode d'Historique HTML5](../essentials/history-mode.md).
 
-  - `abstract`: works in all JavaScript environments, e.g. server-side with Node.js. **The router will automatically be forced into this mode if no browser API is present.**
+  - `abstract` : fonctionne dans tous les environnements JavaScript, ex. côté serveur avec Node.js. **Le routeur sera automatiquement forcé d'utiliser ce mode si aucune API navigateur n'est présente.**
 
 ### base
 
-- type: `string`
+- type : `string`
 
-- default: `"/"`
+- défaut : `"/"`
 
-  The base URL of the app. For example, if the entire single page application is served under `/app/`, then `base` should use the value `"/app/"`.
+  L'URL de base de l'application. Par exemple, si l'entière application monopage est distribuée sous `/app/`, alors `base` doit utiliser la valeur `"/app/"`.
 
 ### linkActiveClass
 
-- type: `string`
+- type : `string`
 
-- default: `"router-link-active"`
+- défaut : `"router-link-active"`
 
-  Globally configure `<router-link>` default active class. Also see [router-link](router-link.md).
+  Configure de manière globale la classe active par défaut de `<router-link>`. Voir aussi [router-link](router-link.md).
 
 ### linkExactActiveClass
 
 > 2.5.0+
 
-- type: `string`
+- type : `string`
 
-- default: `"router-link-exact-active"`
+- default : `"router-link-exact-active"`
 
-  Globally configure `<router-link>` default active class for exact matches. Also see [router-link](router-link.md).
+  Configure de manière globale la classe active par défaut de `<router-link>` lors d'une correspondance exact. Voir aussi [router-link](router-link.md).
 
 ### scrollBehavior
 
-- type: `Function`
+- type : `Function`
 
-  Signature:
+  Signature :
 
   ```
   (
@@ -77,12 +77,12 @@
   ) => { x: number, y: number } | { selector: string } | ?{}
   ```
 
-  For more details see [Scroll Behavior](../advanced/scroll-behavior.md).
+  Pour plus de détails, voir [Comportement du Scroll](../advanced/scroll-behavior.md).
 
 ### parseQuery / stringifyQuery
 
 > 2.4.0+
 
-- type: `Function`
+- type : `Function`
 
-  Provide custom query string parse / stringify functions. Overrides the default.
+  Permet de spécifier des fonctions customisées pour parser / stringifier la requête. Surcharge les fonctions par défaut.
