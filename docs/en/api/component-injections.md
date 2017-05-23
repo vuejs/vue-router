@@ -1,21 +1,21 @@
-# Component Injections (En) <br><br> *Cette page est en cours de traduction française. Revenez une autre fois pour lire une traduction achevée ou [participez à la traduction française ici](https://github.com/vuejs-fr/vue-ssr-docs).*
+# Injections de composant
 
-### Injected Properties
+### Propriétés injectées
 
-These properties are injected into every child component by passing the router instance to the root instance as the `router` option.
+Ces propriétés sont injectées dans chacun des composants enfants, en passant l'instance du routeur à l'application racine de Vue en tant qu'option `router`.
 
 - #### $router
 
-  The router instance.
+  L'instance du routeur.
 
 - #### $route
 
-  The current active [Route](route-object.md). This property is read-only and its properties are immutable, but it can be watched.
+ La [Route](route-object.md) actuellement active. C'est une propriété en lecture seule et ses propriétés sont immutables, mais elles restent malgré tout observables.
 
-### Enabled Options
+### Options activées
 
 - **beforeRouteEnter**
-- **beforeRouteUpdate** (added in 2.2)
+- **beforeRouteUpdate** (ajouté en 2.2)
 - **beforeRouteLeave**
 
-  See [In Component Guards](../advanced/navigation-guards.md#incomponent-guards).
+  Voir la [Sécurisation intra-composants](../advanced/navigation-guards.md#securisation-intra-composants).
