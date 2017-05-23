@@ -15,6 +15,7 @@ Estas propiedades son inyectadas dentro de cada componente hijo pasando la insta
 ### Opciones habilitadas
 
 - **beforeRouteEnter**
+- **beforeRouteUpdate** (agregado en 2.2)
 - **beforeRouteLeave**
 
   Más información en [guardias en componentes](../advanced/navigation-guards.md#incomponent-guards).
