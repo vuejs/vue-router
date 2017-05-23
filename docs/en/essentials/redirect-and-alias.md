@@ -1,4 +1,4 @@
-# Redirect and Alias
+# Redirect and Alias (En) <br><br> *Cette page est en cours de traduction française. Revenez une autre fois pour lire une traduction achevée ou [participez à la traduction française ici](https://github.com/vuejs-fr/vue-router).*
 
 ### Redirect
 

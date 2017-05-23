@@ -1,4 +1,4 @@
-# Passing Props to Route Components
+# Passing Props to Route Components (En) <br><br> *Cette page est en cours de traduction française. Revenez une autre fois pour lire une traduction achevée ou [participez à la traduction française ici](https://github.com/vuejs-fr/vue-router).*
 
 Using `$route` in your component creates a tight coupling with the route which limits the flexibility of the component as it can only be used on certain urls.
 
