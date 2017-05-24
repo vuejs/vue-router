@@ -23,7 +23,7 @@
   - [Scroll Behavior (En)](advanced/scroll-behavior.md)
   - [Lazy Loading (En)](advanced/lazy-loading.md)
 - Réference de l'API
-  - [router-link (En)](api/router-link.md)
+  - [router-link](api/router-link.md)
   - [router-view (En)](api/router-view.md)
   - [The Route Object (En)](api/route-object.md)
   - [Router Constructor Options (En)](api/options.md)
