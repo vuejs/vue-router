@@ -21,7 +21,7 @@
   - [Transitions (En)](advanced/transitions.md)
   - [Data Fetching (En)](advanced/data-fetching.md)
   - [Scroll Behavior (En)](advanced/scroll-behavior.md)
-  - [Lazy Loading (En)](advanced/lazy-loading.md)
+  - [Le chargement à la volée](advanced/lazy-loading.md)
 - Réference de l'API
   - [router-link (En)](api/router-link.md)
   - [router-view (En)](api/router-view.md)
