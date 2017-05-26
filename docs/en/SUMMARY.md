@@ -18,7 +18,7 @@
 - Avancé
   - [Navigation Guards (En)](advanced/navigation-guards.md)
   - [Route Meta Fields (En)](advanced/meta.md)
-  - [Transitions (En)](advanced/transitions.md)
+  - [Les transitions](advanced/transitions.md)
   - [Data Fetching (En)](advanced/data-fetching.md)
   - [Scroll Behavior (En)](advanced/scroll-behavior.md)
   - [Lazy Loading (En)](advanced/lazy-loading.md)

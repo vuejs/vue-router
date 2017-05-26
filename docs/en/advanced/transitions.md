@@ -1,6 +1,6 @@
-# Transitions (En) <br><br> *Cette page est en cours de traduction française. Revenez une autre fois pour lire une traduction achevée ou [participez à la traduction française ici](https://github.com/vuejs-fr/vue-router).*
+# Les transitions
 
-Since the `<router-view>` is essentially a dynamic component, we can apply transition effects to it the same way using the `<transition>` component:
+Vu que `<router-view>` est essentiellement un composant dynamique, on peut lui appliquer certains effets de transitions en utilisant le composant `<transition>` :
 
 ``` html
 <transition>
@@ -8,11 +8,11 @@ Since the `<router-view>` is essentially a dynamic component, we can apply trans
 </transition>
 ```
 
-[Everything about `<transition>`](http://vuejs.org/guide/transitions.html) works the same here.
+[Tout à propos de `<transition>`](http://vuejs.org/guide/transitions.html) fonctionne également ici de la même manière.
 
-### Per-Route Transition
+### Transition par route
 
-The above usage will apply the same transition for all routes. If you want each route's component to have different transitions, you can instead use `<transition>` with different names inside each route component:
+L'utilisation au dessus applique la même transition pour chaque route. Si vous voulez que les composants de route aient des transitions différentes, vous pouvez utiliser à la place `<transition>` avec des différents noms à l'intérieur de chaque composant de route :
 
 ``` js
 const Foo = {
@@ -32,20 +32,20 @@ const Bar = {
 }
 ```
 
-### Route-Based Dynamic Transition
+# Transition dynamique basée sur la route
 
-It is also possible to determine the transition to use dynamically based on the relationship between the target route and current route:
+Il est aussi possible de déterminer la transition à utiliser en se basant sur la relation entre la route cible et la route actuelle :
 
 ``` html
-<!-- use a dynamic transition name -->
+<!-- utilise un nom de transition dynamique -->
 <transition :name="transitionName">
   <router-view></router-view>
 </transition>
 ```
 
 ``` js
-// then, in the parent component,
-// watch the $route to determine the transition to use
+// et dans le composant parent,
+// on observe la $route pour déterminer la transition à utiliser
 watch: {
   '$route' (to, from) {
     const toDepth = to.path.split('/').length
@@ -55,4 +55,4 @@ watch: {
 }
 ```
 
-See full example [here](https://github.com/vuejs/vue-router/blob/dev/examples/transitions/app.js).
+Voir un exemple complet [ici](https://github.com/vuejs/vue-router/blob/dev/examples/transitions/app.js).
