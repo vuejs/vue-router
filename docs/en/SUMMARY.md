@@ -18,14 +18,14 @@
 - Avancé
   - [Navigation Guards (En)](advanced/navigation-guards.md)
   - [Route Meta Fields (En)](advanced/meta.md)
-  - [Transitions (En)](advanced/transitions.md)
+  - [Les transitions](advanced/transitions.md)
   - [Data Fetching (En)](advanced/data-fetching.md)
-  - [Scroll Behavior (En)](advanced/scroll-behavior.md)
+  - [Comportement du défilement](advanced/scroll-behavior.md)
   - [Lazy Loading (En)](advanced/lazy-loading.md)
 - Réference de l'API
   - [router-link (En)](api/router-link.md)
   - [router-view](api/router-view.md)
-  - [The Route Object (En)](api/route-object.md)
+  - [L'objet Route](api/route-object.md)
   - [Router Constructor Options (En)](api/options.md)
   - [Router Instance (En)](api/router-instance.md)
   - [Component Injections (En)](api/component-injections.md)
