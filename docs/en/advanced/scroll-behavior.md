@@ -1,30 +1,30 @@
-# Scroll Behavior (En) <br><br> *Cette page est en cours de traduction française. Revenez une autre fois pour lire une traduction achevée ou [participez à la traduction française ici](https://github.com/vuejs-fr/vue-router).*
+# Comportement du défilement
 
-When using client-side routing, we may want to scroll to top when navigating to a new route, or preserve the scrolling position of history entries just like real page reload does. `vue-router` allows you to achieve these and even better, allows you to completely customize the scroll behavior on route navigation.
+En utilisant le routage côté client, nous pourrions vouloir faire défiler la page jusqu'en haut lorsqu'on navigue vers une nouvelle route, ou alors préserver la position du défilement des entrées de l'historique comme le ferait une page réelle. `vue-router` vous permet de faire cela et, encore mieux, vous permet de changer le comportement du défilement pendant la navigation.
 
-**Note: this feature only works in HTML5 history mode.**
+**Note : cette fonctionnalité ne fonctionne qu'avec le mode historique HTML5.**
 
-When creating the router instance, you can provide the `scrollBehavior` function:
+Pendant la création de l'instance du routeur, vous pouvez renseigner la fonction `scrollBehavior` :
 
 ``` js
 const router = new VueRouter({
   routes: [...],
   scrollBehavior (to, from, savedPosition) {
-    // return desired position
+    // retourner la position désirée
   }
 })
 ```
 
-The `scrollBehavior` function receives the `to` and `from` route objects. The third argument, `savedPosition`, is only available if this is a `popstate` navigation (triggered by the browser's back/forward buttons).
+La fonction `scrollBehavior` reçoit les objets de route `to` et `from`. Le troisième argument, `savedPosition`, est disponible uniquement si c'est une navigation `popstate` (déclenchée par les boutons précédent/suivant du navigateur).
 
-The function can return a scroll position object. The object could be in the form of:
+La fonction peut retourner un objet décrivant la position du défilement. L'objet peut être de la forme :
 
-- `{ x: number, y: number }`
-- `{ selector: string }`
+-  `{ x: number, y: number }`
+- `{ selector: String }`
 
-If a falsy value or an empty object is returned, no scrolling will happen.
+Si une valeur équivalente à `false` ou un objet vide est retourné, aucun défilement ne sera produit.
 
-For example:
+Par exemple : 
 
 ``` js
 scrollBehavior (to, from, savedPosition) {
@@ -32,9 +32,9 @@ scrollBehavior (to, from, savedPosition) {
 }
 ```
 
-This will simply make the page scroll to top for all route navigations.
+Cela permettra de défiler au haut de page à chaque navigation à travers les routes.
 
-Returning the `savedPosition` will result in a native-like behavior when navigating with back/forward buttons:
+Retourner l'objet `savedPosition` résultera en un comportement quasi-natif en naviguant avec les boutons précédents/suivants :
 
 ``` js
 scrollBehavior (to, from, savedPosition) {
@@ -46,7 +46,7 @@ scrollBehavior (to, from, savedPosition) {
 }
 ```
 
-If you want to simulate the "scroll to anchor" behavior:
+Si vous voulez simuler le comportement « aller à l'ancre » :
 
 ``` js
 scrollBehavior (to, from, savedPosition) {
@@ -58,4 +58,4 @@ scrollBehavior (to, from, savedPosition) {
 }
 ```
 
-We can also use [route meta fields](meta.md) to implement fine-grained scroll behavior control. Check out a full example [here](https://github.com/vuejs/vue-router/blob/dev/examples/scroll-behavior/app.js).
+On peut aussi utiliser les [champs meta de route](meta.md) pour implémenter un contrôle bien précis pour le comportement du défilement. Allez voir un exemple complet [ici](https://github.com/vuejs/vue-router/blob/dev/examples/scroll-behavior/app.js).
