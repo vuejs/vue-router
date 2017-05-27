@@ -1,14 +1,14 @@
-# L'Objet `Route`
+# L'objet `Route`
 
-Un **objet `Route`** représente l'état de actuel de la route active. Il contient des informations analysées à propos de l'URL courante et **les itinéraires de route** appariés par l'URL.
+Un **objet `Route`** représente l'état actuel de la route active. Il contient des informations analysées à propos de l'URL courante et **les itinéraires de route** appariés par l'URL.
 
 L'objet `Route` est immutable. Chaque navigation qui se déroule avec succès résultera en un nouvel objet `Route`.
 
 L'objet `Route` peut être trouvé à plusieurs endroits :
 
-- À l'intérieur des composants en tan que `this.$route`
+- À l'intérieur des composants en tant que `this.$route`
 
-- À l'intérieur des fonctions de rappel de pendant l'observation de `$route`
+- À l'intérieur des fonctions de rappel des observateurs de `$route`
 
 - Comme valeur de retour après l'appel de `router.match(location)`
 
@@ -16,7 +16,7 @@ L'objet `Route` peut être trouvé à plusieurs endroits :
 
   ``` js
   router.beforeEach((to, from, next) => {
-    // to et from sont tous les deux des objets Route
+    // `to` et `from` sont tous les deux des objets Route
   })
   ```
 
@@ -25,12 +25,12 @@ L'objet `Route` peut être trouvé à plusieurs endroits :
   ``` js
   const router = new VueRouter({
     scrollBehavior (to, from, savedPosition) {
-      // to et from sont tous les deux des objets Route
+      // `to` et `from` sont tous les deux des objets Route
     }
   })
   ```
 
-### Propriétés de l'Objet Route
+### Propriétés de l'objet `Route`
 
 - **$route.path**
 
@@ -66,7 +66,7 @@ L'objet `Route` peut être trouvé à plusieurs endroits :
 
   - type : `Array<RouteRecord>`
 
-    Un `Array` contenant les **les itinéraires de la route** pour chaque segment de chemin imbriqué de la route courante. Les itinéraires de la route sont des copies des objets dans l'`Array` de configuration `routes` (et dans les `Array`s `children`).
+    Un `Array` contenant les **les itinéraires de la route** pour chaque segment de chemin imbriqué de la route courante. Les itinéraires de la route sont des copies des objets dans le tableau de configuration `routes` (et dans les tableaux `children`).
 
   ``` js
   const router = new VueRouter({
