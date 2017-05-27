@@ -43,9 +43,11 @@ module.exports = {
       })
       exactActiveA.forEach(i => {
         browser.assert.cssClassPresent(`li:nth-child(${i}) a`, 'router-link-exact-active')
+          .assert.cssClassPresent(`li:nth-child(${i}) a`, 'router-link-active')
       })
       exactActiveLI && exactActiveLI.forEach(i => {
         browser.assert.cssClassPresent(`li:nth-child(${i})`, 'router-link-exact-active')
+          .assert.cssClassPresent(`li:nth-child(${i})`, 'router-link-active')
       })
     }
   }
