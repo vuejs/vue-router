@@ -19,7 +19,7 @@ La fonction `scrollBehavior` reçoit les objets de route `to` et `from`. Le troi
 
 La fonction peut retourner un objet décrivant la position du défilement. L'objet peut être de la forme :
 
--  `{ x: Number, y: Number }`
+-  `{ x: number, y: number }`
 - `{ selector: String }`
 
 Si une valeur équivalente à `false` ou un objet vide est retourné, aucun défilement ne sera produit.
@@ -32,7 +32,7 @@ scrollBehavior (to, from, savedPosition) {
 }
 ```
 
-Cela permettra de défiler au haut de la page à chaque navigation à travers les routes.
+Cela permettra de défiler au haut de page à chaque navigation à travers les routes.
 
 Retourner l'objet `savedPosition` résultera en un comportement quasi-natif en naviguant avec les boutons précédents/suivants :
 
