@@ -25,7 +25,7 @@
 - Réference de l'API
   - [router-link (En)](api/router-link.md)
   - [router-view (En)](api/router-view.md)
-  - [The Route Object (En)](api/route-object.md)
+  - [L'objet Route](api/route-object.md)
   - [Router Constructor Options (En)](api/options.md)
   - [Router Instance (En)](api/router-instance.md)
   - [Component Injections (En)](api/component-injections.md)
