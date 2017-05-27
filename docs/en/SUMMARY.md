@@ -20,7 +20,7 @@
   - [Route Meta Fields (En)](advanced/meta.md)
   - [Les transitions](advanced/transitions.md)
   - [Data Fetching (En)](advanced/data-fetching.md)
-  - [Scroll Behavior (En)](advanced/scroll-behavior.md)
+  - [Comportement du défilement](advanced/scroll-behavior.md)
   - [Lazy Loading (En)](advanced/lazy-loading.md)
 - Réference de l'API
   - [router-link (En)](api/router-link.md)
