@@ -1,4 +1,4 @@
-# Options de Construction du Routeur
+# Options de construction du routeur
 
 ### routes
 
@@ -25,7 +25,7 @@
 
 - type : `string`
 
-- défaut : `"hash" (dans le navigateur) | "abstract" (dans Node.js)`
+- défaut : `"hash" (dans le navigateur) | "abstract" (en Node.js)`
 
 - valeurs disponibles : `"hash" | "history" | "abstract"`
 
@@ -33,7 +33,7 @@
 
   - `hash` : utilise le hash de l'URL pour le routage. Fonctionne dans tous les navigateurs supportés par Vue, ainsi que ceux qui ne supportent pas l'API History d'HTML5.
 
-  - `history` : nécessite l'API History d'HTML 5 et la configuration du serveur. Voir [Mode d'Historique HTML5](../essentials/history-mode.md).
+  - `history` : nécessite l'API History d'HTML 5 et la configuration du serveur. Voir [Mode historique de HTML5](../essentials/history-mode.md).
 
   - `abstract` : fonctionne dans tous les environnements JavaScript, ex. côté serveur avec Node.js. **Le routeur sera automatiquement forcé d'utiliser ce mode si aucune API navigateur n'est présente.**
 
@@ -43,7 +43,7 @@
 
 - défaut : `"/"`
 
-  L'URL de base de l'application. Par exemple, si l'entière application monopage est distribuée sous `/app/`, alors `base` doit utiliser la valeur `"/app/"`.
+  L'URL de base de l'application. Par exemple, si l'application monopage entière est distribuée sous `/app/`, alors `base` doit utiliser la valeur `"/app/"`.
 
 ### linkActiveClass
 
@@ -85,4 +85,4 @@
 
 - type : `Function`
 
-  Permet de spécifier des fonctions customisées pour parser / stringifier la requête. Surcharge les fonctions par défaut.
+  Permet de spécifier des fonctions personnalisées pour formater en objet ou en chaîne de caractères la requête. Surcharge les fonctions par défaut.
