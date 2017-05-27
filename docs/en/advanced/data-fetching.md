@@ -6,13 +6,13 @@ Parfois vous avez besoin de récupérer des données depuis le serveur lorsqu'un
 
 - **Récupération de donnée avant la navigation** : récupère les données avant la navigation dans la fonction de garde d'entrée de la route, et effectue la navigation après que les données aient été récupérées.
 
-Techniquement, les deux choix sont valides &mdash; cela dépend de l'expérience utilisateur que vous souhaitez apporter.
+Techniquement, les deux choix sont valides. Cela dépend de l'expérience utilisateur que vous souhaitez apporter.
 
 ## Récupération de données après la navigation
 
-En utilisant cette approche, nous naviguons et faisons immédiatement le rendu du composant, et récupère les données via le hook `created` du composant. Cela nous donne l'opportunité d'afficher un état de chargement pendant ques les données sont récupérées à travers le réseau, et nous pouvons aussi gérer le chargement différemment pour chaque vue.
+En utilisant cette approche, nous naviguons et faisons immédiatement le rendu du composant et récupérons les données via le hook `created` du composant. Cela nous donne l'opportunité d'afficher un état de chargement pendant que les données sont récupérées à travers le réseau, et nous pouvons aussi gérer le chargement différemment pour chaque vue.
 
-Assumons que nous ayons un composant `Post` qui a besoin de récupérer des données pour un post identifié par `$route.params.id` :
+Assumons que nous ayons un composant `Post` qui a besoin de récupérer des données pour un billet identifié par `$route.params.id` :
 
 ``` html
 <template>
@@ -43,19 +43,19 @@ export default {
     }
   },
   created () {
-    // récupère les données lorsque la vue est créée et 
+    // récupérer les données lorsque la vue est créée et 
     // que les données sont déjà observées
     this.fetchData()
   },
   watch: {
-    // on appelle encore la méthode si la route change
+    // appeler encore la méthode si la route change
     '$route': 'fetchData'
   },
   methods: {
     fetchData () {
       this.error = this.post = null
       this.loading = true
-      // remplacez getPost par votre fonction de récupération de données
+      // remplacer `getPost` par une fonction de récupération de données
       getPost(this.$route.params.id, (err, post) => {
         this.loading = false
         if (err) {
