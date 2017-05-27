@@ -6,7 +6,7 @@
 
 - Cela fonctionne de la même manière qu'on soit dans le mode historique HTML5 ou le mode hash, donc si vous avez décidé de changer de mode, ou alors que le routeur se replie sur le mode hash pour IE9, rien n'a besoin d'être changé.
 
-- Dans le mode historique HTML5, `router-link` interceptera l'événement du clic, comme ça le navigateur n'essaiera pas de rafraîchir la page.
+- Dans le mode historique HTML5, `router-link` interceptera l'évènement du clic, comme ça le navigateur n'essaiera pas de rafraîchir la page.
 
 - En utilisant l'option `base` dans le mode historique HTML5, vous n'avez pas besoin de l'inclure dans les props `to` des URLs. 
 
@@ -18,7 +18,7 @@
 
   - requis
 
-   Désigne la route cible du lien. Lorsqu'il est cliqué, la valeur de la prop `to` va être passé de manière interne à `router.push`, donc la valeur peut soit être une chaîne de caractères, ou alors un objet décrivant une localisation.
+   Désigne la route cible du lien. Lorsqu'il est cliqué, la valeur de la prop `to` va être passée de manière interne à `router.push`, donc la valeur peut soit être une chaîne de caractères, ou alors un objet décrivant une localisation.
   
   ``` html
   <!--  chaîne litérale  -->
@@ -26,10 +26,10 @@
   <!-- rend -->
   <a href="home">Accueil</a>
 
-  <!-- expression JavaScript en utilisant v-bind -->
+  <!-- expression JavaScript en utilisant `v-bind` -->
   <router-link v-bind:to="'home'">Accueil</router-link>
 
-  <!-- Omettre v-bind est ok, tout comme autre prop -->
+  <!-- Omettre `v-bind` est ok, tout comme une autre prop -->
   <router-link :to="'home'">Accueil</router-link>
 
   <!-- pareil qu'au dessus -->
@@ -38,7 +38,7 @@
   <!-- route nommée -->
   <router-link :to="{ name: 'user', params: { userId: 123 }}">Utilisateur</router-link>
 
-  <!-- avec une requête, résulte en /register?plan=private -->
+  <!-- avec une requête, résulte en `/register?plan=private` -->
   <router-link :to="{ path: 'register', query: { plan: 'private' }}">S'enregistrer</router-link>
   ```
 
@@ -72,7 +72,7 @@
 
   - défaut : `"a"`
 
-  Parfois, on veut que `<router-link>` soit rendu avec un tag différent, ex : `<li>`. On peut alors utiliser la prop `tag` pour modifier le tag qui sera rendu, et il écoutera toujours aux événements de clic pour la navigation
+  Parfois, on veut que `<router-link>` soit rendu avec un tag différent, ex : `<li>`. On peut alors utiliser la prop `tag` pour modifier la balise qui sera rendue, et elle écoutera toujours les évènements de clic pour la navigation
 
   ``` html
   <router-link to="/foo" tag="li">foo</router-link>
@@ -96,10 +96,10 @@
 
   Le comportement par défaut de la correspondance de classe active est une **correspondance inclusive**. Par exemple, `<router-link to="/a">` vera cette classe appliquée tant que le chemin courant commencera par `/a/` ou `/a`.
 
-  Une conséquence de cela est que `<router-link to="/">` sera actif pour toutes les routes ! Pour forcer le lien dans un "mode correspondance exacte", utilisez la prop `exact`.
+  Une conséquence de cela est que `<router-link to="/">` sera actif pour toutes les routes ! Pour forcer le lien dans un « mode correspondance exacte », utilisez la prop `exact`.
 
   ``` html
-  <!-- ce lien sera uniquement actif à / -->
+  <!-- ce lien sera uniquement actif à `/` -->
   <router-link to="/" exact>
   ```
   
@@ -113,7 +113,7 @@
 
   - défaut : `'click'`
 
-  Spécifie les événement(s) que peuvent lancer la navigation de lien.
+  Spécifie les évènement(s) que peu(ven)t lancer la navigation de lien.
 
 - **exact-active-class**
 
@@ -127,7 +127,7 @@
 
 ### Appliquer la classe active à l'élément extérieur
 
-Parfois, on voudrait que la classe active soit appliquer à un élément extérieur au lieu de l'élément `<a>` lui-même, dans ce cas, vous pouvez faire le rendu de cet élément extérieur en utilisant `<router-link>` et en entourant le tag `<a>` :
+Parfois, on voudrait que la classe active soit appliquée à un élément extérieur au lieu de l'élément `<a>` lui-même, dans ce cas, vous pouvez faire le rendu de cet élément extérieur en utilisant `<router-link>` et en entourant le tag `<a>` :
 
 ``` html
 <router-link tag="li" to="/foo">
