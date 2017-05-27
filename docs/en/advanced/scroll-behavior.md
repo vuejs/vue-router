@@ -1,6 +1,6 @@
 # Comportement du défilement
 
-En utilisant le routage côté client, nous pourrions vouloir défiler jusqu'au haut de la page lorsqu'on navigue à une nouvelle route, ou alors préserver la position du défilement des entrées de l'historique comme le ferait une page réelle. `vue-router` vous permet de faire cela et en mieux, ainsi que de changer le comportement du défilement pendant la navigation.
+En utilisant le routage côté client, nous pourrions vouloir faire défiler la page jusqu'en haut lorsqu'on navigue vers une nouvelle route, ou alors préserver la position du défilement des entrées de l'historique comme le ferait une page réelle. `vue-router` vous permet de faire cela et, encore mieux, vous permet de changer le comportement du défilement pendant la navigation.
 
 **Note : cette fonctionnalité ne fonctionne qu'avec le mode historique HTML5.**
 
@@ -10,7 +10,7 @@ Pendant la création de l'instance du routeur, vous pouvez renseigner la fonctio
 const router = new VueRouter({
   routes: [...],
   scrollBehavior (to, from, savedPosition) {
-    // retourne la position désirée
+    // retourner la position désirée
   }
 })
 ```
@@ -32,9 +32,9 @@ scrollBehavior (to, from, savedPosition) {
 }
 ```
 
-Cela permettra de défiler jusqu'au haut de page à chaque navigation à travers les routes.
+Cela permettra de défiler au haut de la page à chaque navigation à travers les routes.
 
-Retourner l'objet `savedPosition` résultera en un comportement quasi-natif  en naviguant avec les boutons précédents/suivants :
+Retourner l'objet `savedPosition` résultera en un comportement quasi-natif en naviguant avec les boutons précédents/suivants :
 
 ``` js
 scrollBehavior (to, from, savedPosition) {
@@ -46,7 +46,7 @@ scrollBehavior (to, from, savedPosition) {
 }
 ```
 
-Si vous voulez simuler le comportement "défiler à l'ancre" :
+Si vous voulez simuler le comportement « aller à l'ancre » :
 
 ``` js
 scrollBehavior (to, from, savedPosition) {
