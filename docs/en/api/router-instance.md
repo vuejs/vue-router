@@ -1,4 +1,4 @@
-# L'Instance Routeur
+# L'Instance du routeur
 
 ### Propriétés
 
@@ -18,7 +18,7 @@
 
 - type: `Route`
 
-  La route actuelle représentée en tant qu'un [Objet Route](route-object.md).
+  La route actuelle représentée en tant qu'un [objet route](route-object.md).
 
 ### Méthodes
 
@@ -40,13 +40,13 @@
 
 - **router.getMatchedComponents(location?)**
 
-  Retourne un `Array` des composants (définition/constructeur et non les instances) correspondant à la `location` passée en paramètre, ou alors de la route actuelle. Cette fonction est principalement utilisée pendant le rendu côté serveur afin d'effectuer une pré-récupération des données.
+  Retourne un tableau de composants (définition/constructeur et non les instances) correspondant à la `location` passée en paramètre, ou alors de la route actuelle. Cette fonction est principalement utilisée pendant le rendu côté serveur afin d'effectuer une pré-récupération des données.
   
 - **router.resolve(location, current?, append?)**
 
   > 2.1.0+
 
-  Inverse la résolution d'URL. La `location` doit avoir la même forme qu'utilisée dans `<router-link>`, retourne un `Object` avec les propriétés suivantes :
+  Inverse la résolution d'URL. La `location` doit avoir la même forme qu'utilisée dans `<router-link>`, retourne un objet avec les propriétés suivantes :
   
   ``` js
   {
@@ -60,13 +60,13 @@
 
   > 2.2.0+
 
-  Permet d'ajouter dynamiquement des routes au routeur. L'argument doit être un `Array` utilisant le même format de configuration que l'option `routes` du constructeur.
+  Permet d'ajouter dynamiquement des routes au routeur. L'argument doit être un tableau utilisant le même format de configuration que l'option `routes` du constructeur.
   
 - **router.onReady(callback, [errorCallback])**
 
   > 2.2.0+
 
-  Cette méthode met en file d'attente une fonction de rappel qui sera appelée lorsque le routeur aura complété la navigation initiale, ce qui signifie qu'il a résolu tous les hooks d'entrée asynchrones et composants asynchrones qui sont associés à la route initiale.
+  Cette méthode met en file d'attente une fonction de rappel qui sera appelée lorsque le routeur aura complété la navigation initiale, ce qui signifie qu'il a résolu tous les hooks d'entrées asynchrones et composants asynchrones qui sont associés à la route initiale.
 
   C'est utile pendant un rendu côté serveur pour assurer une sortie consistance sur le serveur et le client.
 
@@ -76,7 +76,7 @@
 
   > 2.4.0+
 
-  Enregistre une fonction de rappel qui sera appelée lorsqu'une erreur sera capturée pendant la navigation à une route. Notez que pour qu'une erreur soit appelée, cela doit correspondre à l'un des scénarios suivants :
+  Enregistre une fonction de rappel qui sera appelée lorsqu'une erreur sera capturée pendant la navigation vers une route. Notez que pour qu'une erreur soit appelée, cela doit correspondre à l'un des scénarios suivants :
 
   - L'erreur est lancée de manière synchrone à l'intérieur d'une fonction de sécurisation de route ;
 
