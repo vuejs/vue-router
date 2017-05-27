@@ -1,8 +1,8 @@
 # `<router-link>`
 
-`<router-link>` est le composant pour activer la navigation utilisateur dans une application où le routeur est activé. La localisation cible est spécifiée grâce à la prop `to`. Il est rendu en tant que tag `<a>` avec le `href` correct par défaut, mais peut être configuré grâce à la prop `tag`. De plus, le lien se vera attribuer une classe CSS active lorsque la route cible est active.
+`<router-link>` est le composant pour activer la navigation utilisateur dans une application où le routeur est activé. La localisation cible est spécifiée grâce à la prop `to`. Il est rendu en tant que balise `<a>` avec le `href` correct par défaut, mais peut être configuré grâce à la prop `tag`. De plus, le lien se vera attribuer une classe CSS active lorsque la route cible est active.
 
-`<router-link>` est préféré par rapport au `<a href="...">` hard-codé pour les raisons suivantes :
+`<router-link>` est préféré par rapport au `<a href="...">` en dur dans le code pour les raisons suivantes :
 
 - Cela fonctionne de la même manière qu'on soit dans le mode historique HTML5 ou le mode hash, donc si vous avez décidé de changer de mode, ou alors que le routeur se replie sur le mode hash pour IE9, rien n'a besoin d'être changé.
 
