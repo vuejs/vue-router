@@ -14,7 +14,7 @@ Le composant `<router-view>` est un composant fonctionnel qui fait le rendu du c
 
 ### Comportement
 
-Les propriétés sans nom seront passées le long du composant rendu, toutefois la plupart du temps, les données par-route seront contenues dans les paramètres de la route.
+Les propriétés sans nom seront passées le long du composant rendu, toutefois la plupart du temps, les données par route seront contenues dans les paramètres de la route.
 
 Car c'est juste un composant, il fonctionne avec `<transition>` et `<keep-alive>`. Lorsque vous utilisez les deux ensemble, soyez sûr d'utiliser `<keep-alive> à l'intérieur :
 
