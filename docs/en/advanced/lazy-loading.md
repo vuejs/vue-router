@@ -1,10 +1,10 @@
 # Le chargement à la volée
 
-Pendant la construction d'applications avec un empaqueteur (« bundler »), le paquet JavaScript peut devenir un peu lourd, et donc cela peut affecter le temps de chargement de page. Il serait plus efficace si l'on pouvait séparer chaque composants de route dans des fragments séparés, et de les charger uniquement lorsque la route est visitée.
+Pendant la construction d'applications avec un empaqueteur (« bundler »), le paquet JavaScript peut devenir un peu lourd, et donc cela peut affecter le temps de chargement de la page. Il serait plus efficace si l'on pouvait séparer chaque composants de route dans des fragments séparés, et de les charger uniquement lorsque la route est visitée.
 
 En combinant la [fonctionnalité de composant asynchrone](https://fr.vuejs.org/v2/guide/components.html#Composants-asynchrones) de Vue et la [fonctionnalité de séparation de code](https://webpack.js.org/guides/code-splitting-require/) de webpack, il est très facile de charger à la volée les composants de route. 
  
-Tout ce dont nous avons à faire, c'est de définir les composants de notre route en tant que composants asynchrones :
+Tout ce que nous avons à faire, c'est de définir les composants de notre route en tant que composants asynchrones :
 
 ``` js
 const Foo = resolve => {
@@ -41,4 +41,4 @@ const Bar = r => require.ensure([], () => r(require('./Bar.vue')), 'group-foo')
 const Baz = r => require.ensure([], () => r(require('./Baz.vue')), 'group-foo')
 ```
 
-Webpack groupera tous les modules asynchrones avec le même nom de morceau, dans le même morceau asynchrone. Cela signifie aussi que nous n'avons plus besoin de lister explicitement les dépendances pour `require.ensure` (équivaut à passer un tableau vide).
+webpack groupera tous les modules asynchrones avec le même nom de morceau, dans le même morceau asynchrone. Cela signifie aussi que nous n'avons plus besoin de lister explicitement les dépendances pour `require.ensure` (équivaut à passer un tableau vide).
