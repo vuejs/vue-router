@@ -24,7 +24,7 @@
   - [Lazy Loading (En)](advanced/lazy-loading.md)
 - Réference de l'API
   - [router-link (En)](api/router-link.md)
-  - [router-view (En)](api/router-view.md)
+  - [router-view](api/router-view.md)
   - [L'objet Route](api/route-object.md)
   - [Router Constructor Options (En)](api/options.md)
   - [Router Instance (En)](api/router-instance.md)
