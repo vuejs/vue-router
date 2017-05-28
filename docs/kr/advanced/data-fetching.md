@@ -84,21 +84,20 @@ export default {
   },
   beforeRouteEnter (to, from, next) {
     getPost(to.params.id, (err, post) => {
-      if (err) {
-        // 일부 전역 오류 메시지 표시
-        next(false)
-      } else {
-        next(vm => {
-          vm.post = post
-        })
-      }
+      next(vm => vm.setData(err, post))
     })
   },
-  // 경로가 변경되고 이 컴포넌트가 이미 렌더링된 경우 로직은 약간 달라집니다.
   watch: {
-    $route () {
-      this.post = null
+    // 라우트가 변경되면 메소드를 다시 호출합니다
+    '$route': 'fetchData'
+  },
+  methods: {
+    fetchData () {
+      this.error = this.post = null
+      this.loading = true
+      // getPost를 데이터 페치 유틸리티/API 래퍼로 바꿉니다.
       getPost(this.$route.params.id, (err, post) => {
+        this.loading = false
         if (err) {
           this.error = err.toString()
         } else {

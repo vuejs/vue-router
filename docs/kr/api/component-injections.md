@@ -15,6 +15,7 @@
 ### 활성화된 옵션
 
 - **beforeRouteEnter**
+- **beforeRouteUpdate** (2.2에서 추가됨)
 - **beforeRouteLeave**
 
   [컴포넌트 내부 가드](../advanced/navigation-guards.md#incomponent-guards)를 확인하세요.

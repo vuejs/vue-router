@@ -29,15 +29,17 @@ export default class VueRouter {
   matcher: Matcher;
   fallback: boolean;
   beforeHooks: Array<?NavigationGuard>;
-  afterHooks: Array<?((to: Route, from: Route) => any)>;
+  resolveHooks: Array<?NavigationGuard>;
+  afterHooks: Array<?AfterNavigationHook>;
 
   constructor (options: RouterOptions = {}) {
     this.app = null
     this.apps = []
     this.options = options
     this.beforeHooks = []
+    this.resolveHooks = []
     this.afterHooks = []
-    this.matcher = createMatcher(options.routes || [])
+    this.matcher = createMatcher(options.routes || [], this)
 
     let mode = options.mode || 'hash'
     this.fallback = mode === 'history' && !supportsPushState
@@ -116,16 +118,24 @@ export default class VueRouter {
     })
   }
 
-  beforeEach (fn: Function) {
-    this.beforeHooks.push(fn)
+  beforeEach (fn: Function): Function {
+    return registerHook(this.beforeHooks, fn)
   }
 
-  afterEach (fn: Function) {
-    this.afterHooks.push(fn)
+  beforeResolve (fn: Function): Function {
+    return registerHook(this.resolveHooks, fn)
   }
 
-  onReady (cb: Function) {
-    this.history.onReady(cb)
+  afterEach (fn: Function): Function {
+    return registerHook(this.afterHooks, fn)
+  }
+
+  onReady (cb: Function, errorCb?: Function) {
+    this.history.onReady(cb, errorCb)
+  }
+
+  onError (errorCb: Function) {
+    this.history.onError(errorCb)
   }
 
   push (location: RawLocation, onComplete?: Function, onAbort?: Function) {
@@ -148,9 +158,11 @@ export default class VueRouter {
     this.go(1)
   }
 
-  getMatchedComponents (to?: RawLocation): Array<any> {
-    const route = to
-      ? this.resolve(to).route
+  getMatchedComponents (to?: RawLocation | Route): Array<any> {
+    const route: any = to
+      ? to.matched
+        ? to
+        : this.resolve(to).route
       : this.currentRoute
     if (!route) {
       return []
@@ -174,7 +186,12 @@ export default class VueRouter {
     normalizedTo: Location,
     resolved: Route
   } {
-    const location = normalizeLocation(to, current || this.history.current, append)
+    const location = normalizeLocation(
+      to,
+      current || this.history.current,
+      append,
+      this
+    )
     const route = this.match(location, current)
     const fullPath = route.redirectedFrom || route.fullPath
     const base = this.history.base
@@ -194,6 +211,14 @@ export default class VueRouter {
     if (this.history.current !== START) {
       this.history.transitionTo(this.history.getCurrentLocation())
     }
+  }
+}
+
+function registerHook (list: Array<any>, fn: Function): Function {
+  list.push(fn)
+  return () => {
+    const i = list.indexOf(fn)
+    if (i > -1) list.splice(i, 1)
   }
 }
 

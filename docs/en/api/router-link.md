@@ -42,6 +42,7 @@
   <router-link :to="{ path: 'register', query: { plan: 'private' }}">Register</router-link>
   ```
 
+
 - **replace**
 
   - type: `boolean`
@@ -54,6 +55,7 @@
   <router-link :to="{ path: '/abc'}" replace></router-link>
   ```
 
+
 - **append**
 
   - type: `boolean`
@@ -65,6 +67,7 @@
   ``` html
   <router-link :to="{ path: 'relative/path'}" append></router-link>
   ```
+
 
 - **tag**
 
@@ -79,6 +82,7 @@
   <!-- renders as -->
   <li>foo</li>
   ```
+
 
 - **active-class**
 
@@ -114,6 +118,16 @@
   - default: `'click'`
 
   Specify the event(s) that can trigger the link navigation.
+
+- **exact-active-class**
+
+  > 2.5.0+
+
+  - type: `string`
+
+  - default: `"router-link-exact-active"`
+
+  Configure the active CSS class applied when the link is active with exact match. Note the default value can also be configured globally via the `linkExactActiveClass` router constructor option.
 
 ### Applying Active Class to Outer Element
 

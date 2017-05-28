@@ -84,31 +84,28 @@ export default {
   },
   beforeRouteEnter (to, from, next) {
     getPost(to.params.id, (err, post) => {
-      if (err) {
-        // display some global error message
-        next(false)
-      } else {
-        next(vm => {
-          vm.post = post
-        })
-      }
+      next(vm => vm.setData(err, post))
     })
   },
   // when route changes and this component is already rendered,
   // the logic will be slightly different.
-  watch: {
-    $route () {
-      this.post = null
-      getPost(this.$route.params.id, (err, post) => {
-        if (err) {
-          this.error = err.toString()
-        } else {
-          this.post = post
-        }
-      })
+  beforeRouteUpdate (to, from, next) {
+    this.post = null
+    getPost(to.params.id, (err, post) => {
+      this.setData(err, post)
+      next()
+    })
+  },
+  methods: {
+    setData (err, post) {
+      if (err) {
+        this.error = err.toString()
+      } else {
+        this.post = post
+      }
     }
   }
 }
 ```
 
-The user will stay on the current view while the resource is being fetched for the incoming view. It is therefore recommended to display a progress bar or some kind of indicator while the data is being fetched. If the data fetch fails, it's also necessary to display some kind of global warning message.
+The user will stay on the previous view while the resource is being fetched for the incoming view. It is therefore recommended to display a progress bar or some kind of indicator while the data is being fetched. If the data fetch fails, it's also necessary to display some kind of global warning message.

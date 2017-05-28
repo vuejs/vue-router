@@ -9,9 +9,12 @@ export default {
       default: 'default'
     }
   },
-  render (h, { props, children, parent, data }) {
+  render (_, { props, children, parent, data }) {
     data.routerView = true
 
+    // directly use parent context's createElement() function
+    // so that components rendered by router-view can resolve named slots
+    const h = parent.$createElement
     const name = props.name
     const route = parent.$route
     const cache = parent._routerViewCache || (parent._routerViewCache = {})
@@ -45,18 +48,23 @@ export default {
 
     const component = cache[name] = matched.components[name]
 
-    // inject instance registration hooks
-    const hooks = data.hook || (data.hook = {})
-    hooks.init = vnode => {
-      matched.instances[name] = vnode.child
-    }
-    hooks.prepatch = (oldVnode, vnode) => {
-      matched.instances[name] = vnode.child
-    }
-    hooks.destroy = vnode => {
-      if (matched.instances[name] === vnode.child) {
-        matched.instances[name] = undefined
+    // attach instance registration hook
+    // this will be called in the instance's injected lifecycle hooks
+    data.registerRouteInstance = (vm, val) => {
+      // val could be undefined for unregistration
+      const current = matched.instances[name]
+      if (
+        (val && current !== vm) ||
+        (!val && current === vm)
+      ) {
+        matched.instances[name] = val
       }
+    }
+
+    // also regiseter instance in prepatch hook
+    // in case the same component instance is reused across different routes
+    ;(data.hook || (data.hook = {})).prepatch = (_, vnode) => {
+      matched.instances[name] = vnode.componentInstance
     }
 
     // resolve props
@@ -77,6 +85,12 @@ function resolveProps (route, config) {
     case 'boolean':
       return config ? route.params : undefined
     default:
-      warn(false, `props in "${route.path}" is a ${typeof config}, expecting an object, function or boolean.`)
+      if (process.env.NODE_ENV !== 'production') {
+        warn(
+          false,
+          `props in "${route.path}" is a ${typeof config}, ` +
+          `expecting an object, function or boolean.`
+        )
+      }
   }
 }

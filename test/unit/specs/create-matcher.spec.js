@@ -23,7 +23,7 @@ describe('Creating Matcher', function () {
     process.env.NODE_ENV = 'development'
     expect(() => {
       match({ name: 'bar' }, routes[0]);
-    }).toThrow(new TypeError('Cannot read property \'path\' of undefined'));
+    }).toThrow(new TypeError('Cannot read property \'regex\' of undefined'));
     expect(console.warn).toHaveBeenCalled()
     expect(console.warn.calls.argsFor(0)[0]).toMatch('Route with name \'bar\' does not exist');
   })

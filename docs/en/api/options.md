@@ -53,6 +53,16 @@
 
   Globally configure `<router-link>` default active class. Also see [router-link](router-link.md).
 
+### linkExactActiveClass
+
+> 2.5.0+
+
+- type: `string`
+
+- default: `"router-link-exact-active"`
+
+  Globally configure `<router-link>` default active class for exact matches. Also see [router-link](router-link.md).
+
 ### scrollBehavior
 
 - type: `Function`
@@ -68,3 +78,11 @@
   ```
 
   For more details see [Scroll Behavior](../advanced/scroll-behavior.md).
+
+### parseQuery / stringifyQuery
+
+> 2.4.0+
+
+- type: `Function`
+
+  Provide custom query string parse / stringify functions. Overrides the default.

@@ -9,6 +9,15 @@ describe('Query utils', () => {
         baz: 'qux'
       }))
     })
+
+    it('should make a copy when param value is an array', () => {
+      const arr = ['bar']
+      const query = resolveQuery('', { foo: arr })
+      arr.push('baz')
+      expect(JSON.stringify(query)).toBe(JSON.stringify({
+        foo: ['bar']
+      }))
+    })
   })
 
   describe('stringifyQuery', () => {

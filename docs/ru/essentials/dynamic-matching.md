@@ -53,6 +53,18 @@ const User = {
 }
 ```
 
+Или можно воспользоваться хуком `beforeRouteUpdate`, добавленным в версии 2.2:
+
+``` js
+const User = {
+  template: '...',
+  beforeRouteUpdate (to, from, next) {
+    // обработка изменений параметров пути...
+    // не забудьте вызывать next()
+  }
+}
+```
+
 ### Продвинутые возможности
 
 `Vue-router` использует [path-to-regexp](https://github.com/pillarjs/path-to-regexp) в качестве движка для проверки совпадения путей, что позволяет задействовать многие продвинутые возможности, включая опциональные динамические сегменты и регулярные выражения. [Документация библиотеки](https://github.com/pillarjs/path-to-regexp#parameters) содержит информацию об этих возможностях роутинга, а [этот пример](https://github.com/vuejs/vue-router/blob/dev/examples/route-matching/app.js) — о том, как использовать их совместно с `Vue-router`.

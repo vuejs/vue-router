@@ -42,7 +42,7 @@ export default {
       error: null
     }
   },
-  created () {    
+  created () {
     // запрашиваем данные когда реактивное представление уже создано
     this.fetchData()
   },
@@ -82,31 +82,28 @@ export default {
   },
   beforeRouteEnter (to, from, next) {
     getPost(to.params.id, (err, post) => {
-      if (err) {
-        // здесь стоит отобразить некоторое глобальное сообщение ошибке
-        next(false)
-      } else {
-        next(vm => {
-          vm.post = post
-        })
-      }
+      next(vm => vm.setData(err, post))
     })
   },
   // если путь изменяется, а компонент уже отображён,
   // логика будет немного иной
-  watch: {
-    $route () {
-      this.post = null
-      getPost(this.$route.params.id, (err, post) => {
-        if (err) {
-          this.error = err.toString()
-        } else {
-          this.post = post
-        }
-      })
+  beforeRouteUpdate (to, from, next) {
+    this.post = null
+    getPost(to.params.id, (err, post) => {
+      this.setData(err, post)
+      next()
+    })
+  },
+  methods: {
+    setData (err, post) {
+      if (err) {
+        this.error = err.toString()
+      } else {
+        this.post = post
+      }
     }
   }
 }
 ```
 
-Пользователь останется на старой странице, пока не загрузятся данные новой. По этой причине мы советуем отображать какой-нибудь индикатор загрузки. Кроме того, если загрузка данных не удастся, следует отобразить глобальное сообщение об ошибке.
+Пользователь останется на предыдущей странице, пока не загрузятся данные новой. По этой причине мы советуем отображать какой-нибудь индикатор загрузки. Кроме того, если загрузка данных не удастся, следует отобразить глобальное сообщение об ошибке.
