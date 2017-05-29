@@ -26,6 +26,6 @@
   - [router-link (En)](api/router-link.md)
   - [router-view](api/router-view.md)
   - [L'objet Route](api/route-object.md)
-  - [Router Constructor Options (En)](api/options.md)
+  - [Options de construction du routeur](api/options.md)
   - [Router Instance (En)](api/router-instance.md)
   - [Component Injections (En)](api/component-injections.md)
