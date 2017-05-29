@@ -26,10 +26,10 @@
   <!-- renders to -->
   <a href="home">Home</a>
 
-  <!-- javascript expression using v-bind -->
+  <!-- javascript expression using `v-bind` -->
   <router-link v-bind:to="'home'">Home</router-link>
 
-  <!-- Omitting v-bind is fine, just as binding any other prop -->
+  <!-- Omitting `v-bind` is fine, just as binding any other prop -->
   <router-link :to="'home'">Home</router-link>
 
   <!-- same as above -->
@@ -38,7 +38,7 @@
   <!-- named route -->
   <router-link :to="{ name: 'user', params: { userId: 123 }}">User</router-link>
 
-  <!-- with query, resulting in /register?plan=private -->
+  <!-- with query, resulting in `/register?plan=private` -->
   <router-link :to="{ path: 'register', query: { plan: 'private' }}">Register</router-link>
   ```
 
@@ -103,7 +103,7 @@
   One consequence of this is that `<router-link to="/">` will be active for every route! To force the link into "exact match mode", use the `exact` prop:
 
   ``` html
-  <!-- this link will only be active at / -->
+  <!-- this link will only be active at `/` -->
   <router-link to="/" exact>
   ```
 
