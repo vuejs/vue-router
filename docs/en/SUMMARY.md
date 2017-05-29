@@ -23,9 +23,9 @@
   - [Comportement du défilement](advanced/scroll-behavior.md)
   - [Lazy Loading (En)](advanced/lazy-loading.md)
 - Réference de l'API
-  - [router-link (En)](api/router-link.md)
+  - [router-link](api/router-link.md)
   - [router-view](api/router-view.md)
   - [L'objet Route](api/route-object.md)
   - [Options de construction du routeur](api/options.md)
-  - [Router Instance (En)](api/router-instance.md)
-  - [Component Injections (En)](api/component-injections.md)
+  - [L'Instance du routeur](api/router-instance.md)
+  - [Injections de composant](api/component-injections.md)
