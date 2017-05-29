@@ -28,7 +28,7 @@ declare class VueRouter {
   go (n: number): void;
   back (): void;
   forward (): void;
-  getMatchedComponents (to?: RawLocation): Component[];
+  getMatchedComponents (to?: RawLocation | Route): Component[];
   onReady (cb: Function, errorCb?: Function): void;
   onError (cb: Function): void;
   addRoutes (routes: RouteConfig[]): void;
@@ -49,6 +49,7 @@ export interface RouterOptions {
   mode?: RouterMode;
   base?: string;
   linkActiveClass?: string;
+  linkExactActiveClass?: string;
   parseQuery?: (query: string) => Object;
   stringifyQuery?: (query: Object) => string;
   scrollBehavior?: (

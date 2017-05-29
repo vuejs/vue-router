@@ -9,9 +9,12 @@ export default {
       default: 'default'
     }
   },
-  render (h, { props, children, parent, data }) {
+  render (_, { props, children, parent, data }) {
     data.routerView = true
 
+    // directly use parent context's createElement() function
+    // so that components rendered by router-view can resolve named slots
+    const h = parent.$createElement
     const name = props.name
     const route = parent.$route
     const cache = parent._routerViewCache || (parent._routerViewCache = {})
@@ -49,7 +52,11 @@ export default {
     // this will be called in the instance's injected lifecycle hooks
     data.registerRouteInstance = (vm, val) => {
       // val could be undefined for unregistration
-      if (matched.instances[name] !== vm) {
+      const current = matched.instances[name]
+      if (
+        (val && current !== vm) ||
+        (!val && current === vm)
+      ) {
         matched.instances[name] = val
       }
     }

@@ -52,6 +52,16 @@
 
   전역의 `<router-link>` 기본 active 클래스를 설정하십시오. [router-link](router-link.md)를 확인하세요.
 
+### linkExactActiveClass
+
+> 2.5.0+
+
+- 자료형: `string`
+
+- 기본값: `"router-link-exact-active"`
+
+ 전역으로 `<router-link>`에서 사용할  정확하게 일치하는 경우의 클래스를 설정할 수 있습니다. [router-link](router-link.md)를 확인하세요.
+
 ### scrollBehavior
 
 - 자료형: `Function`
@@ -67,3 +77,11 @@
   ```
 
   [Scroll 동작](../advanced/scroll-behavior.md)를 확인하세요.
+
+### parseQuery / stringifyQuery
+
+> 2.4.0+
+
+- 자료형: `Function`
+
+  사용자 지정 쿼리 문자열 구문 분석/문자열화 함수를 사용할 수 있습니다. 기본 값을 오버라이드합니다.

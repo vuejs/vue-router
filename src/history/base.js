@@ -82,7 +82,7 @@ export class History {
   confirmTransition (route: Route, onComplete: Function, onAbort?: Function) {
     const current = this.current
     const abort = err => {
-      if (err instanceof Error) {
+      if (isError(err)) {
         if (this.errorCbs.length) {
           this.errorCbs.forEach(cb => { cb(err) })
         } else {
@@ -127,7 +127,7 @@ export class History {
       }
       try {
         hook(route, current, (to: any) => {
-          if (to === false || to instanceof Error) {
+          if (to === false || isError(to)) {
             // next(false) -> abort navigation, ensure current URL
             this.ensureURL(true)
             abort(to)
@@ -352,7 +352,7 @@ function resolveAsyncComponents (matched: Array<RouteRecord>): Function {
           const msg = `Failed to resolve async component ${key}: ${reason}`
           process.env.NODE_ENV !== 'production' && warn(false, msg)
           if (!error) {
-            error = reason instanceof Error
+            error = isError(reason)
               ? reason
               : new Error(msg)
             next(error)
@@ -411,4 +411,8 @@ function once (fn) {
     called = true
     return fn.apply(this, arguments)
   }
+}
+
+function isError (err) {
+  return Object.prototype.toString.call(err).indexOf('Error') > -1
 }

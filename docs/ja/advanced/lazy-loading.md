@@ -2,7 +2,7 @@
 
 バンドラーを使ってアプリケーションを構築している時、バンドルされる JavaScript が非常に大きいものになり得ます。結果的にページのロード時間に影響を与えてしまいます。もし各ルートコンポーネントごとに別々のチャンクにして、訪れたルートの時だけロードできればより効率的でしょう。
 
-Vue の [非同期コンポーネント機能](http://vuejs.org/guide/components.html#Async-Components) と Webpack の [コード分割機能](https://webpack.js.org/guides/code-splitting-require/) を組み合わせることでとても簡単に遅延ロードするルートコンポーネントができます。
+Vue の [非同期コンポーネント機能](http://jp.vuejs.org/guide/components.html#非同期コンポーネント) と Webpack の [コード分割機能](https://webpack.js.org/guides/code-splitting-require/) を組み合わせることでとても簡単に遅延ロードするルートコンポーネントができます。
 
 必要なことは非同期のルートコンポーネントを定義するだけです。
 

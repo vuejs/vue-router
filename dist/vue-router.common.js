@@ -1,5 +1,5 @@
 /**
-  * vue-router v2.5.1
+  * vue-router v2.5.3
   * (c) 2017 Evan You
   * @license MIT
   */
@@ -28,7 +28,7 @@ var View = {
       default: 'default'
     }
   },
-  render: function render (h, ref) {
+  render: function render (_, ref) {
     var props = ref.props;
     var children = ref.children;
     var parent = ref.parent;
@@ -36,6 +36,9 @@ var View = {
 
     data.routerView = true;
 
+    // directly use parent context's createElement() function
+    // so that components rendered by router-view can resolve named slots
+    var h = parent.$createElement;
     var name = props.name;
     var route = parent.$route;
     var cache = parent._routerViewCache || (parent._routerViewCache = {});
@@ -73,7 +76,11 @@ var View = {
     // this will be called in the instance's injected lifecycle hooks
     data.registerRouteInstance = function (vm, val) {
       // val could be undefined for unregistration
-      if (matched.instances[name] !== vm) {
+      var current = matched.instances[name];
+      if (
+        (val && current !== vm) ||
+        (!val && current === vm)
+      ) {
         matched.instances[name] = val;
       }
     }
@@ -584,8 +591,6 @@ var index$1 = Array.isArray || function (arr) {
   return Object.prototype.toString.call(arr) == '[object Array]';
 };
 
-var isarray = index$1;
-
 /**
  * Expose `pathToRegexp`.
  */
@@ -766,7 +771,7 @@ function tokensToFunction (tokens) {
         }
       }
 
-      if (isarray(value)) {
+      if (index$1(value)) {
         if (!token.repeat) {
           throw new TypeError('Expected "' + token.name + '" to not repeat, but received `' + JSON.stringify(value) + '`')
         }
@@ -917,7 +922,7 @@ function stringToRegexp (path, keys, options) {
  * @return {!RegExp}
  */
 function tokensToRegExp (tokens, keys, options) {
-  if (!isarray(keys)) {
+  if (!index$1(keys)) {
     options = /** @type {!Object} */ (keys || options);
     keys = [];
   }
@@ -993,7 +998,7 @@ function tokensToRegExp (tokens, keys, options) {
  * @return {!RegExp}
  */
 function pathToRegexp (path, keys, options) {
-  if (!isarray(keys)) {
+  if (!index$1(keys)) {
     options = /** @type {!Object} */ (keys || options);
     keys = [];
   }
@@ -1004,7 +1009,7 @@ function pathToRegexp (path, keys, options) {
     return regexpToRegexp(path, /** @type {!Array} */ (keys))
   }
 
-  if (isarray(path)) {
+  if (index$1(path)) {
     return arrayToRegexp(/** @type {!Array} */ (path), /** @type {!Array} */ (keys), options)
   }
 
@@ -1686,7 +1691,7 @@ History.prototype.confirmTransition = function confirmTransition (route, onCompl
 
   var current = this.current;
   var abort = function (err) {
-    if (err instanceof Error) {
+    if (isError(err)) {
       if (this$1.errorCbs.length) {
         this$1.errorCbs.forEach(function (cb) { cb(err); });
       } else {
@@ -1730,7 +1735,7 @@ History.prototype.confirmTransition = function confirmTransition (route, onCompl
     }
     try {
       hook(route, current, function (to) {
-        if (to === false || to instanceof Error) {
+        if (to === false || isError(to)) {
           // next(false) -> abort navigation, ensure current URL
           this$1.ensureURL(true);
           abort(to);
@@ -1950,7 +1955,7 @@ function resolveAsyncComponents (matched) {
           var msg = "Failed to resolve async component " + key + ": " + reason;
           process.env.NODE_ENV !== 'production' && warn(false, msg);
           if (!error) {
-            error = reason instanceof Error
+            error = isError(reason)
               ? reason
               : new Error(msg);
             next(error);
@@ -2009,6 +2014,10 @@ function once (fn) {
     called = true;
     return fn.apply(this, arguments)
   }
+}
+
+function isError (err) {
+  return Object.prototype.toString.call(err).indexOf('Error') > -1
 }
 
 /*  */
@@ -2386,7 +2395,9 @@ VueRouter.prototype.forward = function forward () {
 
 VueRouter.prototype.getMatchedComponents = function getMatchedComponents (to) {
   var route = to
-    ? this.resolve(to).route
+    ? to.matched
+      ? to
+      : this.resolve(to).route
     : this.currentRoute;
   if (!route) {
     return []
@@ -2446,7 +2457,7 @@ function createHref (base, fullPath, mode) {
 }
 
 VueRouter.install = install;
-VueRouter.version = '2.5.1';
+VueRouter.version = '2.5.3';
 
 if (inBrowser && window.Vue) {
   window.Vue.use(VueRouter);

@@ -158,9 +158,11 @@ export default class VueRouter {
     this.go(1)
   }
 
-  getMatchedComponents (to?: RawLocation): Array<any> {
-    const route = to
-      ? this.resolve(to).route
+  getMatchedComponents (to?: RawLocation | Route): Array<any> {
+    const route: any = to
+      ? to.matched
+        ? to
+        : this.resolve(to).route
       : this.currentRoute
     if (!route) {
       return []
