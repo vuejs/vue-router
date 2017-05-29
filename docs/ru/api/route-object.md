@@ -16,7 +16,7 @@
 
   ``` js
   router.beforeEach((to, from, next) => {
-    // как to так и from являются объектами пути
+    // как `to` так и `from` являются объектами пути
   })
   ```
 
@@ -25,7 +25,7 @@
   ``` js
   const router = new VueRouter({
     scrollBehavior (to, from, savedPosition) {
-      // как to так и from являются объектами пути
+      // как `to` так и `from` являются объектами пути
     }
   })
   ```
