@@ -1,34 +1,34 @@
-# Router Instance (En) <br><br> *Cette page est en cours de traduction française. Revenez une autre fois pour lire une traduction achevée ou [participez à la traduction française ici](https://github.com/vuejs-fr/vue-router).*
+# L'Instance du routeur
 
-### Properties
+### Propriétés
 
 #### router.app
 
-- type: `Vue instance`
+- type: `instance de Vue`
 
-  The root Vue instance the `router` was injected into.
+ L'instance racine de Vue dans laquelle l'instance de `routeur` a été injectée.
 
 #### router.mode
 
 - type: `string`
 
-  The [mode](options.md#mode) the router is using.
+  Le [mode](options.md#mode) que le routeur utilise.
 
 #### router.currentRoute
 
 - type: `Route`
 
-  The current route represented as a [Route Object](route-object.md).
+  La route actuelle représentée en tant qu'un [objet route](route-object.md).
 
-### Methods
+### Méthodes
 
 - **router.beforeEach(guard)**
 - **router.beforeResolve(guard)** (2.5.0+)
 - **router.afterEach(hook)**
 
-  Add global navigation guards. See [Navigation Guards](../advanced/navigation-guards.md).
+  Ajout de sécurités globales de navigation. Voir les [sécurités de navigation](../advanced/navigation-guards.md).
 
-  In 2.5.0+ all three methods return a function that removes the registered guard/hook.
+  Dans la version 2.5.0+, ces trois méthodes retournent une fonction qui enlève les fonctions de sécurisations et hooks enregistrés.
 
 - **router.push(location, onComplete?, onAbort?)**
 - **router.replace(location, onComplete?, onAbort?)**
@@ -36,18 +36,18 @@
 - **router.back()**
 - **router.forward()**
 
-  Programmatically navigate to a new URL. See [Programmatic Navigation](../essentials/navigation.md).
+  Navigue à une nouvelle URL de façon programmée. Voir [Navigation de façon programmée](../essentials/navigation.md).
 
 - **router.getMatchedComponents(location?)**
 
-  Returns an Array of the components (definition/constructor, not instances) matched by the provided location or the current route. This is mostly used during server-side rendering to perform data prefetching.
-
+  Retourne un tableau de composants (définition/constructeur et non les instances) correspondant à la `location` passée en paramètre, ou alors de la route actuelle. Cette fonction est principalement utilisée pendant le rendu côté serveur afin d'effectuer une pré-récupération des données.
+  
 - **router.resolve(location, current?, append?)**
 
   > 2.1.0+
 
-  Reverse URL resolving. Given location in form same as used in `<router-link/>`, returns object with the following resolved properties:
-
+  Inverse la résolution d'URL. La `location` doit avoir la même forme qu'utilisée dans `<router-link>`, retourne un objet avec les propriétés suivantes :
+  
   ``` js
   {
     location: Location;
@@ -61,26 +61,26 @@
 
   > 2.2.0+
 
-  Dynamically add more routes to the router. The argument must be an Array using the same route config format with the `routes` constructor option.
-
+  Permet d'ajouter dynamiquement des routes au routeur. L'argument doit être un tableau utilisant le même format de configuration que l'option `routes` du constructeur.
+  
 - **router.onReady(callback, [errorCallback])**
 
   > 2.2.0+
 
-  This method queues a callback to be called when the router has completed the initial navigation, which means it has resolved all async enter hooks and async components that are associated with the initial route.
+  Cette méthode met en file d'attente une fonction de rappel qui sera appelée lorsque le routeur aura complété la navigation initiale, ce qui signifie qu'il a résolu tous les hooks d'entrées asynchrones et composants asynchrones qui sont associés à la route initiale.
 
-  This is useful in server-side rendering to ensure consistent output on both the server and the client.
+  C'est utile pendant un rendu côté serveur pour assurer une sortie consistance sur le serveur et le client.
 
-  The second argument `errorCallback` is only supported in 2.4+. It will be called when the initial route resolution runs into an error (e.g. failed to resolve an async component).
-
+  Le deuxième argument `errorCallback` est uniquement supporté à partir de la version 2.4. Il sera appelé lorsque la résolution de la route initiale résultera en une erreur (ex : la résolution d'un composant asynchrone qui a échouée).
+  
 - **router.onError(callback)**
 
   > 2.4.0+
 
-  Register a callback which will be called when an error is caught during a route navigation. Note for an error to be called, it must be one of the following scenarios:
+  Enregistre une fonction de rappel qui sera appelée lorsqu'une erreur sera capturée pendant la navigation vers une route. Notez que pour qu'une erreur soit appelée, cela doit correspondre à l'un des scénarios suivants :
 
-  - The error is thrown synchronously inside a route guard function;
+  - L'erreur est lancée de manière synchrone à l'intérieur d'une fonction de sécurisation de route ;
 
-  - The error is caught and asynchronously handled by calling `next(err)` inside a route guard function;
-
-  - An error occurred when trying to resolve an async component that is required to render a route.
+  - L'erreur est capturée et traitée de manière asynchrone en appelant `next(err)` à l'intérieur d'une fonction de sécurisation de route ;
+  
+  - Une erreur est survenue pendant la résolution d'un composant asynchrone qui est requis pour faire le rendu d'une route.
