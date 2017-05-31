@@ -9,8 +9,8 @@ All we need to do is define our route components as async components:
 
 ``` js
 const Foo = resolve => {
-  // `require.ensure` is webpack's special syntax for a code-split point.
-  require.ensure(['./Foo.vue'], () => {
+  // The `import()` call sets a code-split point.
+  import('./Foo.vue').then(() => {
     resolve(require('./Foo.vue'))
   })
 }
