@@ -20,7 +20,7 @@ const router = new VueRouter({
     { path: '/params-with-regex/:id(\\d+)' },
     // asterisk can match anything
     { path: '/asterisk/*' },
-    // make part of th path optional by wrapping with parens and add "?"
+    // make part of the path optional by wrapping with parens and add "?"
     { path: '/optional-group/(foo/)?bar' }
   ]
 })
