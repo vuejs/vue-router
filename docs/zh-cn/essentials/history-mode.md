@@ -44,6 +44,19 @@ location / {
 
 https://github.com/bripkens/connect-history-api-fallback
 
+##### 提示
+
+配置了上述案例后，刷新页面你可能会得到404。你应该在给实例设置一个root属性来解决这个问题。
+
+```js
+const rootPath = window.document.location.pathname;
+
+const router = new VueRouter({
+  mode: 'history',
+  root: rootPath,
+})
+```
+
 ## 警告
 
 给个警告，因为这么做以后，你的服务器就不再返回 404 错误页面，因为对于所有路径都会返回 `index.html` 文件。为了避免这种情况，你应该在 Vue 应用里面覆盖所有的路由情况，然后在给出一个 404 页面。
@@ -58,3 +71,4 @@ const router = new VueRouter({
 ```
 
 或者，如果你是用 Node.js 作后台，可以使用服务端的路由来匹配 URL，当没有匹配到路由的时候返回 404，从而实现 fallback。
+
