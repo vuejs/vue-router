@@ -32,13 +32,19 @@ export default class VueRouter {
   resolveHooks: Array<?NavigationGuard>;
   afterHooks: Array<?AfterNavigationHook>;
 
-  constructor (options: RouterOptions = {}) {
+  constructor (options: RouterOptions) {
     this.app = null
     this.apps = []
     this.options = options
     this.beforeHooks = []
     this.resolveHooks = []
     this.afterHooks = []
+
+    if (!options.routes) {
+      assert(false, "routes key is mandatory");
+      return;
+    }
+
     this.matcher = createMatcher(options.routes || [], this)
 
     let mode = options.mode || 'hash'

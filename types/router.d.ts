@@ -45,7 +45,7 @@ declare class VueRouter {
 }
 
 export interface RouterOptions {
-  routes?: RouteConfig[];
+  routes: RouteConfig[];
   mode?: RouterMode;
   base?: string;
   linkActiveClass?: string;

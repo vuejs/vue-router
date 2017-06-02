@@ -22,7 +22,7 @@ declare type NavigationGuard = (
 declare type AfterNavigationHook = (to: Route, from: Route) => any
 
 declare type RouterOptions = {
-  routes?: Array<RouteConfig>;
+  routes: Array<RouteConfig>;
   mode?: string;
   base?: string;
   linkActiveClass?: string;
