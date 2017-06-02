@@ -1,4 +1,4 @@
-# Getting Started
+# Getting Started (En) <br><br> *Cette page est en cours de traduction française. Revenez une autre fois pour lire une traduction achevée ou [participez à la traduction française ici](https://github.com/vuejs-fr/vue-router).*
 
 > We will be using [ES2015](https://github.com/lukehoban/es6features) in the code samples in the guide.
 
