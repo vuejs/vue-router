@@ -72,7 +72,7 @@
 
   - défaut : `"a"`
 
-  Parfois, on veut que `<router-link>` soit rendu avec un tag différent, ex : `<li>`. On peut alors utiliser la prop `tag` pour modifier la balise qui sera rendue, et elle écoutera toujours les évènements de clic pour la navigation
+  Parfois, on veut que `<router-link>` soit rendu avec une balise différente, ex : `<li>`. On peut alors utiliser la prop `tag` pour modifier la balise qui sera rendue, et elle écoutera toujours les évènements de clic pour la navigation
 
   ``` html
   <router-link to="/foo" tag="li">foo</router-link>
