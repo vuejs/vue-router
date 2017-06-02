@@ -54,7 +54,7 @@ export default {
     fetchData () {
       this.error = this.post = null
       this.loading = true
-      // замените здесь getPost используемым методом получения данных / доступа к API
+      // замените здесь `getPost` используемым методом получения данных / доступа к API
       getPost(this.$route.params.id, (err, post) => {
         this.loading = false
         if (err) {

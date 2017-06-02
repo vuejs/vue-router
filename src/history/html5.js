@@ -17,9 +17,10 @@ export class HTML5History extends History {
     }
 
     window.addEventListener('popstate', e => {
+      const current = this.current
       this.transitionTo(getLocation(this.base), route => {
         if (expectScroll) {
-          handleScroll(router, route, this.current, true)
+          handleScroll(router, route, current, true)
         }
       })
     })
