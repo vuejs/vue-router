@@ -30,18 +30,30 @@ Créer une application monopage avec Vue.js + vue-router est vraiment simple. Av
 ### JavaScript
 
 ``` js
+<<<<<<< HEAD
 // 0. Si vous utilisez un système de module (ex : via vue-cli), il faut importer Vue et VueRouter et ensuite appeler Vue.use(VueRouter).
+=======
+// 0. If using a module system (e.g. via vue-cli), import Vue and VueRouter and then call `Vue.use(VueRouter)`.
+>>>>>>> upstream/dev
 
 // 1. Définissez les composants de route.
 // Ces derniers peuvent être importés depuis d'autre fichier
 const Foo = { template: '<div>foo</div>' }
 const Bar = { template: '<div>bar</div>' }
 
+<<<<<<< HEAD
 // 2. Définissez des routes.
 // Chaque route doit correspondre à un composant. Le « composant » peut
 // soit être un véritable composant créé via `Vue.extend()`, ou juste un
 // objet d'options.
 // Nous parlerons plus tard des routes imbriquées.
+=======
+// 2. Define some routes
+// Each route should map to a component. The "component" can
+// either be an actual component constructor created via
+// `Vue.extend()`, or just a component options object.
+// We'll talk about nested routes later.
+>>>>>>> upstream/dev
 const routes = [
   { path: '/foo', component: Foo },
   { path: '/bar', component: Bar }
@@ -51,7 +63,11 @@ const routes = [
 // Vous pouvez également passer des options supplémentaires,
 // mais nous allons faire simple pour l'instant.
 const router = new VueRouter({
+<<<<<<< HEAD
   routes // raccourci pour `routes: routes`
+=======
+  routes // short for `routes: routes`
+>>>>>>> upstream/dev
 })
 
 // 5. Créez et montez l'instance de Vue.

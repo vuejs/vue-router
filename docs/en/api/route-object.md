@@ -16,7 +16,7 @@ The route object can be found in multiple places:
 
   ``` js
   router.beforeEach((to, from, next) => {
-    // to and from are both route objects
+    // `to` and `from` are both route objects
   })
   ```
 
@@ -25,7 +25,7 @@ The route object can be found in multiple places:
   ``` js
   const router = new VueRouter({
     scrollBehavior (to, from, savedPosition) {
-      // to and from are both route objects
+      // `to` and `from` are both route objects
     }
   })
   ```

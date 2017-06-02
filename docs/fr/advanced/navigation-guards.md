@@ -72,7 +72,7 @@ const router = new VueRouter({
 
 These guards have the exact same signature as global before guards.
 
-### In-Component Guards
+### Sécurisation intra-composants
 
 Finally, you can directly define route navigation guards inside route components (the ones passed to the router configuration) with the following options:
 

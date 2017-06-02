@@ -55,7 +55,7 @@ export default {
     fetchData () {
       this.error = this.post = null
       this.loading = true
-      // replace getPost with your data fetching util / API wrapper
+      // replace `getPost` with your data fetching util / API wrapper
       getPost(this.$route.params.id, (err, post) => {
         this.loading = false
         if (err) {
