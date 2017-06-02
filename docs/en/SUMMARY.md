@@ -18,8 +18,9 @@
 - Avancé
   - [Navigation Guards (En)](advanced/navigation-guards.md)
   - [Route Meta Fields (En)](advanced/meta.md)
+  - [Transitions (En)](advanced/transitions.md)
+  - [La récupération de données](advanced/data-fetching.md)
   - [Les transitions](advanced/transitions.md)
-  - [Data Fetching (En)](advanced/data-fetching.md)
   - [Comportement du défilement](advanced/scroll-behavior.md)
   - [Lazy Loading (En)](advanced/lazy-loading.md)
 - Réference de l'API
