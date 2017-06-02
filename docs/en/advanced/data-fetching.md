@@ -43,7 +43,7 @@ export default {
     }
   },
   created () {
-    // récupérer les données lorsque la vue est créée et 
+    // récupérer les données lorsque la vue est créée et
     // que les données sont déjà observées
     this.fetchData()
   },
