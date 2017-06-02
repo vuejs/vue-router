@@ -41,6 +41,7 @@ const router = new VueRouter({
   mode: "history",
   base: "/",
   linkActiveClass: "active",
+  linkExactActiveClass: "exact-active",
   scrollBehavior: (to, from, savedPosition) => {
     if (from.path === "/") {
       return { selector: "#app" };

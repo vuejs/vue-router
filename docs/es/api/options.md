@@ -53,6 +53,16 @@
 
   Configura globalmente la clase activa por defecto de `<router-link>`. Más información en [router-link](router-link.md).
 
+### linkExactActiveClass
+
+> 2.5.0+
+
+- tipo: `string`
+
+- valor por defecto: `"router-link-exact-active"`
+
+  Configura globalmente la clase activa de `<router-link>` para coincidencias de rutas exactas. Más información en [router-link](router-link.md).
+
 ### scrollBehavior
 
 - tipo: `Function`
@@ -68,3 +78,11 @@
   ```
 
   Para más detalles, [comportamiento del scroll](../advanced/scroll-behavior.md).
+
+### parseQuery / stringifyQuery
+
+> 2.4.0+
+
+- tipo: `Function`
+
+  Provee funciones parse / stringify para _query string_ personalizadas. Sobreescribe la función por defecto.

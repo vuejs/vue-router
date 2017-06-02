@@ -49,7 +49,7 @@ L'objet `Route` peut être trouvé à plusieurs endroits :
   - type : `Object`
 
     Un objet qui contient des pairs clé/valeur de la requête au format d'une chaîne de caractères. Par exemple, pour un chemin `/foo?user=1`, on aura `$route.query.user == 1`. S'il n'y a pas de requête, alors la valeur sera un objet vide.
-    
+
 - **$route.hash**
 
   - type : `string`

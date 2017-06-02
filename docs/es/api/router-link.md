@@ -115,6 +115,16 @@ Es preferible utilizar `<router-link>` en lugar de escribir directamente `<a hre
 
   Son los eventos que permiten lanzar la navegacion.
 
+- **exact-active-class**
+
+  > 2.5.0+
+
+  - tipo: `string`
+
+  - valor por defecto: `"router-link-exact-active"`
+
+  Configura la clase CSS activa que será aplicada cuando el enlace esté activo con una coincidencia de ruta exacta. Ten en cuenta que el valor por defecto también puede configurarse globalmente a través de la opción `linkExactActiveClass` del constructor del router.
+
 ### Aplicar la clase activa al elemento envolvente.
 
 A veces puede que queramos que la clase activa se aplique al elemento envolvente en lugar de aplicarla directamente a la etiqueta `<a>`. En ese caso, puedes renderizar el elemento envolvente utilizando `<router-link>` y luego una etiqueta `<a>` dentro:
