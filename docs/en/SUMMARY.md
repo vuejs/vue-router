@@ -22,7 +22,7 @@
   - [La récupération de données](advanced/data-fetching.md)
   - [Les transitions](advanced/transitions.md)
   - [Comportement du défilement](advanced/scroll-behavior.md)
-  - [Lazy Loading (En)](advanced/lazy-loading.md)
+  - [Le chargement à la volée](advanced/lazy-loading.md)
 - Réference de l'API
   - [router-link](api/router-link.md)
   - [router-view](api/router-view.md)
