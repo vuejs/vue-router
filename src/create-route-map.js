@@ -64,6 +64,7 @@ function addRouteRecord (
     components: route.components || { default: route.component },
     instances: {},
     name,
+    title: route.title || '',
     parent,
     matchAs,
     redirect: route.redirect,

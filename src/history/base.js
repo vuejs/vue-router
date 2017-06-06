@@ -181,9 +181,16 @@ export class History {
     const prev = this.current
     this.current = route
     this.cb && this.cb(route)
+    this.updateTitle(route)
     this.router.afterHooks.forEach(hook => {
       hook && hook(route, prev)
     })
+  }
+
+  updateTitle (route: Route) {
+    if (route.title !== '') {
+      window.document.title = route.title
+    }
   }
 }
 

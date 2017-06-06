@@ -14,6 +14,7 @@ export function createRoute (
   const stringifyQuery = router && router.options.stringifyQuery
   const route: Route = {
     name: location.name || (record && record.name),
+    title: (record && record.title) || '',
     meta: (record && record.meta) || {},
     path: location.path || '/',
     hash: location.hash || '',
