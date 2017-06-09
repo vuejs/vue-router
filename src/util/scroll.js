@@ -45,7 +45,9 @@ export function handleScroll (
     if (isObject && typeof shouldScroll.selector === 'string') {
       const el = document.querySelector(shouldScroll.selector)
       if (el) {
-        position = getElementPosition(el)
+        let offset = shouldScroll.offset && typeof shouldScroll.offset === 'object' ? shouldScroll.offset : {}
+        offset = normalizeOffset(offset)
+        position = getElementPosition(el, offset)
       } else if (isValidPosition(shouldScroll)) {
         position = normalizePosition(shouldScroll)
       }
@@ -76,13 +78,13 @@ function getScrollPosition (): ?Object {
   }
 }
 
-function getElementPosition (el: Element): Object {
+function getElementPosition (el: Element, offset: Object): Object {
   const docEl: any = document.documentElement
   const docRect = docEl.getBoundingClientRect()
   const elRect = el.getBoundingClientRect()
   return {
-    x: elRect.left - docRect.left,
-    y: elRect.top - docRect.top
+    x: elRect.left - docRect.left - offset.x,
+    y: elRect.top - docRect.top - offset.y
   }
 }
 
@@ -94,6 +96,13 @@ function normalizePosition (obj: Object): Object {
   return {
     x: isNumber(obj.x) ? obj.x : window.pageXOffset,
     y: isNumber(obj.y) ? obj.y : window.pageYOffset
+  }
+}
+
+function normalizeOffset (obj: Object): Object {
+  return {
+    x: isNumber(obj.x) ? obj.x : 0,
+    y: isNumber(obj.y) ? obj.y : 0
   }
 }
 
