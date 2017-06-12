@@ -23,6 +23,10 @@ export class History {
   readyErrorCbs: Array<Function>;
   errorCbs: Array<Function>;
 
+  preloadedRoute: ?Route;
+  preloadConfirmedCallbacks: Array<Function>;
+  preloadConfirmed: boolean;
+
   // implemented by sub-classes
   +go: (n: number) => void;
   +push: (loc: RawLocation) => void;
@@ -40,6 +44,8 @@ export class History {
     this.readyCbs = []
     this.readyErrorCbs = []
     this.errorCbs = []
+
+    this.preloadConfirmedCallbacks = []
   }
 
   listen (cb: Function) {
@@ -61,9 +67,21 @@ export class History {
     this.errorCbs.push(errorCb)
   }
 
-  transitionTo (location: RawLocation, onComplete?: Function, onAbort?: Function) {
+  preload (location: RawLocation) {
     const route = this.router.match(location, this.current)
-    this.confirmTransition(route, () => {
+    if (this.preloadedRoute && this.preloadedRoute.fullPath === route.fullPath) {
+      return
+    }
+    this.preloadedRoute = route
+    this.preloadConfirmed = false
+
+    this.confirmTransition(route)
+  }
+
+  transitionTo (location: RawLocation, onComplete?: Function, onAbort?: Function) {
+    let route = this.router.match(location, this.current)
+
+    const _onComplete = () => {
       this.updateRoute(route)
       onComplete && onComplete(route)
       this.ensureURL()
@@ -73,18 +91,31 @@ export class History {
         this.ready = true
         this.readyCbs.forEach(cb => { cb(route) })
       }
-    }, err => {
-      if (onAbort) {
-        onAbort(err)
-      }
-      if (err && !this.ready) {
-        this.ready = true
-        this.readyErrorCbs.forEach(cb => { cb(err) })
-      }
-    })
+    }
+
+    if (this.preloadedRoute && this.preloadedRoute.fullPath === route.fullPath) {
+      route = this.preloadedRoute
+      this.preloadConfirmed = true
+      _onComplete()
+      this.router.app.$nextTick(() => {
+        this.preloadConfirmedCallbacks.forEach(cb => { cb() })
+        this.preloadConfirmedCallbacks = []
+      })
+      this.preloadedRoute = null
+    } else {
+      this.confirmTransition(route, _onComplete, err => {
+        if (onAbort) {
+          onAbort(err)
+        }
+        if (err && !this.ready) {
+          this.ready = true
+          this.readyErrorCbs.forEach(cb => { cb(err) })
+        }
+      })
+    }
   }
 
-  confirmTransition (route: Route, onComplete: Function, onAbort?: Function) {
+  confirmTransition (route: Route, onComplete?: Function, onAbort?: Function) {
     const current = this.current
     const abort = err => {
       if (isError(err)) {
@@ -112,13 +143,15 @@ export class History {
       activated
     } = resolveQueue(this.current.matched, route.matched)
 
+    const updateCallbacks = []
+
     const queue: Array<?NavigationGuard> = [].concat(
       // in-component leave guards
       extractLeaveGuards(deactivated),
       // global before hooks
       this.router.beforeHooks,
       // in-component update hooks
-      extractUpdateHooks(updated),
+      extractUpdateHooks(updated, updateCallbacks),
       // in-config enter guards
       activated.map(m => m.beforeEnter),
       // async components
@@ -161,6 +194,7 @@ export class History {
     }
 
     runQueue(queue, iterator, () => {
+      this.queueCallbacks(updateCallbacks)
       const postEnterCbs = []
       const isValid = () => this.current === route
       // wait until async components are resolved before
@@ -172,14 +206,22 @@ export class History {
           return abort()
         }
         this.pending = null
-        onComplete(route)
-        if (this.router.app) {
-          this.router.app.$nextTick(() => {
-            postEnterCbs.forEach(cb => { cb() })
-          })
-        }
+        onComplete && onComplete(route)
+        this.queueCallbacks(postEnterCbs)
       })
     })
+  }
+
+  queueCallbacks (callbacks: Array<Function>) {
+    if (this.router.app) {
+      this.router.app.$nextTick(() => {
+        if (this.preloadedRoute && !this.preloadConfirmed) {
+          this.preloadConfirmedCallbacks.push(...callbacks)
+        } else {
+          callbacks.forEach(cb => { cb() })
+        }
+      })
+    }
   }
 
   updateRoute (route: Route) {
@@ -266,8 +308,13 @@ function extractLeaveGuards (deactivated: Array<RouteRecord>): Array<?Function> 
   return extractGuards(deactivated, 'beforeRouteLeave', bindGuard, true)
 }
 
-function extractUpdateHooks (updated: Array<RouteRecord>): Array<?Function> {
-  return extractGuards(updated, 'beforeRouteUpdate', bindGuard)
+function extractUpdateHooks (
+  updated: Array<RouteRecord>,
+  cbs: Array<Function>
+): Array<?Function> {
+  return extractGuards(updated, 'beforeRouteUpdate', (guard, _, match, key) => {
+    return bindEnterGuard(guard, match, key, cbs, () => { return true })
+  })
 }
 
 function bindGuard (guard: NavigationGuard, instance: ?_Vue): ?NavigationGuard {

@@ -146,6 +146,10 @@ export default class VueRouter {
     this.history.replace(location, onComplete, onAbort)
   }
 
+  preload (location: RawLocation) {
+    this.history.preload(location)
+  }
+
   go (n: number) {
     this.history.go(n)
   }

@@ -68,7 +68,23 @@ export default {
       }
     }
 
-    const on = { click: guardEvent }
+    let on
+
+    if (router.options.preload) {
+      const preloadHandler = e => {
+        if (guardEvent(e, false)) {
+          router.preload(location)
+        }
+      }
+      on = {
+        click: guardEvent,
+        mousedown: preloadHandler,
+        touchstart: preloadHandler
+      }
+    } else {
+      on = { click: guardEvent }
+    }
+
     if (Array.isArray(this.event)) {
       this.event.forEach(e => { on[e] = handler })
     } else {
@@ -103,7 +119,7 @@ export default {
   }
 }
 
-function guardEvent (e) {
+function guardEvent (e, preventDefault = true) {
   // don't redirect with control keys
   if (e.metaKey || e.altKey || e.ctrlKey || e.shiftKey) return
   // don't redirect when preventDefault called
@@ -116,7 +132,7 @@ function guardEvent (e) {
     if (/\b_blank\b/i.test(target)) return
   }
   // this may be a Weex event which doesn't have this method
-  if (e.preventDefault) {
+  if (preventDefault && e.preventDefault) {
     e.preventDefault()
   }
   return true
