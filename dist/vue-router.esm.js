@@ -196,7 +196,7 @@ function stringifyQuery (obj) {
 
     if (Array.isArray(val)) {
       var result = [];
-      val.forEach(function (val2) {
+      val.slice().forEach(function (val2) {
         if (val2 === undefined) {
           return
         }
@@ -394,23 +394,7 @@ var Link = {
       }
     };
 
-    var on;
-
-    if (router.options.preload) {
-      var preloadHandler = function (e) {
-        if (guardEvent(e, false)) {
-          router.preload(location);
-        }
-      };
-      on = {
-        click: guardEvent,
-        mousedown: preloadHandler,
-        touchstart: preloadHandler
-      };
-    } else {
-      on = { click: guardEvent };
-    }
-
+    var on = { click: guardEvent };
     if (Array.isArray(this.event)) {
       this.event.forEach(function (e) { on[e] = handler; });
     } else {
@@ -445,9 +429,7 @@ var Link = {
   }
 };
 
-function guardEvent (e, preventDefault) {
-  if ( preventDefault === void 0 ) preventDefault = true;
-
+function guardEvent (e) {
   // don't redirect with control keys
   if (e.metaKey || e.ctrlKey || e.shiftKey) { return }
   // don't redirect when preventDefault called
@@ -460,7 +442,7 @@ function guardEvent (e, preventDefault) {
     if (/\b_blank\b/i.test(target)) { return }
   }
   // this may be a Weex event which doesn't have this method
-  if (preventDefault && e.preventDefault) {
+  if (e.preventDefault) {
     e.preventDefault();
   }
   return true
@@ -1656,8 +1638,6 @@ var History = function History (router, base) {
   this.readyCbs = [];
   this.readyErrorCbs = [];
   this.errorCbs = [];
-
-  this.preloadConfirmedCallbacks = [];
 };
 
 History.prototype.listen = function listen (cb) {
@@ -1679,23 +1659,11 @@ History.prototype.onError = function onError (errorCb) {
   this.errorCbs.push(errorCb);
 };
 
-History.prototype.preload = function preload (location) {
-  var route = this.router.match(location, this.current);
-  if (this.preloadedRoute && this.preloadedRoute.fullPath === route.fullPath) {
-    return
-  }
-  this.preloadedRoute = route;
-  this.preloadConfirmed = false;
-
-  this.confirmTransition(route);
-};
-
 History.prototype.transitionTo = function transitionTo (location, onComplete, onAbort) {
     var this$1 = this;
 
   var route = this.router.match(location, this.current);
-
-  var _onComplete = function () {
+  this.confirmTransition(route, function () {
     this$1.updateRoute(route);
     onComplete && onComplete(route);
     this$1.ensureURL();
@@ -1705,28 +1673,15 @@ History.prototype.transitionTo = function transitionTo (location, onComplete, on
       this$1.ready = true;
       this$1.readyCbs.forEach(function (cb) { cb(route); });
     }
-  };
-
-  if (this.preloadedRoute && this.preloadedRoute.fullPath === route.fullPath) {
-    route = this.preloadedRoute;
-    this.preloadConfirmed = true;
-    _onComplete();
-    this.router.app.$nextTick(function () {
-      this$1.preloadConfirmedCallbacks.forEach(function (cb) { cb(); });
-      this$1.preloadConfirmedCallbacks = [];
-    });
-    this.preloadedRoute = null;
-  } else {
-    this.confirmTransition(route, _onComplete, function (err) {
-      if (onAbort) {
-        onAbort(err);
-      }
-      if (err && !this$1.ready) {
-        this$1.ready = true;
-        this$1.readyErrorCbs.forEach(function (cb) { cb(err); });
-      }
-    });
-  }
+  }, function (err) {
+    if (onAbort) {
+      onAbort(err);
+    }
+    if (err && !this$1.ready) {
+      this$1.ready = true;
+      this$1.readyErrorCbs.forEach(function (cb) { cb(err); });
+    }
+  });
 };
 
 History.prototype.confirmTransition = function confirmTransition (route, onComplete, onAbort) {
@@ -1758,15 +1713,13 @@ History.prototype.confirmTransition = function confirmTransition (route, onCompl
     var deactivated = ref.deactivated;
     var activated = ref.activated;
 
-  var updateCallbacks = [];
-
   var queue = [].concat(
     // in-component leave guards
     extractLeaveGuards(deactivated),
     // global before hooks
     this.router.beforeHooks,
     // in-component update hooks
-    extractUpdateHooks(updated, updateCallbacks),
+    extractUpdateHooks(updated),
     // in-config enter guards
     activated.map(function (m) { return m.beforeEnter; }),
     // async components
@@ -1809,7 +1762,6 @@ History.prototype.confirmTransition = function confirmTransition (route, onCompl
   };
 
   runQueue(queue, iterator, function () {
-    this$1.queueCallbacks(updateCallbacks);
     var postEnterCbs = [];
     var isValid = function () { return this$1.current === route; };
     // wait until async components are resolved before
@@ -1821,25 +1773,14 @@ History.prototype.confirmTransition = function confirmTransition (route, onCompl
         return abort()
       }
       this$1.pending = null;
-      onComplete && onComplete(route);
-      this$1.queueCallbacks(postEnterCbs);
+      onComplete(route);
+      if (this$1.router.app) {
+        this$1.router.app.$nextTick(function () {
+          postEnterCbs.forEach(function (cb) { cb(); });
+        });
+      }
     });
   });
-};
-
-History.prototype.queueCallbacks = function queueCallbacks (callbacks) {
-    var this$1 = this;
-
-  if (this.router.app) {
-    this.router.app.$nextTick(function () {
-      if (this$1.preloadedRoute && !this$1.preloadConfirmed) {
-        (ref = this$1.preloadConfirmedCallbacks).push.apply(ref, callbacks);
-      } else {
-        callbacks.forEach(function (cb) { cb(); });
-      }
-        var ref;
-    });
-  }
 };
 
 History.prototype.updateRoute = function updateRoute (route) {
@@ -1919,13 +1860,8 @@ function extractLeaveGuards (deactivated) {
   return extractGuards(deactivated, 'beforeRouteLeave', bindGuard, true)
 }
 
-function extractUpdateHooks (
-  updated,
-  cbs
-) {
-  return extractGuards(updated, 'beforeRouteUpdate', function (guard, _, match, key) {
-    return bindEnterGuard(guard, match, key, cbs, function () { return true })
-  })
+function extractUpdateHooks (updated) {
+  return extractGuards(updated, 'beforeRouteUpdate', bindGuard)
 }
 
 function bindGuard (guard, instance) {
@@ -2098,10 +2034,9 @@ var HTML5History = (function (History$$1) {
     }
 
     window.addEventListener('popstate', function (e) {
-      var current = this$1.current;
       this$1.transitionTo(getLocation(this$1.base), function (route) {
         if (expectScroll) {
-          handleScroll(router, route, current, true);
+          handleScroll(router, route, this$1.current, true);
         }
       });
     });
@@ -2442,10 +2377,6 @@ VueRouter.prototype.push = function push (location, onComplete, onAbort) {
 
 VueRouter.prototype.replace = function replace (location, onComplete, onAbort) {
   this.history.replace(location, onComplete, onAbort);
-};
-
-VueRouter.prototype.preload = function preload (location) {
-  this.history.preload(location);
 };
 
 VueRouter.prototype.go = function go (n) {
