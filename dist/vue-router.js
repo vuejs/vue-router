@@ -2154,7 +2154,6 @@ var HTML5History = (function (History$$1) {
 
     var initLocation = getLocation(this.base);
     window.addEventListener('popstate', function (e) {
-<<<<<<< HEAD
       var current = this$1.current;
 
       // Avoiding first `popstate` event dispatched in some browsers but first
@@ -2165,9 +2164,6 @@ var HTML5History = (function (History$$1) {
       }
 
       this$1.transitionTo(location, function (route) {
-=======
-      this$1.transitionTo(getLocation(this$1.base), function (route) {
->>>>>>> revert dist
         if (expectScroll) {
           handleScroll(router, route, this$1.current, true);
         }
