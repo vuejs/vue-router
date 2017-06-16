@@ -3,6 +3,8 @@ import { createRouteMap } from '../../../src/create-route-map'
 
 const Home = { template: '<div>This is Home</div>' }
 const Foo = { template: '<div>This is Foo</div>' }
+const FooBar = { template: '<div>This is FooBar</div>' }
+const Foobar = { template: '<div>This is foobar</div>' }
 const Bar = { template: '<div>This is Bar <router-view></router-view></div>' }
 const Baz = { template: '<div>This is Baz</div>' }
 
@@ -19,6 +21,19 @@ const routes = [
         path: '',
         component: Baz,
         name: 'bar.baz'
+      }
+    ]
+  },
+  {
+    path: '/bar-redirect',
+    name: 'bar-redirect',
+    redirect: { name: 'bar-redirect.baz' },
+    component: Bar,
+    children: [
+      {
+        path: '',
+        component: Baz,
+        name: 'bar-redirect.baz'
       }
     ]
   }
@@ -42,7 +57,7 @@ describe('Creating Route Map', function () {
   })
 
   it('has a pathList which places wildcards at the end', () => {
-    expect(maps.pathList).toEqual(['', '/foo', '/bar/', '/bar', '*'])
+    expect(maps.pathList).toEqual(['', '/foo', '/bar/', '/bar', '/bar-redirect/', '/bar-redirect', '*'])
   })
 
   it('has a nameMap object for default subroute at \'bar.baz\'', function () {
@@ -52,7 +67,7 @@ describe('Creating Route Map', function () {
   it('in development, has logged a warning concerning named route of parent and default subroute', function () {
     process.env.NODE_ENV = 'development'
     maps = createRouteMap(routes)
-    expect(console.warn).toHaveBeenCalled()
+    expect(console.warn).toHaveBeenCalledTimes(1)
     expect(console.warn.calls.argsFor(0)[0]).toMatch('vue-router] Named Route \'bar\'')
   })
 
@@ -73,5 +88,62 @@ describe('Creating Route Map', function () {
     ])
     expect(console.warn).toHaveBeenCalled()
     expect(console.warn.calls.argsFor(0)[0]).toMatch('vue-router] Duplicate param keys in route with path: "/foo/:id/bar/:id"')
+  })
+
+  describe('path-to-regexp options', function () {
+    const routes = [
+      { path: '/foo', name: 'foo', component: Foo },
+      { path: '/bar', name: 'bar', component: Bar, caseSensitive: false },
+      { path: '/FooBar', name: 'FooBar', component: FooBar, caseSensitive: true },
+      { path: '/foobar', name: 'foobar', component: Foobar, caseSensitive: true }
+    ]
+
+    it('caseSensitive option in route', function () {
+      const { nameMap } = createRouteMap(routes)
+
+      expect(nameMap.FooBar.regex.ignoreCase).toBe(false)
+      expect(nameMap.bar.regex.ignoreCase).toBe(true)
+      expect(nameMap.foo.regex.ignoreCase).toBe(true)
+    })
+
+    it('pathToRegexpOptions option in route', function () {
+      const { nameMap } = createRouteMap([
+        {
+          name: 'foo',
+          path: '/foo',
+          component: Foo,
+          pathToRegexpOptions: {
+            sensitive: true
+          }
+        },
+        {
+          name: 'bar',
+          path: '/bar',
+          component: Bar,
+          pathToRegexpOptions: {
+            sensitive: false
+          }
+        }
+      ])
+
+      expect(nameMap.foo.regex.ignoreCase).toBe(false)
+      expect(nameMap.bar.regex.ignoreCase).toBe(true)
+    })
+
+    it('caseSensitive over pathToRegexpOptions in route', function () {
+      const { nameMap } = createRouteMap([
+        {
+          name: 'foo',
+          path: '/foo',
+          component: Foo,
+          caseSensitive: true,
+          pathToRegexpOptions: {
+            sensitive: false
+          }
+        }
+      ])
+
+      expect(nameMap.foo.regex.ignoreCase).toBe(false)
+    })
   })
 })

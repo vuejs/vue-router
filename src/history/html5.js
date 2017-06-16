@@ -62,6 +62,16 @@ export class HTML5History extends History {
 
 export function getLocation (base: string): string {
   let path = window.location.pathname
+
+  // Special handling for cases where base contains hash ('#')
+  if (base && base.indexOf('#') > -1) {
+    path = window.location.href.replace(window.location.origin, '')
+    if (path.indexOf(base) === 0) {
+      // Leave the rest of the url as-is
+      return (path.slice(base.length) || '/')
+    }
+  }
+
   if (base && path.indexOf(base) === 0) {
     path = path.slice(base.length)
   }
