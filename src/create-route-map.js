@@ -101,21 +101,17 @@ function addRouteRecord (
   }
 
   if (route.alias !== undefined) {
-    if (Array.isArray(route.alias)) {
-      route.alias.forEach(alias => {
-        const aliasRoute = {
-          path: alias,
-          children: route.children
-        }
-        addRouteRecord(pathList, pathMap, nameMap, aliasRoute, parent, record.path)
-      })
-    } else {
+    const aliases = Array.isArray(route.alias)
+      ? route.alias
+      : [route.alias]
+
+    aliases.forEach(alias => {
       const aliasRoute = {
-        path: route.alias,
+        path: alias,
         children: route.children
       }
       addRouteRecord(pathList, pathMap, nameMap, aliasRoute, parent, record.path)
-    }
+    })
   }
 
   if (!pathMap[record.path]) {
