@@ -23,6 +23,19 @@ const routes = [
         name: 'bar.baz'
       }
     ]
+  },
+  {
+    path: '/bar-redirect',
+    name: 'bar-redirect',
+    redirect: { name: 'bar-redirect.baz' },
+    component: Bar,
+    children: [
+      {
+        path: '',
+        component: Baz,
+        name: 'bar-redirect.baz'
+      }
+    ]
   }
 ]
 
@@ -44,7 +57,7 @@ describe('Creating Route Map', function () {
   })
 
   it('has a pathList which places wildcards at the end', () => {
-    expect(maps.pathList).toEqual(['', '/foo', '/bar/', '/bar', '*'])
+    expect(maps.pathList).toEqual(['', '/foo', '/bar/', '/bar', '/bar-redirect/', '/bar-redirect', '*'])
   })
 
   it('has a nameMap object for default subroute at \'bar.baz\'', function () {
@@ -54,7 +67,7 @@ describe('Creating Route Map', function () {
   it('in development, has logged a warning concerning named route of parent and default subroute', function () {
     process.env.NODE_ENV = 'development'
     maps = createRouteMap(routes)
-    expect(console.warn).toHaveBeenCalled()
+    expect(console.warn).toHaveBeenCalledTimes(1)
     expect(console.warn.calls.argsFor(0)[0]).toMatch('vue-router] Named Route \'bar\'')
   })
 

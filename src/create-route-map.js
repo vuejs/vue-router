@@ -83,11 +83,11 @@ function addRouteRecord (
   }
 
   if (route.children) {
-    // Warn if route is named and has a default child route.
+    // Warn if route is named, does not redirect and has a default child route.
     // If users navigate to this route by name, the default child will
     // not be rendered (GH Issue #629)
     if (process.env.NODE_ENV !== 'production') {
-      if (route.name && route.children.some(child => /^\/?$/.test(child.path))) {
+      if (route.name && !route.redirect && route.children.some(child => /^\/?$/.test(child.path))) {
         warn(
           false,
           `Named Route '${route.name}' has a default child route. ` +
