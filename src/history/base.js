@@ -186,10 +186,7 @@ export class History {
   }
 }
 
-function normalizeBase (base: ?string): string {
-  if (!base) {
-    base = '/'
-  }
+function normalizeBase (base: ?string = ''): string {
   // make sure there's the starting slash
   if (base.charAt(0) !== '/') {
     base = '/' + base
