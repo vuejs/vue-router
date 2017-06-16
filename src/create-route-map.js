@@ -58,9 +58,15 @@ function addRouteRecord (
   }
 
   const normalizedPath = normalizePath(path, parent)
+  const pathToRegexpOptions: PathToRegexpOptions = route.pathToRegexpOptions || {}
+
+  if (typeof route.caseSensitive === 'boolean') {
+    pathToRegexpOptions.sensitive = route.caseSensitive
+  }
+
   const record: RouteRecord = {
     path: normalizedPath,
-    regex: compileRouteRegex(normalizedPath),
+    regex: compileRouteRegex(normalizedPath, pathToRegexpOptions),
     components: route.components || { default: route.component },
     instances: {},
     name,
@@ -132,8 +138,8 @@ function addRouteRecord (
   }
 }
 
-function compileRouteRegex (path: string): RouteRegExp {
-  const regex = Regexp(path)
+function compileRouteRegex (path: string, pathToRegexpOptions: PathToRegexpOptions): RouteRegExp {
+  const regex = Regexp(path, [], pathToRegexpOptions)
   if (process.env.NODE_ENV !== 'production') {
     const keys: any = {}
     regex.keys.forEach(key => {

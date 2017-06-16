@@ -61,6 +61,12 @@ export interface RouterOptions {
 
 type RoutePropsFunction = (route: Route) => Object;
 
+export interface PathToRegexpOptions {
+  sensitive?: boolean;
+  strict?: boolean;
+  end?: boolean;
+}
+
 export interface RouteConfig {
   path: string;
   name?: string;
@@ -72,6 +78,8 @@ export interface RouteConfig {
   meta?: any;
   beforeEnter?: NavigationGuard;
   props?: boolean | Object | RoutePropsFunction;
+  caseSensitive?: boolean;
+  pathToRegexpOptions?: PathToRegexpOptions;
 }
 
 export interface RouteRecord {

@@ -4,9 +4,15 @@ declare class RouteRegExp extends RegExp {
   keys: Array<{ name: string, optional: boolean }>;
 }
 
+declare type PathToRegexpOptions = {
+  sensitive?: boolean,
+  strict?: boolean,
+  end?: boolean
+}
+
 declare module 'path-to-regexp' {
   declare var exports: {
-    (path: string, keys?: Array<?{ name: string }>): RouteRegExp;
+    (path: string, keys?: Array<?{ name: string }>, options?: PathToRegexpOptions): RouteRegExp;
     compile: (path: string) => (params: Object) => string;
   }
 }
@@ -48,6 +54,8 @@ declare type RouteConfig = {
   beforeEnter?: NavigationGuard;
   meta?: any;
   props?: boolean | Object | Function;
+  caseSensitive?: boolean;
+  pathToRegexpOptions?: PathToRegexpOptions;
 }
 
 declare type RouteRecord = {

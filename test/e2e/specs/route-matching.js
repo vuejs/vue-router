@@ -124,7 +124,6 @@ module.exports = {
           })
         )
       }, null, '/optional-group/foo/bar')
-
       .end()
   }
 }

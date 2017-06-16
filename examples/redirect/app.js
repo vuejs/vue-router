@@ -9,6 +9,8 @@ const Foo = { template: '<div>foo</div>' }
 const Bar = { template: '<div>bar</div>' }
 const Baz = { template: '<div>baz</div>' }
 const WithParams = { template: '<div>{{ $route.params.id }}</div>' }
+const Foobar = { template: '<div>foobar</div>' }
+const FooBar = { template: '<div>FooBar</div>' }
 
 const router = new VueRouter({
   mode: 'history',
@@ -49,6 +51,12 @@ const router = new VueRouter({
 
     // redirect with params
     { path: '/redirect-with-params/:id', redirect: '/with-params/:id' },
+
+    // redirect with caseSensitive
+    { path: '/foobar', component: Foobar, caseSensitive: true },
+
+    // redirect with pathToRegexpOptions
+    { path: '/FooBar', component: FooBar, pathToRegexpOptions: { sensitive: true }},
 
     // catch all redirect
     { path: '*', redirect: '/' }
@@ -95,6 +103,14 @@ new Vue({
 
         <li><router-link to="/redirect-with-params/123">
           /redirect-with-params/123 (redirects to /with-params/123)
+        </router-link></li>
+
+        <li><router-link to="/foobar">
+          /foobar
+        </router-link></li>
+
+        <li><router-link to="/FooBar">
+          /FooBar
         </router-link></li>
 
         <li><router-link to="/not-found">
