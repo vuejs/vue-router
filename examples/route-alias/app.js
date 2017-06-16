@@ -3,6 +3,7 @@ import VueRouter from 'vue-router'
 
 Vue.use(VueRouter)
 
+const Root = { template: '<div>root</div>' }
 const Home = { template: '<div><h1>Home</h1><router-view></router-view></div>' }
 const Foo = { template: '<div>foo</div>' }
 const Bar = { template: '<div>bar</div>' }
@@ -15,6 +16,7 @@ const router = new VueRouter({
   mode: 'history',
   base: __dirname,
   routes: [
+    { path: '/root', component: Root, alias: '/root-alias' },
     { path: '/home', component: Home,
       children: [
         // absolute alias
@@ -42,6 +44,10 @@ new Vue({
     <div id="app">
       <h1>Route Alias</h1>
       <ul>
+        <li><router-link to="/root-alias">
+          /root-alias (renders /root)
+        </router-link></li>
+
         <li><router-link to="/foo">
           /foo (renders /home/foo)
         </router-link></li>
