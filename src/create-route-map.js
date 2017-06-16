@@ -58,9 +58,15 @@ function addRouteRecord (
   }
 
   const normalizedPath = normalizePath(path, parent)
+  const pathToRegexpOptions: PathToRegexpOptions = route.pathToRegexpOptions || {}
+
+  if (typeof route.caseSensitive === 'boolean') {
+    pathToRegexpOptions.sensitive = route.caseSensitive
+  }
+
   const record: RouteRecord = {
     path: normalizedPath,
-    regex: compileRouteRegex(normalizedPath),
+    regex: compileRouteRegex(normalizedPath, pathToRegexpOptions),
     components: route.components || { default: route.component },
     instances: {},
     name,
@@ -77,11 +83,11 @@ function addRouteRecord (
   }
 
   if (route.children) {
-    // Warn if route is named and has a default child route.
+    // Warn if route is named, does not redirect and has a default child route.
     // If users navigate to this route by name, the default child will
     // not be rendered (GH Issue #629)
     if (process.env.NODE_ENV !== 'production') {
-      if (route.name && route.children.some(child => /^\/?$/.test(child.path))) {
+      if (route.name && !route.redirect && route.children.some(child => /^\/?$/.test(child.path))) {
         warn(
           false,
           `Named Route '${route.name}' has a default child route. ` +
@@ -101,21 +107,17 @@ function addRouteRecord (
   }
 
   if (route.alias !== undefined) {
-    if (Array.isArray(route.alias)) {
-      route.alias.forEach(alias => {
-        const aliasRoute = {
-          path: alias,
-          children: route.children
-        }
-        addRouteRecord(pathList, pathMap, nameMap, aliasRoute, parent, record.path)
-      })
-    } else {
+    const aliases = Array.isArray(route.alias)
+      ? route.alias
+      : [route.alias]
+
+    aliases.forEach(alias => {
       const aliasRoute = {
-        path: route.alias,
+        path: alias,
         children: route.children
       }
       addRouteRecord(pathList, pathMap, nameMap, aliasRoute, parent, record.path)
-    }
+    })
   }
 
   if (!pathMap[record.path]) {
@@ -136,8 +138,8 @@ function addRouteRecord (
   }
 }
 
-function compileRouteRegex (path: string): RouteRegExp {
-  const regex = Regexp(path)
+function compileRouteRegex (path: string, pathToRegexpOptions: PathToRegexpOptions): RouteRegExp {
+  const regex = Regexp(path, [], pathToRegexpOptions)
   if (process.env.NODE_ENV !== 'production') {
     const keys: any = {}
     regex.keys.forEach(key => {
