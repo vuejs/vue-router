@@ -92,8 +92,6 @@ function pushHash (path) {
 function replaceHash (path) {
   const href = window.location.href
   const i = href.indexOf('#')
-
-  window.location.replace(
-    window.location.href.slice(0, i >= 0 ? i : href.length) + '#' + path
-  )
+  const base = i >= 0 ? href.slice(0, i) : href
+  window.location.replace(`${base}#${path}`)
 }
