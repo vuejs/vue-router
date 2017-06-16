@@ -101,11 +101,11 @@ function addRouteRecord (
   }
 
   if (route.alias !== undefined) {
-    if (!Array.isArray(route.alias)) {
-      route.alias = [route.alias]
-    }
+    const aliases = Array.isArray(route.alias)
+      ? route.alias
+      : [route.alias]
 
-    route.alias.forEach(alias => {
+    aliases.forEach(alias => {
       const aliasRoute = {
         path: alias,
         children: route.children
