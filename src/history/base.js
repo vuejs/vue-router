@@ -187,7 +187,18 @@ export class History {
 }
 
 function normalizeBase (base: ?string): string {
-  base = base || ''
+  // respect <base> tag
+  if (!base) {
+    if (inBrowser) {
+      // respect <base> tag
+      const baseURI = document.baseURI || '/'
+      const a = document.createElement('a')
+      a.href = baseURI
+      base = a.pathname
+    } else {
+      base = '/'
+    }
+  }
   // make sure there's the starting slash
   if (base.charAt(0) !== '/') {
     base = '/' + base
