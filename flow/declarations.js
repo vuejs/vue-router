@@ -30,6 +30,7 @@ declare type AfterNavigationHook = (to: Route, from: Route) => any
 declare type RouterOptions = {
   routes?: Array<RouteConfig>;
   mode?: string;
+  fallback?: boolean;
   base?: string;
   linkActiveClass?: string;
   parseQuery?: (query: string) => Object;
