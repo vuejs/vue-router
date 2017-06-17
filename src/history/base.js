@@ -188,11 +188,14 @@ export class History {
 }
 
 function normalizeBase (base: ?string): string {
+  // respect <base> tag
   if (!base) {
     if (inBrowser) {
       // respect <base> tag
-      const baseEl = document.querySelector('base')
-      base = (baseEl && baseEl.getAttribute('href')) || '/'
+      const baseURI = document.baseURI || '/'
+      const a = document.createElement('a')
+      a.href = baseURI
+      base = a.pathname
     } else {
       base = '/'
     }
@@ -406,10 +409,10 @@ function flatten (arr) {
 // return that Promise.
 function once (fn) {
   let called = false
-  return function () {
+  return function (...args) {
     if (called) return
     called = true
-    return fn.apply(this, arguments)
+    return fn.apply(this, args)
   }
 }
 

@@ -23,7 +23,7 @@ export default {
     // has been toggled inactive but kept-alive.
     let depth = 0
     let inactive = false
-    while (parent) {
+    while (parent && parent._routerRoot !== parent) {
       if (parent.$vnode && parent.$vnode.data.routerView) {
         depth++
       }

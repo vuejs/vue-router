@@ -42,7 +42,7 @@ export default class VueRouter {
     this.matcher = createMatcher(options.routes || [], this)
 
     let mode = options.mode || 'hash'
-    this.fallback = mode === 'history' && !supportsPushState
+    this.fallback = mode === 'history' && !supportsPushState && options.fallback !== false
     if (this.fallback) {
       mode = 'hash'
     }

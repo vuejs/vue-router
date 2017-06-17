@@ -1,4 +1,5 @@
 * [2.0 - English](en/)
+* [2.0 - French](fr/)
 * [2.0 - Japanese](ja/)
 * [2.0 - 中文](zh-cn/)
 * [2.0 - German](de/)

@@ -3,7 +3,7 @@ module.exports = {
     browser
     .url('http://localhost:8080/scroll-behavior/')
       .waitForElementVisible('#app', 1000)
-      .assert.count('li a', 4)
+      .assert.count('li a', 5)
       .assert.containsText('.view', 'home')
 
       .execute(function () {
@@ -47,6 +47,11 @@ module.exports = {
       .assert.evaluate(function () {
         return document.getElementById('anchor').getBoundingClientRect().top < 1
       }, null, 'scroll to anchor')
+
+      .click('li:nth-child(5) a')
+      .assert.evaluate(function () {
+        return document.getElementById('anchor2').getBoundingClientRect().top < 101
+      }, null, 'scroll to anchor with offset')
       .end()
   }
 }
