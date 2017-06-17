@@ -20,7 +20,7 @@ The `scrollBehavior` function receives the `to` and `from` route objects. The th
 The function can return a scroll position object. The object could be in the form of:
 
 - `{ x: number, y: number }`
-- `{ selector: string }`
+- `{ selector: string, offset? : { x: number, y: number }}` (offset only supported in 2.6.0+)
 
 If a falsy value or an empty object is returned, no scrolling will happen.
 
@@ -53,6 +53,7 @@ scrollBehavior (to, from, savedPosition) {
   if (to.hash) {
     return {
       selector: to.hash
+      // , offset: { x: 0, y: 10 }
     }
   }
 }
