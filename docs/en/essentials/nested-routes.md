@@ -1,21 +1,21 @@
-# Nested Routes (En) <br><br> *Cette page est en cours de traduction française. Revenez une autre fois pour lire une traduction achevée ou [participez à la traduction française ici](https://github.com/vuejs-fr/vue-router).*
+# Routes imbriquées
 
-Real app UIs are usually composed of components that are nested multiple levels deep. It is also very common that the segments of a URL corresponds to a certain structure of nested components, for example:
+Les vrais interfaces utilisateurs d'application sont faites de composants imbriqués à de multiples niveaux de profondeur. Il est aussi très commun que les segments d'URLs correspondent à une certaine structure de composants imbriqués, par exemple :
 
 ```
-/user/foo/profile                     /user/foo/posts
-+------------------+                  +-----------------+
-| User             |                  | User            |
-| +--------------+ |                  | +-------------+ |
-| | Profile      | |  +------------>  | | Posts       | |
-| |              | |                  | |             | |
-| +--------------+ |                  | +-------------+ |
-+------------------+                  +-----------------+
+/utilisateur/foo/profil                  /utilisateur/foo/billets
++---------------------+                  +--------------------+
+| User                |                  | User               |
+| +-----------------+ |                  | +----------------+ |
+| | Profile         | |  +------------>  | | Posts          | |
+| |                 | |                  | |                | |
+| +-----------------+ |                  | +----------------+ |
++---------------------+                  +--------------------+
 ```
 
-With `vue-router`, it is very simple to express this relationship using nested route configurations.
+Avec `vue-router`, il est vraiment très simple d'exprimer cette relation en utilisant des configurations de route imbriquées.
 
-Given the app we created in the last chapter:
+Reprenons l'application créée au chapitre précédent :
 
 ``` html
 <div id="app">
@@ -25,46 +25,45 @@ Given the app we created in the last chapter:
 
 ``` js
 const User = {
-  template: '<div>User {{ $route.params.id }}</div>'
+  template: '<div>Utilisateur {{ $route.params.id }}</div>'
 }
 
 const router = new VueRouter({
   routes: [
-    { path: '/user/:id', component: User }
+    { path: '/utilisateur/:id', component: User }
   ]
 })
 ```
 
-The `<router-view>` here is a top-level outlet. It renders the component matched by a top level route. Similarly, a rendered component can also contain its own, nested `<router-view>`. For example, if we add one inside the `User` component's template:
+Ici le `<router-view>` est une balise de premier niveau. Il fait le rendu des composants qui concordent avec une route de premier niveau. De la même façon, un composant de rendu peut contenir également sa propre balise `<router-view>` imbriquée. Par exemple, ajoutons en une à l'intérieur du template du composant `User` :
 
 ``` js
 const User = {
   template: `
     <div class="user">
-      <h2>User {{ $route.params.id }}</h2>
+      <h2>Utilisateur {{ $route.params.id }}</h2>
       <router-view></router-view>
     </div>
   `
 }
 ```
 
-To render components into this nested outlet, we need to use the `children`
-option in `VueRouter` constructor config:
+Pour faire le rendu de composants à l'intérieur des balises imbriquées, nous avons besoin d'utiliser l'option `children` dans la configuration du constructeur de `VueRouter` :
 
 ``` js
 const router = new VueRouter({
   routes: [
-    { path: '/user/:id', component: User,
+    { path: '/utilisateur/:id', component: User,
       children: [
         {
-          // UserProfile will be rendered inside User's <router-view>
-          // when /user/:id/profile is matched
+          // `UserProfile` va être rendu à l'intérieur du `<router-view>` de `User`
+          // quand `/utilisateur/:id/profil` concorde
           path: 'profile',
           component: UserProfile
         },
         {
-          // UserPosts will be rendered inside User's <router-view>
-          // when /user/:id/posts is matched
+          // `UserPosts` va être rendu à l'intérieur du `<router-view>` de `User`
+          // quand `/utilisateur/:id/billets` concorde
           path: 'posts',
           component: UserPosts
         }
@@ -74,27 +73,27 @@ const router = new VueRouter({
 })
 ```
 
-**Note that nested paths that start with `/` will be treated as a root path. This allows you to leverage the component nesting without having to use a nested URL.**
+**Notez que les chemins imbriqués commençant par `/` vont être traités comme des chemins partant de la racine. Cela vous permet d'adresser des composants imbriqués sans avoir à utiliser une URL imbriquée.**
 
-As you can see the `children` option is just another Array of route configuration objects like `routes` itself. Therefore, you can keep nesting views as much as you need.
+Comme vous pouvez le voir, l'option `children` n'est qu'un autre tableau d'objet de configuration de route comme dans `routes`. Et donc, vous pouvez garder les vues imbriquées au plus près de vos besoins.
 
-At this point, with the above configuration, when you visit `/user/foo`, nothing will be rendered inside `User`'s outlet, because no sub route is matched. Maybe you do want to render something there. In such case you can provide an empty subroute path:
+À ce niveau, avec la configuration ci-dessus, quand vous visitez `/utilisateur/foo`, rien ne sera rendu dans la partie `User`, car aucune sous route ne concorde. Peut-être voudriez vous afficher quelque chose ici. Dans ce cas, vous pouvez fournir une sous route vide :
 
 ``` js
 const router = new VueRouter({
   routes: [
     {
-      path: '/user/:id', component: User,
+      path: '/utilisateur/:id', component: User,
       children: [
-        // UserHome will be rendered inside User's <router-view>
-        // when /user/:id is matched
+        // `UserProfile` va être rendu à l'intérieur du `<router-view>` de `User`
+        // quand `/utilisateur/:id` concorde
         { path: '', component: UserHome },
 
-        // ...other sub routes
+        // ...autres sous routes
       ]
     }
   ]
 })
 ```
 
-A working demo of this example can be found [here](http://jsfiddle.net/yyx990803/L7hscd8h/).
+Une démo de fonctionnement de cet exemple peut-être trouvée [ici](http://jsfiddle.net/yyx990803/L7hscd8h/).
