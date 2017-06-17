@@ -32,6 +32,8 @@ Every guard function receives three arguments:
 
   - **`next('/')` or `next({ path: '/' })`**: redirect to a different location. The current navigation will be aborted and a new one will be started.
 
+  - **`next({ path: '/404', replace: true })`**: redirect to a different location. The current navigation will be aborted and replaced with the new one.
+
   - **`next(error)`**: (2.4.0+) if the argument passed to `next` is an instance of `Error`, the navigation will be aborted and the error will be passed to callbacks registered via `router.onError()`.
 
 **Make sure to always call the `next` function, otherwise the hook will never be resolved.**
