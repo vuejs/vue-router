@@ -1,6 +1,6 @@
-# Named Views (En) <br><br> *Cette page est en cours de traduction française. Revenez une autre fois pour lire une traduction achevée ou [participez à la traduction française ici](https://github.com/vuejs-fr/vue-router).*
+# Vues nommées
 
-Sometimes you need to display multiple views at the same time instead of nesting them, e.g. creating a layout with a `sidebar` view and a `main` view. This is where named views came in handy. Instead of having one single outlet in your view, you can have multiple and give each of them a name. A `router-view` without a name will be given `default` as its name.
+Parfois vous avez besoin d'afficher différentes vues en même temps plutôt que de les imbriquer, c.-à-d. créer un affichage avec une vue `sidebar` et une vue `main` par exemple. C'est ici que les routes nommées entre en jeu. Au lieu d'avoir une seule balise de vue, vous pouvez en avoir une multitude et donner à chacune d'entre elle un nom. Un `router-view` sans nom aura comme nom par défaut : `default`.
 
 ``` html
 <router-view class="view one"></router-view>
@@ -8,8 +8,7 @@ Sometimes you need to display multiple views at the same time instead of nesting
 <router-view class="view three" name="b"></router-view>
 ```
 
-A view is rendered by using a component, therefore multiple views require multiple components for the same route. Make sure to use the `components` (with
-an s) option:
+Une vue est rendue en utilisant un composant, donc de multiples vues nécessites de multiples composants pour une même route. Assurez-vous d'utiliser l'option `components` (avec un s) :
 
 ``` js
 const router = new VueRouter({
@@ -26,5 +25,4 @@ const router = new VueRouter({
 })
 ```
 
-A working demo of this example can be found
-[here](https://jsfiddle.net/posva/6du90epg/).
+Une démo de cet exemple peut-être trouvée ici : [ici](https://jsfiddle.net/posva/6du90epg/).

@@ -1,8 +1,8 @@
-# Redirect and Alias (En) <br><br> *Cette page est en cours de traduction française. Revenez une autre fois pour lire une traduction achevée ou [participez à la traduction française ici](https://github.com/vuejs-fr/vue-router).*
+# Redirection et alias
 
-### Redirect
+### Redirection
 
-Redirecting is also done in the `routes` configuration. To redirect from `/a` to `/b`:
+Les redirections peuvent aussi être faites depuis la configuration de `routes`. Pour rediriger `/a` vers `/b` :
 
 ``` js
 const router = new VueRouter({
@@ -12,7 +12,7 @@ const router = new VueRouter({
 })
 ```
 
-The redirect can also be targeting a named route:
+La redirection peut également être effectuée en ciblant une route nommée :
 
 ``` js
 const router = new VueRouter({
@@ -22,28 +22,28 @@ const router = new VueRouter({
 })
 ```
 
-Or even use a function for dynamic redirecting:
+Ou on peut même utiliser une fonction pour les redirections dynamiques :
 
 ``` js
 const router = new VueRouter({
   routes: [
     { path: '/a', redirect: to => {
-      // the function receives the target route as the argument
-      // return redirect path/location here.
+      // la fonction reçoit la route cible en tant qu'argument
+      // retourné le chemin vers la nouvelle route ici.
     }}
   ]
 })
 ```
 
-For other advanced usage, checkout the [example](https://github.com/vuejs/vue-router/blob/dev/examples/redirect/app.js).
+Pour d'autres utilisations avancées, jetez un œil à cet [exemple](https://github.com/vuejs/vue-router/blob/dev/examples/redirect/app.js).
 
 ### Alias
 
-A redirect means when the user visits `/a`, and URL will be replaced by `/b`, and then matched as `/b`. But what is an alias?
+Une redirection signifie que si l'utilisateur visite `/a`, l'URL va être remplacée par `/b` et concordé avec `/b`. Mais qu'est-ce qu'un alias ?
 
-**An alias of `/a` as `/b` means when the user visits `/b`, the URL remains `/b`, but it will be matched as if the user is visiting `/a`.**
+** Un alias de `/a` en tant que `/b` signifie que lorsque l'utilisateur va visiter `/b`, l'URL vas rester `/b`, mais la concordance va se faire comme si l'utilisateur visitait `/a`.**
 
-The above can be expressed in the route configuration as:
+La phase du dessus peut être exprimée dans la configuration de la route de la manière suivante :
 
 ``` js
 const router = new VueRouter({
@@ -53,6 +53,6 @@ const router = new VueRouter({
 })
 ```
 
-An alias gives you the freedom to map a UI structure to an arbitrary URL, instead of being constrained by the configuration's nesting structure.
+Un alias vous donne la liberté d'associer une structure d'interface utilisateur à une URL arbitraire, au lieu d'être contraint par une configuration de structure.
 
-For advanced usage, checkout the [example](https://github.com/vuejs/vue-router/blob/dev/examples/route-alias/app.js).
+Pour d'autres utilisations avancées, jetez un œil à cet [exemple](https://github.com/vuejs/vue-router/blob/dev/examples/route-alias/app.js).
