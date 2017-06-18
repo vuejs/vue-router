@@ -10,7 +10,7 @@
   - [Dynamic Route Matching (En)](essentials/dynamic-matching.md)
   - [Navigation programmatique](essentials/navigation.md)
   - [Routes imbriquées](essentials/nested-routes.md)
-  - [Named Routes (En)](essentials/named-routes.md)
+  - [Routes nommées](essentials/named-routes.md)
   - [Vues nommées](essentials/named-views.md)
   - [Redirection et alias](essentials/redirect-and-alias.md)
   - [Passing Props to Route Components (En)](essentials/passing-props.md)
