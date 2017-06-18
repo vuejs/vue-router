@@ -1,12 +1,12 @@
-# Named Routes (En) <br><br> *Cette page est en cours de traduction française. Revenez une autre fois pour lire une traduction achevée ou [participez à la traduction française ici](https://github.com/vuejs-fr/vue-router).*
+# Routes nommées
 
-Sometimes it is more convenient to identify a route with a name, especially when linking to a route or performing navigations. You can give a route a name in the `routes` options while creating the Router instance:
+Parfois il est plus pratique d'identifer une route avec un nom, tout particulièrement quand on souhaite attacher cette route ou exécuter des actions de navigation. Vous pouvez donner un nom à une route dans les options `routes` pendant la création de l'instance du routeur :
 
 ``` js
 const router = new VueRouter({
   routes: [
     {
-      path: '/user/:userId',
+      path: '/utilisateur/:userId',
       name: 'user',
       component: User
     }
@@ -14,19 +14,18 @@ const router = new VueRouter({
 })
 ```
 
-To link to a named route, you can pass an object to the `router-link`
-component's `to` prop:
+Pour attacher une route nommée, vous pouvez passer un objet à la prop `to` du composant `router-link` :
 
 ``` html
-<router-link :to="{ name: 'user', params: { userId: 123 }}">User</router-link>
+<router-link :to="{ name: 'user', params: { userId: 123 }}">Utilisateur</router-link>
 ```
 
-This is the exact same object used programatically with `router.push()`:
+C'est exactement le même objet à utiliser programmatiquement avec `router.push()` :
 
 ``` js
 router.push({ name: 'user', params: { userId: 123 }})
 ```
 
-In both cases, the router will navigate to the path `/user/123`.
+Dans les deux cas, le routeur va naviguer vers le chemin `/utilisateur/123`.
 
-Full example [here](https://github.com/vuejs/vue-router/blob/dev/examples/named-routes/app.js).
+Un exemple complet se trouve [ici](https://github.com/vuejs/vue-router/blob/dev/examples/named-routes/app.js).
