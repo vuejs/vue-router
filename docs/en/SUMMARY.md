@@ -8,7 +8,7 @@
 - Essentiel
   - [Pour commencer](essentials/getting-started.md)
   - [Dynamic Route Matching (En)](essentials/dynamic-matching.md)
-  - [Nested Routes (En)](essentials/nested-routes.md)
+  - [Routes imbriquées](essentials/nested-routes.md)
   - [Programmatic Navigation (En)](essentials/navigation.md)
   - [Named Routes (En)](essentials/named-routes.md)
   - [Vues nommées](essentials/named-views.md)
