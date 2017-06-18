@@ -6,9 +6,9 @@ En complément du l'utilisation de `<router-link>` pour créer des balises ancre
 
 ** Note : Dans une instance Vue, vous pouvez accéder à l'instance du routeur via `$router`. Vous pouvez donc appeler `this.$router.push`.**
 
-Pour naviguer à différentes URLs, utilisez `router.push`. Cette méthode ajoute une nouvelle entrée dans la pile de l'historique. Ainsi quand un utilisateur clique sur le bouton retour de son navigateur, il retournera à l'URL précédente.
+Pour naviguer vers une URL différente, utilisez `router.push`. Cette méthode ajoute une nouvelle entrée dans la pile de l'historique. Ainsi quand un utilisateur clique sur le bouton retour de son navigateur, il retournera à l'URL précédente.
 
-Cette méthode est appelée en interne quand vous cliquez sur `<router-link>`. Aussi cliquer sur `<router-link :to="...">` est un équivalent à l'appel de `router.push(...)`.
+Cette méthode est appelée en interne quand vous cliquez sur `<router-link>`, donc cliquer sur `<router-link :to="...">` est équivalent à appeler `router.push(...)`.
 
 | Declarative | Programmatique |
 |-------------|--------------|
