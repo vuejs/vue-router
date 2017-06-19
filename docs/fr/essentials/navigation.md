@@ -1,71 +1,71 @@
-# Programmatic Navigation (En) <br><br> *Cette page est en cours de traduction française. Revenez une autre fois pour lire une traduction achevée ou [participez à la traduction française ici](https://github.com/vuejs-fr/vue-router).*
+# Navigation programmatique
 
-Aside from using `<router-link>` to create anchor tags for declarative navigation, we can do this programmatically using the router's instance methods.
+En complément du l'utilisation de `<router-link>` pour créer des balises ancres pour la navigation déclarative, nous pouvons le faire de manière programmatique en utilisant les méthodes de l'instance du routeur.
 
 #### `router.push(location, onComplete?, onAbort?)`
 
-**Note: Inside of a Vue instance, you have access to the router instance as `$router`. You can therefore call `this.$router.push`.**
+** Note : Dans une instance Vue, vous pouvez accéder à l'instance du routeur via `$router`. Vous pouvez donc appeler `this.$router.push`.**
 
-To navigate to a different URL, use `router.push`. This method pushes a new entry into the history stack, so when the user clicks the browser back button they will be taken to the previous URL.
+Pour naviguer vers une URL différente, utilisez `router.push`. Cette méthode ajoute une nouvelle entrée dans la pile de l'historique. Ainsi quand un utilisateur clique sur le bouton retour de son navigateur, il retournera à l'URL précédente.
 
-This is the method called internally when you click a `<router-link>`, so clicking `<router-link :to="...">` is the equivalent of calling `router.push(...)`.
+Cette méthode est appelée en interne quand vous cliquez sur `<router-link>`, donc cliquer sur `<router-link :to="...">` est équivalent à appeler `router.push(...)`.
 
-| Declarative | Programmatic |
+| Déclarative | Programmatique |
 |-------------|--------------|
 | `<router-link :to="...">` | `router.push(...)` |
 
-The argument can be a string path, or a location descriptor object. Examples:
+L'argument peut être une chaîne de caractère représentant un chemin, ou un objet de description de destination. Des exemples :
 
 ``` js
-// literal string path
+// chaîne de caractère représentant un chemin
 router.push('home')
 
-// object
+// objet
 router.push({ path: 'home' })
 
-// named route
+// route nommée
 router.push({ name: 'user', params: { userId: 123 }})
 
-// with query, resulting in /register?plan=private
+// avec une requête « query » résultant de `/register?plan=private`
 router.push({ path: 'register', query: { plan: 'private' }})
 ```
 
-In 2.2.0+, optionally provide `onComplete` and `onAbort` callbacks to `router.push` or `router.replace` as the 2nd and 3rd arguments. These callbacks will be called when the navigation either successfully completed (after all async hooks are resolved), or aborted (navigated to the same route, or to a different route before current navigation has finished), respectively.
+Dans la version 2.2.0+, vous pouvez optionnellement fournir les fonctions de rappel `onComplete` et `onAbort` à `router.push` ou `router.replace` en tant que deuxième et troisième arguments. Ces fonctions de rappel seront appelées quand la navigation sera respectivement ; complétée avec succès (après la résolution de tous les hooks asynchrones), ou arrêtée (navigation vers la même route ou vers une route différente avant que la navigation courante ne soit achevée).
 
 #### `router.replace(location, onComplete?, onAbort?)`
 
-It acts like `router.push`, the only difference is that it navigates without pushing a new history entry, as its name suggests - it replaces the current entry.
+Il agit comme `router.push`. La seule différence est que la navigation se fait sans ajouter de nouvelle entrée dans la pile de l'historique. Comme son nom l'indique, il remplace l'entrée courante.
 
-| Declarative | Programmatic |
+| Déclarative | Programmatique |
 |-------------|--------------|
 | `<router-link :to="..." replace>` | `router.replace(...)` |
 
 
 #### `router.go(n)`
 
-This method takes a single integer as parameter that indicates by how many steps to go forwards or go backwards in the history stack, similar to `window.history.go(n)`.
+Cette méthode prend un seul nombre en tant que paramètre. Celui-ci indique de combien d'entrée vers l'avant ou vers l'arrière il faut naviguer dans la pile de l'historique, de la même manière qu'avec `window.history.go(n)`.
 
-Examples
+Des exemples
 
 ``` js
-// go forward by one record, the same as history.forward()
+// avancer d'une entrée, identique à `history.forward()`
 router.go(1)
 
-// go back by one record, the same as history.back()
+// retourner d'une entrée en arrière, identique à `history.back()`
 router.go(-1)
 
-// go forward by 3 records
+// avancer de trois entrées
 router.go(3)
 
-// fails silently if there aren't that many records.
+// échoue silencieusement s'il n'y a pas assez d'entrées.
 router.go(-100)
 router.go(100)
 ```
 
-#### History Manipulation
+#### Manipulation de l'historique
 
-You may have noticed that `router.push`, `router.replace` and `router.go` are counterparts of [`window.history.pushState`, `window.history.replaceState` and `window.history.go`](https://developer.mozilla.org/en-US/docs/Web/API/History), and they do imitate the `window.history` APIs.
+Vous avez peut être remarqué que `router.push`, `router.replace` et `router.go` sont des équivalent de [`window.history.pushState`, `window.history.replaceState` et `window.history.go`](https://developer.mozilla.org/fr-FR/docs/Web/API/History), et qu'ils imitent les APIs de `window.history`.
 
-Therefore, if you are already familiar with [Browser History APIs](https://developer.mozilla.org/en-US/docs/Web/API/History_API), manipulating history will be super easy with vue-router.
+Donc, si vous utilisez déjà l'[API History des navigateurs](https://developer.mozilla.org/fr-FR/docs/Web/API/History_API), manipuler l'historique sera très simple avec vue-router.
 
-It is worth mentioning that vue-router navigation methods (`push`, `replace`, `go`) work consistently in all router modes (`history`, `hash` and `abstract`).
+Il n'est pas nécessaire de préciser que les méthodes de navigation (`push`, `replace`, `go`) fonctionnent de la même manière dans tous les modes de routage (`history`, `hash` and `abstract`).

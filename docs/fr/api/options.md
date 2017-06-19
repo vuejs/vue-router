@@ -18,6 +18,10 @@
     children?: Array<RouteConfig>; // pour les routes imbriquées
     beforeEnter?: (to: Route, from: Route, next: Function) => void;
     meta?: any;
+
+    // 2.6.0+
+    caseSensitive?: boolean; // use case sensitive match? (default: false)
+    pathToRegexpOptions?: Object; // path-to-regexp options for compiling regex
   }
   ```
 
@@ -86,3 +90,13 @@
 - type : `Function`
 
   Permet de spécifier des fonctions personnalisées pour formater en objet ou en chaîne de caractères la requête. Surcharge les fonctions par défaut.
+
+### fallback
+
+> 2.6.0+
+
+- type : `boolean`
+
+  Contrôle comment le routeur devrait passer en mode `hash` quand le navigateur ne supporte pas `history.pushState`. Par défaut à `true`.
+
+  Passer cette valeur à `false` va essentiellement faire que la navigation via `router-link` va réclamer un rechargement de page dans IE9. Ceci est utile quand l'application est rendu côté serveur et à besoin de fonctionner dans IE9, car le mode hash ne fonctionne pas avec du SSR.
