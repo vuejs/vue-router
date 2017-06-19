@@ -10,7 +10,7 @@ Pour naviguer vers une URL différente, utilisez `router.push`. Cette méthode a
 
 Cette méthode est appelée en interne quand vous cliquez sur `<router-link>`, donc cliquer sur `<router-link :to="...">` est équivalent à appeler `router.push(...)`.
 
-| Declarative | Programmatique |
+| Déclarative | Programmatique |
 |-------------|--------------|
 | `<router-link :to="...">` | `router.push(...)` |
 
@@ -36,7 +36,7 @@ Dans la version 2.2.0+, vous pouvez optionnellement fournir les fonctions de rap
 
 Il agit comme `router.push`. La seule différence est que la navigation se fait sans ajouter de nouvelle entrée dans la pile de l'historique. Comme son nom l'indique, il remplace l'entrée courante.
 
-| Declarative | Programmatique |
+| Déclarative | Programmatique |
 |-------------|--------------|
 | `<router-link :to="..." replace>` | `router.replace(...)` |
 
