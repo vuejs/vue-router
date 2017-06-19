@@ -1,4 +1,4 @@
-# Concordance de route dynamique
+# Concordance dynamique de route
 
 Vous allez très souvent associer des routes avec un motif donné à un même composant. Par exemple nous pourrions avoir le composant `User` qui devrait être rendu pour tous les utilisateurs mais avec différents identifiants. Avec `vue-router` nous pouvons utiliser des segments dynamiques dans le chemin de la route pour réaliser cela :
 
