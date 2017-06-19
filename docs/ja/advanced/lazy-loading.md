@@ -8,8 +8,8 @@ Vue の [非同期コンポーネント機能](http://jp.vuejs.org/guide/compone
 
 ``` js
 const Foo = resolve => {
-  // `require.ensure` はコード分割のための webpack の特殊な文法です。
-  require.ensure(['./Foo.vue'], () => {
+  // `import()` はコード分割するポイントを呼びます
+  import('./Foo.vue').then(() => {
     resolve(require('./Foo.vue'))
   })
 }
