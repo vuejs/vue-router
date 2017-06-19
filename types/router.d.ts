@@ -44,9 +44,12 @@ declare class VueRouter {
   static install: PluginFunction<never>;
 }
 
+type Position = { x: number, y: number };
+
 export interface RouterOptions {
   routes?: RouteConfig[];
   mode?: RouterMode;
+  fallback?: boolean;
   base?: string;
   linkActiveClass?: string;
   linkExactActiveClass?: string;
@@ -55,8 +58,8 @@ export interface RouterOptions {
   scrollBehavior?: (
     to: Route,
     from: Route,
-    savedPosition: { x: number, y: number } | undefined
-  ) => { x: number, y: number } | { selector: string } | void;
+    savedPosition: Position | void
+  ) => Position | { selector: string, offset?: Position } | void;
 }
 
 type RoutePropsFunction = (route: Route) => Object;

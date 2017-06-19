@@ -116,7 +116,14 @@ function addRouteRecord (
         path: alias,
         children: route.children
       }
-      addRouteRecord(pathList, pathMap, nameMap, aliasRoute, parent, record.path)
+      addRouteRecord(
+        pathList,
+        pathMap,
+        nameMap,
+        aliasRoute,
+        parent,
+        record.path || '/' // matchAs
+      )
     })
   }
 

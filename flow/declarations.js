@@ -27,9 +27,12 @@ declare type NavigationGuard = (
 
 declare type AfterNavigationHook = (to: Route, from: Route) => any
 
+type Position = { x: number, y: number };
+
 declare type RouterOptions = {
   routes?: Array<RouteConfig>;
   mode?: string;
+  fallback?: boolean;
   base?: string;
   linkActiveClass?: string;
   parseQuery?: (query: string) => Object;
@@ -37,8 +40,8 @@ declare type RouterOptions = {
   scrollBehavior?: (
     to: Route,
     from: Route,
-    savedPosition: ?{ x: number, y: number }
-  ) => { x: number, y: number } | { selector: string } | ?{};
+    savedPosition: ?Position
+  ) => Position | { selector: string, offset?: Position } | ?{};
 }
 
 declare type RedirectOption = RawLocation | ((to: Route) => RawLocation)

@@ -193,6 +193,8 @@ function normalizeBase (base: ?string): string {
       // respect <base> tag
       const baseEl = document.querySelector('base')
       base = (baseEl && baseEl.getAttribute('href')) || '/'
+      // strip full URL origin
+      base = base.replace(/^https?:\/\/[^\/]+/, '')
     } else {
       base = '/'
     }
@@ -406,10 +408,10 @@ function flatten (arr) {
 // return that Promise.
 function once (fn) {
   let called = false
-  return function () {
+  return function (...args) {
     if (called) return
     called = true
-    return fn.apply(this, arguments)
+    return fn.apply(this, args)
   }
 }
 
