@@ -2,13 +2,13 @@
 
 バンドラーを使ってアプリケーションを構築している時、バンドルされる JavaScript が非常に大きいものになり得ます。結果的にページのロード時間に影響を与えてしまいます。もし各ルートコンポーネントごとに別々のチャンクにして、訪れたルートの時だけロードできればより効率的でしょう。
 
-Vue の [非同期コンポーネント機能](http://jp.vuejs.org/guide/components.html#非同期コンポーネント) と Webpack の [コード分割機能](https://webpack.js.org/guides/code-splitting-require/) を組み合わせることでとても簡単に遅延ロードするルートコンポーネントができます。
+Vue の [非同期コンポーネント機能](http://jp.vuejs.org/guide/components.html#非同期コンポーネント) と webpack の [コード分割機能](https://webpack.js.org/guides/code-splitting-require/) を組み合わせることでとても簡単に遅延ロードするルートコンポーネントができます。
 
 必要なことは非同期のルートコンポーネントを定義するだけです。
 
 ``` js
 const Foo = resolve => {
-  // require.ensure はコード分割のための Webpack の特殊な文法です。
+  // `require.ensure` はコード分割のための webpack の特殊な文法です。
   require.ensure(['./Foo.vue'], () => {
     resolve(require('./Foo.vue'))
   })
@@ -41,4 +41,4 @@ const Bar = r => require.ensure([], () => r(require('./Bar.vue')), 'group-foo')
 const Baz = r => require.ensure([], () => r(require('./Baz.vue')), 'group-foo')
 ```
 
-Webpack は同じチャンク名のどんな非同期のモジュールも同じ非同期のチャンクにグループします。つまり、 `require.ensure` に対して明示的に依存関係をリストする必要がありません (したがって空の配列を渡しています)。
+webpack は同じチャンク名のどんな非同期のモジュールも同じ非同期のチャンクにグループします。つまり、 `require.ensure` に対して明示的に依存関係をリストする必要がありません (したがって空の配列を渡しています)。
