@@ -2,43 +2,36 @@
 
 バンドラーを使ってアプリケーションを構築している時、バンドルされる JavaScript が非常に大きいものになり得ます。結果的にページのロード時間に影響を与えてしまいます。もし各ルートコンポーネントごとに別々のチャンクにして、訪れたルートの時だけロードできればより効率的でしょう。
 
-Vue の [非同期コンポーネント機能](http://jp.vuejs.org/guide/components.html#非同期コンポーネント) と webpack の [コード分割機能](https://webpack.js.org/guides/code-splitting-require/) を組み合わせることでとても簡単に遅延ロードするルートコンポーネントができます。
+Vue の [非同期コンポーネント機能](http://jp.vuejs.org/guide/components.html#非同期コンポーネント) と webpack の [コード分割機能](https://webpack.js.org/guides/code-splitting-async/) を組み合わせることでとても簡単に遅延ロードするルートコンポーネントができます。
 
-必要なことは非同期のルートコンポーネントを定義するだけです。
+First, an async component can be defined as a factory function that returns a Promise (which should resolve to the component itself)
 
 ``` js
-const Foo = resolve => {
-  // `import()` はコード分割するポイントを呼びます
-  import('./Foo.vue').then(() => {
-    resolve(require('./Foo.vue'))
-  })
-}
+const Foo = () => Promise.resolve({ /* component definition */ })
 ```
 
-コード分割の文法の代替として、 AMD 形式の require もあります。これを使うと次のように簡略されます。
+Second, in webpack 2, we can use the [dynamic import](https://github.com/tc39/proposal-dynamic-import) syntax to indicate a code-split point:
 
 ``` js
-const Foo = resolve => require(['./Foo.vue'], resolve)
+import('./Foo.vue') // returns a Promise
 ```
 
-特にルート設定を変更する必要はなく、普段のように `Foo` を使用するだけです。
+> Note: if you are using Babel, you will need to add the [syntax-dynamic-import](http://babeljs.io/docs/plugins/syntax-dynamic-import/) plugin so that Babel can properly parse the syntax.
+
+Combining the two, this is how to define an async component that will be automatically code-split by webpack:
 
 ``` js
-const router = new VueRouter({
-  routes: [
-    { path: '/foo', component: Foo }
-  ]
-})
+const Foo = () => import('./Foo.vue')
 ```
 
 ### 同じチャンク内でのコンポーネントグループ化
 
-しばしば同じ非同期のチャンクに、そのルート配下のネストされた全てのコンポーネントをグループ化したいと思うかもしれません。それを実現するためには、 `require.ensure` の第 3 引数にチャンクの名前を提供する [名前付きチャンク](https://webpack.js.org/guides/code-splitting-require/#chunkname) を使う必要があります。
+しばしば同じ非同期のチャンクに、そのルート配下のネストされた全てのコンポーネントをグループ化したいと思うかもしれません。それを実現するためには、 特別なコメント構文 (webpack > 2.4 必須)を使用してチャンクの名前を提供する [名前付きチャンク](https://webpack.js.org/guides/code-splitting-async/#chunk-names) を使う必要があります。
 
 ``` js
-const Foo = r => require.ensure([], () => r(require('./Foo.vue')), 'group-foo')
-const Bar = r => require.ensure([], () => r(require('./Bar.vue')), 'group-foo')
-const Baz = r => require.ensure([], () => r(require('./Baz.vue')), 'group-foo')
+const Foo = () => import(/* webpackChunkName: "group-foo" */ './Foo.vue')
+const Bar = () => import(/* webpackChunkName: "group-foo" */ './Bar.vue')
+const Baz = () => import(/* webpackChunkName: "group-foo" */ './Baz.vue')
 ```
 
-webpack は同じチャンク名のどんな非同期のモジュールも同じ非同期のチャンクにグループします。つまり、 `require.ensure` に対して明示的に依存関係をリストする必要がありません (したがって空の配列を渡しています)。
+webpack は同じチャンク名のどんな非同期のモジュールも同じ非同期のチャンクにグループします。
