@@ -188,14 +188,13 @@ export class History {
 }
 
 function normalizeBase (base: ?string): string {
-  // respect <base> tag
   if (!base) {
     if (inBrowser) {
       // respect <base> tag
-      const baseURI = document.baseURI || '/'
-      const a = document.createElement('a')
-      a.href = baseURI
-      base = a.pathname
+      const baseEl = document.querySelector('base')
+      base = (baseEl && baseEl.getAttribute('href')) || '/'
+      // strip full URL origin
+      base = base.replace(/^https?:\/\/[^\/]+/, '')
     } else {
       base = '/'
     }
