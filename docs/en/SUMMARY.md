@@ -7,7 +7,7 @@
 - [Installation](installation.md)
 - Essentiel
   - [Pour commencer](essentials/getting-started.md)
-  - [Concordance de route dynamique](essentials/dynamic-matching.md)
+  - [Concordance dynamique de route](essentials/dynamic-matching.md)
   - [Navigation programmatique](essentials/navigation.md)
   - [Routes imbriquées](essentials/nested-routes.md)
   - [Routes nommées](essentials/named-routes.md)
