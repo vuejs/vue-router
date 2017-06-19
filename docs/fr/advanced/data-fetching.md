@@ -1,4 +1,4 @@
-# La récupération de données
+# Récupération de données
 
 Parfois vous avez besoin de récupérer des données depuis le serveur lorsqu'une route est activée. Par exemple, avant de faire le rendu d'un profil utilisateur, vous avez besoin de récupérer les données de l'utilisateur depuis le serveur. Nous pouvons y parvenir de deux façons différentes :
 
