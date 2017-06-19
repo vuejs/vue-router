@@ -4,21 +4,21 @@
 
 Vue の [非同期コンポーネント機能](http://jp.vuejs.org/guide/components.html#非同期コンポーネント) と webpack の [コード分割機能](https://webpack.js.org/guides/code-splitting-async/) を組み合わせることでとても簡単に遅延ロードするルートコンポーネントができます。
 
-First, an async component can be defined as a factory function that returns a Promise (which should resolve to the component itself)
+最初に、非同期コンポーネントは Promise (コンポーネント自身解決する必要がある) を返すファクトリ関数として定義できます:
 
 ``` js
 const Foo = () => Promise.resolve({ /* component definition */ })
 ```
 
-Second, in webpack 2, we can use the [dynamic import](https://github.com/tc39/proposal-dynamic-import) syntax to indicate a code-split point:
+次に、webpack 2 において [動的 import](https://github.com/tc39/proposal-dynamic-import) 構文を使用して、コード分割ポイントを示すことができます:
 
 ``` js
 import('./Foo.vue') // returns a Promise
 ```
 
-> Note: if you are using Babel, you will need to add the [syntax-dynamic-import](http://babeljs.io/docs/plugins/syntax-dynamic-import/) plugin so that Babel can properly parse the syntax.
+> Note: Babel を使用している場合、Babel が構文を正しく解析するために [syntax-dynamic-import](http://babeljs.io/docs/plugins/syntax-dynamic-import/) プラグインを追加する必要があります。
 
-Combining the two, this is how to define an async component that will be automatically code-split by webpack:
+2 つを組み合わせることで、これは、webpack によって自動的にコード分割される非同期コンポーネントを定義する方法です:
 
 ``` js
 const Foo = () => import('./Foo.vue')
