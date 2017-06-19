@@ -20,11 +20,11 @@ La fonction `scrollBehavior` reçoit les objets de route `to` et `from`. Le troi
 La fonction peut retourner un objet décrivant la position du défilement. L'objet peut être de la forme :
 
 -  `{ x: number, y: number }`
-- `{ selector: String }`
+- `{ selector: string, offset? : { x: number, y: number }}` (offset seulement supporté pour les versions 2.6.0+)
 
 Si une valeur équivalente à `false` ou un objet vide est retourné, aucun défilement ne sera produit.
 
-Par exemple : 
+Par exemple :
 
 ``` js
 scrollBehavior (to, from, savedPosition) {
@@ -53,6 +53,7 @@ scrollBehavior (to, from, savedPosition) {
   if (to.hash) {
     return {
       selector: to.hash
+      // , offset: { x: 0, y: 10 }
     }
   }
 }
