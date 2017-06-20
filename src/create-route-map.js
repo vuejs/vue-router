@@ -19,6 +19,12 @@ export function createRouteMap (
   const pathMap: Dictionary<RouteRecord> = oldPathMap || Object.create(null)
   const nameMap: Dictionary<RouteRecord> = oldNameMap || Object.create(null)
 
+  if (process.env.NODE_ENV !== 'production') {
+    if (routes.length === 0) {
+      warn(false, `route configuration is empty.`)
+    }
+  }
+
   routes.forEach(route => {
     addRouteRecord(pathList, pathMap, nameMap, route)
   })
