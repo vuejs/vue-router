@@ -99,4 +99,4 @@
 
   Controla si el router debe o no utilizar el modo `hash` cuando el navegador no soporte `history.pushState`. El valor por defecto es `true`.
 
-  Configurar esto como `false` genera escencialmente que cada navegación a través de `router-link` sea una recarga completa de la página en IE9. Esto es útil cuando la aplicación es renderizada en el servidor y necesita funciona en IE9, porque las URL en modo hash no funcionan con SSR.
+  Configurar esto como `false` hace que cada navegación a través de `router-link` sea una recarga completa de la página en IE9. Esto es útil cuando la aplicación es renderizada en el servidor y necesita funcionar en IE9, porque las URL en modo hash no funcionan con SSR.
