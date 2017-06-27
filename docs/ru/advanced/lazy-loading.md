@@ -8,8 +8,8 @@
 
 ``` js
 const Foo = resolve => {
-  // `require.ensure` — это специальный синтаксис Webpack'а для определения точки разделения кода.
-  require.ensure(['./Foo.vue'], () => {
+  // Вызов `import()` — устанавливает точку разделения кода.
+  import('./Foo.vue').then(() => {
     resolve(require('./Foo.vue'))
   })
 }
