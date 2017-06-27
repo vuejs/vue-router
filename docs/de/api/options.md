@@ -30,9 +30,9 @@
 
   Bestimmt den Router-Mode.
 
-  - `hash`: Nutzt den URL-Hash für das Routing. Funktioniert in allen Vue-unterstützten Browsern, inklusive derer, die HTML5 Verlaufs-API nicht unterstützen.
+  - `hash`: Nutzt den URL-Hash für das Routing. Funktioniert in allen Vue-unterstützten Browsern, inklusive derer, die die HTML5 Verlaufs-API nicht unterstützen.
 
-  - `history`: Benötigt HTML5 Verlaufs-API und Serverkonfiguration. Siehe [HTML5 Verlaufsmodus](../essentials/history-mode.md).
+  - `history`: Benötigt die HTML5 Verlaufs-API und Serverkonfiguration. Siehe [HTML5 Verlaufsmodus](../essentials/history-mode.md).
 
   - `abstract`: Funktioniert in jeder JavaScript-Umgebung, zB. serverseitig mit Node.js. **Der Router wird automatisch in diesen Modus gezwungen, wenn keine Browser-API vorhanden ist.**
 
