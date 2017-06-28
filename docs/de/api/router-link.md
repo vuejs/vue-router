@@ -73,7 +73,7 @@
 
   - Default: `"a"`
 
-  Manchmal soll `<router-link>` einen anderen Tag rendern, zB. `<li>`. Mit Hilfe des `tag`-Props kann man definieren, welcher tag gerendert werden soll. Der Tag reagiert nach wie vor auf Klick-Events für die Navigation.
+  Manchmal soll `<router-link>` einen anderen Tag rendern, zB. `<li>`. Mit Hilfe des `tag`-Props kann man definieren, welcher Tag gerendert werden soll. Der Tag reagiert nach wie vor auf Klick-Events für die Navigation.
 
   ``` html
   <router-link to="/foo" tag="li">foo</router-link>
