@@ -1,74 +1,74 @@
-# Dynamic Route Matching (En) <br><br> *Cette page est en cours de traduction française. Revenez une autre fois pour lire une traduction achevée ou [participez à la traduction française ici](https://github.com/vuejs-fr/vue-router).*
+# Concordance dynamique de route
 
-Very often we will need to map routes with the given pattern to the same component. For example we may have a `User` component which should be rendered for all users but with different user IDs. In `vue-router` we can use a dynamic segment in the path to achieve that:
+Vous allez très souvent associer des routes avec un motif donné à un même composant. Par exemple nous pourrions avoir le composant `User` qui devrait être rendu pour tous les utilisateurs mais avec différents identifiants. Avec `vue-router` nous pouvons utiliser des segments dynamiques dans le chemin de la route pour réaliser cela :
 
 ``` js
 const User = {
-  template: '<div>User</div>'
+  template: '<div>Utilisateur</div>'
 }
 
 const router = new VueRouter({
   routes: [
-    // dynamic segments start with a colon
-    { path: '/user/:id', component: User }
+    // Les segments dynamiques commencent avec la ponctuation deux-points
+    { path: '/utilisateur/:id', component: User }
   ]
 })
 ```
 
-Now URLs like `/user/foo` and `/user/bar` will both map to the same route.
+Maintenant des URLs comme `/utilisateur/foo` et `/utilisateur/bar` seront chacune associée à la même route.
 
-A dynamic segment is denoted by a colon `:`. When a route is matched, the value of the dynamic segments will be exposed as `this.$route.params` in every component. Therefore, we can render the current user ID by updating `User`'s template to this:
+Un segment dynamique se repère avec les deux-points `:`. Quand une route concorde, la valeur du segment dynamique est exposée via `this.$route.params` dans tous les composants. Et donc, nous pouvons faire le rendu de l'identifiant de l'utilisateur courant en mettant à jour le template de `User` ainsi :
 
 ``` js
 const User = {
-  template: '<div>User {{ $route.params.id }}</div>'
+  template: '<div>Utilisateur {{ $route.params.id }}</div>'
 }
 ```
 
-You can checkout a live example [here](http://jsfiddle.net/yyx990803/4xfa2f19/).
+Vous pouvez regarder un exemple en ligne [ici](http://jsfiddle.net/yyx990803/4xfa2f19/).
 
-You can have multiple dynamic segments in the same route, and they will map to corresponding fields on `$route.params`. Examples:
+Vous pouvez avoir plusieurs segments dynamiques pour une même route, et ils seront associés aux champs associés dans `$route.params`. Des exemples :
 
-| pattern | matched path | $route.params |
+| motif | chemin concordant | $route.params |
 |---------|------|--------|
-| /user/:username | /user/evan | `{ username: 'evan' }` |
-| /user/:username/post/:post_id | /user/evan/post/123 | `{ username: 'evan', post_id: 123 }` |
+| /utilisateur/:username | /utilisateur/evan | `{ username: 'evan' }` |
+| /utilisateur/:username/billet/:post_id | /utilisateur/evan/billet/123 | `{ username: 'evan', post_id: 123 }` |
 
-In addition to `$route.params`, the `$route` object also exposes other useful information such as `$route.query` (if there is a query in the URL), `$route.hash`, etc. You can check out the full details in the [API Reference](../api/route-object.md).
+En plus de `$route.params`, l'objet `$route` expose également d'autres informations utiles comme la `$route.query` (s'il y a une requête dans l'URL), `$route.hash`, etc. Vous pouvez accéder à tous les détails de cela dans la [référence de l'API](../api/route-object.md).
 
-### Reacting to Params Changes
+### Réactivité aux changements de paramètres
 
-One thing to note when using routes with params is that when the user navigates from `/user/foo` to `/user/bar`, **the same component instance will be reused**. Since both routes render the same component, this is more efficient than destroying the old instance and then creating a new one. **However, this also means that the lifecycle hooks of the component will not be called**.
+Une chose à noter quand vous utilisez des routes avec des paramètres (segments), c'est que lors de la navigation de l'utilisateur de `/utilisateur/foo` vers `/utilisateur/bar`, **la même instance de composant va être réutilisée**. Puisque les deux routes font le rendu du même composant, cela est plus performant que de détruire l'ancienne instance et dans créer une nouvelle. **Cependant, cela signifie également que les hooks de cycle de vie ne seront pas appelés**.
 
-To react to params changes in the same component, you can simply watch the `$route` object:
+Pour réagir aux changements de paramètres dans le même composant, vous pouvez simplement observer l'objet `$route` :
 
 ``` js
 const User = {
   template: '...',
   watch: {
     '$route' (to, from) {
-      // react to route changes...
+      // réagir au changement de route...
     }
   }
 }
 ```
 
-Or, use the `beforeRouteUpdate` guard introduced in 2.2:
+Ou utiliser la fonction de sécurisation `beforeRouteUpdate` introduite avec la 2.2 :
 
 ``` js
 const User = {
   template: '...',
   beforeRouteUpdate (to, from, next) {
-    // react to route changes...
-    // don't forget to call next()
+    // réagir au changement de route...
+    // n'oubliez pas d'appeler `next()`
   }
 }
 ```
 
-### Advanced Matching Patterns
+### Motifs de concordance avancés
 
-`vue-router` uses [path-to-regexp](https://github.com/pillarjs/path-to-regexp) as its path matching engine, so it supports many advanced matching patterns such as optional dynamic segments, zero or more / one or more requirements, and even custom regex patterns. Check out its [documentation](https://github.com/pillarjs/path-to-regexp#parameters) for these advanced patterns, and [this example](https://github.com/vuejs/vue-router/blob/dev/examples/route-matching/app.js) of using them in `vue-router`.
+`vue-router` utilise [path-to-regexp](https://github.com/pillarjs/path-to-regexp) comme moteur de concordance de chemin, il supporte donc plusieurs motifs de concordance avancés tel que la présence optionnelle de segments dynamiques, aucun ou plusieurs motifs, plus d'options par motifs, et même des motifs d'expressions régulières personnalisés. Consultez cette [documentation](https://github.com/pillarjs/path-to-regexp#parameters) pour utiliser ces motifs avancés et [cet exemple](https://github.com/vuejs/vue-router/blob/dev/examples/route-matching/app.js) pour les utiliser avec `vue-router`.
 
-### Matching Priority
+### Priorité de concordance
 
-Sometimes the same URL may be matched by multiple routes. In such a case the matching priority is determined by the order of route definition: the earlier a route is defined, the higher priority it gets.
+Parfois la même URL peut être adressée par de multiples routes. Dans ce cas, la priorité de concordance est déterminée par l'ordre de la définition des routes : plus la route est définie tôt, plus sa priorité est élevée.

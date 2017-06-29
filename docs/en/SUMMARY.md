@@ -32,7 +32,7 @@
     - [scrollBehavior](api/options.md#scrollbehavior)
     - [parseQuery / stringifyQuery](api/options.md#parsequery--stringifyquery)
     - [fallback](api/options.md#fallback)
-  - [Router Instance](api/router-instance.md)
+  - [The Router Instance](api/router-instance.md)
     - [Properties](api/router-instance.md#properties)
     - [Methods](api/router-instance.md#methods)
   - [The Route Object](api/route-object.md)
