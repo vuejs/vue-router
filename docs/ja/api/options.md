@@ -17,6 +17,10 @@
     children?: Array<RouteConfig>; // ネストされたルート用
     beforeEnter?: (to: Route, from: Route, next: Function) => void;
     meta?: any;
+
+    // 2.6.0+
+    caseSensitive?: boolean; // センシティブマッチをケースとして使用するかどうか? (デフォルト: false)
+    pathToRegexpOptions?: Object; // 正規表現のコンパイルとして path-to-regexp オプション
   }
   ```
 
@@ -85,3 +89,13 @@
 - 型: `Function`
 
   カスタムクエリ構文解析関数 / 文字列化関数を提供します。デフォルトを上書きします。
+
+### fallback
+
+> 2.6.0+
+
+- 型: `boolean`
+
+  ブラウザが `history.pushState` をサポートしないとき、 ルーターが `hash` モードにフォールバックかどうか制御します。デフォルトは `true`
+
+  これを `false` に設定すると、本質的に全ての `router-link` ナビゲーションが IE9 においてフルページリフレッシュになります。これは、サーバサイドレンダリングでハッシュモードの URL が機能しないため、IE9 で動作する必要がある場合に便利です。

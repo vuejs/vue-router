@@ -8,7 +8,7 @@
 <router-view class="view three" name="b"></router-view>
 ```
 
-1 つの view は 1 つのコンポーネントを使ってレンダリングされます。したがって、同じルートに対する複数の view には複数のコンポーネントが必須になります。この `components` (s が付いている) オプションに注意してください。
+1 つの view は 1 つのコンポーネントを使って描画されます。したがって、同じルートに対する複数の view には複数のコンポーネントが必須になります。この `components` (s が付いている) オプションに注意してください。
 
 ``` js
 const router = new VueRouter({
