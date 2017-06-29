@@ -145,5 +145,12 @@ describe('Creating Route Map', function () {
 
       expect(nameMap.foo.regex.ignoreCase).toBe(false)
     })
+
+    it('in development, warn empty route configuration', () => {
+      process.env.NODE_ENV = 'development'
+      maps = createRouteMap([])
+      expect(console.warn).toHaveBeenCalled()
+      expect(console.warn.calls.argsFor(0)[0]).toMatch('vue-router] route configuration is empty.')
+    })
   })
 })
