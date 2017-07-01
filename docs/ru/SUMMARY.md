@@ -33,7 +33,7 @@
     - [scrollBehavior](api/options.md#scrollbehavior)
     - [parseQuery / stringifyQuery](api/options.md#parsequery--stringifyquery)
     - [fallback](api/options.md#fallback)
-  - [Инстанс Router'а](api/router-instance.md)
+  - [Экземпляр Router](api/router-instance.md)
     - [Свойства](api/router-instance.md#свойства)
     - [Методы](api/router-instance.md#методы)
   - [Объект route](api/route-object.md)
