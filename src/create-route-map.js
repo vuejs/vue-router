@@ -57,8 +57,12 @@ function addRouteRecord (
     )
   }
 
-  const normalizedPath = normalizePath(path, parent)
   const pathToRegexpOptions: PathToRegexpOptions = route.pathToRegexpOptions || {}
+  const normalizedPath = normalizePath(
+    path,
+    parent,
+    pathToRegexpOptions.strict
+  )
 
   if (typeof route.caseSensitive === 'boolean') {
     pathToRegexpOptions.sensitive = route.caseSensitive
@@ -157,8 +161,8 @@ function compileRouteRegex (path: string, pathToRegexpOptions: PathToRegexpOptio
   return regex
 }
 
-function normalizePath (path: string, parent?: RouteRecord): string {
-  path = path.replace(/\/$/, '')
+function normalizePath (path: string, parent?: RouteRecord, strict?: boolean): string {
+  if (!strict) path = path.replace(/\/$/, '')
   if (path[0] === '/') return path
   if (parent == null) return path
   return cleanPath(`${parent.path}/${path}`)

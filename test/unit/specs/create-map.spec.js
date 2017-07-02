@@ -145,5 +145,23 @@ describe('Creating Route Map', function () {
 
       expect(nameMap.foo.regex.ignoreCase).toBe(false)
     })
+
+    it('keeps trailing slashes with strict mode', function () {
+      const { pathList } = createRouteMap([
+        {
+          path: '/foo/',
+          component: Foo,
+          pathToRegexpOptions: {
+            strict: true
+          }
+        },
+        {
+          path: '/bar/',
+          component: Foo
+        }
+      ])
+
+      expect(pathList).toEqual(['/foo/', '/bar'])
+    })
   })
 })
