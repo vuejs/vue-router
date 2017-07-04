@@ -77,7 +77,7 @@ export function stringifyQuery (obj: Dictionary<string>): string {
 
     if (Array.isArray(val)) {
       const result = []
-      val.slice().forEach(val2 => {
+      val.forEach(val2 => {
         if (val2 === undefined) {
           return
         }

@@ -40,11 +40,16 @@ const Hook: ComponentOptions<Vue> = {
 const router = new VueRouter({
   mode: "history",
   base: "/",
+  fallback: false,
   linkActiveClass: "active",
   linkExactActiveClass: "exact-active",
   scrollBehavior: (to, from, savedPosition) => {
     if (from.path === "/") {
       return { selector: "#app" };
+    }
+
+    if (from.path === "/offset") {
+      return { selector: '#foo', offset: { x: 0, y: 100 }}
     }
 
     if (to.path === "/child") {

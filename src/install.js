@@ -9,14 +9,6 @@ export function install (Vue) {
 
   _Vue = Vue
 
-  Object.defineProperty(Vue.prototype, '$router', {
-    get () { return this.$root._router }
-  })
-
-  Object.defineProperty(Vue.prototype, '$route', {
-    get () { return this.$root._route }
-  })
-
   const isDef = v => v !== undefined
 
   const registerInstance = (vm, callVal) => {
@@ -29,9 +21,12 @@ export function install (Vue) {
   Vue.mixin({
     beforeCreate () {
       if (isDef(this.$options.router)) {
+        this._routerRoot = this
         this._router = this.$options.router
         this._router.init(this)
         Vue.util.defineReactive(this, '_route', this._router.history.current)
+      } else {
+        this._routerRoot = (this.$parent && this.$parent._routerRoot) || this
       }
       registerInstance(this, this)
     },
@@ -40,10 +35,18 @@ export function install (Vue) {
     }
   })
 
+  Object.defineProperty(Vue.prototype, '$router', {
+    get () { return this._routerRoot._router }
+  })
+
+  Object.defineProperty(Vue.prototype, '$route', {
+    get () { return this._routerRoot._route }
+  })
+
   Vue.component('router-view', View)
   Vue.component('router-link', Link)
 
   const strats = Vue.config.optionMergeStrategies
   // use the same hook merging strategy for route hooks
-  strats.beforeRouteEnter = strats.beforeRouteLeave = strats.created
+  strats.beforeRouteEnter = strats.beforeRouteLeave = strats.beforeRouteUpdate = strats.created
 }

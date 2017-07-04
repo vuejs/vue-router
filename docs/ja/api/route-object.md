@@ -14,7 +14,7 @@
 
   ``` js
   router.beforeEach((route, redirect, next) => {
-    // ここの route はルートオブジェクト
+    // `to` と `from` は両方ともルートオブジェクト
   })
   ```
 
@@ -23,7 +23,7 @@
   ``` js
   const router = new VueRouter({
     scrollBehavior (to, from, savedPosition) {
-      // to と from は両方ともルートオブジェクト
+      // `to` と `from` は両方ともルートオブジェクト
     }
   })
   ```

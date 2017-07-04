@@ -45,7 +45,7 @@ const Bar = {
 
 ``` js
 // そして親コンポーネントの中で、
-// $route を watch して使用するトランジションを決定します
+// `$route` を watch して使用するトランジションを決定します
 watch: {
   '$route' (to, from) {
     const toDepth = to.path.split('/').length

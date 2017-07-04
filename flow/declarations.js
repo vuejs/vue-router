@@ -4,9 +4,15 @@ declare class RouteRegExp extends RegExp {
   keys: Array<{ name: string, optional: boolean }>;
 }
 
+declare type PathToRegexpOptions = {
+  sensitive?: boolean,
+  strict?: boolean,
+  end?: boolean
+}
+
 declare module 'path-to-regexp' {
   declare var exports: {
-    (path: string, keys?: Array<?{ name: string }>): RouteRegExp;
+    (path: string, keys?: Array<?{ name: string }>, options?: PathToRegexpOptions): RouteRegExp;
     compile: (path: string) => (params: Object) => string;
   }
 }
@@ -21,9 +27,12 @@ declare type NavigationGuard = (
 
 declare type AfterNavigationHook = (to: Route, from: Route) => any
 
+type Position = { x: number, y: number };
+
 declare type RouterOptions = {
   routes?: Array<RouteConfig>;
   mode?: string;
+  fallback?: boolean;
   base?: string;
   linkActiveClass?: string;
   parseQuery?: (query: string) => Object;
@@ -31,8 +40,8 @@ declare type RouterOptions = {
   scrollBehavior?: (
     to: Route,
     from: Route,
-    savedPosition: ?{ x: number, y: number }
-  ) => { x: number, y: number } | { selector: string } | ?{};
+    savedPosition: ?Position
+  ) => Position | { selector: string, offset?: Position } | ?{};
 }
 
 declare type RedirectOption = RawLocation | ((to: Route) => RawLocation)
@@ -48,6 +57,8 @@ declare type RouteConfig = {
   beforeEnter?: NavigationGuard;
   meta?: any;
   props?: boolean | Object | Function;
+  caseSensitive?: boolean;
+  pathToRegexpOptions?: PathToRegexpOptions;
 }
 
 declare type RouteRecord = {
