@@ -74,6 +74,8 @@ export function isSameRoute (a: Route, b: ?Route): boolean {
 }
 
 function isObjectEqual (a = {}, b = {}): boolean {
+  // handle null value #1566
+  if (!a || !b) return a === b
   const aKeys = Object.keys(a)
   const bKeys = Object.keys(b)
   if (aKeys.length !== bKeys.length) {
