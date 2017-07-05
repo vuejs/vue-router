@@ -65,6 +65,6 @@ const app = new Vue({
 
 // Die App ist nun gestartet.
 ```
-Das ganze gibt es natürlich auch als [Live-Beispiel](http://jsfiddle.net/yyx990803/xgrjzsup/) an.
+Das ganze gibt es natürlich auch als [Live-Beispiel](http://jsfiddle.net/yyx990803/xgrjzsup/).
 
 Hinweis: `<router-link>` erhält automatisch die CSS-class `.router-link-active`, wenn die aktuelle Route im Browser der des router-link entspricht. Mehr Infos dazu in der [API-Referenz](../api/router-link.md).

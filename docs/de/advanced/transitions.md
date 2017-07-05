@@ -34,7 +34,7 @@ const Bar = {
 
 ### Route-basierter dynamischer Übergang
 
-Es ist auch möglich den Übergang dynamisch anhand der Beziehung zwischen Ziel- und aktueller Route festzulegen:
+Es ist auch möglich, den Übergang dynamisch anhand der Beziehung zwischen Ziel- und aktueller Route festzulegen:
 
 ``` html
 <!-- nutze einen dynamischen Übergangsnamen -->
@@ -55,4 +55,4 @@ watch: {
 }
 ```
 
-Komplette Beispiel [hier](https://github.com/vuejs/vue-router/blob/dev/examples/transitions/app.js) ansehen.
+Komplettes Beispiel [hier](https://github.com/vuejs/vue-router/blob/dev/examples/transitions/app.js) ansehen.

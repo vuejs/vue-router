@@ -79,7 +79,15 @@ function isObjectEqual (a = {}, b = {}): boolean {
   if (aKeys.length !== bKeys.length) {
     return false
   }
-  return aKeys.every(key => String(a[key]) === String(b[key]))
+  return aKeys.every(key => {
+    const aVal = a[key]
+    const bVal = b[key]
+    // check nested equality
+    if (typeof aVal === 'object' && typeof bVal === 'object') {
+      return isObjectEqual(aVal, bVal)
+    }
+    return String(aVal) === String(bVal)
+  })
 }
 
 export function isIncludedRoute (current: Route, target: Route): boolean {

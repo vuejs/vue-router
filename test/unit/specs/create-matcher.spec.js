@@ -2,8 +2,8 @@
 import { createMatcher } from '../../../src/create-matcher'
 
 const routes = [
-  { path: '/', name: 'home', component: { name: 'home' } },
-  { path: '/foo', name: 'foo', component: { name: 'foo' } },
+  { path: '/', name: 'home', component: { name: 'home' }},
+  { path: '/foo', name: 'foo', component: { name: 'foo' }},
 ]
 
 describe('Creating Matcher', function () {
@@ -21,15 +21,15 @@ describe('Creating Matcher', function () {
 
   it('in development, has logged a warning if a named route does not exist', function () {
     process.env.NODE_ENV = 'development'
-    expect(() => {
-      match({ name: 'bar' }, routes[0]);
-    }).toThrow(new TypeError('Cannot read property \'regex\' of undefined'));
+    const { name, matched } = match({ name: 'bar' }, routes[0])
+    expect(matched.length).toBe(0)
+    expect(name).toBe('bar')
     expect(console.warn).toHaveBeenCalled()
-    expect(console.warn.calls.argsFor(0)[0]).toMatch('Route with name \'bar\' does not exist');
+    expect(console.warn.calls.argsFor(0)[0]).toMatch('Route with name \'bar\' does not exist')
   })
 
   it('in production, it has not logged this warning', function () {
-    match({ name: 'foo' }, routes[0]);
+    match({ name: 'foo' }, routes[0])
     expect(console.warn).not.toHaveBeenCalled()
   })
 })

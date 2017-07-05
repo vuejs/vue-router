@@ -1,8 +1,8 @@
 # Daten laden
 
-Oftmals Müssen wir Daten von einem Server laden, sobald eine Route aktiviert wird. Zum Beispiel müssen die Daten des Users vom Server geladen werden, bevor das Userprofil angezeigt werden kann. Dies kann auf zwei Arten erreicht werden:
+Oftmals müssen wir Daten von einem Server laden, sobald eine Route aktiviert wird. Zum Beispiel müssen die Daten des Users vom Server geladen werden, bevor das Userprofil angezeigt werden kann. Dies kann auf zwei Arten erreicht werden:
 
-- **Laden nach der Navigation**: Der Router schließt zuerst die Navigation ab und wir laden die Daten anschließend in der neuen Komponente. Während der Übertragung kann ein Ladebalken oder ähnliches angezeigt in der Komponente werden.
+- **Laden nach der Navigation**: Der Router schließt zuerst die Navigation ab und wir laden die Daten anschließend in der neuen Komponente. Während der Übertragung kann ein Ladebalken oder ähnliches in der Komponente angezeigt werden.
 
 - **Laden der Navigation**: Wir laden Daten bevor die Navigation der Route durchgeführt wird und navigieren danach erst zur neuen Route.
 
@@ -110,4 +110,4 @@ export default {
 }
 ```
 
-Der Nutzer bleibt im aktuellen View, während die Daten für den neuen View geladen werden. Daher ist es empfehlenswert, derwiel anderswo in der App einen Ladebalken oder ähnliches anzuzeigen. Wenn der Ladevorgang fehlschlägt, ist es außerdem wichtig, eine Fehlermeldung auszugeben.
+Der Nutzer bleibt im aktuellen View, während die Daten für den neuen View geladen werden. Daher ist es während des Ladevorgangs empfehlenswert, innerhalb der App einen Ladebalken oder ähnliches anzuzeigen. Wenn der Ladevorgang fehlschlägt, ist es außerdem wichtig, eine Fehlermeldung auszugeben.

@@ -44,6 +44,34 @@ location / {
 
 Node.js/Express では [connect-history-api-fallback middleware](https://github.com/bripkens/connect-history-api-fallback) の利用を検討してください。
 
+#### Internet Information Services (IIS)
+```
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+  <system.webServer>
+    <rewrite>
+      <rules>
+        <rule name="Handle History Mode and custom 404/500" stopProcessing="true">
+            <match url="(.*)" />
+            <conditions logicalGrouping="MatchAll">
+              <add input="{REQUEST_FILENAME}" matchType="IsFile" negate="true" />
+              <add input="{REQUEST_FILENAME}" matchType="IsDirectory" negate="true" />
+            </conditions>
+          <action type="Rewrite" url="index.html" />
+        </rule>
+      </rules>
+    </rewrite>
+      <httpErrors>     
+          <remove statusCode="404" subStatusCode="-1" />                
+          <remove statusCode="500" subStatusCode="-1" />
+          <error statusCode="404" path="/survey/notfound" responseMode="ExecuteURL" />                
+          <error statusCode="500" path="/survey/error" responseMode="ExecuteURL" />
+      </httpErrors>
+      <modules runAllManagedModulesForAllRequests="true"/>
+  </system.webServer>
+</configuration>
+```
+
 ## 注意
 
 この点に関して注意があります。全ての not-found パスが `index.html` を提供するため、もはや 404 エラーをサーバーがレポートしなくなります。回避策として、Vue アプリケーション内で 404 ページを表示するために catch-all ルートを実装すべきです。

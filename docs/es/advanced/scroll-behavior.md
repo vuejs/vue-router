@@ -20,7 +20,7 @@ La función `scrollBehavior` recibe los objetos de ruta `to` y `from`. El tercer
 La función puede devolver un objeto de posición de `scroll`. El objeto puede ser de la forma:
 
 - `{ x: number, y: number }`
-- `{ selector: string }`
+- `{ selector: string, offset? : { x: number, y: number }}` (offset solo soportado a partir de la versión 2.6.0+)
 
 Si se devuelve un valor *falso* o un objeto vacio, no ocurrirá ningún desplazamiento.
 
@@ -53,6 +53,7 @@ scrollBehavior (to, from, savedPosition) {
   if (to.hash) {
     return {
       selector: to.hash
+      // , offset: { x: 0, y: 10 }
     }
   }
 }

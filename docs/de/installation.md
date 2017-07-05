@@ -8,7 +8,7 @@
 [Unpkg.com](https://unpkg.com) bietet NPM-basierte CDN-Links an. Der obige Link führt immer zur aktuellsten Version auf NPM. Eine genaue Version kann via URL genutzt werden: `https://unpkg.com/vue-router@2.0.0`.
 <!--/email_off-->
 
-Füge `vue-router` nach Vue ein und es installiert sich selbst automatisch:
+Füge `vue-router` nach Vue ein und es installiert sich automatisch selbst:
 
 ``` html
 <script src="/path/to/vue.js"></script>
