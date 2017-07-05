@@ -140,3 +140,24 @@ Sometimes we may want the active class to be applied to an outer element rather 
 ```
 
 In this case the `<a>` will be the actual link (and will get the correct `href`), but the active class will be applied to the outer `<li>`.
+
+### Applying visited states
+
+Sometimes we want to use a router-link component to benefit from its visited state or other things but manually handle the `@click` and it's necessary to use native.
+
+```html
+new Vue({
+  router,
+  template: `
+    <div id="app">
+      <router-link to="/parent" @click.native="parentClicked">/parent</router-link>
+    </div>
+  `,
+
+  methods: {
+    parentClicked(){
+      console.log('parentClicked')
+    }
+  }
+}).$mount('#app')
+```
