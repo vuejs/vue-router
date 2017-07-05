@@ -47,6 +47,18 @@ describe('Route utils', () => {
       expect(isSameRoute(a, b)).toBe(true)
       expect(isSameRoute(a, c)).toBe(false)
     })
+
+    it('null values (regression test for #1566)', () => {
+      const a = {
+        path: '/abc',
+        query: { foo: 'bar' }
+      }
+      const b = {
+        path: '/abc',
+        query: { foo: null }
+      }
+      expect(isSameRoute(a, b)).toBe(false);
+    })
   })
 
   describe('isIncludedRoute', () => {
