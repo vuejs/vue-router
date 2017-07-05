@@ -12,6 +12,7 @@ export type NavigationGuard = (
   from: Route,
   next: (to?: RawLocation | false | ((vm: Vue) => any) | void) => void
 ) => any
+export type LoadChildrenPromise = () => Promise<RouteConfig[]>;
 
 declare class VueRouter {
   constructor (options?: RouterOptions);
@@ -83,6 +84,7 @@ export interface RouteConfig {
   props?: boolean | Object | RoutePropsFunction;
   caseSensitive?: boolean;
   pathToRegexpOptions?: PathToRegexpOptions;
+  loadChildren?: string | LoadChildrenPromise;
 }
 
 export interface RouteRecord {

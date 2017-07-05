@@ -82,6 +82,24 @@ const router = new VueRouter({
           to.params;
           return "/child";
         }
+      },
+      {
+        path: "asyncChildren-webpackLoader",
+        loadChildren: "./children/routes#routes"
+      },
+      {
+        path: "asyncChildren",
+        loadChildren: () => new Promise(resolve => {
+          resolve([
+            {
+              path: "childA",
+              components: {
+                default: Foo,
+                bar: Bar
+              }
+            }
+          ]);
+        })
       }
     ]},
     { path: "/home", alias: "/" },
@@ -161,7 +179,7 @@ router.go(-1);
 router.back();
 router.forward();
 
-const Components: ComponentOptions<Vue> | typeof Vue = router.getMatchedComponents();
+const Components: (ComponentOptions<Vue> | typeof Vue)[] = router.getMatchedComponents();
 
 const vm = new Vue({
   router,
