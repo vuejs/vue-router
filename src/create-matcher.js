@@ -19,8 +19,12 @@ export function createMatcher (
 ): Matcher {
   const { pathList, pathMap, nameMap } = createRouteMap(routes)
 
-  function addRoutes (routes) {
-    createRouteMap(routes, pathList, pathMap, nameMap)
+  function addRoutes (routes, parent) {
+    let parentRoute: RouteRecord;
+    if (pathMap && parent) {
+      parentRoute = pathMap[parent];
+    }
+    createRouteMap(routes, pathList, pathMap, nameMap, parentRoute)
   }
 
   function match (

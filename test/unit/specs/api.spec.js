@@ -75,6 +75,39 @@ describe('router.addRoutes', () => {
     expect(components.length).toBe(1)
     expect(components[0].name).toBe('A')
   })
+
+  it('should load children to an existing parent route', function () {
+    const router = new Router({
+      mode: 'abstract',
+      routes: [
+        { path: '/a', component: { name: 'A' }}
+      ]
+    })
+
+    router.push('/a')
+    let components = router.getMatchedComponents()
+    expect(components.length).toBe(1)
+    expect(components[0].name).toBe('A')
+
+    router.push('/a/b')
+    components = router.getMatchedComponents()
+    expect(components.length).toBe(0)
+
+    /**
+     * A given route represents a hierarchy of components loaded to the DOM
+     * where each parent must contain a `router-view` for it's children.
+     */
+    router.addRoutes([{ path: 'b', component: { name: 'B' }}], '/a')
+    components = router.getMatchedComponents()
+    expect(components.length).toBe(2)
+    expect(components[1].name).toBe('B')
+
+    // make sure it preserves previous routes
+    router.push('/a')
+    components = router.getMatchedComponents()
+    expect(components.length).toBe(1)
+    expect(components[0].name).toBe('A')
+  })
 })
 
 describe('router.push/replace callbacks', () => {
@@ -98,7 +131,20 @@ describe('router.push/replace callbacks', () => {
 
     router = new Router({
       routes: [
-        { path: '/foo', component: Foo }
+        { path: '/foo', component: Foo },
+        {
+          path: '/asyncFoo',
+          name: 'asyncFoo',
+          loadChildren: function () {
+            return Promise.resolve([
+              {
+                path: 'asyncBar',
+                name: 'asyncBar',
+                component: Foo
+              }
+            ])
+          }
+        }
       ]
     })
 
