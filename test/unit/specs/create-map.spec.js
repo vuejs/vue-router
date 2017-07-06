@@ -200,14 +200,14 @@ describe('Creating Route Map', function () {
         {
           name: 'asyncFoo',
           path: '/asyncFoo',
-          loadChildren: () => new Promise(function (resolve) {
-            return [
+          loadChildren: function () {
+            return Promise.resolve([
               {
                 name: 'asyncBar',
                 component: Foo
               }
-            ]
-          })
+            ])
+          }
         }
       ])
 

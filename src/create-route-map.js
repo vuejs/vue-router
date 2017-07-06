@@ -81,7 +81,7 @@ function addRouteRecord (
 
   const record: RouteRecord = {
     path: normalizedPath,
-    regex: compileRouteRegex(normalizedPath, pathToRegexpOptions),
+    regex: compileRouteRegex(normalizedPath, pathToRegexpOptions, hasAsyncChildren),
     components: route.components || { default: route.component },
     instances: {},
     name,
@@ -164,8 +164,8 @@ function addRouteRecord (
   }
 }
 
-function compileRouteRegex (path: string, pathToRegexpOptions: PathToRegexpOptions): RouteRegExp {
-  const regex = Regexp(path, [], pathToRegexpOptions)
+function compileRouteRegex (path: string, pathToRegexpOptions: PathToRegexpOptions, async?: boolean): RouteRegExp {
+  const regex = Regexp(`${path}${async ? '(\/{0,1}.*)' : ''}`, [], pathToRegexpOptions)
   if (process.env.NODE_ENV !== 'production') {
     const keys: any = {}
     regex.keys.forEach(key => {
@@ -177,8 +177,7 @@ function compileRouteRegex (path: string, pathToRegexpOptions: PathToRegexpOptio
 }
 
 function normalizePath (path: string, parent?: RouteRecord, strict?: boolean, async?: boolean): string {
-  if (!strict) path = path.replace(/\/$/, '')
-  if (async) path = `${path}(\/{0,1}.*)`;
+  if (!strict || async) path = path.replace(/\/$/, '')
   if (path[0] === '/') return path
   if (parent == null) return path
   return cleanPath(`${parent.path}/${path}`)

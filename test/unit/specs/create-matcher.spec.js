@@ -4,6 +4,18 @@ import { createMatcher } from '../../../src/create-matcher'
 const routes = [
   { path: '/', name: 'home', component: { name: 'home' }},
   { path: '/foo', name: 'foo', component: { name: 'foo' }},
+  {
+    path: '/async',
+    name: 'async',
+    loadChildren: function () {
+      return Promise.resolve([
+        {
+          name: 'asyncBar',
+          component: Foo
+        }
+      ])
+    }
+  }
 ]
 
 describe('Creating Matcher', function () {
@@ -31,5 +43,25 @@ describe('Creating Matcher', function () {
   it('in production, it has not logged this warning', function () {
     match({ name: 'foo' }, routes[0])
     expect(console.warn).not.toHaveBeenCalled()
+  })
+
+  describe('async children', function () {
+    it('should match the async route', function () {
+      const { name, matched } = match({ path: '/async' }, routes[0])
+      expect(matched.length).toBe(1)
+      expect(name).toBe('async')
+    })
+
+    it('should match the async route ending with a slash', function () {
+      const { name, matched } = match('/async/' , routes[0])
+      expect(matched.length).toBe(1)
+      expect(name).toBe('async')
+    })
+
+    it('should match the async route when the children have not been loaded', function () {
+      const { name, matched } = match('/async/foo', routes[0])
+      expect(matched.length).toBe(1)
+      expect(name).toBe('async')
+    })
   })
 })
