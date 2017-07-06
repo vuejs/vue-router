@@ -71,7 +71,7 @@ describe('Creating Route Map', function () {
     expect(console.warn.calls.argsFor(0)[0]).toMatch('vue-router] Named Route \'bar\'')
   })
 
-  it('in production, it has not logged this warning', function () {
+  it('in production, has not logged a warning concerning named route of parent and default subroute', function () {
     maps = createRouteMap(routes)
     expect(console.warn).not.toHaveBeenCalled()
   })
@@ -162,6 +162,58 @@ describe('Creating Route Map', function () {
       ])
 
       expect(pathList).toEqual(['/foo/', '/bar'])
+    })
+  })
+
+  describe('async children', function () {
+    it('should log a warning in development when loadChildren is not a method', function () {
+      const maps = function () {
+        return createRouteMap([
+          {
+            name: 'asyncFoo',
+            path: '/asyncFoo',
+            loadChildren: '/async/routes'
+          }
+        ])
+      }
+
+      process.env.NODE_ENV = 'development'
+      expect(maps).toThrow()
+    })
+
+    it('should not log a warning in production when loadChildren is not a method', function () {
+      const maps = function () {
+        return createRouteMap([
+          {
+            name: 'asyncFoo',
+            path: '/asyncFoo',
+            loadChildren: '/async/routes'
+          }
+        ])
+      }
+
+      expect(maps).not.toThrow()
+    })
+
+    it('should create a regex that matches the route and any sub-routes of the async route', function () {
+      const { nameMap } = createRouteMap([
+        {
+          name: 'asyncFoo',
+          path: '/asyncFoo',
+          loadChildren: () => new Promise(function (resolve) {
+            return [
+              {
+                name: 'asyncBar',
+                component: Foo
+              }
+            ]
+          })
+        }
+      ])
+
+      expect(nameMap.asyncFoo.regex.test('/asyncFoo')).toBe(true)
+      expect(nameMap.asyncFoo.regex.test('/asyncFoo/')).toBe(true)
+      expect(nameMap.asyncFoo.regex.test('/asyncFoo/asyncBar')).toBe(true)
     })
   })
 })

@@ -48,6 +48,8 @@ function addRouteRecord (
   matchAs?: string
 ) {
   const { path, name } = route
+  const hasAsyncChildren = typeof route.loadChildren === 'function';
+
   if (process.env.NODE_ENV !== 'production') {
     assert(path != null, `"path" is required in a route configuration.`)
     assert(
@@ -55,13 +57,22 @@ function addRouteRecord (
       `route config "component" for path: ${String(path || name)} cannot be a ` +
       `string id. Use an actual component instead.`
     )
+
+    if (route.loadChildren) {
+      assert(
+        hasAsyncChildren,
+        `route config "loadChildren" for path: ${String(path || name)} cannot be a ` +
+        `${typeof route.loadChildren}. Use a method that returns a Promise with your child routes.`
+      )
+    }
   }
 
   const pathToRegexpOptions: PathToRegexpOptions = route.pathToRegexpOptions || {}
   const normalizedPath = normalizePath(
     path,
     parent,
-    pathToRegexpOptions.strict
+    pathToRegexpOptions.strict,
+    hasAsyncChildren
   )
 
   if (typeof route.caseSensitive === 'boolean') {
@@ -84,6 +95,10 @@ function addRouteRecord (
       : route.components
         ? route.props
         : { default: route.props }
+  }
+
+  if (hasAsyncChildren) {
+    record.loadChildren = route.loadChildren;
   }
 
   if (route.children) {
@@ -161,8 +176,9 @@ function compileRouteRegex (path: string, pathToRegexpOptions: PathToRegexpOptio
   return regex
 }
 
-function normalizePath (path: string, parent?: RouteRecord, strict?: boolean): string {
+function normalizePath (path: string, parent?: RouteRecord, strict?: boolean, async?: boolean): string {
   if (!strict) path = path.replace(/\/$/, '')
+  if (async) path = `${path}(\/{0,1}.*)`;
   if (path[0] === '/') return path
   if (parent == null) return path
   return cleanPath(`${parent.path}/${path}`)
