@@ -49,7 +49,7 @@ function addRouteRecord (
   matchAs?: string
 ) {
   const { path, name } = route
-  const hasAsyncChildren = typeof route.loadChildren === 'function';
+  const hasAsyncChildren = typeof route.loadChildren === 'function'
 
   if (process.env.NODE_ENV !== 'production') {
     assert(path != null, `"path" is required in a route configuration.`)
@@ -95,11 +95,12 @@ function addRouteRecord (
       ? {}
       : route.components
         ? route.props
-        : { default: route.props }
+        : { default: route.props },
+    routeConfig: route
   }
 
   if (hasAsyncChildren) {
-    record.loadChildren = route.loadChildren;
+    record.loadChildren = route.loadChildren
   }
 
   if (route.children) {
@@ -134,6 +135,7 @@ function addRouteRecord (
     aliases.forEach(alias => {
       const aliasRoute = {
         path: alias,
+        loadChildren: route.loadChildren,
         children: route.children
       }
       addRouteRecord(

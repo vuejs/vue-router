@@ -10,7 +10,8 @@ import { normalizeLocation } from './util/location'
 
 export type Matcher = {
   match: (raw: RawLocation, current?: Route, redirectedFrom?: Location) => Route;
-  addRoutes: (routes: Array<RouteConfig>) => void;
+  addRoutes: (routes: Array<RouteConfig>, parent?: string) => void;
+  loadAsyncChildren: (location: Route) => Promise<{}>;
 };
 
 export function createMatcher (
@@ -20,9 +21,9 @@ export function createMatcher (
   const { pathList, pathMap, nameMap } = createRouteMap(routes)
 
   function addRoutes (routes, parent) {
-    let parentRoute: RouteRecord;
+    let parentRoute: RouteRecord
     if (pathMap && parent) {
-      parentRoute = pathMap[parent];
+      parentRoute = pathMap[parent]
     }
     createRouteMap(routes, pathList, pathMap, nameMap, parentRoute)
   }
@@ -73,6 +74,43 @@ export function createMatcher (
     }
     // no match
     return _createRoute(null, location)
+  }
+
+  function loadAsyncChildren(
+    location: Route
+  ): Promise<{}> {
+    const asyncMatches = location.matched.filter(match => match && !!match.loadChildren)
+    if (!asyncMatches) {
+      return Promise.reject(new Error('No matched routes have async children.'))
+    }
+
+    return Promise.all([
+      ...asyncMatches.map(match => match.loadChildren())
+    ])
+      .then((children) => {
+        for (let i = 0; i < children.length; i++) {
+          const {name, path} = asyncMatches[i]
+          const parentConfig = pathMap[path].routeConfig
+
+          // Remove the loadChildren property
+          if (name) {
+            delete nameMap[name]
+          }
+
+          delete pathMap[path]
+
+          // Load the children
+          addRoutes([
+            Object.assign(
+              parentConfig,
+              {
+                children: children[i],
+                loadChildren: null
+              }
+            )
+          ])
+        }
+      })
   }
 
   function redirect (
@@ -172,7 +210,8 @@ export function createMatcher (
 
   return {
     match,
-    addRoutes
+    addRoutes,
+    loadAsyncChildren
   }
 }
 

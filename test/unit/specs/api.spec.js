@@ -124,6 +124,16 @@ describe('router.push/replace callbacks', () => {
     }
   }
 
+  const Bar = {
+    beforeRouteEnter (to, from, next) {
+      calls.push(5)
+      setTimeout(() => {
+        calls.push(6)
+        next()
+      }, 1)
+    }
+  }
+
   beforeEach(() => {
     calls = []
     spy1 = jasmine.createSpy('complete')
@@ -135,12 +145,13 @@ describe('router.push/replace callbacks', () => {
         {
           path: '/asyncFoo',
           name: 'asyncFoo',
+          component: Foo,
           loadChildren: function () {
             return Promise.resolve([
               {
                 path: 'asyncBar',
                 name: 'asyncBar',
-                component: Foo
+                component: Bar
               }
             ])
           }
@@ -188,6 +199,49 @@ describe('router.push/replace callbacks', () => {
       expect(spy1).not.toHaveBeenCalled()
       expect(spy2).toHaveBeenCalled()
       done()
+    })
+  })
+
+  describe('async children', function () {
+    it('push complete', done => {
+      router.push('/asyncFoo/asyncBar', () => {
+        expect(calls).toEqual([1, 2, 3, 4, 1, 2, 3, 4, 5, 6])
+        done()
+      })
+    })
+
+    it('push abort', done => {
+      router.push('/foo', spy1, spy2)
+      router.push('/asyncFoo/asyncBar', () => {
+        expect(calls).toEqual([1, 1, 2, 2, 3, 4, 1, 2, 3, 4, 5, 6])
+        expect(spy1).not.toHaveBeenCalled()
+        expect(spy2).toHaveBeenCalled()
+        done()
+      })
+    })
+
+    it('replace complete', done => {
+      router.replace('/asyncFoo/asyncBar', () => {
+        expect(calls).toEqual([1, 2, 3, 4, 1, 2, 3, 4, 5, 6])
+
+        let components = router.getMatchedComponents()
+        expect(components.length).toBe(2)
+        done()
+      })
+    })
+
+    it('replace abort', done => {
+      router.replace('/foo', spy1, spy2)
+      router.replace('/asyncFoo/asyncBar', () => {
+        expect(calls).toEqual([1, 1, 2, 2, 3, 4, 1, 2, 3, 4, 5, 6])
+        expect(spy1).not.toHaveBeenCalled()
+        expect(spy2).toHaveBeenCalled()
+
+        let components = router.getMatchedComponents()
+        expect(components.length).toBe(2)
+        
+        done()
+      })
     })
   })
 })

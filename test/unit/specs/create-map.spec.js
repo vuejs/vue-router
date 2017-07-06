@@ -204,6 +204,7 @@ describe('Creating Route Map', function () {
             return Promise.resolve([
               {
                 name: 'asyncBar',
+                path: '/asyncBar',
                 component: Foo
               }
             ])

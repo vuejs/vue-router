@@ -61,17 +61,36 @@ export class History {
     this.errorCbs.push(errorCb)
   }
 
-  transitionTo (location: RawLocation, onComplete?: Function, onAbort?: Function) {
+  transitionTo (location: RawLocation, onComplete?: Function, onAbort?: Function, childrenLoaded?: boolean) {
     const route = this.router.match(location, this.current)
     this.confirmTransition(route, () => {
       this.updateRoute(route)
-      onComplete && onComplete(route)
-      this.ensureURL()
 
-      // fire ready cbs once
-      if (!this.ready) {
-        this.ready = true
-        this.readyCbs.forEach(cb => { cb(route) })
+      if (route.loadChildren && !childrenLoaded) {
+        this.router.matcher.loadAsyncChildren(route)
+          .then(() => {
+            // Perform transition again to ensure the proper component hierarchy is loaded
+            this.transitionTo(location, onComplete, onAbort, true)
+          })
+          .catch((err) => {
+            if (onAbort) {
+              onAbort(err)
+            }
+
+            if (err && !this.ready) {
+              this.ready = true
+              this.readyErrorCbs.forEach(cb => { cb(err) })
+            }
+          })
+      } else {
+        onComplete && onComplete(route)
+        this.ensureURL()
+
+        // fire ready cbs once
+        if (!this.ready) {
+          this.ready = true
+          this.readyCbs.forEach(cb => { cb(route) })
+        }
       }
     }, err => {
       if (onAbort) {
