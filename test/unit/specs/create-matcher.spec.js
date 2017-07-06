@@ -63,5 +63,15 @@ describe('Creating Matcher', function () {
       expect(matched.length).toBe(1)
       expect(name).toBe('async')
     })
+
+    it('should container property loadChildren with a value of null for non-async routes', function () {
+      const { loadChildren } = match('/foo', routes[0])
+      expect(loadChildren).toBe(null)
+    })
+
+    it('should container property loadChildren without a value of null for async routes', function () {
+      const { loadChildren } = match('/async/foo', routes[0])
+      expect(loadChildren).not.toBe(null)
+    })
   })
 })

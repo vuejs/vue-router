@@ -20,6 +20,7 @@ export function createRoute (
     query: location.query || {},
     params: location.params || {},
     fullPath: getFullPath(location, stringifyQuery),
+    loadChildren: record && record.loadChildren ? record.loadChildren : null,
     matched: record ? formatMatch(record) : []
   }
   if (redirectedFrom) {
