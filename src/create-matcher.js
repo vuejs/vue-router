@@ -11,7 +11,7 @@ import { normalizeLocation } from './util/location'
 export type Matcher = {
   match: (raw: RawLocation, current?: Route, redirectedFrom?: Location) => Route;
   addRoutes: (routes: Array<RouteConfig>, parent?: string) => void;
-  loadAsyncChildren: (location: Route) => Promise<{}>;
+  loadAsyncChildren: (location: Route) => Promise<void>;
 };
 
 export function createMatcher (
@@ -78,19 +78,28 @@ export function createMatcher (
 
   function loadAsyncChildren(
     location: Route
-  ): Promise<{}> {
+  ): Promise<void> {
     const asyncMatches = location.matched.filter(match => match && !!match.loadChildren)
     if (!asyncMatches) {
       return Promise.reject(new Error('No matched routes have async children.'))
     }
 
     return Promise.all([
-      ...asyncMatches.map(match => match.loadChildren())
+      ...asyncMatches.map(match =>
+        typeof match.loadChildren === 'function'
+          ? match.loadChildren()
+          : Promise.resolve([])
+      )
     ])
-      .then((children) => {
+      .then(children => {
         for (let i = 0; i < children.length; i++) {
           const {name, path} = asyncMatches[i]
           const parentConfig = pathMap[path].routeConfig
+          const childRoutes: RouteConfig[] = children[1]
+
+          if (!parentConfig) {
+            continue
+          }
 
           // Remove the loadChildren property
           if (name) {
@@ -98,17 +107,16 @@ export function createMatcher (
           }
 
           delete pathMap[path]
+          delete parentConfig.loadChildren
+
+          if (parentConfig.children) {
+            parentConfig.children.push(...childRoutes)
+          } else {
+            parentConfig.children = childRoutes
+          }
 
           // Load the children
-          addRoutes([
-            Object.assign(
-              parentConfig,
-              {
-                children: children[i],
-                loadChildren: null
-              }
-            )
-          ])
+          addRoutes([parentConfig])
         }
       })
   }

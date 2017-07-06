@@ -27,6 +27,8 @@ declare type NavigationGuard = (
 
 declare type AfterNavigationHook = (to: Route, from: Route) => any
 
+declare type LoadChildrenPromise = () => Promise<RouteConfig[]>;
+
 type Position = { x: number, y: number };
 
 declare type RouterOptions = {
@@ -59,6 +61,7 @@ declare type RouteConfig = {
   props?: boolean | Object | Function;
   caseSensitive?: boolean;
   pathToRegexpOptions?: PathToRegexpOptions;
+  loadChildren: string | LoadChildrenPromise;
 }
 
 declare type RouteRecord = {
@@ -73,6 +76,8 @@ declare type RouteRecord = {
   beforeEnter: ?NavigationGuard;
   meta: any;
   props: boolean | Object | Function | Dictionary<boolean | Object | Function>;
+  loadChildren?: string | LoadChildrenPromise;
+  routeConfig?: RouteConfig;
 }
 
 declare type Location = {
