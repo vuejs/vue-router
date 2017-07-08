@@ -7,11 +7,12 @@ import { createRoute } from './util/route'
 import { fillParams } from './util/params'
 import { createRouteMap } from './create-route-map'
 import { normalizeLocation } from './util/location'
+import { findParent, addChildren } from './util/async-children'
 
 export type Matcher = {
   match: (raw: RawLocation, current?: Route, redirectedFrom?: Location) => Route;
-  addRoutes: (routes: Array<RouteConfig>, parent?: string) => void;
-  loadAsyncChildren: (location: Route) => Promise<void>;
+  addRoutes: (routes: Array<RouteConfig>) => void;
+  loadAsyncChildren: (raw: RawLocation, route: Route) => Promise<void>;
 };
 
 export function createMatcher (
@@ -20,12 +21,8 @@ export function createMatcher (
 ): Matcher {
   const { pathList, pathMap, nameMap } = createRouteMap(routes)
 
-  function addRoutes (routes, parent) {
-    let parentRoute: RouteRecord
-    if (pathMap && parent) {
-      parentRoute = pathMap[parent]
-    }
-    createRouteMap(routes, pathList, pathMap, nameMap, parentRoute)
+  function addRoutes (routes) {
+    createRouteMap(routes, pathList, pathMap, nameMap)
   }
 
   function match (
@@ -77,9 +74,11 @@ export function createMatcher (
   }
 
   function loadAsyncChildren(
-    location: Route
-  ): Promise<void> {
-    const asyncMatches = location.matched.filter(match => match && !!match.loadChildren)
+    raw: RawLocation,
+    currentRoute: Route
+  ): Promise<any> {
+    const location = normalizeLocation(raw, currentRoute, false, router)
+    const asyncMatches = currentRoute.matched.filter(match => match && !!match.loadChildren)
     if (!asyncMatches) {
       return Promise.reject(new Error('No matched routes have async children.'))
     }
@@ -91,33 +90,15 @@ export function createMatcher (
           : Promise.resolve([])
       )
     ])
-      .then(children => {
-        for (let i = 0; i < children.length; i++) {
-          const {name, path} = asyncMatches[i]
-          const parentConfig = pathMap[path].routeConfig
-          const childRoutes: RouteConfig[] = children[1]
-
-          if (!parentConfig) {
-            continue
-          }
-
-          // Remove the loadChildren property
-          if (name) {
-            delete nameMap[name]
-          }
-
-          delete pathMap[path]
-          delete parentConfig.loadChildren
-
-          if (parentConfig.children) {
-            parentConfig.children.push(...childRoutes)
-          } else {
-            parentConfig.children = childRoutes
-          }
-
-          // Load the children
-          addRoutes([parentConfig])
-        }
+      .then(allChildren => {
+        return Promise.all([
+          ...allChildren.map((children, i) => {
+            const {path} = asyncMatches[i]
+            const parent = findParent(pathMap[path])
+            return addChildren(parent.routeConfig, children, path, location.path || '/')
+              .then(updatedConfig => addRoutes([updatedConfig]))
+          })
+        ])
       })
   }
 

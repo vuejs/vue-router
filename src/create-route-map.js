@@ -50,6 +50,10 @@ function addRouteRecord (
 ) {
   const { path, name } = route
   const hasAsyncChildren = typeof route.loadChildren === 'function'
+  const matchAllChildren = hasAsyncChildren && (
+    (parent && path !== '' && path !== '/') ||
+    !parent
+  )
 
   if (process.env.NODE_ENV !== 'production') {
     assert(path != null, `"path" is required in a route configuration.`)
@@ -82,7 +86,7 @@ function addRouteRecord (
 
   const record: RouteRecord = {
     path: normalizedPath,
-    regex: compileRouteRegex(normalizedPath, pathToRegexpOptions, hasAsyncChildren),
+    regex: compileRouteRegex(normalizedPath, pathToRegexpOptions, matchAllChildren),
     components: route.components || { default: route.component },
     instances: {},
     name,
@@ -154,8 +158,19 @@ function addRouteRecord (
     pathMap[record.path] = record
   }
 
+  if (parent) {
+    // Ensure the parent route is after all child routes
+    const parentIndex = pathList.indexOf(parent.path)
+    const childIndex = pathList.indexOf(record.path)
+
+    if (parentIndex < childIndex) {
+      pathList.push(pathList.splice(parentIndex, 1)[0])
+    }
+  }
+  
+
   if (name) {
-    if (!nameMap[name]) {
+    if (!nameMap[name] || nameMap[name].path === record.path) {
       nameMap[name] = record
     } else if (process.env.NODE_ENV !== 'production' && !matchAs) {
       warn(
@@ -167,8 +182,8 @@ function addRouteRecord (
   }
 }
 
-function compileRouteRegex (path: string, pathToRegexpOptions: PathToRegexpOptions, async?: boolean): RouteRegExp {
-  const regex = Regexp(`${path}${async ? '(\/{0,1}.*)' : ''}`, [], pathToRegexpOptions)
+function compileRouteRegex (path: string, pathToRegexpOptions: PathToRegexpOptions, matchAllChildren?: boolean): RouteRegExp {
+  const regex = Regexp(`${path}${matchAllChildren ? '(\/{0,1}.*)' : ''}`, [], pathToRegexpOptions)
   if (process.env.NODE_ENV !== 'production') {
     const keys: any = {}
     regex.keys.forEach(key => {

@@ -61,16 +61,14 @@ export class History {
     this.errorCbs.push(errorCb)
   }
 
-  transitionTo (location: RawLocation, onComplete?: Function, onAbort?: Function, childrenLoaded?: boolean) {
+  transitionTo (location: RawLocation, onComplete?: Function, onAbort?: Function) {
     const route = this.router.match(location, this.current)
     this.confirmTransition(route, () => {
-      this.updateRoute(route)
-
-      if (route.loadChildren && !childrenLoaded) {
-        this.router.matcher.loadAsyncChildren(route)
+      if (route.loadChildren) {
+        this.router.matcher.loadAsyncChildren(location, route)
           .then(() => {
             // Perform transition again to ensure the proper component hierarchy is loaded
-            this.transitionTo(location, onComplete, onAbort, true)
+            this.transitionTo(location, onComplete, onAbort)
           })
           .catch((err) => {
             if (onAbort) {
@@ -83,6 +81,7 @@ export class History {
             }
           })
       } else {
+        this.updateRoute(route)
         onComplete && onComplete(route)
         this.ensureURL()
 

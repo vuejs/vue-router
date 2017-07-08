@@ -61,7 +61,7 @@ declare type RouteConfig = {
   props?: boolean | Object | Function;
   caseSensitive?: boolean;
   pathToRegexpOptions?: PathToRegexpOptions;
-  loadChildren: string | LoadChildrenPromise;
+  loadChildren?: string | LoadChildrenPromise | null;
 }
 
 declare type RouteRecord = {
@@ -76,8 +76,8 @@ declare type RouteRecord = {
   beforeEnter: ?NavigationGuard;
   meta: any;
   props: boolean | Object | Function | Dictionary<boolean | Object | Function>;
-  loadChildren?: string | LoadChildrenPromise;
-  routeConfig?: RouteConfig;
+  loadChildren?: string | LoadChildrenPromise | null;
+  routeConfig: RouteConfig;
 }
 
 declare type Location = {

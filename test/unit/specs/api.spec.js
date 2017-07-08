@@ -93,15 +93,6 @@ describe('router.addRoutes', () => {
     components = router.getMatchedComponents()
     expect(components.length).toBe(0)
 
-    /**
-     * A given route represents a hierarchy of components loaded to the DOM
-     * where each parent must contain a `router-view` for it's children.
-     */
-    router.addRoutes([{ path: 'b', component: { name: 'B' }}], '/a')
-    components = router.getMatchedComponents()
-    expect(components.length).toBe(2)
-    expect(components[1].name).toBe('B')
-
     // make sure it preserves previous routes
     router.push('/a')
     components = router.getMatchedComponents()
@@ -134,6 +125,26 @@ describe('router.push/replace callbacks', () => {
     }
   }
 
+  const AsyncFoo = {
+    beforeRouteEnter (to, from, next) {
+      calls.push(13)
+      setTimeout(() => {
+        calls.push(14)
+        next()
+      }, 1)
+    }
+  }
+
+  const AsyncBar = {
+    beforeRouteEnter (to, from, next) {
+      calls.push(15)
+      setTimeout(() => {
+        calls.push(16)
+        next()
+      }, 1)
+    }
+  }
+
   beforeEach(() => {
     calls = []
     spy1 = jasmine.createSpy('complete')
@@ -144,14 +155,24 @@ describe('router.push/replace callbacks', () => {
         { path: '/foo', component: Foo },
         {
           path: '/asyncFoo',
-          name: 'asyncFoo',
-          component: Foo,
+          component: AsyncFoo,
           loadChildren: function () {
             return Promise.resolve([
               {
                 path: 'asyncBar',
-                name: 'asyncBar',
-                component: Bar
+                component: AsyncBar
+              }
+            ])
+          }
+        },
+        {
+          path: '/asyncBiz',
+          component: AsyncFoo,
+          loadChildren: function () {
+            return Promise.resolve([
+              {
+                path: '',
+                component: AsyncBar
               }
             ])
           }
@@ -205,7 +226,7 @@ describe('router.push/replace callbacks', () => {
   describe('async children', function () {
     it('push complete', done => {
       router.push('/asyncFoo/asyncBar', () => {
-        expect(calls).toEqual([1, 2, 3, 4, 1, 2, 3, 4, 5, 6])
+        expect(calls).toEqual([1, 2, 13, 14, 1, 2, 13, 14, 15, 16])
         done()
       })
     })
@@ -213,7 +234,7 @@ describe('router.push/replace callbacks', () => {
     it('push abort', done => {
       router.push('/foo', spy1, spy2)
       router.push('/asyncFoo/asyncBar', () => {
-        expect(calls).toEqual([1, 1, 2, 2, 3, 4, 1, 2, 3, 4, 5, 6])
+        expect(calls).toEqual([1, 1, 2, 2, 13, 14, 1, 2, 13, 14, 15, 16])
         expect(spy1).not.toHaveBeenCalled()
         expect(spy2).toHaveBeenCalled()
         done()
@@ -222,7 +243,7 @@ describe('router.push/replace callbacks', () => {
 
     it('replace complete', done => {
       router.replace('/asyncFoo/asyncBar', () => {
-        expect(calls).toEqual([1, 2, 3, 4, 1, 2, 3, 4, 5, 6])
+        expect(calls).toEqual([1, 2, 13, 14, 1, 2, 13, 14, 15, 16])
 
         let components = router.getMatchedComponents()
         expect(components.length).toBe(2)
@@ -233,7 +254,48 @@ describe('router.push/replace callbacks', () => {
     it('replace abort', done => {
       router.replace('/foo', spy1, spy2)
       router.replace('/asyncFoo/asyncBar', () => {
-        expect(calls).toEqual([1, 1, 2, 2, 3, 4, 1, 2, 3, 4, 5, 6])
+        expect(calls).toEqual([1, 1, 2, 2, 13, 14, 1, 2, 13, 14, 15, 16])
+        expect(spy1).not.toHaveBeenCalled()
+        expect(spy2).toHaveBeenCalled()
+
+        let components = router.getMatchedComponents()
+        expect(components.length).toBe(2)
+        
+        done()
+      })
+    })
+
+    it('push default complete', done => {
+      router.push('/asyncBiz', () => {
+        expect(calls).toEqual([1, 2, 13, 14, 1, 2, 13, 14, 15, 16])
+        done()
+      })
+    })
+
+    it('push default abort', done => {
+      router.push('/foo', spy1, spy2)
+      router.push('/asyncBiz', () => {
+        expect(calls).toEqual([1, 1, 2, 2, 13, 14, 1, 2, 13, 14, 15, 16])
+        expect(spy1).not.toHaveBeenCalled()
+        expect(spy2).toHaveBeenCalled()
+        done()
+      })
+    })
+
+    it('replace default complete', done => {
+      router.replace('/asyncBiz', () => {
+        expect(calls).toEqual([1, 2, 13, 14, 1, 2, 13, 14, 15, 16])
+
+        let components = router.getMatchedComponents()
+        expect(components.length).toBe(2)
+        done()
+      })
+    })
+
+    it('replace default abort', done => {
+      router.replace('/foo', spy1, spy2)
+      router.replace('/asyncBiz', () => {
+        expect(calls).toEqual([1, 1, 2, 2, 13, 14, 1, 2, 13, 14, 15, 16])
         expect(spy1).not.toHaveBeenCalled()
         expect(spy2).toHaveBeenCalled()
 
