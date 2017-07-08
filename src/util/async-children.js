@@ -1,6 +1,6 @@
 /* @flow */
 
-export function findParent(
+export function findParent (
   routeRecord: RouteRecord
 ): RouteRecord {
   if (routeRecord.parent) {
@@ -10,7 +10,7 @@ export function findParent(
   }
 }
 
-export function loadDefaultAsyncChildren(
+export function loadDefaultAsyncChildren (
   childrenConfigs: Array<RouteConfig>
 ): Promise<RouteConfig[]> {
   return Promise.all([
@@ -38,15 +38,15 @@ export function loadDefaultAsyncChildren(
   ])
 }
 
-export function addChildren(
+export function addChildren (
   routeConfig: RouteConfig,
   children: RouteConfig[],
   childRoutePath: string,
   location: string
 ): Promise<RouteConfig> {
   let updatedPath = childRoutePath.replace(/^\//, '')
-  let configPath = routeConfig.path.replace(/^\//, '')
-  let updatedLocation = location.replace(/^\//, '').replace(configPath, '')
+  const configPath = routeConfig.path.replace(/^\//, '')
+  const updatedLocation = location.replace(/^\//, '').replace(configPath, '')
 
   if (updatedPath === configPath) {
     routeConfig.loadChildren = null

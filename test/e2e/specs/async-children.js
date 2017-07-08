@@ -63,7 +63,7 @@ module.exports = {
       .waitForElementVisible('#app', 1000)
       .click('li:nth-child(8) a')
       .waitForElementVisible('.async-viewA', 1000)
-      .assert.containsText('.async-viewA', 'deep-async-b')
+      .assert.containsText('.async-viewA', 'deep-async-default-b')
       
     .end()
   }

@@ -73,7 +73,7 @@ export function createMatcher (
     return _createRoute(null, location)
   }
 
-  function loadAsyncChildren(
+  function loadAsyncChildren (
     raw: RawLocation,
     currentRoute: Route
   ): Promise<any> {
@@ -93,7 +93,7 @@ export function createMatcher (
       .then(allChildren => {
         return Promise.all([
           ...allChildren.map((children, i) => {
-            const {path} = asyncMatches[i]
+            const { path } = asyncMatches[i]
             const parent = findParent(pathMap[path])
             return addChildren(parent.routeConfig, children, path, location.path || '/')
               .then(updatedConfig => addRoutes([updatedConfig]))

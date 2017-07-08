@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 
-Vue.use(VueRouter);
+Vue.use(VueRouter)
 
 const Home = { template: '<div>home</div>' }
 const Foo = { template: '<div>foo</div>' }
@@ -32,7 +32,7 @@ const router = new VueRouter({
   mode: 'history',
   base: __dirname,
   routes
-});
+})
 
 new Vue({
   router,

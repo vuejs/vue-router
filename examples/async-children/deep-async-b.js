@@ -1,6 +1,3 @@
-import Vue from 'vue'
-import VueRouter from 'vue-router'
-
 const DeepB = { template: '<div>deep-async-b</div>' }
 
 export const routes = [

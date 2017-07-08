@@ -167,7 +167,6 @@ function addRouteRecord (
       pathList.push(pathList.splice(parentIndex, 1)[0])
     }
   }
-  
 
   if (name) {
     if (!nameMap[name] || nameMap[name].path === record.path) {
