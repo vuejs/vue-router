@@ -7,6 +7,7 @@ import { getStateKey, setStateKey } from './push-state'
 const positionStore = Object.create(null)
 
 export function setupScroll () {
+  window.history.replaceState({ key: getStateKey() }, '')
   window.addEventListener('popstate', e => {
     saveScrollPosition()
     if (e.state && e.state.key) {

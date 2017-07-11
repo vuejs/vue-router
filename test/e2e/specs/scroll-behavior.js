@@ -20,6 +20,26 @@ module.exports = {
         return window.pageYOffset === 100
       }, null, 'restore scroll position on back')
 
+      // with manual scroll restoration
+      // https://developers.google.com/web/updates/2015/09/history-api-scroll-restoration
+      .execute(function () {
+        window.scrollTo(0, 100)
+        history.scrollRestoration = 'manual'
+      })
+      .click('li:nth-child(2) a')
+      .assert.containsText('.view', 'foo')
+      .execute(function () {
+        window.scrollTo(0, 200)
+        window.history.back()
+      })
+      .assert.containsText('.view', 'home')
+      .assert.evaluate(function () {
+        return window.pageYOffset === 100
+      }, null, 'restore scroll position on back with manual restoration')
+      .execute(function () {
+        history.scrollRestoration = 'auto'
+      })
+
       // scroll on a popped entry
       .execute(function () {
         window.scrollTo(0, 50)
