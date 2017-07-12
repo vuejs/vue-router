@@ -35,6 +35,8 @@ const router = new VueRouter({
 })
 ```
 
+Note that [Navigation Guards](../advanced/navigation-guards.md) are not applied on redirects, only on their targets.
+
 For other advanced usage, checkout the [example](https://github.com/vuejs/vue-router/blob/dev/examples/redirect/app.js).
 
 ### Alias
