@@ -43,24 +43,24 @@ location / {
 #### Native Node.js
 
 ```js
-var http = require("http"),
-  fs = require("fs"),
-  httpPort = 80;
+const http = require("http");
+const fs = require("fs");
+const httpPort = 80;
 
 http.createServer(function (req, res) {
   fs.readFile("index.htm", "utf-8", function (err, content) {
     if (err) {
-      console.log('We cannot open "index.htm" file.');
+      console.log('We cannot open "index.htm" file.')
     }
 
     res.writeHead(200, {
       "Content-Type": "text/html; charset=utf-8"
     });
 
-    res.end(content);
+    res.end(content)
   });
 }).listen(httpPort, function () {
-  console.log("Server listening on: http://localhost:%s", httpPort);
+  console.log("Server listening on: http://localhost:%s", httpPort)
 });
 ```
 
