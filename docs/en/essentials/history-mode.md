@@ -43,9 +43,9 @@ location / {
 #### Native Node.js
 
 ```js
-const http = require("http");
-const fs = require("fs");
-const httpPort = 80;
+const http = require("http")
+const fs = require("fs")
+const httpPort = 80
 
 http.createServer(function (req, res) {
   fs.readFile("index.htm", "utf-8", function (err, content) {
@@ -55,13 +55,13 @@ http.createServer(function (req, res) {
 
     res.writeHead(200, {
       "Content-Type": "text/html; charset=utf-8"
-    });
+    })
 
     res.end(content)
-  });
+  })
 }).listen(httpPort, function () {
   console.log("Server listening on: http://localhost:%s", httpPort)
-});
+})
 ```
 
 #### Express with Node.js
