@@ -12,7 +12,7 @@ L'objet `Route` peut être trouvé à plusieurs endroits :
 
 - Comme valeur de retour après l'appel de `router.match(location)`
 
-- À l'intérieur des fonctions de sécurisation de la navigation, dans les deux premiers paramètres de la fonction :
+- À l'intérieur des fonctions de sécurisation de navigation, dans les deux premiers paramètres de la fonction :
 
   ``` js
   router.beforeEach((to, from, next) => {
