@@ -2,7 +2,7 @@
 <!--email_off-->
 > Note: vue-router@2.x fonctionne uniquement avec Vue 2.x. La doc pour la 0.7.x est [ici](https://github.com/vuejs/vue-router/tree/1.0/docs/en).
 <!--/email_off-->
-**[Notes de release](https://github.com/vuejs/vue-router/releases)**
+**[Notes de version](https://github.com/vuejs/vue-router/releases)**
 
 - [Installation](installation.md)
 - Essentiel
