@@ -45,6 +45,7 @@ location / {
 При использовании Node.js/Express, мы рекомендуем пользоваться [connect-history-api-fallback middleware](https://github.com/bripkens/connect-history-api-fallback).
 
 #### Internet Information Services (IIS)
+
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
@@ -73,6 +74,7 @@ location / {
 ```
 
 #### Caddy
+
 ```
 rewrite {
     regexp .*
