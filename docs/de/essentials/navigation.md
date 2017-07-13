@@ -1,6 +1,6 @@
 # Programmatische Navigation
 
-Neben `router-link` für deklarative Links in Templates können wir mit Hilfe der Methoden der Router-Instanz programmatisch navigieren.
+Neben `router-link` für deklarative Links in Templates, können wir mit Hilfe der Methoden der Router-Instanz programmatisch navigieren.
 
 #### `router.push(location, onComplete?, onAbort?)`
 
@@ -41,7 +41,7 @@ Dise methode verhält sich wie `router.push`, allerdings erstellt sie keinen neu
 
 #### `router.go(n)`
 
-Diese Methode akzeptiert einen einfachen Integer als Parameter der angibt, wie viele Schritte im Browser-Verlauf vor- oder rückwärts zu gehen sind - ähnlich wie `window.history.go(n)`.
+Diese Methode akzeptiert einen einfachen Integer als Parameter, der angibt, wie viele Schritte im Browser-Verlauf vor- oder rückwärts zu gehen sind - ähnlich wie `window.history.go(n)`.
 
 Beispiele
 
@@ -64,7 +64,7 @@ router.go(100)
 
 Vielleicht ist dir aufgefallen, dass `router.push`, `router.replace` und `router.go` Gegenstücke von [`window.history.pushState`, `window.history.replaceState` und `window.history.go`](https://developer.mozilla.org/de/docs/Web/API/History) sind und sie die `window.history`-API imitieren.
 
-Das macht es einfach den Verlauf zu manipulieren, wenn man sich mit den [Browser-Verlauf-APIs](https://developer.mozilla.org/de/docs/Web/Guide/DOM/Manipulating_the_browser_history)
+Das macht es einfach, den Verlauf zu manipulieren, wenn man sich mit den [Browser-Verlauf-APIs](https://developer.mozilla.org/de/docs/Web/Guide/DOM/Manipulating_the_browser_history)
 auskennt.
 
 Erwähnenswert ist, dass Navigationsmethoden von `vue-router` (`push`, `replace`, `go`) in allen router modes (`history`, `hash`, `abstract`) genau gleich funktionieren.

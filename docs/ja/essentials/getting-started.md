@@ -2,7 +2,7 @@
 
 > ガイド内のコードのサンプルは [ES2015](https://github.com/lukehoban/es6features) を使っています。
 
-Vue.js と vue-router を使ったシングルページアプリケーションの構築は驚くほど簡単です。Vue.js のコンポーネントを使ってアプリケーションを既に構成しています。vue-router を混ぜ込むには、コンポーネントとルートをマッピングさせて vue-router にどこでレンダリングするかを知らせるだけです。以下が基本的な例です。
+Vue.js と vue-router を使ったシングルページアプリケーションの構築は驚くほど簡単です。Vue.js のコンポーネントを使ってアプリケーションを既に構成しています。vue-router を混ぜ込むには、コンポーネントとルートをマッピングさせて vue-router にどこで描画するかを知らせるだけです。以下が基本的な例です。
 
 > すべての example では、vue の完全バージョンを使用してテンプレートを解析可能にしています。詳細は[こちら](https://jp.vuejs.org/v2/guide/installation.html#ランタイム-コンパイラとランタイム限定の違い)を参照してください。
 
@@ -17,12 +17,12 @@ Vue.js と vue-router を使ったシングルページアプリケーション�
   <p>
     <!-- ナビゲーションに router-link コンポーネントを使う -->
     <!-- リンク先を `to` プロパティに指定します -->
-    <!-- デフォルトで <router-link> は `<a>` タグとしてレンダリングされます -->
+    <!-- デフォルトで `<router-link>` は `<a>` タグとして描画されます -->
     <router-link to="/foo">Go to Foo</router-link>
     <router-link to="/bar">Go to Bar</router-link>
   </p>
   <!-- ルートアウトレット -->
-  <!-- ルートとマッチしたコンポーネントがここへレンダリングされます -->
+  <!-- ルートとマッチしたコンポーネントがここへ描画されます -->
   <router-view></router-view>
 </div>
 ```
@@ -30,7 +30,7 @@ Vue.js と vue-router を使ったシングルページアプリケーション�
 ### JavaScript
 
 ``` js
-// 0. モジュールシステムを使っている場合 (例: vue-cli 経由で)、Vue と VueRouter をインポートし、Vue.use(VueRouter) を呼び出します。
+// 0. モジュールシステムを使っている場合 (例: vue-cli 経由で)、Vue と VueRouter をインポートし、`Vue.use(VueRouter)` を呼び出します。
 
 // 1. ルートコンポーネントを定義します
 // 他のファイルからインポートすることもできます
@@ -39,7 +39,7 @@ const Bar = { template: '<div>bar</div>' }
 
 // 2. ルートをいくつか定義します
 // 各ルートは 1 つのコンポーネントとマッピングされる必要があります。
-// このコンポーネントは実際の Vue.extend()、
+// このコンポーネントは実際の `Vue.extend()`、
 // またはコンポーネントオプションのオブジェクトでも構いません。
 // ネストされたルートに関しては後で説明します
 const routes = [
@@ -51,7 +51,7 @@ const routes = [
 // 追加のオプションをここで指定できますが、
 // この例ではシンプルにしましょう
 const router = new VueRouter({
-  routes // routes: routes の短縮表記
+  routes // `routes: routes` の短縮表記
 })
 
 // 4. root となるインスタンスを作成してマウントします

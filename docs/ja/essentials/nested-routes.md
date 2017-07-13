@@ -35,7 +35,7 @@ const router = new VueRouter({
 })
 ```
 
-ここでの `<router-view>` はトップレベルのアウトレットです。トップレベルのルートによってマッチしたコンポーネントがレンダリングされます。同様にレンダリングされたコンポーネントもまた自身のネストされた `<router-view>` を持つことができます。`User` コンポーネントのテンプレート内部に 1 つ追加する例です。
+ここでの `<router-view>` はトップレベルのアウトレットです。トップレベルのルートによってマッチしたコンポーネントが描画されます。同様に描画されたコンポーネントもまた自身のネストされた `<router-view>` を持つことができます。`User` コンポーネントのテンプレート内部に 1 つ追加する例です。
 
 ``` js
 const User = {
@@ -48,7 +48,7 @@ const User = {
 }
 ```
 
-このネストされたアウトレットに対してコンポーネントをレンダリングするためには、 `VueRouter` のコンストラクタの設定で `children` オプションを使用する必要があります。
+このネストされたアウトレットに対してコンポーネントを描画するためには、 `VueRouter` のコンストラクタの設定で `children` オプションを使用する必要があります。
 
 ``` js
 const router = new VueRouter({
@@ -57,13 +57,13 @@ const router = new VueRouter({
       children: [
         {
           // /user/:id/profile がマッチした時に
-          // UserProfile は User の <router-view> 内部でレンダリングされます
+          // UserProfile は User の <router-view> 内部で描画されます
           path: 'profile',
           component: UserProfile
         },
         {
           // /user/:id/posts がマッチした時に
-          // UserPosts は User の <router-view> 内部でレンダリングされます
+          // UserPosts は User の <router-view> 内部で描画されます
           path: 'posts',
           component: UserPosts
         }
@@ -76,7 +76,7 @@ const router = new VueRouter({
 
 `children` オプションを見るとわかる通り、これは `routes` 自身と同じようなルート設定オブジェクトの配列です。したがって、ネストしている view を必要なだけ保持することができます。
 
-ここまでの点では、上記の設定で `/user/foo` に訪れた時に `User` アウトレット内部で何もレンダリングされません。なぜならば、サブルートにマッチしていないからです。そこに何かレンダリングしたい場合は、空のサブルートパスを設定できます。
+ここまでの点では、上記の設定で `/user/foo` に訪れた時に `User` アウトレット内部で何も描画されません。なぜならば、サブルートにマッチしていないからです。そこに何か描画したい場合は、空のサブルートパスを設定できます。
 
 ``` js
 const router = new VueRouter({
@@ -85,7 +85,7 @@ const router = new VueRouter({
       path: '/user/:id', component: User,
       children: [
         // /user/:id がマッチした時に
-        // UserHome は User の <router-view> 内部でレンダリングされます
+        // UserHome は User の <router-view> 内部で描画されます
         { path: '', component: UserHome },
 
         // 他のサブルートも同様に...

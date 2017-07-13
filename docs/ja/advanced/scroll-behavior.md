@@ -21,6 +21,7 @@ const router = new VueRouter({
 
 - `{ x: number, y: number }`
 - `{ selector: string }`
+- `{ selector: string, offset? : { x: number, y: number }}` (2.6.0 以降においてだけ offset はサポート)
 
 もし falsy な値や空のオブジェクトが返った場合、何もスクロールは起きません。
 
@@ -53,6 +54,7 @@ scrollBehavior (to, from, savedPosition) {
   if (to.hash) {
     return {
       selector: to.hash
+      // , offset: { x: 0, y: 10 }
     }
   }
 }

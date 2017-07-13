@@ -1,4 +1,4 @@
-# Router Instance
+# The Router Instance
 
 ### Properties
 
@@ -57,7 +57,7 @@
   ```
 
   - `current` is the current Route by default (most of the time you don't need to change this)
-  - `append` allows you to append the path to the `current` route (as with [`router-link`](https://router.vuejs.org/en/api/router-link.html#props))
+  - `append` allows you to append the path to the `current` route (as with [`router-link`](router-link.md#props))
 
 - **router.addRoutes(routes)**
 

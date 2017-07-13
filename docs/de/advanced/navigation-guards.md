@@ -2,7 +2,7 @@
 
 Wie der Name schon andeutet, werden "navigation guards" `vue-router` primär genutzt, um Navigationen zu "bewachen", indem diese bei Bedarf redirected oder abgebrochen werden. Es gibt dabei verschiedene Möglichkeiten, sich in den Navigationsprozess einzuklinken: global, in der Route Definition oder direkt in der Komponente.
 
-Hinweis: Guards werden nicht ausgelöst, wenn du Params oder Querys änderst. Beobachte in diesen Fällen einfach [das `$route`-Objekt](../essentials/dynamic-matching.md#reacting-to-params-changes), um auf Änderungen zu reagieren.
+Hinweis: Guards werden nicht ausgelöst, wenn Params oder Querys geändert werden. Beobachte in diesen Fällen einfach [das `$route`-Objekt](../essentials/dynamic-matching.md#reacting-to-params-changes), um auf Änderungen zu reagieren.
 
 ### Globale Guards
 
@@ -16,7 +16,7 @@ router.beforeEach((to, from, next) => {
 })
 ```
 
-Globale Before-Guards werden in der Reihenfolge aufgerufen, in der du sie registriert hast, wann immer eine Navigation ausgelöst wird. Der guard lann auch auch asynchron beendet werden, und die Navigation ist solange im Status **pending**, bis alle bearbeitet wurden.
+Globale Before-Guards werden in der Reihenfolge aufgerufen, in der sie registriert wurden, wann immer eine Navigation ausgelöst wird. Der guard lann auch auch asynchron beendet werden - die Navigation ist solange im Status **pending**, bis alle bearbeitet wurden.
 
 Jede Guard Funktion erhält drei Argumente:
 

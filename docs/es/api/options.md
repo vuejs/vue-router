@@ -18,6 +18,10 @@
     children?: Array<RouteConfig>; // para sub-rutas
     beforeEnter?: (to: Route, from: Route, next: Function) => void;
     meta?: any;
+
+    // 2.6.0+
+    caseSensitive?: boolean; // utilizar o no matcheo case sensitive (valor por defecto: false)
+    pathToRegexpOptions?: Object; // Opciones path-to-regexp para compilar expresiones regulares
   }
   ```
 
@@ -86,3 +90,13 @@
 - tipo: `Function`
 
   Provee funciones parse / stringify para _query string_ personalizadas. Sobreescribe la función por defecto.
+
+### fallback
+
+> 2.6.0+
+
+- tipo: `boolean`
+
+  Controla si el router debe o no utilizar el modo `hash` cuando el navegador no soporte `history.pushState`. El valor por defecto es `true`.
+
+  Configurar esto como `false` hace que cada navegación a través de `router-link` sea una recarga completa de la página en IE9. Esto es útil cuando la aplicación es renderizada en el servidor y necesita funcionar en IE9, porque las URL en modo hash no funcionan con SSR.

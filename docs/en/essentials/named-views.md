@@ -26,5 +26,4 @@ const router = new VueRouter({
 })
 ```
 
-A working demo of this example can be found
-[here](https://jsfiddle.net/posva/6du90epg/).
+A working demo of this example can be found [here](https://jsfiddle.net/posva/6du90epg/).

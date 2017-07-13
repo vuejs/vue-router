@@ -44,6 +44,34 @@ location / {
 
 При использовании Node.js/Express, мы рекомендуем пользоваться [connect-history-api-fallback middleware](https://github.com/bripkens/connect-history-api-fallback).
 
+#### Internet Information Services (IIS)
+```
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+  <system.webServer>
+    <rewrite>
+      <rules>
+        <rule name="Handle History Mode and custom 404/500" stopProcessing="true">
+            <match url="(.*)" />
+            <conditions logicalGrouping="MatchAll">
+              <add input="{REQUEST_FILENAME}" matchType="IsFile" negate="true" />
+              <add input="{REQUEST_FILENAME}" matchType="IsDirectory" negate="true" />
+            </conditions>
+          <action type="Rewrite" url="index.html" />
+        </rule>
+      </rules>
+    </rewrite>
+      <httpErrors>
+          <remove statusCode="404" subStatusCode="-1" />
+          <remove statusCode="500" subStatusCode="-1" />
+          <error statusCode="404" path="/survey/notfound" responseMode="ExecuteURL" />
+          <error statusCode="500" path="/survey/error" responseMode="ExecuteURL" />
+      </httpErrors>
+      <modules runAllManagedModulesForAllRequests="true"/>
+  </system.webServer>
+</configuration>
+```
+
 ## Предостережение
 
 При таком подходе возникает одно неприятное последствие: сервер больше не будет выдавать ошибки 404, так как обслуживание всех путей отдаётся на откуп клиентскому роутингу. Частично эту проблему можно решить, указав путь по умолчанию во Vue-router:

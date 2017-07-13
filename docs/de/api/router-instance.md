@@ -19,7 +19,7 @@
 
 - Typ: `Route`
 
-  Die akuelle Route wiedergespiegelt als [Route-Objekt](route-object.md).
+  Die akuelle Route, widergespiegelt als [Route-Objekt](route-object.md).
 
 ### Methoden
 
@@ -39,11 +39,11 @@
 
 - **router.getMatchedComponents(location?)**
 
-  Gibt einen Array von Komponenten (Definition/Konstruktor, nicht Instanz) zurück, die für den gegebenen Ort oder die aktuelle Route gematched wurden. Wird meist bei serverseitigem Rendern genutzt, um ein Vor-Laden von Daten zu ermöglichen.
+  Gibt ein Array von Komponenten (Definition/Konstruktor, nicht Instanz) zurück, die für den gegebenen Ort oder die aktuelle Route gematched wurden. Wird meist bei serverseitigem Rendern genutzt, um ein Vorladen von Daten zu ermöglichen.
 
 - **router.resolve(location, current?, append?)**
 
-  Umgekehrte URL-Erkennung. Wenn man einZiel in gleicher Form wie in `<router-link>` übergibt, gibt die Funktion ein Objekt mit den folgenden Eigenschaften zurück:
+  Umgekehrte URL-Erkennung. Wenn man ein Ziel in gleicher Form wie in `<router-link>` übergibt, gibt die Funktion ein Objekt mit den folgenden Eigenschaften zurück:
 
 ``` js
 {
@@ -57,12 +57,12 @@
 
   > 2.2.0+
 
-  Füge dynamisch weitere Routes zum Router hinzu. Das  Argument must be an Array mit dem gleichen Format wie die `routes` Konstruktor-Option sein.
+  Füge dynamisch weitere Routen zum Router hinzu. Das Argument muss ein Array mit demselben Format wie die `routes` Konstruktor-Option sein.
 
 - **router.onReady(callback)**
 
   > 2.2.0+
 
-  Diese Methode queued eine Callback-Funktion, welche aufgerufen wird sobald der router die initiale Navigation beendet hat - das heißt, dass alle asynchronen Komponenten und enter-hooks, die zu der aktuellen Route gehören geladen und ausgeführt wurden.
+  Diese Methode queued eine Callback-Funktion, welche aufgerufen wird, sobald der Router die initiale Navigation beendet hat - das heißt, dass alle asynchronen Komponenten und enter-hooks, die zu der aktuellen Route gehören, geladen und ausgeführt wurden.
 
-  Damit kann man im serverseitigen Rendern sicherstellen, dass auf dem Server und im Client der gleiche Output gerendert wird.
+  Damit lässt sich im serverseitigen Rendern sicherstellen, dass auf dem Server und im Client der gleiche Output gerendert wird.
