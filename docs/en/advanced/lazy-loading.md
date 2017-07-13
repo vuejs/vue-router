@@ -1,16 +1,16 @@
-# Lazy Loading Routes
+# Chargement à la volée
 
-When building apps with a bundler, the JavaScript bundle can become quite large, and thus affect the page load time. It would be more efficient if we can split each route's components into a separate chunk, and only load them when the route is visited.
+Pendant la construction d'applications avec un empaqueteur (« bundler »), le paquetage JavaScript peut devenir un peu lourd, et donc cela peut affecter le temps de chargement de la page. Il serait plus efficace si l'on pouvait séparer chaque composant de route dans des fragments séparés, et de les charger uniquement lorsque la route est visitée.
 
-Combining Vue's [async component feature](http://vuejs.org/guide/components.html#Async-Components) and webpack's [code splitting feature](https://webpack.js.org/guides/code-splitting-async/), it's trivially easy to lazy-load route components.
+En combinant la [fonctionnalité de composant asynchrone](https://fr.vuejs.org/v2/guide/components.html#Composants-asynchrones) de Vue et la [fonctionnalité de séparation de code](https://webpack.js.org/guides/code-splitting-async/) de webpack, il est très facile de charger à la volée les composants de route.
 
-First, an async component can be defined as a factory function that returns a Promise (which should resolve to the component itself):
+Premièrement, un composant asynchrone peut définir une fonction fabrique qui retourne une Promesse (qui devrait résoudre le composant lui-même) :
 
 ``` js
-const Foo = () => Promise.resolve({ /* component definition */ })
+const Foo = () => Promise.resolve({ /* définition du composant */ })
 ```
 
-Second, in webpack 2, we can use the [dynamic import](https://github.com/tc39/proposal-dynamic-import) syntax to indicate a code-split point:
+Deuxièmement, avec webpack 2, nous pouvons utiliser la syntaxe d'[import dynamique](https://github.com/tc39/proposal-dynamic-import) pour indiquer un point de scission de code :
 
 ``` js
 import('./Foo.vue') // returns a Promise
@@ -24,7 +24,7 @@ Combining the two, this is how to define an async component that will be automat
 const Foo = () => import('./Foo.vue')
 ```
 
-Nothing needs to change in the route config, just use `Foo` as usual:
+Rien n'a besoin d'être modifié dans la configuration de la route, utilisez `Foo` comme d'habitude.
 
 ``` js
 const router = new VueRouter({
@@ -34,9 +34,9 @@ const router = new VueRouter({
 })
 ```
 
-### Grouping Components in the Same Chunk
+### Grouper des composants dans le même fragment
 
-Sometimes we may want to group all the components nested under the same route into the same async chunk. To achieve that we need to use [named chunks](https://webpack.js.org/guides/code-splitting-async/#chunk-names) by providing a chunk name using a special comment syntax (requires webpack > 2.4):
+Parfois on aimerait grouper tous les composants imbriqués sous la même route, dans un seul et même fragment asynchrone. Pour arriver à cela, nous avons besoin d'utiliser les [fragments nommés](https://webpack.js.org/guides/code-splitting-async/#chunk-names) en donnant un nom au fragment en utilisant une syntaxe de commentaire spéciale (requires webpack > 2.4) :
 
 ``` js
 const Foo = () => import(/* webpackChunkName: "group-foo" */ './Foo.vue')
@@ -44,4 +44,4 @@ const Bar = () => import(/* webpackChunkName: "group-foo" */ './Bar.vue')
 const Baz = () => import(/* webpackChunkName: "group-foo" */ './Baz.vue')
 ```
 
-webpack will group any async module with the same chunk name into the same async chunk.
+webpack groupera tous les modules asynchrones avec le même nom de fragment dans le même fragment asynchrone.

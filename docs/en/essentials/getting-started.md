@@ -1,10 +1,10 @@
-# Getting Started
+# Pour commencer
 
-> We will be using [ES2015](https://github.com/lukehoban/es6features) in the code samples in the guide.
+> Nous utiliserons [ES2015](https://github.com/lukehoban/es6features) dans les exemples de code dans ce guide.
 
-Creating a Single-page Application with Vue.js + vue-router is dead simple. With Vue.js, we are already composing our application with components. When adding vue-router to the mix, all we need to do is map our components to the routes and let vue-router know where to render them. Here's a basic example:
+Créer une application monopage avec Vue.js + vue-router est vraiment simple. Avec Vue.js, nous concevons déjà notre application avec des composants. En ajoutant vue-router dans notre application, tout ce qu'il nous reste à faire est de relier nos composants aux routes, et de laisser vue-router faire le rendu. Voici un exemple de base :
 
-> All examples will be using the full version of Vue to make template parsing possible. See more details [here](https://vuejs.org/v2/guide/installation.html#Runtime-Compiler-vs-Runtime-only).
+> Tous les exemples utiliseront la version complète de Vue pour rendre l'analyse de template possible. Plus de détails [ici](https://fr.vuejs.org/guide/installation.html#Runtime-Compiler-vs-Runtime-seul).
 
 ### HTML
 
@@ -13,16 +13,16 @@ Creating a Single-page Application with Vue.js + vue-router is dead simple. With
 <script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
 
 <div id="app">
-  <h1>Hello App!</h1>
+  <h1>Bonjour l'application !</h1>
   <p>
-    <!-- use router-link component for navigation. -->
-    <!-- specify the link by passing the `to` prop. -->
-    <!-- `<router-link>` will be rendered as an `<a>` tag by default -->
-    <router-link to="/foo">Go to Foo</router-link>
-    <router-link to="/bar">Go to Bar</router-link>
+    <!-- utilisez le composant router-link pour la navigation. -->
+    <!-- spécifiez le lien en le passant à la prop `to` -->
+    <!-- `<router-link>` sera rendu en tag `<a>` par défaut -->
+    <router-link to="/foo">Aller à Foo</router-link>
+    <router-link to="/bar">Aller à Bar</router-link>
   </p>
-  <!-- route outlet -->
-  <!-- component matched by the route will render here -->
+  <!-- balise pour le composant router-view -->
+  <!-- le composant correspondant à la route sera rendu ici -->
   <router-view></router-view>
 </div>
 ```
@@ -30,40 +30,40 @@ Creating a Single-page Application with Vue.js + vue-router is dead simple. With
 ### JavaScript
 
 ``` js
-// 0. If using a module system (e.g. via vue-cli), import Vue and VueRouter and then call `Vue.use(VueRouter)`.
+// 0. Si vous utilisez un système de module (ex : via vue-cli), il faut importer Vue et VueRouter et ensuite appeler `Vue.use(VueRouter)`.
 
-// 1. Define route components.
-// These can be imported from other files
+// 1. Définissez les composants de route.
+// Ces derniers peuvent être importés depuis d'autre fichier
 const Foo = { template: '<div>foo</div>' }
 const Bar = { template: '<div>bar</div>' }
 
-// 2. Define some routes
-// Each route should map to a component. The "component" can
-// either be an actual component constructor created via
-// `Vue.extend()`, or just a component options object.
-// We'll talk about nested routes later.
+// 2. Définissez des routes.
+// Chaque route doit correspondre à un composant. Le « composant » peut
+// soit être un véritable composant créé via `Vue.extend()`, ou juste un
+// objet d'options.
+// Nous parlerons plus tard des routes imbriquées.
 const routes = [
   { path: '/foo', component: Foo },
   { path: '/bar', component: Bar }
 ]
 
-// 3. Create the router instance and pass the `routes` option
-// You can pass in additional options here, but let's
-// keep it simple for now.
+// 3. Créez l'instance du routeur et passez l'option `routes`.
+// Vous pouvez également passer des options supplémentaires,
+// mais nous allons faire simple pour l'instant.
 const router = new VueRouter({
-  routes // short for `routes: routes`
+  routes // raccourci pour `routes: routes`
 })
 
-// 4. Create and mount the root instance.
-// Make sure to inject the router with the router option to make the
-// whole app router-aware.
+// 5. Créez et montez l'instance de Vue.
+// Soyez sûr d'injecter le routeur avec l'option `router` pour
+// permettre à l'application tout entière d'être à l'écoute du routeur.
 const app = new Vue({
   router
 }).$mount('#app')
 
-// Now the app has started!
+// L'application est maintenant en marche !
 ```
 
-You can also checkout this example [live](http://jsfiddle.net/yyx990803/xgrjzsup/).
+Vous pouvez aussi regarder cet [exemple](http://jsfiddle.net/yyx990803/xgrjzsup/).
 
-Notice that a `<router-link>` automatically gets the `.router-link-active` class when its target route is matched. You can learn more about it in its [API reference](../api/router-link.md).
+Notez qu'un `<router-link>` obtiendra automatiquement la classe `.router-link-active` lorsque sa route cible correspond à la route actuelle. Vous pouvez en apprendre plus à propos de cela dans sa [documentation d'API](../api/router-link.md).

@@ -1,22 +1,22 @@
 # `<router-view>`
 
-The `<router-view>` component is a functional component that renders the matched component for the given path. Components rendered in `<router-view>` can also contain its own `<router-view>`, which will render components for nested paths.
+Le composant `<router-view>` est un composant fonctionnel qui fait le rendu du composant correspondant au chemin donné. Les composants rendus dans `<router-view>` peuvent aussi contenir leur propre `<router-view>`, qui fera le rendu des composants pour les chemins imbriqués.
 
 ### Props
 
 - **name**
 
-  - type: `string`
+  - type : `string`
 
-  - default: `"default"`
+  - défaut : `"default"`
 
-  When a `<router-view>` has a name, it will render the component with the corresponding name in the matched route record's `components` option. See [Named Views](../essentials/named-views.md) for an example.
+  Lorsqu'un `<router-view>` a un nom, il fera le rendu du composant correspondant à ce nom dans les itinéraires de route correspondant à l'option `components`. Voir les [Routes nommées](../essentials/named-views.md) pour un example.
 
-### Behavior
+### Comportement
 
-Any non-name props will be passed along to the rendered component, however most of the time the per-route data is contained in the route's params.
+Les propriétés sans nom seront passées le long du composant rendu, toutefois la plupart du temps, les données par route seront contenues dans les paramètres de la route.
 
-Since it's just a component, it works with `<transition>` and `<keep-alive>`. When using the both together, make sure to use `<keep-alive>` inside:
+Car c'est juste un composant, il fonctionne avec `<transition>` et `<keep-alive>`. Lorsque vous utilisez les deux ensemble, soyez sûr d'utiliser `<keep-alive> à l'intérieur :
 
 ``` html
 <transition>

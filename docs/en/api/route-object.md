@@ -1,80 +1,80 @@
-# The Route Object
+# L'objet `Route`
 
-A **route object** represents the state of the current active route. It contains parsed information of the current URL and the **route records** matched by the URL.
+Un **objet `Route`** représente l'état actuel de la route active. Il contient des informations analysées à propos de l'URL courante et **les itinéraires de route** appariés par l'URL.
 
-The route object is immutable. Every successful navigation will result in a fresh route object.
+L'objet `Route` est immutable. Chaque navigation qui se déroule avec succès résultera en un nouvel objet `Route`.
 
-The route object can be found in multiple places:
+L'objet `Route` peut être trouvé à plusieurs endroits :
 
-- Inside components as `this.$route`
+- À l'intérieur des composants en tant que `this.$route`
 
-- Inside `$route` watcher callbacks
+- À l'intérieur des fonctions de rappel des observateurs de `$route`
 
-- As the return value of calling `router.match(location)`
+- Comme valeur de retour après l'appel de `router.match(location)`
 
-- Inside navigation guards as the first two arguments:
+- À l'intérieur des fonctions de sécurisation de navigation, dans les deux premiers paramètres de la fonction :
 
   ``` js
   router.beforeEach((to, from, next) => {
-    // `to` and `from` are both route objects
+    // `to` et `from` sont tous les deux des objets Route
   })
   ```
 
-- Inside the `scrollBehavior` function as the first two arguments:
+- À l'intérieur de la fonction `scrollBehavior` dans les deux premiers arguments :
 
   ``` js
   const router = new VueRouter({
     scrollBehavior (to, from, savedPosition) {
-      // `to` and `from` are both route objects
+      // `to` et `from` sont tous les deux des objets Route
     }
   })
   ```
 
-### Route Object Properties
+### Propriétés de l'objet `Route`
 
 - **$route.path**
 
-  - type: `string`
+  - type : `string`
 
-    A string that equals the path of the current route, always resolved as an absolute path. e.g. `"/foo/bar"`.
+    Une chaîne de caractères représentant le chemin de la route en cours, toujours résolue en tant que chemin absolu, ex : `"/foo/bar"`.
 
 - **$route.params**
 
-  - type: `Object`
+  - type : `Object`
 
-    An object that contains key/value pairs of dynamic segments and star segments. If there are no params the value will be an empty object.
+    Un objet qui contient des pairs clé/valeur de segments dynamiques et segments *star*. S'il n'y a pas de paramètres, alors la valeur sera un objet vide.
 
 - **$route.query**
 
-  - type: `Object`
+  - type : `Object`
 
-    An object that contains key/value pairs of the query string. For example, for a path `/foo?user=1`, we get `$route.query.user == 1`. If there is no query the value will be an empty object.
+    Un objet qui contient des pairs clé/valeur de la requête au format d'une chaîne de caractères. Par exemple, pour un chemin `/foo?user=1`, on aura `$route.query.user == 1`. S'il n'y a pas de requête, alors la valeur sera un objet vide.
 
 - **$route.hash**
 
-  - type: `string`
+  - type : `string`
 
-    The hash of the current route (with the `#`), if it has one. If no hash is present the value will be an empty string.
+    Le hash de la route courante (avec le `#`), s'il y en a un. S'il n'y a pas de hash, alors la valeur sera une chaîne de caractères vide.
 
 - **$route.fullPath**
 
-  - type: `string`
+  - type : `string`
 
-    The full resolved URL including query and hash.
+    L'URL entièrement résolue, incluant la requête et le hash.
 
 - **$route.matched**
 
-  - type: `Array<RouteRecord>`
+  - type : `Array<RouteRecord>`
 
-  An Array containing **route records** for all nested path segments of the current route. Route records are the copies of the objects in the `routes` configuration Array (and in `children` Arrays):
+    Un `Array` contenant les **les itinéraires de la route** pour chaque segment de chemin imbriqué de la route courante. Les itinéraires de la route sont des copies des objets dans le tableau de configuration `routes` (et dans les tableaux `children`).
 
   ``` js
   const router = new VueRouter({
     routes: [
-      // the following object is a route record
+      // l'objet qui suit est un itinéraire de route
       { path: '/foo', component: Foo,
         children: [
-          // this is also a route record
+          // c'est aussi un itinéraire
           { path: 'bar', component: Bar }
         ]
       }
@@ -82,8 +82,8 @@ The route object can be found in multiple places:
   })
   ```
 
-  When the URL is `/foo/bar`, `$route.matched` will be an Array containing both objects (cloned), in parent to child order.
+  Lorsque l'URL sera `/foo/bar`, `$route.matched` sera un `Array` contenant les deux objets (clonés), dans l'ordre parent à l'enfant.
 
 - **$route.name**
 
-  The name of the current route, if it has one. (See [Named Routes](../essentials/named-routes.md))
+  Le nom de la route courante, si elle en a un. (Voir [Routes nommées](../essentials/named-routes.md)).

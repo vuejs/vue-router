@@ -1,24 +1,24 @@
-# Data Fetching
+# Récupération de données
 
-Sometimes you need to fetch data from the server when a route is activated. For example, before rendering a user profile, you need to fetch the user's data from the server. We can achieve this in two different ways:
+Parfois vous avez besoin de récupérer des données depuis le serveur lorsqu'une route est activée. Par exemple, avant de faire le rendu d'un profil utilisateur, vous avez besoin de récupérer les données de l'utilisateur depuis le serveur. Nous pouvons y parvenir de deux façons différentes :
 
-- **Fetching After Navigation**: perform the navigation first, and fetch data in the incoming component's lifecycle hook. Display a loading state while data is being fetched.
+- **Récupération de donnée après la navigation** : effectue la navigation en premier, et récupère les données dans le hook entrant du cycle de vie d'un composant. Affiche un état de chargement pendant que les données sont en train d'être récupérées.
 
-- **Fetching Before Navigation**: Fetch data before navigation in the route enter guard, and perform the navigation after data has been fetched.
+- **Récupération de donnée avant la navigation** : récupère les données avant la navigation dans la fonction de sécurisation d'entrée de la route, et effectue la navigation après que les données aient été récupérées.
 
-Technically, both are valid choices - it ultimately depends on the user experience you are aiming for.
+Techniquement, les deux choix sont valides. Cela dépend de l'expérience utilisateur que vous souhaitez apporter.
 
-## Fetching After Navigation
+## Récupération de données après la navigation
 
-When using this approach, we navigate and render the incoming component immediately, and fetch data in the component's `created` hook. It gives us the opportunity to display a loading state while the data is being fetched over the network, and we can also handle loading differently for each view.
+En utilisant cette approche, nous naviguons et faisons immédiatement le rendu du composant et récupérons les données via le hook `created` du composant. Cela nous donne l'opportunité d'afficher un état de chargement pendant que les données sont récupérées à travers le réseau, et nous pouvons aussi gérer le chargement différemment pour chaque vue.
 
-Let's assume we have a `Post` component that needs to fetch the data for a post based on `$route.params.id`:
+Assumons que nous ayons un composant `Post` qui a besoin de récupérer des données pour un billet identifié par `$route.params.id` :
 
 ``` html
 <template>
   <div class="post">
     <div class="loading" v-if="loading">
-      Loading...
+      Chargement...
     </div>
 
     <div v-if="error" class="error">
@@ -43,19 +43,19 @@ export default {
     }
   },
   created () {
-    // fetch the data when the view is created and the data is
-    // already being observed
+    // récupérer les données lorsque la vue est créée et
+    // que les données sont déjà observées
     this.fetchData()
   },
   watch: {
-    // call again the method if the route changes
+    // appeler encore la méthode si la route change
     '$route': 'fetchData'
   },
   methods: {
     fetchData () {
       this.error = this.post = null
       this.loading = true
-      // replace `getPost` with your data fetching util / API wrapper
+      // remplacer `getPost` par une fonction de récupération de données
       getPost(this.$route.params.id, (err, post) => {
         this.loading = false
         if (err) {
@@ -69,10 +69,9 @@ export default {
 }
 ```
 
-## Fetching Before Navigation
+## Récupération de données avant la navigation
 
-With this approach we fetch the data before actually navigating to the new
-route. We can perform the data fetching in the `beforeRouteEnter` guard in the incoming component, and only call `next` when the fetch is complete:
+Avec cette approche, nous récupérerons les données avant de naviguer vers la nouvelle route. Nous pouvons effectuer la récupération de données dans la fonction de sécurisation `beforeRouteEnter` du composant à venir, et seulement appeler `next` lorsque la récupération est terminée :
 
 ``` js
 export default {
@@ -87,8 +86,8 @@ export default {
       next(vm => vm.setData(err, post))
     })
   },
-  // when route changes and this component is already rendered,
-  // the logic will be slightly different.
+  // quand la route change et que ce composant est déjà rendu,
+  // la logique est un peu différente
   beforeRouteUpdate (to, from, next) {
     this.post = null
     getPost(to.params.id, (err, post) => {
@@ -108,4 +107,4 @@ export default {
 }
 ```
 
-The user will stay on the previous view while the resource is being fetched for the incoming view. It is therefore recommended to display a progress bar or some kind of indicator while the data is being fetched. If the data fetch fails, it's also necessary to display some kind of global warning message.
+L'utilisateur va rester sur la vue précédente pendant que la ressource est en train d'être récupérée pour la vue à venir. Il est cependant recommandé d'afficher une barre de progression ou un autre type d'indicateur pendant que les données sont en train d'être récupérées. Si la récupération échoue, il est aussi recommandé d'afficher une sorte de message d'erreur global.
