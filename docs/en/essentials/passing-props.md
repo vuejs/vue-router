@@ -58,7 +58,7 @@ const router = new VueRouter({
 
 ### Function mode
 
-You can create a function that returns props. This allows you to coerce the parameter to another type, combine static values with route-based values, etc.
+You can create a function that returns props. This allows you to cast parameters into other types, combine static values with route-based values, etc.
 
 ``` js
 const router = new VueRouter({
