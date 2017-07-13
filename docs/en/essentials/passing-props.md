@@ -27,10 +27,10 @@ const User = {
 const router = new VueRouter({
   routes: [
     { path: '/user/:id', component: User, props: true }
-    
+
     // for routes with named views, you have to define the props option for each named view:
     {
-      path: '/user/:id', 
+      path: '/user/:id',
       components: { default: User, sidebar: Sidebar },
       props: { default: true, sidebar: false }
     }
@@ -59,8 +59,7 @@ const router = new VueRouter({
 
 ### Function mode
 
-You can create a function that returns props.
-This allows you to cast the parameter to another type, combine static values with route-based values, etc.
+You can create a function that returns props. This allows you to cast the parameter to another type, combine static values with route-based values, etc.
 
 ``` js
 const router = new VueRouter({
@@ -72,8 +71,6 @@ const router = new VueRouter({
 
 The url: `/search?q=vue` would pass `{query: "vue"}` as props to the SearchUser component.
 
-Try to keep the props function stateless, as it's only evaluated on route changes.
-Use a wrapper component if you need state to define the props, that way vue can react to state changes.
-
+Try to keep the props function stateless, as it's only evaluated on route changes. Use a wrapper component if you need state to define the props, that way vue can react to state changes.
 
 For advanced usage, checkout the [example](https://github.com/vuejs/vue-router/blob/dev/examples/route-props/app.js).
