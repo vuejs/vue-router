@@ -15,7 +15,7 @@ When using history mode, the URL will look "normal," e.g. `http://oursite.com/us
 
 Here comes a problem, though: Since our app is a single page client side app, without a proper server configuration, the users will get a 404 error if they access `http://oursite.com/user/id` directly in their browser. Now that's ugly.
 
-Not to worry: To fix the issue, all you need to do is add a simple catch-all fallback route to your server. If the URL doesn't match any static assets, it should serve the same `index.html` page that your app lives in. Beautiful, again! 
+Not to worry: To fix the issue, all you need to do is add a simple catch-all fallback route to your server. If the URL doesn't match any static assets, it should serve the same `index.html` page that your app lives in. Beautiful, again!
 
 ## Example Server Configurations
 
@@ -45,6 +45,7 @@ location / {
 For Node.js/Express, consider using [connect-history-api-fallback middleware](https://github.com/bripkens/connect-history-api-fallback).
 
 #### Internet Information Services (IIS)
+
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
@@ -61,10 +62,10 @@ For Node.js/Express, consider using [connect-history-api-fallback middleware](ht
         </rule>
       </rules>
     </rewrite>
-      <httpErrors>     
-          <remove statusCode="404" subStatusCode="-1" />                
+      <httpErrors>
+          <remove statusCode="404" subStatusCode="-1" />
           <remove statusCode="500" subStatusCode="-1" />
-          <error statusCode="404" path="/survey/notfound" responseMode="ExecuteURL" />                
+          <error statusCode="404" path="/survey/notfound" responseMode="ExecuteURL" />
           <error statusCode="500" path="/survey/error" responseMode="ExecuteURL" />
       </httpErrors>
       <modules runAllManagedModulesForAllRequests="true"/>
@@ -73,6 +74,7 @@ For Node.js/Express, consider using [connect-history-api-fallback middleware](ht
 ```
 
 #### Caddy
+
 ```
 rewrite {
     regexp .*
