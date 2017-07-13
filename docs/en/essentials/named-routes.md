@@ -14,8 +14,7 @@ const router = new VueRouter({
 })
 ```
 
-To link to a named route, you can pass an object to the `router-link`
-component's `to` prop:
+To link to a named route, you can pass an object to the `router-link` component's `to` prop:
 
 ``` html
 <router-link :to="{ name: 'user', params: { userId: 123 }}">User</router-link>

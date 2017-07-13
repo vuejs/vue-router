@@ -12,7 +12,7 @@ Das Route-Objekt kann an mehreren Orten gefunden werden:
 
 - als Rückgabewert von `router.match(location)`
 
-- in Navigation-Guards als die ersten zwei Argumente:
+- in Navigation-Guards als die ersten beiden Argumente:
 
   ``` js
   router.beforeEach((to, from, next) => {
@@ -20,7 +20,7 @@ Das Route-Objekt kann an mehreren Orten gefunden werden:
   })
   ```
 
-- in der `scrollBehavior`-Funktion als die ersten zwei Argumente:
+- in der `scrollBehavior`-Funktion als die ersten beiden Argumente:
 
   ``` js
   const router = new VueRouter({
@@ -48,7 +48,7 @@ Das Route-Objekt kann an mehreren Orten gefunden werden:
 
   - Typ: `Object`
 
-    Ein Objekt, welches Schlüssel/Wert-Paare des Query-Strings enthält. Für den Pfad `/foo?user=1` erhält man zum Beispiel `$route.query.user == 1`. Gibt es keine Query, ist der Wert ein leeres Objekt.
+    Ein Objekt, welches Schlüssel/Wert-Paare des Query-Strings enthält. Für den Pfad `/foo?user=1` erhält man zum Beispiel `$route.query.user == 1`. Gibt es kein Query, ist der Wert ein leeres Objekt.
 
 - **$route.hash**
 
@@ -82,7 +82,7 @@ Das Route-Objekt kann an mehreren Orten gefunden werden:
   })
   ```
 
-  Wenn die URL `/foo/bar` ist, ist `$route.matched` ein Array, welcher beide geklonten Objekte von Parent nach Child sortiert enthält.
+  Wenn die URL `/foo/bar` ist, ist `$route.matched` ein Array, welches beide geklonten Objekte von Parent nach Child sortiert enthält.
 
 - **$route.name**
 

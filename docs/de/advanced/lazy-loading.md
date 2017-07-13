@@ -15,7 +15,7 @@ const Foo = resolve => {
 }
 ```
 
-Es gibt auch eine alternative Code-Splitting Syntax mit `require` im AMD-Stil, mit der das ganze Folgendermaßen vereinfacht werden kann:
+Es gibt auch eine alternative Code-Splitting Syntax mit `require` im AMD-Stil, mit der das ganze folgendermaßen vereinfacht werden kann:
 
 ``` js
 const Foo = resolve => require(['./Foo.vue'], resolve)
@@ -33,7 +33,7 @@ const router = new VueRouter({
 
 ### Gruppierung von Komponenten im selben Chunk
 
-Manchmal wollen wir alle Komponenten unter der selben Route in den selben ansynchronen Chunk gruppieren. Dafür benutzern wir das ["named Chunks" (englisch)](https://webpack.js.org/guides/code-splitting-require/#chunkname) Feature, indem wir einen Chunk-Namen als drittes Argument für `require.ensure` hinzugefügen.
+Manchmal wollen wir alle Komponenten unter derselben Route in den selben ansynchronen Chunk gruppieren. Dafür benutzern wir das ["named Chunks" (englisch)](https://webpack.js.org/guides/code-splitting-require/#chunkname) Feature, indem wir einen Chunk-Namen als drittes Argument für `require.ensure` hinzufügen.
 
 ``` js
 const Foo = r => require.ensure([], () => r(require('./Foo.vue')), 'group-foo')
@@ -41,4 +41,4 @@ const Bar = r => require.ensure([], () => r(require('./Bar.vue')), 'group-foo')
 const Baz = r => require.ensure([], () => r(require('./Baz.vue')), 'group-foo')
 ```
 
-Webpack bündelt alle asynchronen Module mit dem gleichen Chunk-Namen in denselben asynchronen Chunk. Das bedeutet auch, dass keine Dependencies mehr für `require.ensure` explizit aufgelistet werden müssen - daher der leere Array als Argument.
+Webpack bündelt alle asynchronen Module mit dem gleichen Chunk-Namen in denselben asynchronen Chunk. Das bedeutet auch, dass keine Dependencies mehr für `require.ensure` explizit aufgelistet werden müssen - daher das leere Array als Argument.

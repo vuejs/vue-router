@@ -23,6 +23,7 @@
 ### 方法
 
 - **router.beforeEach(guard)**
+- **router.beforeResolve(guard) (2.5.0+)**: 此时异步组件已经加载完成
 - **router.afterEach(hook)**
 
   增加全局的导航钩子。参考 [导航钩子](../advanced/navigation-guards.md).
