@@ -5,7 +5,7 @@
 [https://unpkg.com/vue-router/dist/vue-router.js](https://unpkg.com/vue-router/dist/vue-router.js)
 
 <!--email_off-->
-[Unpkg.com](https://unpkg.com) provides NPM-based CDN links. The above link will always point to the latest release on NPM. You can also use a specific version/tag via URLs like `https://unpkg.com/vue-router@2.0.0/dist/vue-router.js`.
+[Unpkg.com](https://unpkg.com) provides npm-based CDN links. The above link will always point to the latest release on npm. You can also use a specific version/tag via URLs like `https://unpkg.com/vue-router@2.0.0/dist/vue-router.js`.
 <!--/email_off-->
 
 Include `vue-router` after Vue and it will install itself automatically:
@@ -15,7 +15,7 @@ Include `vue-router` after Vue and it will install itself automatically:
 <script src="/path/to/vue-router.js"></script>
 ```
 
-### NPM
+### npm
 
 ``` bash
 npm install vue-router
