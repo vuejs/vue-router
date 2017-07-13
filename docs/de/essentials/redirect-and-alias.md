@@ -2,7 +2,7 @@
 
 ### Redirect (Umleitung)
 
-Ein Redirect bedeutet, dass, wenn der Nutzer `/a` besucht, die URL mit `/b` ersetzt wird und auch die Komponente der Route zu `/b` rendert. Das richtet man in der `routes`-Konfiguration folgendermaßen ein:
+Ein Redirect bedeutet, dass, wenn der Nutzer `/a` besucht, die URL mit `/b` ersetzt wird und auch die Komponente der Route zu `/b` rendert. Das kann in der `routes`-Konfiguration folgendermaßen eingestellt werden:
 
 
 ``` js
@@ -54,7 +54,6 @@ const router = new VueRouter({
 })
 ```
 
-Ein Alias gibt die Möglichkeit eine bestimmte UI-Struktur einer
-beliebigen URL zuzuordnen, anstatt von der verschachtelten Struktur der Konfiguration eingeschränkt zu werden.
+Ein Alias biete die Möglichkeit, eine bestimmte UI-Struktur einer beliebigen URL zuzuordnen, anstatt von der verschachtelten Struktur der Konfiguration eingeschränkt zu werden.
 
 Für die erweiterte Anwendung siehe folgendes [Beispiel](https://github.com/vuejs/vue-router/blob/dev/examples/route-alias/app.js).

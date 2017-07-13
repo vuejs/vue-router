@@ -45,7 +45,7 @@ location / {
 For Node.js/Express, consider using [connect-history-api-fallback middleware](https://github.com/bripkens/connect-history-api-fallback).
 
 #### Internet Information Services (IIS)
-```
+```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
   <system.webServer>
@@ -70,6 +70,14 @@ For Node.js/Express, consider using [connect-history-api-fallback middleware](ht
       <modules runAllManagedModulesForAllRequests="true"/>
   </system.webServer>
 </configuration>
+```
+
+#### Caddy
+```
+rewrite {
+    regexp .*
+    to {path} /
+}
 ```
 
 ## Caveat

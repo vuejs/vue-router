@@ -13,8 +13,7 @@ const router = new VueRouter({
 
 Bei Nutzung des Verlaufsmodus sieht die URL "normal" aus, zB. `http://meine-seite.de/benutzer/id` - Wunderschön!
 
-Es gibt jedoch ein Problem: Da unsere App eine sogenannten "Single Page Application (SPA)"
- die komplett im Browser läuft, erhält der Nutzer einen 404-Fehler, wenn er `http://meine-seite.de/benutzer/id` direkt aufruft - denn unter diesem Pfad wird dein Webserver nichts finden.
+Es gibt jedoch ein Problem: Da unsere App eine so genannte "Single Page Application (SPA)" ist, die komplett im Browser läuft, erhält der Nutzer einen 404-Fehler, wenn er `http://meine-seite.de/benutzer/id` direkt aufruft - denn unter diesem Pfad wird dein Webserver nichts finden.
 
 Aber keine Sorge: Um dieses Problem zu beheben, musst du nur eine einzige "catch-all"-Route in deiner Serverkonfiguration ergänzen. Wenn die URL zu keiner statischen Datei gehört, sollte diese Route immer die `index.html` an den Browser senden, in der deine App läuft ist.
 

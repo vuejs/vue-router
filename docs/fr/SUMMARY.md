@@ -7,7 +7,7 @@
 - [Installation](installation.md)
 - Essentiel
   - [Pour commencer](essentials/getting-started.md)
-  - [Dynamic Route Matching (En)](essentials/dynamic-matching.md)
+  - [Concordance dynamique de route](essentials/dynamic-matching.md)
   - [Navigation programmatique](essentials/navigation.md)
   - [Routes imbriquées](essentials/nested-routes.md)
   - [Routes nommées](essentials/named-routes.md)
@@ -19,9 +19,9 @@
   - [Navigation Guards (En)](advanced/navigation-guards.md)
   - [Route Meta Fields (En)](advanced/meta.md)
   - [Transitions (En)](advanced/transitions.md)
-  - [La récupération de données](advanced/data-fetching.md)
+  - [Récupération de données](advanced/data-fetching.md)
   - [Comportement du défilement](advanced/scroll-behavior.md)
-  - [Le chargement à la volée](advanced/lazy-loading.md)
+  - [Chargement à la volée](advanced/lazy-loading.md)
 - Réference de l'API
   - [Options de construction du routeur](api/options.md)
     - [routes](api/options.md#routes)
