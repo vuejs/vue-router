@@ -11,7 +11,7 @@ module.exports = {
 
       // load set 1
       .click('.btn1')
-      .waitFor(100)
+      .waitFor(300)
       .assert.urlEquals('http://localhost:8080/replace-routes/')
       .assert.containsText('.route-set', 'set1')
       .assert.containsText('.view', '')
@@ -24,7 +24,7 @@ module.exports = {
 
       // load set2 and check transition to Route Y
       .click('.btn2')
-      .waitFor(100)
+      .waitFor(300)
       .assert.urlEquals('http://localhost:8080/replace-routes/common1')
       .assert.containsText('.route-set', 'set2')
       .assert.containsText('.view', 'Route Y')
@@ -37,7 +37,7 @@ module.exports = {
 
       // load set1 and check transition to route Z
       .click('.btn1')
-      .waitFor(100)
+      .waitFor(300)
       .assert.urlEquals('http://localhost:8080/replace-routes/common2')
       .assert.containsText('.route-set', 'set1')
       .assert.containsText('.view', 'Route Z')
@@ -50,7 +50,7 @@ module.exports = {
 
       // load set2 and check that no route matched
       .click('.btn2')
-      .waitFor(100)
+      .waitFor(300)
       .assert.urlEquals('http://localhost:8080/replace-routes/route-1')
       .assert.containsText('.route-set', 'set2')
       .assert.containsText('.view', '')
@@ -63,7 +63,7 @@ module.exports = {
 
       // load set1 and route 2
       .click('.btn1')
-      .waitFor(100)
+      .waitFor(300)
       .click('.set1 li:nth-child(4) a')
       .assert.urlEquals('http://localhost:8080/replace-routes/route-2')
       .assert.containsText('.route-set', 'set1')
@@ -71,7 +71,7 @@ module.exports = {
 
       // load set2 and route 4
       .click('.btn2')
-      .waitFor(100)
+      .waitFor(300)
       .click('.set2 li:nth-child(4) a')
       .assert.urlEquals('http://localhost:8080/replace-routes/route-4')
       .assert.containsText('.route-set', 'set2')
@@ -79,7 +79,7 @@ module.exports = {
 
       // remove all routes
       .click('.btn3')
-      .waitFor(100)
+      .waitFor(300)
       .assert.urlEquals('http://localhost:8080/replace-routes/route-4')
       .assert.containsText('.route-set', '')
       .assert.containsText('.view', '')
