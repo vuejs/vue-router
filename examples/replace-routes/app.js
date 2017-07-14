@@ -88,16 +88,16 @@ new Vue({
   },
   methods: {
     loadRoutes1 () {
-      router.replaceRoutes(routes1)
       this.routeSet = 'set1'
+      router.replaceRoutes(routes1)
     },
     loadRoutes2 () {
-      router.replaceRoutes(routes2)
       this.routeSet = 'set2'
+      router.replaceRoutes(routes2)
     },
     removeAllRoutes () {
-      router.replaceRoutes([])
       this.routeSet = null
+      router.replaceRoutes([])
     }
   }
 }).$mount('#app')
