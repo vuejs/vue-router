@@ -77,6 +77,104 @@ describe('router.addRoutes', () => {
   })
 })
 
+describe('router.replaceRoutes', () => {
+  it('should replace routes', () => {
+    const routes1 = [
+      { path: '/a', component: { name: 'A' }}
+    ]
+    const routes2 = [
+      { path: '/b', component: { name: 'B' }}
+    ]
+    const router = new Router({
+      mode: 'abstract',
+      routes: routes1
+    })
+
+    router.push('/a')
+    let components = router.getMatchedComponents()
+    expect(components.length).toBe(1)
+    expect(components[0].name).toBe('A')
+
+    router.push('/b')
+    components = router.getMatchedComponents()
+    expect(components.length).toBe(0)
+
+    router.replaceRoutes(routes2)
+
+    // /b should be added
+    components = router.getMatchedComponents()
+    expect(components.length).toBe(1)
+    expect(components[0].name).toBe('B')
+
+    // /a should be removed
+    router.push('/a')
+    components = router.getMatchedComponents()
+    expect(components.length).toBe(0)
+
+    router.push('/b')
+    components = router.getMatchedComponents()
+    expect(components.length).toBe(1)
+    expect(components[0].name).toBe('B')
+
+    router.replaceRoutes(routes1)
+
+    // /b should be removed
+    components = router.getMatchedComponents()
+    expect(components.length).toBe(0)
+  })
+
+  it('should remove all routes if empty array of routes passed', () => {
+    const router = new Router({
+      mode: 'abstract',
+      routes: [
+        { path: '/a', component: { name: 'A' }},
+        { path: '/b', component: { name: 'B' }}
+      ]
+    })
+
+    router.push('/a')
+    let components = router.getMatchedComponents()
+    expect(components.length).toBe(1)
+    expect(components[0].name).toBe('A')
+
+    router.push('/b')
+    components = router.getMatchedComponents()
+    expect(components.length).toBe(1)
+    expect(components[0].name).toBe('B')
+
+    router.replaceRoutes([])
+
+    components = router.getMatchedComponents()
+    expect(components.length).toBe(0)
+
+    router.push('/b')
+    components = router.getMatchedComponents()
+    expect(components.length).toBe(0)
+  })
+
+  it('should update components of routes with same path', () => {
+    const router = new Router({
+      mode: 'abstract',
+      routes: [
+        { path: '/a', component: { name: 'A' }}
+      ]
+    })
+
+    router.push('/a')
+    let components = router.getMatchedComponents()
+    expect(components.length).toBe(1)
+    expect(components[0].name).toBe('A')
+
+    router.replaceRoutes([
+      { path: '/a', component: { name: 'B' }}
+    ])
+
+    components = router.getMatchedComponents()
+    expect(components.length).toBe(1)
+    expect(components[0].name).toBe('B')
+  })
+})
+
 describe('router.push/replace callbacks', () => {
   let calls = []
   let router, spy1, spy2

@@ -65,6 +65,12 @@
 
   Dynamically add more routes to the router. The argument must be an Array using the same route config format with the `routes` constructor option.
 
+- **router.replaceRoutes(routes)**
+
+  > 2.8.0+
+
+  Dynamically replace all routes in the router. The argument must be an Array using the same route config format with the `routes` constructor option.
+
 - **router.onReady(callback, [errorCallback])**
 
   > 2.2.0+
