@@ -4,7 +4,7 @@ Parfois vous avez besoin de récupérer des données depuis le serveur lorsqu'un
 
 - **Récupération de donnée après la navigation** : effectue la navigation en premier, et récupère les données dans le hook entrant du cycle de vie d'un composant. Affiche un état de chargement pendant que les données sont en train d'être récupérées.
 
-- **Récupération de donnée avant la navigation** : récupère les données avant la navigation dans la fonction de sécurisation d'entrée de la route, et effectue la navigation après que les données aient été récupérées.
+- **Récupération de donnée avant la navigation** : récupère les données avant la navigation dans la fonction d'interception d'entrée de la route, et effectue la navigation après que les données aient été récupérées.
 
 Techniquement, les deux choix sont valides. Cela dépend de l'expérience utilisateur que vous souhaitez apporter.
 
@@ -71,7 +71,7 @@ export default {
 
 ## Récupération de données avant la navigation
 
-Avec cette approche, nous récupérerons les données avant de naviguer vers la nouvelle route. Nous pouvons effectuer la récupération de données dans la fonction de sécurisation `beforeRouteEnter` du composant à venir, et seulement appeler `next` lorsque la récupération est terminée :
+Avec cette approche, nous récupérerons les données avant de naviguer vers la nouvelle route. Nous pouvons effectuer la récupération de données dans la fonction d'interception `beforeRouteEnter` du composant à venir, et seulement appeler `next` lorsque la récupération est terminée :
 
 ``` js
 export default {

@@ -18,4 +18,4 @@ Ces propriétés sont injectées dans chacun des composants enfants, en passant 
 - **beforeRouteUpdate** (ajouté en 2.2)
 - **beforeRouteLeave**
 
-  Voir la [Sécurisation intra-composants](../advanced/navigation-guards.md#securisation-intra-composants).
+  Voir l'[interception par composant](../advanced/navigation-guards.md#securisation-par-composant).

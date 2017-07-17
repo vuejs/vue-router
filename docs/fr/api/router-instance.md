@@ -26,9 +26,9 @@
 - **router.beforeResolve(guard)** (2.5.0+)
 - **router.afterEach(hook)**
 
-  Ajout de sécurités globales de navigation. Voir les [sécurités de navigation](../advanced/navigation-guards.md).
+  Ajout des interceptions globales de navigation. Voir les [Intercepteurs de navigation](../advanced/navigation-guards.md).
 
-  Dans la version 2.5.0+, ces trois méthodes retournent une fonction qui enlève les fonctions de sécurisations et hooks enregistrés.
+  Dans la version 2.5.0+, ces trois méthodes retournent une fonction qui enlève les fonctions d'interception et hooks enregistrés.
 
 - **router.push(location, onComplete?, onAbort?)**
 - **router.replace(location, onComplete?, onAbort?)**
@@ -81,8 +81,8 @@
 
   Enregistre une fonction de rappel qui sera appelée lorsqu'une erreur sera capturée pendant la navigation vers une route. Notez que pour qu'une erreur soit appelée, cela doit correspondre à l'un des scénarios suivants :
 
-  - L'erreur est lancée de manière synchrone à l'intérieur d'une fonction de sécurisation de route ;
+  - L'erreur est lancée de manière synchrone à l'intérieur d'une fonction d'interception de route ;
 
-  - L'erreur est capturée et traitée de manière asynchrone en appelant `next(err)` à l'intérieur d'une fonction de sécurisation de route ;
+  - L'erreur est capturée et traitée de manière asynchrone en appelant `next(err)` à l'intérieur d'une fonction de d'interception de route ;
 
   - Une erreur est survenue pendant la résolution d'un composant asynchrone qui est requis pour faire le rendu d'une route.

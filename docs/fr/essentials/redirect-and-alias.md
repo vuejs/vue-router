@@ -39,7 +39,7 @@ Pour d'autres utilisations avancées, jetez un œil à cet [exemple](https://git
 
 ### Alias
 
-Une redirection signifie que si l'utilisateur visite `/a`, l'URL va être remplacée par `/b` et concordé avec `/b`. Mais qu'est-ce qu'un alias ?
+Une redirection signifie que si l'utilisateur visite `/a`, l'URL va être remplacé par `/b` et concordé avec `/b`. Mais qu'est-ce qu'un alias ?
 
 ** Un alias de `/a` en tant que `/b` signifie que lorsque l'utilisateur va visiter `/b`, l'URL vas rester `/b`, mais la concordance va se faire comme si l'utilisateur visitait `/a`.**
 
@@ -53,6 +53,6 @@ const router = new VueRouter({
 })
 ```
 
-Un alias vous donne la liberté d'associer une structure d'interface utilisateur à une URL arbitraire, au lieu d'être contraint par une configuration de structure.
+Un alias vous donne la liberté d'associer une structure d'interface utilisateur à un URL arbitraire, au lieu d'être contraint par une configuration de structure.
 
 Pour d'autres utilisations avancées, jetez un œil à cet [exemple](https://github.com/vuejs/vue-router/blob/dev/examples/route-alias/app.js).
