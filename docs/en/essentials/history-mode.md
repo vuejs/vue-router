@@ -40,7 +40,31 @@ location / {
 }
 ```
 
-#### Node.js (Express)
+#### Native Node.js
+
+```js
+const http = require("http")
+const fs = require("fs")
+const httpPort = 80
+
+http.createServer((req, res) => {
+  fs.readFile("index.htm", "utf-8", (err, content) => {
+    if (err) {
+      console.log('We cannot open "index.htm" file.')
+    }
+
+    res.writeHead(200, {
+      "Content-Type": "text/html; charset=utf-8"
+    })
+
+    res.end(content)
+  })
+}).listen(httpPort, () => {
+  console.log("Server listening on: http://localhost:%s", httpPort)
+})
+```
+
+#### Express with Node.js
 
 For Node.js/Express, consider using [connect-history-api-fallback middleware](https://github.com/bripkens/connect-history-api-fallback).
 
@@ -95,4 +119,4 @@ const router = new VueRouter({
 })
 ```
 
-Alternatively, if you are using a Node.js server, you can implement the fallback by using the router on the server side to match the incoming URL and respond with 404 if no route is matched.
+Alternatively, if you are using a Node.js server, you can implement the fallback by using the router on the server side to match the incoming URL and respond with 404 if no route is matched. Check out the [Vue server side rendering documentation](https://ssr.vuejs.org/en/) for more information.
