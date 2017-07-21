@@ -28,4 +28,4 @@ router.push({ name: 'user', params: { userId: 123 }})
 
 두 경우 모두 라우터는 `/user/123` 경로로 이동합니다.
 
-전체 예제는 [여기](https://jsfiddle.net/posva/6du90epg/)에 있습니다.
+전체 예제는 [여기](https://github.com/vuejs/vue-router/blob/dev/examples/named-routes/app.js)에 있습니다.
