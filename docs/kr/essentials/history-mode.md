@@ -40,9 +40,64 @@ location / {
 }
 ```
 
-#### Node.js (Express)
+#### Native Node.js
+
+```js
+const http = require("http")
+const fs = require("fs")
+const httpPort = 80
+
+http.createServer((req, res) => {
+  fs.readFile("index.htm", "utf-8", (err, content) => {
+    if (err) {
+      console.log('We cannot open "index.htm" file.')
+    }
+
+    res.writeHead(200, {
+      "Content-Type": "text/html; charset=utf-8"
+    })
+
+    res.end(content)
+  })
+}).listen(httpPort, () => {
+  console.log("Server listening on: http://localhost:%s", httpPort)
+})
+```
+
+
+#### Express와 Node.js
 
 Node.js/Express의 경우 [connect-history-api-fallback 미들웨어](https://github.com/bripkens/connect-history-api-fallback)를 고려해보세요.
+
+#### Internet Information Services (IIS)
+
+```
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+ <system.webServer>
+   <rewrite>
+     <rules>
+       <rule name="Handle History Mode and custom 404/500" stopProcessing="true">
+           <match url="(.*)" />
+           <conditions logicalGrouping="MatchAll">
+             <add input="{REQUEST_FILENAME}" matchType="IsFile" negate="true" />
+             <add input="{REQUEST_FILENAME}" matchType="IsDirectory" negate="true" />
+           </conditions>
+         <action type="Rewrite" url="index.html" />
+       </rule>
+     </rules>
+   </rewrite>
+     <httpErrors>     
+         <remove statusCode="404" subStatusCode="-1" />                
+         <remove statusCode="500" subStatusCode="-1" />
+         <error statusCode="404" path="/survey/notfound" responseMode="ExecuteURL" />                
+         <error statusCode="500" path="/survey/error" responseMode="ExecuteURL" />
+     </httpErrors>
+     <modules runAllManagedModulesForAllRequests="true"/>
+ </system.webServer>
+</configuration>
+```
+
 
 ## 주의 사항
 
@@ -58,4 +113,4 @@ const router = new VueRouter({
 })
 ```
 
-또는 Node.js 서버를 사용하는 경우 서버 측의 라우터를 사용하여 들어오는 URL을 일치시키고 라우트가 일치하지 않으면 404로 응답하여 폴백을 구현할 수 있습니다.
+또는 Node.js 서버를 사용하는 경우 서버 측의 라우터를 사용하여 들어오는 URL을 일치시키고 라우트가 일치하지 않으면 404로 응답하여 폴백을 구현할 수 있습니다. 더 자세한 설명은 [Vue 서버사이드 렌더링 문서](https://ssr.vuejs.org/en/)을 읽어보세요
