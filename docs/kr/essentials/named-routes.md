@@ -14,7 +14,7 @@ const router = new VueRouter({
 })
 ```
 
-명명 된 라우트에 링크하려면, 객체를 `router-link`, 컴포넌트의 `to` prop로 전달할 수 있습니다.
+이름을 가진 된 라우트에 링크하려면, 객체를 `router-link`, 컴포넌트의 `to` prop로 전달할 수 있습니다.
 
 ``` html
 <router-link :to="{ name: 'user', params: { userId: 123 }}">User</router-link>
@@ -28,4 +28,4 @@ router.push({ name: 'user', params: { userId: 123 }})
 
 두 경우 모두 라우터는 `/user/123` 경로로 이동합니다.
 
-전체 예제는 [여기](https://github.com/vuejs/vue-router/blob/dev/examples/named-routes/app.js)에 있습니다.
+전체 예제는 [여기](https://jsfiddle.net/posva/6du90epg/)에 있습니다.
