@@ -112,15 +112,15 @@ beforeRouteEnter (to, from, next) {
 
 ### 전체 네비게이션 시나리오
 
-1. 네비게이션이 트리거됨
-2. 비활성화될 컴포넌트에서 가드를 호출
-3. 전역  `beforeEach` 가드 호출
-4. 재사용되는 컴포넌트에서 `beforeRouteUpdate` 가드 호출 (2.2 이상)
-5. 라우트 설정에서 `beforeEnter` 호출
-6. 비동기 라우트 컴포넌트 해결
-7. 활성화된 컴포넌트에서 `beforeRouteEnter` 호출
-8. 전역 `beforeResolve` 가드 호출 (2.5이상)
+1. 네비게이션이 트리거됨.
+2. 비활성화될 컴포넌트에서 가드를 호출.
+3. 전역  `beforeEach` 가드 호출.
+4. 재사용되는 컴포넌트에서 `beforeRouteUpdate` 가드 호출. (2.2 이상)
+5. 라우트 설정에서 `beforeEnter` 호출.
+6. 비동기 라우트 컴포넌트 해결.
+7. 활성화된 컴포넌트에서 `beforeRouteEnter` 호출.
+8. 전역 `beforeResolve` 가드 호출. (2.5이상)
 9. 네비게이션 완료.
-10. 전역 `afterEach` 훅 호출
-11. DOM 갱신 트리거 됨
-12. 인스턴스화 된 인스턴스들의 `beforeRouteEnter`가드에서 `next`에 전달 된 콜백을 호출합니다
+10. 전역 `afterEach` 훅 호출.
+11. DOM 갱신 트리거 됨.
+12. 인스턴스화 된 인스턴스들의 `beforeRouteEnter`가드에서 `next`에 전달 된 콜백을 호출합니다.
