@@ -54,7 +54,7 @@ export default {
     fetchData () {
       this.error = this.post = null
       this.loading = true
-      // getPost를 데이터 가져 오기 위한 유틸리티/API 래퍼로 변경합니다.
+      // `getPost`를 데이터 가져 오기 위한 유틸리티/API 래퍼로 변경합니다.
       getPost(this.$route.params.id, (err, post) => {
         this.loading = false
         if (err) {
