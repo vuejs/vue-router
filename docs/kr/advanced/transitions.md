@@ -44,7 +44,7 @@ const Bar = {
 ```
 
 ``` js
-// 그런 다음 부모 구성 요소에서 $route를 보고 사용할 전환을 결정합니다
+// 그런 다음 부모 구성 요소에서 `$route`를 보고 사용할 전환을 결정합니다
 watch: {
   '$route' (to, from) {
     const toDepth = to.path.split('/').length
