@@ -40,6 +40,30 @@ location / {
 }
 ```
 
+#### Native Node.js
+
+```js
+const http = require("http")
+const fs = require("fs")
+const httpPort = 80
+
+http.createServer((req, res) => {
+  fs.readFile("index.htm", "utf-8", (err, content) => {
+    if (err) {
+      console.log('We cannot open "index.htm" file.')
+    }
+
+    res.writeHead(200, {
+      "Content-Type": "text/html; charset=utf-8"
+    })
+
+    res.end(content)
+  })
+}).listen(httpPort, () => {
+  console.log("Server listening on: http://localhost:%s", httpPort)
+})
+```
+
 #### Node.js (Express)
 
 Node.js/Express では [connect-history-api-fallback middleware](https://github.com/bripkens/connect-history-api-fallback) の利用を検討してください。
@@ -95,4 +119,4 @@ const router = new VueRouter({
 })
 ```
 
-他の方法として、もしあなたが Node.js サーバーを使っている場合、入ってきた URL とマッチさせて、マッチしなかった場合に 404 を返答するサーバーサイドのルーターを使って fallback を実装することもできます。
+他の方法として、もしあなたが Node.js サーバーを使っている場合、入ってきた URL とマッチさせて、マッチしなかった場合に 404 を返答するサーバーサイドのルーターを使って fallback を実装することもできます。詳細については [Vue サーバサイドレンダリングのドキュメント](https://ssr.vuejs.org/ja/) を参照してください。
