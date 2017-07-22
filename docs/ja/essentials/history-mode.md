@@ -45,7 +45,7 @@ location / {
 Node.js/Express では [connect-history-api-fallback middleware](https://github.com/bripkens/connect-history-api-fallback) の利用を検討してください。
 
 #### Internet Information Services (IIS)
-```
+``` xml
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
   <system.webServer>
@@ -70,6 +70,14 @@ Node.js/Express では [connect-history-api-fallback middleware](https://github.
       <modules runAllManagedModulesForAllRequests="true"/>
   </system.webServer>
 </configuration>
+```
+
+#### Caddy
+```
+rewrite {
+    regexp .*
+    to {path} /
+}
 ```
 
 ## 注意
