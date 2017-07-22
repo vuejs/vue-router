@@ -30,7 +30,7 @@ const router = new VueRouter({
 
     // 名前付きビューによるルートに対しては、名前付きビューごとに props オプションを定義しなければなりません:
     {
-      path: '/user/:id', 
+      path: '/user/:id',
       components: { default: User, sidebar: Sidebar },
       props: { default: true, sidebar: false }
     }
@@ -46,8 +46,7 @@ props を true に設定すると、route.params がコンポーネントのプ�
 
 ### Object モード
 
-props がオブジェクトの場合、これはコンポーネントプロパティとしてそのまま設定されます。
-プロパティが静的なときに便利です。
+props がオブジェクトの場合、これはコンポーネントプロパティとしてそのまま設定されます。プロパティが静的なときに便利です。
 
 ``` js
 const router = new VueRouter({
@@ -59,8 +58,7 @@ const router = new VueRouter({
 
 ### Function モード
 
-プロパティを返す関数を作成することができます。
-これにより、パラメータを別のタイプにキャストし、静的な値をルートベースの値などと組み合わせることができます。
+プロパティを返す関数を作成することができます。これにより、パラメータを別のタイプにキャストし、静的な値をルートベースの値などと組み合わせることができます。
 
 ``` js
 const router = new VueRouter({

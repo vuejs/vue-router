@@ -45,6 +45,7 @@ location / {
 Node.js/Express では [connect-history-api-fallback middleware](https://github.com/bripkens/connect-history-api-fallback) の利用を検討してください。
 
 #### Internet Information Services (IIS)
+
 ``` xml
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
@@ -61,10 +62,10 @@ Node.js/Express では [connect-history-api-fallback middleware](https://github.
         </rule>
       </rules>
     </rewrite>
-      <httpErrors>     
-          <remove statusCode="404" subStatusCode="-1" />                
+      <httpErrors>
+          <remove statusCode="404" subStatusCode="-1" />
           <remove statusCode="500" subStatusCode="-1" />
-          <error statusCode="404" path="/survey/notfound" responseMode="ExecuteURL" />                
+          <error statusCode="404" path="/survey/notfound" responseMode="ExecuteURL" />
           <error statusCode="500" path="/survey/error" responseMode="ExecuteURL" />
       </httpErrors>
       <modules runAllManagedModulesForAllRequests="true"/>
@@ -73,6 +74,7 @@ Node.js/Express では [connect-history-api-fallback middleware](https://github.
 ```
 
 #### Caddy
+
 ```
 rewrite {
     regexp .*
