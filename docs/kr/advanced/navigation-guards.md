@@ -114,7 +114,7 @@ beforeRouteEnter (to, from, next) {
 
 1. 네비게이션이 트리거됨.
 2. 비활성화될 컴포넌트에서 가드를 호출.
-3. 전역  `beforeEach` 가드 호출.
+3. 전역 `beforeEach` 가드 호출.
 4. 재사용되는 컴포넌트에서 `beforeRouteUpdate` 가드 호출. (2.2 이상)
 5. 라우트 설정에서 `beforeEnter` 호출.
 6. 비동기 라우트 컴포넌트 해결.
