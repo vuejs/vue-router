@@ -41,7 +41,7 @@ router.beforeEach((to, from, next) => {
 
 > 2.5.0에서 추가됨
 
-2.5.0 이후로 `router.onResolve`를 사용하여 글로벌 가드를 등록 할 수 있습니다. 이는 `router.beforeEach`와 유사합니다. 모든 컴포넌트 가드와 비동기 라우트 컴포넌트를 불러온 후 네비게이션 가드를 확인하기 전에 호출된다는 차이가 있습니다
+2.5.0 이후로 `router.beforeResolve`를 사용하여 글로벌 가드를 등록 할 수 있습니다. 이는 `router.beforeEach`와 유사합니다. 모든 컴포넌트 가드와 비동기 라우트 컴포넌트를 불러온 후 네비게이션 가드를 확인하기 전에 호출된다는 차이가 있습니다
 
 ### Global After Hooks
 
@@ -110,17 +110,17 @@ beforeRouteEnter (to, from, next) {
 
 `beforeRouteLeave` 안에서 `this`에 직접 접근 할 수 있습니다. leave 가드는 일반적으로 사용자가 저장하지 않은 편집 내용을 두고 실수로 라우트를 떠나는 것을 방지하는데 사용됩니다. 탐색은 `next(false)`를 호출하여 취소할 수 있습니다.
 
-### 전체 가드 시나리오
+### 전체 네비게이션 시나리오
 
-1. 네비게이션이 트리거됨
-2. 비활성화될 컴포넌트에서 가드를 호출
-3. 전역  `beforeEach` 가드 호출
-4. 재사용되는 컴포넌트에서 `beforeRouteUpdate` 가드 호출 (2.2 이상)
-5. 라우트 설정에서 `beforeEnter` 호출
-6. 비동기 라우트 컴포넌트 해결
-7. 활성화된 컴포넌트에서 `beforeRouteEnter` 호출
-8. 전역 `beforeResolve` 가드 호출 (2.5이상)
+1. 네비게이션이 트리거됨.
+2. 비활성화될 컴포넌트에서 가드를 호출.
+3. 전역 `beforeEach` 가드 호출.
+4. 재사용되는 컴포넌트에서 `beforeRouteUpdate` 가드 호출. (2.2 이상)
+5. 라우트 설정에서 `beforeEnter` 호출.
+6. 비동기 라우트 컴포넌트 해결.
+7. 활성화된 컴포넌트에서 `beforeRouteEnter` 호출.
+8. 전역 `beforeResolve` 가드 호출. (2.5이상)
 9. 네비게이션 완료.
-10. 전역 `afterEach` 훅 호출
-11. DOM 갱신 트리거 됨
-12. 인스턴스화 된 인스턴스들의 `beforeRouteEnter`가드에서 `next`에 전달 된 콜백을 호출합니다
+10. 전역 `afterEach` 훅 호출.
+11. DOM 갱신 트리거 됨.
+12. 인스턴스화 된 인스턴스들의 `beforeRouteEnter`가드에서 `next`에 전달 된 콜백을 호출합니다.

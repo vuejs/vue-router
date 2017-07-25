@@ -20,7 +20,7 @@ const router = new VueRouter({
 이 함수는 스크롤 위치 객체를 반환 할 수 있습니다. 객체는 다음과 같은 형태 일 수 있습니다.
 
 - `{ x: number, y: number }`
-- `{ selector: string }`
+- `{ selector: string, offset? : { x: number, y: number }}` (offset은 2.6.0 이상만 지원)
 
 잘못된 값이나 빈 객체가 반환되면 스크롤이 발생하지 않습니다.
 
@@ -53,6 +53,7 @@ scrollBehavior (to, from, savedPosition) {
   if (to.hash) {
     return {
       selector: to.hash
+      // , offset: { x: 0, y: 10 }
     }
   }
 }
