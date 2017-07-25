@@ -24,7 +24,7 @@ import('./Foo.vue') // returns a Promise
  const Foo = () => import('./Foo.vue')
 ```
 
-라우트 설정에서 아무것도 바꿀 필요가 없습니다. 보통 `Foo`만 사용하십시오.
+라우트 설정에서 아무것도 바꿀 필요가 없습니다. `Foo`만 사용하면 됩니다.
 
 ``` js
 const router = new VueRouter({
@@ -44,4 +44,4 @@ const Bar = () => import(/* webpackChunkName: "group-foo" */ './Bar.vue')
 const Baz = () => import(/* webpackChunkName: "group-foo" */ './Baz.vue')
 ```
 
-Webpack은 동일한 묶음 이름을 가진 비동기 모듈을 같은 비동기 묶음으로 그룹화합니다. 이것은 또한`require.ensure`에 대한 종속성을 더 이상 명시 적으로 나열할 필요가 없음을 의미합니다(따라서 빈 배열을 전달합니다).
+Webpack은 동일한 이름의 묶음을 가진 비동기 모듈을 동일한 비동기 묶음으로 그룹화합니다.
