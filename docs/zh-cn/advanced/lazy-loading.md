@@ -4,7 +4,7 @@
 
 结合 Vue 的 [异步组件](http://vuejs.org/guide/components.html#Async-Components) 和 Webpack 的 [code splitting feature](https://doc.webpack-china.org/guides/code-splitting-async/#require-ensure-/), 轻松实现路由组件的懒加载。
 
-首先，可以将异步组件定义为返回一个 Promise 的工厂函数(该函数应该 resolve 组件本身):
+首先，可以将异步组件定义为返回一个 Promise 的工厂函数(该函数返回的Promise应该 resolve 组件本身):
 
 
 ``` js
