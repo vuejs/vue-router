@@ -25,7 +25,7 @@ const Time = inBrowser && window.performance && window.performance.now
 
 let _key: string = genKey()
 
-function genKey (): string {
+export function genKey (): string {
   return Time.now().toFixed(3)
 }
 

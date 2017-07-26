@@ -2,15 +2,15 @@
 
 import type Router from '../index'
 import { assert } from './warn'
-import { getStateKey, setStateKey } from './push-state'
-
-const positionStore = Object.create(null)
+import { getStateKey, setStateKey, genKey } from './push-state'
 
 export function setupScroll () {
   window.addEventListener('popstate', e => {
     saveScrollPosition()
     if (e.state && e.state.key) {
       setStateKey(e.state.key)
+    } else {
+      setStateKey(genKey())
     }
   })
 }
@@ -64,16 +64,19 @@ export function handleScroll (
 export function saveScrollPosition () {
   const key = getStateKey()
   if (key) {
+    const positionStore = JSON.parse(window.sessionStorage.getItem('positionStore') || '{}')
     positionStore[key] = {
       x: window.pageXOffset,
       y: window.pageYOffset
     }
+    window.sessionStorage.setItem('positionStore', JSON.stringify(positionStore))
   }
 }
 
 function getScrollPosition (): ?Object {
   const key = getStateKey()
   if (key) {
+    const positionStore = JSON.parse(window.sessionStorage.getItem('positionStore') || '{}')
     return positionStore[key]
   }
 }
