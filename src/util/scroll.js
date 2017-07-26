@@ -64,19 +64,19 @@ export function handleScroll (
 export function saveScrollPosition () {
   const key = getStateKey()
   if (key) {
-    let positionStore = JSON.parse(sessionStorage.getItem('positionStore') || '{}')
+    const positionStore = JSON.parse(window.sessionStorage.getItem('positionStore') || '{}')
     positionStore[key] = {
       x: window.pageXOffset,
       y: window.pageYOffset
     }
-    sessionStorage.setItem('positionStore', JSON.stringify(positionStore))
+    window.sessionStorage.setItem('positionStore', JSON.stringify(positionStore))
   }
 }
 
 function getScrollPosition (): ?Object {
   const key = getStateKey()
   if (key) {
-    let positionStore = JSON.parse(sessionStorage.getItem('positionStore') || '{}')
+    const positionStore = JSON.parse(window.sessionStorage.getItem('positionStore') || '{}')
     return positionStore[key]
   }
 }
