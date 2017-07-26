@@ -87,7 +87,7 @@ var View = {
       }
     }
 
-    // also regiseter instance in prepatch hook
+    // also register instance in prepatch hook
     // in case the same component instance is reused across different routes
     ;(data.hook || (data.hook = {})).prepatch = function (_, vnode) {
       matched.instances[name] = vnode.componentInstance;
@@ -1108,8 +1108,12 @@ function addRouteRecord (
     );
   }
 
-  var normalizedPath = normalizePath(path, parent);
   var pathToRegexpOptions = route.pathToRegexpOptions || {};
+  var normalizedPath = normalizePath(
+    path,
+    parent,
+    pathToRegexpOptions.strict
+  );
 
   if (typeof route.caseSensitive === 'boolean') {
     pathToRegexpOptions.sensitive = route.caseSensitive;
@@ -1208,8 +1212,8 @@ function compileRouteRegex (path, pathToRegexpOptions) {
   return regex
 }
 
-function normalizePath (path, parent) {
-  path = path.replace(/\/$/, '');
+function normalizePath (path, parent, strict) {
+  if (!strict) { path = path.replace(/\/$/, ''); }
   if (path[0] === '/') { return path }
   if (parent == null) { return path }
   return cleanPath(((parent.path) + "/" + path))
@@ -1478,13 +1482,13 @@ function resolveRecordPath (path, record) {
 /*  */
 
 
-var positionStore = Object.create(null);
-
 function setupScroll () {
   window.addEventListener('popstate', function (e) {
     saveScrollPosition();
     if (e.state && e.state.key) {
       setStateKey(e.state.key);
+    } else {
+      setStateKey(genKey());
     }
   });
 }
@@ -1538,16 +1542,19 @@ function handleScroll (
 function saveScrollPosition () {
   var key = getStateKey();
   if (key) {
+    var positionStore = JSON.parse(window.sessionStorage.getItem('positionStore') || '{}');
     positionStore[key] = {
       x: window.pageXOffset,
       y: window.pageYOffset
     };
+    window.sessionStorage.setItem('positionStore', JSON.stringify(positionStore));
   }
 }
 
 function getScrollPosition () {
   var key = getStateKey();
   if (key) {
+    var positionStore = JSON.parse(window.sessionStorage.getItem('positionStore') || '{}');
     return positionStore[key]
   }
 }
