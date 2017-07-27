@@ -23,6 +23,8 @@ export default {
     replace: Boolean,
     activeClass: String,
     exactActiveClass: String,
+    inactiveClass: String, // TMCDOS
+    exactInactiveClass: String, // TMCDOS
     event: {
       type: eventTypes,
       default: 'click'
@@ -36,6 +38,8 @@ export default {
     const classes = {}
     const globalActiveClass = router.options.linkActiveClass
     const globalExactActiveClass = router.options.linkExactActiveClass
+    const globalInactiveClass = router.options.linkInactiveClass; // TMCDOS
+    const globalExactInactiveClass = router.options.linkExactInactiveClass; // TMCDOS
     // Support global empty active class
     const activeClassFallback = globalActiveClass == null
             ? 'router-link-active'
@@ -49,6 +53,20 @@ export default {
     const exactActiveClass = this.exactActiveClass == null
             ? exactActiveClassFallback
             : this.exactActiveClass
+    // === TMCDOS start ===
+    const inactiveClassFallback = globalInactiveClass == null
+            ? 'router-link-inactive'
+            : globalInactiveClass;
+    const exactInactiveClassFallback = globalExactInactiveClass == null
+            ? 'router-link-exact-inactive'
+            : globalExactInactiveClass;
+    const inactiveClass = this.inactiveClass == null
+            ? inactiveClassFallback
+            : this.inactiveClass;
+    const exactInactiveClass = this.exactInactiveClass == null
+            ? exactInactiveClassFallback
+            : this.exactInactiveClass;
+    // === TMCDOS end ===
     const compareTarget = location.path
       ? createRoute(null, location, null, router)
       : route
@@ -57,6 +75,8 @@ export default {
     classes[activeClass] = this.exact
       ? classes[exactActiveClass]
       : isIncludedRoute(current, compareTarget)
+    classes[exactInactiveClass] = ! classes[exactActiveClass]; // TMCDOS
+    classes[inactiveClass] = ! classes[activeClass]; // TMCDOS
 
     const handler = e => {
       if (guardEvent(e)) {
