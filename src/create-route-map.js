@@ -73,6 +73,8 @@ function addRouteRecord (
     regex: compileRouteRegex(normalizedPath, pathToRegexpOptions),
     components: route.components || { default: route.component },
     instances: {},
+    title: route.title || '', // TMCDOS
+    children: route.children || [], // TMCDOS
     name,
     parent,
     matchAs,

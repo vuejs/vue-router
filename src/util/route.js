@@ -15,6 +15,9 @@ export function createRoute (
   const route: Route = {
     name: location.name || (record && record.name),
     meta: (record && record.meta) || {},
+    title: (record && record.title) || '', // TMCDOS
+    children: (record && record.children) || [], // TMCDOS
+    parent: (record && record.parent) || {}, // TMCDOS
     path: location.path || '/',
     hash: location.hash || '',
     query: location.query || {},
