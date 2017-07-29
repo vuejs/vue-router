@@ -29,8 +29,8 @@
   增加全局的导航钩子。参考 [导航钩子](../advanced/navigation-guards.md).
 
 
-- **router.push(location)**
-- **router.replace(location)**
+- **router.push(location, onComplete?, onAbort?)**
+- **router.replace(location, onComplete?, onAbort?)**
 - **router.go(n)**
 - **router.back()**
 - **router.forward()**
