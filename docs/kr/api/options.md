@@ -18,6 +18,10 @@
     beforeEnter?: (to: Route, from: Route, next: Function) => void;
     meta?: any;
   }
+
+  // 2.6.0+
+  caseSensitive?: boolean; // 대소문자를 구분합니까? (default: false)
+  pathToRegexpOptions?: Object; // path-to-regexp 옵션은 정규 표현식을 컴파일합니다.
   ```
 
 ### mode
@@ -85,3 +89,13 @@
 - 자료형: `Function`
 
   사용자 지정 쿼리 문자열 구문 분석/문자열화 함수를 사용할 수 있습니다. 기본 값을 오버라이드합니다.
+
+### fallback
+
+  > 2.6.0+
+
+  - 자료형: `boolean`
+
+   브라우저가 `history.pushState`를 지원하지 않을 때 라우터가 `hash`모드로 변경되어야 할지 설정합니다. 기본값은 `true`입니다.
+
+   이를 `false`로 설정하면 IE9에서 모든 `router-link`를 탐색 할 수 있습니다. 이것은 해시모드 URL이 SSR에서 작동하지 않기 때문에 앱이 서버에서 렌더링되어 IE9에서 작동해야하는 경우에 유용합니다.
