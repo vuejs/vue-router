@@ -92,7 +92,7 @@ const Foo = {
     // appelée quand la route qui fait le rendu de ce composant change,
     // mais que ce composant est utilisé de nouveau dans la nouvelle route.
     // Par exemple, pour une route avec le paramètre dynamique `/foo/:id`, quand nous
-    // naviguons entre `/foo/1` et `/foo/2`, le même instance du composant `Foo`
+    // naviguons entre `/foo/1` et `/foo/2`, la même instance du composant `Foo`
     // va être ré-utilisée, et ce hook va être appelé quand cela arrivera.
     // ce hook a accès à l'instance de ce composant via `this`.
   },

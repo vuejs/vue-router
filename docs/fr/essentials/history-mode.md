@@ -60,7 +60,7 @@ http.createServer((req, res) => {
     res.end(content)
   })
 }).listen(httpPort, () => {
-  console.log("Server listening on: http://localhost:%s", httpPort)
+  console.log("Le serveur écoute à : http://localhost:%s", httpPort)
 })
 ```
 
@@ -119,4 +119,4 @@ const router = new VueRouter({
 })
 ```
 
-Une alternative possible, si vous utilisez un serveur Node.js, est d'implémenter ce mécanisme de substitution en utilisant le routeur côté serveur pour vérifier la concordance des demande d'URL entrant. Si la route ne concorde avec rien, la page est inexistante. Consultez l'[utilisation de Vue côté serveur](https://ssr.vuejs.org/fr/) pour plus d'informations.
+Une alternative possible, si vous utilisez un serveur Node.js, est d'implémenter ce mécanisme de substitution en utilisant le routeur côté serveur pour vérifier la concordance des demandes d'URL entrant. Si la route ne concorde avec rien, la page est inexistante. Consultez l'[utilisation de Vue côté serveur](https://ssr.vuejs.org/fr/) pour plus d'informations.

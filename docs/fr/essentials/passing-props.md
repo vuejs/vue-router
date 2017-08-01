@@ -17,7 +17,7 @@ const router = new VueRouter({
 })
 ```
 
-**👍 Découplé avec les props**
+**👍 Découplé avec les `props`**
 
 ``` js
 const User = {
@@ -58,7 +58,7 @@ const router = new VueRouter({
 
 ### Mode fonction
 
-Vous pouvez créer une fonction qui va retourner les props. Cela vous permet de coercer un paramètre dans un autre type, de combiner les valeurs statiques avec les valeurs des routes, etc.
+Vous pouvez créer une fonction qui va retourner les props. Cela vous permet de caster des paramètres dans un autre type, de combiner les valeurs statiques avec les valeurs des routes, etc.
 
 ``` js
 const router = new VueRouter({
