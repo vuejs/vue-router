@@ -30,6 +30,9 @@ export class HashHistory extends History {
 
     window.addEventListener(supportsPushState ? 'popstate' : 'hashchange', () => {
       const current = this.current
+      if (!ensureSlash()) {
+        return
+      }
       this.transitionTo(getHash(), route => {
         if (supportsScroll) {
           handleScroll(this.router, route, current, true)
