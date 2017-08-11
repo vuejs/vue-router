@@ -193,8 +193,8 @@ export class History {
     })
   }
 
-  shuoldUpdateRoute ():boolean {
-    return true;
+  shuoldUpdateRoute (): boolean {
+    return true
   }
 }
 
