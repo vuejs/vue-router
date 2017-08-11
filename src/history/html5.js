@@ -4,7 +4,7 @@ import type Router from '../index'
 import { History } from './base'
 import { cleanPath } from '../util/path'
 import { setupScroll, handleScroll } from '../util/scroll'
-import { pushState, replaceState } from '../util/push-state'
+import { pushState, replaceState, supportsPushState } from '../util/push-state'
 
 export class HTML5History extends History {
   constructor (router: Router, base: ?string) {
@@ -57,6 +57,12 @@ export class HTML5History extends History {
 
   getCurrentLocation (): string {
     return getLocation(this.base)
+  }
+
+  shuoldUpdateRoute (): boolean {
+    // when is ready and don,t support pushState
+    // route shouldn't render, it suppose to be regular page jump
+    return !this.ready || supportsPushState
   }
 }
 
