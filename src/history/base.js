@@ -64,7 +64,7 @@ export class History {
   transitionTo (location: RawLocation, onComplete?: Function, onAbort?: Function) {
     const route = this.router.match(location, this.current)
     this.confirmTransition(route, () => {
-      if (this.shuoldUpdateRoute()) {
+      if (this.shouldUpdateRoute()) {
         this.updateRoute(route)
       }
       onComplete && onComplete(route)
@@ -193,7 +193,7 @@ export class History {
     })
   }
 
-  shuoldUpdateRoute (): boolean {
+  shouldUpdateRoute (): boolean {
     return true
   }
 }
