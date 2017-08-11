@@ -60,7 +60,7 @@ export class HTML5History extends History {
   }
 
   shuoldUpdateRoute (): boolean {
-    // when is ready and don,t support pushState
+    // when is ready and don't support pushState
     // route shouldn't render, it suppose to be regular page jump
     return !this.ready || supportsPushState
   }
