@@ -30,6 +30,19 @@ router.push({ name: 'user', params: { userId: 123 }})
 router.push({ path: 'register', query: { plan: 'private' }})
 ```
 
+**Note**: `params` are ignored if a `path` is provided, which is not the case for `query`, as shown in the example above.
+Instead, you need to provide the `name` of the route or manually specify the whole `path` with any parameter:
+
+```js
+const userId = 123
+router.push({ name: 'user', params: { userId }}) // -> /user/123
+router.push({ path: `/user/${userId}` }) // -> /user/123
+// This will NOT work
+router.push({ path: '/user', params: { userId }}) // -> /user
+```
+
+The same rules apply for the `to` property of the `router-link` component.
+
 In 2.2.0+, optionally provide `onComplete` and `onAbort` callbacks to `router.push` or `router.replace` as the 2nd and 3rd arguments. These callbacks will be called when the navigation either successfully completed (after all async hooks are resolved), or aborted (navigated to the same route, or to a different route before current navigation has finished), respectively.
 
 #### `router.replace(location, onComplete?, onAbort?)`
