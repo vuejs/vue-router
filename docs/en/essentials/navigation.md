@@ -45,6 +45,22 @@ The same rules apply for the `to` property of the `router-link` component.
 
 In 2.2.0+, optionally provide `onComplete` and `onAbort` callbacks to `router.push` or `router.replace` as the 2nd and 3rd arguments. These callbacks will be called when the navigation either successfully completed (after all async hooks are resolved), or aborted (navigated to the same route, or to a different route before current navigation has finished), respectively.
 
+**Note:** If the destination path reuses component, `beforeRouteUpdate` can be used to re-initialize data.
+
+```js
+const Foo = {
+    template: '...',
+    data () {
+        return {
+          name: this.$route.params.name
+        }
+    },
+    beforeRouteUpdate (to, from, next) {
+        this.name = to.params.name
+    }
+}
+```
+
 #### `router.replace(location, onComplete?, onAbort?)`
 
 It acts like `router.push`, the only difference is that it navigates without pushing a new history entry, as its name suggests - it replaces the current entry.
