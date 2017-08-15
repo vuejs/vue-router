@@ -15,7 +15,7 @@ When using history mode, the URL will look "normal," e.g. `http://oursite.com/us
 
 Here comes a problem, though: Since our app is a single page client side app, without a proper server configuration, the users will get a 404 error if they access `http://oursite.com/user/id` directly in their browser. Now that's ugly.
 
-Not to worry: To fix the issue, all you need to do is add a simple catch-all fallback route to your server. If the URL doesn't match any static assets, it should serve the same `index.html` page that your app lives in. Beautiful, again! 
+Not to worry: To fix the issue, all you need to do is add a simple catch-all fallback route to your server. If the URL doesn't match any static assets, it should serve the same `index.html` page that your app lives in. Beautiful, again!
 
 ## Example Server Configurations
 
@@ -40,12 +40,37 @@ location / {
 }
 ```
 
-#### Node.js (Express)
+#### Native Node.js
+
+```js
+const http = require("http")
+const fs = require("fs")
+const httpPort = 80
+
+http.createServer((req, res) => {
+  fs.readFile("index.htm", "utf-8", (err, content) => {
+    if (err) {
+      console.log('We cannot open "index.htm" file.')
+    }
+
+    res.writeHead(200, {
+      "Content-Type": "text/html; charset=utf-8"
+    })
+
+    res.end(content)
+  })
+}).listen(httpPort, () => {
+  console.log("Server listening on: http://localhost:%s", httpPort)
+})
+```
+
+#### Express with Node.js
 
 For Node.js/Express, consider using [connect-history-api-fallback middleware](https://github.com/bripkens/connect-history-api-fallback).
 
 #### Internet Information Services (IIS)
-```
+
+```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
   <system.webServer>
@@ -61,15 +86,24 @@ For Node.js/Express, consider using [connect-history-api-fallback middleware](ht
         </rule>
       </rules>
     </rewrite>
-      <httpErrors>     
-          <remove statusCode="404" subStatusCode="-1" />                
+      <httpErrors>
+          <remove statusCode="404" subStatusCode="-1" />
           <remove statusCode="500" subStatusCode="-1" />
-          <error statusCode="404" path="/survey/notfound" responseMode="ExecuteURL" />                
+          <error statusCode="404" path="/survey/notfound" responseMode="ExecuteURL" />
           <error statusCode="500" path="/survey/error" responseMode="ExecuteURL" />
       </httpErrors>
       <modules runAllManagedModulesForAllRequests="true"/>
   </system.webServer>
 </configuration>
+```
+
+#### Caddy
+
+```
+rewrite {
+    regexp .*
+    to {path} /
+}
 ```
 
 ## Caveat
@@ -85,4 +119,4 @@ const router = new VueRouter({
 })
 ```
 
-Alternatively, if you are using a Node.js server, you can implement the fallback by using the router on the server side to match the incoming URL and respond with 404 if no route is matched.
+Alternatively, if you are using a Node.js server, you can implement the fallback by using the router on the server side to match the incoming URL and respond with 404 if no route is matched. Check out the [Vue server side rendering documentation](https://ssr.vuejs.org/en/) for more information.

@@ -69,12 +69,8 @@ http.createServer((req, res) => {
 При использовании Node.js/Express, мы рекомендуем пользоваться [connect-history-api-fallback middleware](https://github.com/bripkens/connect-history-api-fallback).
 
 #### Internet Information Services (IIS)
-<<<<<<< HEAD
-```
-=======
 
 ```xml
->>>>>>> 7289acbb6f64d7bcf33fb4f6f2a445b4036de907
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
   <system.webServer>
@@ -101,8 +97,6 @@ http.createServer((req, res) => {
 </configuration>
 ```
 
-<<<<<<< HEAD
-=======
 #### Caddy
 
 ```
@@ -112,7 +106,6 @@ rewrite {
 }
 ```
 
->>>>>>> 7289acbb6f64d7bcf33fb4f6f2a445b4036de907
 ## Предостережение
 
 При таком подходе возникает одно неприятное последствие: сервер больше не будет выдавать ошибки 404, так как обслуживание всех путей отдаётся на откуп клиентскому роутингу. Частично эту проблему можно решить, указав путь по умолчанию во Vue-router:
