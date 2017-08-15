@@ -1,7 +1,6 @@
-import Vue = require("vue");
-import { ComponentOptions, PluginFunction } from "vue";
+import Vue, { ComponentOptions, PluginFunction } from "vue";
 
-type Component = ComponentOptions<Vue> | typeof Vue;
+type Component = ComponentOptions<any, any, any, any> | typeof Vue;
 type Dictionary<T> = { [key: string]: T };
 
 export type RouterMode = "hash" | "history" | "abstract";
@@ -13,7 +12,7 @@ export type NavigationGuard = (
   next: (to?: RawLocation | false | ((vm: Vue) => any) | void) => void
 ) => any
 
-declare class VueRouter {
+export declare class VueRouter {
   constructor (options?: RouterOptions);
 
   app: Vue;

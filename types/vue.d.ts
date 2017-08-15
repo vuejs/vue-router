@@ -2,9 +2,8 @@
  * Augment the typings of Vue.js
  */
 
-import Vue = require("vue");
-import VueRouter = require("./index");
-import { Route, RawLocation, NavigationGuard } from "./index";
+import Vue from "vue";
+import VueRouter, { Route, RawLocation, NavigationGuard } from "./index";
 
 declare module "vue/types/vue" {
   interface Vue {
@@ -14,7 +13,7 @@ declare module "vue/types/vue" {
 }
 
 declare module "vue/types/options" {
-  interface ComponentOptions<V extends Vue> {
+  interface ComponentOptions<Data, Methods, Computed, Props> {
     router?: VueRouter;
     beforeRouteEnter?: NavigationGuard;
     beforeRouteLeave?: NavigationGuard;
