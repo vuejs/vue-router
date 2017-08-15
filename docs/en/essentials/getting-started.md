@@ -70,20 +70,22 @@ By injecting the router, we get access to it as `this.$router` as well as the cu
 // Home.vue
 export default {
   computed: {
-    params () {
+    username () {
       // We will see what params are shortly
-      return this.$route.params
+      return this.$route.params.username
     }
   },
   methods: {
-    someMethod () {
-      // Redirecting to another route
-      this.$router.push('/redirect')
+    goBack () {
+      window.history.length > 1
+        ? this.$router.go(-1)
+        : this.$router.push('/')
     }
+  }
 }
 ```
 
-Thoroughly the docs, we will often use the `router` instance. Keep in mind that `this.$router` is exactly the same as using `router`. The reason we use `this.$router` is because we don't want to import the router in every single component that needs to manipulate routing.
+Throughout the docs, we will often use the `router` instance. Keep in mind that `this.$router` is exactly the same as using `router`. The reason we use `this.$router` is because we don't want to import the router in every single component that needs to manipulate routing.
 
 You can also checkout this example [live](http://jsfiddle.net/yyx990803/xgrjzsup/).
 
