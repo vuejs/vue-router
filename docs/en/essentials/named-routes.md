@@ -28,4 +28,10 @@ router.push({ name: 'user', params: { userId: 123 }})
 
 In both cases, the router will navigate to the path `/user/123`.
 
+Additionally, if you are in a separate component you can call these methods using `this.$router`. For example the above code can be rewritten in a component as:
+
+``` js
+this.$router.push({ name: 'user', params: { userId: 123 }})
+```
+
 Full example [here](https://github.com/vuejs/vue-router/blob/dev/examples/named-routes/app.js).
