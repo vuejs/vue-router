@@ -35,7 +35,7 @@ const router = new VueRouter({
 })
 ```
 
-For other advanced usage, checkout the [example](https://github.com/vuejs/vue-router/blob/dev/examples/redirect/app.js).
+For other advanced usage, check out the [example](https://github.com/vuejs/vue-router/blob/dev/examples/redirect/app.js).
 
 ### Alias
 
@@ -55,4 +55,4 @@ const router = new VueRouter({
 
 An alias gives you the freedom to map a UI structure to an arbitrary URL, instead of being constrained by the configuration's nesting structure.
 
-For advanced usage, checkout the [example](https://github.com/vuejs/vue-router/blob/dev/examples/route-alias/app.js).
+For advanced usage, check out the [example](https://github.com/vuejs/vue-router/blob/dev/examples/route-alias/app.js).
