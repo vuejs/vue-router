@@ -64,6 +64,6 @@ const app = new Vue({
 // Now the app has started!
 ```
 
-You can also checkout this example [live](http://jsfiddle.net/yyx990803/xgrjzsup/).
+You can also check out this example [live](http://jsfiddle.net/yyx990803/xgrjzsup/).
 
 Notice that a `<router-link>` automatically gets the `.router-link-active` class when its target route is matched. You can learn more about it in its [API reference](../api/router-link.md).
