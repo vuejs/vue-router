@@ -30,7 +30,22 @@ router.push({ name: 'user', params: { userId: 123 }})
 router.push({ path: 'register', query: { plan: 'private' }})
 ```
 
+**Note :** `params` est ignoré si `path` est fourni, ce qui n'est pas le cas pour `query`, comme démontrer dans l'exemple ci-dessous.
+À la place, vous devez fournir le `name` de la route ou manuellement spécifier le `path` complet avec tous les paramètres :
+
+```js
+const userId = 123
+router.push({ name: 'user', params: { userId }}) // -> /user/123
+router.push({ path: `/user/${userId}` }) // -> /user/123
+// Ceci ne vas PAS fonctionner
+router.push({ path: '/user', params: { userId }}) // -> /user
+```
+
+Les mêmes règles s'appliquent pour la propriété `to` du composant `router-link`.
+
 Dans la version 2.2.0+, vous pouvez optionnellement fournir les fonctions de rappel `onComplete` et `onAbort` à `router.push` ou `router.replace` en tant que deuxième et troisième arguments. Ces fonctions de rappel seront appelées quand la navigation sera respectivement ; complétée avec succès (après la résolution de tous les hooks asynchrones), ou arrêtée (navigation vers la même route ou vers une route différente avant que la navigation courante ne soit achevée).
+
+**Note:** If the destination is the same as the current route and only params are changing (eg: going from one profile to another `/users/1` -> `/users/2`), you will have to use [beforeRouteUpdate](./dynamic-matching.html#reacting-to-params-changes) to react to changes (eg: fetching the user information).
 
 #### `router.replace(location, onComplete?, onAbort?)`
 
