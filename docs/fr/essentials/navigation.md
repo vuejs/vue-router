@@ -44,7 +44,7 @@ Les mêmes règles s'appliquent pour la propriété `to` du composant `router-li
 
 Dans la version 2.2.0+, vous pouvez optionnellement fournir les fonctions de rappel `onComplete` et `onAbort` à `router.push` ou `router.replace` en tant que deuxième et troisième arguments. Ces fonctions de rappel seront appelées quand la navigation sera respectivement ; complétée avec succès (après la résolution de tous les hooks asynchrones), ou arrêtée (navigation vers la même route ou vers une route différente avant que la navigation courante ne soit achevée).
 
-**Note :** si la destination est la même que la route courante et que seuls les paramètres ont changés (par ex. naviguer d'un profil à l'autre `/utilisateurs/1` -> `/utilisateurs/2`), vous devrez utiliser [beforeRouteUpdate](./dynamic-matching.html#dynamic-matching.html#réactivité-aux-changements-de-paramètres) pour réagir aux changements (par ex. récupérer les informations de l'utilisateur).
+**Note :** si la destination est la même que la route courante et que seuls les paramètres ont changés (par ex. naviguer d'un profil à l'autre `/utilisateurs/1` -> `/utilisateurs/2`), vous devrez utiliser [beforeRouteUpdate](./dynamic-matching.html#réactivité-aux-changements-de-paramètres) pour réagir aux changements (par ex. récupérer les informations de l'utilisateur).
 
 #### `router.replace(location, onComplete?, onAbort?)`
 
