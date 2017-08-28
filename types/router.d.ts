@@ -1,4 +1,4 @@
-import Vue = require("vue");
+import Vue from "vue";
 import { ComponentOptions, PluginFunction } from "vue";
 
 type Component = ComponentOptions<Vue> | typeof Vue;

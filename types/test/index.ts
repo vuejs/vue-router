@@ -1,7 +1,7 @@
-import Vue = require("vue");
+import Vue from "vue";
 import { ComponentOptions } from "vue";
 
-import VueRouter = require("../index");
+import VueRouter from "../index";
 import { Route, RouteRecord, RedirectOption } from "../index";
 
 Vue.use(VueRouter);
