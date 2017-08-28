@@ -111,7 +111,7 @@ Cependant, vous pouvez accéder à l'instance en passant dans la fonction de rap
 ``` js
 beforeRouteEnter (to, from, next) {
   next(vm => {
-    // accèr à l'instance du composant via `vm`
+    // accès à l'instance du composant via `vm`
   })
 }
 ```
