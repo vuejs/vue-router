@@ -1,5 +1,16 @@
 import Vue = require("vue");
-import { ComponentOptions, PluginFunction } from "vue";
+/**
+ * source code: import { ComponentOptions, PluginFunction } from "vue";
+ *
+ * This source code in the TypeScript2.0 environment will be error:
+ * " ... node_modules / vue-router / types / vue " has no exported member 'ComponentOptions'.
+ * " ... node_modules / vue-router / types / vue " has no exported member 'PluginFunction'.
+ *
+ * Since I have installed Vue2.0, so I directly quoted the vuejs type file.
+ * The most reasonable thing is to remove the coupling and make it run properly.
+ */
+import { ComponentOptions } from "../../vue/types/options";
+import { PluginFunction } from "../../vue/types/plugin";
 
 type Component = ComponentOptions<Vue> | typeof Vue;
 type Dictionary<T> = { [key: string]: T };
