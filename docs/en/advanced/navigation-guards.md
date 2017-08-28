@@ -77,7 +77,7 @@ These guards have the exact same signature as global before guards.
 Finally, you can directly define route navigation guards inside route components (the ones passed to the router configuration) with the following options:
 
 - `beforeRouteEnter`
-- `beforeRouteUpdate` (added in 2.2)
+- `beforeRouteUpdate` (added in 2.2+)
 - `beforeRouteLeave`
 
 ``` js

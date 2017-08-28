@@ -8,7 +8,7 @@
 
 - Dans le mode historique HTML5, `router-link` interceptera l'évènement du clic, comme ça le navigateur n'essaiera pas de rafraîchir la page.
 
-- En utilisant l'option `base` dans le mode historique HTML5, vous n'avez pas besoin de l'inclure dans les props `to` des URLs. 
+- En utilisant l'option `base` dans le mode historique HTML5, vous n'avez pas besoin de l'inclure dans les props `to` des URL.
 
 ### Props
 
@@ -19,7 +19,7 @@
   - requis
 
    Désigne la route cible du lien. Lorsqu'il est cliqué, la valeur de la prop `to` va être passée de manière interne à `router.push`, donc la valeur peut soit être une chaîne de caractères, ou alors un objet décrivant une localisation.
-  
+
   ``` html
   <!--  chaîne litérale  -->
   <router-link to="home">Accueil</router-link>
@@ -63,7 +63,7 @@
   - défaut : `false`
 
   Configurer la propriété `append` suffixe toujours le chemin relatif au chemin courant. Par exemple, assumons que nous naviguons de `/a` à un lien relatif `b`, sans `append` on finira sur `/b`, mais avec `append` on finira sur `/a/b`.
-  
+
   ``` html
   <router-link :to="{ path: 'relative/path'}" append></router-link>
   ```
@@ -106,7 +106,7 @@
   <!-- ce lien sera uniquement actif à `/` -->
   <router-link to="/" exact>
   ```
-  
+
   Allez voir les exemples expliquant la classe active pour les liens [ici](https://jsfiddle.net/8xrk1n9f/).
 
 - **event**

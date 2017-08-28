@@ -1,6 +1,6 @@
 # L'objet `Route`
 
-Un **objet `Route`** représente l'état actuel de la route active. Il contient des informations analysées à propos de l'URL courante et **les itinéraires de route** appariés par l'URL.
+Un **objet `Route`** représente l'état actuel de la route active. Il contient des informations analysées à propos de l'URL courant et **les itinéraires de route** appariés par l'URL.
 
 L'objet `Route` est immutable. Chaque navigation qui se déroule avec succès résultera en un nouvel objet `Route`.
 
@@ -12,7 +12,7 @@ L'objet `Route` peut être trouvé à plusieurs endroits :
 
 - Comme valeur de retour après l'appel de `router.match(location)`
 
-- À l'intérieur des fonctions de sécurisation de la navigation, dans les deux premiers paramètres de la fonction :
+- À l'intérieur des fonctions d'interception de la navigation, dans les deux premiers paramètres de la fonction :
 
   ``` js
   router.beforeEach((to, from, next) => {
@@ -60,7 +60,7 @@ L'objet `Route` peut être trouvé à plusieurs endroits :
 
   - type : `string`
 
-    L'URL entièrement résolue, incluant la requête et le hash.
+    L'URL entièrement résolu, incluant la requête et le hash.
 
 - **$route.matched**
 

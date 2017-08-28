@@ -1,6 +1,6 @@
-# Route Meta Fields (En) <br><br> *Cette page est en cours de traduction française. Revenez une autre fois pour lire une traduction achevée ou [participez à la traduction française ici](https://github.com/vuejs-fr/vue-router).*
+# Champs meta de route
 
-You can include a `meta` field when defining a route:
+Vous pouvez inclure un champ `meta` quand vous définissez une route :
 
 ``` js
 const router = new VueRouter({
@@ -12,7 +12,7 @@ const router = new VueRouter({
         {
           path: 'bar',
           component: Bar,
-          // a meta field
+          // un champ `meta`
           meta: { requiresAuth: true }
         }
       ]
@@ -21,21 +21,21 @@ const router = new VueRouter({
 })
 ```
 
-So how do we access this `meta` field?
+Comment maintenant accéder à ce champ `meta` ?
 
-First, each route object in the `routes` configuration is called a **route record**. Route records may be nested. Therefore when a route is matched, it can potentially match more than one route record.
+Tout d'abord, chaque objet route dans la configuration de `routes` est appelé un **registre de route**. Les registres de route peuvent être imbriqués. Par conséquent, quand une route concorde, elle peut potentiellement concorder avec plus d'un registre de route.
 
-For example, with the above route config, the URL `/foo/bar` will match both the parent route record and the child route record.
+Par exemple, avec la configuration de route ci-dessous, l'URL `/foo/bar` va concorder avec le registre parent et le registre enfant.
 
-All route records matched by a route are exposed on the `$route` object (and also route objects in navigation guards) as the `$route.matched` Array. Therefore, we will need to iterate over `$route.matched` to check for meta fields in route records.
+Tous les registres concordant avec une route sont exposés dans l'objet `$route` (ainsi que les objets de route dans les sécurisations de navigation) dans le tableau `$route.matched`. Donc, nous devons itérer à travers `$route.matched` pour vérifier les champs meta dans les registres de route.
 
-An example use case is checking for a meta field in the global navigation guard:
+Un exemple concret est la vérification d'un champ meta dans une interception de navigation globale :
 
 ``` js
 router.beforeEach((to, from, next) => {
   if (to.matched.some(record => record.meta.requiresAuth)) {
-    // this route requires auth, check if logged in
-    // if not, redirect to login page.
+    // cette route demande une autorisation, vérifions si l'utilisateur est logué.
+    // sinon, redirigeons le sur la page de login.
     if (!auth.loggedIn()) {
       next({
         path: '/login',
@@ -45,7 +45,7 @@ router.beforeEach((to, from, next) => {
       next()
     }
   } else {
-    next() // make sure to always call next()!
+    next() // assurez vous de toujours appeler `next()` !
   }
 })
 ```
