@@ -25,4 +25,4 @@ const router = new VueRouter({
 })
 ```
 
-Une démo de cet exemple peut-être trouvée ici : [ici](https://jsfiddle.net/posva/6du90epg/).
+Une démo de cet exemple peut-être trouvée [ici](https://jsfiddle.net/posva/6du90epg/).

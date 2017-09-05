@@ -1,4 +1,4 @@
-# Les transitions
+# Transitions
 
 Vu que `<router-view>` est essentiellement un composant dynamique, on peut lui appliquer certains effets de transitions en utilisant le composant `<transition>` :
 

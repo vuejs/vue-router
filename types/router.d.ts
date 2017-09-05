@@ -1,7 +1,7 @@
 import Vue = require("vue");
-import { ComponentOptions, PluginFunction } from "vue";
+import { ComponentOptions, PluginFunction, AsyncComponent } from "vue";
 
-type Component = ComponentOptions<Vue> | typeof Vue;
+type Component = ComponentOptions<Vue> | typeof Vue | AsyncComponent;
 type Dictionary<T> = { [key: string]: T };
 
 export type RouterMode = "hash" | "history" | "abstract";
