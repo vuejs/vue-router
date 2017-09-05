@@ -70,6 +70,9 @@ For Node.js/Express, consider using [connect-history-api-fallback middleware](ht
 
 #### Internet Information Services (IIS)
 
+1. Install [IIS UrlRewrite](https://www.iis.net/downloads/microsoft/url-rewrite)
+2. Create a `web.config` file in the root directory of your site with the following:
+
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
@@ -82,17 +85,10 @@ For Node.js/Express, consider using [connect-history-api-fallback middleware](ht
               <add input="{REQUEST_FILENAME}" matchType="IsFile" negate="true" />
               <add input="{REQUEST_FILENAME}" matchType="IsDirectory" negate="true" />
             </conditions>
-          <action type="Rewrite" url="index.html" />
+          <action type="Rewrite" url="/" />
         </rule>
       </rules>
     </rewrite>
-      <httpErrors>
-          <remove statusCode="404" subStatusCode="-1" />
-          <remove statusCode="500" subStatusCode="-1" />
-          <error statusCode="404" path="/survey/notfound" responseMode="ExecuteURL" />
-          <error statusCode="500" path="/survey/error" responseMode="ExecuteURL" />
-      </httpErrors>
-      <modules runAllManagedModulesForAllRequests="true"/>
   </system.webServer>
 </configuration>
 ```
