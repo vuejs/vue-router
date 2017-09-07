@@ -86,7 +86,7 @@ const router = new VueRouter({
       path: '/user/:id', component: User,
       children: [
         // UserHome will be rendered inside User's <router-view>
-        // when /user/:id is matched
+        // when /user is matched
         { path: '', component: UserHome },
 
         // ...other sub routes
