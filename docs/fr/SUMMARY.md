@@ -2,7 +2,7 @@
 <!--email_off-->
 > Note: vue-router@2.x fonctionne uniquement avec Vue 2.x. La doc pour la 0.7.x est [ici](https://github.com/vuejs/vue-router/tree/1.0/docs/en).
 <!--/email_off-->
-**[Notes de release](https://github.com/vuejs/vue-router/releases)**
+**[Notes de version](https://github.com/vuejs/vue-router/releases)**
 
 - [Installation](installation.md)
 - Essentiel
@@ -13,12 +13,12 @@
   - [Routes nommées](essentials/named-routes.md)
   - [Vues nommées](essentials/named-views.md)
   - [Redirection et alias](essentials/redirect-and-alias.md)
-  - [Passing Props to Route Components (En)](essentials/passing-props.md)
-  - [HTML5 History Mode (En)](essentials/history-mode.md)
+  - [Passage de props aux composants de route](essentials/passing-props.md)
+  - [Mode historique de HTML5](essentials/history-mode.md)
 - Avancé
-  - [Navigation Guards (En)](advanced/navigation-guards.md)
-  - [Route Meta Fields (En)](advanced/meta.md)
-  - [Transitions (En)](advanced/transitions.md)
+  - [Intercepteurs de navigation](advanced/navigation-guards.md)
+  - [Champs meta de route](advanced/meta.md)
+  - [Transitions](advanced/transitions.md)
   - [Récupération de données](advanced/data-fetching.md)
   - [Comportement du défilement](advanced/scroll-behavior.md)
   - [Chargement à la volée](advanced/lazy-loading.md)

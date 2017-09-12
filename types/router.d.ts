@@ -1,6 +1,6 @@
-import Vue, { ComponentOptions, PluginFunction } from "vue";
+import Vue, { ComponentOptions, PluginFunction, AsyncComponent } from "vue";
 
-type Component = ComponentOptions<any, any, any, any> | typeof Vue;
+type Component = ComponentOptions<any, any, any, any> | typeof Vue | AsyncComponent;
 type Dictionary<T> = { [key: string]: T };
 
 export type RouterMode = "hash" | "history" | "abstract";

@@ -82,7 +82,7 @@ export default {
     }
   },
   beforeRouteEnter (to, from, next) {
-    getPost(to.params.id, (err, post) => 
+    getPost(to.params.id, (err, post) => {
       if (err) {
         // display some global error message
         next(false)

@@ -6,7 +6,7 @@ En complément du l'utilisation de `<router-link>` pour créer des balises ancre
 
 ** Note : Dans une instance Vue, vous pouvez accéder à l'instance du routeur via `$router`. Vous pouvez donc appeler `this.$router.push`.**
 
-Pour naviguer vers une URL différente, utilisez `router.push`. Cette méthode ajoute une nouvelle entrée dans la pile de l'historique. Ainsi quand un utilisateur clique sur le bouton retour de son navigateur, il retournera à l'URL précédente.
+Pour naviguer vers un URL différent, utilisez `router.push`. Cette méthode ajoute une nouvelle entrée dans la pile de l'historique. Ainsi quand un utilisateur clique sur le bouton retour de son navigateur, il retournera à l'URL précédent.
 
 Cette méthode est appelée en interne quand vous cliquez sur `<router-link>`, donc cliquer sur `<router-link :to="...">` est équivalent à appeler `router.push(...)`.
 
@@ -30,7 +30,21 @@ router.push({ name: 'user', params: { userId: 123 }})
 router.push({ path: 'register', query: { plan: 'private' }})
 ```
 
+**Note :** `params` est ignoré si `path` est fourni, ce qui n'est pas le cas pour `query`, comme démontré dans l'exemple ci-dessous. À la place, vous devez fournir le `name` de la route ou manuellement spécifier le `path` complet avec tous les paramètres :
+
+```js
+const userId = 123
+router.push({ name: 'user', params: { userId }}) // -> /user/123
+router.push({ path: `/user/${userId}` }) // -> /user/123
+// Ceci ne vas PAS fonctionner
+router.push({ path: '/user', params: { userId }}) // -> /user
+```
+
+Les mêmes règles s'appliquent pour la propriété `to` du composant `router-link`.
+
 Dans la version 2.2.0+, vous pouvez optionnellement fournir les fonctions de rappel `onComplete` et `onAbort` à `router.push` ou `router.replace` en tant que deuxième et troisième arguments. Ces fonctions de rappel seront appelées quand la navigation sera respectivement ; complétée avec succès (après la résolution de tous les hooks asynchrones), ou arrêtée (navigation vers la même route ou vers une route différente avant que la navigation courante ne soit achevée).
+
+**Note :** si la destination est la même que la route courante et que seuls les paramètres ont changés (par ex. naviguer d'un profil à l'autre `/utilisateurs/1` -> `/utilisateurs/2`), vous devrez utiliser [beforeRouteUpdate](./dynamic-matching.html#réactivité-aux-changements-de-paramètres) pour réagir aux changements (par ex. récupérer les informations de l'utilisateur).
 
 #### `router.replace(location, onComplete?, onAbort?)`
 

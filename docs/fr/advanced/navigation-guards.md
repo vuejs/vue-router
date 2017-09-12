@@ -1,12 +1,12 @@
-# Navigation Guards (En) <br><br> *Cette page est en cours de traduction française. Revenez une autre fois pour lire une traduction achevée ou [participez à la traduction française ici](https://github.com/vuejs-fr/vue-router).*
+# Intercepteurs de navigation
 
-As the name suggests, the navigation guards provided by `vue-router` are primarily used to guard navigations either by redirecting it or canceling it. There are a number of ways to hook into the route navigation process: globally, per-route, or in-component.
+Comme le nom le suggère, l'interception de navigation fournie par `vue-router` est principalement utilisée pour intercepter la navigation avec des redirections ou des annulations d'accès. Il y a plusieurs hooks disponibles lors du processus de navigation : globaux, par route ou par composant.
 
-Remember that **params or query changes won't trigger enter/leave navigation guards**. You can either [watch the `$route` object](../essentials/dynamic-matching.md#reacting-to-params-changes) to react to those changes, or use the `beforeRouteUpdate` in-component guard.
+Souvenez-vous de cela : **le changement de paramètre ou de query ne va pas lancer d'interception d'entrée ou de sortie de navigation**. Vous pouvez toujours [observer l'objet `$route`](../essentials/dynamic-matching.md#reacting-to-params-changes) pour réagir à ces changements, ou utiliser la fonction `beforeRouteUpdate` d'une interception par composant.
 
-### Global Guards
+### Interception globale
 
-You can register global before guards using `router.beforeEach`:
+Vous pouvez abonner une interception d'entrée en utilisant `router.beforeEach` :
 
 ``` js
 const router = new VueRouter({ ... })
@@ -16,35 +16,35 @@ router.beforeEach((to, from, next) => {
 })
 ```
 
-Global before guards are called in creation order, whenever a navigation is triggered. Guards may be resolved asynchronously, and the navigation is considered **pending** before all hooks have been resolved.
+Les interceptions d'entrées globales sont appelées lors de l'ordre de création, chaque fois qu'une navigation est déclenchée. Les interceptions peuvent être résolues de manière asynchrone, et la navigation est considérée comme **en attente** avant que tous les hooks ne soient résolues.
 
-Every guard function receives three arguments:
+Chaque fonction d'interception reçoit trois arguments :
 
-- **`to: Route`**: the target [Route Object](../api/route-object.md) being navigated to.
+- **`to: Route`**: L'[objet `Route`](../api/route-object.md) cible vers lequel on navigue.
 
-- **`from: Route`**: the current route being navigated away from.
+- **`from: Route`**: la route courante depuis laquelle nous venons de naviguer.
 
-- **`next: Function`**: this function must be called to **resolve** the hook. The action depends on the arguments provided to `next`:
+- **`next: Function`**: cette fonction doit être appelée pour **résoudre** le hook. L'action dépend des arguments fournis à `next`:
 
-  - **`next()`**: move on to the next hook in the pipeline. If no hooks are left, the navigation is **confirmed**.
+  - **`next()`**: se déplacer jusqu'au prochain hook du workflow. S'il ne reste aucun hooks, la navigation est **confirmée**.
 
-  - **`next(false)`**: abort the current navigation. If the browser URL was changed (either manually by the user or via back button), it will be reset to that of the `from` route.
+  - **`next(false)`**: annuler la navigation courante. Si l'URL du navigateur avait changé (manuellement par l'utilisateur ou via le bouton retour du navigateur), il sera remis à sa valeur de route de `from`.
 
-  - **`next('/')` or `next({ path: '/' })`**: redirect to a different location. The current navigation will be aborted and a new one will be started.
+  - **`next('/')` ou `next({ path: '/' })`**: redirige vers le nouvel URL. La navigation courante va être arrêtée et une nouvelle va se lancer.
 
-  - **`next(error)`**: (2.4.0+) if the argument passed to `next` is an instance of `Error`, the navigation will be aborted and the error will be passed to callbacks registered via `router.onError()`.
+  - **`next(error)`**: (2.4.0+) si l'argument passé à `next` est une instance de `Error`, la navigation va s'arrêter et l'erreur sera passée aux fonctions de rappel via `router.onError()`.
 
-**Make sure to always call the `next` function, otherwise the hook will never be resolved.**
+**Assurez-vous de toujours appeler la fonction `next`, sinon le hook ne sera jamais résolu.**
 
-### Global Resolve Guards
+### Résolutions des interceptions globales
 
-> New in 2.5.0
+> Nouveau dans la 2.5.0
 
-In 2.5.0+ you can register a global guard with `router.beforeResolve`. This is similar to `router.beforeEach`, with the difference that resolve guards will be called right before the navigation is confirmed, **after all in-component guards and async route components are resolved**.
+Dans la 2.5.0+ vous pouvez abonner une interception globale avec `router.beforeResolve`. Ceci est similaire a `router.beforeEach`, mais la différence est qu'elle sera appelée juste après que la navigation soit confirmée, **après que toutes les interceptions par composants et les composants de route asynchrone ai été résolus**.
 
-### Global After Hooks
+### Hooks de sortie globaux
 
-You can also register global after hooks, however unlike guards, these hooks do not get a `next` function and cannot affect the navigation:
+Vous pouvez également abonner des hooks de sortie, cependant, à la différence des interceptions, ces hooks ne fournissent pas de fonction `next` et n'affecte pas la navigation :
 
 ``` js
 router.afterEach((to, from) => {
@@ -52,9 +52,9 @@ router.afterEach((to, from) => {
 })
 ```
 
-### Per-Route Guard
+### Interception par route
 
-You can define `beforeEnter` guards directly on a route's configuration object:
+Vous pouvez définir la interception `beforeEnter` directement sur l'objet de configuration d'une route :
 
 ``` js
 const router = new VueRouter({
@@ -70,65 +70,65 @@ const router = new VueRouter({
 })
 ```
 
-These guards have the exact same signature as global before guards.
+Ces interceptions ont exactement le même effet que les interceptions globales d'entrée.
 
-### Sécurisation intra-composants
+### Interception par composant
 
-Finally, you can directly define route navigation guards inside route components (the ones passed to the router configuration) with the following options:
+Enfin, vous pouvez directement définir une interception de navigation a l'intérieur du composant lui-même (celui passer à la configuration du routeur) avec les options suivantes :
 
 - `beforeRouteEnter`
-- `beforeRouteUpdate` (added in 2.2)
+- `beforeRouteUpdate` (ajouté dans la 2.2+)
 - `beforeRouteLeave`
 
 ``` js
 const Foo = {
   template: `...`,
   beforeRouteEnter (to, from, next) {
-    // called before the route that renders this component is confirmed.
-    // does NOT have access to `this` component instance,
-    // because it has not been created yet when this guard is called!
+    // appelée avant que la route vers le composant soit confirmée.
+    // cette fonction n'a pas accès à l'instance du composant avec `this`,
+    // car le composant n'a pas encore été créé quand cette interception est appelée !
   },
   beforeRouteUpdate (to, from, next) {
-    // called when the route that renders this component has changed,
-    // but this component is reused in the new route.
-    // For example, for a route with dynamic params /foo/:id, when we
-    // navigate between /foo/1 and /foo/2, the same Foo component instance
-    // will be reused, and this hook will be called when that happens.
-    // has access to `this` component instance.
+    // appelée quand la route qui fait le rendu de ce composant change,
+    // mais que ce composant est utilisé de nouveau dans la nouvelle route.
+    // Par exemple, pour une route avec le paramètre dynamique `/foo/:id`, quand nous
+    // naviguons entre `/foo/1` et `/foo/2`, la même instance du composant `Foo`
+    // va être ré-utilisée, et ce hook va être appelé quand cela arrivera.
+    // ce hook a accès à l'instance de ce composant via `this`.
   },
   beforeRouteLeave (to, from, next) {
-    // called when the route that renders this component is about to
-    // be navigated away from.
-    // has access to `this` component instance.
+    // appelée quand la route qui fait le rendu de ce composant est sur le point
+    // d'être laissée en faveur de la prochaine route.
+    // elle a accès à l'instance de ce composant via `this`.
   }
 }
 ```
 
-The `beforeRouteEnter` guard does **NOT** have access to `this`, because the guard is called before the navigation is confirmed, thus the new entering component has not even been created yet.
+L'interception `beforeRouteEnter` **n'**a **PAS** accès à `this`, car l'interception est appelée avant que la navigation soit confirmée, et le nouveau composant entrant n'a même pas encore été crée.
 
-However, you can access the instance by passing a callback to `next`. The callback will be called when the navigation is confirmed, and the component instance will be passed to the callback as the argument:
+Cependant, vous pouvez accéder à l'instance en passant dans la fonction de rappel `next`. Cette fonction de rappel va être appelée quand la navigation sera confirmée, et l'instance du composant sera passée à la fonction de rappel en tant qu'argument :
 
 ``` js
 beforeRouteEnter (to, from, next) {
   next(vm => {
-    // access to component instance via `vm`
+    // accès à l'instance du composant via `vm`
   })
 }
 ```
 
-You can directly access `this` inside `beforeRouteLeave`. The leave guard is usually used to prevent the user from accidentally leaving the route with unsaved edits. The navigation can be canceled by calling `next(false)`.
+Vous pouvez directement accéder à `this` à l'intérieur de `beforeRouteLeave`. L'interception de sortie est utilisée pour empêcher l'utilisateur de quitter la route par accident alors qu'il n'a pas sauver ses modifications. La navigation peut être annulée en appelant `next(false)`.
 
-### The Full Navigation Resolution Flow
+### Le flux de résolution de navigation complet
 
-1. Navigation triggered
-2. Call leave guards in deactivated components
-3. Call global `beforeEach` guards
-4. Call `beforeRouteUpdate` guards in reused components (2.2+)
-5. Call `beforeEnter` in route configs
-6. Resolve async route components
-7. Call `beforeRouteEnter` in activated components
-8. Call global `beforeResolve` guards (2.5+)
-9. Navigation confirmed.
-10. Call global `afterEach` hooks.
-11. DOM updates triggered.
-12. Call callbacks passed to `next` in `beforeRouteEnter` guards with instantiated instances.
+1. La navigation est demandée.
+2. Appel de la interception de sortie des composants désactivés (ceux que l'on va quitter).
+3. Appel des interceptions globales `beforeEach`.
+4. Appel des interceptions `beforeRouteUpdate` pour les composants ré-utilisés (2.2+).
+5. Appel de `beforeEnter` dans la configuration de route.
+6. Résolution des composants de route asynchrones.
+7. Appel de `beforeRouteEnter` dans les composants activés (ceux où l'on va arriver).
+8. Appel des interceptions `beforeResolve` (2.5+).
+9. Confirmation de la navigation.
+10. Appel des hooks globaux `afterEach`.
+11. Modification du DOM demandées.
+12. Appel des fonctions de rappel passées à `next` dans l'interception `beforeRouteEnter` avec l'instance instanciée.
