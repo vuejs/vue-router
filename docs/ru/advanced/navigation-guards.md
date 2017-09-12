@@ -77,7 +77,7 @@ const router = new VueRouter({
 Наконец, сторожевой хук можно указать и непосредственно в компоненте (том, что указан в конфигурации пути), используя следующие опции:
 
 - `beforeRouteEnter`
-- `beforeRouteUpdate` (добавлено в версии 2.2)
+- `beforeRouteUpdate` (добавлено в версии 2.2+)
 - `beforeRouteLeave`
 
 ``` js
