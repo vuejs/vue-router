@@ -1,4 +1,4 @@
-import Vue, { ComponentOptions } from "vue";
+import Vue, { ComponentOptions, AsyncComponent } from "vue";
 
 import VueRouter from "../index";
 import { Route, RouteRecord, RedirectOption } from "../index";
@@ -10,7 +10,7 @@ const Foo = { template: "<div>foo</div>" };
 const Bar = { template: "<div>bar</div>" };
 const AsyncComponent = () => Promise.resolve({ template: "<div>async</div>" })
 
-const Hook: ComponentOptions<any, any, any, any> = {
+const Hook: ComponentOptions<Vue> = {
   template: "<div>hook</div>",
 
   beforeRouteEnter (to, from, next) {
@@ -110,7 +110,7 @@ const matched: RouteRecord[] = route.matched;
 matched.forEach(m => {
   const path: string = m.path;
   const components: {
-    [key: string]: ComponentOptions<any, any, any, any> | typeof Vue
+    [key: string]: ComponentOptions<Vue> | typeof Vue | AsyncComponent
   } = m.components;
   const instances: { [key: string]: Vue } = m.instances;
   const name: string | undefined = m.name;
@@ -162,7 +162,7 @@ router.go(-1);
 router.back();
 router.forward();
 
-const Components: (ComponentOptions<any, any, any, any> | typeof Vue)[] = router.getMatchedComponents();
+const Components: (ComponentOptions<Vue> | typeof Vue | AsyncComponent)[] = router.getMatchedComponents();
 
 const vm = new Vue({
   router,

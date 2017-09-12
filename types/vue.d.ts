@@ -13,7 +13,7 @@ declare module "vue/types/vue" {
 }
 
 declare module "vue/types/options" {
-  interface ComponentOptions<Data, Methods, Computed, Props> {
+  interface ComponentOptions<V extends Vue> {
     router?: VueRouter;
     beforeRouteEnter?: NavigationGuard;
     beforeRouteLeave?: NavigationGuard;
