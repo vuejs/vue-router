@@ -8,7 +8,7 @@ Vu que `<router-view>` est essentiellement un composant dynamique, on peut lui a
 </transition>
 ```
 
-[Tout à propos de `<transition>`](http://fr.vuejs.org/v2/guide/transitions.html) fonctionne également ici de la même manière.
+[Tout à propos de `<transition>`](https://fr.vuejs.org/v2/guide/transitions.html) fonctionne également ici de la même manière.
 
 ### Transition par route
 
