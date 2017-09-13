@@ -46,6 +46,8 @@ router.push({ path: '/user', params: { userId }}) // -> /user
 
 2.2.0 以降では、必要に応じて、第 2 引数と第 3 引数として `router.push` または `router.replace` に `onComplete` と `onAbort` コールバックを指定します。これらのコールバックは、ナビゲーションが正常に完了したとき(すべての非同期フックが解決された後)に呼び出されるか、またはそれぞれ中止されます(現在のナビゲーションが終了する前に同じルートまたは別のルートにナビゲートされた)
 
+**Note:** If the destination is the same as the current route and only params are changing (eg: going from one profile to another `/users/1` -> `/users/2`), you will have to use [beforeRouteUpdate](./dynamic-matching.html#reacting-to-params-changes) to react to changes (eg: fetching the user information).
+
 #### `router.replace(location, onComplete?, onAbort?)`
 
 これは `router.push` のように動作しますが、異なる点は新しい history エントリを追加しないで遷移することです。この名前から推定されるように、現在のエントリを置換します。
