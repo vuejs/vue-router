@@ -70,6 +70,9 @@ Pour Node.js avec Express, vous pouvez utiliser le [middleware connect-history-a
 
 #### Internet Information Services (IIS)
 
+1. Instaler [IIS UrlRewrite](https://www.iis.net/downloads/microsoft/url-rewrite)
+2. Créer un fichier `web.config` dans le répertoire racine de votre site avec le contenu suivant :
+
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
@@ -82,17 +85,10 @@ Pour Node.js avec Express, vous pouvez utiliser le [middleware connect-history-a
               <add input="{REQUEST_FILENAME}" matchType="IsFile" negate="true" />
               <add input="{REQUEST_FILENAME}" matchType="IsDirectory" negate="true" />
             </conditions>
-          <action type="Rewrite" url="index.html" />
+          <action type="Rewrite" url="/" />
         </rule>
       </rules>
     </rewrite>
-      <httpErrors>
-          <remove statusCode="404" subStatusCode="-1" />
-          <remove statusCode="500" subStatusCode="-1" />
-          <error statusCode="404" path="/survey/notfound" responseMode="ExecuteURL" />
-          <error statusCode="500" path="/survey/error" responseMode="ExecuteURL" />
-      </httpErrors>
-      <modules runAllManagedModulesForAllRequests="true"/>
   </system.webServer>
 </configuration>
 ```
