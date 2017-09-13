@@ -31,6 +31,19 @@ router.push({ name: 'user', params: { userId: 123 }})
 router.push({ path: 'register', query: { plan: 'private' }})
 ```
 
+**Note**: `params` are ignored if a `path` is provided, which is not the case for `query`, as shown in the example above.
+Instead, you need to provide the `name` of the route or manually specify the whole `path` with any parameter:
+
+```js
+const userId = 123
+router.push({ name: 'user', params: { userId }}) // -> /user/123
+router.push({ path: `/user/${userId}` }) // -> /user/123
+// This will NOT work
+router.push({ path: '/user', params: { userId }}) // -> /user
+```
+
+The same rules apply for the `to` property of the `router-link` component.
+
 2.2.0 以降では、必要に応じて、第 2 引数と第 3 引数として `router.push` または `router.replace` に `onComplete` と `onAbort` コールバックを指定します。これらのコールバックは、ナビゲーションが正常に完了したとき(すべての非同期フックが解決された後)に呼び出されるか、またはそれぞれ中止されます(現在のナビゲーションが終了する前に同じルートまたは別のルートにナビゲートされた)
 
 #### `router.replace(location, onComplete?, onAbort?)`
