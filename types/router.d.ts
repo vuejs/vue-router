@@ -1,7 +1,7 @@
 import Vue = require("vue");
-import { ComponentOptions, PluginFunction } from "vue";
+import { ComponentOptions, PluginFunction, AsyncComponent } from "vue";
 
-type Component = ComponentOptions<Vue> | typeof Vue;
+type Component = ComponentOptions<Vue> | typeof Vue | AsyncComponent;
 type Dictionary<T> = { [key: string]: T };
 
 export type RouterMode = "hash" | "history" | "abstract";
@@ -44,9 +44,12 @@ declare class VueRouter {
   static install: PluginFunction<never>;
 }
 
+type Position = { x: number, y: number };
+
 export interface RouterOptions {
   routes?: RouteConfig[];
   mode?: RouterMode;
+  fallback?: boolean;
   base?: string;
   linkActiveClass?: string;
   linkExactActiveClass?: string;
@@ -55,11 +58,17 @@ export interface RouterOptions {
   scrollBehavior?: (
     to: Route,
     from: Route,
-    savedPosition: { x: number, y: number } | undefined
-  ) => { x: number, y: number } | { selector: string } | void;
+    savedPosition: Position | void
+  ) => Position | { selector: string, offset?: Position } | void;
 }
 
 type RoutePropsFunction = (route: Route) => Object;
+
+export interface PathToRegexpOptions {
+  sensitive?: boolean;
+  strict?: boolean;
+  end?: boolean;
+}
 
 export interface RouteConfig {
   path: string;
@@ -72,6 +81,8 @@ export interface RouteConfig {
   meta?: any;
   beforeEnter?: NavigationGuard;
   props?: boolean | Object | RoutePropsFunction;
+  caseSensitive?: boolean;
+  pathToRegexpOptions?: PathToRegexpOptions;
 }
 
 export interface RouteRecord {

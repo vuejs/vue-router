@@ -11,3 +11,7 @@ export function warn (condition: any, message: string) {
     typeof console !== 'undefined' && console.warn(`[vue-router] ${message}`)
   }
 }
+
+export function isError (err: any): boolean {
+  return Object.prototype.toString.call(err).indexOf('Error') > -1
+}

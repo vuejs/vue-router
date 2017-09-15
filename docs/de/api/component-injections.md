@@ -10,7 +10,7 @@ Die folgenden Eigenschaften werden in jede Child-Komponente injiziert, wenn man 
 
 - #### $route
 
-  Die aktuell aktive [Route](route-object.md). Diese Eigenschaft ist schreibgeschützt und ihre Eigenschaften sind unveränderbar, aber sie kann überwacht werden.
+  Die aktuell aktive [Route](route-object.md). Diese Eigenschaft ist schreibgeschützt und ihre Eigenschaften sind unveränderbar - aber sie kann überwacht werden.
 
 ### Aktivierte Optionen
 

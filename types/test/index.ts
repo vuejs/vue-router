@@ -9,6 +9,7 @@ Vue.use(VueRouter);
 const Home = { template: "<div>home</div>" };
 const Foo = { template: "<div>foo</div>" };
 const Bar = { template: "<div>bar</div>" };
+const AsyncComponent = () => Promise.resolve({ template: "<div>async</div>" })
 
 const Hook: ComponentOptions<Vue> = {
   template: "<div>hook</div>",
@@ -40,11 +41,16 @@ const Hook: ComponentOptions<Vue> = {
 const router = new VueRouter({
   mode: "history",
   base: "/",
+  fallback: false,
   linkActiveClass: "active",
   linkExactActiveClass: "exact-active",
   scrollBehavior: (to, from, savedPosition) => {
     if (from.path === "/") {
       return { selector: "#app" };
+    }
+
+    if (from.path === "/offset") {
+      return { selector: '#foo', offset: { x: 0, y: 100 }}
     }
 
     if (to.path === "/child") {
@@ -61,7 +67,8 @@ const router = new VueRouter({
         path: "child",
         components: {
           default: Foo,
-          bar: Bar
+          bar: Bar,
+          asyncComponent: AsyncComponent,
         },
         meta: { auth: true },
         beforeEnter (to, from, next) {
@@ -156,7 +163,7 @@ router.go(-1);
 router.back();
 router.forward();
 
-const Components: ComponentOptions<Vue> | typeof Vue = router.getMatchedComponents();
+const Components: (ComponentOptions<Vue> | typeof Vue)[] = router.getMatchedComponents();
 
 const vm = new Vue({
   router,

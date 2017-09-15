@@ -18,6 +18,10 @@
     children?: Array<RouteConfig>; // for nested routes
     beforeEnter?: (to: Route, from: Route, next: Function) => void;
     meta?: any;
+
+    // 2.6.0+
+    caseSensitive?: boolean; // use case sensitive match? (default: false)
+    pathToRegexpOptions?: Object; // path-to-regexp options for compiling regex
   }
   ```
 
@@ -86,3 +90,13 @@
 - type: `Function`
 
   Provide custom query string parse / stringify functions. Overrides the default.
+
+### fallback
+
+> 2.6.0+
+
+- type: `boolean`
+
+  Controls whether the router should fallback to `hash` mode when the browser does not support `history.pushState`. Defaults to `true`.
+
+  Setting this to `false` essentially makes every `router-link` navigation a full page refresh in IE9. This is useful when the app is server-rendered and needs to work in IE9, because a hash mode URL does not work with SSR.

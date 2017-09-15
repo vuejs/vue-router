@@ -40,9 +40,67 @@ location / {
 }
 ```
 
-#### Node.js (Express)
+#### Node.js
+
+```js
+const http = require("http")
+const fs = require("fs")
+const httpPort = 80
+
+http.createServer((req, res) => {
+  fs.readFile("index.htm", "utf-8", (err, content) => {
+    if (err) {
+      console.log('Невозможно открыть файл "index.htm".')
+    }
+
+    res.writeHead(200, {
+      "Content-Type": "text/html; charset=utf-8"
+    })
+
+    res.end(content)
+  })
+}).listen(httpPort, () => {
+  console.log("Сервер запущен на: http://localhost:%s", httpPort)
+})
+```
+
+#### Node.js c использованием Express
 
 При использовании Node.js/Express, мы рекомендуем пользоваться [connect-history-api-fallback middleware](https://github.com/bripkens/connect-history-api-fallback).
+
+#### Internet Information Services (IIS)
+
+1. Установить [IIS UrlRewrite](https://www.iis.net/downloads/microsoft/url-rewrite)
+2. Создать файл `web.config` в корневом каталоге вашего сайта со следующим содержимым:
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+  <system.webServer>
+    <rewrite>
+      <rules>
+        <rule name="Handle History Mode and custom 404/500" stopProcessing="true">
+            <match url="(.*)" />
+            <conditions logicalGrouping="MatchAll">
+              <add input="{REQUEST_FILENAME}" matchType="IsFile" negate="true" />
+              <add input="{REQUEST_FILENAME}" matchType="IsDirectory" negate="true" />
+            </conditions>
+          <action type="Rewrite" url="/" />
+        </rule>
+      </rules>
+    </rewrite>
+  </system.webServer>
+</configuration>
+```
+
+#### Caddy
+
+```
+rewrite {
+    regexp .*
+    to {path} /
+}
+```
 
 ## Предостережение
 
@@ -57,4 +115,4 @@ const router = new VueRouter({
 })
 ```
 
-Если же вы используете на сервере Node.js, уже на стороне сервера можно задействовать конфигурацию роутера и решить таким образом проблему целиком.
+Если же вы используете на сервере Node.js, уже на стороне сервера можно задействовать конфигурацию роутера и решить таким образом проблему целиком. Ознакомьтесь с [руководством по серверному рендерингу Vue.js](https://ssr.vuejs.org/ru/) для получения дополнительной информации.

@@ -2,7 +2,7 @@
 
 > We will be using [ES2015](https://github.com/lukehoban/es6features) in the code samples in the guide.
 
-Creating a Single-page Application with Vue.js + vue-router is dead simple. With Vue.js, we are already composing our application with components. When adding vue-router to the mix, all we need to do is map our components to the routes and let vue-router know where to render them. Here's a basic example:
+Creating a Single-page Application with Vue + Vue Router is dead simple. With Vue.js, we are already composing our application with components. When adding vue-router to the mix, all we need to do is map our components to the routes and let vue-router know where to render them. Here's a basic example:
 
 > All examples will be using the full version of Vue to make template parsing possible. See more details [here](https://vuejs.org/v2/guide/installation.html#Runtime-Compiler-vs-Runtime-only).
 
@@ -64,6 +64,6 @@ const app = new Vue({
 // Now the app has started!
 ```
 
-You can also checkout this example [live](http://jsfiddle.net/yyx990803/xgrjzsup/).
+You can also check out this example [live](http://jsfiddle.net/yyx990803/xgrjzsup/).
 
 Notice that a `<router-link>` automatically gets the `.router-link-active` class when its target route is matched. You can learn more about it in its [API reference](../api/router-link.md).

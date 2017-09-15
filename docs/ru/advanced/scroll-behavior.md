@@ -4,7 +4,7 @@
 
 **Замечание: эта возможность работает только в режиме HTML5 history mode.**
 
-При создании инстанса роутера, вы можете указать функцию `scrollBehavior`:
+При создании экземпляра роутера, вы можете указать функцию `scrollBehavior`:
 
 ``` js
 const router = new VueRouter({
@@ -20,7 +20,7 @@ const router = new VueRouter({
 Функция возвращает объект позиции скролла. Он может иметь одну из двух форм:
 
 - `{ x: number, y: number }`
-- `{ selector: string }`
+- `{ selector: string, offset? : { x: number, y: number }}` (offset поддерживается только в 2.6.0+)
 
 Если возвращается пустой объект или приводимое к ложному значение, скроллинга не произойдёт.
 
@@ -53,6 +53,7 @@ scrollBehavior (to, from, savedPosition) {
   if (to.hash) {
     return {
       selector: to.hash
+      // , offset: { x: 0, y: 10 }
     }
   }
 }

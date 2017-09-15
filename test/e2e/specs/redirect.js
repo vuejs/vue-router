@@ -3,7 +3,7 @@ module.exports = {
     browser
     .url('http://localhost:8080/redirect/')
       .waitForElementVisible('#app', 1000)
-      .assert.count('li a', 10)
+      .assert.count('li a', 12)
       // assert correct href with base
       .assert.attributeContains('li:nth-child(1) a', 'href', '/redirect/relative-redirect')
       .assert.attributeContains('li:nth-child(2) a', 'href', '/redirect/relative-redirect?foo=bar')
@@ -14,7 +14,9 @@ module.exports = {
       .assert.attributeContains('li:nth-child(7) a', 'href', '/redirect/dynamic-redirect#baz')
       .assert.attributeContains('li:nth-child(8) a', 'href', '/redirect/named-redirect')
       .assert.attributeContains('li:nth-child(9) a', 'href', '/redirect/redirect-with-params/123')
-      .assert.attributeContains('li:nth-child(10) a', 'href', '/not-found')
+      .assert.attributeContains('li:nth-child(10) a', 'href', '/redirect/foobar')
+      .assert.attributeContains('li:nth-child(11) a', 'href', '/redirect/FooBar')
+      .assert.attributeContains('li:nth-child(12) a', 'href', '/not-found')
 
       .assert.containsText('.view', 'default')
 
@@ -55,6 +57,14 @@ module.exports = {
       .assert.containsText('.view', '123')
 
       .click('li:nth-child(10) a')
+      .assert.urlEquals('http://localhost:8080/redirect/foobar')
+      .assert.containsText('.view', 'foobar')
+
+      .click('li:nth-child(11) a')
+      .assert.urlEquals('http://localhost:8080/redirect/FooBar')
+      .assert.containsText('.view', 'FooBar')
+
+      .click('li:nth-child(12) a')
       .assert.urlEquals('http://localhost:8080/redirect/')
       .assert.containsText('.view', 'default')
 
@@ -103,6 +113,16 @@ module.exports = {
       .waitForElementVisible('#app', 1000)
       .assert.urlEquals('http://localhost:8080/redirect/with-params/123')
       .assert.containsText('.view', '123')
+
+    .url('http://localhost:8080/redirect/foobar')
+      .waitForElementVisible('#app', 1000)
+      .assert.urlEquals('http://localhost:8080/redirect/foobar')
+      .assert.containsText('.view', 'foobar')
+
+    .url('http://localhost:8080/redirect/FooBar')
+      .waitForElementVisible('#app', 1000)
+      .assert.urlEquals('http://localhost:8080/redirect/FooBar')
+      .assert.containsText('.view', 'FooBar')
 
     .url('http://localhost:8080/redirect/not-found')
       .waitForElementVisible('#app', 1000)

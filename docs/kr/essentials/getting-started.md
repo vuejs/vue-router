@@ -4,7 +4,7 @@
 
 Vue.js와 vue-router로 단일 페이지 애플리케이션을 만드는 것은 간단합니다. Vue.js를 통해 우리는 이미 컴포넌트로 애플리케이션을 구성하고 있습니다. vue-router를 추가 할 때, 우리가해야 할 일은 우리의 컴포넌트를 route에 매핑하고 vue-router가 어디서 렌더링할 지 지정하는 것입니다. 다음은 기본적인 예입니다.
 
-> 모든 예제는 Vue의 독립형 버전을 사용하여 템플릿 구문 분석을 가능하게합니다. 자세한 내용은 [여기](http://vuejs.org/guide/installation.html#Standalone-vs-Runtime-only-Build) 있습니다.
+> 모든 예제는 Vue의 전체 버전을 사용하여 템플릿 구문 분석을 가능하게합니다. 자세한 내용은 [여기](https://vuejs.org/v2/guide/installation.html#Runtime-Compiler-vs-Runtime-only) 있습니다.
 
 ### HTML
 
@@ -17,7 +17,7 @@ Vue.js와 vue-router로 단일 페이지 애플리케이션을 만드는 것은 
   <p>
     <!-- 탐색을 위해 라우터 링크 구성 요소를 사용하십시오. -->
     <!-- `to` prop를 전달하여 링크를 지정하십시오. -->
-    <!-- <router-link>는 기본적으로`<a>`태그로 렌더링 될 것입니다 -->
+    <!-- `<router-link>`는 기본적으로`<a>`태그로 렌더링 될 것입니다 -->
     <router-link to="/foo">Go to Foo</router-link>
     <router-link to="/bar">Go to Bar</router-link>
   </p>
@@ -30,7 +30,7 @@ Vue.js와 vue-router로 단일 페이지 애플리케이션을 만드는 것은 
 ### JavaScript
 
 ``` js
-// 0. 모듈 시스템을 사용하는 경우 (예: vue-cli를 이용해서), Vue 및 VueRouter를 가져온 다음 Vue.use(VueRouter)를 호출하십시오.
+// 0. 모듈 시스템을 사용하는 경우 (예: vue-cli를 이용해서), Vue 및 VueRouter를 가져온 다음 `Vue.use(VueRouter)`를 호출하십시오.
 
 // 1. 라우트 컴포넌트를 정의하십시오.
 // 다른 파일에서 가져올 수 있습니다.
@@ -39,7 +39,7 @@ const Bar = { template: '<div>bar</div>' }
 
 // 2. 라우트를 정의합니다.
 // 일부 라우트 정의 각 라우트는 컴포넌트에 맵핑되어야합니다.
-// "컴포넌트"는 Vue.extend()를 통해 생성된
+// "컴포넌트"는 `Vue.extend()`를 통해 생성된
 // 실제 컴포넌트 생성자이거나 컴포넌트 옵션 객체 일 수 있습니다.
 // 나중에 중첩 된 라우트에 대해 이야기하겠습니다.
 const routes = [

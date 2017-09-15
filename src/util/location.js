@@ -26,7 +26,7 @@ export function normalizeLocation (
     if (current.name) {
       next.name = current.name
       next.params = params
-    } else if (current.matched) {
+    } else if (current.matched.length) {
       const rawPath = current.matched[current.matched.length - 1].path
       next.path = fillParams(rawPath, params, `path ${current.path}`)
     } else if (process.env.NODE_ENV !== 'production') {

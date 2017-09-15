@@ -56,6 +56,9 @@
   }
   ```
 
+ - `current` はデフォルトによる現在のルートです(ほとんどの場合、これを変更する必要はありません)
+ - `append` は `current` ルートにパスを追加できます([`router-link`](https://router.vuejs.org/en/api/router-link.html#props)と同様に)
+
 - **router.addRoutes(routes)**
 
   > 2.2.0+

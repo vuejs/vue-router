@@ -121,7 +121,7 @@ export default {
 
 function guardEvent (e, preventDefault = true) {
   // don't redirect with control keys
-  if (e.metaKey || e.ctrlKey || e.shiftKey) return
+  if (e.metaKey || e.altKey || e.ctrlKey || e.shiftKey) return
   // don't redirect when preventDefault called
   if (e.defaultPrevented) return
   // don't redirect on right click
