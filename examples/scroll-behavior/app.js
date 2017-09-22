@@ -20,12 +20,13 @@ const Bar = {
 // - only available in html5 history mode
 // - defaults to no scroll behavior
 // - return false to prevent scroll
-const scrollBehavior = (to, from, savedPosition) => {
+const scrollBehavior = async function (to, from, savedPosition) {
   if (savedPosition) {
     // savedPosition is only available for popstate navigations.
     return savedPosition
   } else {
     const position = {}
+    let delay = 500
     // new navigation.
     // scroll to anchor by returning the selector
     if (to.hash) {
@@ -35,14 +36,20 @@ const scrollBehavior = (to, from, savedPosition) => {
       if (to.hash === '#anchor2') {
         position.offset = { y: 100 }
       }
+
+      if (document.querySelector(to.hash)) {
+        delay = 0
+      }
     }
     // check if any matched route config has meta that requires scrolling to top
     if (to.matched.some(m => m.meta.scrollToTop)) {
-      // cords will be used if no selector is provided,
+      // coords will be used if no selector is provided,
       // or if the selector didn't match any element.
       position.x = 0
       position.y = 0
     }
+    // wait for the out transition to complete (if necessary)
+    await (new Promise(resolve => setTimeout(resolve, delay)))
     // if the returned position is falsy or an empty object,
     // will retain current scroll position.
     return position
@@ -72,7 +79,9 @@ new Vue({
         <li><router-link to="/bar#anchor">/bar#anchor</router-link></li>
         <li><router-link to="/bar#anchor2">/bar#anchor2</router-link></li>
       </ul>
-      <router-view class="view"></router-view>
+      <transition name="fade" mode="out-in">
+        <router-view class="view"></router-view>
+      </transition>
     </div>
   `
 }).$mount('#app')

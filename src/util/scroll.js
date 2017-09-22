@@ -36,28 +36,16 @@ export function handleScroll (
 
   // wait until re-render finishes before scrolling
   router.app.$nextTick(() => {
-    let position = getScrollPosition()
+    const position = getScrollPosition()
     const shouldScroll = behavior(to, from, isPop ? position : null)
+
     if (!shouldScroll) {
       return
     }
-    const isObject = typeof shouldScroll === 'object'
-    if (isObject && typeof shouldScroll.selector === 'string') {
-      const el = document.querySelector(shouldScroll.selector)
-      if (el) {
-        let offset = shouldScroll.offset && typeof shouldScroll.offset === 'object' ? shouldScroll.offset : {}
-        offset = normalizeOffset(offset)
-        position = getElementPosition(el, offset)
-      } else if (isValidPosition(shouldScroll)) {
-        position = normalizePosition(shouldScroll)
-      }
-    } else if (isObject && isValidPosition(shouldScroll)) {
-      position = normalizePosition(shouldScroll)
-    }
 
-    if (position) {
-      window.scrollTo(position.x, position.y)
-    }
+    Promise.resolve(shouldScroll).then((shouldScroll) => {
+      scrollToPosition(shouldScroll, position)
+    })
   })
 }
 
@@ -108,4 +96,24 @@ function normalizeOffset (obj: Object): Object {
 
 function isNumber (v: any): boolean {
   return typeof v === 'number'
+}
+
+function scrollToPosition (shouldScroll, position) {
+  const isObject = typeof shouldScroll === 'object'
+  if (isObject && typeof shouldScroll.selector === 'string') {
+    const el = document.querySelector(shouldScroll.selector)
+    if (el) {
+      let offset = shouldScroll.offset && typeof shouldScroll.offset === 'object' ? shouldScroll.offset : {}
+      offset = normalizeOffset(offset)
+      position = getElementPosition(el, offset)
+    } else if (isValidPosition(shouldScroll)) {
+      position = normalizePosition(shouldScroll)
+    }
+  } else if (isObject && isValidPosition(shouldScroll)) {
+    position = normalizePosition(shouldScroll)
+  }
+
+  if (position) {
+    window.scrollTo(position.x, position.y)
+  }
 }
