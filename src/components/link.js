@@ -31,6 +31,7 @@ export default {
   render (h: Function) {
     const router = this.$router
     const current = this.$route
+    const listeners = this.$listeners
     const { location, route, href } = router.resolve(this.to, current, this.append)
 
     const classes = {}
@@ -73,6 +74,17 @@ export default {
       this.event.forEach(e => { on[e] = handler })
     } else {
       on[this.event] = handler
+    }
+
+    // allow custom event listeners to co-exist with internal handlers
+    if (listeners) {
+      Object.keys(listeners).forEach(e => {
+        if (on[e]) {
+          on[e] = [on[e], listeners[e]]
+        } else {
+          on[e] = listeners[e]
+        }
+      })
     }
 
     const data: any = {
