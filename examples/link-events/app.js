@@ -59,7 +59,7 @@ new Vue({
     <div id="app">
       <h1>Link Events Handler examples</h1>
       <ul>
-        <li><router-link to="/" @mouseleave="say('Visit me once in a while!')">/home</router-link></li>
+        <li><router-link to="/" @mouseup="say('Visit me once in a while!')">/home</router-link></li>
         <li><router-link to="/foo" @click="say('This got clicked')">/foo</router-link></li>
         <li><router-link to="/bar" @click="toggleBgOnClick" :style="customBackground">/bar</router-link></li>
         <router-link tag="li" to="/bar" :event="['mousedown', 'touchstart']" @mousedown="mouseDown">
