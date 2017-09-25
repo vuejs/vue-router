@@ -18,6 +18,7 @@ module.exports = {
       .assert.containsText('.view', 'foo')
 
       .click('li:nth-child(3) a')
+      .waitFor(100)
       .assert.attributeContains('li:nth-child(3) a', 'style', 'background-color: green;')
       .assert.urlEquals('http://localhost:8080/link-events/bar')
       .assert.containsText('.view', 'bar')
