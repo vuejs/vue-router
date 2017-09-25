@@ -3,7 +3,6 @@ module.exports = {
     const TIMEOUT = 2000
 
     browser
-    .resizeWindow(1280, 800)
     .url('http://localhost:8080/scroll-behavior/')
       .waitForElementVisible('#app', 1000)
       .assert.count('li a', 5)
