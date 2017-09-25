@@ -20,39 +20,42 @@ const Bar = {
 // - only available in html5 history mode
 // - defaults to no scroll behavior
 // - return false to prevent scroll
-const scrollBehavior = async function (to, from, savedPosition) {
+const scrollBehavior = function (to, from, savedPosition) {
   if (savedPosition) {
     // savedPosition is only available for popstate navigations.
     return savedPosition
   } else {
-    const position = {}
-    let delay = 500
-    // new navigation.
-    // scroll to anchor by returning the selector
-    if (to.hash) {
-      position.selector = to.hash
+    return new Promise(resolve => {
+      const position = {}
+      let delay = 500
+      // new navigation.
+      // scroll to anchor by returning the selector
+      if (to.hash) {
+        position.selector = to.hash
 
-      // specify offset of the element
-      if (to.hash === '#anchor2') {
-        position.offset = { y: 100 }
-      }
+        // specify offset of the element
+        if (to.hash === '#anchor2') {
+          position.offset = { y: 100 }
+        }
 
-      if (document.querySelector(to.hash)) {
-        delay = 0
+        if (document.querySelector(to.hash)) {
+          delay = 0
+        }
       }
-    }
-    // check if any matched route config has meta that requires scrolling to top
-    if (to.matched.some(m => m.meta.scrollToTop)) {
-      // coords will be used if no selector is provided,
-      // or if the selector didn't match any element.
-      position.x = 0
-      position.y = 0
-    }
-    // wait for the out transition to complete (if necessary)
-    await (new Promise(resolve => setTimeout(resolve, delay)))
-    // if the returned position is falsy or an empty object,
-    // will retain current scroll position.
-    return position
+      // check if any matched route config has meta that requires scrolling to top
+      if (to.matched.some(m => m.meta.scrollToTop)) {
+        // coords will be used if no selector is provided,
+        // or if the selector didn't match any element.
+        position.x = 0
+        position.y = 0
+      }
+      // wait for the out transition to complete (if necessary)
+      setTimeout(() => {
+        // if the returned position is falsy or an empty object,
+        // will retain current scroll position.
+        resolve(position)
+      }, delay)
+    })
   }
 }
 
