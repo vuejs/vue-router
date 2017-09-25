@@ -3,11 +3,11 @@ import VueRouter from 'vue-router'
 
 Vue.use(VueRouter)
 
-const Home = { template: '<div>home</div>' }
-const Foo = { template: '<div>foo</div>' }
+const Home = { template: '<div class="home">home</div>' }
+const Foo = { template: '<div class="foo">foo</div>' }
 const Bar = {
   template: `
-    <div>
+    <div class="bar">
       bar
       <div style="height:500px"></div>
       <p id="anchor" style="height:500px">Anchor</p>
