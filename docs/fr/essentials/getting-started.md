@@ -30,7 +30,7 @@ Créer une application monopage avec Vue + Vue Router est vraiment simple. Avec 
 ### JavaScript
 
 ``` js
-// 0. Si vous utilisez un système de module (ex : via vue-cli), il faut importer Vue et VueRouter et ensuite appeler `Vue.use(VueRouter)`.
+// 0. Si vous utilisez un système de module (par ex. via vue-cli), il faut importer Vue et Vue Router et ensuite appeler `Vue.use(VueRouter)`.
 
 // 1. Définissez les composants de route.
 // Ces derniers peuvent être importés depuis d'autre fichier
