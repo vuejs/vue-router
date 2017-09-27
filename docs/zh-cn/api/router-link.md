@@ -111,7 +111,7 @@
 
   查看更多关于激活链接类名的例子 [可运行](https://jsfiddle.net/8xrk1n9f/).
 
-- **events**
+- **event**
 
   > 2.1.0+
 

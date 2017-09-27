@@ -70,6 +70,9 @@ Node.js/Express では [connect-history-api-fallback middleware](https://github.
 
 #### Internet Information Services (IIS)
 
+1. [IIS UrlRewrite](https://www.iis.net/downloads/microsoft/url-rewrite) をインストール
+2. 以下によるサイトのルートディレクトリに `web.config` ファイルを作成
+
 ``` xml
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
@@ -82,17 +85,10 @@ Node.js/Express では [connect-history-api-fallback middleware](https://github.
               <add input="{REQUEST_FILENAME}" matchType="IsFile" negate="true" />
               <add input="{REQUEST_FILENAME}" matchType="IsDirectory" negate="true" />
             </conditions>
-          <action type="Rewrite" url="index.html" />
+          <action type="Rewrite" url="/" />
         </rule>
       </rules>
     </rewrite>
-      <httpErrors>
-          <remove statusCode="404" subStatusCode="-1" />
-          <remove statusCode="500" subStatusCode="-1" />
-          <error statusCode="404" path="/survey/notfound" responseMode="ExecuteURL" />
-          <error statusCode="500" path="/survey/error" responseMode="ExecuteURL" />
-      </httpErrors>
-      <modules runAllManagedModulesForAllRequests="true"/>
   </system.webServer>
 </configuration>
 ```
