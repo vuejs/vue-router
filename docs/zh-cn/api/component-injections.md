@@ -2,7 +2,6 @@
 
 ### 注入的属性
 
-
 通过在 Vue 根实例的 `router` 配置传入 router 实例，下面这些属性成员会被注入到每个子组件。
 
 - #### $router
@@ -16,6 +15,7 @@
 ### 允许的额外配置
 
 - **beforeRouteEnter**
+- **beforeRouteUpdate** (在 2.2 加入)
 - **beforeRouteLeave**
 
   查看 [组件级导航钩子](../advanced/navigation-guards.md#incomponent-guards).

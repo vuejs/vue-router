@@ -27,7 +27,8 @@
 - **router.afterEach(hook)**
 
   增加全局的导航钩子。参考 [导航钩子](../advanced/navigation-guards.md).
-
+  <!-- todo translation -->
+  In 2.5.0+ all three methods return a function that removes the registered guard/hook.
 
 - **router.push(location, onComplete?, onAbort?)**
 - **router.replace(location, onComplete?, onAbort?)**
@@ -54,6 +55,9 @@
     href: string;
   }
   ```
+  <!-- todo translation -->
+  - `current` is the current Route by default (most of the time you don't need to change this)
+  - `append` allows you to append the path to the `current` route (as with [`router-link`](router-link.md#props))
 
 - **router.addRoutes(routes)**
 
@@ -61,8 +65,24 @@
 
   动态添加更多的路由规则。参数必须是一个符合 `routes` 选项要求的数组。
 
-- **router.onReady(callback)**
-
+- **router.onReady(callback, [errorCallback])**
+  <!-- todo translation -->
   > 2.2.0+
 
-  添加一个会在第一次路由跳转完成时被调用的回调函数。此方法通常用于等待异步的导航钩子完成，比如在进行服务端渲染的时候。
+  This method queues a callback to be called when the router has completed the initial navigation, which means it has resolved all async enter hooks and async components that are associated with the initial route.
+
+  This is useful in server-side rendering to ensure consistent output on both the server and the client.
+
+  The second argument `errorCallback` is only supported in 2.4+. It will be called when the initial route resolution runs into an error (e.g. failed to resolve an async component).
+
+- **router.onError(callback)**
+
+  > 2.4.0+
+
+  Register a callback which will be called when an error is caught during a route navigation. Note for an error to be called, it must be one of the following scenarios:
+
+  - The error is thrown synchronously inside a route guard function;
+
+  - The error is caught and asynchronously handled by calling `next(err)` inside a route guard function;
+
+  - An error occurred when trying to resolve an async component that is required to render a route.

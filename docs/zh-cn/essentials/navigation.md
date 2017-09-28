@@ -2,7 +2,9 @@
 
 除了使用 `<router-link>` 创建 a 标签来定义导航链接，我们还可以借助 router 的实例方法，通过编写代码来实现。
 
-#### `router.push(location)`
+#### `router.push(location, onComplete?, onAbort?)`
+<!-- todo translation -->
+**Note: Inside of a Vue instance, you have access to the router instance as `$router`. You can therefore call `this.$router.push`.**
 
 想要导航到不同的 URL，则使用 `router.push` 方法。这个方法会向 history 栈添加一个新的记录，所以，当用户点击浏览器后退按钮时，则回到之前的 URL。
 
@@ -27,15 +29,30 @@ router.push({ name: 'user', params: { userId: 123 }})
 // 带查询参数，变成 /register?plan=private
 router.push({ path: 'register', query: { plan: 'private' }})
 ```
+<!-- todo translation -->
+**Note**: `params` are ignored if a `path` is provided, which is not the case for `query`, as shown in the example above. Instead, you need to provide the `name` of the route or manually specify the whole `path` with any parameter:
 
-#### `router.replace(location)`
+```js
+const userId = 123
+router.push({ name: 'user', params: { userId }}) // -> /user/123
+router.push({ path: `/user/${userId}` }) // -> /user/123
+// This will NOT work
+router.push({ path: '/user', params: { userId }}) // -> /user
+```
+
+The same rules apply for the `to` property of the `router-link` component.
+
+In 2.2.0+, optionally provide `onComplete` and `onAbort` callbacks to `router.push` or `router.replace` as the 2nd and 3rd arguments. These callbacks will be called when the navigation either successfully completed (after all async hooks are resolved), or aborted (navigated to the same route, or to a different route before current navigation has finished), respectively.
+
+**Note:** If the destination is the same as the current route and only params are changing (eg: going from one profile to another `/users/1` -> `/users/2`), you will have to use [beforeRouteUpdate](./dynamic-matching.html#reacting-to-params-changes) to react to changes (eg: fetching the user information).
+
+#### `router.replace(location, onComplete?, onAbort?)`
 
 跟 `router.push` 很像，唯一的不同就是，它不会向 history 添加新记录，而是跟它的方法名一样 —— 替换掉当前的 history 记录。
 
 | 声明式 | 编程式 |
 |-------------|--------------|
 | `<router-link :to="..." replace>` | `router.replace(...)` |
-
 
 #### `router.go(n)`
 

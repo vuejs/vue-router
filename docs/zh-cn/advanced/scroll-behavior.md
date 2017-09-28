@@ -20,9 +20,9 @@ const router = new VueRouter({
 这个方法返回滚动位置的对象信息，长这样：
 
 - `{ x: number, y: number }`
-- `{ selector: string }`
+- `{ selector: string, offset? : { x: number, y: number }}` (offset 只在 2.6.0+ 支持)
 
-如果返回一个布尔假的值，或者是一个空对象，那么不会发生滚动。
+如果返回一个 falsy 的值，或者是一个空对象，那么不会发生滚动。
 
 举例：
 

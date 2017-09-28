@@ -2,12 +2,13 @@
 
 一个 **route object（路由信息对象）** 表示当前激活的路由的状态信息，包含了当前 URL 解析得到的信息，还有 URL 匹配到的 **route records（路由记录）**。
 
-
 route object 是 immutable（不可变） 的，每次成功的导航后都会产生一个新的对象。
 
 route object 出现在多个地方:
 
 - 组件内的 `this.$route` 和 `$route` watcher 回调（监测变化处理）;
+<!-- todo translation -->
+- Inside `$route` watcher callbacks
 
 - `router.match(location)` 的返回值
 

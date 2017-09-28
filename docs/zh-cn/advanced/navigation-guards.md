@@ -4,6 +4,9 @@
 
 正如其名，`vue-router` 提供的导航钩子主要用来拦截导航，让它完成跳转或取消。有多种方式可以在路由导航发生时执行钩子：全局的, 单个路由独享的, 或者组件级的。
 
+<!-- todo translation -->
+Remember that **params or query changes won't trigger enter/leave navigation guards**. You can either [watch the `$route` object](../essentials/dynamic-matching.md#reacting-to-params-changes) to react to those changes, or use the `beforeRouteUpdate` in-component guard.
+
 ### 全局钩子
 
 你可以使用 `router.beforeEach` 注册一个全局的 `before` 钩子：
@@ -32,6 +35,9 @@ router.beforeEach((to, from, next) => {
 
   - **`next('/')` 或者 `next({ path: '/' })`**: 跳转到一个不同的地址。当前的导航被中断，然后进行一个新的导航。
 
+  <!-- todo translation -->
+  - **`next(error)`**: (2.4.0+) if the argument passed to `next` is an instance of `Error`, the navigation will be aborted and the error will be passed to callbacks registered via `router.onError()`.
+
 **确保要调用 `next` 方法，否则钩子就不会被 resolved。**
 
 
@@ -39,6 +45,22 @@ router.beforeEach((to, from, next) => {
 
 ``` js
 router.afterEach(route => {
+  // ...
+})
+```
+
+### Global Resolve Guards
+<!-- todo translation -->
+> New in 2.5.0
+
+In 2.5.0+ you can register a global guard with `router.beforeResolve`. This is similar to `router.beforeEach`, with the difference that resolve guards will be called right before the navigation is confirmed, **after all in-component guards and async route components are resolved**.
+
+### Global After Hooks
+
+You can also register global after hooks, however unlike guards, these hooks do not get a `next` function and cannot affect the navigation:
+
+``` js
+router.afterEach((to, from) => {
   // ...
 })
 ```
@@ -105,3 +127,18 @@ beforeRouteEnter (to, from, next) {
 ```
 
 你可以 在 `beforeRouteLeave` 中直接访问 `this`。这个 `leave` 钩子通常用来禁止用户在还未保存修改前突然离开。可以通过 `next(false)` 来取消导航。
+
+### The Full Navigation Resolution Flow
+<!-- todo translation -->
+1. Navigation triggered.
+2. Call leave guards in deactivated components.
+3. Call global `beforeEach` guards.
+4. Call `beforeRouteUpdate` guards in reused components (2.2+).
+5. Call `beforeEnter` in route configs.
+6. Resolve async route components.
+7. Call `beforeRouteEnter` in activated components.
+8. Call global `beforeResolve` guards (2.5+).
+9. Navigation confirmed.
+10. Call global `afterEach` hooks.
+11. DOM updates triggered.
+12. Call callbacks passed to `next` in `beforeRouteEnter` guards with instantiated instances.

@@ -121,7 +121,17 @@
 
   声明可以用来触发导航的事件。可以是一个字符串或是一个包含字符串的数组。
 
-###  将"激活时的CSS类名"应用在外层元素
+- **exact-active-class**
+  <!-- todo translation -->
+  > 2.5.0+
+
+  - type: `string`
+
+  - default: `"router-link-exact-active"`
+
+  Configure the active CSS class applied when the link is active with exact match. Note the default value can also be configured globally via the `linkExactActiveClass` router constructor option.
+
+###  将"激活时的 CSS class 应用在外层元素
 
 有时候我们要让 "激活时的CSS类名" 应用在外层元素，而不是 `<a>` 标签本身，那么可以用 `<router-link>` 渲染外层元素，包裹着内层的原生 `<a>` 标签：
 

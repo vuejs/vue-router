@@ -54,6 +54,18 @@ const User = {
   }
 }
 ```
+<!-- todo translation -->
+Or, use the `beforeRouteUpdate` guard introduced in 2.2:
+
+``` js
+const User = {
+  template: '...',
+  beforeRouteUpdate (to, from, next) {
+    // react to route changes...
+    // don't forget to call next()
+  }
+}
+```
 
 ### 高级匹配模式
 
