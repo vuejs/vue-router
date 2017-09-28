@@ -54,8 +54,8 @@ const User = {
   }
 }
 ```
-<!-- todo translation -->
-Or, use the `beforeRouteUpdate` guard introduced in 2.2:
+
+或者使用 2.2 中引入的 `beforeRouteUpdate` 钩子：
 
 ``` js
 const User = {

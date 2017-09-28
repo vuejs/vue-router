@@ -27,8 +27,8 @@
 - **router.afterEach(hook)**
 
   增加全局的导航钩子。参考 [导航钩子](../advanced/navigation-guards.md).
-  <!-- todo translation -->
-  In 2.5.0+ all three methods return a function that removes the registered guard/hook.
+
+  在 2.5.0+ 这三个方法都返回一个移除已注册的拦截/钩子的函数。
 
 - **router.push(location, onComplete?, onAbort?)**
 - **router.replace(location, onComplete?, onAbort?)**
@@ -55,9 +55,9 @@
     href: string;
   }
   ```
-  <!-- todo translation -->
-  - `current` is the current Route by default (most of the time you don't need to change this)
-  - `append` allows you to append the path to the `current` route (as with [`router-link`](router-link.md#props))
+
+  - `current` 是当前默认的路由 (通常你不需要改变它)
+  - `append` 允许你在 `current` 路由上附加路径 (如同 [`router-link`](router-link.md#props))
 
 - **router.addRoutes(routes)**
 

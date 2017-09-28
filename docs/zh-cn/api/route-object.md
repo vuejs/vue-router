@@ -6,9 +6,9 @@ route object 是 immutable（不可变） 的，每次成功的导航后都会�
 
 route object 出现在多个地方:
 
-- 组件内的 `this.$route` 和 `$route` watcher 回调（监测变化处理）;
-<!-- todo translation -->
-- Inside `$route` watcher callbacks
+- 在组件内，即 `this.$route`
+
+- 在 `$route` 观察者回调内
 
 - `router.match(location)` 的返回值
 

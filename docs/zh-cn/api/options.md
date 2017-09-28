@@ -5,23 +5,23 @@
 - 类型: `Array<RouteConfig>`
 
   `RouteConfig` 的类型定义：
-  <!-- todo translation -->
+
   ``` js
   declare type RouteConfig = {
     path: string;
     component?: Component;
-    name?: string; // for named routes (命名路由)
-    components?: { [name: string]: Component }; // for named views (命名视图组件)
+    name?: string; // 命名路由
+    components?: { [name: string]: Component }; // 命名视图组件
     redirect?: string | Location | Function;
     props?: boolean | string | Function;
     alias?: string | Array<string>;
-    children?: Array<RouteConfig>; // for nested routes
+    children?: Array<RouteConfig>; // 嵌套路由
     beforeEnter?: (to: Route, from: Route, next: Function) => void;
     meta?: any;
 
     // 2.6.0+
-    caseSensitive?: boolean; // use case sensitive match? (default: false)
-    pathToRegexpOptions?: Object; // path-to-regexp options for compiling regex
+    caseSensitive?: boolean; // 匹配规则是否大小写敏感？(默认值：false)
+    pathToRegexpOptions?: Object; // 编译正则的选项
   }
   ```
 
@@ -84,19 +84,19 @@
   更多详情参考 [滚动行为](../advanced/scroll-behavior.md).
 
 ### parseQuery / stringifyQuery
-<!-- todo translation -->
+
 > 2.4.0+
 
-- type: `Function`
+- 类型: `Function`
 
-  Provide custom query string parse / stringify functions. Overrides the default.
+  提供自定义查询字符串的解析/反解析函数。覆盖默认行为。
 
 ### fallback
 
 > 2.6.0+
 
-- type: `boolean`
+- 类型: `boolean`
 
-  Controls whether the router should fallback to `hash` mode when the browser does not support `history.pushState`. Defaults to `true`.
+  当浏览器不支持 `history.pushState` 控制路由是否应该回退到 `hash` 模式。默认值为 `true`。
 
-  Setting this to `false` essentially makes every `router-link` navigation a full page refresh in IE9. This is useful when the app is server-rendered and needs to work in IE9, because a hash mode URL does not work with SSR.
+  在 IE9 中，设置为 `false` 会使得每个 `router-link` 导航都触发整页刷新。它可用于工作在 IE9 下的服务端渲染应用，因为一个 hash 模式的 URL 并不支持服务端渲染。
