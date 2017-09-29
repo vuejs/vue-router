@@ -6,11 +6,11 @@
 
 - #### $router
 
-  router 实例.
+  router 实例。
 
 - #### $route
 
-  当前激活的 [路由信息对象](route-object.md)。这个属性是只读的，里面的属性是 immutable（不可变） 的，不过你可以 watch（监测变化） 它。
+  当前激活的[路由信息对象](route-object.md)。这个属性是只读的，里面的属性是 immutable（不可变） 的，不过你可以 watch（监测变化）它。
 
 ### 允许的额外配置
 
@@ -18,4 +18,4 @@
 - **beforeRouteUpdate** (在 2.2 加入)
 - **beforeRouteLeave**
 
-  查看 [组件级导航钩子](../advanced/navigation-guards.md#incomponent-guards).
+  查看[组件内的拦截](../advanced/navigation-guards.md#组件内的拦截)。

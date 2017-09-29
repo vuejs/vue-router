@@ -61,7 +61,6 @@
 
   - 默认值: `false`
 
-
   设置 `append` 属性后，则在当前（相对）路径前添加基路径。例如，我们从 `/a` 导航到一个相对路径 `b`，如果没有配置 `append`，则路径为 `/b`，如果配了，则为 `/a/b`
 
   ``` html
@@ -100,16 +99,14 @@
   "是否激活" 默认类名的依据是 **inclusive match** （全包含匹配）。
   举个例子，如果当前的路径是 `/a` 开头的，那么 `<router-link to="/a">` 也会被设置 CSS 类名。
 
-
   按照这个规则，`<router-link to="/">` 将会点亮各个路由！想要链接使用 "exact 匹配模式"，则使用 `exact` 属性：
-
 
   ``` html
   <!-- 这个链接只会在地址为 / 的时候被激活 -->
   <router-link to="/" exact>
   ```
 
-  查看更多关于激活链接类名的例子 [可运行](https://jsfiddle.net/8xrk1n9f/).
+  查看更多关于激活链接类名的例子[可运行](https://jsfiddle.net/8xrk1n9f/)
 
 - **event**
 
@@ -122,14 +119,14 @@
   声明可以用来触发导航的事件。可以是一个字符串或是一个包含字符串的数组。
 
 - **exact-active-class**
-  <!-- todo translation -->
+
   > 2.5.0+
 
-  - type: `string`
+  - 类型: `string`
 
-  - default: `"router-link-exact-active"`
+  - 默认值: `"router-link-exact-active"`
 
-  Configure the active CSS class applied when the link is active with exact match. Note the default value can also be configured globally via the `linkExactActiveClass` router constructor option.
+  配置当链接被精确匹配的时候应该激活的 CSS class。注意默认值也是可以通过路由构造函数选项 `linkExactActiveClass` 进行全局配置的。
 
 ###  将"激活时的 CSS class 应用在外层元素
 

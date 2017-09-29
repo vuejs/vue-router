@@ -37,7 +37,7 @@
 
   - `hash`: 使用 URL hash 值来作路由。支持所有浏览器，包括不支持 HTML5 History Api 的浏览器。
 
-  - `history`: 依赖 HTML5 History API 和服务器配置。查看 [HTML5 History 模式](../essentials/history-mode.md).
+  - `history`: 依赖 HTML5 History API 和服务器配置。查看 [HTML5 History 模式](../essentials/history-mode.md)。
 
   - `abstract`: 支持所有 JavaScript 运行环境，如 Node.js 服务器端。**如果发现没有浏览器的 API，路由会自动强制进入这个模式。**
 
@@ -55,17 +55,17 @@
 
 - 默认值: `"router-link-active"`
 
-  全局配置 `<router-link>` 的默认『激活 class 类名』。参考 [router-link](router-link.md).
+  全局配置 `<router-link>` 的默认『激活 class 类名』。参考 [router-link](router-link.md)。
 
 ### linkExactActiveClass
-<!-- todo translation -->
+
 > 2.5.0+
 
-- type: `string`
+- 类型: `string`
 
-- default: `"router-link-exact-active"`
+- 默认值: `"router-link-exact-active"`
 
-  Globally configure `<router-link>` default active class for exact matches. Also see [router-link](router-link.md).
+  全局配置 `<router-link>` 精确激活的默认的 class。可同时翻阅 [router-link](router-link.md)。
 
 ### scrollBehavior
 
@@ -81,7 +81,7 @@
   ) => { x: number, y: number } | { selector: string } | ?{}
   ```
 
-  更多详情参考 [滚动行为](../advanced/scroll-behavior.md).
+  更多详情参考[滚动行为](../advanced/scroll-behavior.md)。
 
 ### parseQuery / stringifyQuery
 

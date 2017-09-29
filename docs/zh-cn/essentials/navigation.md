@@ -3,8 +3,8 @@
 除了使用 `<router-link>` 创建 a 标签来定义导航链接，我们还可以借助 router 的实例方法，通过编写代码来实现。
 
 #### `router.push(location, onComplete?, onAbort?)`
-<!-- todo translation -->
-**Note: Inside of a Vue instance, you have access to the router instance as `$router`. You can therefore call `this.$router.push`.**
+
+**注意：在 Vue 实例内部，你可以通过 `$router` 访问路由实例。因此你可以调用 `this.$router.push`。**
 
 想要导航到不同的 URL，则使用 `router.push` 方法。这个方法会向 history 栈添加一个新的记录，所以，当用户点击浏览器后退按钮时，则回到之前的 URL。
 
@@ -29,22 +29,22 @@ router.push({ name: 'user', params: { userId: 123 }})
 // 带查询参数，变成 /register?plan=private
 router.push({ path: 'register', query: { plan: 'private' }})
 ```
-<!-- todo translation -->
-**Note**: `params` are ignored if a `path` is provided, which is not the case for `query`, as shown in the example above. Instead, you need to provide the `name` of the route or manually specify the whole `path` with any parameter:
+
+**注意：如果提供了 `path`，`params` 会被忽略，上述例子中的 `query` 并不属于这种情况。取而代之的是下面例子的做法，你需要提供路由的 `name` 或手写完整的带有参数的 `path`：**
 
 ```js
 const userId = 123
 router.push({ name: 'user', params: { userId }}) // -> /user/123
 router.push({ path: `/user/${userId}` }) // -> /user/123
-// This will NOT work
+// 这里的 params 不生效
 router.push({ path: '/user', params: { userId }}) // -> /user
 ```
 
-The same rules apply for the `to` property of the `router-link` component.
+同样的规则也适用于 `router-link` 组件的 `to` 属性。
 
-In 2.2.0+, optionally provide `onComplete` and `onAbort` callbacks to `router.push` or `router.replace` as the 2nd and 3rd arguments. These callbacks will be called when the navigation either successfully completed (after all async hooks are resolved), or aborted (navigated to the same route, or to a different route before current navigation has finished), respectively.
+在 2.2.0+，可选的在 `router.push` 或 `router.replace` 中提供 `onComplete` 和 `onAbort` 回调作为第二个和第三个参数。这些回调将会在导航成功完成 (在所有的异步钩子被解析之后) 或终止 (导航到相同的路有、或在当前导航完成之前导航到另一个不同的路有) 的时候进行相应的调用。
 
-**Note:** If the destination is the same as the current route and only params are changing (eg: going from one profile to another `/users/1` -> `/users/2`), you will have to use [beforeRouteUpdate](./dynamic-matching.html#reacting-to-params-changes) to react to changes (eg: fetching the user information).
+**注意：**如果目的地和当前路有相同，只有参数发生了改变 (比如从一个用户资料到另一个 `/users/1` -> `/users/2`)，你需要使用 [`beforeRouteUpdate`](./dynamic-matching.html#响应路由参数的变化) 来响应这个变化 (比如抓取用户信息)。
 
 #### `router.replace(location, onComplete?, onAbort?)`
 

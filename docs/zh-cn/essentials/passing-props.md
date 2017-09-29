@@ -72,4 +72,4 @@ Url: `/search?q=vue` 会将 `{query: "vue"}` 作为属性传递给SearchUser组�
 
 请尽可能保持props函数为无状态的，因为它只会在路由发生变化时起作用。如果你需要状态来定义props，请使用包装组件，这样vue才可以对状态变化做出反应。
 
-更多高级用法，请查看[例子](https://github.com/vuejs/vue-router/blob/dev/examples/route-props/app.js).
+更多高级用法，请查看[例子](https://github.com/vuejs/vue-router/blob/dev/examples/route-props/app.js)。

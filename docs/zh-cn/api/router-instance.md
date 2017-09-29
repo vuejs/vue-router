@@ -12,13 +12,13 @@
 
 - 类型: `string`
 
-  路由使用的 [模式](options.md#mode)。
+  路由使用的[模式](options.md#mode)。
 
 #### router.currentRoute
 
 - 类型: `Route`
 
-  当前路由对应的 [路由信息对象](route-object.md).
+  当前路由对应的[路由信息对象](route-object.md)。
 
 ### 方法
 
@@ -26,7 +26,7 @@
 - **router.beforeResolve(guard) (2.5.0+)**: 此时异步组件已经加载完成
 - **router.afterEach(hook)**
 
-  增加全局的导航钩子。参考 [导航钩子](../advanced/navigation-guards.md).
+  增加全局的导航拦截。参考[导航拦截](../advanced/navigation-guards.md)。
 
   在 2.5.0+ 这三个方法都返回一个移除已注册的拦截/钩子的函数。
 
@@ -36,7 +36,7 @@
 - **router.back()**
 - **router.forward()**
 
-  动态的导航到一个新 url。参考 [编程式导航](../essentials/navigation.md).
+  动态的导航到一个新 url。参考[编程式导航](../essentials/navigation.md)。
 
 - **router.getMatchedComponents(location?)**
 
@@ -66,23 +66,23 @@
   动态添加更多的路由规则。参数必须是一个符合 `routes` 选项要求的数组。
 
 - **router.onReady(callback, [errorCallback])**
-  <!-- todo translation -->
+
   > 2.2.0+
 
-  This method queues a callback to be called when the router has completed the initial navigation, which means it has resolved all async enter hooks and async components that are associated with the initial route.
+  该方法把一个回调排队，在路由完成初始导航时调用，这意味着它可以解析所有的异步进入钩子和路由初始化相关联的异步组件。
 
-  This is useful in server-side rendering to ensure consistent output on both the server and the client.
+  这可以有效确保服务端渲染时服务端和客户端输出的一致。
 
-  The second argument `errorCallback` is only supported in 2.4+. It will be called when the initial route resolution runs into an error (e.g. failed to resolve an async component).
+  第二个参数 `errorCallback` 只在 2.4+ 支持。它会在初始化路由解析运行出错 (比如解析一个异步组件失败) 时被调用。
 
 - **router.onError(callback)**
 
   > 2.4.0+
 
-  Register a callback which will be called when an error is caught during a route navigation. Note for an error to be called, it must be one of the following scenarios:
+  注册一个回调，该回调会在路由导航过程中出错时被调用。注意被调用的错误必须是下列情形中的一种：
 
-  - The error is thrown synchronously inside a route guard function;
+  - 错误在一个路由拦截函数中被同步抛出；
 
-  - The error is caught and asynchronously handled by calling `next(err)` inside a route guard function;
+  - 错误在一个路由拦截函数中通过调用 `next(err)` 的方式异步捕获并处理；
 
-  - An error occurred when trying to resolve an async component that is required to render a route.
+  - 渲染一个路由的过程中，需要尝试解析一个异步组件时发生错误。

@@ -12,7 +12,7 @@ route object 出现在多个地方:
 
 - `router.match(location)` 的返回值
 
-- 导航钩子的参数：
+- 导航拦截的参数：
 
   ``` js
   router.beforeEach((to, from, next) => {
@@ -55,7 +55,6 @@ route object 出现在多个地方:
   - 类型: `string`
 
     当前路由的 hash 值 (带 `#`) ，如果没有 hash 值，则为空字符串。
-
 
 - **$route.fullPath**
 

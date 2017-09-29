@@ -16,7 +16,7 @@
   - [向路由组件传递 props](essentials/passing-props.md)
   - [HTML5 History 模式](essentials/history-mode.md)
 - 进阶
-  - [导航钩子](advanced/navigation-guards.md)
+  - [导航拦截](advanced/navigation-guards.md)
   - [路由元信息](advanced/meta.md)
   - [过渡动效](advanced/transitions.md)
   - [数据获取](advanced/data-fetching.md)
