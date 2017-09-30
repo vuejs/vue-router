@@ -14,10 +14,10 @@ Cette méthode est appelée en interne quand vous cliquez sur `<router-link>`, d
 |-------------|--------------|
 | `<router-link :to="...">` | `router.push(...)` |
 
-L'argument peut être une chaîne de caractère représentant un chemin, ou un objet de description de destination. Des exemples :
+L'argument peut être une chaine de caractère représentant un chemin, ou un objet de description de destination. Des exemples :
 
 ``` js
-// chaîne de caractère représentant un chemin
+// chaine de caractère représentant un chemin
 router.push('home')
 
 // objet
@@ -36,7 +36,7 @@ router.push({ path: 'register', query: { plan: 'private' }})
 const userId = 123
 router.push({ name: 'user', params: { userId }}) // -> /user/123
 router.push({ path: `/user/${userId}` }) // -> /user/123
-// Ceci ne vas PAS fonctionner
+// Ceci ne va PAS fonctionner
 router.push({ path: '/user', params: { userId }}) // -> /user
 ```
 
@@ -54,9 +54,10 @@ Il agit comme `router.push`. La seule différence est que la navigation se fait 
 |-------------|--------------|
 | `<router-link :to="..." replace>` | `router.replace(...)` |
 
+
 #### `router.go(n)`
 
-Cette méthode prend un seul nombre en tant que paramètre. Celui-ci indique de combien d'entrée vers l'avant ou vers l'arrière il faut naviguer dans la pile de l'historique, de la même manière qu'avec `window.history.go(n)`.
+Cette méthode prend un seul nombre en tant que paramètre. Celui-ci indique de combien d'entrées vers l'avant ou vers l'arrière il faut naviguer dans la pile de l'historique, de la même manière qu'avec `window.history.go(n)`.
 
 Des exemples
 
@@ -77,7 +78,7 @@ router.go(100)
 
 #### Manipulation de l'historique
 
-Vous avez peut être remarqué que `router.push`, `router.replace` et `router.go` sont des équivalent de [`window.history.pushState`, `window.history.replaceState` et `window.history.go`](https://developer.mozilla.org/fr-FR/docs/Web/API/History), et qu'ils imitent les APIs de `window.history`.
+Vous avez peut être remarqué que `router.push`, `router.replace` et `router.go` sont des équivalents de [`window.history.pushState`, `window.history.replaceState` et `window.history.go`](https://developer.mozilla.org/fr-FR/docs/Web/API/History), et qu'ils imitent les APIs de `window.history`.
 
 Donc, si vous utilisez déjà l'[API History des navigateurs](https://developer.mozilla.org/fr-FR/docs/Web/API/History_API), manipuler l'historique sera très simple avec vue-router.
 

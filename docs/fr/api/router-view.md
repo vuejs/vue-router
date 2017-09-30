@@ -10,7 +10,7 @@ Le composant `<router-view>` est un composant fonctionnel qui fait le rendu du c
 
   - défaut : `"default"`
 
-  Lorsqu'un `<router-view>` a un nom, il fera le rendu du composant correspondant à ce nom dans les itinéraires de route correspondant à l'option `components`. Voir les [Routes nommées](../essentials/named-views.md) pour un example.
+  Lorsqu'un `<router-view>` a un nom, il fera le rendu du composant correspondant à ce nom dans les itinéraires de route correspondant à l'option `components`. Voir les [Routes nommées](../essentials/named-views.md) pour un exemple.
 
 ### Comportement
 

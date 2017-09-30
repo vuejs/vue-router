@@ -40,7 +40,7 @@
 
 - **router.getMatchedComponents(location?)**
 
-  Retourne un tableau de composants (définition/constructeur et non les instances) correspondant à la `location` passée en paramètre, ou alors de la route actuelle. Cette fonction est principalement utilisée pendant le rendu côté serveur afin d'effectuer une pré-récupération des données.
+  Retourne un tableau de composants (définition/constructeur et non les instances) correspondant à la `location` passée en paramètre, ou alors de la route actuelle. Cette fonction est principalement utilisée pendant le rendu côté serveur afin d'effectuer une prérécupération des données.
 
 - **router.resolve(location, current?, append?)**
 
@@ -63,7 +63,7 @@
 
   > 2.2.0+
 
-  Permet d'ajouter dynamiquement des routes au routeur. L'argument doit être un tableau utilisant le même format de configuration que l'option `routes` du constructeur.
+  Permets d'ajouter dynamiquement des routes au routeur. L'argument doit être un tableau utilisant le même format de configuration que l'option `routes` du constructeur.
 
 - **router.onReady(callback, [errorCallback])**
 
@@ -73,7 +73,7 @@
 
   C'est utile pendant un rendu côté serveur pour assurer une sortie consistance sur le serveur et le client.
 
-  Le deuxième argument `errorCallback` est uniquement supporté à partir de la version 2.4. Il sera appelé lorsque la résolution de la route initiale résultera en une erreur (ex : la résolution d'un composant asynchrone qui a échouée).
+  Le deuxième argument `errorCallback` est uniquement supporté à partir de la version 2.4. Il sera appelé lorsque la résolution de la route initiale résultera en une erreur (ex. : la résolution d'un composant asynchrone qui a échoué).
 
 - **router.onError(callback)**
 
@@ -83,6 +83,6 @@
 
   - L'erreur est lancée de manière synchrone à l'intérieur d'une fonction d'interception de route ;
 
-  - L'erreur est capturée et traitée de manière asynchrone en appelant `next(err)` à l'intérieur d'une fonction de d'interception de route ;
+  - L'erreur est capturée et traitée de manière asynchrone en appelant `next(err)` à l'intérieur d'une fonction d'interception de route ;
 
   - Une erreur est survenue pendant la résolution d'un composant asynchrone qui est requis pour faire le rendu d'une route.
