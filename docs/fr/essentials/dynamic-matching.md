@@ -25,7 +25,7 @@ const User = {
 }
 ```
 
-Vous pouvez regarder un exemple en ligne [ici](http://jsfiddle.net/yyx990803/4xfa2f19/).
+Vous pouvez regarder un exemple en ligne [ici](https://jsfiddle.net/yyx990803/4xfa2f19/).
 
 Vous pouvez avoir plusieurs segments dynamiques pour une même route, et ils seront associés aux champs associés dans `$route.params`. Des exemples :
 
