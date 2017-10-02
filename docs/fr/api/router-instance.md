@@ -63,7 +63,7 @@
 
   > 2.2.0+
 
-  Permets d'ajouter dynamiquement des routes au routeur. L'argument doit être un tableau utilisant le même format de configuration que l'option `routes` du constructeur.
+  Permet d'ajouter dynamiquement des routes au routeur. L'argument doit être un tableau utilisant le même format de configuration que l'option `routes` du constructeur.
 
 - **router.onReady(callback, [errorCallback])**
 

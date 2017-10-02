@@ -89,7 +89,7 @@
 
 - type : `Function`
 
-  Permets de spécifier des fonctions personnalisées pour formater en objet ou en chaîne de caractères la requête. Surcharge les fonctions par défaut.
+  Permettent de spécifier des fonctions personnalisées pour formater en objet ou en chaîne de caractères la requête. Surcharge les fonctions par défaut.
 
 ### fallback
 
