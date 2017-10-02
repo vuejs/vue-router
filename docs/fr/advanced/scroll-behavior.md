@@ -34,7 +34,7 @@ scrollBehavior (to, from, savedPosition) {
 
 Cela permettra de défiler au haut de page à chaque navigation à travers les routes.
 
-Retourner l'objet `savedPosition` résultera en un comportement quasi-natif en naviguant avec les boutons précédents/suivants :
+Retourner l'objet `savedPosition` résultera en un comportement quasi natif en naviguant avec les boutons précédents/suivants :
 
 ``` js
 scrollBehavior (to, from, savedPosition) {

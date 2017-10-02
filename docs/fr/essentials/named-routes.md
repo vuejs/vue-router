@@ -1,6 +1,6 @@
 # Routes nommées
 
-Parfois il est plus pratique d'identifer une route avec un nom, tout particulièrement quand on souhaite attacher cette route ou exécuter des actions de navigation. Vous pouvez donner un nom à une route dans les options `routes` pendant la création de l'instance du routeur :
+Parfois il est plus pratique d'identifier une route avec un nom, tout particulièrement quand on souhaite attacher cette route ou exécuter des actions de navigation. Vous pouvez donner un nom à une route dans les options `routes` pendant la création de l'instance du routeur :
 
 ``` js
 const router = new VueRouter({

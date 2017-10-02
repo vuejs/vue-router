@@ -25,7 +25,7 @@ const User = {
 }
 ```
 
-Vous pouvez regarder un exemple en ligne [ici](http://jsfiddle.net/yyx990803/4xfa2f19/).
+Vous pouvez regarder un exemple en ligne [ici](https://jsfiddle.net/yyx990803/4xfa2f19/).
 
 Vous pouvez avoir plusieurs segments dynamiques pour une même route, et ils seront associés aux champs associés dans `$route.params`. Des exemples :
 
@@ -67,7 +67,7 @@ const User = {
 
 ### Motifs de concordance avancés
 
-`vue-router` utilise [path-to-regexp](https://github.com/pillarjs/path-to-regexp) comme moteur de concordance de chemin, il supporte donc plusieurs motifs de concordance avancés tel que la présence optionnelle de segments dynamiques, aucun ou plusieurs motifs, plus d'options par motifs, et même des motifs d'expressions régulières personnalisés. Consultez cette [documentation](https://github.com/pillarjs/path-to-regexp#parameters) pour utiliser ces motifs avancés et [cet exemple](https://github.com/vuejs/vue-router/blob/dev/examples/route-matching/app.js) pour les utiliser avec `vue-router`.
+`vue-router` utilise [path-to-regexp](https://github.com/pillarjs/path-to-regexp) comme moteur de concordance de chemin, il supporte donc plusieurs motifs de concordance avancés tels que la présence optionnelle de segments dynamiques, aucun ou plusieurs motifs, plus d'options par motifs, et même des motifs d'expressions régulières personnalisés. Consultez cette [documentation](https://github.com/pillarjs/path-to-regexp#parameters) pour utiliser ces motifs avancés et [cet exemple](https://github.com/vuejs/vue-router/blob/dev/examples/route-matching/app.js) pour les utiliser avec `vue-router`.
 
 ### Priorité de concordance
 

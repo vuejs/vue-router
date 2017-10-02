@@ -72,4 +72,4 @@ L'URL `/search?q=vue` passerait `{query: 'vue'}` comme `props` au composant `Sea
 
 Essayez de garder la fonction de `props` sans état, car il n'est évalué que sur les changements de route. Utilisez un composant englobant si vous avez besoin d'état pour définir les props, ainsi la vue pourra réagir au changement d'état.
 
-Pour une utilisation avancée, jettez un œil à cet [exemple](https://github.com/vuejs/vue-router/blob/dev/examples/route-props/app.js).
+Pour une utilisation avancée, jetez un œil à cet [exemple](https://github.com/vuejs/vue-router/blob/dev/examples/route-props/app.js).

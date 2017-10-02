@@ -16,9 +16,9 @@ Deuxièmement, avec webpack 2, nous pouvons utiliser la syntaxe d'[import dynami
 import('./Foo.vue') // returns a Promise
 ```
 
-> Note: if you are using Babel, you will need to add the [syntax-dynamic-import](http://babeljs.io/docs/plugins/syntax-dynamic-import/) plugin so that Babel can properly parse the syntax.
+> Note: si vous utilisez Babel, vous aurez besoin d'ajouter le plugin [syntax-dynamic-import](http://babeljs.io/docs/plugins/syntax-dynamic-import/) de façon à ce que Babel puisse analyser correctement la syntaxe.
 
-Combining the two, this is how to define an async component that will be automatically code-split by webpack:
+En combinant les deux, on définit un composant asynchrone qui sera automatiquement scindé par webpack :
 
 ``` js
 const Foo = () => import('./Foo.vue')

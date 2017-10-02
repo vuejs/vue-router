@@ -16,7 +16,7 @@ router.beforeEach((to, from, next) => {
 })
 ```
 
-Les interceptions d'entrées globales sont appelées lors de l'ordre de création, chaque fois qu'une navigation est déclenchée. Les interceptions peuvent être résolues de manière asynchrone, et la navigation est considérée comme **en attente** avant que tous les hooks ne soient résolues.
+Les interceptions d'entrées globales sont appelées lors de l'ordre de création, chaque fois qu'une navigation est déclenchée. Les interceptions peuvent être résolues de manière asynchrone, et la navigation est considérée comme **en attente** avant que tous les hooks ne soient résolus.
 
 Chaque fonction d'interception reçoit trois arguments :
 
@@ -26,7 +26,7 @@ Chaque fonction d'interception reçoit trois arguments :
 
 - **`next: Function`**: cette fonction doit être appelée pour **résoudre** le hook. L'action dépend des arguments fournis à `next`:
 
-  - **`next()`**: se déplacer jusqu'au prochain hook du workflow. S'il ne reste aucun hooks, la navigation est **confirmée**.
+  - **`next()`**: se déplacer jusqu'au prochain hook du workflow. S'il ne reste aucun hook, la navigation est **confirmée**.
 
   - **`next(false)`**: annuler la navigation courante. Si l'URL du navigateur avait changé (manuellement par l'utilisateur ou via le bouton retour du navigateur), il sera remis à sa valeur de route de `from`.
 
@@ -40,7 +40,7 @@ Chaque fonction d'interception reçoit trois arguments :
 
 > Nouveau dans la 2.5.0
 
-Dans la 2.5.0+ vous pouvez abonner une interception globale avec `router.beforeResolve`. Ceci est similaire a `router.beforeEach`, mais la différence est qu'elle sera appelée juste après que la navigation soit confirmée, **après que toutes les interceptions par composants et les composants de route asynchrone ai été résolus**.
+Dans la 2.5.0+ vous pouvez abonner une interception globale avec `router.beforeResolve`. Ceci est similaire a `router.beforeEach`, mais la différence est qu'elle sera appelée juste après que la navigation soit confirmée, **après que toutes les interceptions par composants et les composants de route asynchrone ait été résolu**.
 
 ### Hooks de sortie globaux
 
@@ -54,7 +54,7 @@ router.afterEach((to, from) => {
 
 ### Interception par route
 
-Vous pouvez définir la interception `beforeEnter` directement sur l'objet de configuration d'une route :
+Vous pouvez définir l'interception `beforeEnter` directement sur l'objet de configuration d'une route :
 
 ``` js
 const router = new VueRouter({
@@ -93,7 +93,7 @@ const Foo = {
     // mais que ce composant est utilisé de nouveau dans la nouvelle route.
     // Par exemple, pour une route avec le paramètre dynamique `/foo/:id`, quand nous
     // naviguons entre `/foo/1` et `/foo/2`, la même instance du composant `Foo`
-    // va être ré-utilisée, et ce hook va être appelé quand cela arrivera.
+    // va être réutilisée, et ce hook va être appelé quand cela arrivera.
     // ce hook a accès à l'instance de ce composant via `this`.
   },
   beforeRouteLeave (to, from, next) {
@@ -104,7 +104,7 @@ const Foo = {
 }
 ```
 
-L'interception `beforeRouteEnter` **n'**a **PAS** accès à `this`, car l'interception est appelée avant que la navigation soit confirmée, et le nouveau composant entrant n'a même pas encore été crée.
+L'interception `beforeRouteEnter` **n'**a **PAS** accès à `this`, car l'interception est appelée avant que la navigation soit confirmée, et le nouveau composant entrant n'a même pas encore été créé.
 
 Cependant, vous pouvez accéder à l'instance en passant dans la fonction de rappel `next`. Cette fonction de rappel va être appelée quand la navigation sera confirmée, et l'instance du composant sera passée à la fonction de rappel en tant qu'argument :
 
@@ -116,19 +116,19 @@ beforeRouteEnter (to, from, next) {
 }
 ```
 
-Vous pouvez directement accéder à `this` à l'intérieur de `beforeRouteLeave`. L'interception de sortie est utilisée pour empêcher l'utilisateur de quitter la route par accident alors qu'il n'a pas sauver ses modifications. La navigation peut être annulée en appelant `next(false)`.
+Vous pouvez directement accéder à `this` à l'intérieur de `beforeRouteLeave`. L'interception de sortie est utilisée pour empêcher l'utilisateur de quitter la route par accident alors qu'il n'a pas sauvé ses modifications. La navigation peut être annulée en appelant `next(false)`.
 
 ### Le flux de résolution de navigation complet
 
 1. La navigation est demandée.
-2. Appel de la interception de sortie des composants désactivés (ceux que l'on va quitter).
+2. Appel de l'interception de sortie des composants désactivés (ceux que l'on va quitter).
 3. Appel des interceptions globales `beforeEach`.
-4. Appel des interceptions `beforeRouteUpdate` pour les composants ré-utilisés (2.2+).
+4. Appel des interceptions `beforeRouteUpdate` pour les composants réutilisés (2.2+).
 5. Appel de `beforeEnter` dans la configuration de route.
 6. Résolution des composants de route asynchrones.
 7. Appel de `beforeRouteEnter` dans les composants activés (ceux où l'on va arriver).
 8. Appel des interceptions `beforeResolve` (2.5+).
 9. Confirmation de la navigation.
 10. Appel des hooks globaux `afterEach`.
-11. Modification du DOM demandées.
+11. Modification du DOM demandée.
 12. Appel des fonctions de rappel passées à `next` dans l'interception `beforeRouteEnter` avec l'instance instanciée.

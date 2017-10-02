@@ -65,7 +65,7 @@
 
 - default : `"router-link-exact-active"`
 
-  Configure de manière globale la classe active par défaut de `<router-link>` lors d'une correspondance exact. Voir aussi [router-link](router-link.md).
+  Configure de manière globale la classe active par défaut de `<router-link>` lors d'une correspondance exacte. Voir aussi [router-link](router-link.md).
 
 ### scrollBehavior
 
@@ -89,7 +89,7 @@
 
 - type : `Function`
 
-  Permet de spécifier des fonctions personnalisées pour formater en objet ou en chaîne de caractères la requête. Surcharge les fonctions par défaut.
+  Permettent de spécifier des fonctions personnalisées pour formater en objet ou en chaîne de caractères la requête. Surcharge les fonctions par défaut.
 
 ### fallback
 
@@ -99,4 +99,4 @@
 
   Contrôle comment le routeur devrait passer en mode `hash` quand le navigateur ne supporte pas `history.pushState`. Par défaut à `true`.
 
-  Passer cette valeur à `false` va essentiellement faire que la navigation via `router-link` va réclamer un rechargement de page dans IE9. Ceci est utile quand l'application est rendu côté serveur et à besoin de fonctionner dans IE9, car le mode hash ne fonctionne pas avec du SSR.
+  Passer cette valeur à `false` va essentiellement faire que la navigation via `router-link` va réclamer un rechargement de page dans IE9. Ceci est utile quand l'application est rendue côté serveur et à besoin de fonctionner dans IE9, car le mode hash ne fonctionne pas avec du SSR.
