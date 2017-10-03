@@ -2,7 +2,7 @@
 
 Le mode par défaut de `vue-router` est le _mode hash_. Il utilise la partie hash de l'URL pour simuler un URL complet et ainsi ne pas recharger la page quand l'URL change.
 
-Pour se passer du hash, nous pouvons utiliser le **mode historique** qui utilisera l'API `history.pushState` afin de permettre une navigation sans rechargement de page :
+Pour nous passer du hash, nous pouvons utiliser le **mode historique** qui utilisera l'API `history.pushState` afin de permettre une navigation sans rechargement de page :
 
 ``` js
 const router = new VueRouter({
@@ -11,9 +11,9 @@ const router = new VueRouter({
 })
 ```
 
-Quand vous utilisez le mode historique, l'URL ressemblera a n'importe quel URL normal. Par ex. `http://oursite.com/user/id`. Magnifique !
+Quand vous utilisez le mode historique, l'URL ressemblera à n'importe quel URL normal. Par ex. `http://oursite.com/user/id`. Magnifique !
 
-Cependant, un problème apparaît si votre application est une application monopage cliente. Sans une configuration serveur adaptée, les utilisateurs tomberons sur une page d'erreur 404 en tentant d'accéder à `http://oursite.com/user/id` directement dans leur navigateur. Maintenant ça craint.
+Cependant, un problème apparait si votre application est une application monopage cliente. Sans une configuration serveur adaptée, les utilisateurs tomberont sur une page d'erreur 404 en tentant d'accéder à `http://oursite.com/user/id` directement dans leur navigateur. Maintenant ça craint.
 
 Ne vous inquiétez pas. Pour résoudre ce problème, il vous suffit d'ajouter une route à votre serveur prenant en compte toutes les adresses demandées. Si l'URL demandée ne concorde avec aucun fichier statique, alors il doit toujours renvoyer la page `index.html` qui contient le code de votre application. De nouveau magnifique !
 

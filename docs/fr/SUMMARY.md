@@ -22,7 +22,7 @@
   - [Récupération de données](advanced/data-fetching.md)
   - [Comportement du défilement](advanced/scroll-behavior.md)
   - [Chargement à la volée](advanced/lazy-loading.md)
-- Réference de l'API
+- Référence de l'API
   - [Options de construction du routeur](api/options.md)
     - [routes](api/options.md#routes)
     - [mode](api/options.md#mode)
