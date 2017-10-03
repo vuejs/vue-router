@@ -2,14 +2,13 @@
 
 `<router-view>` 是基本的动态组件，所以我们可以用 `<transition>` 组件给它添加一些过渡效果：
 
-
 ``` html
 <transition>
   <router-view></router-view>
 </transition>
 ```
 
-[`<transition>` 的所有功能](http://vuejs.org/guide/transitions.html) 在这里同样适用。
+[`<transition>` 的所有功能](https://cn.vuejs.org/guide/transitions.html) 在这里同样适用。
 
 ### 单个路由的过渡
 
@@ -56,4 +55,4 @@ watch: {
 }
 ```
 
-查看完整例子 [这里](https://github.com/vuejs/vue-router/blob/next/examples/transitions/app.js).
+查看完整例子请[移步这里](https://github.com/vuejs/vue-router/blob/next/examples/transitions/app.js)。

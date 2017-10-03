@@ -1,6 +1,6 @@
 # vue-router 2
 <!--email_off-->
-> 注意: vue-router@2.x 只适用于 Vue 2.x 版本。1.x 版本的文档在 [这里](https://github.com/vuejs/vue-router/tree/1.0/docs/en)。
+> 注意: vue-router@2.x 只适用于 Vue 2.x。0.7.x 版本的文档请[移步这里](https://github.com/vuejs/vue-router/tree/1.0/docs/zh-cn)。
 <!--/email_off-->
 **[版本说明](https://github.com/vuejs/vue-router/releases)**
 
@@ -16,7 +16,7 @@
   - [向路由组件传递 props](essentials/passing-props.md)
   - [HTML5 History 模式](essentials/history-mode.md)
 - 进阶
-  - [导航钩子](advanced/navigation-guards.md)
+  - [导航守卫](advanced/navigation-guards.md)
   - [路由元信息](advanced/meta.md)
   - [过渡动效](advanced/transitions.md)
   - [数据获取](advanced/data-fetching.md)

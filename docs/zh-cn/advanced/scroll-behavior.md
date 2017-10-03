@@ -20,9 +20,9 @@ const router = new VueRouter({
 这个方法返回滚动位置的对象信息，长这样：
 
 - `{ x: number, y: number }`
-- `{ selector: string }`
+- `{ selector: string, offset? : { x: number, y: number }}` (offset 只在 2.6.0+ 支持)
 
-如果返回一个布尔假的值，或者是一个空对象，那么不会发生滚动。
+如果返回一个 falsy (译者注：falsy 不是 `false`，[参考这里](https://developer.mozilla.org/zh-CN/docs/Glossary/Falsy))的值，或者是一个空对象，那么不会发生滚动。
 
 举例：
 
@@ -58,4 +58,4 @@ scrollBehavior (to, from, savedPosition) {
 }
 ```
 
-我们还可以利用 [路由元信息](meta.md) 更细颗粒度地控制滚动。查看完整例子 [这里](https://github.com/vuejs/vue-router/blob/next/examples/scroll-behavior/app.js).
+我们还可以利用[路由元信息](meta.md)更细颗粒度地控制滚动。查看完整例子请[移步这里](https://github.com/vuejs/vue-router/blob/next/examples/scroll-behavior/app.js)。
