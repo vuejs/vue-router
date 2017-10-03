@@ -26,9 +26,9 @@
 - **router.beforeResolve(guard) (2.5.0+)**: 此时异步组件已经加载完成
 - **router.afterEach(hook)**
 
-  增加全局的导航拦截。参考[导航拦截](../advanced/navigation-guards.md)。
+  增加全局的导航守卫。参考[导航守卫](../advanced/navigation-guards.md)。
 
-  在 2.5.0+ 这三个方法都返回一个移除已注册的拦截/钩子的函数。
+  在 2.5.0+ 这三个方法都返回一个移除已注册的守卫/钩子的函数。
 
 - **router.push(location, onComplete?, onAbort?)**
 - **router.replace(location, onComplete?, onAbort?)**
@@ -36,7 +36,7 @@
 - **router.back()**
 - **router.forward()**
 
-  动态的导航到一个新 url。参考[编程式导航](../essentials/navigation.md)。
+  动态的导航到一个新 URL。参考[编程式导航](../essentials/navigation.md)。
 
 - **router.getMatchedComponents(location?)**
 
@@ -81,8 +81,8 @@
 
   注册一个回调，该回调会在路由导航过程中出错时被调用。注意被调用的错误必须是下列情形中的一种：
 
-  - 错误在一个路由拦截函数中被同步抛出；
+  - 错误在一个路由守卫函数中被同步抛出；
 
-  - 错误在一个路由拦截函数中通过调用 `next(err)` 的方式异步捕获并处理；
+  - 错误在一个路由守卫函数中通过调用 `next(err)` 的方式异步捕获并处理；
 
   - 渲染一个路由的过程中，需要尝试解析一个异步组件时发生错误。

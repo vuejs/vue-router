@@ -1,14 +1,14 @@
-# 导航拦截
+# 导航守卫
 
 >（译者：『导航』表示路由正在发生改变。）
 
-正如其名，`vue-router` 提供的导航拦截主要用来通过跳转或取消的方式拦截导航。有多种机会植入路由导航过程中：全局的, 单个路由独享的, 或者组件级的。
+正如其名，`vue-router` 提供的导航守卫主要用来通过跳转或取消的方式守卫导航。有多种机会植入路由导航过程中：全局的, 单个路由独享的, 或者组件级的。
 
-记住**参数或查询的改变并不会触发进入/离开的导航拦截**。你可以通过[观察 `$route` 对象](../essentials/dynamic-matching.md#响应路由参数的变化)来应对这些变化，或使用 `beforeRouteUpdate` 的组件内拦截。
+记住**参数或查询的改变并不会触发进入/离开的导航守卫**。你可以通过[观察 `$route` 对象](../essentials/dynamic-matching.md#响应路由参数的变化)来应对这些变化，或使用 `beforeRouteUpdate` 的组件内守卫。
 
-### 全局拦截
+### 全局守卫
 
-你可以使用 `router.beforeEach` 注册一个全局前置拦截：
+你可以使用 `router.beforeEach` 注册一个全局前置守卫：
 
 ``` js
 const router = new VueRouter({ ... })
@@ -18,9 +18,9 @@ router.beforeEach((to, from, next) => {
 })
 ```
 
-当一个导航触发时，全局前置拦截按照创建顺序调用。拦截是异步解析执行，此时导航在所有拦截 resolve 完之前一直处于 **等待中**。
+当一个导航触发时，全局前置守卫按照创建顺序调用。守卫是异步解析执行，此时导航在所有守卫 resolve 完之前一直处于 **等待中**。
 
-每个拦截方法接收三个参数：
+每个守卫方法接收三个参数：
 
 - **`to: Route`**: 即将要进入的目标 [路由对象](../api/route-object.md)
 
@@ -38,15 +38,15 @@ router.beforeEach((to, from, next) => {
 
 **确保要调用 `next` 方法，否则钩子就不会被 resolved。**
 
-### 全局解析拦截
+### 全局解析守卫
 
 > 2.5.0 新增
 
-在 2.5.0+ 你可以用 `router.beforeResolve` 注册一个全局拦截。这和 `router.beforeEach` 类似，区别是在导航被确认之前，**同时在所有组件内拦截和异步路由组件被解析之后**，解析拦截就被调用。
+在 2.5.0+ 你可以用 `router.beforeResolve` 注册一个全局守卫。这和 `router.beforeEach` 类似，区别是在导航被确认之前，**同时在所有组件内守卫和异步路由组件被解析之后**，解析守卫就被调用。
 
 ### 全局后置钩子
 
-你也可以注册全局后置钩子，然而和拦截不同的是，这些钩子不会接受 `next` 函数也不会改变导航本身：
+你也可以注册全局后置钩子，然而和守卫不同的是，这些钩子不会接受 `next` 函数也不会改变导航本身：
 
 ``` js
 router.afterEach((to, from) => {
@@ -54,9 +54,9 @@ router.afterEach((to, from) => {
 })
 ```
 
-### 路由独享的拦截
+### 路由独享的守卫
 
-你可以在路由配置上直接定义 `beforeEnter` 拦截：
+你可以在路由配置上直接定义 `beforeEnter` 守卫：
 
 ``` js
 const router = new VueRouter({
@@ -72,11 +72,11 @@ const router = new VueRouter({
 })
 ```
 
-这些拦截与全局前置拦截的方法参数是一样的。
+这些守卫与全局前置守卫的方法参数是一样的。
 
-### 组件内的拦截
+### 组件内的守卫
 
-最后，你可以在路由组件内直接定义以下路由导航拦截：
+最后，你可以在路由组件内直接定义以下路由导航守卫：
 
 - `beforeRouteEnter`
 - `beforeRouteUpdate` (2.2 新增)
@@ -88,7 +88,7 @@ const Foo = {
   beforeRouteEnter (to, from, next) {
     // 在渲染该组件的对应路由被 confirm 前调用
     // 不！能！获取组件实例 `this`
-    // 因为当拦截执行前，组件实例还没被创建
+    // 因为当守卫执行前，组件实例还没被创建
   },
   beforeRouteUpdate (to, from, next) {
     // 在当前路由改变，但是该组件被复用时调用
@@ -103,7 +103,7 @@ const Foo = {
 }
 ```
 
-`beforeRouteEnter` 拦截 **不能** 访问 `this`，因为拦截在导航确认前被调用,因此即将登场的新组件还没被创建。
+`beforeRouteEnter` 守卫 **不能** 访问 `this`，因为守卫在导航确认前被调用,因此即将登场的新组件还没被创建。
 
 不过，你可以通过传一个回调给 `next`来访问组件实例。在导航被确认的时候执行回调，并且把组件实例作为回调方法的参数。
 
@@ -115,19 +115,19 @@ beforeRouteEnter (to, from, next) {
 }
 ```
 
-你可以 在 `beforeRouteLeave` 中直接访问 `this`。这个离开拦截通常用来禁止用户在还未保存修改前突然离开。可以通过 `next(false)` 来取消导航。
+你可以 在 `beforeRouteLeave` 中直接访问 `this`。这个离开守卫通常用来禁止用户在还未保存修改前突然离开。可以通过 `next(false)` 来取消导航。
 
 ### 完整的导航解析流程
 
 1. 导航被触发。
-2. 在失活的组建里调用离开拦截。
-3. 调用全局的 `beforeEach` 拦截。
-4. 在重用的组件里调用 `beforeRouteUpdate` 拦截 (2.2+)。
+2. 在失活的组建里调用离开守卫。
+3. 调用全局的 `beforeEach` 守卫。
+4. 在重用的组件里调用 `beforeRouteUpdate` 守卫 (2.2+)。
 5. 在路由配置里调用 `beforeEnter`。
 6. 解析异步路由组件。
 7. 在被激活的组件里调用 `beforeRouteEnter`。
-8. 调用全局的 `beforeResolve` 拦截 (2.5+)。
+8. 调用全局的 `beforeResolve` 守卫 (2.5+)。
 9. 导航被确认。
 10. 调用全局的 `afterEach` 钩子。
 11. 触发 DOM 更新。
-12. 用创建好的实例调用 `beforeRouteEnter` 拦截中传给 `next` 的回调函数。
+12. 用创建好的实例调用 `beforeRouteEnter` 守卫中传给 `next` 的回调函数。

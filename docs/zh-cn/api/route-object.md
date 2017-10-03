@@ -12,7 +12,7 @@ route object 出现在多个地方:
 
 - `router.match(location)` 的返回值
 
-- 导航拦截的参数：
+- 导航守卫的参数：
 
   ``` js
   router.beforeEach((to, from, next) => {

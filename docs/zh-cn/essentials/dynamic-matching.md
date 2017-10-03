@@ -54,7 +54,7 @@ const User = {
 }
 ```
 
-或者使用 2.2 中引入的 `beforeRouteUpdate` 拦截：
+或者使用 2.2 中引入的 `beforeRouteUpdate` 守卫：
 
 ``` js
 const User = {

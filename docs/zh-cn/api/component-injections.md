@@ -18,4 +18,4 @@
 - **beforeRouteUpdate** (在 2.2 加入)
 - **beforeRouteLeave**
 
-  查看[组件内的拦截](../advanced/navigation-guards.md#组件内的拦截)。
+  查看[组件内的守卫](../advanced/navigation-guards.md#组件内的守卫)。

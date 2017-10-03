@@ -7,7 +7,7 @@
 
 - 无论是 HTML5 history 模式还是 hash 模式，它的表现行为一致，所以，当你要切换路由模式，或者在 IE9 降级使用 hash 模式，无须作任何变动。
 
-- 在 HTML5 history 模式下，`router-link`  会拦截点击事件，让浏览器不再重新加载页面。
+- 在 HTML5 history 模式下，`router-link`  会守卫点击事件，让浏览器不再重新加载页面。
 
 - 当你在 HTML5 history 模式下使用 `base` 选项之后，所有的 `to` 属性都不需要写（基路径）了。
 
@@ -126,11 +126,11 @@
 
   - 默认值: `"router-link-exact-active"`
 
-  配置当链接被精确匹配的时候应该激活的 CSS class。注意默认值也是可以通过路由构造函数选项 `linkExactActiveClass` 进行全局配置的。
+  配置当链接被精确匹配的时候应该激活的 class。注意默认值也是可以通过路由构造函数选项 `linkExactActiveClass` 进行全局配置的。
 
-###  将"激活时的 CSS class 应用在外层元素
+###  将激活 class 应用在外层元素
 
-有时候我们要让 "激活时的CSS类名" 应用在外层元素，而不是 `<a>` 标签本身，那么可以用 `<router-link>` 渲染外层元素，包裹着内层的原生 `<a>` 标签：
+有时候我们要让激活 class 应用在外层元素，而不是 `<a>` 标签本身，那么可以用 `<router-link>` 渲染外层元素，包裹着内层的原生 `<a>` 标签：
 
 ``` html
 <router-link tag="li" to="/foo">
