@@ -96,4 +96,4 @@ const router = new VueRouter({
 })
 ```
 
-Действующее демо этого примера можно найти [здесь](http://jsfiddle.net/yyx990803/L7hscd8h/).
+Действующее демо этого примера можно найти [здесь](https://jsfiddle.net/yyx990803/L7hscd8h/).
