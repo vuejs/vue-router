@@ -44,4 +44,4 @@ const Bar = () => import(/* webpackChunkName: "group-foo" */ './Bar.vue')
 const Baz = () => import(/* webpackChunkName: "group-foo" */ './Baz.vue')
 ```
 
-webpack will group any async module with the same chunk name into the same async chunk.
+Webpack will group any async module with the same chunk name into the same async chunk.
