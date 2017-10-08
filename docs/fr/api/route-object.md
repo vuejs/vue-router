@@ -1,6 +1,6 @@
 # L'objet `Route`
 
-Un **objet `Route`** représente l'état actuel de la route active. Il contient des informations analysées à propos de l'URL courante et **les itinéraires de route** appariés par l'URL.
+Un **objet `Route`** représente l'état actuel de la route active. Il contient des informations analysées à propos de l'URL courant et **les itinéraires de route** appariés par l'URL.
 
 L'objet `Route` est immutable. Chaque navigation qui se déroule avec succès résultera en un nouvel objet `Route`.
 
@@ -12,7 +12,7 @@ L'objet `Route` peut être trouvé à plusieurs endroits :
 
 - Comme valeur de retour après l'appel de `router.match(location)`
 
-- À l'intérieur des fonctions de sécurisation de la navigation, dans les deux premiers paramètres de la fonction :
+- À l'intérieur des fonctions d'interception de la navigation, dans les deux premiers paramètres de la fonction :
 
   ``` js
   router.beforeEach((to, from, next) => {
@@ -36,7 +36,7 @@ L'objet `Route` peut être trouvé à plusieurs endroits :
 
   - type : `string`
 
-    Une chaîne de caractères représentant le chemin de la route en cours, toujours résolue en tant que chemin absolu, ex : `"/foo/bar"`.
+    Une chaine de caractères représentant le chemin de la route en cours, toujours résolue en tant que chemin absolu, ex : `"/foo/bar"`.
 
 - **$route.params**
 
@@ -48,19 +48,19 @@ L'objet `Route` peut être trouvé à plusieurs endroits :
 
   - type : `Object`
 
-    Un objet qui contient des pairs clé/valeur de la requête au format d'une chaîne de caractères. Par exemple, pour un chemin `/foo?user=1`, on aura `$route.query.user == 1`. S'il n'y a pas de requête, alors la valeur sera un objet vide.
+    Un objet qui contient des pairs clé/valeur de la requête au format d'une chaine de caractères. Par exemple, pour un chemin `/foo?user=1`, on aura `$route.query.user == 1`. S'il n'y a pas de requête, alors la valeur sera un objet vide.
 
 - **$route.hash**
 
   - type : `string`
 
-    Le hash de la route courante (avec le `#`), s'il y en a un. S'il n'y a pas de hash, alors la valeur sera une chaîne de caractères vide.
+    Le hash de la route courante (avec le `#`), s'il y en a un. S'il n'y a pas de hash, alors la valeur sera une chaine de caractères vide.
 
 - **$route.fullPath**
 
   - type : `string`
 
-    L'URL entièrement résolue, incluant la requête et le hash.
+    L'URL entièrement résolu, incluant la requête et le hash.
 
 - **$route.matched**
 

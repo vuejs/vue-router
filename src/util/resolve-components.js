@@ -20,7 +20,7 @@ export function resolveAsyncComponents (matched: Array<RouteRecord>): Function {
         pending++
 
         const resolve = once(resolvedDef => {
-          if (resolvedDef.__esModule && resolvedDef.default) {
+          if (isESModule(resolvedDef)) {
             resolvedDef = resolvedDef.default
           }
           // save resolved on async factory in case it's used elsewhere
@@ -84,6 +84,14 @@ export function flatMapComponents (
 
 export function flatten (arr: Array<any>): Array<any> {
   return Array.prototype.concat.apply([], arr)
+}
+
+const hasSymbol =
+  typeof Symbol === 'function' &&
+  typeof Symbol.toStringTag === 'symbol'
+
+function isESModule (obj) {
+  return obj.__esModule || (hasSymbol && obj[Symbol.toStringTag] === 'Module')
 }
 
 // in Webpack 2, require.ensure now also returns a Promise

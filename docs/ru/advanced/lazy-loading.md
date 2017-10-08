@@ -16,7 +16,7 @@ const Foo = () => Promise.resolve({ /* определение компонент
 import('./Foo.vue') // возвращает Promise
 ```
 
-> Примечание: если вы используете Babel, то нужно будет добавить плагин [syntax-dynamic-import](http://babeljs.io/docs/plugins/syntax-dynamic-import/), чтобы Babel смог корректно обработать синтаксис.
+> Примечание: если вы используете Babel, то нужно будет добавить плагин [syntax-dynamic-import](https://babeljs.io/docs/plugins/syntax-dynamic-import/), чтобы Babel смог корректно обработать синтаксис.
 
 Эти два пункта — всё необходимое, чтобы определить асинхронный компонент, который Webpack автоматически вынесет в отдельный чанк:
 

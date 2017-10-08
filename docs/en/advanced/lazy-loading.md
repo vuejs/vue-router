@@ -2,7 +2,7 @@
 
 When building apps with a bundler, the JavaScript bundle can become quite large, and thus affect the page load time. It would be more efficient if we can split each route's components into a separate chunk, and only load them when the route is visited.
 
-Combining Vue's [async component feature](http://vuejs.org/guide/components.html#Async-Components) and webpack's [code splitting feature](https://webpack.js.org/guides/code-splitting-async/), it's trivially easy to lazy-load route components.
+Combining Vue's [async component feature](https://vuejs.org/guide/components.html#Async-Components) and webpack's [code splitting feature](https://webpack.js.org/guides/code-splitting-async/), it's trivially easy to lazy-load route components.
 
 First, an async component can be defined as a factory function that returns a Promise (which should resolve to the component itself):
 
@@ -16,7 +16,7 @@ Second, in webpack 2, we can use the [dynamic import](https://github.com/tc39/pr
 import('./Foo.vue') // returns a Promise
 ```
 
-> Note: if you are using Babel, you will need to add the [syntax-dynamic-import](http://babeljs.io/docs/plugins/syntax-dynamic-import/) plugin so that Babel can properly parse the syntax.
+> Note: if you are using Babel, you will need to add the [syntax-dynamic-import](https://babeljs.io/docs/plugins/syntax-dynamic-import/) plugin so that Babel can properly parse the syntax.
 
 Combining the two, this is how to define an async component that will be automatically code-split by webpack:
 

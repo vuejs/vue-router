@@ -1,4 +1,4 @@
-# Les transitions
+# Transitions
 
 Vu que `<router-view>` est essentiellement un composant dynamique, on peut lui appliquer certains effets de transitions en utilisant le composant `<transition>` :
 
@@ -8,11 +8,11 @@ Vu que `<router-view>` est essentiellement un composant dynamique, on peut lui a
 </transition>
 ```
 
-[Tout à propos de `<transition>`](http://fr.vuejs.org/v2/guide/transitions.html) fonctionne également ici de la même manière.
+[Tout à propos de `<transition>`](https://fr.vuejs.org/v2/guide/transitions.html) fonctionne également ici de la même manière.
 
 ### Transition par route
 
-L'utilisation au dessus applique la même transition pour chaque route. Si vous voulez que les composants de route aient des transitions différentes, vous pouvez utiliser à la place `<transition>` avec des noms différents à l'intérieur de chaque composant de route :
+L'utilisation du dessus applique la même transition pour chaque route. Si vous voulez que les composants de route aient des transitions différentes, vous pouvez utiliser à la place `<transition>` avec des noms différents à l'intérieur de chaque composant de route :
 
 ``` js
 const Foo = {

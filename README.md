@@ -38,7 +38,7 @@ npm run docs
 
 ## Questions
 
-For questions and support please use the [Gitter chat room](https://gitter.im/vuejs/vue) or [the official forum](http://forum.vuejs.org). The issue list of this repo is **exclusively** for bug reports and feature requests.
+For questions and support please use the [Discord chat server](https://chat.vuejs.org) or [the official forum](http://forum.vuejs.org). The issue list of this repo is **exclusively** for bug reports and feature requests.
 
 ## Issues
 
