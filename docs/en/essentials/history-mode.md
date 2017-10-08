@@ -104,6 +104,8 @@ rewrite {
 
 #### Firebase hosting
 
+Add this to your `firebase.json`:
+
 ```
 {
   "hosting": {
