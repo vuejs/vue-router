@@ -70,9 +70,9 @@
     "selenium-server": "^2.53.1",
     "typescript": "^2.5.2",
     "uglify-js": "^3.0.17",
-    "vue": "HerringtonDarkholme/vue#8901752",
+    "vue": "github:vuejs/vue#96b9744",
     "vue-loader": "^12.0.2",
-    "vue-template-compiler": "^2.4.2",
+    "vue-template-compiler": "^2.4.4",
     "webpack": "^2.4.1",
     "webpack-dev-middleware": "^1.9.0"
   }
