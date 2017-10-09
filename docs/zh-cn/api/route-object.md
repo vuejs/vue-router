@@ -2,16 +2,17 @@
 
 一个 **route object（路由信息对象）** 表示当前激活的路由的状态信息，包含了当前 URL 解析得到的信息，还有 URL 匹配到的 **route records（路由记录）**。
 
-
 route object 是 immutable（不可变） 的，每次成功的导航后都会产生一个新的对象。
 
 route object 出现在多个地方:
 
-- 组件内的 `this.$route` 和 `$route` watcher 回调（监测变化处理）;
+- 在组件内，即 `this.$route`
+
+- 在 `$route` 观察者回调内
 
 - `router.match(location)` 的返回值
 
-- 导航钩子的参数：
+- 导航守卫的参数：
 
   ``` js
   router.beforeEach((to, from, next) => {
@@ -54,7 +55,6 @@ route object 出现在多个地方:
   - 类型: `string`
 
     当前路由的 hash 值 (带 `#`) ，如果没有 hash 值，则为空字符串。
-
 
 - **$route.fullPath**
 

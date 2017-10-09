@@ -31,7 +31,22 @@ router.push({ name: 'user', params: { userId: 123 }})
 router.push({ path: 'register', query: { plan: 'private' }})
 ```
 
+**注意**: `params` は、上記例に示すように、`path` が提供されている場合は無視されます。これは `query` に対するケースとは異なります。
+代わりに、ルートの `name` か任意のパラメータを付与した `path` 全体を手動で指定する必要があります:
+
+```js
+const userId = 123
+router.push({ name: 'user', params: { userId }}) // -> /user/123
+router.push({ path: `/user/${userId}` }) // -> /user/123
+// これは動作"しません"
+router.push({ path: '/user', params: { userId }}) // -> /user
+```
+
+同じルールが、`router-link` コンポーネントの `to` プロパティに対して適用されます。
+
 2.2.0 以降では、必要に応じて、第 2 引数と第 3 引数として `router.push` または `router.replace` に `onComplete` と `onAbort` コールバックを指定します。これらのコールバックは、ナビゲーションが正常に完了したとき(すべての非同期フックが解決された後)に呼び出されるか、またはそれぞれ中止されます(現在のナビゲーションが終了する前に同じルートまたは別のルートにナビゲートされた)
+
+**注意:** ルートの行き先が現在のルートと同じで、かつパラメータのみが変更されている場合(例: `/users/1` -> `/users/2` のようにあるプロファイルから他へ)、変更(例: ユーザー情報の取得など)に反応するために[beforeRouteUpdate](./dynamic-matching.html#パラメーター変更の検知) を使用しなければなりません。
 
 #### `router.replace(location, onComplete?, onAbort?)`
 

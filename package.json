@@ -54,6 +54,7 @@
     "flow-bin": "^0.48.0",
     "gitbook-plugin-edit-link": "^2.0.2",
     "gitbook-plugin-github": "^3.0.0",
+    "gitbook-plugin-theme-vuejs": "^1.1.0",
     "jasmine": "2.6.0",
     "nightwatch": "^0.9.5",
     "nightwatch-helpers": "^1.0.0",

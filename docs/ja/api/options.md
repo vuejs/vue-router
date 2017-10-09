@@ -13,6 +13,7 @@
     name?: string; // 名前付きルート用
     components?: { [name: string]: Component }; // 名前付き view 用
     redirect?: string | Location | Function;
+    props?: boolean | string | Function;
     alias?: string | Array<string>;
     children?: Array<RouteConfig>; // ネストされたルート用
     beforeEnter?: (to: Route, from: Route, next: Function) => void;

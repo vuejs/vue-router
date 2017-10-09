@@ -1,6 +1,6 @@
 # Routes imbriquées
 
-Les vrais interfaces utilisateurs d'application sont faites de composants imbriqués à de multiples niveaux de profondeur. Il est aussi très commun que les segments d'URL correspondent à une certaine structure de composants imbriqués, par exemple :
+Les vraies interfaces utilisateurs d'application sont faites de composants imbriqués à de multiples niveaux de profondeur. Il est aussi très commun que les segments d'URL correspondent à une certaine structure de composants imbriqués, par exemple :
 
 ```
 /utilisateur/foo/profil                  /utilisateur/foo/billets
@@ -73,11 +73,11 @@ const router = new VueRouter({
 })
 ```
 
-**Notez que les chemins imbriqués commençant par `/` vont être traités comme des chemins partant de la racine. Cela vous permet d'adresser des composants imbriqués sans avoir à utiliser un URL imbriqué.**
+**Notez que les chemins imbriqués commençants par `/` vont être traités comme des chemins partant de la racine. Cela vous permet d'adresser des composants imbriqués sans avoir à utiliser un URL imbriqué.**
 
 Comme vous pouvez le voir, l'option `children` n'est qu'un autre tableau d'objet de configuration de route comme dans `routes`. Et donc, vous pouvez garder les vues imbriquées au plus près de vos besoins.
 
-À ce niveau, avec la configuration ci-dessus, quand vous visitez `/utilisateur/foo`, rien ne sera rendu dans la partie `User`, car aucune sous route ne concorde. Peut-être voudriez vous afficher quelque chose ici. Dans ce cas, vous pouvez fournir une sous route vide :
+À ce niveau, avec la configuration ci-dessus, quand vous visitez `/utilisateur/foo`, rien ne sera rendu dans la partie `User`, car aucune sous route ne concorde. Peut-être voudriez-vous afficher quelque chose ici. Dans ce cas, vous pouvez fournir une sous route vide :
 
 ``` js
 const router = new VueRouter({
@@ -96,4 +96,4 @@ const router = new VueRouter({
 })
 ```
 
-Une démo de fonctionnement de cet exemple peut-être trouvée [ici](http://jsfiddle.net/yyx990803/L7hscd8h/).
+Une démo de fonctionnement de cet exemple peut-être trouvée [ici](https://jsfiddle.net/yyx990803/L7hscd8h/).
