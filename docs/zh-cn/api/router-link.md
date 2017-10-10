@@ -7,7 +7,7 @@
 
 - 无论是 HTML5 history 模式还是 hash 模式，它的表现行为一致，所以，当你要切换路由模式，或者在 IE9 降级使用 hash 模式，无须作任何变动。
 
-- 在 HTML5 history 模式下，`router-link`  会拦截点击事件，让浏览器不再重新加载页面。
+- 在 HTML5 history 模式下，`router-link`  会守卫点击事件，让浏览器不再重新加载页面。
 
 - 当你在 HTML5 history 模式下使用 `base` 选项之后，所有的 `to` 属性都不需要写（基路径）了。
 
@@ -61,7 +61,6 @@
 
   - 默认值: `false`
 
-
   设置 `append` 属性后，则在当前（相对）路径前添加基路径。例如，我们从 `/a` 导航到一个相对路径 `b`，如果没有配置 `append`，则路径为 `/b`，如果配了，则为 `/a/b`
 
   ``` html
@@ -100,16 +99,14 @@
   "是否激活" 默认类名的依据是 **inclusive match** （全包含匹配）。
   举个例子，如果当前的路径是 `/a` 开头的，那么 `<router-link to="/a">` 也会被设置 CSS 类名。
 
-
   按照这个规则，`<router-link to="/">` 将会点亮各个路由！想要链接使用 "exact 匹配模式"，则使用 `exact` 属性：
-
 
   ``` html
   <!-- 这个链接只会在地址为 / 的时候被激活 -->
   <router-link to="/" exact>
   ```
 
-  查看更多关于激活链接类名的例子 [可运行](https://jsfiddle.net/8xrk1n9f/).
+  查看更多关于激活链接类名的例子[可运行](https://jsfiddle.net/8xrk1n9f/)
 
 - **event**
 
@@ -121,9 +118,19 @@
 
   声明可以用来触发导航的事件。可以是一个字符串或是一个包含字符串的数组。
 
-###  将"激活时的CSS类名"应用在外层元素
+- **exact-active-class**
 
-有时候我们要让 "激活时的CSS类名" 应用在外层元素，而不是 `<a>` 标签本身，那么可以用 `<router-link>` 渲染外层元素，包裹着内层的原生 `<a>` 标签：
+  > 2.5.0+
+
+  - 类型: `string`
+
+  - 默认值: `"router-link-exact-active"`
+
+  配置当链接被精确匹配的时候应该激活的 class。注意默认值也是可以通过路由构造函数选项 `linkExactActiveClass` 进行全局配置的。
+
+###  将激活 class 应用在外层元素
+
+有时候我们要让激活 class 应用在外层元素，而不是 `<a>` 标签本身，那么可以用 `<router-link>` 渲染外层元素，包裹着内层的原生 `<a>` 标签：
 
 ``` html
 <router-link tag="li" to="/foo">

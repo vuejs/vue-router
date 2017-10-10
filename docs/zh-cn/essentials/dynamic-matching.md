@@ -2,7 +2,6 @@
 
 我们经常需要把某种模式匹配到的所有路由，全都映射到同个组件。例如，我们有一个 `User` 组件，对于所有 ID 各不相同的用户，都要使用这个组件来渲染。那么，我们可以在  `vue-router` 的路由路径中使用『动态路径参数』（dynamic segment）来达到这个效果：
 
-
 ``` js
 const User = {
   template: '<div>User</div>'
@@ -27,7 +26,7 @@ const User = {
 }
 ```
 
-你可以看看这个[在线例子](http://jsfiddle.net/yyx990803/4xfa2f19/).
+你可以看看这个[在线例子](https://jsfiddle.net/yyx990803/4xfa2f19/)。
 
 你可以在一个路由中设置多段『路径参数』，对应的值都会设置到 `$route.params` 中。例如：
 
@@ -51,6 +50,18 @@ const User = {
     '$route' (to, from) {
       // 对路由变化作出响应...
     }
+  }
+}
+```
+
+或者使用 2.2 中引入的 `beforeRouteUpdate` 守卫：
+
+``` js
+const User = {
+  template: '...',
+  beforeRouteUpdate (to, from, next) {
+    // react to route changes...
+    // don't forget to call next()
   }
 }
 ```
