@@ -12,12 +12,18 @@ export function createRoute (
   router?: VueRouter
 ): Route {
   const stringifyQuery = router && router.options.stringifyQuery
+
+  let query: any = location.query || {}
+  try {
+    query = clone(query)
+  } catch (e) {}
+
   const route: Route = {
     name: location.name || (record && record.name),
     meta: (record && record.meta) || {},
     path: location.path || '/',
     hash: location.hash || '',
-    query: location.query || {},
+    query,
     params: location.params || {},
     fullPath: getFullPath(location, stringifyQuery),
     matched: record ? formatMatch(record) : []
@@ -26,6 +32,20 @@ export function createRoute (
     route.redirectedFrom = getFullPath(redirectedFrom, stringifyQuery)
   }
   return Object.freeze(route)
+}
+
+function clone (value) {
+  if (Array.isArray(value)) {
+    return value.map(clone)
+  } else if (value && typeof value === 'object') {
+    const res = {}
+    for (const key in value) {
+      res[key] = clone(value[key])
+    }
+    return res
+  } else {
+    return value
+  }
 }
 
 // the starting route that represents the initial state
