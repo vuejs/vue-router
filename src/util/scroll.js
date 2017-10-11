@@ -42,10 +42,14 @@ export function handleScroll (
     if (!shouldScroll) {
       return
     }
-
-    Promise.resolve(shouldScroll).then((shouldScroll) => {
+    
+    if (typeof shouldScroll.then === 'function') {
+      shouldScroll.then(shouldScroll => {
+        scrollToPosition(shouldScroll, position)
+      })
+    } else {
       scrollToPosition(shouldScroll, position)
-    })
+    }
   })
 }
 
