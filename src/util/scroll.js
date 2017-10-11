@@ -42,7 +42,7 @@ export function handleScroll (
     if (!shouldScroll) {
       return
     }
-    
+
     if (typeof shouldScroll.then === 'function') {
       shouldScroll.then(shouldScroll => {
         scrollToPosition(shouldScroll, position)
