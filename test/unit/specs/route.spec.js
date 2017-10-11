@@ -47,6 +47,25 @@ describe('Route utils', () => {
       expect(isSameRoute(a, b)).toBe(true)
       expect(isSameRoute(a, c)).toBe(false)
     })
+
+    it('queries with null values', () => {
+      const a = {
+        path: '/abc',
+        query: { foo: null }
+      }
+      const b = {
+        path: '/abc',
+        query: { foo: null }
+      }
+      const c = {
+        path: '/abc',
+        query: { foo: 5 }
+      }
+      expect(() => isSameRoute(a, b)).not.toThrow()
+      expect(() => isSameRoute(a, c)).not.toThrow()
+      expect(isSameRoute(a, b)).toBe(true)
+      expect(isSameRoute(a, c)).toBe(false)
+    })
   })
 
   describe('isIncludedRoute', () => {

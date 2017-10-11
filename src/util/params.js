@@ -3,6 +3,7 @@
 import { warn } from './warn'
 import Regexp from 'path-to-regexp'
 
+// $flow-disable-line
 const regexpCompileCache: {
   [key: string]: Function
 } = Object.create(null)

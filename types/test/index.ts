@@ -8,7 +8,7 @@ Vue.use(VueRouter);
 const Home = { template: "<div>home</div>" };
 const Foo = { template: "<div>foo</div>" };
 const Bar = { template: "<div>bar</div>" };
-const AsyncComponent = () => Promise.resolve({ template: "<div>async</div>" })
+const Async = () => Promise.resolve({ template: "<div>async</div>" })
 
 const Hook: ComponentOptions<Vue> = {
   template: "<div>hook</div>",
@@ -59,6 +59,11 @@ const router = new VueRouter({
     if (savedPosition) {
       return savedPosition;
     }
+
+    return Promise.resolve({
+      x: 0,
+      y: 0
+    })
   },
   routes: [
     { path: "/", name: "home", component: Home, children: [
@@ -67,7 +72,7 @@ const router = new VueRouter({
         components: {
           default: Foo,
           bar: Bar,
-          asyncComponent: AsyncComponent,
+          asyncComponent: Async,
         },
         meta: { auth: true },
         beforeEnter (to, from, next) {

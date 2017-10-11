@@ -44,6 +44,7 @@ export declare class VueRouter {
 }
 
 type Position = { x: number, y: number };
+type PositionResult = Position | { selector: string, offset?: Position } | void;
 
 export interface RouterOptions {
   routes?: RouteConfig[];
@@ -58,7 +59,7 @@ export interface RouterOptions {
     to: Route,
     from: Route,
     savedPosition: Position | void
-  ) => Position | { selector: string, offset?: Position } | void;
+  ) => PositionResult | Promise<PositionResult>;
 }
 
 type RoutePropsFunction = (route: Route) => Object;

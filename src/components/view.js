@@ -69,6 +69,14 @@ export default {
 
     // resolve props
     data.props = resolveProps(route, matched.props && matched.props[name])
+    data.attrs = {}
+
+    for (const key in data.props) {
+      if (!('props' in component) || !(key in component.props)) {
+        data.attrs[key] = data.props[key]
+        delete data.props[key]
+      }
+    }
 
     return h(component, data, children)
   }
