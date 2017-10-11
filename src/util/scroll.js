@@ -47,7 +47,11 @@ export function handleScroll (
 
     if (typeof shouldScroll.then === 'function') {
       shouldScroll.then(shouldScroll => {
-        scrollToPosition(shouldScroll, position)
+        scrollToPosition((shouldScroll: any), position)
+      }).catch(err => {
+        if (process.env.NODE_ENV !== 'production') {
+          assert(false, err.toString())
+        }
       })
     } else {
       scrollToPosition(shouldScroll, position)

@@ -28,6 +28,7 @@ declare type NavigationGuard = (
 declare type AfterNavigationHook = (to: Route, from: Route) => any
 
 type Position = { x: number, y: number };
+type PositionResult = Position | { selector: string, offset?: Position } | void;
 
 declare type RouterOptions = {
   routes?: Array<RouteConfig>;
@@ -41,7 +42,7 @@ declare type RouterOptions = {
     to: Route,
     from: Route,
     savedPosition: ?Position
-  ) => Position | { selector: string, offset?: Position } | ?{};
+  ) => PositionResult | Promise<PositionResult>;
 }
 
 declare type RedirectOption = RawLocation | ((to: Route) => RawLocation)

@@ -60,6 +60,11 @@ const router = new VueRouter({
     if (savedPosition) {
       return savedPosition;
     }
+
+    return Promise.resolve({
+      x: 0,
+      y: 0
+    })
   },
   routes: [
     { path: "/", name: "home", component: Home, children: [
