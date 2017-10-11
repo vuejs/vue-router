@@ -70,7 +70,7 @@
     "selenium-server": "^2.53.1",
     "typescript": "^2.5.3",
     "uglify-js": "^3.1.3",
-    "vue": "^2.4.4",
+    "vue": "github:vuejs/vue#dev",
     "vue-loader": "^13.3.0",
     "vue-template-compiler": "^2.4.4",
     "webpack": "^3.7.1",

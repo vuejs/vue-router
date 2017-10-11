@@ -1,7 +1,6 @@
-import Vue = require("vue");
-import { ComponentOptions, AsyncComponent } from "vue";
+import Vue, { ComponentOptions, AsyncComponent } from "vue";
 
-import VueRouter = require("../index");
+import VueRouter from "../index";
 import { Route, RouteRecord, RedirectOption } from "../index";
 
 Vue.use(VueRouter);
