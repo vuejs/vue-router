@@ -31,11 +31,13 @@ module.exports = {
         history.scrollRestoration = 'manual'
       })
       .click('li:nth-child(2) a')
+      .waitForElementPresent('.view.foo', TIMEOUT)
       .assert.containsText('.view', 'foo')
       .execute(function () {
         window.scrollTo(0, 200)
         window.history.back()
       })
+      .waitForElementPresent('.view.home', TIMEOUT)
       .assert.containsText('.view', 'home')
       .assert.evaluate(function () {
         return window.pageYOffset === 100

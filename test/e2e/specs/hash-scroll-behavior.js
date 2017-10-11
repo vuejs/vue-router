@@ -48,6 +48,10 @@ module.exports = {
         return document.getElementById('anchor').getBoundingClientRect().top < 1
       }, null, 'scroll to anchor')
 
+      // scroll back to top so we can click the butotn
+      .execute(function () {
+        window.scrollTo(0, 0)
+      })
       .click('li:nth-child(5) a')
       .assert.evaluate(function () {
         return document.getElementById('anchor2').getBoundingClientRect().top < 101
