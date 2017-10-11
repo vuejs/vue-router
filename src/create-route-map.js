@@ -73,6 +73,7 @@ function addRouteRecord (
     regex: compileRouteRegex(normalizedPath, pathToRegexpOptions),
     components: route.components || { default: route.component },
     instances: {},
+    children: route.children || [],
     name,
     parent,
     matchAs,

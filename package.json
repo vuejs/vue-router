@@ -28,7 +28,7 @@
     "lint": "eslint src examples",
     "test": "npm run lint && flow check && npm run test:unit && npm run test:e2e && npm run test:types",
     "test:unit": "jasmine JASMINE_CONFIG_PATH=test/unit/jasmine.json",
-    "test:e2e": "node test/e2e/runner.js",
+    "test:e2e": "xvfb-run node test/e2e/runner.js && rm -rf ./xvfb-run.* && rm -rf ./.com.google.* && rm -rf ./.org.chromium.*",
     "test:types": "tsc -p types/test",
     "docs": "cd docs && gitbook install && gitbook serve",
     "docs:deploy": "bash ./build/update-docs.sh",
