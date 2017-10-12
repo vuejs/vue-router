@@ -1,4 +1,4 @@
-# vue-router 2
+# vue-router 3
 
 > Note: for TypeScript users, vue-router@>= 3.0 requires vue@>=2.5, and vice versa.
 
