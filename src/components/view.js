@@ -68,13 +68,17 @@ export default {
     }
 
     // resolve props
-    data.props = resolveProps(route, matched.props && matched.props[name])
-    data.attrs = {}
-
-    for (const key in data.props) {
-      if (!('props' in component) || !(key in component.props)) {
-        data.attrs[key] = data.props[key]
-        delete data.props[key]
+    let propsToPass = data.props = resolveProps(route, matched.props && matched.props[name])
+    if (propsToPass) {
+      // clone to prevent mutation
+      propsToPass = data.props = extend({}, propsToPass)
+      // pass non-declared props as attrs
+      const attrs = data.attrs = data.attrs || {}
+      for (const key in propsToPass) {
+        if (!component.props || !(key in component.props)) {
+          attrs[key] = propsToPass[key]
+          delete propsToPass[key]
+        }
       }
     }
 
@@ -101,4 +105,11 @@ function resolveProps (route, config) {
         )
       }
   }
+}
+
+function extend (to, from) {
+  for (const key in from) {
+    to[key] = from[key]
+  }
+  return to
 }
