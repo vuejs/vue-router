@@ -11,18 +11,6 @@ function dynamicPropsFn (route) {
   }
 }
 
-const Child = {
-  name: 'child',
-  props: { name: { default: 'name' }},
-  template: `<div><h2 class="hello">Hello {{ name }}</h2></div>`
-}
-
-const Parent = {
-  name: 'parent',
-  components: { Child },
-  template: `<child v-bind="$attrs"></child>`
-}
-
 const router = new VueRouter({
   mode: 'history',
   base: __dirname,
@@ -31,7 +19,7 @@ const router = new VueRouter({
     { path: '/hello/:name', component: Hello, props: true }, // Pass route.params to props
     { path: '/static', component: Hello, props: { name: 'world' }}, // static values
     { path: '/dynamic/:years', component: Hello, props: dynamicPropsFn }, // custom logic for mapping between route and props
-    { path: '/attrs', component: Parent, props: { name: 'attrs' }}
+    { path: '/attrs', component: Hello, props: { name: 'attrs' }}
   ]
 })
 
@@ -47,7 +35,7 @@ new Vue({
         <li><router-link to="/dynamic/1">/dynamic/1</router-link></li>
         <li><router-link to="/attrs">/attrs</router-link></li>
       </ul>
-      <router-view class="view"></router-view>
+      <router-view class="view" foo="123"></router-view>
     </div>
   `
 }).$mount('#app')
