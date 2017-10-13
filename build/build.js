@@ -32,8 +32,9 @@ function buildEntry ({ input, output }) {
     .then(bundle => bundle.generate(output))
     .then(({ code }) => {
       if (isProd) {
-        var minified = (output.banner ? output.banner + '\n' : '') + uglify.minify(code, {
+        var minified = uglify.minify(code, {
           output: {
+            preamble: output.banner,
             /* eslint-disable camelcase */
             ascii_only: true
             /* eslint-enable camelcase */
