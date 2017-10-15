@@ -115,7 +115,28 @@ beforeRouteEnter (to, from, next) {
 }
 ```
 
-`beforeRouteLeave` 内で直接 `this` にアクセスすることができます。この去る際のガードは通常はユーザーが不意に編集を保存していない状態でこのルートを去ることを防ぐために使われます。このナビゲーションは `next(false)` を呼ぶことでキャンセルされます。
+Note that `beforeRouteEnter` is the only hook that supports passing a callback to `next`. For `beforeRouteUpdate` and `beforeRouteLeave`, `this` is already available, so passing a callback is unnecessary and therefore *not supported*:
+
+```js
+beforeRouteUpdate (to, from, next) {
+  // just use `this`
+  this.name = to.params.name
+  next()
+}
+```
+
+The **leave guard** is usually used to prevent the user from accidentally leaving the route with unsaved edits. The navigation can be canceled by calling `next(false)`.
+
+```js
+beforeRouteLeave (to, from , next) {
+  const answer = window.confirm('Do you really want to leave? you have unsaved changes!')
+  if (answer) {
+    next()
+  } else {
+    next(false)
+  }
+}
+```
 
 ### 完全なナビゲーション解決フロー
 1. ナビゲーションがトリガされる
