@@ -16,7 +16,7 @@ const Foo = () => Promise.resolve({ /* component definition */ })
 import('./Foo.vue') // returns a Promise
 ```
 
-> Note: Babel を使用している場合、Babel が構文を正しく解析するために [syntax-dynamic-import](http://babeljs.io/docs/plugins/syntax-dynamic-import/) プラグインを追加する必要があります。
+> Note: Babel を使用している場合、Babel が構文を正しく解析するために [syntax-dynamic-import](https://babeljs.io/docs/plugins/syntax-dynamic-import/) プラグインを追加する必要があります。
 
 2 つを組み合わせることで、これは、webpack によって自動的にコード分割される非同期コンポーネントを定義する方法です:
 
