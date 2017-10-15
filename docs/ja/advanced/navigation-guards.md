@@ -30,7 +30,7 @@ router.beforeEach((to, from, next) => {
 
   - **`next(false)`**: 現在のナビゲーションを中止します。もしブラウザのURLが変化した場合は（ユーザーが手動で変更した場合でも、戻るボタンの場合でも）、 `from` ルートのURLにリセットされます。
 
-  - **`next('/')` または `next({ path: '/' })`**: 異なる場所へリダイレクトします。現在のナビゲーションは中止され、あたらしいナビゲーションが始まります。You can pass any location object to `next`, which allows you to specify options like `replace: true`, `name: 'home'` and any option used in [`router-link`'s `to` prop](../api/router-link.md) or [`router.push`](../api/router-instance.md#methods)
+  - **`next('/')` または `next({ path: '/' })`**: 異なる場所へリダイレクトします。現在のナビゲーションは中止され、あたらしいナビゲーションが始まります。任意のロケーションオブジェクトを `next` に渡すことができます。この `next` には、`replace: true`、 `name: 'home'` のようなオプション、そして [`router-link`、`to` プロパティ](../api/router-link.md)または [`router.push`](../api/router-instance.md#methods)で使用される任意のオプションを指定することができます。
 
   - **`next(error)`**: (2.4.0+) `next` に渡された引数が `Error` インスタンスである場合、ナビゲーションは中止され、エラーは `router.onError()` を介して登録されたコールバックに渡されます。
 
