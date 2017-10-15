@@ -64,14 +64,14 @@ const app = new Vue({
 // これで開始です!
 ```
 
-By injecting the router, we get access to it as `this.$router` as well as the current route as `this.$route` inside of any component:
+ルーターを注入することによって、`this.$router` と同様、任意のコンポーネント内部で現在のルートを `this.$route` としてアクセスすることができます:
 
 ```js
 // Home.vue
 export default {
   computed: {
     username () {
-      // We will see what `params` is shortly
+      // `params` が表示される
       return this.$route.params.username
     }
   },
@@ -85,7 +85,7 @@ export default {
 }
 ```
 
-Throughout the docs, we will often use the `router` instance. Keep in mind that `this.$router` is exactly the same as using `router`. The reason we use `this.$router` is because we don't want to import the router in every single component that needs to manipulate routing.
+ドキュメントを通して、しばしば `router` インスタンスを使用することがよくあります。`this.$router` は `router` を使用するのと全く同じです。`this.$router` を使用する理由は、ルーティング操作する必要がある全てのコンポーネントにルーターをインポートしたくないからです。
 
 [動作](https://jsfiddle.net/yyx990803/xgrjzsup/) の例も確認してみてください.
 
