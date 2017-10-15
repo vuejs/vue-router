@@ -8,7 +8,7 @@ const positionStore = Object.create(null)
 
 export function setupScroll () {
   // Prevent browser scroll behavior on History popstate
-  window.history.scrollRestoration = 'manual';
+  window.history.scrollRestoration = 'manual'
   // Fix for #1585 for Firefox
   window.history.replaceState({ key: getStateKey() }, '')
   window.addEventListener('popstate', e => {
