@@ -102,9 +102,9 @@ rewrite {
 }
 ```
 
-#### Firebase hosting
+#### Firebase のホスティング
 
-Add this to your `firebase.json`:
+以下を `firebase.json` に追加します:
 
 ```
 {
