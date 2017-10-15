@@ -62,11 +62,11 @@ scrollBehavior (to, from, savedPosition) {
 
 きめの細かいスクロールの挙動コントロールを実装するために [ルートメタフィールド](meta.md) も利用可能です。詳細な例は [こちら](https://github.com/vuejs/vue-router/blob/dev/examples/scroll-behavior/app.js) をご参照ください。
 
-### Async Scrolling
+### 非同期なスクローリング
 
-> New in 2.8.0
+> 2.8.0 で新規
 
-You can also return a Promise that resolves to the desired position descriptor:
+期待する位置記述子 (position descriptor) に解決されるプロミスを返すこともできます:
 
 ``` js
 scrollBehavior (to, from, savedPosition) {
@@ -78,4 +78,4 @@ scrollBehavior (to, from, savedPosition) {
 }
 ```
 
-It's possible to hook this up with events from a page-level transition component to make the scroll behavior play nicely with your page transitions, but due to the possible variance and complexity in use cases, we simply provide this primitive to enable specific userland implementations.
+スクロールの振る舞いをページの遷移とうまく合わせるために、ページレベルのトランジションコンポーネントからのイベントにフックすることは可能ですが、ユースケースにおいて可能性のある食い違いと複雑さのために、単純に特定のユーザランド実装を可能にするために、このプリミティブな機能を提供します。
