@@ -64,6 +64,29 @@ const app = new Vue({
 // これで開始です!
 ```
 
+By injecting the router, we get access to it as `this.$router` as well as the current route as `this.$route` inside of any component:
+
+```js
+// Home.vue
+export default {
+  computed: {
+    username () {
+      // We will see what `params` is shortly
+      return this.$route.params.username
+    }
+  },
+  methods: {
+    goBack () {
+      window.history.length > 1
+        ? this.$router.go(-1)
+        : this.$router.push('/')
+    }
+  }
+}
+```
+
+Throughout the docs, we will often use the `router` instance. Keep in mind that `this.$router` is exactly the same as using `router`. The reason we use `this.$router` is because we don't want to import the router in every single component that needs to manipulate routing.
+
 [動作](https://jsfiddle.net/yyx990803/xgrjzsup/) の例も確認してみてください.
 
 `<router-link>` は対象のルートがマッチした時に自動的に `.router-link-active` が付与されるのにお気づきでしょうか。
