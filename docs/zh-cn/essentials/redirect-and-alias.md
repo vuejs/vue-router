@@ -35,6 +35,9 @@ const router = new VueRouter({
 })
 ```
 
+<!-- @todo translation -->
+Note that [Navigation Guards](../advanced/navigation-guards.md) are not applied on the route that redirects, only on its target. In the example below, adding a `beforeEnter` or `beforeLeave` guard to the `/a` route would not have any effect.
+
 其它高级用法，请参考[例子](https://github.com/vuejs/vue-router/blob/next/examples/redirect/app.js)。
 
 ### 别名

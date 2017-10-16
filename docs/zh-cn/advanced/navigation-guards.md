@@ -32,7 +32,8 @@ router.beforeEach((to, from, next) => {
 
   - **`next(false)`**: 中断当前的导航。如果浏览器的 URL 改变了（可能是用户手动或者浏览器后退按钮），那么 URL 地址会重置到 `from` 路由对应的地址。
 
-  - **`next('/')` 或者 `next({ path: '/' })`**: 跳转到一个不同的地址。当前的导航被中断，然后进行一个新的导航。
+  <!-- @todo translation -->
+  - **`next('/')` 或者 `next({ path: '/' })`**: 跳转到一个不同的地址。当前的导航被中断，然后进行一个新的导航。You can pass any location object to `next`, which allows you to specify options like `replace: true`, `name: 'home'` and any option used in [`router-link`'s `to` prop](../api/router-link.md) or [`router.push`](../api/router-instance.md#methods)
 
   - **`next(error)`**: (2.4.0+) 如果传入 `next` 的参数是一个 `Error` 实例，则导航会被终止且该错误会被传递给 `router.onError()` 注册过的回调。
 
@@ -115,7 +116,30 @@ beforeRouteEnter (to, from, next) {
 }
 ```
 
-你可以 在 `beforeRouteLeave` 中直接访问 `this`。这个离开守卫通常用来禁止用户在还未保存修改前突然离开。可以通过 `next(false)` 来取消导航。
+<!-- 你可以 在 `beforeRouteLeave` 中直接访问 `this`。这个离开守卫通常用来禁止用户在还未保存修改前突然离开。可以通过 `next(false)` 来取消导航。 -->
+<!-- @todo translation -->
+Note that `beforeRouteEnter` is the only hook that supports passing a callback to `next`. For `beforeRouteUpdate` and `beforeRouteLeave`, `this` is already available, so passing a callback is unnecessary and therefore *not supported*:
+
+```js
+beforeRouteUpdate (to, from, next) {
+  // just use `this`
+  this.name = to.params.name
+  next()
+}
+```
+
+The **leave guard** is usually used to prevent the user from accidentally leaving the route with unsaved edits. The navigation can be canceled by calling `next(false)`.
+
+```js
+beforeRouteLeave (to, from , next) {
+  const answer = window.confirm('Do you really want to leave? you have unsaved changes!')
+  if (answer) {
+    next()
+  } else {
+    next(false)
+  }
+}
+```
 
 ### 完整的导航解析流程
 

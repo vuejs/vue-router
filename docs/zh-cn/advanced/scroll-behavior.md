@@ -2,7 +2,7 @@
 
 使用前端路由，当切换到新路由时，想要页面滚到顶部，或者是保持原先的滚动位置，就像重新加载页面那样。 `vue-router` 能做到，而且更好，它让你可以自定义路由切换时页面如何滚动。
 
-**注意: 这个功能只在 HTML5 history 模式下可用。**
+**注意: 这个功能只在支持 `history.pushState` 的浏览器中可用。**
 
 当创建一个 Router 实例，你可以提供一个 `scrollBehavior` 方法：
 
@@ -59,3 +59,21 @@ scrollBehavior (to, from, savedPosition) {
 ```
 
 我们还可以利用[路由元信息](meta.md)更细颗粒度地控制滚动。查看完整例子请[移步这里](https://github.com/vuejs/vue-router/blob/next/examples/scroll-behavior/app.js)。
+
+### Async Scrolling
+<!-- @todo translation -->
+> New in 2.8.0
+
+You can also return a Promise that resolves to the desired position descriptor:
+
+``` js
+scrollBehavior (to, from, savedPosition) {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      resolve({ x: 0, y: 0 })
+    }, 500)
+  })
+}
+```
+
+It's possible to hook this up with events from a page-level transition component to make the scroll behavior play nicely with your page transitions, but due to the possible variance and complexity in use cases, we simply provide this primitive to enable specific userland implementations.

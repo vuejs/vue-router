@@ -1,7 +1,7 @@
 # vue-router 2
-<!--email_off-->
-> 注意: vue-router@2.x 只适用于 Vue 2.x。0.7.x 版本的文档请[移步这里](https://github.com/vuejs/vue-router/tree/1.0/docs/zh-cn)。
-<!--/email_off-->
+
+> 注意：对于 TypeScript 用户来说，vue-router@>= 3.0 依赖 vue@>=2.5，反之亦然。
+
 **[版本说明](https://github.com/vuejs/vue-router/releases)**
 
 - [安装](installation.md)

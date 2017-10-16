@@ -50,7 +50,7 @@ const httpPort = 80
 http.createServer((req, res) => {
   fs.readFile('index.htm', 'utf-8', (err, content) => {
     if (err) {
-      console.log('We cannot open 'index.htm' file.')
+      console.log('We cannot open "index.htm" file.')
     }
 
     res.writeHead(200, {
@@ -99,6 +99,24 @@ http.createServer((req, res) => {
 rewrite {
     regexp .*
     to {path} /
+}
+```
+
+#### Firebase hosting
+<!-- @todo translation -->
+Add this to your `firebase.json`:
+
+```
+{
+  "hosting": {
+    "public": "dist",
+    "rewrites": [
+      {
+        "source": "**",
+        "destination": "/index.html"
+      }
+    ]
+  }
 }
 ```
 
