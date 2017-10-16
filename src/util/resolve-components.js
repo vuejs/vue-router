@@ -20,7 +20,7 @@ export function resolveAsyncComponents (matched: Array<RouteRecord>): Function {
         pending++
 
         const resolve = once(resolvedDef => {
-          if (isESModule(resolvedDef)) {
+          if (isESModule(resolvedDef) && resolvedDef.default) {
             resolvedDef = resolvedDef.default
           }
           // save resolved on async factory in case it's used elsewhere
