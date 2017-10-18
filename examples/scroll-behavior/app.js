@@ -55,7 +55,7 @@ const scrollBehavior = function (to, from, savedPosition) {
       }
 
       // wait for the out transition to complete (if necessary)
-      this.$root.$once('triggerScroll', () => {
+      this.app.$root.$once('triggerScroll', () => {
         // if the resolved position is falsy or an empty object,
         // will retain current scroll position.
         resolve(position)
