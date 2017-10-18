@@ -102,9 +102,9 @@ rewrite {
 }
 ```
 
-#### Firebase hosting
-<!-- @todo translation -->
-Add this to your `firebase.json`:
+#### Firebase 主机
+
+在你的 `firebase.json` 中加入：
 
 ```
 {

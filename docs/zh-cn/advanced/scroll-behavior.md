@@ -60,11 +60,11 @@ scrollBehavior (to, from, savedPosition) {
 
 我们还可以利用[路由元信息](meta.md)更细颗粒度地控制滚动。查看完整例子请[移步这里](https://github.com/vuejs/vue-router/blob/next/examples/scroll-behavior/app.js)。
 
-### Async Scrolling
-<!-- @todo translation -->
-> New in 2.8.0
+### 异步滚动
 
-You can also return a Promise that resolves to the desired position descriptor:
+> 2.8.0 新增
+
+你也可以返回一个 Promise 来得出预期的位置描述：
 
 ``` js
 scrollBehavior (to, from, savedPosition) {
@@ -76,4 +76,4 @@ scrollBehavior (to, from, savedPosition) {
 }
 ```
 
-It's possible to hook this up with events from a page-level transition component to make the scroll behavior play nicely with your page transitions, but due to the possible variance and complexity in use cases, we simply provide this primitive to enable specific userland implementations.
+将其挂载到从页面级别的过渡组件的事件上，令其滚动行为和页面过渡一起良好运行是可能的。但是考虑到用例的多样性和复杂性，我们仅提供这个原始的接口，以支持不同用户场景的具体实现。
