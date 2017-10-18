@@ -120,7 +120,7 @@ beforeRouteEnter (to, from, next) {
 ### 完整的导航解析流程
 
 1. 导航被触发。
-2. 在失活的组建里调用离开守卫。
+2. 在失活的组件里调用离开守卫。
 3. 调用全局的 `beforeEach` 守卫。
 4. 在重用的组件里调用 `beforeRouteUpdate` 守卫 (2.2+)。
 5. 在路由配置里调用 `beforeEnter`。
