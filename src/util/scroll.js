@@ -2,15 +2,13 @@
 
 import type Router from '../index'
 import { assert } from './warn'
-import { getStateKey, setStateKey, supportsPushState } from './push-state'
+import { getStateKey, setStateKey } from './push-state'
 
 const positionStore = Object.create(null)
 
 export function setupScroll () {
   // Fix for #1585 for Firefox
-  if (supportsPushState) {
-    window.history.replaceState({ key: getStateKey() }, '')
-  }
+  window.history.replaceState({ key: getStateKey() }, '')
   window.addEventListener('popstate', e => {
     saveScrollPosition()
     if (e.state && e.state.key) {
