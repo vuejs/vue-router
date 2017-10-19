@@ -1,5 +1,5 @@
 /**
-  * vue-router v3.0.0
+  * vue-router v3.0.1
   * (c) 2017 Evan You
   * @license MIT
   */
@@ -96,13 +96,17 @@ var View = {
     };
 
     // resolve props
-    data.props = resolveProps(route, matched.props && matched.props[name]);
-    data.attrs = {};
-
-    for (var key in data.props) {
-      if (!('props' in component) || !(key in component.props)) {
-        data.attrs[key] = data.props[key];
-        delete data.props[key];
+    var propsToPass = data.props = resolveProps(route, matched.props && matched.props[name]);
+    if (propsToPass) {
+      // clone to prevent mutation
+      propsToPass = data.props = extend({}, propsToPass);
+      // pass non-declared props as attrs
+      var attrs = data.attrs = data.attrs || {};
+      for (var key in propsToPass) {
+        if (!component.props || !(key in component.props)) {
+          attrs[key] = propsToPass[key];
+          delete propsToPass[key];
+        }
       }
     }
 
@@ -129,6 +133,13 @@ function resolveProps (route, config) {
         );
       }
   }
+}
+
+function extend (to, from) {
+  for (var key in from) {
+    to[key] = from[key];
+  }
+  return to
 }
 
 /*  */
@@ -2605,7 +2616,7 @@ function createHref (base, fullPath, mode) {
 }
 
 VueRouter.install = install;
-VueRouter.version = '3.0.0';
+VueRouter.version = '3.0.1';
 
 if (inBrowser && window.Vue) {
   window.Vue.use(VueRouter);

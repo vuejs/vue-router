@@ -88,6 +88,6 @@ export default {
 
 Throughout the docs, we will often use the `router` instance. Keep in mind that `this.$router` is exactly the same as using `router`. The reason we use `this.$router` is because we don't want to import the router in every single component that needs to manipulate routing.
 
-You can also check out this example [live](http://jsfiddle.net/yyx990803/xgrjzsup/).
+You can also check out this example [live](https://jsfiddle.net/yyx990803/xgrjzsup/).
 
 Notice that a `<router-link>` automatically gets the `.router-link-active` class when its target route is matched. You can learn more about it in its [API reference](../api/router-link.md).

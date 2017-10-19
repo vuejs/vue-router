@@ -116,7 +116,7 @@ beforeRouteEnter (to, from, next) {
 }
 ```
 
-Note that `beforeRouteEnter` is the only hook that supports passing a callback to `next`. For `beforeRouteUpdate` and `beforeRouteLeave`, `this` is already available, so passing a callback is unnecessary and therefore *not supported*:
+Note that `beforeRouteEnter` is the only guard that supports passing a callback to `next`. For `beforeRouteUpdate` and `beforeRouteLeave`, `this` is already available, so passing a callback is unnecessary and therefore *not supported*:
 
 ```js
 beforeRouteUpdate (to, from, next) {
