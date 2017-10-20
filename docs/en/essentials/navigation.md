@@ -34,10 +34,10 @@ router.push({ path: 'register', query: { plan: 'private' }})
 
 ```js
 const userId = 123
-router.push({ name: 'user', params: { userId }}) // -> /user/123
+router.push({ name: 'user', params: { userId: userId }}) // -> /user/123
 router.push({ path: `/user/${userId}` }) // -> /user/123
 // This will NOT work
-router.push({ path: '/user', params: { userId }}) // -> /user
+router.push({ path: '/user', params: { userId: userId }}) // -> /user
 ```
 
 The same rules apply for the `to` property of the `router-link` component.
