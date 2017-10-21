@@ -43,24 +43,24 @@ location / {
 #### Node.js natif
 
 ```js
-const http = require("http")
-const fs = require("fs")
+const http = require('http')
+const fs = require('fs')
 const httpPort = 80
 
 http.createServer((req, res) => {
-  fs.readFile("index.htm", "utf-8", (err, content) => {
+  fs.readFile('index.htm', 'utf-8', (err, content) => {
     if (err) {
-      console.log(`Impossible d'ouvrir le fichier "index.htm"`)
+      console.log(`Impossible d'ouvrir le fichier "index.htm"`)
     }
 
     res.writeHead(200, {
-      "Content-Type": "text/html; charset=utf-8"
+      'Content-Type': 'text/html; charset=utf-8'
     })
 
     res.end(content)
   })
 }).listen(httpPort, () => {
-  console.log("Le serveur écoute à : http://localhost:%s", httpPort)
+  console.log('Le serveur écoute à : http://localhost:%s', httpPort)
 })
 ```
 
@@ -99,6 +99,24 @@ Pour Node.js avec Express, vous pouvez utiliser le [middleware connect-history-a
 rewrite {
     regexp .*
     to {path} /
+}
+```
+
+#### Hébergement Firebase
+
+Ajouter ceci à votre fichier `firebase.json` :
+
+```
+{
+  "hosting": {
+    "public": "dist",
+    "rewrites": [
+      {
+        "source": "**",
+        "destination": "/index.html"
+      }
+    ]
+  }
 }
 ```
 
