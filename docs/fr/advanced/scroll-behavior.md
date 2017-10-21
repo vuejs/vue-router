@@ -77,4 +77,4 @@ scrollBehavior (to, from, savedPosition) {
 }
 ```
 
-Il est possible de relier les événements d'un composant de transition au niveau de la page pour que le comportement de défilement soit bien adapté à vos transitions de pages. Cependant, en raison de la variance et de la complexité des cas d'utilisation, nous fournissont simplement ce code primitif pour permettre aux utilisateurs de faire les implémentations spécifiques.
+Il est possible de relier les événements d'un composant de transition au niveau de la page pour que le comportement de défilement soit bien adapté à vos transitions de pages. Cependant, en raison de la variance et de la complexité des cas d'utilisation, nous fournissons simplement ce code primitif pour permettre aux utilisateurs de faire les implémentations spécifiques.

@@ -64,7 +64,7 @@ const app = new Vue({
 // L'application est maintenant en marche !
 ```
 
-En injectant le routeur, nous avons y avons accès à travers `this.$router` ainsi qu'à la route courante derrière `this.$route` depuis n'importe quel composant :
+En injectant le routeur, nous y avons accès à travers `this.$router`. Nous avons également accès à la route courante derrière `this.$route` depuis n'importe quel composant :
 
 ```js
 // Home.vue
