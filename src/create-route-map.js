@@ -16,7 +16,9 @@ export function createRouteMap (
 } {
   // the path list is used to control path matching priority
   const pathList: Array<string> = oldPathList || []
+  // $flow-disable-line
   const pathMap: Dictionary<RouteRecord> = oldPathMap || Object.create(null)
+  // $flow-disable-line
   const nameMap: Dictionary<RouteRecord> = oldNameMap || Object.create(null)
 
   routes.forEach(route => {
@@ -152,7 +154,7 @@ function addRouteRecord (
 function compileRouteRegex (path: string, pathToRegexpOptions: PathToRegexpOptions): RouteRegExp {
   const regex = Regexp(path, [], pathToRegexpOptions)
   if (process.env.NODE_ENV !== 'production') {
-    const keys: any = {}
+    const keys: any = Object.create(null)
     regex.keys.forEach(key => {
       warn(!keys[key.name], `Duplicate param keys in route with path: "${path}"`)
       keys[key.name] = true

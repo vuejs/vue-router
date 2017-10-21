@@ -40,9 +40,67 @@ location / {
 }
 ```
 
-#### Node.js (Express)
+#### 原生 Node.js
 
-https://github.com/bripkens/connect-history-api-fallback
+```js
+const http = require('http')
+const fs = require('fs')
+const httpPort = 80
+
+http.createServer((req, res) => {
+  fs.readFile('index.htm', 'utf-8', (err, content) => {
+    if (err) {
+      console.log('We cannot open 'index.htm' file.')
+    }
+
+    res.writeHead(200, {
+      'Content-Type': 'text/html; charset=utf-8'
+    })
+
+    res.end(content)
+  })
+}).listen(httpPort, () => {
+  console.log('Server listening on: http://localhost:%s', httpPort)
+})
+```
+
+#### 基于 Node.js 的 Express
+
+对于 Node.js/Express，请考虑使用 [connect-history-api-fallback 中间件](https://github.com/bripkens/connect-history-api-fallback)。
+
+#### Internet Information Services (IIS)
+
+1. 安装 [IIS UrlRewrite](https://www.iis.net/downloads/microsoft/url-rewrite)
+2. 在你的网站根目录中创建一个 `web.config` 文件，内容如下：
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+  <system.webServer>
+    <rewrite>
+      <rules>
+        <rule name="Handle History Mode and custom 404/500" stopProcessing="true">
+            <match url="(.*)" />
+            <conditions logicalGrouping="MatchAll">
+              <add input="{REQUEST_FILENAME}" matchType="IsFile" negate="true" />
+              <add input="{REQUEST_FILENAME}" matchType="IsDirectory" negate="true" />
+            </conditions>
+          <action type="Rewrite" url="/" />
+        </rule>
+      </rules>
+    </rewrite>
+  </system.webServer>
+</configuration>
+```
+
+#### Caddy
+
+```
+rewrite {
+    regexp .*
+    to {path} /
+}
+```
 
 ## 警告
 
@@ -57,4 +115,4 @@ const router = new VueRouter({
 })
 ```
 
-或者，如果你是用 Node.js 作后台，可以使用服务端的路由来匹配 URL，当没有匹配到路由的时候返回 404，从而实现 fallback。
+或者，如果你使用 Node.js 服务器，你可以用服务端路由匹配到来的 URL，并在没有匹配到路由的时候返回 404，以实现回退。更多详情请查阅 [Vue 服务端渲染文档](https://ssr.vuejs.org/zh/)。

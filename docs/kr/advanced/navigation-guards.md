@@ -2,7 +2,7 @@
 
 이름에서 알 수 있듯이 `vue-router`가 제공하는 네비게이션 가드는 주로 리디렉션하거나 취소하여 네비게이션을 보호하는 데 사용됩니다. 라우트 탐색 프로세스에 연결하는 방법에는 전역, 라우트별 또는 컴포넌트가 있습니다.
 
-**Params 또는 쿼리를 변경하면 네비게이션 가드가 실행되지 않습니다**. 단순히 [`$route` 객체를 감시](../essentials/dynamic-matching.md#reacting-to-params-changes)하고 그 변화에 반응하십시오. 또는 컴포넌트 가드의 `beforeRouteUpadte`를 사용하십시오
+**Params 또는 쿼리를 변경하면 네비게이션 가드가 실행되지 않습니다**. 단순히 [`$route` 객체를 감시](../essentials/dynamic-matching.md#reacting-to-params-changes)하고 그 변화에 반응하십시오. 또는 컴포넌트 가드의 `beforeRouteUpdate`를 사용하십시오
 
 ### 전역 가드
 

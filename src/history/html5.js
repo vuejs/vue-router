@@ -3,6 +3,7 @@
 import type Router from '../index'
 import { History } from './base'
 import { cleanPath } from '../util/path'
+import { START } from '../util/route'
 import { setupScroll, handleScroll } from '../util/scroll'
 import { pushState, replaceState } from '../util/push-state'
 
@@ -16,9 +17,18 @@ export class HTML5History extends History {
       setupScroll()
     }
 
+    const initLocation = getLocation(this.base)
     window.addEventListener('popstate', e => {
       const current = this.current
-      this.transitionTo(getLocation(this.base), route => {
+
+      // Avoiding first `popstate` event dispatched in some browsers but first
+      // history route not updated since async guard at the same time.
+      const location = getLocation(this.base)
+      if (this.current === START && location === initLocation) {
+        return
+      }
+
+      this.transitionTo(location, route => {
         if (expectScroll) {
           handleScroll(router, route, current, true)
         }

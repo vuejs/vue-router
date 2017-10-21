@@ -1,9 +1,9 @@
 {
   "compilerOptions": {
     "target": "es5",
-    "module": "commonjs",
-    "noImplicitAny": true,
-    "strictNullChecks": true,
+    "module": "es2015",
+    "moduleResolution": "node",
+    "strict": true,
     "noEmit": true,
     "lib": [
       "es5",
