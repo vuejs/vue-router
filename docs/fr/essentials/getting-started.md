@@ -71,7 +71,7 @@ En injectant le routeur, nous y avons accès à travers `this.$router`. Nous avo
 export default {
   computed: {
     username () {
-      // Nous verrons pourquoi `params` est court.
+      // Nous verrons ce que représente `params` en un instant.
       return this.$route.params.username
     }
   },
