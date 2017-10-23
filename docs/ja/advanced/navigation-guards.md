@@ -115,7 +115,7 @@ beforeRouteEnter (to, from, next) {
 }
 ```
 
-`beforeRouteEnter` はコールバックを `next` に渡すことをサポートするだけのフックであるということに注意してください。`beforeRouteUpdate` と `beforeRouteLeave` の場合、 `this` は既に利用可能です。したがって、コールバックを渡す必要はないので、*サポートされません*:
+コールバックを `next` に渡すことをサポートするのは、`beforeRouteEnter`フックだけであるということに注意してください。`beforeRouteUpdate` と `beforeRouteLeave` の場合、 `this` は既に利用可能です。したがって、コールバックを渡す必要はないので、*サポートされません*:
 
 ```js
 beforeRouteUpdate (to, from, next) {
