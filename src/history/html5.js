@@ -30,7 +30,7 @@ export class HTML5History extends History {
       }
 
       this.transitionTo(location, route => {
-        if (expectScroll) {
+        if (supportsScroll) {
           handleScroll(router, route, current, true)
         }
       })
