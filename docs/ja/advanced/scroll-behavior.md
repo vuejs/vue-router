@@ -2,9 +2,9 @@
 
 クライアントサイドのルーティングを使っている時に、新しいルートに対してスクロールをトップへ移動させたいかもしれません、もしくは実際のページリロードがしているように history 要素のスクロールポジションを保持したいこともあるかもしれません。 `vue-router` ではこれらをさらによく実現できます。ルートナビゲーションにおけるスクロールの挙動を完全にカスタマイズすることができます。
 
-**注意: この機能は HTML5 history モードでのみ動作します。**
+**注意: この機能は ブラウザが `history.pushState` をサポートしている場合のみ動作します。**
 
-ルートインスタンスを作る時に、 `scrollBehavior` 関数を提供できます。
+ルーターインスタンスを作る時に、 `scrollBehavior` 関数を提供できます。
 
 ``` js
 const router = new VueRouter({
@@ -61,3 +61,21 @@ scrollBehavior (to, from, savedPosition) {
 ```
 
 きめの細かいスクロールの挙動コントロールを実装するために [ルートメタフィールド](meta.md) も利用可能です。詳細な例は [こちら](https://github.com/vuejs/vue-router/blob/dev/examples/scroll-behavior/app.js) をご参照ください。
+
+### 非同期なスクローリング
+
+> 2.8.0 で新規
+
+期待する位置記述子 (position descriptor) に解決されるプロミスを返すこともできます:
+
+``` js
+scrollBehavior (to, from, savedPosition) {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      resolve({ x: 0, y: 0 })
+    }, 500)
+  })
+}
+```
+
+スクロールの振る舞いをページの遷移とうまく合わせるために、ページレベルのトランジションコンポーネントからのイベントにフックすることは可能ですが、ユースケースにおいて可能性のある食い違いと複雑さのために、単純に特定のユーザランド実装を可能にするために、このプリミティブな機能を提供します。
