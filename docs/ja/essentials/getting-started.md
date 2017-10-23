@@ -64,7 +64,30 @@ const app = new Vue({
 // これで開始です!
 ```
 
-[動作](http://jsfiddle.net/yyx990803/xgrjzsup/) の例も確認してみてください.
+ルーターを注入することによって、`this.$router` と同様、任意のコンポーネント内部で現在のルートを `this.$route` としてアクセスすることができます:
+
+```js
+// Home.vue
+export default {
+  computed: {
+    username () {
+      // `params` が表示される
+      return this.$route.params.username
+    }
+  },
+  methods: {
+    goBack () {
+      window.history.length > 1
+        ? this.$router.go(-1)
+        : this.$router.push('/')
+    }
+  }
+}
+```
+
+ドキュメントを通して、しばしば `router` インスタンスを使用することがよくあります。`this.$router` は `router` を使用するのと全く同じです。`this.$router` を使用する理由は、ルーティング操作する必要がある全てのコンポーネントにルーターをインポートしたくないからです。
+
+[動作](https://jsfiddle.net/yyx990803/xgrjzsup/) の例も確認してみてください.
 
 `<router-link>` は対象のルートがマッチした時に自動的に `.router-link-active` が付与されるのにお気づきでしょうか。
 より詳細については [API リファレンス](../api/router-link.md) をご参照ください。
