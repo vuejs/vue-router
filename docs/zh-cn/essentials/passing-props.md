@@ -4,7 +4,7 @@
 
 使用props将组件和路由解耦：
 
-**❌ 与$route耦合**
+** 与$route耦合**
 
 ``` js
 const User = {
@@ -17,7 +17,7 @@ const router = new VueRouter({
 })
 ```
 
-**👍 使用props解耦**
+** 使用props解耦**
 
 ``` js
 const User = {

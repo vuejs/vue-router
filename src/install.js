@@ -43,8 +43,8 @@ export function install (Vue) {
     get () { return this._routerRoot._route }
   })
 
-  Vue.component('router-view', View)
-  Vue.component('router-link', Link)
+  Vue.component('RouterView', View)
+  Vue.component('RouterLink', Link)
 
   const strats = Vue.config.optionMergeStrategies
   // use the same hook merging strategy for route hooks
