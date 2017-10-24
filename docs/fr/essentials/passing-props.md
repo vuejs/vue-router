@@ -4,7 +4,7 @@ Utiliser `$route` dans vos composants crée un couplage fort à la route qui va 
 
 Pour découpler un composant de son routeur, utilisez les props :
 
-** Couplé avec `$route`**
+**Plutôt que de coupler avec `$route`**
 
 ``` js
 const User = {
@@ -17,7 +17,7 @@ const router = new VueRouter({
 })
 ```
 
-** Découplé avec les `props`**
+**Découplez avec les `props`**
 
 ``` js
 const User = {
