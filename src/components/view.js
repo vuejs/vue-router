@@ -1,7 +1,7 @@
 import { warn } from '../util/warn'
 
 export default {
-  name: 'router-view',
+  name: 'RouterView',
   functional: true,
   props: {
     name: {
