@@ -35,6 +35,8 @@ const router = new VueRouter({
 })
 ```
 
+Notez que les [intercepteurs de navigation](../advanced/navigation-guards.md) ne sont pas appliqués sur les routes d'où à lieu la redirection mais uniquement sur les routes cibles. Dans l'exemple ci-dessous, ajouter une interception `beforeEnter` ou `beforeLeave` à la route `/a` n'aura aucun effet.
+
 Pour d'autres utilisations avancées, jetez un œil à cet [exemple](https://github.com/vuejs/vue-router/blob/dev/examples/redirect/app.js).
 
 ### Alias

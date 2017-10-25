@@ -8,7 +8,7 @@ const toTypes: Array<Function> = [String, Object]
 const eventTypes: Array<Function> = [String, Array]
 
 export default {
-  name: 'router-link',
+  name: 'RouterLink',
   props: {
     to: {
       type: toTypes,

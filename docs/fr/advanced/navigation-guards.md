@@ -30,7 +30,7 @@ Chaque fonction d'interception reçoit trois arguments :
 
   - **`next(false)`**: annuler la navigation courante. Si l'URL du navigateur avait changé (manuellement par l'utilisateur ou via le bouton retour du navigateur), il sera remis à sa valeur de route de `from`.
 
-  - **`next('/')` ou `next({ path: '/' })`**: redirige vers le nouvel URL. La navigation courante va être arrêtée et une nouvelle va se lancer.
+  - **`next('/')` ou `next({ path: '/' })`**: redirige vers le nouvel URL. La navigation courante va être arrêtée et une nouvelle va se lancer. Vous pouvez passer n'importe quel objet à `next`, vous permettant ainsi de spécifier des options comme `replace: true`, `name: 'home'` et n'importe quelles options dans [la prop `to` du `router-link`](../api/router-link.md) ou [`router.push`](../api/router-instance#méthodes).
 
   - **`next(error)`**: (2.4.0+) si l'argument passé à `next` est une instance de `Error`, la navigation va s'arrêter et l'erreur sera passée aux fonctions de rappel via `router.onError()`.
 
@@ -116,7 +116,28 @@ beforeRouteEnter (to, from, next) {
 }
 ```
 
-Vous pouvez directement accéder à `this` à l'intérieur de `beforeRouteLeave`. L'interception de sortie est utilisée pour empêcher l'utilisateur de quitter la route par accident alors qu'il n'a pas sauvé ses modifications. La navigation peut être annulée en appelant `next(false)`.
+Notez que `beforeRouteEnter` est la seule interception qui supporte une fonction de rappelle dans `next`. Pour `beforeRouteUpdate` et `beforeRouteLeave`, `this` est déjà disponible. Le passage d'une fonction de rappel n'étant pas nécessaire, il n'est donc pas *supporté* :
+
+```js
+beforeRouteUpdate (to, from, next) {
+  // utiliser juste `this`
+  this.name = to.params.name
+  next()
+}
+```
+
+L'**interception de sortie** est habituellement utilisée pour empécher l'utilisateur de quitter la route sans avoir sauvegardé ses changements. La navigation peut être annulée en appelant `next(false)`.
+
+```js
+beforeRouteLeave (to, from , next) {
+  const answer = window.confirm('Voulez-vous vraiment quitter cette page ? Vos changements seront perdus.')
+  if (answer) {
+    next()
+  } else {
+    next(false)
+  }
+}
+```
 
 ### Le flux de résolution de navigation complet
 
