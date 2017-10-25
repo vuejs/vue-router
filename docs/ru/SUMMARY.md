@@ -1,6 +1,6 @@
 # Vue-router 2
 
-> Примечание: для пользователей TypeScript, vue-router@>= 3.0 требуется vue@>=2.5, и наоборот.
+> Примечание: для пользователей TypeScript, vue-router@3.0+ требуется vue@2.5+, и наоборот.
 
 **[История изменений](https://github.com/vuejs/vue-router/releases)**
 
