@@ -38,4 +38,4 @@
   - [路由信息对象](api/route-object.md)
   - [对组件注入](api/component-injections.md)
   - [router-link](api/router-link.md)
-  - [router-view](api/router-view.md))
+  - [router-view](api/router-view.md)
