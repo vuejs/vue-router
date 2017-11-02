@@ -1,7 +1,7 @@
 
 # vue-router 2
 <!--email_off-->
-> 注意: vue-router@2.x 只適用於 Vue 2.x。0.7.x 版本的文檔請[移步這裡](https://github.com/vuejs/vue-router/tree/1.0/docs/zh-cn)。
+> 注意: vue-router@2.x 只適用於 Vue 2.x。0.7.x 版本的文檔請[移步這裡](https://github.com/vuejs/vue-router/tree/1.0/docs/zh-tw)。
 <!--/email_off-->
 **[版本說明](https://github.com/vuejs/vue-router/releases)**
 
