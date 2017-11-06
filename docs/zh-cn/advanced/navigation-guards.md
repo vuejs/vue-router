@@ -32,7 +32,7 @@ router.beforeEach((to, from, next) => {
 
   - **`next(false)`**: 中断当前的导航。如果浏览器的 URL 改变了（可能是用户手动或者浏览器后退按钮），那么 URL 地址会重置到 `from` 路由对应的地址。
 
-  - **`next('/')` 或者 `next({ path: '/' })`**: 跳转到一个不同的地址。当前的导航被中断，然后进行一个新的导航。
+  - **`next('/')` 或者 `next({ path: '/' })`**: 跳转到一个不同的地址。当前的导航被中断，然后进行一个新的导航。你可以向 `next` 传递任意位置对象，且允许设置诸如 `replace: true`、`name: 'home'` 之类的选项以及任何用在 [`router-link` 的 `to` prop](../api/router-link.md) 或 [`router.push`](../api/router-instance.md#方法) 中的选项。
 
   - **`next(error)`**: (2.4.0+) 如果传入 `next` 的参数是一个 `Error` 实例，则导航会被终止且该错误会被传递给 `router.onError()` 注册过的回调。
 
@@ -115,7 +115,28 @@ beforeRouteEnter (to, from, next) {
 }
 ```
 
-你可以 在 `beforeRouteLeave` 中直接访问 `this`。这个离开守卫通常用来禁止用户在还未保存修改前突然离开。可以通过 `next(false)` 来取消导航。
+注意 `beforeRouteEnter` 是支持给 `next` 传递回调的唯一守卫。对于 `beforeRouteUpdate` 和 `beforeRouteLeave` 来说，`this` 已经可用了，所以**不支持**传递回调，因为没有必要了。
+
+```js
+beforeRouteUpdate (to, from, next) {
+  // just use `this`
+  this.name = to.params.name
+  next()
+}
+```
+
+这个离开守卫通常用来禁止用户在还未保存修改前突然离开。该导航可以通过 `next(false)` 来取消。
+
+```js
+beforeRouteLeave (to, from , next) {
+  const answer = window.confirm('Do you really want to leave? you have unsaved changes!')
+  if (answer) {
+    next()
+  } else {
+    next(false)
+  }
+}
+```
 
 ### 完整的导航解析流程
 
