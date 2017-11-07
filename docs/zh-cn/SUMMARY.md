@@ -1,6 +1,6 @@
 # vue-router 2
 
-> 注意：对于 TypeScript 用户来说，vue-router@>= 3.0 依赖 vue@>=2.5，反之亦然。
+> 注意：对于 TypeScript 用户来说，vue-router@3.0+ 依赖 vue@2.5+，反之亦然。
 
 **[版本说明](https://github.com/vuejs/vue-router/releases)**
 
