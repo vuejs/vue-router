@@ -10,7 +10,7 @@
 const Foo = () => Promise.resolve({ /* 组件定义对象 */ })
 ```
 
-第二，在 Webpack 2 中，我们可以使用[动态 import](https://github.com/tc39/proposal-dynamic-import)语法来定义代码分块点 (split point)：
+第二，在 Webpack 2.6+ 中，我们可以使用[动态 import](https://github.com/tc39/proposal-dynamic-import)语法来定义代码分块点 (split point)：
 
 ``` js
 import('./Foo.vue') // 返回 Promise
