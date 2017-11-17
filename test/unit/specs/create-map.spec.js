@@ -71,6 +71,13 @@ describe('Creating Route Map', function () {
     expect(console.warn.calls.argsFor(0)[0]).toMatch('vue-router] Named Route \'bar\'')
   })
 
+  it('in development, throws if path is missing', function () {
+    process.env.NODE_ENV = 'development'
+    expect(() => {
+      maps = createRouteMap([{ component: Bar }])
+    }).toThrowError(/"path" is required/)
+  })
+
   it('in production, it has not logged this warning', function () {
     maps = createRouteMap(routes)
     expect(console.warn).not.toHaveBeenCalled()
