@@ -1,4 +1,4 @@
-# vue-router 2
+# vue-router
 
 > 注意: TypeScript ユーザ向けは、vue-router@3.0+ と vue@2.5+ が必須、逆もまた同様です。
 

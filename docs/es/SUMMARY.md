@@ -1,4 +1,4 @@
-# vue-router 2
+# vue-router
 <!--email_off-->
 > Notas: vue-router@2.x funciona solamente con Vue 2.x. La documentación para la versión 0.7.x está [aquí (en inglés)](https://github.com/vuejs/vue-router/tree/1.0/docs/en).
 <!--/email_off-->
