@@ -6,7 +6,7 @@
 const router = new VueRouter({
   routes: [
     {
-      path: '/user/:id',
+      path: '/user/:userId',
       name: 'user',
       component: User
     }
@@ -17,13 +17,13 @@ const router = new VueRouter({
 名前を付けたルートにリンクするには、 `router-link` コンポーネントの `to` プロパティにオブジェクトを渡します。
 
 ``` html
-<router-link :to="{ name: 'user', params: { id: 123 }}">User</router-link>
+<router-link :to="{ name: 'user', params: { userId: 123 }}">User</router-link>
 ```
 
 これはプログラムで `router.push()` を呼び出すときに使われるオブジェクトと全く同じです。
 
 ``` js
-router.push({ name: 'user', params: { id: 123 }})
+router.push({ name: 'user', params: { userId: 123 }})
 ```
 
 どちらのケースもルーターは `/user/123` のパスにナビゲーションします。
