@@ -39,7 +39,7 @@ export function handleScroll (
   // wait until re-render finishes before scrolling
   router.app.$nextTick(() => {
     const position = getScrollPosition()
-    const shouldScroll = behavior(to, from, isPop ? position : null)
+    const shouldScroll = behavior.call(router, to, from, isPop ? position : null)
 
     if (!shouldScroll) {
       return

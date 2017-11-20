@@ -74,11 +74,16 @@
   签名:
 
   ```
-  (
+  type PositionDescriptor =
+    { x: number, y: number } |
+    { selector: string } |
+    ?{}
+
+  type scrollBehaviorHandler = (
     to: Route,
     from: Route,
     savedPosition?: { x: number, y: number }
-  ) => { x: number, y: number } | { selector: string } | ?{}
+  ) => PositionDescriptor | Promise<PositionDescriptor>
   ```
 
   更多详情参考[滚动行为](../advanced/scroll-behavior.md)。

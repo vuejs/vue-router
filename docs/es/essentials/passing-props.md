@@ -4,7 +4,7 @@ Usar `$route` en tu componente genera un acoplamiento estrecho con la ruta, lo c
 
 Para desacoplar el componente del enrutador utiliza _props_:
 
-**❌ Acoplado a $route**
+** Acoplado a $route**
 
 ``` js
 const User = {
@@ -17,7 +17,7 @@ const router = new VueRouter({
 })
 ```
 
-**👍 Desacoplado con props**
+** Desacoplado con props**
 
 ``` js
 const User = {

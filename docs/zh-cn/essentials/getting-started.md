@@ -63,7 +63,29 @@ const app = new Vue({
 // 现在，应用已经启动了！
 ```
 
-你可以看看这个例子
-[live](https://jsfiddle.net/yyx990803/xgrjzsup/)。
+通过注入路由，我们可以用 `this.$router` 来访问它，就像在任何组件里用 `this.$router` 访问当前路有一样。
+
+```js
+// Home.vue
+export default {
+  computed: {
+    username () {
+      // 我们很快就会看到 `params` 是什么
+      return this.$route.params.username
+    }
+  },
+  methods: {
+    goBack () {
+      window.history.length > 1
+        ? this.$router.go(-1)
+        : this.$router.push('/')
+    }
+  }
+}
+```
+
+该文档通篇都常使用 `router` 实例。留意一下 `this.$router` 和 `router` 使用起来完全一样。我们使用 `this.$router` 的原因是我们并不想在每个独立需要封装路由的组件中都导入路由。
+
+你可以看看这个[在线的](https://jsfiddle.net/yyx990803/xgrjzsup/)例子。
 
 要注意，当 `<router-link>` 对应的路由匹配成功，将自动设置 class 属性值  `.router-link-active`。查看 [API 文档](../api/router-link.md) 学习更多相关内容。

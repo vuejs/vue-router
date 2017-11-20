@@ -1,4 +1,4 @@
-# vue-router 2
+# vue-router
 
 > Note aux utilisateurs de TypeScript : vue-router@3.0+ nécessite vue@2.5+, et inverssement.
 

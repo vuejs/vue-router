@@ -6,7 +6,7 @@
 const router = new VueRouter({
   routes: [
     {
-      path: '/user/:id',
+      path: '/user/:userId',
       name: 'user',
       component: User
     }

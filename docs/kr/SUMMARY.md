@@ -1,4 +1,4 @@
-# vue-router 2
+# vue-router
 <!--email_off-->
 > 참고 : vue-router@2.x는 Vue 2.x에서만 작동합니다. 0.7.x용 문서는 [이 곳](https://github.com/vuejs/vue-router/tree/1.0/docs/en)입니다.
 <!--/email_off-->
