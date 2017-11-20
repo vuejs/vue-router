@@ -27,7 +27,7 @@ const router = new VueRouter({
 
 例如，根据上面的路由配置，`/foo/bar` 这个 URL 将会匹配父路由记录以及子路由记录。
 
-一个路由匹配到的所有路由记录会暴露为 `$route` 对象（还有在导航守卫中的路有对象）的 `$route.matched` 数组。因此，我们需要遍历 `$route.matched` 来检查路由记录中的 `meta` 字段。
+一个路由匹配到的所有路由记录会暴露为 `$route` 对象（还有在导航守卫中的路由对象）的 `$route.matched` 数组。因此，我们需要遍历 `$route.matched` 来检查路由记录中的 `meta` 字段。
 
 下面例子展示在全局导航守卫中检查元字段：
 
