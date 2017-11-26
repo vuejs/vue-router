@@ -26,7 +26,7 @@ const User = {
 }
 const router = new VueRouter({
   routes: [
-    { path: '/user/:id', component: User, props: true }
+    { path: '/user/:id', component: User, props: true },
 
     // для маршрутов с именованными представлениями, необходимо указывать опцию `props` для каждого именованного представления:
     {
