@@ -52,10 +52,10 @@ export class HTML5History extends History {
 
   replace (location: RawLocation, onComplete?: Function, onAbort?: Function) {
     const { current: fromRoute } = this
-    if (typeof location === 'string'){
-      location = {path:location}
+    if (typeof location === 'string') {
+      location = { path: location }
     }
-    if (typeof location === 'object' && !location.replace){
+    if (typeof location === 'object' && !location.replace) {
       location.replace = 1
     }
     this.transitionTo(location, route => {
