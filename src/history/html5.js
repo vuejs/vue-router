@@ -56,7 +56,7 @@ export class HTML5History extends History {
       location = { path: location }
     }
     if (typeof location === 'object' && !location.replace) {
-      location.replace = 1
+      (location: Object).replace = true
     }
     this.transitionTo(location, route => {
       replaceState(cleanPath(this.base + route.fullPath))

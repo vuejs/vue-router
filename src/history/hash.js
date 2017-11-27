@@ -59,7 +59,7 @@ export class HashHistory extends History {
       location = { path: location }
     }
     if (typeof location === 'object' && !location.replace) {
-      location.replace = 1
+      (location: Object).replace = true
     }
     this.transitionTo(location, route => {
       replaceHash(route.fullPath)
