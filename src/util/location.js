@@ -60,7 +60,7 @@ export function normalizeLocation (
   }
 }
 
-function assign (a, b) {
+export function assign (a: Object, b: Object): Object {
   for (const key in b) {
     a[key] = b[key]
   }
