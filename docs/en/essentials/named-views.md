@@ -60,7 +60,7 @@ While being quite complex, it is possible to combine named views with nested vie
 </div>
 ```
 
-_The nested view components are omitted here but you can find the full example at the end in the jsfiddle_
+_The nested view components are omitted here but you can find the full example [here](https://jsfiddle.net/posva/22wgksa3/)_
 
 Then you can achieve the layout above with this route configuration:
 
