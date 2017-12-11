@@ -50,7 +50,7 @@ It is possible to create complex layouts using named views with nested views. Wh
 
 **Note**: _Let's forget about how the HTML/CSS should look like to represent such layout and focus on the components used_
 
-The `<template>` section for `UserSettings` component in above layout would be something like this:
+The `<template>` section for `UserSettings` component in the above layout would look something like this:
 
 ```html
 <!-- UserSettings.vue -->
