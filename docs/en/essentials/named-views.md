@@ -30,7 +30,7 @@ A working demo of this example can be found [here](https://jsfiddle.net/posva/6d
 
 ## Nested Named Views
 
-While being quite complex, it is possible to combine named views with nested view. When doing so, you will also need to name nested `router-view` components used. Let's take a Settings panel example:
+It is possible to create complex layouts using named views with nested views. When doing so, you will also need to name nested `router-view` components used. Let's take a Settings panel example:
 
 ```
 /settings/emails                                       /settings/profile
@@ -50,6 +50,8 @@ While being quite complex, it is possible to combine named views with nested vie
 
 **Note**: _Let's forget about how the HTML/CSS should look like to represent such layout and focus on the components used_
 
+The `<template>` section for `UserSettings` component in above layout would be something like this:
+
 ```html
 <!-- UserSettings.vue -->
 <div>
@@ -60,7 +62,7 @@ While being quite complex, it is possible to combine named views with nested vie
 </div>
 ```
 
-_The nested view components are omitted here but you can find the full example [here](https://jsfiddle.net/posva/22wgksa3/)_
+_The nested view components are omitted here but you can find the complete source code for the example above [here](https://jsfiddle.net/posva/22wgksa3/)_
 
 Then you can achieve the layout above with this route configuration:
 
