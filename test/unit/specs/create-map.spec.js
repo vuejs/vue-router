@@ -64,6 +64,10 @@ describe('Creating Route Map', function () {
     expect(maps.nameMap['bar.baz']).not.toBeUndefined()
   })
 
+  it('has baz route in children on bar route', () => {
+    expect(maps.nameMap.bar.children[0].name).toEqual('bar.baz')
+  })
+
   it('in development, has logged a warning concerning named route of parent and default subroute', function () {
     process.env.NODE_ENV = 'development'
     maps = createRouteMap(routes)

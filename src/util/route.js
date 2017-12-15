@@ -21,6 +21,8 @@ export function createRoute (
   const route: Route = {
     name: location.name || (record && record.name),
     meta: (record && record.meta) || {},
+    children: (record && record.children) || [],
+    parent: (record && record.parent) || {},
     path: location.path || '/',
     hash: location.hash || '',
     query,

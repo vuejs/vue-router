@@ -3,7 +3,14 @@ import { createMatcher } from '../../../src/create-matcher'
 
 const routes = [
   { path: '/', name: 'home', component: { name: 'home' }},
-  { path: '/foo', name: 'foo', component: { name: 'foo' }},
+  {
+    path: '/foo',
+    name: 'foo',
+    component: { name: 'foo' },
+    children: [
+      { path: '', name: 'foo.baz', component: { name: 'Baz' } }
+    ]
+  }
 ]
 
 describe('Creating Matcher', function () {
@@ -31,5 +38,15 @@ describe('Creating Matcher', function () {
   it('in production, it has not logged this warning', function () {
     match({ name: 'foo' }, routes[0])
     expect(console.warn).not.toHaveBeenCalled()
+  })
+
+  it('should return the matched route with children populated', () => {
+    const route = match({ name: 'foo' })
+    expect(route.children[0].name).toEqual('foo.baz')
+  })
+
+  it('should return the matched route with parent populated', () => {
+    const route = match({ name: 'foo.baz' })
+    expect(route.parent.name).toEqual('foo')
   })
 })

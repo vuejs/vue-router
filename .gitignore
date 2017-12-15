@@ -8,3 +8,4 @@ dist/*.gz
 dist/*.map
 explorations
 docs/_book
+.vscode
