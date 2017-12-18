@@ -52,10 +52,13 @@ export function normalizeLocation (
     hash = `#${hash}`
   }
 
+  const replace = next.replace || false
+
   return {
     _normalized: true,
     path,
     query,
+    replace,
     hash
   }
 }
