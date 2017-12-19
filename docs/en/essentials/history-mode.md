@@ -40,6 +40,10 @@ location / {
 }
 ```
 
+#### AWS S3 Static Website Hosting
+
+Go to *Properties* tab then *Static web site hosting* then insert `index.html` in **Error Document** field
+
 #### Native Node.js
 
 ```js
