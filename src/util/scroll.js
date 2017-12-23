@@ -111,13 +111,15 @@ function isNumber (v: any): boolean {
 function scrollToPosition (shouldScroll, position) {
   const isObject = typeof shouldScroll === 'object'
   if (isObject && typeof shouldScroll.selector === 'string') {
-    const el = document.querySelector(shouldScroll.selector)
-    if (el) {
-      let offset = shouldScroll.offset && typeof shouldScroll.offset === 'object' ? shouldScroll.offset : {}
-      offset = normalizeOffset(offset)
-      position = getElementPosition(el, offset)
-    } else if (isValidPosition(shouldScroll)) {
-      position = normalizePosition(shouldScroll)
+    if (!isFinite(shouldScroll.selector.substr(1, 1))) {
+      const el = document.querySelector(shouldScroll.selector)
+      if (el) {
+        let offset = shouldScroll.offset && typeof shouldScroll.offset === 'object' ? shouldScroll.offset : {}
+        offset = normalizeOffset(offset)
+        position = getElementPosition(el, offset)
+      } else if (isValidPosition(shouldScroll)) {
+        position = normalizePosition(shouldScroll)
+      }
     }
   } else if (isObject && isValidPosition(shouldScroll)) {
     position = normalizePosition(shouldScroll)
