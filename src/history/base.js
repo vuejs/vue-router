@@ -72,6 +72,7 @@ export class History {
     if (this.preloadedRoute && this.preloadedRoute.fullPath === route.fullPath) {
       return
     }
+    this.preloadConfirmedCallbacks = []
     this.preloadedRoute = route
     this.preloadConfirmed = false
 
