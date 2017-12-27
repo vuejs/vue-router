@@ -4,7 +4,7 @@ import Link from './components/link'
 export let _Vue
 
 export function install (Vue) {
-  if (install.installed) return
+  if (install.installed && _Vue === Vue) return
   install.installed = true
 
   _Vue = Vue
@@ -43,8 +43,8 @@ export function install (Vue) {
     get () { return this._routerRoot._route }
   })
 
-  Vue.component('router-view', View)
-  Vue.component('router-link', Link)
+  Vue.component('RouterView', View)
+  Vue.component('RouterLink', Link)
 
   const strats = Vue.config.optionMergeStrategies
   // use the same hook merging strategy for route hooks

@@ -35,13 +35,15 @@ const router = new VueRouter({
 })
 ```
 
+Notez que les [intercepteurs de navigation](../advanced/navigation-guards.md) ne sont pas appliqués sur les routes d'où à lieu la redirection mais uniquement sur les routes cibles. Dans l'exemple ci-dessous, ajouter une interception `beforeEnter` ou `beforeLeave` à la route `/a` n'aura aucun effet.
+
 Pour d'autres utilisations avancées, jetez un œil à cet [exemple](https://github.com/vuejs/vue-router/blob/dev/examples/redirect/app.js).
 
 ### Alias
 
 Une redirection signifie que si l'utilisateur visite `/a`, l'URL va être remplacé par `/b` et concordé avec `/b`. Mais qu'est-ce qu'un alias ?
 
-** Un alias de `/a` en tant que `/b` signifie que lorsque l'utilisateur va visiter `/b`, l'URL vas rester `/b`, mais la concordance va se faire comme si l'utilisateur visitait `/a`.**
+** Un alias de `/a` en tant que `/b` signifie que lorsque l'utilisateur va visiter `/b`, l'URL va rester `/b`, mais la concordance va se faire comme si l'utilisateur visitait `/a`.**
 
 La phase du dessus peut être exprimée dans la configuration de la route de la manière suivante :
 

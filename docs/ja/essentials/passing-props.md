@@ -4,7 +4,7 @@
 
 コンポーネントをルーターから分離するために `props` オプションを使います:
 
-**❌  `$route` に結合**
+**  `$route` に結合**
 
 ``` js
 const User = {
@@ -17,7 +17,7 @@ const router = new VueRouter({
 })
 ```
 
-**👍  `props` による分離**
+**  `props` による分離**
 
 ``` js
 const User = {
@@ -26,7 +26,7 @@ const User = {
 }
 const router = new VueRouter({
   routes: [
-    { path: '/user/:id', component: User, props: true }
+    { path: '/user/:id', component: User, props: true },
 
     // 名前付きビューによるルートに対しては、名前付きビューごとに `props` オプションを定義しなければなりません:
     {

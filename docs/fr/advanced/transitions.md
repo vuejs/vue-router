@@ -12,7 +12,7 @@ Vu que `<router-view>` est essentiellement un composant dynamique, on peut lui a
 
 ### Transition par route
 
-L'utilisation au dessus applique la même transition pour chaque route. Si vous voulez que les composants de route aient des transitions différentes, vous pouvez utiliser à la place `<transition>` avec des noms différents à l'intérieur de chaque composant de route :
+L'utilisation du dessus applique la même transition pour chaque route. Si vous voulez que les composants de route aient des transitions différentes, vous pouvez utiliser à la place `<transition>` avec des noms différents à l'intérieur de chaque composant de route :
 
 ``` js
 const Foo = {

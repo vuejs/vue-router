@@ -2,7 +2,7 @@
 
 使用前端路由，当切换到新路由时，想要页面滚到顶部，或者是保持原先的滚动位置，就像重新加载页面那样。 `vue-router` 能做到，而且更好，它让你可以自定义路由切换时页面如何滚动。
 
-**注意: 这个功能只在 HTML5 history 模式下可用。**
+**注意: 这个功能只在支持 `history.pushState` 的浏览器中可用。**
 
 当创建一个 Router 实例，你可以提供一个 `scrollBehavior` 方法：
 
@@ -20,9 +20,9 @@ const router = new VueRouter({
 这个方法返回滚动位置的对象信息，长这样：
 
 - `{ x: number, y: number }`
-- `{ selector: string }`
+- `{ selector: string, offset? : { x: number, y: number }}` (offset 只在 2.6.0+ 支持)
 
-如果返回一个布尔假的值，或者是一个空对象，那么不会发生滚动。
+如果返回一个 falsy (译者注：falsy 不是 `false`，[参考这里](https://developer.mozilla.org/zh-CN/docs/Glossary/Falsy))的值，或者是一个空对象，那么不会发生滚动。
 
 举例：
 
@@ -58,4 +58,22 @@ scrollBehavior (to, from, savedPosition) {
 }
 ```
 
-我们还可以利用 [路由元信息](meta.md) 更细颗粒度地控制滚动。查看完整例子 [这里](https://github.com/vuejs/vue-router/blob/next/examples/scroll-behavior/app.js).
+我们还可以利用[路由元信息](meta.md)更细颗粒度地控制滚动。查看完整例子请[移步这里](https://github.com/vuejs/vue-router/blob/next/examples/scroll-behavior/app.js)。
+
+### 异步滚动
+
+> 2.8.0 新增
+
+你也可以返回一个 Promise 来得出预期的位置描述：
+
+``` js
+scrollBehavior (to, from, savedPosition) {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      resolve({ x: 0, y: 0 })
+    }, 500)
+  })
+}
+```
+
+将其挂载到从页面级别的过渡组件的事件上，令其滚动行为和页面过渡一起良好运行是可能的。但是考虑到用例的多样性和复杂性，我们仅提供这个原始的接口，以支持不同用户场景的具体实现。

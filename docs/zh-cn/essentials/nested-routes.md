@@ -96,4 +96,4 @@ const router = new VueRouter({
 })
 ```
 
-提供以上案例的可运行代码，[戳这里](http://jsfiddle.net/yyx990803/L7hscd8h/).
+提供以上案例的可运行代码请[移步这里](https://jsfiddle.net/yyx990803/L7hscd8h/)。

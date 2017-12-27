@@ -30,7 +30,7 @@ router.beforeEach((to, from, next) => {
 
   - **`next(false)`**: 現在のナビゲーションを中止します。もしブラウザのURLが変化した場合は（ユーザーが手動で変更した場合でも、戻るボタンの場合でも）、 `from` ルートのURLにリセットされます。
 
-  - **`next('/')` または `next({ path: '/' })`**: 異なる場所へリダイレクトします。現在のナビゲーションは中止され、あたらしいナビゲーションが始まります。
+  - **`next('/')` または `next({ path: '/' })`**: 異なる場所へリダイレクトします。現在のナビゲーションは中止され、あたらしいナビゲーションが始まります。任意のロケーションオブジェクトを `next` に渡すことができます。この `next` には、`replace: true`、 `name: 'home'` のようなオプション、そして [`router-link`、`to` プロパティ](../api/router-link.md)または [`router.push`](../api/router-instance.md#methods)で使用される任意のオプションを指定することができます。
 
   - **`next(error)`**: (2.4.0+) `next` に渡された引数が `Error` インスタンスである場合、ナビゲーションは中止され、エラーは `router.onError()` を介して登録されたコールバックに渡されます。
 
@@ -115,7 +115,28 @@ beforeRouteEnter (to, from, next) {
 }
 ```
 
-`beforeRouteLeave` 内で直接 `this` にアクセスすることができます。この去る際のガードは通常はユーザーが不意に編集を保存していない状態でこのルートを去ることを防ぐために使われます。このナビゲーションは `next(false)` を呼ぶことでキャンセルされます。
+コールバックを `next` に渡すことをサポートするのは、`beforeRouteEnter` ガードだけであるということに注意してください。`beforeRouteUpdate` と `beforeRouteLeave` の場合、 `this` は既に利用可能です。したがって、コールバックを渡す必要はないので、*サポートされません*:
+
+```js
+beforeRouteUpdate (to, from, next) {
+  // `this` を使用
+  this.name = to.params.name
+  next()
+}
+```
+
+**leave ガード**は、通常、ユーザが保存されていない編集内容で誤って経路を離れるのを防ぐために使用されます。ナビゲーションは `next(false)` を呼び出すことで取り消すことができます。
+
+```js
+beforeRouteLeave (to, from , next) {
+  const answer = window.confirm('Do you really want to leave? you have unsaved changes!')
+  if (answer) {
+    next()
+  } else {
+    next(false)
+  }
+}
+```
 
 ### 完全なナビゲーション解決フロー
 1. ナビゲーションがトリガされる

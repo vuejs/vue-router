@@ -4,7 +4,7 @@
 
 - **导航完成之后获取**：先完成导航，然后在接下来的组件生命周期钩子中获取数据。在数据获取期间显示『加载中』之类的指示。
 
-- **导航完成之前获取**：导航完成前，在路由的 `enter` 钩子中获取数据，在数据获取成功后执行导航。
+- **导航完成之前获取**：导航完成前，在路由进入的守卫中获取数据，在数据获取成功后执行导航。
 
 从技术角度讲，两种方式都不错 —— 就看你想要的用户体验是哪种。
 
@@ -71,7 +71,7 @@ export default {
 
 ## 在导航完成前获取数据
 
-通过这种方式，我们在导航转入新的路由前获取数据。我们可以在接下来的组件的  `beforeRouteEnter` 钩子中获取数据，当数据获取成功后只调用 `next` 方法。
+通过这种方式，我们在导航转入新的路由前获取数据。我们可以在接下来的组件的  `beforeRouteEnter` 守卫中获取数据，当数据获取成功后只调用 `next` 方法。
 
 ``` js
 export default {
@@ -83,28 +83,25 @@ export default {
   },
   beforeRouteEnter (to, from, next) {
     getPost(to.params.id, (err, post) => {
-      if (err) {
-        // display some global error message
-        next(false)
-      } else {
-        next(vm => {
-          vm.post = post
-        })
-      }
+      next(vm => vm.setData(err, post))
     })
   },
   // 路由改变前，组件就已经渲染完了
   // 逻辑稍稍不同
-  watch: {
-    $route () {
-      this.post = null
-      getPost(this.$route.params.id, (err, post) => {
-        if (err) {
-          this.error = err.toString()
-        } else {
-          this.post = post
-        }
-      })
+  beforeRouteUpdate (to, from, next) {
+    this.post = null
+    getPost(to.params.id, (err, post) => {
+      this.setData(err, post)
+      next()
+    })
+  },
+  methods: {
+    setData (err, post) {
+      if (err) {
+        this.error = err.toString()
+      } else {
+        this.post = post
+      }
     }
   }
 }

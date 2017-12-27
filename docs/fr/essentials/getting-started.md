@@ -30,7 +30,7 @@ Créer une application monopage avec Vue + Vue Router est vraiment simple. Avec 
 ### JavaScript
 
 ``` js
-// 0. Si vous utilisez un système de module (ex : via vue-cli), il faut importer Vue et VueRouter et ensuite appeler `Vue.use(VueRouter)`.
+// 0. Si vous utilisez un système de module (par ex. via vue-cli), il faut importer Vue et Vue Router et ensuite appeler `Vue.use(VueRouter)`.
 
 // 1. Définissez les composants de route.
 // Ces derniers peuvent être importés depuis d'autre fichier
@@ -64,6 +64,29 @@ const app = new Vue({
 // L'application est maintenant en marche !
 ```
 
-Vous pouvez aussi regarder cet [exemple](http://jsfiddle.net/yyx990803/xgrjzsup/).
+En injectant le routeur, nous y avons accès à travers `this.$router`. Nous avons également accès à la route courante derrière `this.$route` depuis n'importe quel composant :
+
+```js
+// Home.vue
+export default {
+  computed: {
+    username () {
+      // Nous verrons ce que représente `params` dans un instant.
+      return this.$route.params.username
+    }
+  },
+  methods: {
+    goBack () {
+      window.history.length > 1
+        ? this.$router.go(-1)
+        : this.$router.push('/')
+    }
+  }
+}
+```
+
+Dans les documentations, nous allons souvent utiliser l'instance `router`. Gardez à l'esprit que l'utilisation de `this.$router` est exactement la même chose que celle de `router`. La raison pour laquelle nous utilisons `this.$router` est la possibilité ainsi offerte de ne pas avoir à importer le routeur dans chaque fichier de composant ayant besoin d'accéder au routage.
+
+Vous pouvez aussi regarder cet [exemple](https://jsfiddle.net/yyx990803/xgrjzsup/).
 
 Notez qu'un `<router-link>` obtiendra automatiquement la classe `.router-link-active` lorsque sa route cible correspond à la route actuelle. Vous pouvez en apprendre plus à propos de cela dans sa [documentation d'API](../api/router-link.md).

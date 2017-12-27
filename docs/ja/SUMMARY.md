@@ -1,7 +1,7 @@
-# vue-router 2
-<!--email_off-->
-> 注意: vue-router@2.x は Vue 2.x のみで動作します。[0.7 のドキュメントをお探しですか?](https://github.com/vuejs/vue-router/tree/1.0/docs/ja)
-<!--/email_off-->
+# vue-router
+
+> 注意: TypeScript ユーザ向けは、vue-router@3.0+ と vue@2.5+ が必須、逆もまた同様です。
+
 **[リリースノート](https://github.com/vuejs/vue-router/releases)**
 
 - [インストール](installation.md)

@@ -4,7 +4,7 @@ Utiliser `$route` dans vos composants crée un couplage fort à la route qui va 
 
 Pour découpler un composant de son routeur, utilisez les props :
 
-**❌ Couplé avec `$route`**
+**Plutôt que de coupler avec `$route`**
 
 ``` js
 const User = {
@@ -17,7 +17,7 @@ const router = new VueRouter({
 })
 ```
 
-**👍 Découplé avec les `props`**
+**Découplez avec les `props`**
 
 ``` js
 const User = {
@@ -26,7 +26,7 @@ const User = {
 }
 const router = new VueRouter({
   routes: [
-    { path: '/utilisateur/:id', component: User, props: true }
+    { path: '/utilisateur/:id', component: User, props: true },
 
     // pour les routes avec vues nommées, vous devez définir l'option `props` pour chaque vue nommée :
     {
@@ -72,4 +72,4 @@ L'URL `/search?q=vue` passerait `{query: 'vue'}` comme `props` au composant `Sea
 
 Essayez de garder la fonction de `props` sans état, car il n'est évalué que sur les changements de route. Utilisez un composant englobant si vous avez besoin d'état pour définir les props, ainsi la vue pourra réagir au changement d'état.
 
-Pour une utilisation avancée, jettez un œil à cet [exemple](https://github.com/vuejs/vue-router/blob/dev/examples/route-props/app.js).
+Pour une utilisation avancée, jetez un œil à cet [exemple](https://github.com/vuejs/vue-router/blob/dev/examples/route-props/app.js).

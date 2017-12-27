@@ -13,6 +13,7 @@
     name?: string; // 名前付きルート用
     components?: { [name: string]: Component }; // 名前付き view 用
     redirect?: string | Location | Function;
+    props?: boolean | string | Function;
     alias?: string | Array<string>;
     children?: Array<RouteConfig>; // ネストされたルート用
     beforeEnter?: (to: Route, from: Route, next: Function) => void;
@@ -73,11 +74,16 @@
   シグネチャ:
 
   ```
-  (
+  type PositionDescriptor =
+    { x: number, y: number } |
+    { selector: string } |
+    ?{}
+
+  type scrollBehaviorHandler = (
     to: Route,
     from: Route,
     savedPosition?: { x: number, y: number }
-  ) => { x: number, y: number } | { selector: string } | ?{}
+  ) => PositionDescriptor | Promise<PositionDescriptor>
   ```
 
   より詳細については [スクロールの振る舞い](../advanced/scroll-behavior.md) を参照してください。

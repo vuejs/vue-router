@@ -104,6 +104,7 @@ export class History {
       this.preloadedRoute = null
     } else {
       this.preloadedRoute = null
+
       this.confirmTransition(route, _onComplete, err => {
         if (onAbort) {
           onAbort(err)

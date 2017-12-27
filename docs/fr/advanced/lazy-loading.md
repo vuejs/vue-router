@@ -2,7 +2,7 @@
 
 Pendant la construction d'applications avec un empaqueteur (« bundler »), le paquetage JavaScript peut devenir un peu lourd, et donc cela peut affecter le temps de chargement de la page. Il serait plus efficace si l'on pouvait séparer chaque composant de route dans des fragments séparés, et de les charger uniquement lorsque la route est visitée.
 
-En combinant la [fonctionnalité de composant asynchrone](https://fr.vuejs.org/v2/guide/components.html#Composants-asynchrones) de Vue et la [fonctionnalité de séparation de code](https://webpack.js.org/guides/code-splitting-async/) de webpack, il est très facile de charger à la volée les composants de route.
+En combinant la [fonctionnalité de composant asynchrone](https://fr.vuejs.org/v2/guide/components.html#Composants-asynchrones) de Vue et la [fonctionnalité de scission de code](https://webpack.js.org/guides/code-splitting-async/) de webpack, il est très facile de charger à la volée les composants de route.
 
 Premièrement, un composant asynchrone peut définir une fonction fabrique qui retourne une Promesse (qui devrait résoudre le composant lui-même) :
 
@@ -16,9 +16,9 @@ Deuxièmement, avec webpack 2, nous pouvons utiliser la syntaxe d'[import dynami
 import('./Foo.vue') // returns a Promise
 ```
 
-> Note: if you are using Babel, you will need to add the [syntax-dynamic-import](http://babeljs.io/docs/plugins/syntax-dynamic-import/) plugin so that Babel can properly parse the syntax.
+> Note: si vous utilisez Babel, vous aurez besoin d'ajouter le plugin [syntax-dynamic-import](http://babeljs.io/docs/plugins/syntax-dynamic-import/) de façon à ce que Babel puisse analyser correctement la syntaxe.
 
-Combining the two, this is how to define an async component that will be automatically code-split by webpack:
+En combinant les deux, on définit un composant asynchrone qui sera automatiquement scindé par webpack :
 
 ``` js
 const Foo = () => import('./Foo.vue')

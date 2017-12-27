@@ -2,7 +2,7 @@
 
 En utilisant le routage côté client, nous pourrions vouloir faire défiler la page jusqu'en haut lorsqu'on navigue vers une nouvelle route, ou alors préserver la position du défilement des entrées de l'historique comme le ferait une page réelle. `vue-router` vous permet de faire cela et, encore mieux, vous permet de changer le comportement du défilement pendant la navigation.
 
-**Note : cette fonctionnalité ne fonctionne qu'avec le mode historique HTML5.**
+**Note : cette fonctionnalité ne fonctionne que si le navigateur supporte `history.pushState`.**
 
 Pendant la création de l'instance du routeur, vous pouvez renseigner la fonction `scrollBehavior` :
 
@@ -34,7 +34,7 @@ scrollBehavior (to, from, savedPosition) {
 
 Cela permettra de défiler au haut de page à chaque navigation à travers les routes.
 
-Retourner l'objet `savedPosition` résultera en un comportement quasi-natif en naviguant avec les boutons précédents/suivants :
+Retourner l'objet `savedPosition` résultera en un comportement quasi natif en naviguant avec les boutons précédents/suivants :
 
 ``` js
 scrollBehavior (to, from, savedPosition) {
@@ -60,3 +60,21 @@ scrollBehavior (to, from, savedPosition) {
 ```
 
 On peut aussi utiliser les [champs meta de route](meta.md) pour implémenter un contrôle bien précis pour le comportement du défilement. Allez voir un exemple complet [ici](https://github.com/vuejs/vue-router/blob/dev/examples/scroll-behavior/app.js).
+
+### Défilement asynchrone
+
+> Nouveau dans la 2.8.0+
+
+Vous pouvez également retourner une promesse pour résoudre la description de position souhaitée :
+
+``` js
+scrollBehavior (to, from, savedPosition) {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      resolve({ x: 0, y: 0 })
+    }, 500)
+  })
+}
+```
+
+Il est possible de relier les événements d'un composant de transition au niveau de la page pour que le comportement de défilement soit bien adapté à vos transitions de pages. Cependant, en raison de la variance et de la complexité des cas d'utilisation, nous fournissons simplement ce code primitif pour permettre aux utilisateurs de faire les implémentations spécifiques.

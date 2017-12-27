@@ -36,7 +36,7 @@ L'objet `Route` peut être trouvé à plusieurs endroits :
 
   - type : `string`
 
-    Une chaîne de caractères représentant le chemin de la route en cours, toujours résolue en tant que chemin absolu, ex : `"/foo/bar"`.
+    Une chaine de caractères représentant le chemin de la route en cours, toujours résolue en tant que chemin absolu, ex : `"/foo/bar"`.
 
 - **$route.params**
 
@@ -48,13 +48,13 @@ L'objet `Route` peut être trouvé à plusieurs endroits :
 
   - type : `Object`
 
-    Un objet qui contient des pairs clé/valeur de la requête au format d'une chaîne de caractères. Par exemple, pour un chemin `/foo?user=1`, on aura `$route.query.user == 1`. S'il n'y a pas de requête, alors la valeur sera un objet vide.
+    Un objet qui contient des pairs clé/valeur de la requête au format d'une chaine de caractères. Par exemple, pour un chemin `/foo?user=1`, on aura `$route.query.user == 1`. S'il n'y a pas de requête, alors la valeur sera un objet vide.
 
 - **$route.hash**
 
   - type : `string`
 
-    Le hash de la route courante (avec le `#`), s'il y en a un. S'il n'y a pas de hash, alors la valeur sera une chaîne de caractères vide.
+    Le hash de la route courante (avec le `#`), s'il y en a un. S'il n'y a pas de hash, alors la valeur sera une chaine de caractères vide.
 
 - **$route.fullPath**
 

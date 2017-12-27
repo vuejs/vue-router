@@ -42,7 +42,6 @@
   <router-link :to="{ path: 'register', query: { plan: 'private' }}">Register</router-link>
   ```
 
-
 - **replace**
 
   - type: `boolean`
@@ -55,7 +54,6 @@
   <router-link :to="{ path: '/abc'}" replace></router-link>
   ```
 
-
 - **append**
 
   - type: `boolean`
@@ -67,7 +65,6 @@
   ``` html
   <router-link :to="{ path: 'relative/path'}" append></router-link>
   ```
-
 
 - **tag**
 
@@ -82,7 +79,6 @@
   <!-- renders as -->
   <li>foo</li>
   ```
-
 
 - **active-class**
 

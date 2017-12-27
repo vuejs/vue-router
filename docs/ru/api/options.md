@@ -74,11 +74,16 @@
   Сигнатура:
 
   ```
-  (
+  type PositionDescriptor =
+    { x: number, y: number } |
+    { selector: string } |
+    ?{}
+
+  type scrollBehaviorHandler = (
     to: Route,
     from: Route,
     savedPosition?: { x: number, y: number }
-  ) => { x: number, y: number } | { selector: string } | ?{}
+  ) => PositionDescriptor | Promise<PositionDescriptor>
   ```
 
   Для подробностей см. [Скроллинг](../advanced/scroll-behavior.md).

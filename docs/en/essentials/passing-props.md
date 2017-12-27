@@ -4,7 +4,7 @@ Using `$route` in your component creates a tight coupling with the route which l
 
 To decouple this component from the router use option `props`:
 
-**❌ Coupled to `$route`**
+**Instead of coupling to `$route`:**
 
 ``` js
 const User = {
@@ -17,7 +17,7 @@ const router = new VueRouter({
 })
 ```
 
-**👍 Decoupled with `props`**
+**Decouple it by using `props`**
 
 ``` js
 const User = {
@@ -26,7 +26,7 @@ const User = {
 }
 const router = new VueRouter({
   routes: [
-    { path: '/user/:id', component: User, props: true }
+    { path: '/user/:id', component: User, props: true },
 
     // for routes with named views, you have to define the `props` option for each named view:
     {

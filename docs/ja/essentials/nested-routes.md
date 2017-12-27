@@ -95,4 +95,4 @@ const router = new VueRouter({
 })
 ```
 
-この例の動作デモは [こちら](http://jsfiddle.net/yyx990803/L7hscd8h/) です。
+この例の動作デモは [こちら](https://jsfiddle.net/yyx990803/L7hscd8h/) です。

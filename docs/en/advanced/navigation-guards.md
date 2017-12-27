@@ -30,7 +30,7 @@ Every guard function receives three arguments:
 
   - **`next(false)`**: abort the current navigation. If the browser URL was changed (either manually by the user or via back button), it will be reset to that of the `from` route.
 
-  - **`next('/')` or `next({ path: '/' })`**: redirect to a different location. The current navigation will be aborted and a new one will be started.
+  - **`next('/')` or `next({ path: '/' })`**: redirect to a different location. The current navigation will be aborted and a new one will be started. You can pass any location object to `next`, which allows you to specify options like `replace: true`, `name: 'home'` and any option used in [`router-link`'s `to` prop](../api/router-link.md) or [`router.push`](../api/router-instance.md#methods)
 
   - **`next(error)`**: (2.4.0+) if the argument passed to `next` is an instance of `Error`, the navigation will be aborted and the error will be passed to callbacks registered via `router.onError()`.
 
@@ -116,7 +116,28 @@ beforeRouteEnter (to, from, next) {
 }
 ```
 
-You can directly access `this` inside `beforeRouteLeave`. The leave guard is usually used to prevent the user from accidentally leaving the route with unsaved edits. The navigation can be canceled by calling `next(false)`.
+Note that `beforeRouteEnter` is the only guard that supports passing a callback to `next`. For `beforeRouteUpdate` and `beforeRouteLeave`, `this` is already available, so passing a callback is unnecessary and therefore *not supported*:
+
+```js
+beforeRouteUpdate (to, from, next) {
+  // just use `this`
+  this.name = to.params.name
+  next()
+}
+```
+
+The **leave guard** is usually used to prevent the user from accidentally leaving the route with unsaved edits. The navigation can be canceled by calling `next(false)`.
+
+```js
+beforeRouteLeave (to, from , next) {
+  const answer = window.confirm('Do you really want to leave? you have unsaved changes!')
+  if (answer) {
+    next()
+  } else {
+    next(false)
+  }
+}
+```
 
 ### The Full Navigation Resolution Flow
 

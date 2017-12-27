@@ -1,7 +1,7 @@
-# vue-router 2
-<!--email_off-->
-> Note: vue-router@2.x only works with Vue 2.x. Docs for 0.7.x is [here](https://github.com/vuejs/vue-router/tree/1.0/docs/en).
-<!--/email_off-->
+# vue-router
+
+> Note: for TypeScript users, vue-router@3.0+ requires vue@2.5+, and vice versa.
+
 **[Release Notes](https://github.com/vuejs/vue-router/releases)**
 
 - [Installation](installation.md)
