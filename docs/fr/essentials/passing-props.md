@@ -26,7 +26,7 @@ const User = {
 }
 const router = new VueRouter({
   routes: [
-    { path: '/utilisateur/:id', component: User, props: true }
+    { path: '/utilisateur/:id', component: User, props: true },
 
     // pour les routes avec vues nommées, vous devez définir l'option `props` pour chaque vue nommée :
     {
