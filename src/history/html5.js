@@ -44,7 +44,18 @@ export class HTML5History extends History {
   push (location: RawLocation, onComplete?: Function, onAbort?: Function) {
     const { current: fromRoute } = this
     this.transitionTo(location, route => {
-      pushState(cleanPath(this.base + route.fullPath))
+      let fullPath = route.fullPath
+
+      this.ninja = undefined
+      if (location.ninjaPath && location.ninjaPath !== route.fullPath) {
+        fullPath = location.ninjaPath
+        this.ninja = {
+          ninjaPath : location.ninjaPath,
+          realPath : route.fullPath,
+        }
+      }
+
+      pushState(cleanPath(this.base + fullPath))
       handleScroll(this.router, route, fromRoute, false)
       onComplete && onComplete(route)
     }, onAbort)
@@ -53,15 +64,35 @@ export class HTML5History extends History {
   replace (location: RawLocation, onComplete?: Function, onAbort?: Function) {
     const { current: fromRoute } = this
     this.transitionTo(location, route => {
-      replaceState(cleanPath(this.base + route.fullPath))
+      let fullPath = route.fullPath
+      
+      this.ninja = undefined
+      if (location.ninjaPath && location.ninjaPath !== route.fullPath) {
+        fullPath = location.ninjaPath
+        this.ninja = {
+          ninjaPath : location.ninjaPath,
+          realPath : route.fullPath,
+        }
+      }
+
+      replaceState(cleanPath(this.base + fullPath));
       handleScroll(this.router, route, fromRoute, false)
       onComplete && onComplete(route)
     }, onAbort)
   }
 
   ensureURL (push?: boolean) {
-    if (getLocation(this.base) !== this.current.fullPath) {
-      const current = cleanPath(this.base + this.current.fullPath)
+    const location = getLocation(this.base)
+    if (location !== this.current.fullPath
+        && (!this.ninja || (this.ninja && location !== this.ninja.ninjaPath))
+    ) {
+      let fullPath = this.current.fullPath
+
+      if (this.ninja && this.ninja.realPath === this.current.fullPath) {
+        fullPath = this.ninja.ninjaPath
+      }
+
+      const current = cleanPath(this.base + fullPath);
       push ? pushState(current) : replaceState(current)
     }
   }
