@@ -28,7 +28,10 @@ export class HashHistory extends History {
       setupScroll()
     }
 
-    window.addEventListener(supportsPushState ? 'popstate' : 'hashchange', () => {
+    const ua = window.navigator.userAgent
+    const ie11 = ua.indexOf('rv:11.0') !== -1
+
+    window.addEventListener(supportsPushState && !ie11 ? 'popstate' : 'hashchange', () => {
       const current = this.current
       if (!ensureSlash()) {
         return
