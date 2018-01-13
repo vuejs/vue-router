@@ -45,8 +45,19 @@ describe('Creating Matcher', function () {
     expect(route.children[0].name).toEqual('foo.baz')
   })
 
-  it('should return the matched route with parent populated', () => {
+  it('should return the matched route with its parent', () => {
     const route = match({ name: 'foo.baz' })
     expect(route.parent.name).toEqual('foo')
+  })
+
+  it('should have an empty children array when no children', () => {
+    const route = match({ name: 'home' })
+    expect(route.children).toEqual([])
+  })
+
+  it('should return the matched route with its children', () => {
+    const route = match({ name: 'foo' })
+    expect(route.children.length).toEqual(1)
+    expect(route.children[0].name).toEqual('foo.baz')
   })
 })
