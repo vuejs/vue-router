@@ -73,7 +73,7 @@ export interface PathToRegexpOptions {
 export interface RouteConfig {
   path: string;
   name?: string;
-  component?: () => Promise<any> | Component;
+  component?: () => Promise<Component> | Component;
   components?: Dictionary<Component>;
   redirect?: RedirectOption;
   alias?: string | string[];
