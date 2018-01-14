@@ -38,7 +38,7 @@ En plus de `$route.params`, l'objet `$route` expose également d'autres informat
 
 ### Réactivité aux changements de paramètres
 
-Une chose à noter quand vous utilisez des routes avec des paramètres (segments), c'est que lors de la navigation de l'utilisateur de `/utilisateur/foo` vers `/utilisateur/bar`, **la même instance de composant va être réutilisée**. Puisque les deux routes font le rendu du même composant, cela est plus performant que de détruire l'ancienne instance et dans créer une nouvelle. **Cependant, cela signifie également que les hooks de cycle de vie ne seront pas appelés**.
+Une chose à noter quand vous utilisez des routes avec des paramètres (segments), c'est que lors de la navigation de l'utilisateur de `/utilisateur/foo` vers `/utilisateur/bar`, **la même instance de composant va être réutilisée**. Puisque les deux routes font le rendu du même composant, cela est plus performant que de détruire l'ancienne instance et d'en créer une nouvelle. **Cependant, cela signifie également que les hooks de cycle de vie ne seront pas appelés**.
 
 Pour réagir aux changements de paramètres dans le même composant, vous pouvez simplement observer l'objet `$route` :
 
