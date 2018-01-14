@@ -3,7 +3,7 @@ import { createMatcher } from '../../../src/create-matcher'
 
 const routes = [
   { path: '/', name: 'home', component: { name: 'home' }},
-  { path: '/foo', name: 'foo', component: { name: 'foo' }},
+  { path: '/foo', name: 'foo', component: { name: 'foo' }}
 ]
 
 describe('Creating Matcher', function () {

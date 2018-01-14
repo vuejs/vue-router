@@ -83,7 +83,7 @@ module.exports = {
           route.matched[0].path === '/asterisk/*' &&
           route.fullPath === '/asterisk/foo' &&
           JSON.stringify(route.params) === JSON.stringify({
-            0: 'foo'
+            'fullPath': 'foo'
           })
         )
       }, null, '/asterisk/foo')
@@ -96,7 +96,7 @@ module.exports = {
           route.matched[0].path === '/asterisk/*' &&
           route.fullPath === '/asterisk/foo/bar' &&
           JSON.stringify(route.params) === JSON.stringify({
-            0: 'foo/bar'
+            'fullPath': 'foo/bar'
           })
         )
       }, null, '/asterisk/foo/bar')
