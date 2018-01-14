@@ -34,8 +34,8 @@ describe('Creating Matcher', function () {
     expect(console.warn).not.toHaveBeenCalled()
   })
 
-  it('matches asterisk routes with fullName as the param', function () {
+  it('matches asterisk routes with a default param name', function () {
     const { params } = match({ path: '/not-found' }, routes[0])
-    expect(params).toEqual({ fullPath: '/not-found' })
+    expect(params).toEqual({ pathMatch: '/not-found' })
   })
 })

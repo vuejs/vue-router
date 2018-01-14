@@ -190,7 +190,7 @@ function matchRoute (
     const val = typeof m[i] === 'string' ? decodeURIComponent(m[i]) : m[i]
     if (key) {
       // Fix #1994: using * with props: true generates a param named 0
-      params[key.name || 'fullPath'] = val
+      params[key.name || 'pathMatch'] = val
     }
   }
 
