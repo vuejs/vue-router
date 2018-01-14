@@ -3,7 +3,8 @@ import { createMatcher } from '../../../src/create-matcher'
 
 const routes = [
   { path: '/', name: 'home', component: { name: 'home' }},
-  { path: '/foo', name: 'foo', component: { name: 'foo' }}
+  { path: '/foo', name: 'foo', component: { name: 'foo' }},
+  { path: '*', props: true, component: { name: 'notFound' }}
 ]
 
 describe('Creating Matcher', function () {
@@ -31,5 +32,10 @@ describe('Creating Matcher', function () {
   it('in production, it has not logged this warning', function () {
     match({ name: 'foo' }, routes[0])
     expect(console.warn).not.toHaveBeenCalled()
+  })
+
+  it('matches asterisk routes with fullName as the param', function () {
+    const { params } = match({ path: '/not-found' }, routes[0])
+    expect(params).toEqual({ fullPath: '/not-found' })
   })
 })
