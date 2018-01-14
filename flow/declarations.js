@@ -98,5 +98,7 @@ declare type Route = {
   fullPath: string;
   matched: Array<RouteRecord>;
   redirectedFrom?: string;
+  parent: ?RouteRecord;
+  children: Array<RouteConfig>;
   meta?: any;
 }
