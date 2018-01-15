@@ -67,7 +67,8 @@ _The nested view components are omitted here but you can find the complete sourc
 Then you can achieve the layout above with this route configuration:
 
 ```js
-{ path: '/settings',
+{
+  path: '/settings',
   // You could also have named views at the top
   component: UserSettings,
   children: [{
