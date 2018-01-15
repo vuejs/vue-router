@@ -7,7 +7,7 @@
 - [Instalação](installation.md)
 - Essenciais
   - [Introdução](essentials/getting-started.md)
-  - [Dynamic Route Matching](essentials/dynamic-matching.md)
+  - [Correspondência de Rota Dinâmica](essentials/dynamic-matching.md)
   - [Rotas Aninhadas](essentials/nested-routes.md)
   - [Navegação programática](essentials/navigation.md)
   - [Rotas Nomeadas](essentials/named-routes.md)
