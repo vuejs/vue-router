@@ -44,7 +44,7 @@ It is possible to create complex layouts using named views with nested views. Wh
 +-----------------------------------+                  +------------------------------+
 ```
 
-- `Nav` is just a regular compnonent
+- `Nav` is just a regular component
 - `UserSettings` is the view component
 - `UserEmailsSubscriptions`, `UserProfile`, `UserProfilePreview` are nested view components
 
