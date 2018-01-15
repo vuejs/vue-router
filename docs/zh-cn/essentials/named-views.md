@@ -66,7 +66,8 @@ _嵌套的视图组件在此已经被忽略了，但是你可以在[这里](http
 然后你可以用这个路由配置完成该布局：
 
 ```js
-{ path: '/settings',
+{
+  path: '/settings',
   // 你也可以在顶级路由就配置命名视图
   component: UserSettings,
   children: [{
