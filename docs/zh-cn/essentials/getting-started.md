@@ -63,7 +63,7 @@ const app = new Vue({
 // 现在，应用已经启动了！
 ```
 
-通过注入路由，我们可以用 `this.$router` 来访问它，就像在任何组件里用 `this.$router` 访问当前路有一样。
+通过注入路由，我们可以用 `this.$router` 来访问它，就像在任何组件里用 `this.$router` 访问当前路由一样。
 
 ```js
 // Home.vue
