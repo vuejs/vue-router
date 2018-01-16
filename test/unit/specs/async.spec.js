@@ -6,7 +6,7 @@ describe('Async utils', () => {
       const calls = []
       const queue = [1, 2, 3, 4, 5].map(i => next => {
         calls.push(i)
-        setTimeout(done, 0)
+        setTimeout(next, 0)
       })
       runQueue(queue, (fn, next) => fn(next), () => {
         expect(calls).toEqual([1, 2, 3, 4, 5])
