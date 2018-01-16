@@ -6,7 +6,7 @@ const node = require('rollup-plugin-node-resolve')
 const replace = require('rollup-plugin-replace')
 const version = process.env.VERSION || require('../package.json').version
 const banner =
-`/**
+`/*!
   * vue-router v${version}
   * (c) ${new Date().getFullYear()} Evan You
   * @license MIT
