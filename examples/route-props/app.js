@@ -19,7 +19,7 @@ const router = new VueRouter({
     { path: '/hello/:name', component: Hello, props: true }, // Pass route.params to props
     { path: '/static', component: Hello, props: { name: 'world' }}, // static values
     { path: '/dynamic/:years', component: Hello, props: dynamicPropsFn }, // custom logic for mapping between route and props
-    { path: '/attrs', component: Hello, props: { name: 'attrs' }}
+    { path: '/attrs', component: Hello, props: { name: 'attrs' }}// what the difference between static and attrs
   ]
 })
 
