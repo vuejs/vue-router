@@ -47,7 +47,18 @@ export class HashHistory extends History {
   push (location: RawLocation, onComplete?: Function, onAbort?: Function) {
     const { current: fromRoute } = this
     this.transitionTo(location, route => {
-      pushHash(route.fullPath)
+      let fullPath = route.fullPath
+      
+      this.ninja = undefined
+      if (location.ninjaPath && location.ninjaPath !== route.fullPath) {
+        fullPath = location.ninjaPath
+        this.ninja = {
+          ninjaPath : location.ninjaPath,
+          realPath : route.fullPath,
+        }
+      }
+
+      pushHash(fullPath)
       handleScroll(this.router, route, fromRoute, false)
       onComplete && onComplete(route)
     }, onAbort)
@@ -56,7 +67,18 @@ export class HashHistory extends History {
   replace (location: RawLocation, onComplete?: Function, onAbort?: Function) {
     const { current: fromRoute } = this
     this.transitionTo(location, route => {
-      replaceHash(route.fullPath)
+      let fullPath = route.fullPath
+      
+      this.ninja = undefined
+      if (location.ninjaPath && location.ninjaPath !== route.fullPath) {
+        fullPath = location.ninjaPath
+        this.ninja = {
+          ninjaPath : location.ninjaPath,
+          realPath : route.fullPath,
+        }
+      }
+      
+      replaceHash(fullPath)
       handleScroll(this.router, route, fromRoute, false)
       onComplete && onComplete(route)
     }, onAbort)
@@ -67,8 +89,15 @@ export class HashHistory extends History {
   }
 
   ensureURL (push?: boolean) {
+    const location = getHash()
     const current = this.current.fullPath
-    if (getHash() !== current) {
+    if (location !== current
+        && (!this.ninja || (this.ninja && location !== this.ninja.ninjaPath))
+    ) {
+      if (this.ninja && this.ninja.realPath === current) {
+        current = this.ninja.ninjaPath
+      }
+      
       push ? pushHash(current) : replaceHash(current)
     }
   }
