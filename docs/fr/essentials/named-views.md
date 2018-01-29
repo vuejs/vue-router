@@ -49,7 +49,7 @@ Il est possible de créer des dispositions complexes en utilisant les vues nomm�
 
 **Note** : _mettons de côté la partie HTML / CSS de cette disposition et concentrons nous sur le composant utilisé en lui-même._
 
-La section `<template>` pour le composant `UserSettings` de la disposition ci-dessus devrait ressemblé à quelque chose comme cela :
+La section `<template>` pour le composant `UserSettings` de la disposition ci-dessus devrait ressembler à quelque chose comme cela :
 
 ```html
 <!-- UserSettings.vue -->
