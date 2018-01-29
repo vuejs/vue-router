@@ -9,6 +9,7 @@ const eventTypes: Array<Function> = [String, Array]
 
 export default {
   name: 'RouterLink',
+  functional: true,
   props: {
     to: {
       type: toTypes,
@@ -28,10 +29,10 @@ export default {
       default: 'click'
     }
   },
-  render (h: Function) {
-    const router = this.$router
-    const current = this.$route
-    const { location, route, href } = router.resolve(this.to, current, this.append)
+  render (h: Function, { props, children, parent, data }) {
+    const router = parent.$router
+    const current = parent.$route
+    const { location, route, href } = router.resolve(props.to, current, props.append)
 
     const classes = {}
     const globalActiveClass = router.options.linkActiveClass
@@ -43,24 +44,25 @@ export default {
     const exactActiveClassFallback = globalExactActiveClass == null
             ? 'router-link-exact-active'
             : globalExactActiveClass
-    const activeClass = this.activeClass == null
+    const activeClass = props.activeClass == null
             ? activeClassFallback
-            : this.activeClass
-    const exactActiveClass = this.exactActiveClass == null
+            : props.activeClass
+    const exactActiveClass = props.exactActiveClass == null
             ? exactActiveClassFallback
-            : this.exactActiveClass
+            : props.exactActiveClass
     const compareTarget = location.path
       ? createRoute(null, location, null, router)
       : route
+    const extend = _Vue.util.extend
 
     classes[exactActiveClass] = isSameRoute(current, compareTarget)
-    classes[activeClass] = this.exact
+    classes[activeClass] = props.exact
       ? classes[exactActiveClass]
       : isIncludedRoute(current, compareTarget)
 
     const handler = e => {
       if (guardEvent(e)) {
-        if (this.replace) {
+        if (props.replace) {
           router.replace(location)
         } else {
           router.push(location)
@@ -68,27 +70,24 @@ export default {
       }
     }
 
+    data.class = extend(data.class || {}, classes)
+
     const on = { click: guardEvent }
-    if (Array.isArray(this.event)) {
-      this.event.forEach(e => { on[e] = handler })
+    if (Array.isArray(props.event)) {
+      props.event.forEach(e => { on[e] = handler })
     } else {
-      on[this.event] = handler
+      on[props.event] = handler
     }
 
-    const data: any = {
-      class: classes
-    }
-
-    if (this.tag === 'a') {
+    if (props.tag === 'a') {
       data.on = on
       data.attrs = { href }
     } else {
       // find the first <a> child and apply listener and href
-      const a = findAnchor(this.$slots.default)
+      const a = findAnchor(children)
       if (a) {
         // in case the <a> is a static node
         a.isStatic = false
-        const extend = _Vue.util.extend
         const aData = a.data = extend({}, a.data)
         aData.on = on
         const aAttrs = a.data.attrs = extend({}, a.data.attrs)
@@ -99,7 +98,7 @@ export default {
       }
     }
 
-    return h(this.tag, data, this.$slots.default)
+    return h(props.tag, data, children)
   }
 }
 
