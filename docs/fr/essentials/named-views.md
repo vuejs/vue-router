@@ -68,7 +68,7 @@ Puis vous pouvez achever la disposition ci-dessus avec la configuration de route
 ```js
 {
   path: '/parametres',
-  // Vous pouvez également avoir des vues nommés à la racine
+  // Vous pouvez également avoir des vues nommées à la racine
   component: UserSettings,
   children: [{
     path: 'emails',
