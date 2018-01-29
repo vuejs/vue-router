@@ -29,7 +29,7 @@ export default {
       default: 'click'
     }
   },
-  render (h: Function, { props, children, parent, data }) {
+  render (h: Function, { props, children, parent, data }: any) {
     const router = parent.$router
     const current = parent.$route
     const { location, route, href } = router.resolve(props.to, current, props.append)
