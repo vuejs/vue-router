@@ -32,7 +32,7 @@ Chaque fonction d'interception reçoit trois arguments :
 
   - **`next('/')` ou `next({ path: '/' })`**: redirige vers le nouvel URL. La navigation courante va être arrêtée et une nouvelle va se lancer. Vous pouvez passer n'importe quel objet à `next`, vous permettant ainsi de spécifier des options comme `replace: true`, `name: 'home'` et n'importe quelles options dans [la prop `to` du `router-link`](../api/router-link.md) ou [`router.push`](../api/router-instance#méthodes).
 
-  - **`next(error)`**: (2.4.0+) si l'argument passé à `next` est une instance de `Error`, la navigation va s'arrêter et l'erreur sera passée aux fonctions de rappel via `router.onError()`.
+  - **`next(error)`**: (2.4.0+) si l'argument passé à `next` est une instance de `Error`, la navigation va s'arrêter et l'erreur sera passée aux fonctions de rappel enregistrées via [`router.onError()`](../api/router-instance.html#methods).
 
 **Assurez-vous de toujours appeler la fonction `next`, sinon le hook ne sera jamais résolu.**
 
