@@ -1,4 +1,5 @@
 import { warn } from '../util/warn'
+import { _Vue } from '../install'
 
 export default {
   name: 'RouterView',
@@ -71,7 +72,7 @@ export default {
     let propsToPass = data.props = resolveProps(route, matched.props && matched.props[name])
     if (propsToPass) {
       // clone to prevent mutation
-      propsToPass = data.props = extend({}, propsToPass)
+      propsToPass = data.props = _Vue.util.extend({}, propsToPass)
       // pass non-declared props as attrs
       const attrs = data.attrs = data.attrs || {}
       for (const key in propsToPass) {
@@ -105,11 +106,4 @@ function resolveProps (route, config) {
         )
       }
   }
-}
-
-function extend (to, from) {
-  for (const key in from) {
-    to[key] = from[key]
-  }
-  return to
 }
