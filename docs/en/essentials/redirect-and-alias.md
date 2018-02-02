@@ -37,6 +37,8 @@ const router = new VueRouter({
 
 Note that [Navigation Guards](../advanced/navigation-guards.md) are not applied on the route that redirects, only on its target. In the example below, adding a `beforeEnter` or `beforeLeave` guard to the `/a` route would not have any effect.
 
+[Meta fields](../advanced/meta.md) and [props](passing-props.md) are ignored if specified on a redirect route definition
+
 For other advanced usage, checkout the [example](https://github.com/vuejs/vue-router/blob/dev/examples/redirect/app.js).
 
 ### Alias
