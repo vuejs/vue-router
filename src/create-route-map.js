@@ -57,6 +57,10 @@ function addRouteRecord (
       `route config "component" for path: ${String(path || name)} cannot be a ` +
       `string id. Use an actual component instead.`
     )
+    assert(
+      route.component !== null && route.component !== undefined,
+      `route config "component" for path: ${String(path || name)} cannot be ${String(route.component)}.`
+    )
   }
 
   const pathToRegexpOptions: PathToRegexpOptions = route.pathToRegexpOptions || {}
