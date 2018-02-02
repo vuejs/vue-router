@@ -90,4 +90,4 @@ The route object can be found in multiple places:
 
 - **$route.redirectedFrom**
 
-  The name of the route being redirected from, if it there were one. (See [Redirect and Alias](../essentials/redirect-and-alias.md))
+  The name of the route being redirected from, if there were one. (See [Redirect and Alias](../essentials/redirect-and-alias.md))
