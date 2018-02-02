@@ -58,7 +58,7 @@ function addRouteRecord (
       `string id. Use an actual component instead.`
     )
     assert(
-      route.component !== null && route.component !== undefined,
+      route.component,
       `route config "component" for path: ${String(path || name)} cannot be ${String(route.component)}.`
     )
   }
