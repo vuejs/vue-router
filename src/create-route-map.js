@@ -47,7 +47,8 @@ function addRouteRecord (
   nameMap: Dictionary<RouteRecord>,
   route: RouteConfig,
   parent?: RouteRecord,
-  matchAs?: string
+  matchAs?: string,
+  isAnAlias?: boolean
 ) {
   const { path, name } = route
   if (process.env.NODE_ENV !== 'production') {
@@ -57,9 +58,11 @@ function addRouteRecord (
       `route config "component" for path: ${String(path || name)} cannot be a ` +
       `string id. Use an actual component instead.`
     )
-    assert(
-      route.component,
-      `route config "component" for path: ${String(path || name)} cannot be ${String(route.component)}.`
+    warn(
+      route.component || route.components || route.redirect || route.beforeEnter || isAnAlias,
+      `route config "component" for path: ${String(path || name)} should be either a ` +
+      `component (or named component), redirection, navigation guard, or an alias ` +
+      `to another root.`
     )
   }
 
@@ -132,7 +135,8 @@ function addRouteRecord (
         nameMap,
         aliasRoute,
         parent,
-        record.path || '/' // matchAs
+        record.path || '/', // matchAs
+        true
       )
     })
   }

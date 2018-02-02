@@ -80,9 +80,8 @@ describe('Creating Route Map', function () {
 
   it('in development, throws if component is null or undefined', function () {
     process.env.NODE_ENV = 'development'
-    expect(() => {
-      maps = createRouteMap([{ path: '/' }])
-    }).toThrowError(/route config "component" for path/)
+    maps = createRouteMap([{ path: '/' }])
+    expect(console.warn).toHaveBeenCalled()
   })
 
   it('in production, it has not logged this warning', function () {
