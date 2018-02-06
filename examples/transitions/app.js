@@ -19,7 +19,7 @@ const Parent = {
     }
   },
   beforeRouteUpdate (to, from, next) {
-    // expect to.path and from.path to be without / in the end, becouse /example/word will give the same result as /example/
+    // expect to.path and from.path to be without trailing slash, because /example/word will give the same result as /example/
     // or add this filter to.path.split('/').filter(n => !!n).length and from.path.split('/').filter(n => !!n).length 
     const toDepth = to.path.split('/').length
     const fromDepth = from.path.split('/').length
