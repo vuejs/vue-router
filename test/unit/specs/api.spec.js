@@ -49,7 +49,17 @@ describe('router.addRoutes', () => {
     const router = new Router({
       mode: 'abstract',
       routes: [
-        { path: '/a', component: { name: 'A' }}
+        { path: '/a', component: { name: 'A' }},
+        {
+          path: '/a1',
+          component: { name: 'A1' },
+          children: [
+            {
+              path: '/b1',
+              component: { name: 'B1' }
+            }
+          ]
+        }
       ]
     })
 
@@ -74,6 +84,40 @@ describe('router.addRoutes', () => {
     components = router.getMatchedComponents()
     expect(components.length).toBe(1)
     expect(components[0].name).toBe('A')
+
+    // nested routes existing children relation
+
+    router.push('/b1')
+    components = router.getMatchedComponents()
+    expect(components.length).toBe(2)
+    expect(components[0].name).toBe('A1')
+    expect(components[1].name).toBe('B1')
+
+    router.addRoutes([
+      { path: '/c1', component: { name: 'C1' }, parent: '/b1' }
+    ])
+
+    // nested routes dynamic children relation
+
+    router.push('/c1')
+    components = router.getMatchedComponents()
+    expect(components.length).toBe(3)
+    expect(components[0].name).toBe('A1')
+    expect(components[1].name).toBe('B1')
+    expect(components[2].name).toBe('C1')
+
+    router.push('/c')
+    components = router.getMatchedComponents()
+    expect(components.length).toBe(0)
+
+    router.addRoutes([
+      { path: '/c', component: { name: 'C' }, parent: '/b' }
+    ])
+    components = router.getMatchedComponents()
+    expect(components.length).toBe(2)
+    expect(components[0].name).toBe('B')
+    expect(components[1].name).toBe('C')
+
   })
 })
 
