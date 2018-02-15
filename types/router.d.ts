@@ -79,6 +79,7 @@ export interface RouteConfig {
   alias?: string | string[];
   children?: RouteConfig[];
   meta?: any;
+  parent?: string;
   beforeEnter?: NavigationGuard;
   props?: boolean | Object | RoutePropsFunction;
   caseSensitive?: boolean;
