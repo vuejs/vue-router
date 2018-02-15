@@ -58,25 +58,23 @@ function addRouteRecord (
       `string id. Use an actual component instead.`
     )
   }
-
   const pathToRegexpOptions: PathToRegexpOptions = route.pathToRegexpOptions || {}
   const normalizedPath = normalizePath(
     path,
-    parent,
+    pathMap[route.parent] || parent,
     pathToRegexpOptions.strict
   )
 
   if (typeof route.caseSensitive === 'boolean') {
     pathToRegexpOptions.sensitive = route.caseSensitive
   }
-
   const record: RouteRecord = {
     path: normalizedPath,
     regex: compileRouteRegex(normalizedPath, pathToRegexpOptions),
     components: route.components || { default: route.component },
     instances: {},
     name,
-    parent,
+    parent: pathMap[route.parent] || parent,
     matchAs,
     redirect: route.redirect,
     beforeEnter: route.beforeEnter,
@@ -127,7 +125,7 @@ function addRouteRecord (
         pathMap,
         nameMap,
         aliasRoute,
-        parent,
+        pathMap[route.parent] || parent,
         record.path || '/' // matchAs
       )
     })
