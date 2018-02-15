@@ -53,9 +53,6 @@ const router = new VueRouter({
         // components rendered at /parent/foo: Root -> Parent -> Foo
         { path: 'foo', component: Foo },
 
-        // components rendered at /parent/bar: Root -> Parent -> Bar
-        { path: 'bar', component: Bar },
-
         // NOTE absolute path here!
         // this allows you to leverage the component nesting without being
         // limited to the nested URL.
@@ -67,8 +64,6 @@ const router = new VueRouter({
           component: Qux,
           children: [{ path: 'quux', name: 'quux', component: Quux }]
         },
-
-        { path: 'quy/:quyId', component: Quy },
 
         { name: 'zap', path: 'zap/:zapId?', component: Zap }
       ]
@@ -96,3 +91,8 @@ new Vue({
     </div>
   `
 }).$mount('#app')
+
+router.addRoutes([
+  { path: 'bar', component: Bar, parent: '/parent' },
+  { path: 'quy/:quyId', component: Quy, parent: '/parent' }
+])
