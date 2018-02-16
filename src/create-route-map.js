@@ -49,7 +49,7 @@ function addRouteRecord (
   parent?: RouteRecord,
   matchAs?: string
 ) {
-  const parentPath = pathMap[String(route.parent || null)] || parent
+  const parentPath = (nameMap[String(route.parent || null)] || pathMap[String(route.parent || null)]) || parent
   const { path, name } = route
   if (process.env.NODE_ENV !== 'production') {
     assert(path != null, `"path" is required in a route configuration.`)
