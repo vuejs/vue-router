@@ -52,11 +52,13 @@ describe('router.addRoutes', () => {
         { path: '/a', component: { name: 'A' }},
         {
           path: '/a1',
+          name: 'A1ComponentName',
           component: { name: 'A1' },
           children: [
             {
               path: '/b1',
-              component: { name: 'B1' }
+              component: { name: 'B1' },
+              name: 'B1ComponentName'
             }
           ]
         }
@@ -117,6 +119,19 @@ describe('router.addRoutes', () => {
     expect(components.length).toBe(2)
     expect(components[0].name).toBe('B')
     expect(components[1].name).toBe('C')
+
+    // nested routes asociate to parent name route
+    router.push('/d')
+    components = router.getMatchedComponents()
+    expect(components.length).toBe(0)
+
+    router.addRoutes([
+      { path: '/d', component: { name: 'D' }, parent: 'A1ComponentName' }
+    ])
+    components = router.getMatchedComponents()
+    expect(components.length).toBe(2)
+    expect(components[0].name).toBe('A1')
+    expect(components[1].name).toBe('D')
 
   })
 })
