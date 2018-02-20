@@ -66,6 +66,34 @@ describe('Route utils', () => {
       expect(isSameRoute(a, b)).toBe(true)
       expect(isSameRoute(a, c)).toBe(false)
     })
+
+    it('can ignore query', () => {
+      const a = {
+        path: '/abc',
+        query: {}
+      }
+      const b = {
+        path: '/abc',
+        query: { foo: 'bar' }
+      }
+      const c = {
+        path: '/abc',
+        query: { foo: 'baz' }
+      }
+      const d = {
+        path: '/xyz',
+        query: { foo: 'bar' }
+      }
+      expect(isSameRoute(a, b)).toBe(false)
+      expect(isSameRoute(a, c)).toBe(false)
+      expect(isSameRoute(a, d)).toBe(false)
+      expect(isSameRoute(a, b, true)).toBe(true)
+      expect(isSameRoute(a, c, true)).toBe(true)
+      expect(isSameRoute(a, d, true)).toBe(false)
+      expect(isSameRoute(b, c)).toBe(false)
+      expect(isSameRoute(b, c, true)).toBe(true)
+      expect(isSameRoute(b, d, true)).toBe(false)
+    })
   })
 
   describe('isIncludedRoute', () => {

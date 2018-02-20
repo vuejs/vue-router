@@ -19,6 +19,7 @@ export default {
       default: 'a'
     },
     exact: Boolean,
+    exactPath: Boolean,
     append: Boolean,
     replace: Boolean,
     activeClass: String,
@@ -36,6 +37,7 @@ export default {
     const classes = {}
     const globalActiveClass = router.options.linkActiveClass
     const globalExactActiveClass = router.options.linkExactActiveClass
+    const globalExactPathActiveClass = router.options.linkExactPathActiveClass
     // Support global empty active class
     const activeClassFallback = globalActiveClass == null
             ? 'router-link-active'
@@ -43,12 +45,18 @@ export default {
     const exactActiveClassFallback = globalExactActiveClass == null
             ? 'router-link-exact-active'
             : globalExactActiveClass
+    const exactPathActiveClassFallback = globalExactPathActiveClass == null
+            ? 'router-link-exact-path-active'
+            : globalExactPathActiveClass
     const activeClass = this.activeClass == null
             ? activeClassFallback
             : this.activeClass
     const exactActiveClass = this.exactActiveClass == null
             ? exactActiveClassFallback
             : this.exactActiveClass
+    const exactPathActiveClass = this.exactPathActiveClass == null
+            ? exactPathActiveClassFallback
+            : this.exactPathActiveClass
     const compareTarget = location.path
       ? createRoute(null, location, null, router)
       : route
@@ -57,6 +65,10 @@ export default {
     classes[activeClass] = this.exact
       ? classes[exactActiveClass]
       : isIncludedRoute(current, compareTarget)
+
+    if (this.exactPath) {
+      classes[exactPathActiveClass] = isSameRoute(current, compareTarget, true)
+    }
 
     const handler = e => {
       if (guardEvent(e)) {
