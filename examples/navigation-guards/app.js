@@ -33,7 +33,7 @@ const Baz = {
   },
   template: `
     <div>
-      <p>baz ({{ saved ? 'saved' : 'not saved' }})<p>
+      <p>baz ({{ saved ? 'saved' : 'not saved' }})</p>
       <button @click="saved = true">save</button>
     </div>
   `,
@@ -46,7 +46,7 @@ const Baz = {
   }
 }
 
-// Baz implements an in-component beforeRouteEnter hook
+// Qux implements an in-component beforeRouteEnter hook
 const Qux = {
   data () {
     return {
@@ -87,6 +87,57 @@ const Quux = {
   }
 }
 
+// Nested implements an in-component beforeRouteUpdate hook that uses
+// next(vm => {})
+const Nested = {
+  data () {
+    return {
+      calls: 0,
+      updates: 0
+    }
+  },
+  template: `
+    <div>
+      <p>
+        nested calls:{{ calls }} updates:{{ updates }}
+      </p>
+      <router-view></router-view>
+    </div>
+  `,
+  beforeRouteUpdate (to, from, next) {
+    // calls is incremented every time anything navigates, even if the
+    // navigation is canceled by a child component.
+    this.calls++
+
+    next(vm => {
+      // updates is only incremented once all children confirm and complete
+      // navigation. If any children load data async, then this will not be
+      // called until all children have called next() themselves. If any child
+      // cancels navigation, then this will never be called.
+      vm.updates++
+    })
+  }
+}
+
+// Buux implements a cancelable beforeRouteUpdate hook
+const Buux = {
+  data () {
+    return {
+      prevId: 0
+    }
+  },
+  template: `<div>buux id:{{ $route.params.id }} prevId:{{ prevId }}</div>`,
+  beforeRouteUpdate (to, from, next) {
+    if (window.confirm(`Navigate to ${to.path}?`)) {
+      next(vm => {
+        vm.prevId = from.params.id
+      })
+    } else {
+      next(false)
+    }
+  }
+}
+
 const router = new VueRouter({
   mode: 'history',
   base: __dirname,
@@ -114,7 +165,14 @@ const router = new VueRouter({
     } },
 
     // in-component beforeRouteUpdate hook
-    { path: '/quux/:id', component: Quux }
+    { path: '/quux/:id', component: Quux },
+    { path: '/nested', component: Nested,
+      children: [
+        { path: '', component: Home },
+        { path: 'qux', component: Qux },
+        { path: 'buux/:id', component: Buux }
+      ]
+    }
   ]
 })
 
@@ -140,6 +198,10 @@ new Vue({
         <li><router-link to="/qux-async">/qux-async</router-link></li>
         <li><router-link to="/quux/1">/quux/1</router-link></li>
         <li><router-link to="/quux/2">/quux/2</router-link></li>
+        <li><router-link to="/nested">/nested</router-link></li>
+        <li><router-link to="/nested/qux">/nested/qux</router-link></li>
+        <li><router-link to="/nested/buux/1">/nested/buux/1</router-link></li>
+        <li><router-link to="/nested/buux/2">/nested/buux/2</router-link></li>
       </ul>
       <router-view class="view"></router-view>
     </div>
