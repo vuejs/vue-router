@@ -116,17 +116,19 @@ beforeRouteEnter (to, from, next) {
 }
 ```
 
-Note that `beforeRouteEnter` is the only guard that supports passing a callback to `next`. For `beforeRouteUpdate` and `beforeRouteLeave`, `this` is already available, so passing a callback is unnecessary and therefore *not supported*:
-
 ```js
 beforeRouteUpdate (to, from, next) {
-  // just use `this`
+  // may use `this`
   this.name = to.params.name
-  next()
+
+  // may also pass a callback to next
+  next(vm => {
+    vm.name = to.params.name
+  })
 }
 ```
 
-The **leave guard** is usually used to prevent the user from accidentally leaving the route with unsaved edits. The navigation can be canceled by calling `next(false)`.
+The **leave guard** is usually used to prevent the user from accidentally leaving the route with unsaved edits. The navigation can be canceled by calling `next(false)`. Note that `beforeRouteLeave` is the only guard that does not support passing a callback to `next`.
 
 ```js
 beforeRouteLeave (to, from , next) {
