@@ -1,10 +1,10 @@
 # Opções de construção do roteador
 
-### routes
+### Rotas
 
-- type: `Array<RouteConfig>`
+- Tipo: `Array<RouteConfig>`
 
-  Type declaration for `RouteConfig`:
+  Tipo de declaração para `RouteConfig`:
 
   ``` js
   declare type RouteConfig = {
@@ -25,21 +25,21 @@
   }
   ```
 
-### mode
+### modo
 
 - type: `string`
 
 - default: `"hash" (in browser) | "abstract" (in Node.js)`
 
-- available values: `"hash" | "history" | "abstract"`
+- Valores disponíveis: `"hash" | "history" | "abstract"`
 
-  Configure the router mode.
+  Configure o modo do roteador.
 
-  - `hash`: uses the URL hash for routing. Works in all Vue-supported browsers, including those that do not support HTML5 History API.
+  - `hash`: use o hash da URL para roteamento. Funciona em todos os browsers suportados pelo Vue, incluindo aqueles que não suportam HTML5 History API.
 
-  - `history`: requires HTML5 History API and server config. See [HTML5 History Mode](../essentials/history-mode.md).
+  - `history`: requer API de histórico HTML5 e configuração do servidor. Confira [Modo de histórico HTML5](../essentials/history-mode.md).
 
-  - `abstract`: works in all JavaScript environments, e.g. server-side with Node.js. **The router will automatically be forced into this mode if no browser API is present.**
+  - `abstract`: funciona em todos os ambientes JavaScript, ex. servidor com Node.js. **O roteador será automaticamente forçado a este modo se nenhuma API do navegador estiver presente.**
 
 ### base
 
@@ -47,7 +47,7 @@
 
 - default: `"/"`
 
-  The base URL of the app. For example, if the entire single page application is served under `/app/`, then `base` should use the value `"/app/"`.
+  O URL base do aplicativo. Por exemplo, se todo o aplicativo da página única for exibido em `/app/`, então `base` deve usar o valor `"/app/"`.
 
 ### linkActiveClass
 
@@ -55,7 +55,7 @@
 
 - default: `"router-link-active"`
 
-  Globally configure `<router-link>` default active class. Also see [router-link](router-link.md).
+  Configuração global `<router-link>` classe ativa padrão. Veja também [router-link](router-link.md).
 
 ### linkExactActiveClass
 
@@ -65,7 +65,7 @@
 
 - default: `"router-link-exact-active"`
 
-  Globally configure `<router-link>` default active class for exact matches. Also see [router-link](router-link.md).
+  Configuração global `<router-link>` classe ativa padrão para correspondências exatas. Veja também [router-link](router-link.md).
 
 ### scrollBehavior
 
@@ -86,7 +86,7 @@
   ) => PositionDescriptor | Promise<PositionDescriptor>
   ```
 
-  For more details see [Scroll Behavior](../advanced/scroll-behavior.md).
+  Para mais detalhes veja [Scroll Behavior](../advanced/scroll-behavior.md).
 
 ### parseQuery / stringifyQuery
 
@@ -94,7 +94,7 @@
 
 - type: `Function`
 
-  Provide custom query string parse / stringify functions. Overrides the default.
+  Fornecer funções de consulta / stringify functions. Substitui o padrão.
 
 ### fallback
 
@@ -102,6 +102,6 @@
 
 - type: `boolean`
 
-  Controls whether the router should fallback to `hash` mode when the browser does not support `history.pushState`. Defaults to `true`.
+  Controla se o roteador deve retornar ao modo `hash` quando o navegador não suportar `history.pushState`. Padrões para `true`.
 
-  Setting this to `false` essentially makes every `router-link` navigation a full page refresh in IE9. This is useful when the app is server-rendered and needs to work in IE9, because a hash mode URL does not work with SSR.
+  Definir isso como `false` basicamente faz com que cada `router-link` navegue uma atualização de página completa no IE9. Isso é útil quando o aplicativo é processado pelo servidor e precisa funcionar no IE9, porque um URL de modo hash não funciona com SSR.

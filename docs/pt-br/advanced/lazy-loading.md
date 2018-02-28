@@ -1,30 +1,30 @@
 # Lazy Loading Routes
 
-When building apps with a bundler, the JavaScript bundle can become quite large, and thus affect the page load time. It would be more efficient if we can split each route's components into a separate chunk, and only load them when the route is visited.
+Ao criar aplicativos com um bundler, o pacote de JavaScript pode se tornar bastante grande e, portanto, afetar o tempo de carregamento da página. Seria mais eficiente se pudermos dividir os componentes de cada rota em um pedaço separado e apenas carregá-los quando a rota for visitada.
 
-Combining Vue's [async component feature](https://vuejs.org/guide/components.html#Async-Components) and webpack's [code splitting feature](https://webpack.js.org/guides/code-splitting-async/), it's trivially easy to lazy-load route components.
+Combinando Vue's [componente assíncrono](https://vuejs.org/guide/components.html#Async-Components) e webpack's [code splitting feature](https://webpack.js.org/guides/code-splitting-async/), É trivialmente fácil para os componentes de Lazy Loading Routes.
 
-First, an async component can be defined as a factory function that returns a Promise (which should resolve to the component itself):
+Primeiro, um componente assíncrono pode ser definido como uma função de fábrica que retorna uma Promessa (que deve resolver o próprio componente):
 
 ``` js
 const Foo = () => Promise.resolve({ /* component definition */ })
 ```
 
-Second, in webpack 2, we can use the [dynamic import](https://github.com/tc39/proposal-dynamic-import) syntax to indicate a code-split point:
+Em segundo lugar, no webpack 2, podemos usar o [dynamic import](https://github.com/tc39/proposal-dynamic-import) sintaxe para indicar um ponto de code-split:
 
 ``` js
 import('./Foo.vue') // returns a Promise
 ```
 
-> Note: if you are using Babel, you will need to add the [syntax-dynamic-import](https://babeljs.io/docs/plugins/syntax-dynamic-import/) plugin so that Babel can properly parse the syntax.
+> Nota: se você estiver usando o Babel, você precisará adicionar o [syntax-dynamic-import](https://babeljs.io/docs/plugins/syntax-dynamic-import/) plugin para que Babel possa analisar adequadamente a sintaxe.
 
-Combining the two, this is how to define an async component that will be automatically code-split by webpack:
+Combinando os dois, é assim que define um componente assíncrono que será automaticamente dividido em código pelo webpack:
 
 ``` js
 const Foo = () => import('./Foo.vue')
 ```
 
-Nothing needs to change in the route config, just use `Foo` as usual:
+Nada precisa mudar na configuração da rota, use apenas `Foo` como de costume:
 
 ``` js
 const router = new VueRouter({
@@ -34,9 +34,9 @@ const router = new VueRouter({
 })
 ```
 
-### Grouping Components in the Same Chunk
+### Agrupando componentes no mesmo pedaço
 
-Sometimes we may want to group all the components nested under the same route into the same async chunk. To achieve that we need to use [named chunks](https://webpack.js.org/guides/code-splitting-async/#chunk-names) by providing a chunk name using a special comment syntax (requires webpack > 2.4):
+Às vezes, podemos querer agrupar todos os componentes aninhados na mesma rota no mesmo pedaço de sincronização. Para conseguir isso, precisamos usar [partes nomeados](https://webpack.js.org/guides/code-splitting-async/#chunk-names) fornecendo um nome de bloco usando uma sintaxe de comentário especial (requer webpack> 2.4):
 
 ``` js
 const Foo = () => import(/* webpackChunkName: "group-foo" */ './Foo.vue')
@@ -44,4 +44,4 @@ const Bar = () => import(/* webpackChunkName: "group-foo" */ './Bar.vue')
 const Baz = () => import(/* webpackChunkName: "group-foo" */ './Baz.vue')
 ```
 
-webpack will group any async module with the same chunk name into the same async chunk.
+O webpack agrupará qualquer módulo assíncrono com o mesmo nome do pedaço no mesmo pedaço de sincronização.

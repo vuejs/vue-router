@@ -1,6 +1,6 @@
-# Transitions
+# Transições
 
-Since the `<router-view>` is essentially a dynamic component, we can apply transition effects to it the same way using the `<transition>` component:
+Uma vez que o `<router-view>` é essencialmente um componente dinâmico, podemos aplicar efeitos de transição da mesma forma usando o componente `<transition>`:
 
 ``` html
 <transition>
@@ -8,11 +8,11 @@ Since the `<router-view>` is essentially a dynamic component, we can apply trans
 </transition>
 ```
 
-[Everything about `<transition>`](https://vuejs.org/guide/transitions.html) works the same here.
+[Tudo sobre `<transition>`] (https://vuejs.org/guide/transitions.html) funciona o mesmo aqui.
 
-### Per-Route Transition
+### Transição por rota
 
-The above usage will apply the same transition for all routes. If you want each route's component to have different transitions, you can instead use `<transition>` with different names inside each route component:
+O uso acima usará a mesma transição para todas as rotas. Se você deseja que o componente de cada rota tenha transições diferentes, você pode usar `<transição>` com nomes diferentes dentro de cada componente de rota:
 
 ``` js
 const Foo = {
@@ -32,9 +32,9 @@ const Bar = {
 }
 ```
 
-### Route-Based Dynamic Transition
+### Transição Dinâmica Baseada na Rota
 
-It is also possible to determine the transition to use dynamically based on the relationship between the target route and current route:
+Também é possível determinar a transição para usar dinamicamente com base na relação entre a rota de destino e a rota atual:
 
 ``` html
 <!-- use a dynamic transition name -->
@@ -55,4 +55,4 @@ watch: {
 }
 ```
 
-See full example [here](https://github.com/vuejs/vue-router/blob/dev/examples/transitions/app.js).
+Veja o exemplo completo[aqui](https://github.com/vuejs/vue-router/blob/dev/examples/transitions/app.js).

@@ -1,10 +1,10 @@
 # Scroll Behavior
 
-When using client-side routing, we may want to scroll to top when navigating to a new route, or preserve the scrolling position of history entries just like real page reload does. `vue-router` allows you to achieve these and even better, allows you to completely customize the scroll behavior on route navigation.
+Ao usar o roteamento do lado do cliente, podemos querer rolar para cima ao navegar para uma nova rota ou preservar a posição de rolagem das entradas do histórico, assim como o recarregamento de página real. `vue-router` permite que você obtenha isso e ainda melhor, permite que você personalize completamente o comportamento de rolagem na navegação de rota.
 
-**Note: this feature only works if the browser supports `history.pushState`.**
+** Nota: este recurso só funciona se o navegador suportar `history.pushState`.**
 
-When creating the router instance, you can provide the `scrollBehavior` function:
+Ao criar uma instância do roteador, você pode fornecer a função `scrollBehavior`:
 
 ``` js
 const router = new VueRouter({
@@ -15,16 +15,16 @@ const router = new VueRouter({
 })
 ```
 
-The `scrollBehavior` function receives the `to` and `from` route objects. The third argument, `savedPosition`, is only available if this is a `popstate` navigation (triggered by the browser's back/forward buttons).
+A função `scrollBehavior` recebe os objetos de rota `to` e `from`. O terceiro argumento, `savedPosition`, só está disponível se esta for uma navegação `popstate` (desencadeada pelos botões de volta/para a frente do navegador).
 
-The function can return a scroll position object. The object could be in the form of:
+A função pode retornar um objeto de posição de rolagem. O objeto poderia estar na forma de:
 
 - `{ x: number, y: number }`
-- `{ selector: string, offset? : { x: number, y: number }}` (offset only supported in 2.6.0+)
+- `{ selector: string, offset? : { x: number, y: number }}` (suportado apenas em 2.6.0+)
 
-If a falsy value or an empty object is returned, no scrolling will happen.
+Se um valor falso ou um objeto vazio for retornado, nenhuma rolagem acontecerá.
 
-For example:
+Por exemplo:
 
 ``` js
 scrollBehavior (to, from, savedPosition) {
@@ -32,9 +32,9 @@ scrollBehavior (to, from, savedPosition) {
 }
 ```
 
-This will simply make the page scroll to top for all route navigations.
+Isso simplesmente fará com que a página se deslize para o topo para toda a navegação de rotas.
 
-Returning the `savedPosition` will result in a native-like behavior when navigating with back/forward buttons:
+Retornar o `savedPosition` resultará em um comportamento nativo ao navegar com os botões de volta/para a frente:
 
 ``` js
 scrollBehavior (to, from, savedPosition) {
@@ -46,7 +46,7 @@ scrollBehavior (to, from, savedPosition) {
 }
 ```
 
-If you want to simulate the "scroll to anchor" behavior:
+Se você quiser simular o comportamento "scroll to anchor":
 
 ``` js
 scrollBehavior (to, from, savedPosition) {
@@ -59,13 +59,13 @@ scrollBehavior (to, from, savedPosition) {
 }
 ```
 
-We can also use [route meta fields](meta.md) to implement fine-grained scroll behavior control. Check out a full example [here](https://github.com/vuejs/vue-router/blob/dev/examples/scroll-behavior/app.js).
+Nós também podemos usar [route meta fields](meta.md) para implementar o controle de comportamento de rolagem fino. Confira um exemplo completo  [aqui](https://github.com/vuejs/vue-router/blob/dev/examples/scroll-behavior/app.js).
 
-### Async Scrolling
+### Scroll assíncrono
 
-> New in 2.8.0
+> Novo em 2.8.0
 
-You can also return a Promise that resolves to the desired position descriptor:
+Você também pode retornar uma promessa que resolve o descritor de posição desejado:
 
 ``` js
 scrollBehavior (to, from, savedPosition) {
@@ -77,4 +77,4 @@ scrollBehavior (to, from, savedPosition) {
 }
 ```
 
-It's possible to hook this up with events from a page-level transition component to make the scroll behavior play nicely with your page transitions, but due to the possible variance and complexity in use cases, we simply provide this primitive to enable specific userland implementations.
+É possível conectar isso com eventos de um componente de transição de nível de página para que o comportamento de rolagem seja bem sucedido com as transições de página, mas, devido à possível variação e complexidade em casos de uso, simplesmente fornecemos esse primitivo para habilitar implementações específicas de usuários.

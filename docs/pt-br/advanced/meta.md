@@ -1,6 +1,6 @@
 # Route Meta Fields
 
-You can include a `meta` field when defining a route:
+Você pode incluir um campo `meta` ao definir uma rota:
 
 ``` js
 const router = new VueRouter({
@@ -21,15 +21,15 @@ const router = new VueRouter({
 })
 ```
 
-So how do we access this `meta` field?
+Então, como podemos acessar o campo `meta`?
 
-First, each route object in the `routes` configuration is called a **route record**. Route records may be nested. Therefore when a route is matched, it can potentially match more than one route record.
+Em primeiro lugar, cada objeto de rota na configuração `routes` é chamado de **registro de rota**. Os registros de rota podem ser aninhados. Portanto, quando uma rota é correspondida, ela pode potencialmente corresponder a mais de um registro de rota.
 
-For example, with the above route config, the URL `/foo/bar` will match both the parent route record and the child route record.
+Por exemplo, com a configuração de rota acima, a URL `/foo/bar` combinará tanto a gravação da rota principal quanto a gravação da rota da criança.
 
-All route records matched by a route are exposed on the `$route` object (and also route objects in navigation guards) as the `$route.matched` Array. Therefore, we will need to iterate over `$route.matched` to check for meta fields in route records.
+Todos os registros de rota correspondentes a uma rota são expostos no objeto `$route` (e também roteiam objetos em guardas de navegação) como a matriz `$route.matched`. Portanto, precisaremos iterar sobre `$route.matched` para verificar meta-campos em registros de rota.
 
-An example use case is checking for a meta field in the global navigation guard:
+Um exemplo de caso de uso é verificar se há um meta-campo no guarda de navegação global:
 
 ``` js
 router.beforeEach((to, from, next) => {

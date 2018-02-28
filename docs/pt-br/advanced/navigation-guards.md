@@ -1,12 +1,12 @@
 # Navigation Guards
 
-As the name suggests, the navigation guards provided by `vue-router` are primarily used to guard navigations either by redirecting it or canceling it. There are a number of ways to hook into the route navigation process: globally, per-route, or in-component.
+Como o nome sugere, os guardas de navegação fornecidos pelo `vue-router` são usados principalmente para proteger as navegações, redirecionando-o ou cancelando-o. Há várias maneiras de se conectar ao processo de navegação na rota: globalmente, por rota ou componente.
 
-Remember that **params or query changes won't trigger enter/leave navigation guards**. You can either [watch the `$route` object](../essentials/dynamic-matching.md#reacting-to-params-changes) to react to those changes, or use the `beforeRouteUpdate` in-component guard.
+Lembre-se de que **params or query changes won't trigger enter/leave navigation guards**. Você pode [assistir o objeto `$route`](../essentials/dynamic-matching.md#reacting-to-params-changes) para reagir a essas mudanças ou usar a proteção componente no `beforeRouteUpdate`.
 
 ### Global Guards
 
-You can register global before guards using `router.beforeEach`:
+Você pode se registrar globalmente `router.beforeEach`:
 
 ``` js
 const router = new VueRouter({ ... })
@@ -16,35 +16,37 @@ router.beforeEach((to, from, next) => {
 })
 ```
 
-Global before guards are called in creation order, whenever a navigation is triggered. Guards may be resolved asynchronously, and the navigation is considered **pending** before all hooks have been resolved.
+Global antes que os guardas sejam chamados na ordem de criação, sempre que uma navegação é desencadeada. Os guardas podem ser resolvidos de forma assíncrona, e a navegação é considerada **pendente** antes de todos os ganchos terem sido resolvidos.
 
-Every guard function receives three arguments:
+Toda função de guarda recebe três argumentos:
 
 - **`to: Route`**: the target [Route Object](../api/route-object.md) being navigated to.
 
-- **`from: Route`**: the current route being navigated away from.
+- **`from: Route`**: a rota atual sendo navegada de distância.
 
-- **`next: Function`**: this function must be called to **resolve** the hook. The action depends on the arguments provided to `next`:
+- **`next: Function`**: esta função deve ser chamada para **resolver** o gancho. A ação depende dos argumentos fornecidos para `next`:
 
-  - **`next()`**: move on to the next hook in the pipeline. If no hooks are left, the navigation is **confirmed**.
+  - **`next ()`**: avance para o próximo gancho na tubulação. Se não houver ganchos, a navegação é **confirmada**.
 
   - **`next(false)`**: abort the current navigation. If the browser URL was changed (either manually by the user or via back button), it will be reset to that of the `from` route.
 
-  - **`next('/')` or `next({ path: '/' })`**: redirect to a different location. The current navigation will be aborted and a new one will be started. You can pass any location object to `next`, which allows you to specify options like `replace: true`, `name: 'home'` and any option used in [`router-link`'s `to` prop](../api/router-link.md) or [`router.push`](../api/router-instance.md#methods)
+  - **`next (false)`**: aborta a navegação atual. Se o URL do navegador foi alterado (manualmente pelo usuário ou via o botão Voltar), ele será redefinido `from` route/rota.
 
-  - **`next(error)`**: (2.4.0+) if the argument passed to `next` is an instance of `Error`, the navigation will be aborted and the error will be passed to callbacks registered via [`router.onError()`](../api/router-instance.html#methods).
+  - **`next('/')` ou `next({ path: '/' })`**: redirecionar para um local diferente. A navegação atual será abortada e uma nova será iniciada. Você pode passar qualquer objeto de localização para `next`, que permite especificar opções como `replace: true`, `name: 'home'` e qualquer opção usada em [`router-link`'s `to` prop](../api/router-link.md) ou [`router.push`](../api/router-instance.md#methods)
 
-**Make sure to always call the `next` function, otherwise the hook will never be resolved.**
+  - **`next(error)`**: (2.4.0+) se o argumento passou para `next` é uma instância de `Error`, ta navegação será interrompida e o erro será passado para callbacks registrados via [`router.onError()`](../api/router-instance.html#methods).
+
+**Certifique-se de sempre chamar a função `next`, caso contrário o gancho nunca será resolvido.**
 
 ### Global Resolve Guards
 
 > New in 2.5.0
 
-In 2.5.0+ you can register a global guard with `router.beforeResolve`. This is similar to `router.beforeEach`, with the difference that resolve guards will be called right before the navigation is confirmed, **after all in-component guards and async route components are resolved**.
+Em 2.5.0+ você pode registrar uma proteção global com `router.beforeResolve`. Isso é semelhante ao `router.beforeEach`, com a diferença de que os guardas de resolução serão chamados imediatamente antes de a navegação ser confirmada, **depois que todos os guardas no componente e os componentes da rota assíncronos estiverem resolvidos**.
 
 ### Global After Hooks
 
-You can also register global after hooks, however unlike guards, these hooks do not get a `next` function and cannot affect the navigation:
+Você também pode se registrar global após ganchos, no entanto, ao contrário dos guardas, esses ganchos não recebem uma função `next` e não podem afetar a navegação:
 
 ``` js
 router.afterEach((to, from) => {
@@ -54,7 +56,7 @@ router.afterEach((to, from) => {
 
 ### Per-Route Guard
 
-You can define `beforeEnter` guards directly on a route's configuration object:
+Você pode definir guardas `beforeEnter` diretamente no objeto de configuração de uma rota:
 
 ``` js
 const router = new VueRouter({
@@ -70,14 +72,14 @@ const router = new VueRouter({
 })
 ```
 
-These guards have the exact same signature as global before guards.
+Esses guardas têm exatamente a mesma assinatura do que antes dos guardas.
 
 ### In-Component Guards
 
-Finally, you can directly define route navigation guards inside route components (the ones passed to the router configuration) with the following options:
+Finalmente, você pode definir diretamente guardas de navegação de rota dentro dos componentes da rota (os passados para a configuração do roteador) com as seguintes opções:
 
 - `beforeRouteEnter`
-- `beforeRouteUpdate` (added in 2.2+)
+- `beforeRouteUpdate` (adicionado em 2.2+)
 - `beforeRouteLeave`
 
 ``` js
@@ -104,9 +106,9 @@ const Foo = {
 }
 ```
 
-The `beforeRouteEnter` guard does **NOT** have access to `this`, because the guard is called before the navigation is confirmed, thus the new entering component has not even been created yet.
+O guarda `beforeRouteEnter` não **NÃO** tem acesso a `this`, porque o guarda é chamado antes que a navegação seja confirmada, então o novo componente de entrada ainda não foi criado.
 
-However, you can access the instance by passing a callback to `next`. The callback will be called when the navigation is confirmed, and the component instance will be passed to the callback as the argument:
+No entanto, você pode acessar a instância passando um retorno de chamada para `próximo`. O retorno de chamada será chamado quando a navegação for confirmada e a instância do componente será passada para o retorno de chamada como o argumento:
 
 ``` js
 beforeRouteEnter (to, from, next) {
@@ -116,7 +118,7 @@ beforeRouteEnter (to, from, next) {
 }
 ```
 
-Note that `beforeRouteEnter` is the only guard that supports passing a callback to `next`. For `beforeRouteUpdate` and `beforeRouteLeave`, `this` is already available, so passing a callback is unnecessary and therefore *not supported*:
+Tenha em atenção que `beforeRouteEnter` é o único guarda que aceita passar uma chamada de retorno para `next`. Para `beforeRouteUpdate` e `beforeRouteLeave`, `this` já está disponível, então passar um retorno de chamada é desnecessário e, portanto, *não suportado*:
 
 ```js
 beforeRouteUpdate (to, from, next) {
@@ -126,7 +128,7 @@ beforeRouteUpdate (to, from, next) {
 }
 ```
 
-The **leave guard** is usually used to prevent the user from accidentally leaving the route with unsaved edits. The navigation can be canceled by calling `next(false)`.
+O **leave guard** geralmente é usado para evitar que o usuário abandone acidentalmente a rota com edições não salvas. A navegação pode ser cancelada chamando `next(false)`.
 
 ```js
 beforeRouteLeave (to, from , next) {
@@ -139,17 +141,17 @@ beforeRouteLeave (to, from , next) {
 }
 ```
 
-### The Full Navigation Resolution Flow
+### O Fluxo de Resolução de Navegação Completa
 
-1. Navigation triggered.
-2. Call leave guards in deactivated components.
-3. Call global `beforeEach` guards.
-4. Call `beforeRouteUpdate` guards in reused components (2.2+).
-5. Call `beforeEnter` in route configs.
-6. Resolve async route components.
-7. Call `beforeRouteEnter` in activated components.
-8. Call global `beforeResolve` guards (2.5+).
-9. Navigation confirmed.
-10. Call global `afterEach` hooks.
-11. DOM updates triggered.
-12. Call callbacks passed to `next` in `beforeRouteEnter` guards with instantiated instances.
+1. Navegação desencadeada. (Navigation triggered)
+2. Ligar deixar guardas em componentes desativados. (Call leave guards in deactivated components)
+3. Ligue para os guardas globais `beforeEach`. (Call global `beforeEach` guards)
+4. Ligue para `beforeRouteUpdate` guardas em componentes reutilizados (2.2+). (Call `beforeRouteUpdate` guards in reused components (2.2+))
+5. Ligue para `beforeEnter` nas configurações de rota. (Call `beforeEnter` in route configs)
+6. Resolva componentes de rota assíncronos. (Resolve async route components.)
+7. Ligue `beforeRouteEnter` nos componentes ativados. (Call `beforeRouteEnter` in activated components)
+8. Ligue para guardas globais `beforeResolve` (2.5+). (Call global `beforeResolve` guards (2.5+))
+9. Navegação confirmada. (Navigation confirmed)
+10. Ligue para ganchos globais `afterEach`. (Call global `afterEach` hooks)
+11. Atualizações de DOM desencadeadas. (DOM updates triggered)
+12. Chamar reencaminhamentos passados para `próximo` em guardas `beforeRouteEnter` com instâncias instanciadas. (Call callbacks passed to `next` in `beforeRouteEnter` guards with instantiated instances)

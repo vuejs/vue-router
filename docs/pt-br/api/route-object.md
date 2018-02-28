@@ -1,18 +1,18 @@
-# The Route Object
+# O objeto da rota
 
-A **route object** represents the state of the current active route. It contains parsed information of the current URL and the **route records** matched by the URL.
+O **route object** representa o estado da rota ativa atual. Contém informações analisadas do URL atual e os ** registros de rotas ** correspondentes ao URL.
 
-The route object is immutable. Every successful navigation will result in a fresh route object.
+O objeto de rota é imutável. Toda navegação bem-sucedida resultará em um novo objeto de rota.
 
-The route object can be found in multiple places:
+O objeto de rota pode ser encontrado em vários locais:
 
-- Inside components as `this.$route`
+- Componentes internos como `this.$route`
 
-- Inside `$route` watcher callbacks
+- Dentro dos callbacks do observador `$route`
 
-- As the return value of calling `router.match(location)`
+- Como o valor de retorno do chamado `router.match(location)`
 
-- Inside navigation guards as the first two arguments:
+- Protetores de navegação internos como os dois primeiros argumentos:
 
   ``` js
   router.beforeEach((to, from, next) => {
@@ -20,7 +20,7 @@ The route object can be found in multiple places:
   })
   ```
 
-- Inside the `scrollBehavior` function as the first two arguments:
+- Dentro da função `scrollBehavior` como os dois primeiros argumentos:
 
   ``` js
   const router = new VueRouter({
@@ -30,43 +30,43 @@ The route object can be found in multiple places:
   })
   ```
 
-### Route Object Properties
+### Propriedades do objeto da rota
 
 - **$route.path**
 
   - type: `string`
 
-    A string that equals the path of the current route, always resolved as an absolute path. e.g. `"/foo/bar"`.
+    Uma string que é igual ao caminho da rota atual, sempre resolvida como um caminho absoluto. por ex. `"/foo/bar"`.
 
 - **$route.params**
 
   - type: `Object`
 
-    An object that contains key/value pairs of dynamic segments and star segments. If there are no params the value will be an empty object.
+    Um objeto que contém key/value pares de segmentos dinâmicos e segmentos de estrela. Se não houver params, o valor será um objeto vazio.
 
 - **$route.query**
 
   - type: `Object`
 
-    An object that contains key/value pairs of the query string. For example, for a path `/foo?user=1`, we get `$route.query.user == 1`. If there is no query the value will be an empty object.
+    Um objeto que contém key/value pares da seqüência de consulta. Por exemplo, para um caminho `/foo?user=1`, recebemos `$route.query.user == 1`. Se não houver consulta, o valor será um objeto vazio.
 
 - **$route.hash**
 
   - type: `string`
 
-    The hash of the current route (with the `#`), if it has one. If no hash is present the value will be an empty string.
+    O hash da rota atual (com o `#`), se tiver um. Se nenhum hash estiver presente, o valor será uma string vazia.
 
 - **$route.fullPath**
 
   - type: `string`
 
-    The full resolved URL including query and hash.
+    O URL completo, resolvido, incluindo consulta e hash.
 
 - **$route.matched**
 
   - type: `Array<RouteRecord>`
 
-  An Array containing **route records** for all nested path segments of the current route. Route records are the copies of the objects in the `routes` configuration Array (and in `children` Arrays):
+  Uma matriz contendo **route records** para todos os segmentos de caminho aninhados da rota atual. Os registros de rotas são as cópias dos objetos no `routes` configura Array (e em `children` Arrays):
 
   ``` js
   const router = new VueRouter({
@@ -82,12 +82,12 @@ The route object can be found in multiple places:
   })
   ```
 
-  When the URL is `/foo/bar`, `$route.matched` will be an Array containing both objects (cloned), in parent to child order.
+  Quando o URL é `/foo/bar`, `$route.matched` será uma matriz contendo ambos os objetos (clonados), na ordem principal para o filho.
 
 - **$route.name**
 
-  The name of the current route, if it has one. (See [Named Routes](../essentials/named-routes.md))
+  O nome da rota atual, se tiver um. (Veja [Named Routes](../essentials/named-routes.md))
 
 - **$route.redirectedFrom**
 
-  The name of the route being redirected from, if there were one. (See [Redirect and Alias](../essentials/redirect-and-alias.md))
+  O nome da rota sendo redirecionado, se houvesse um. (Veja [Redirect and Alias](../essentials/redirect-and-alias.md))
