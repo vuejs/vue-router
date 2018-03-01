@@ -29,16 +29,18 @@ export default class VueRouter {
   matcher: Matcher;
   fallback: boolean;
   beforeHooks: Array<?NavigationGuard>;
-  resolveHooks: Array<?NavigationGuard>;
+  beforeResolveHooks: Array<?NavigationGuard>;
   afterHooks: Array<?AfterNavigationHook>;
+  afterResolveHooks: Array<?AfterNavigationHook>;
 
   constructor (options: RouterOptions = {}) {
     this.app = null
     this.apps = []
     this.options = options
     this.beforeHooks = []
-    this.resolveHooks = []
+    this.beforeResolveHooks = []
     this.afterHooks = []
+    this.afterResolveHooks = []
     this.matcher = createMatcher(options.routes || [], this)
 
     let mode = options.mode || 'hash'
@@ -123,11 +125,15 @@ export default class VueRouter {
   }
 
   beforeResolve (fn: Function): Function {
-    return registerHook(this.resolveHooks, fn)
+    return registerHook(this.beforeResolveHooks, fn)
   }
 
   afterEach (fn: Function): Function {
     return registerHook(this.afterHooks, fn)
+  }
+
+  afterResolve (fn: Function): Function {
+    return registerHook(this.afterResolveHooks, fn)
   }
 
   onReady (cb: Function, errorCb?: Function) {

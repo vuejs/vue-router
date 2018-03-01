@@ -52,6 +52,19 @@ router.afterEach((to, from) => {
 })
 ```
 
+### Global After Resolve Hooks
+
+> New in 3.1.0
+
+Similarly to `afterEach` hooks, you can also register `afterResolve` hooks that will be triggered after the URL changes. 
+They don't have a `next` function as they cannot affect the navigation:
+
+```js
+router.afterResolve((to, from) => {
+  // ...
+})
+```
+
 ### Per-Route Guard
 
 You can define `beforeEnter` guards directly on a route's configuration object:
@@ -151,5 +164,6 @@ beforeRouteLeave (to, from , next) {
 8. Call global `beforeResolve` guards (2.5+).
 9. Navigation confirmed.
 10. Call global `afterEach` hooks.
-11. DOM updates triggered.
-12. Call callbacks passed to `next` in `beforeRouteEnter` guards with instantiated instances.
+11. Call global `afterResolve` hooks after the URL is changed (3.1+).
+12. DOM updates triggered.
+13. Call callbacks passed to `next` in `beforeRouteEnter` guards with instantiated instances.

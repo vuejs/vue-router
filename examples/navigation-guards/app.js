@@ -126,6 +126,18 @@ router.beforeEach((to, from, next) => {
   }
 })
 
+router.afterEach((to, from) => {
+  console.log(`to: ${to.fullPath}`)
+  console.log(`from: ${from.fullPath}`)
+  console.log(`Browser URL: ${window.location.pathname + window.location.hash}`)
+})
+
+router.afterResolve((to, from, next) => {
+  console.log(`to: ${to.fullPath}`)
+  console.log(`from: ${from.fullPath}`)
+  console.log(`Browser URL: ${window.location.pathname + window.location.hash}`)
+})
+
 new Vue({
   router,
   template: `

@@ -166,7 +166,7 @@ export class History {
       // wait until async components are resolved before
       // extracting in-component enter guards
       const enterGuards = extractEnterGuards(activated, postEnterCbs, isValid)
-      const queue = enterGuards.concat(this.router.resolveHooks)
+      const queue = enterGuards.concat(this.router.beforeResolveHooks)
       runQueue(queue, iterator, () => {
         if (this.pending !== route) {
           return abort()
@@ -175,6 +175,9 @@ export class History {
         onComplete(route)
         if (this.router.app) {
           this.router.app.$nextTick(() => {
+            this.router.afterResolveHooks.forEach(hook => {
+              hook && hook(route, current)
+            })
             postEnterCbs.forEach(cb => { cb() })
           })
         }
