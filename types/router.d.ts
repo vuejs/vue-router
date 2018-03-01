@@ -18,6 +18,7 @@ export declare class VueRouter {
   app: Vue;
   mode: RouterMode;
   currentRoute: Route;
+  options: RouterOptions;
 
   beforeEach (guard: NavigationGuard): Function;
   beforeResolve (guard: NavigationGuard): Function;
