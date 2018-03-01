@@ -23,7 +23,7 @@
   - [Comportamento Rolagem](advanced/scroll-behavior.md)
   - [Lazy Loading](advanced/lazy-loading.md)
 - API Referência
-  - [Router Constructor Options](api/options.md)
+  - [Opções do Construtor de Rotas](api/options.md)
     - [routes](api/options.md#routes)
     - [mode](api/options.md#mode)
     - [base](api/options.md#base)

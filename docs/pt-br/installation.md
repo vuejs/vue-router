@@ -5,7 +5,7 @@
 [https://unpkg.com/vue-router/dist/vue-router.js](https://unpkg.com/vue-router/dist/vue-router.js)
 
 <!--email_off-->
-[Unpkg.com](https://unpkg.com) fornece links de CDN baseado no npm. O link acima vai sempre apontar para o ultimo lançamento no npm. Você pode também pode usar uma versão/tag específica através de URLs como
+[Unpkg.com](https://unpkg.com) fornece links de CDN baseado no npm. O link acima vai sempre apontar para o ultimo lançamento no npm. Você também pode usar uma versão/tag específica através de URLs como
  `https://unpkg.com/vue-router@2.0.0/dist/vue-router.js`.
 <!--/email_off-->
 
