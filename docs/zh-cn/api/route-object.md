@@ -1,8 +1,8 @@
 # 路由信息对象
 
-一个 **route object (路由信息对象)** 表示当前激活的路由的状态信息，包含了当前 URL 解析得到的信息，还有 URL 匹配到的 **route records (路由记录)**。
+一个 **路由信息对象 (route object)** 表示当前激活的路由的状态信息，包含了当前 URL 解析得到的信息，还有 URL 匹配到的 **路由记录 (route records)**。
 
-route object 是 immutable (不可变) 的，每次成功的导航后都会产生一个新的对象。
+route object 是不可变 (immutable) 的，每次成功的导航后都会产生一个新的对象。
 
 route object 出现在多个地方:
 
@@ -66,7 +66,7 @@ route object 出现在多个地方:
 
   - 类型: `Array<RouteRecord>`
 
-  一个数组，包含当前路由的所有嵌套路径片段的 **路由记录** 。路由记录就是 `routes` 配置数组中的对象副本 (还有在 `children` 数组)。
+  一个数组，包含当前路由的所有嵌套路径片段的**路由记录** 。路由记录就是 `routes` 配置数组中的对象副本 (还有在 `children` 数组)。
 
   ``` js
   const router = new VueRouter({
