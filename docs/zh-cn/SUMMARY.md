@@ -12,7 +12,7 @@
   - [编程式导航](essentials/navigation.md)
   - [命名路由](essentials/named-routes.md)
   - [命名视图](essentials/named-views.md)
-  - [重定向 和 别名](essentials/redirect-and-alias.md)
+  - [重定向和别名](essentials/redirect-and-alias.md)
   - [向路由组件传递 props](essentials/passing-props.md)
   - [HTML5 History 模式](essentials/history-mode.md)
 - 进阶

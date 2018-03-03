@@ -1,8 +1,8 @@
 # 路由信息对象
 
-一个 **route object（路由信息对象）** 表示当前激活的路由的状态信息，包含了当前 URL 解析得到的信息，还有 URL 匹配到的 **route records（路由记录）**。
+一个 **route object (路由信息对象)** 表示当前激活的路由的状态信息，包含了当前 URL 解析得到的信息，还有 URL 匹配到的 **route records (路由记录)**。
 
-route object 是 immutable（不可变） 的，每次成功的导航后都会产生一个新的对象。
+route object 是 immutable (不可变) 的，每次成功的导航后都会产生一个新的对象。
 
 route object 出现在多个地方:
 
@@ -66,7 +66,7 @@ route object 出现在多个地方:
 
   - 类型: `Array<RouteRecord>`
 
-  一个数组，包含当前路由的所有嵌套路径片段的 **路由记录** 。路由记录就是 `routes` 配置数组中的对象副本（还有在 `children` 数组）。
+  一个数组，包含当前路由的所有嵌套路径片段的 **路由记录** 。路由记录就是 `routes` 配置数组中的对象副本 (还有在 `children` 数组)。
 
   ``` js
   const router = new VueRouter({
@@ -82,8 +82,12 @@ route object 出现在多个地方:
   })
   ```
 
-  当 URL 为 `/foo/bar`，`$route.matched` 将会是一个包含从上到下的所有对象（副本）。
+  当 URL 为 `/foo/bar`，`$route.matched` 将会是一个包含从上到下的所有对象 (副本)。
 
 - **$route.name**
 
-  当前路由的名称，如果有的话。（查看 [命名路由](../essentials/named-routes.md)）
+  当前路由的名称，如果有的话。(查看[命名路由](../essentials/named-routes.md))
+
+- **$route.redirectedFrom**
+
+  如果存在重定向，即为重定向来源的路由的名字。(参阅[重定向和别名](../essentials/redirect-and-alias.md))
