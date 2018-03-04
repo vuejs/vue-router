@@ -1,6 +1,6 @@
 # 路由信息对象
 
-一个 **路由信息对象 (route object)** 表示当前激活的路由的状态信息，包含了当前 URL 解析得到的信息，还有 URL 匹配到的 **路由记录 (route records)**。
+一个 **路由信息对象 (route object)** 表示当前激活的路由的状态信息，包含了当前 URL 解析得到的信息，还有 URL 匹配到的**路由记录 (route records)**。
 
 route object 是不可变 (immutable) 的，每次成功的导航后都会产生一个新的对象。
 
