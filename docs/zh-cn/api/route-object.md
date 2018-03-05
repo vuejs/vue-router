@@ -1,10 +1,10 @@
 # 路由信息对象
 
-一个 **路由信息对象 (route object)** 表示当前激活的路由的状态信息，包含了当前 URL 解析得到的信息，还有 URL 匹配到的**路由记录 (route records)**。
+一个**路由对象 (route object)** 表示当前激活的路由的状态信息，包含了当前 URL 解析得到的信息，还有 URL 匹配到的**路由记录 (route records)**。
 
-route object 是不可变 (immutable) 的，每次成功的导航后都会产生一个新的对象。
+路由对象是不可变 (immutable) 的，每次成功的导航后都会产生一个新的对象。
 
-route object 出现在多个地方:
+路由对象出现在多个地方:
 
 - 在组件内，即 `this.$route`
 
@@ -16,7 +16,7 @@ route object 出现在多个地方:
 
   ``` js
   router.beforeEach((to, from, next) => {
-    // to 和 from 都是 路由信息对象
+    // `to` 和 `from` 都是路由对象
   })
   ```
 
@@ -25,7 +25,7 @@ route object 出现在多个地方:
   ``` js
   const router = new VueRouter({
     scrollBehavior (to, from, savedPosition) {
-      // to 和 from 都是 路由信息对象
+      // `to` 和 `from` 都是路由对象
     }
   })
   ```
@@ -42,7 +42,7 @@ route object 出现在多个地方:
 
   - 类型: `Object`
 
-  一个 key/value 对象，包含了 动态片段 和 全匹配片段，如果没有路由参数，就是一个空对象。
+  一个 key/value 对象，包含了动态片段和全匹配片段，如果没有路由参数，就是一个空对象。
 
 - **$route.query**
 
@@ -71,10 +71,10 @@ route object 出现在多个地方:
   ``` js
   const router = new VueRouter({
     routes: [
-      // 下面的对象就是 route record
+      // 下面的对象就是路由记录
       { path: '/foo', component: Foo,
         children: [
-          // 这也是个 route record
+          // 这也是个路由记录
           { path: 'bar', component: Bar }
         ]
       }
