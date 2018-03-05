@@ -1,7 +1,3 @@
 machine:
   node:
     version: 8
-
-dependencies:
-  override:
-    - npm ci
