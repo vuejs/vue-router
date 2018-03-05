@@ -22,14 +22,7 @@ Not to worry: To fix the issue, all you need to do is add a simple catch-all fal
 #### Apache
 
 ```apache
-<IfModule mod_rewrite.c>
-  RewriteEngine On
-  RewriteBase /
-  RewriteRule ^index\.html$ - [L]
-  RewriteCond %{REQUEST_FILENAME} !-f
-  RewriteCond %{REQUEST_FILENAME} !-d
-  RewriteRule . /index.html [L]
-</IfModule>
+FallbackResource /index.html
 ```
 
 #### nginx
