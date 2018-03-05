@@ -39,9 +39,8 @@ const Bar = { template: '<div>bar</div>' }
 
 // 2. Definiere ein paar Routes
 // Jede Route sollte mit einer Komponente verbunden sein.
-// Die Komponente kann entweder eine tatsächliche Komponente sein, die via Vue.extend() erstellt wird,
-// ein Komponenten-ID-String, der via Vue.component() registriert wurde,
-// oder lediglich ein Optionsobjekt der Komponente.
+// Die Komponenente kann entweder eine tatsächliche Komponente sein, die via Vue.extend() erstellt wird
+// oder lediglich ein Optionsobjekt der Komponenente.
 // Hinweis: Verschachtelte (engl: "nested") Routes werden später in dieser Anleitung behandelt.
 
 const routes = [
@@ -56,7 +55,7 @@ const router = new VueRouter({
   routes // kurz für 'routes: routes'
 })
 
-// 4. Ertelle und mounte die Root-Instanz.
+// 4. Erstelle und mounte die Root-Instanz.
 // Stelle sicher, dass der Router mit der `router` option an die Root Instanz übergeben wird, damit er später überall in deiner App zur Verfügung steht.
 
 const app = new Vue({

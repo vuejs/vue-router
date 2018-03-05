@@ -30,7 +30,7 @@
 ### JavaScript
 
 ``` js
-// 0. 如果使用模块化机制编程，導入Vue和VueRouter，要调用 Vue.use(VueRouter)
+// 0. 如果使用模块化机制编程，导入Vue和VueRouter，要调用 Vue.use(VueRouter)
 
 // 1. 定义（路由）组件。
 // 可以从其他文件 import 进来
@@ -63,7 +63,7 @@ const app = new Vue({
 // 现在，应用已经启动了！
 ```
 
-通过注入路由，我们可以用 `this.$router` 来访问它，就像在任何组件里用 `this.$router` 访问当前路有一样。
+通过注入路由器，我们可以在任何组件内通过 `this.$router` 访问路由器，也可以通过 `this.$route` 访问当前路由：
 
 ```js
 // Home.vue

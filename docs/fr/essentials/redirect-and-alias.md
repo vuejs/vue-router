@@ -29,7 +29,7 @@ const router = new VueRouter({
   routes: [
     { path: '/a', redirect: to => {
       // la fonction reçoit la route cible en tant qu'argument
-      // retourné le chemin vers la nouvelle route ici.
+      // retournez le chemin vers la nouvelle route ici.
     }}
   ]
 })

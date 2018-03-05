@@ -26,11 +26,11 @@ const User = {
 }
 const router = new VueRouter({
   routes: [
-    { path: '/user/:id', component: User, props: true }
+    { path: '/user/:id', component: User, props: true },
 
     // utilizando vistas con nombre, tienes que definir la opción prop para cada una de ellas:
     {
-      path: '/user/:id', 
+      path: '/user/:id',
       components: { default: User, sidebar: Sidebar },
       props: { default: true, sidebar: false }
     }
@@ -47,7 +47,7 @@ Cuando _props_ tiene asignado el valor true, `route.params` serán asignados com
 ### Modo objeto
 
 Cuando _props_ es un objeto, este será asignado tal cual como las _props_ del componente.
-Úitl para cuando las _props_ son estáticas.
+Útil para cuando las _props_ son estáticas.
 
 ``` js
 const router = new VueRouter({
