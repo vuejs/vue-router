@@ -28,9 +28,9 @@ const router = new VueRouter({
 この例の動作しているデモは 
 [こちら](https://jsfiddle.net/posva/6du90epg/) です。
 
-## Nested Named Views
+## ネストされた名前付きビュー
 
-It is possible to create complex layouts using named views with nested views. When doing so, you will also need to name nested `router-view` components used. Let's take a Settings panel example:
+ネストされたビューを持つ名前付きビューを使用して複雑なレイアウトを作成することができます。そうする際に、ネストされた `router-view` コンポーネントを使用するために名前をつける必要があります。設定パネルの例を見てみましょう:
 
 ```
 /settings/emails                                       /settings/profile
@@ -44,13 +44,13 @@ It is possible to create complex layouts using named views with nested views. Wh
 +-----------------------------------+                  +------------------------------+
 ```
 
-- `Nav` is just a regular compnonent
-- `UserSettings` is the view comopnent
-- `UserEmailsSubscriptions`, `UserProfile`, `UserProfilePreview` are nested view components
+- `Nav` は普通のコンポーネントです
+- `UserSettings` はビューコンポーネントです
+- `UserEmailsSubscriptions` 、`UserProfile` 、`UserProfilePreview` はネストされたビューコンポーネントです
 
-**Note**: _Let's forget about how the HTML/CSS should look like to represent such layout and focus on the components used_
+**Note**: _そのようなレイアウトに HTML/CSS がどのように表示されるのか、そして使用されるコンポーネントに焦点を当てる方法については、ここでは忘れましょう_
 
-The `<template>` section for `UserSettings` component in the above layout would look something like this:
+上記レイアウトでの `UserSettings` コンポーネントの `<template>` セクションは次のようになります:
 
 ```html
 <!-- UserSettings.vue -->
@@ -62,13 +62,13 @@ The `<template>` section for `UserSettings` component in the above layout would 
 </div>
 ```
 
-_The nested view components are omitted here but you can find the complete source code for the example above [here](https://jsfiddle.net/posva/22wgksa3/)_
+_ここではネストされたビューコンポーネントは省略されていますが、上記例の完全なソースコードを[ここ](https://jsfiddle.net/posva/22wgksa3/)で見つけることができます_
 
-Then you can achieve the layout above with this route configuration:
+それから、このルート設定で上記のレイアウトを達成することができます:
 
 ```js
 { path: '/settings',
-  // You could also have named views at the top
+  // トップで名前付きビューを持つこともできます
   component: UserSettings,
   children: [{
     path: 'emails',
@@ -83,4 +83,4 @@ Then you can achieve the layout above with this route configuration:
 }
 ```
 
-A working demo of this example can be found [here](https://jsfiddle.net/posva/22wgksa3/).
+この例の動作するデモは、[ここ](https://jsfiddle.net/posva/22wgksa3/)に見つけることができます。
