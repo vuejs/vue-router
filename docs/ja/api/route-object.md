@@ -85,3 +85,7 @@
 - **$route.name**
 
   名前がある場合の現在のルートの名前です。(詳しくは [名前付きルート](../essentials/named-routes.md) をご参照ください)
+
+- **$route.redirectedFrom**
+
+  もしあれば、リダイレクト元の名前。(参照[リダイレクトとエイリアス](../essentials/redirect-and-alias.md))
