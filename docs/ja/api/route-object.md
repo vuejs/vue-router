@@ -88,4 +88,4 @@
 
 - **$route.redirectedFrom**
 
-  The name of the route being redirected from, if there were one. (See [Redirect and Alias](../essentials/redirect-and-alias.md))
+  もしあれば、リダイレクト元の名前。(参照[リダイレクトとエイリアス](../essentials/redirect-and-alias.md))
