@@ -8,8 +8,13 @@ module.exports = {
     browser
     .url('http://localhost:8080/navigation-guards/')
       .waitForElementVisible('#app', 1000)
-      .assert.count('li a', 8)
+      .assert.count('li a', 9)
       .assert.containsText('.view', 'home')
+
+      .click('li:nth-child(9) a')
+      .waitFor(100)
+      .assert.urlEquals('http://localhost:8080/navigation-guards/')
+      .assert.containsText('.view', 'home')      
 
       .click('li:nth-child(2) a')
       .dismissAlert()

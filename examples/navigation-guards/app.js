@@ -87,6 +87,14 @@ const Quux = {
   }
 }
 
+const Baf = {
+  template: `
+    <div>
+      <p> baf, you should never see this</p>
+    </div>
+  `
+}
+
 const router = new VueRouter({
   mode: 'history',
   base: __dirname,
@@ -106,7 +114,7 @@ const router = new VueRouter({
     // Qux implements an in-component beforeRouteEnter hook
     { path: '/qux', component: Qux },
 
-   // in-component beforeRouteEnter hook for async components
+    // in-component beforeRouteEnter hook for async components
     { path: '/qux-async', component: resolve => {
       setTimeout(() => {
         resolve(Qux)
@@ -114,7 +122,11 @@ const router = new VueRouter({
     } },
 
     // in-component beforeRouteUpdate hook
-    { path: '/quux/:id', component: Quux }
+    { path: '/quux/:id', component: Quux },
+
+    // Baf implements declarative "disabled" in template
+    { path: '/baf', component: Baf }
+
   ]
 })
 
@@ -140,6 +152,7 @@ new Vue({
         <li><router-link to="/qux-async">/qux-async</router-link></li>
         <li><router-link to="/quux/1">/quux/1</router-link></li>
         <li><router-link to="/quux/2">/quux/2</router-link></li>
+        <li><router-link to="/baf" disabled>/baf</router-link></li>
       </ul>
       <router-view class="view"></router-view>
     </div>

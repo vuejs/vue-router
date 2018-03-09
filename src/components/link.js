@@ -119,6 +119,11 @@ function guardEvent (e) {
   if (e.preventDefault) {
     e.preventDefault()
   }
+  // if the currentTarget is disabled, preventDefault, don't redirect
+  if (e.currentTarget && e.currentTarget.getAttribute('disabled')) {
+    e.preventDefault && e.preventDefault()
+    return
+  }
   return true
 }
 
