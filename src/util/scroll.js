@@ -124,6 +124,14 @@ function scrollToPosition (shouldScroll, position) {
   }
 
   if (position) {
-    window.scrollTo(position.x, position.y)
+    if (isObject && shouldScroll.smooth === true) {
+      window.scrollTo({
+        top: position.x,
+        left: position.y,
+        behavior: 'smooth'
+      })
+    } else {
+      window.scrollTo(position.x, position.y)
+    }
   }
 }
