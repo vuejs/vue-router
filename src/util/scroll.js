@@ -124,12 +124,9 @@ function scrollToPosition (shouldScroll, position) {
   }
 
   if (position) {
-    if (isObject && shouldScroll.smooth === true) {
-      window.scrollTo({
-        top: position.x,
-        left: position.y,
-        behavior: 'smooth'
-      })
+    const docEl: any = document.documentElement
+    if ('scrollBehavior' in docEl.style) {
+      window.scrollTo({ top: position.y, left: position.x, behavior: isObject && typeof shouldScroll.behavior === 'string' ? shouldScroll.behavior : 'auto' })
     } else {
       window.scrollTo(position.x, position.y)
     }
