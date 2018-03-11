@@ -22,8 +22,16 @@ Not to worry: To fix the issue, all you need to do is add a simple catch-all fal
 #### Apache
 
 ```apache
-FallbackResource /index.html
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteBase /
+  RewriteRule ^index\.html$ - [L]
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteRule . /index.html [L]
+</IfModule>
 ```
+Instead of `mod_rewrite`, you could also use [`FallbackResource`](https://httpd.apache.org/docs/2.2/mod/mod_dir.html#fallbackresource).
 
 #### nginx
 
