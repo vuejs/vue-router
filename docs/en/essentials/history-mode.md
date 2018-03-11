@@ -31,6 +31,7 @@ Not to worry: To fix the issue, all you need to do is add a simple catch-all fal
   RewriteRule . /index.html [L]
 </IfModule>
 ```
+Instead of `mod_rewrite`, you could also use [`FallbackResource`](https://httpd.apache.org/docs/2.2/mod/mod_dir.html#fallbackresource).
 
 #### nginx
 
