@@ -66,6 +66,8 @@ new Vue({
         <router-link tag="li" to="/about">
           <a>/about (active class on outer element)</a>
         </router-link>
+
+        <li><router-link to="/?foo=bar" exact-path>/?foo=bar (exact path match)</router-link></li>
       </ul>
       <router-view class="view"></router-view>
     </div>

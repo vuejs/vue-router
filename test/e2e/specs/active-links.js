@@ -4,7 +4,7 @@ module.exports = {
     browser
     .url('http://localhost:8080/active-links/')
       .waitForElementVisible('#app', 1000)
-      .assert.count('li a', 11)
+      .assert.count('li a', 12)
       // assert correct href with base
       .assert.attributeContains('li:nth-child(1) a', 'href', '/active-links/')
       .assert.attributeContains('li:nth-child(2) a', 'href', '/active-links/')
@@ -17,6 +17,7 @@ module.exports = {
       .assert.attributeContains('li:nth-child(9) a', 'href', '/active-links/users/evan?foo=bar&baz=qux')
       .assert.attributeContains('li:nth-child(10) a', 'href', '/active-links/about')
       .assert.attributeContains('li:nth-child(11) a', 'href', '/active-links/about')
+      .assert.attributeContains('li:nth-child(12) a', 'href', '/active-links/?foo=bar')
       .assert.containsText('.view', 'Home')
 
     assertActiveLinks(1, [1, 2], null, [1, 2])
@@ -30,10 +31,11 @@ module.exports = {
     assertActiveLinks(9, [1, 3, 5, 7, 9], null, [9])
     assertActiveLinks(10, [1, 10], [11], [10], [11])
     assertActiveLinks(11, [1, 10], [11], [10], [11])
+    assertActiveLinks(12, [], [], [], [], [12])
 
     browser.end()
 
-    function assertActiveLinks (n, activeA, activeLI, exactActiveA, exactActiveLI) {
+    function assertActiveLinks (n, activeA, activeLI, exactActiveA, exactActiveLI, exactPathActiveA) {
       browser.click(`li:nth-child(${n}) a`)
       activeA.forEach(i => {
         browser.assert.cssClassPresent(`li:nth-child(${i}) a`, 'router-link-active')
@@ -48,6 +50,10 @@ module.exports = {
       exactActiveLI && exactActiveLI.forEach(i => {
         browser.assert.cssClassPresent(`li:nth-child(${i})`, 'router-link-exact-active')
           .assert.cssClassPresent(`li:nth-child(${i})`, 'router-link-active')
+      })
+      exactPathActiveA && exactPathActiveA.forEach(i => {
+        browser.assert.cssClassPresent(`li:nth-child(${i}) a`, 'router-link-exact-path-active')
+          .assert.cssClassPresent(`li:nth-child(${i}) a`, 'router-link-active')
       })
     }
   }

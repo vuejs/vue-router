@@ -105,6 +105,16 @@
 
   Check out more examples explaining active link class [live](https://jsfiddle.net/8xrk1n9f/).
 
+- **exact-path**
+
+  > X.Y.Z+
+
+  - type: `boolean`
+
+  - default: `false`
+
+  Same as `exact` matching, but ignores query string parameters.
+
 - **event**
 
   > 2.1.0+
@@ -124,6 +134,16 @@
   - default: `"router-link-exact-active"`
 
   Configure the active CSS class applied when the link is active with exact match. Note the default value can also be configured globally via the `linkExactActiveClass` router constructor option.
+
+- **exact-path-active-class**
+
+  > X.Y.Z+
+
+  - type: `string`
+
+  - default: `"router-link-exact-path-active"`
+
+  Configure the active CSS class applied when the link is active with exact path match. Note the default value can also be configured globally via the `linkExactPathActiveClass` router constructor option.
 
 ### Applying Active Class to Outer Element
 
