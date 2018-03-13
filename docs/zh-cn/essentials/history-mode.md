@@ -32,6 +32,8 @@ const router = new VueRouter({
 </IfModule>
 ```
 
+除了 `mod_rewrite`，你也可以使用 [`FallbackResource`](https://httpd.apache.org/docs/2.2/mod/mod_dir.html#fallbackresource)。
+
 #### nginx
 
 ```nginx
