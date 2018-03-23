@@ -1,0 +1,877 @@
+
+<!DOCTYPE HTML>
+<html lang="fr" >
+    <head>
+        <meta charset="UTF-8">
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <title>router-link · vue-router</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="description" content="">
+        <meta name="generator" content="GitBook 3.2.3">
+        
+        
+        
+    
+    <link rel="stylesheet" href="../../gitbook/style.css">
+
+    
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-highlight/website.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-search/search.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-theme-vuejs/vue.css">
+                
+            
+        
+
+    
+
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+        
+    
+    
+    <meta name="HandheldFriendly" content="true"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="../../gitbook/images/apple-touch-icon-precomposed-152.png">
+    <link rel="shortcut icon" href="../../gitbook/images/favicon.ico" type="image/x-icon">
+
+    
+    <link rel="next" href="router-view.html" />
+    
+    
+    <link rel="prev" href="component-injections.html" />
+    
+
+    </head>
+    <body>
+        
+<div class="book">
+    <div class="book-summary">
+        
+            
+<div id="book-search-input" role="search">
+    <input type="text" placeholder="Tapez pour rechercher" />
+</div>
+
+            
+                <nav role="navigation">
+                
+<script async type="text/javascript" src="//cdn.carbonads.com/carbon.js?zoneid=1673&serve=C6AILKT&placement=vuejs" id="_carbonads_js"></script>
+
+
+
+
+<ul class="summary">
+    
+    
+
+    
+
+    
+        
+        
+    
+        <li class="chapter " data-level="1.1" data-path="../">
+            
+                <a href="../">
+            
+                    
+                    Introduction
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2" data-path="../installation.html">
+            
+                <a href="../installation.html">
+            
+                    
+                    Installation
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3" >
+            
+                <span>
+            
+                    
+                    Essentiel
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.3.1" data-path="../essentials/getting-started.html">
+            
+                <a href="../essentials/getting-started.html">
+            
+                    
+                    Pour commencer
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.2" data-path="../essentials/dynamic-matching.html">
+            
+                <a href="../essentials/dynamic-matching.html">
+            
+                    
+                    Concordance dynamique de route
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.3" data-path="../essentials/navigation.html">
+            
+                <a href="../essentials/navigation.html">
+            
+                    
+                    Navigation programmatique
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.4" data-path="../essentials/nested-routes.html">
+            
+                <a href="../essentials/nested-routes.html">
+            
+                    
+                    Routes imbriquées
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.5" data-path="../essentials/named-routes.html">
+            
+                <a href="../essentials/named-routes.html">
+            
+                    
+                    Routes nommées
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.6" data-path="../essentials/named-views.html">
+            
+                <a href="../essentials/named-views.html">
+            
+                    
+                    Vues nommées
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.7" data-path="../essentials/redirect-and-alias.html">
+            
+                <a href="../essentials/redirect-and-alias.html">
+            
+                    
+                    Redirection et alias
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.8" data-path="../essentials/passing-props.html">
+            
+                <a href="../essentials/passing-props.html">
+            
+                    
+                    Passage de props aux composants de route
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.9" data-path="../essentials/history-mode.html">
+            
+                <a href="../essentials/history-mode.html">
+            
+                    
+                    Mode historique de HTML5
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4" >
+            
+                <span>
+            
+                    
+                    Avancé
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.4.1" data-path="../advanced/navigation-guards.html">
+            
+                <a href="../advanced/navigation-guards.html">
+            
+                    
+                    Intercepteurs de navigation
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.2" data-path="../advanced/meta.html">
+            
+                <a href="../advanced/meta.html">
+            
+                    
+                    Champs meta de route
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.3" data-path="../advanced/transitions.html">
+            
+                <a href="../advanced/transitions.html">
+            
+                    
+                    Transitions
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.4" data-path="../advanced/data-fetching.html">
+            
+                <a href="../advanced/data-fetching.html">
+            
+                    
+                    Récupération de données
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.5" data-path="../advanced/scroll-behavior.html">
+            
+                <a href="../advanced/scroll-behavior.html">
+            
+                    
+                    Comportement du défilement
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.6" data-path="../advanced/lazy-loading.html">
+            
+                <a href="../advanced/lazy-loading.html">
+            
+                    
+                    Chargement à la volée
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5" >
+            
+                <span>
+            
+                    
+                    Référence de l'API
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.5.1" data-path="options.html">
+            
+                <a href="options.html">
+            
+                    
+                    Options de construction du routeur
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.5.1.1" data-path="options.html">
+            
+                <a href="options.html#routes">
+            
+                    
+                    routes
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.1.2" data-path="options.html">
+            
+                <a href="options.html#mode">
+            
+                    
+                    mode
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.1.3" data-path="options.html">
+            
+                <a href="options.html#base">
+            
+                    
+                    base
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.1.4" data-path="options.html">
+            
+                <a href="options.html#linkactiveclass">
+            
+                    
+                    linkActiveClass
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.1.5" data-path="options.html">
+            
+                <a href="options.html#linkexactactiveclass">
+            
+                    
+                    linkExactActiveClass
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.1.6" data-path="options.html">
+            
+                <a href="options.html#scrollbehavior">
+            
+                    
+                    scrollBehavior
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.1.7" data-path="options.html">
+            
+                <a href="options.html#parsequery--stringifyquery">
+            
+                    
+                    parseQuery / stringifyQuery
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.1.8" data-path="options.html">
+            
+                <a href="options.html#fallback">
+            
+                    
+                    fallback
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.2" data-path="router-instance.html">
+            
+                <a href="router-instance.html">
+            
+                    
+                    L'instance du routeur
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.5.2.1" data-path="router-instance.html">
+            
+                <a href="router-instance.html#propriétés">
+            
+                    
+                    Propriétés
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.2.2" data-path="router-instance.html">
+            
+                <a href="router-instance.html#méthodes">
+            
+                    
+                    Méthodes
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.3" data-path="route-object.html">
+            
+                <a href="route-object.html">
+            
+                    
+                    L'objet Route
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.4" data-path="component-injections.html">
+            
+                <a href="component-injections.html">
+            
+                    
+                    Injections de composant
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter active" data-level="1.5.5" data-path="router-link.html">
+            
+                <a href="router-link.html">
+            
+                    
+                    router-link
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.6" data-path="router-view.html">
+            
+                <a href="router-view.html">
+            
+                    
+                    router-view
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+    
+
+    <li class="divider"></li>
+
+    <li>
+        <a href="https://www.gitbook.com" target="blank" class="gitbook-link">
+            Publié avec GitBook
+        </a>
+    </li>
+</ul>
+
+
+
+                </nav>
+            
+        
+    </div>
+
+    <div class="book-body">
+        
+            <div class="body-inner">
+                
+  
+                    
+
+<div class="book-header" role="navigation">
+    
+
+    <!-- Title -->
+    <h1>
+        <i class="fa fa-circle-o-notch fa-spin"></i>
+        <a href=".." >router-link</a>
+    </h1>
+</div>
+
+
+
+
+                    <div class="page-wrapper" tabindex="-1" role="main">
+                        <div class="page-inner">
+                            
+<div id="book-search-results">
+    <div class="search-noresults">
+    
+                                <section class="normal markdown-section">
+                                
+                                <h1 id="router-link"><code>&lt;router-link&gt;</code></h1>
+<p><code>&lt;router-link&gt;</code> est le composant pour activer la navigation utilisateur dans une application o&#xF9; le routeur est activ&#xE9;. La localisation cible est sp&#xE9;cifi&#xE9;e gr&#xE2;ce &#xE0; la prop <code>to</code>. Il est rendu en tant que balise <code>&lt;a&gt;</code> avec le <code>href</code> correct par d&#xE9;faut, mais peut &#xEA;tre configur&#xE9; gr&#xE2;ce &#xE0; la prop <code>tag</code>. De plus, le lien se verra attribuer une classe CSS active lorsque la route cible est active.</p>
+<p><code>&lt;router-link&gt;</code> est pr&#xE9;f&#xE9;r&#xE9; par rapport au <code>&lt;a href=&quot;...&quot;&gt;</code> en dur dans le code pour les raisons suivantes :</p>
+<ul>
+<li><p>Cela fonctionne de la m&#xEA;me mani&#xE8;re qu&apos;on soit dans le mode historique HTML5 ou le mode hash, donc si vous avez d&#xE9;cid&#xE9; de changer de mode, ou alors que le routeur se replie sur le mode hash pour IE9, rien n&apos;a besoin d&apos;&#xEA;tre chang&#xE9;.</p>
+</li>
+<li><p>Dans le mode historique HTML5, <code>router-link</code> interceptera l&apos;&#xE9;v&#xE8;nement du clic, comme &#xE7;a le navigateur n&apos;essaiera pas de rafraichir la page.</p>
+</li>
+<li><p>En utilisant l&apos;option <code>base</code> dans le mode historique HTML5, vous n&apos;avez pas besoin de l&apos;inclure dans les props <code>to</code> des URL.</p>
+</li>
+</ul>
+<h3 id="props">Props</h3>
+<ul>
+<li><p><strong>to</strong></p>
+<ul>
+<li><p>type : <code>string | Location</code></p>
+</li>
+<li><p>requis</p>
+<p>D&#xE9;signe la route cible du lien. Lorsqu&apos;il est cliqu&#xE9;, la valeur de la prop <code>to</code> va &#xEA;tre pass&#xE9;e de mani&#xE8;re interne &#xE0; <code>router.push</code>, donc la valeur peut soit &#xEA;tre une chaine de caract&#xE8;res, ou alors un objet d&#xE9;crivant une localisation.</p>
+</li>
+</ul>
+<pre><code class="lang-html"><span class="hljs-comment">&lt;!--  chaine litt&#xE9;rale  --&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">router-link</span> <span class="hljs-attr">to</span>=<span class="hljs-string">&quot;home&quot;</span>&gt;</span>Accueil<span class="hljs-tag">&lt;/<span class="hljs-name">router-link</span>&gt;</span>
+<span class="hljs-comment">&lt;!-- rend --&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;home&quot;</span>&gt;</span>Accueil<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span>
+
+<span class="hljs-comment">&lt;!-- expression JavaScript en utilisant `v-bind` --&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">router-link</span> <span class="hljs-attr">v-bind:to</span>=<span class="hljs-string">&quot;&apos;home&apos;&quot;</span>&gt;</span>Accueil<span class="hljs-tag">&lt;/<span class="hljs-name">router-link</span>&gt;</span>
+
+<span class="hljs-comment">&lt;!-- Omettre `v-bind` est OK, tout comme une autre prop --&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">router-link</span> <span class="hljs-attr">:to</span>=<span class="hljs-string">&quot;&apos;home&apos;&quot;</span>&gt;</span>Accueil<span class="hljs-tag">&lt;/<span class="hljs-name">router-link</span>&gt;</span>
+
+<span class="hljs-comment">&lt;!-- pareil qu&apos;au-dessus --&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">router-link</span> <span class="hljs-attr">:to</span>=<span class="hljs-string">&quot;{ path: &apos;home&apos; }&quot;</span>&gt;</span>Accueil<span class="hljs-tag">&lt;/<span class="hljs-name">router-link</span>&gt;</span>
+
+<span class="hljs-comment">&lt;!-- route nomm&#xE9;e --&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">router-link</span> <span class="hljs-attr">:to</span>=<span class="hljs-string">&quot;{ name: &apos;user&apos;, params: { userId: 123 }}&quot;</span>&gt;</span>Utilisateur<span class="hljs-tag">&lt;/<span class="hljs-name">router-link</span>&gt;</span>
+
+<span class="hljs-comment">&lt;!-- avec une requ&#xEA;te, r&#xE9;sulte en `/register?plan=private` --&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">router-link</span> <span class="hljs-attr">:to</span>=<span class="hljs-string">&quot;{ path: &apos;register&apos;, query: { plan: &apos;private&apos; }}&quot;</span>&gt;</span>S&apos;enregistrer<span class="hljs-tag">&lt;/<span class="hljs-name">router-link</span>&gt;</span>
+</code></pre>
+</li>
+</ul>
+<ul>
+<li><p><strong>replace</strong></p>
+<ul>
+<li><p>type : <code>boolean</code></p>
+</li>
+<li><p>d&#xE9;faut : <code>false</code></p>
+</li>
+</ul>
+<p>Configurer la prop <code>replace</code> appellera <code>router.replace()</code> au lieu de <code>router.push()</code> lors du clic, comme &#xE7;a, la navigation ne laissera pas un enregistrement dans l&apos;historique.</p>
+<pre><code class="lang-html"><span class="hljs-tag">&lt;<span class="hljs-name">router-link</span> <span class="hljs-attr">:to</span>=<span class="hljs-string">&quot;{ path: &apos;/abc&apos;}&quot;</span> <span class="hljs-attr">replace</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">router-link</span>&gt;</span>
+</code></pre>
+</li>
+</ul>
+<ul>
+<li><p><strong>append</strong></p>
+<ul>
+<li><p>type : <code>boolean</code></p>
+</li>
+<li><p>d&#xE9;faut : <code>false</code></p>
+</li>
+</ul>
+<p>Configurer la propri&#xE9;t&#xE9; <code>append</code> suffixe toujours le chemin relatif au chemin courant. Par exemple, assumons que nous naviguons de <code>/a</code> &#xE0; un lien relatif <code>b</code>, sans <code>append</code> on finira sur <code>/b</code>, mais avec <code>append</code> on finira sur <code>/a/b</code>.</p>
+<pre><code class="lang-html"><span class="hljs-tag">&lt;<span class="hljs-name">router-link</span> <span class="hljs-attr">:to</span>=<span class="hljs-string">&quot;{ path: &apos;relative/path&apos;}&quot;</span> <span class="hljs-attr">append</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">router-link</span>&gt;</span>
+</code></pre>
+</li>
+</ul>
+<ul>
+<li><p><strong>tag</strong></p>
+<ul>
+<li><p>type : <code>string</code></p>
+</li>
+<li><p>d&#xE9;faut : <code>&quot;a&quot;</code></p>
+</li>
+</ul>
+<p>Parfois, on veut que <code>&lt;router-link&gt;</code> soit rendu avec une balise diff&#xE9;rente, ex : <code>&lt;li&gt;</code>. On peut alors utiliser la prop <code>tag</code> pour modifier la balise qui sera rendue, et elle &#xE9;coutera toujours les &#xE9;v&#xE8;nements de clic pour la navigation.</p>
+<pre><code class="lang-html"><span class="hljs-tag">&lt;<span class="hljs-name">router-link</span> <span class="hljs-attr">to</span>=<span class="hljs-string">&quot;/foo&quot;</span> <span class="hljs-attr">tag</span>=<span class="hljs-string">&quot;li&quot;</span>&gt;</span>foo<span class="hljs-tag">&lt;/<span class="hljs-name">router-link</span>&gt;</span>
+<span class="hljs-comment">&lt;!-- rend --&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">li</span>&gt;</span>foo<span class="hljs-tag">&lt;/<span class="hljs-name">li</span>&gt;</span>
+</code></pre>
+</li>
+</ul>
+<ul>
+<li><p><strong>active-class</strong></p>
+<ul>
+<li><p>type : <code>string</code></p>
+</li>
+<li><p>d&#xE9;faut : <code>&quot;router-link-active&quot;</code></p>
+</li>
+</ul>
+<p>Configure la classe CSS active qui sera appliqu&#xE9;e lorsque le lien sera actif. Notez que la valeur par d&#xE9;faut peut aussi &#xEA;tre configur&#xE9;e de mani&#xE8;re globale via l&apos;option <code>linkActiveClass</code> du constructeur du routeur.</p>
+</li>
+<li><p><strong>exact</strong></p>
+<ul>
+<li><p>type : <code>boolean</code></p>
+</li>
+<li><p>d&#xE9;faut : <code>false</code></p>
+</li>
+</ul>
+<p>Le comportement par d&#xE9;faut de la correspondance de classe active est une <strong>correspondance inclusive</strong>. Par exemple, <code>&lt;router-link to=&quot;/a&quot;&gt;</code> verra cette classe appliqu&#xE9;e tant que le chemin courant commencera par <code>/a/</code> ou <code>/a</code>.</p>
+<p>Une cons&#xE9;quence de cela est que <code>&lt;router-link to=&quot;/&quot;&gt;</code> sera actif pour toutes les routes ! Pour forcer le lien dans un &#xAB; mode correspondance exacte &#xBB;, utilisez la prop <code>exact</code>.</p>
+<pre><code class="lang-html"><span class="hljs-comment">&lt;!-- ce lien sera uniquement actif &#xE0; `/` --&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">router-link</span> <span class="hljs-attr">to</span>=<span class="hljs-string">&quot;/&quot;</span> <span class="hljs-attr">exact</span>&gt;</span>
+</code></pre>
+<p>Allez voir les exemples expliquant la classe active pour les liens <a href="https://jsfiddle.net/8xrk1n9f/" target="_blank">ici</a>.</p>
+</li>
+<li><p><strong>event</strong></p>
+<blockquote>
+<p>2.1.0+</p>
+</blockquote>
+<ul>
+<li><p>type : <code>string | Array&lt;string&gt;</code></p>
+</li>
+<li><p>d&#xE9;faut : <code>&apos;click&apos;</code></p>
+</li>
+</ul>
+<p>Sp&#xE9;cifie les &#xE9;v&#xE8;nement(s) que peu(ven)t lancer la navigation de lien.</p>
+</li>
+<li><p><strong>exact-active-class</strong></p>
+<blockquote>
+<p>2.5.0+</p>
+</blockquote>
+<ul>
+<li><p>type : <code>string</code></p>
+</li>
+<li><p>d&#xE9;faut : <code>&quot;router-link-exact-active&quot;</code></p>
+</li>
+</ul>
+<p>Configure la classe CSS active qui sera appliqu&#xE9;e lorsqu&apos;un lien sera actif avec une correspondance exacte. Notez que la valeur par d&#xE9;faut peut aussi &#xEA;tre configur&#xE9;e de mani&#xE8;re globale via l&apos;option <code>linkExactActiveClass</code> du constructeur du routeur.</p>
+</li>
+</ul>
+<h3 id="appliquer-la-classe-active-&#xE0;-l&#xE9;l&#xE9;ment-ext&#xE9;rieur">Appliquer la classe active &#xE0; l&apos;&#xE9;l&#xE9;ment ext&#xE9;rieur</h3>
+<p>Parfois, on voudrait que la classe active soit appliqu&#xE9;e &#xE0; un &#xE9;l&#xE9;ment ext&#xE9;rieur au lieu de l&apos;&#xE9;l&#xE9;ment <code>&lt;a&gt;</code> lui-m&#xEA;me, dans ce cas, vous pouvez faire le rendu de cet &#xE9;l&#xE9;ment ext&#xE9;rieur en utilisant <code>&lt;router-link&gt;</code> et en entourant le tag <code>&lt;a&gt;</code> :</p>
+<pre><code class="lang-html"><span class="hljs-tag">&lt;<span class="hljs-name">router-link</span> <span class="hljs-attr">tag</span>=<span class="hljs-string">&quot;li&quot;</span> <span class="hljs-attr">to</span>=<span class="hljs-string">&quot;/foo&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">a</span>&gt;</span>/foo<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">router-link</span>&gt;</span>
+</code></pre>
+<p>Dans ce cas, <code>&lt;a&gt;</code> sera le lien actuel (et r&#xE9;cup&#xE8;rera le bon <code>href</code>), mais la classe active sera appliqu&#xE9;e &#xE0; l&apos;&#xE9;l&#xE9;ment ext&#xE9;rieur <code>&lt;li&gt;</code>.</p>
+
+                                
+                                </section>
+                            
+    </div>
+    <div class="search-results">
+        <div class="has-results">
+            
+            <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+            <ul class="search-results-list"></ul>
+            
+        </div>
+        <div class="no-results">
+            
+            <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+            
+        </div>
+    </div>
+</div>
+
+                        </div>
+                    </div>
+                
+  <script src="//m.servedby-buysellads.com/monetization.js" type="text/javascript"></script>
+  <div class="bsa-cpc"></div>
+  <script>
+    (function(){
+      if(typeof _bsa !== 'undefined' && _bsa) {
+      _bsa.init('default', 'CKYD62QM', 'placement:vuejsorg', {
+        target: '.bsa-cpc',
+        align: 'horizontal',
+        disable_css: 'true'
+      });
+        }
+    })();
+  </script>
+
+            </div>
+
+            
+                
+                <a href="component-injections.html" class="navigation navigation-prev " aria-label="Previous page: Injections de composant">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+                
+                
+                <a href="router-view.html" class="navigation navigation-next " aria-label="Next page: router-view">
+                    <i class="fa fa-angle-right"></i>
+                </a>
+                
+            
+        
+    </div>
+
+    <script>
+        var gitbook = gitbook || [];
+        gitbook.push(function() {
+            gitbook.page.hasChanged({"page":{"title":"router-link","level":"1.5.5","depth":2,"next":{"title":"router-view","level":"1.5.6","depth":2,"path":"api/router-view.md","ref":"api/router-view.md","articles":[]},"previous":{"title":"Injections de composant","level":"1.5.4","depth":2,"path":"api/component-injections.md","ref":"api/component-injections.md","articles":[]},"dir":"ltr"},"config":{"plugins":["edit-link","theme-vuejs","-fontsettings","github"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"edit-link":{"label":"Edit This Page","base":"https://github.com/vuejs/vue-router/edit/dev/docs"},"github":{"url":"https://github.com/vuejs/vue-router/"},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":false,"twitter":false,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-vuejs":{},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"vue-router","language":"fr","links":{"sharing":{"facebook":false,"twitter":false}},"gitbook":"*"},"file":{"path":"api/router-link.md","mtime":"2017-10-06T14:10:47.000Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-03-23T22:35:25.582Z"},"basePath":"..","book":{"language":"fr"}});
+        });
+    </script>
+</div>
+
+        
+    <script src="../../gitbook/gitbook.js"></script>
+    <script src="../../gitbook/theme.js"></script>
+    
+        
+        <script src="../../gitbook/gitbook-plugin-edit-link/plugin.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-github/plugin.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-search/search-engine.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-search/search.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-lunr/lunr.min.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-lunr/search-lunr.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-sharing/buttons.js"></script>
+        
+    
+
+    </body>
+</html>
+

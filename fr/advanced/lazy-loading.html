@@ -1,0 +1,760 @@
+
+<!DOCTYPE HTML>
+<html lang="fr" >
+    <head>
+        <meta charset="UTF-8">
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <title>Chargement à la volée · vue-router</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="description" content="">
+        <meta name="generator" content="GitBook 3.2.3">
+        
+        
+        
+    
+    <link rel="stylesheet" href="../../gitbook/style.css">
+
+    
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-highlight/website.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-search/search.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-theme-vuejs/vue.css">
+                
+            
+        
+
+    
+
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+        
+    
+    
+    <meta name="HandheldFriendly" content="true"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="../../gitbook/images/apple-touch-icon-precomposed-152.png">
+    <link rel="shortcut icon" href="../../gitbook/images/favicon.ico" type="image/x-icon">
+
+    
+    
+    <link rel="prev" href="scroll-behavior.html" />
+    
+
+    </head>
+    <body>
+        
+<div class="book">
+    <div class="book-summary">
+        
+            
+<div id="book-search-input" role="search">
+    <input type="text" placeholder="Tapez pour rechercher" />
+</div>
+
+            
+                <nav role="navigation">
+                
+<script async type="text/javascript" src="//cdn.carbonads.com/carbon.js?zoneid=1673&serve=C6AILKT&placement=vuejs" id="_carbonads_js"></script>
+
+
+
+
+<ul class="summary">
+    
+    
+
+    
+
+    
+        
+        
+    
+        <li class="chapter " data-level="1.1" data-path="../">
+            
+                <a href="../">
+            
+                    
+                    Introduction
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2" data-path="../installation.html">
+            
+                <a href="../installation.html">
+            
+                    
+                    Installation
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3" >
+            
+                <span>
+            
+                    
+                    Essentiel
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.3.1" data-path="../essentials/getting-started.html">
+            
+                <a href="../essentials/getting-started.html">
+            
+                    
+                    Pour commencer
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.2" data-path="../essentials/dynamic-matching.html">
+            
+                <a href="../essentials/dynamic-matching.html">
+            
+                    
+                    Concordance dynamique de route
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.3" data-path="../essentials/navigation.html">
+            
+                <a href="../essentials/navigation.html">
+            
+                    
+                    Navigation programmatique
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.4" data-path="../essentials/nested-routes.html">
+            
+                <a href="../essentials/nested-routes.html">
+            
+                    
+                    Routes imbriquées
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.5" data-path="../essentials/named-routes.html">
+            
+                <a href="../essentials/named-routes.html">
+            
+                    
+                    Routes nommées
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.6" data-path="../essentials/named-views.html">
+            
+                <a href="../essentials/named-views.html">
+            
+                    
+                    Vues nommées
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.7" data-path="../essentials/redirect-and-alias.html">
+            
+                <a href="../essentials/redirect-and-alias.html">
+            
+                    
+                    Redirection et alias
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.8" data-path="../essentials/passing-props.html">
+            
+                <a href="../essentials/passing-props.html">
+            
+                    
+                    Passage de props aux composants de route
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.9" data-path="../essentials/history-mode.html">
+            
+                <a href="../essentials/history-mode.html">
+            
+                    
+                    Mode historique de HTML5
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4" >
+            
+                <span>
+            
+                    
+                    Avancé
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.4.1" data-path="navigation-guards.html">
+            
+                <a href="navigation-guards.html">
+            
+                    
+                    Intercepteurs de navigation
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.2" data-path="meta.html">
+            
+                <a href="meta.html">
+            
+                    
+                    Champs meta de route
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.3" data-path="transitions.html">
+            
+                <a href="transitions.html">
+            
+                    
+                    Transitions
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.4" data-path="data-fetching.html">
+            
+                <a href="data-fetching.html">
+            
+                    
+                    Récupération de données
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.5" data-path="scroll-behavior.html">
+            
+                <a href="scroll-behavior.html">
+            
+                    
+                    Comportement du défilement
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter active" data-level="1.4.6" data-path="lazy-loading.html">
+            
+                <a href="lazy-loading.html">
+            
+                    
+                    Chargement à la volée
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5" >
+            
+                <span>
+            
+                    
+                    Référence de l'API
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.5.1" data-path="../api/options.html">
+            
+                <a href="../api/options.html">
+            
+                    
+                    Options de construction du routeur
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.5.1.1" data-path="../api/options.html">
+            
+                <a href="../api/options.html#routes">
+            
+                    
+                    routes
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.1.2" data-path="../api/options.html">
+            
+                <a href="../api/options.html#mode">
+            
+                    
+                    mode
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.1.3" data-path="../api/options.html">
+            
+                <a href="../api/options.html#base">
+            
+                    
+                    base
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.1.4" data-path="../api/options.html">
+            
+                <a href="../api/options.html#linkactiveclass">
+            
+                    
+                    linkActiveClass
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.1.5" data-path="../api/options.html">
+            
+                <a href="../api/options.html#linkexactactiveclass">
+            
+                    
+                    linkExactActiveClass
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.1.6" data-path="../api/options.html">
+            
+                <a href="../api/options.html#scrollbehavior">
+            
+                    
+                    scrollBehavior
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.1.7" data-path="../api/options.html">
+            
+                <a href="../api/options.html#parsequery--stringifyquery">
+            
+                    
+                    parseQuery / stringifyQuery
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.1.8" data-path="../api/options.html">
+            
+                <a href="../api/options.html#fallback">
+            
+                    
+                    fallback
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.2" data-path="../api/router-instance.html">
+            
+                <a href="../api/router-instance.html">
+            
+                    
+                    L'instance du routeur
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.5.2.1" data-path="../api/router-instance.html">
+            
+                <a href="../api/router-instance.html#propriétés">
+            
+                    
+                    Propriétés
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.2.2" data-path="../api/router-instance.html">
+            
+                <a href="../api/router-instance.html#méthodes">
+            
+                    
+                    Méthodes
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.3" data-path="../api/route-object.html">
+            
+                <a href="../api/route-object.html">
+            
+                    
+                    L'objet Route
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.4" data-path="../api/component-injections.html">
+            
+                <a href="../api/component-injections.html">
+            
+                    
+                    Injections de composant
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.5" data-path="../api/router-link.html">
+            
+                <a href="../api/router-link.html">
+            
+                    
+                    router-link
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.6" data-path="../api/router-view.html">
+            
+                <a href="../api/router-view.html">
+            
+                    
+                    router-view
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+    
+
+    <li class="divider"></li>
+
+    <li>
+        <a href="https://www.gitbook.com" target="blank" class="gitbook-link">
+            Publié avec GitBook
+        </a>
+    </li>
+</ul>
+
+
+
+                </nav>
+            
+        
+    </div>
+
+    <div class="book-body">
+        
+            <div class="body-inner">
+                
+  
+                    
+
+<div class="book-header" role="navigation">
+    
+
+    <!-- Title -->
+    <h1>
+        <i class="fa fa-circle-o-notch fa-spin"></i>
+        <a href=".." >Chargement à la volée</a>
+    </h1>
+</div>
+
+
+
+
+                    <div class="page-wrapper" tabindex="-1" role="main">
+                        <div class="page-inner">
+                            
+<div id="book-search-results">
+    <div class="search-noresults">
+    
+                                <section class="normal markdown-section">
+                                
+                                <h1 id="chargement-&#xE0;-la-vol&#xE9;e">Chargement &#xE0; la vol&#xE9;e</h1>
+<p>Pendant la construction d&apos;applications avec un empaqueteur (&#xAB; bundler &#xBB;), le paquetage JavaScript peut devenir un peu lourd, et donc cela peut affecter le temps de chargement de la page. Il serait plus efficace si l&apos;on pouvait s&#xE9;parer chaque composant de route dans des fragments s&#xE9;par&#xE9;s, et de les charger uniquement lorsque la route est visit&#xE9;e.</p>
+<p>En combinant la <a href="https://fr.vuejs.org/v2/guide/components.html#Composants-asynchrones" target="_blank">fonctionnalit&#xE9; de composant asynchrone</a> de Vue et la <a href="https://webpack.js.org/guides/code-splitting-async/" target="_blank">fonctionnalit&#xE9; de scission de code</a> de webpack, il est tr&#xE8;s facile de charger &#xE0; la vol&#xE9;e les composants de route.</p>
+<p>Premi&#xE8;rement, un composant asynchrone peut d&#xE9;finir une fonction fabrique qui retourne une Promesse (qui devrait r&#xE9;soudre le composant lui-m&#xEA;me) :</p>
+<pre><code class="lang-js"><span class="hljs-keyword">const</span> Foo = () =&gt; <span class="hljs-built_in">Promise</span>.resolve({ <span class="hljs-comment">/* d&#xE9;finition du composant */</span> })
+</code></pre>
+<p>Deuxi&#xE8;mement, avec webpack 2, nous pouvons utiliser la syntaxe d&apos;<a href="https://github.com/tc39/proposal-dynamic-import" target="_blank">import dynamique</a> pour indiquer un point de scission de code :</p>
+<pre><code class="lang-js"><span class="hljs-keyword">import</span>(<span class="hljs-string">&apos;./Foo.vue&apos;</span>) <span class="hljs-comment">// returns a Promise</span>
+</code></pre>
+<blockquote>
+<p>Note: si vous utilisez Babel, vous aurez besoin d&apos;ajouter le plugin <a href="http://babeljs.io/docs/plugins/syntax-dynamic-import/" target="_blank">syntax-dynamic-import</a> de fa&#xE7;on &#xE0; ce que Babel puisse analyser correctement la syntaxe.</p>
+</blockquote>
+<p>En combinant les deux, on d&#xE9;finit un composant asynchrone qui sera automatiquement scind&#xE9; par webpack :</p>
+<pre><code class="lang-js"><span class="hljs-keyword">const</span> Foo = () =&gt; <span class="hljs-keyword">import</span>(<span class="hljs-string">&apos;./Foo.vue&apos;</span>)
+</code></pre>
+<p>Rien n&apos;a besoin d&apos;&#xEA;tre modifi&#xE9; dans la configuration de la route, utilisez <code>Foo</code> comme d&apos;habitude.</p>
+<pre><code class="lang-js"><span class="hljs-keyword">const</span> router = <span class="hljs-keyword">new</span> VueRouter({
+  routes: [
+    { path: <span class="hljs-string">&apos;/foo&apos;</span>, component: Foo }
+  ]
+})
+</code></pre>
+<h3 id="grouper-des-composants-dans-le-m&#xEA;me-fragment">Grouper des composants dans le m&#xEA;me fragment</h3>
+<p>Parfois on aimerait grouper tous les composants imbriqu&#xE9;s sous la m&#xEA;me route, dans un seul et m&#xEA;me fragment asynchrone. Pour arriver &#xE0; cela, nous avons besoin d&apos;utiliser les <a href="https://webpack.js.org/guides/code-splitting-async/#chunk-names" target="_blank">fragments nomm&#xE9;s</a> en donnant un nom au fragment en utilisant une syntaxe de commentaire sp&#xE9;ciale (requires webpack &gt; 2.4) :</p>
+<pre><code class="lang-js"><span class="hljs-keyword">const</span> Foo = () =&gt; <span class="hljs-keyword">import</span>(<span class="hljs-comment">/* webpackChunkName: &quot;group-foo&quot; */</span> <span class="hljs-string">&apos;./Foo.vue&apos;</span>)
+<span class="hljs-keyword">const</span> Bar = () =&gt; <span class="hljs-keyword">import</span>(<span class="hljs-comment">/* webpackChunkName: &quot;group-foo&quot; */</span> <span class="hljs-string">&apos;./Bar.vue&apos;</span>)
+<span class="hljs-keyword">const</span> Baz = () =&gt; <span class="hljs-keyword">import</span>(<span class="hljs-comment">/* webpackChunkName: &quot;group-foo&quot; */</span> <span class="hljs-string">&apos;./Baz.vue&apos;</span>)
+</code></pre>
+<p>webpack groupera tous les modules asynchrones avec le m&#xEA;me nom de fragment dans le m&#xEA;me fragment asynchrone.</p>
+
+                                
+                                </section>
+                            
+    </div>
+    <div class="search-results">
+        <div class="has-results">
+            
+            <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+            <ul class="search-results-list"></ul>
+            
+        </div>
+        <div class="no-results">
+            
+            <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+            
+        </div>
+    </div>
+</div>
+
+                        </div>
+                    </div>
+                
+  <script src="//m.servedby-buysellads.com/monetization.js" type="text/javascript"></script>
+  <div class="bsa-cpc"></div>
+  <script>
+    (function(){
+      if(typeof _bsa !== 'undefined' && _bsa) {
+      _bsa.init('default', 'CKYD62QM', 'placement:vuejsorg', {
+        target: '.bsa-cpc',
+        align: 'horizontal',
+        disable_css: 'true'
+      });
+        }
+    })();
+  </script>
+
+            </div>
+
+            
+                
+                <a href="scroll-behavior.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page: Comportement du défilement">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+                
+                
+            
+        
+    </div>
+
+    <script>
+        var gitbook = gitbook || [];
+        gitbook.push(function() {
+            gitbook.page.hasChanged({"page":{"title":"Chargement à la volée","level":"1.4.6","depth":2,"next":{"title":"Référence de l'API","level":"1.5","depth":1,"ref":"","articles":[{"title":"Options de construction du routeur","level":"1.5.1","depth":2,"path":"api/options.md","ref":"api/options.md","articles":[{"title":"routes","level":"1.5.1.1","depth":3,"anchor":"#routes","path":"api/options.md","ref":"api/options.md#routes","articles":[]},{"title":"mode","level":"1.5.1.2","depth":3,"anchor":"#mode","path":"api/options.md","ref":"api/options.md#mode","articles":[]},{"title":"base","level":"1.5.1.3","depth":3,"anchor":"#base","path":"api/options.md","ref":"api/options.md#base","articles":[]},{"title":"linkActiveClass","level":"1.5.1.4","depth":3,"anchor":"#linkactiveclass","path":"api/options.md","ref":"api/options.md#linkactiveclass","articles":[]},{"title":"linkExactActiveClass","level":"1.5.1.5","depth":3,"anchor":"#linkexactactiveclass","path":"api/options.md","ref":"api/options.md#linkexactactiveclass","articles":[]},{"title":"scrollBehavior","level":"1.5.1.6","depth":3,"anchor":"#scrollbehavior","path":"api/options.md","ref":"api/options.md#scrollbehavior","articles":[]},{"title":"parseQuery / stringifyQuery","level":"1.5.1.7","depth":3,"anchor":"#parsequery--stringifyquery","path":"api/options.md","ref":"api/options.md#parsequery--stringifyquery","articles":[]},{"title":"fallback","level":"1.5.1.8","depth":3,"anchor":"#fallback","path":"api/options.md","ref":"api/options.md#fallback","articles":[]}]},{"title":"L'instance du routeur","level":"1.5.2","depth":2,"path":"api/router-instance.md","ref":"api/router-instance.md","articles":[{"title":"Propriétés","level":"1.5.2.1","depth":3,"anchor":"#propriétés","path":"api/router-instance.md","ref":"api/router-instance.md#propriétés","articles":[]},{"title":"Méthodes","level":"1.5.2.2","depth":3,"anchor":"#méthodes","path":"api/router-instance.md","ref":"api/router-instance.md#méthodes","articles":[]}]},{"title":"L'objet Route","level":"1.5.3","depth":2,"path":"api/route-object.md","ref":"api/route-object.md","articles":[]},{"title":"Injections de composant","level":"1.5.4","depth":2,"path":"api/component-injections.md","ref":"api/component-injections.md","articles":[]},{"title":"router-link","level":"1.5.5","depth":2,"path":"api/router-link.md","ref":"api/router-link.md","articles":[]},{"title":"router-view","level":"1.5.6","depth":2,"path":"api/router-view.md","ref":"api/router-view.md","articles":[]}]},"previous":{"title":"Comportement du défilement","level":"1.4.5","depth":2,"path":"advanced/scroll-behavior.md","ref":"advanced/scroll-behavior.md","articles":[]},"dir":"ltr"},"config":{"plugins":["edit-link","theme-vuejs","-fontsettings","github"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"edit-link":{"label":"Edit This Page","base":"https://github.com/vuejs/vue-router/edit/dev/docs"},"github":{"url":"https://github.com/vuejs/vue-router/"},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":false,"twitter":false,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-vuejs":{},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"vue-router","language":"fr","links":{"sharing":{"facebook":false,"twitter":false}},"gitbook":"*"},"file":{"path":"advanced/lazy-loading.md","mtime":"2017-10-06T14:10:47.000Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-03-23T22:35:25.582Z"},"basePath":"..","book":{"language":"fr"}});
+        });
+    </script>
+</div>
+
+        
+    <script src="../../gitbook/gitbook.js"></script>
+    <script src="../../gitbook/theme.js"></script>
+    
+        
+        <script src="../../gitbook/gitbook-plugin-edit-link/plugin.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-github/plugin.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-search/search-engine.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-search/search.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-lunr/lunr.min.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-lunr/search-lunr.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-sharing/buttons.js"></script>
+        
+    
+
+    </body>
+</html>
+

@@ -1,0 +1,858 @@
+
+<!DOCTYPE HTML>
+<html lang="fr" >
+    <head>
+        <meta charset="UTF-8">
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <title>Intercepteurs de navigation · vue-router</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="description" content="">
+        <meta name="generator" content="GitBook 3.2.3">
+        
+        
+        
+    
+    <link rel="stylesheet" href="../../gitbook/style.css">
+
+    
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-highlight/website.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-search/search.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-theme-vuejs/vue.css">
+                
+            
+        
+
+    
+
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+        
+    
+    
+    <meta name="HandheldFriendly" content="true"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="../../gitbook/images/apple-touch-icon-precomposed-152.png">
+    <link rel="shortcut icon" href="../../gitbook/images/favicon.ico" type="image/x-icon">
+
+    
+    <link rel="next" href="meta.html" />
+    
+    
+
+    </head>
+    <body>
+        
+<div class="book">
+    <div class="book-summary">
+        
+            
+<div id="book-search-input" role="search">
+    <input type="text" placeholder="Tapez pour rechercher" />
+</div>
+
+            
+                <nav role="navigation">
+                
+<script async type="text/javascript" src="//cdn.carbonads.com/carbon.js?zoneid=1673&serve=C6AILKT&placement=vuejs" id="_carbonads_js"></script>
+
+
+
+
+<ul class="summary">
+    
+    
+
+    
+
+    
+        
+        
+    
+        <li class="chapter " data-level="1.1" data-path="../">
+            
+                <a href="../">
+            
+                    
+                    Introduction
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2" data-path="../installation.html">
+            
+                <a href="../installation.html">
+            
+                    
+                    Installation
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3" >
+            
+                <span>
+            
+                    
+                    Essentiel
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.3.1" data-path="../essentials/getting-started.html">
+            
+                <a href="../essentials/getting-started.html">
+            
+                    
+                    Pour commencer
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.2" data-path="../essentials/dynamic-matching.html">
+            
+                <a href="../essentials/dynamic-matching.html">
+            
+                    
+                    Concordance dynamique de route
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.3" data-path="../essentials/navigation.html">
+            
+                <a href="../essentials/navigation.html">
+            
+                    
+                    Navigation programmatique
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.4" data-path="../essentials/nested-routes.html">
+            
+                <a href="../essentials/nested-routes.html">
+            
+                    
+                    Routes imbriquées
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.5" data-path="../essentials/named-routes.html">
+            
+                <a href="../essentials/named-routes.html">
+            
+                    
+                    Routes nommées
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.6" data-path="../essentials/named-views.html">
+            
+                <a href="../essentials/named-views.html">
+            
+                    
+                    Vues nommées
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.7" data-path="../essentials/redirect-and-alias.html">
+            
+                <a href="../essentials/redirect-and-alias.html">
+            
+                    
+                    Redirection et alias
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.8" data-path="../essentials/passing-props.html">
+            
+                <a href="../essentials/passing-props.html">
+            
+                    
+                    Passage de props aux composants de route
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.9" data-path="../essentials/history-mode.html">
+            
+                <a href="../essentials/history-mode.html">
+            
+                    
+                    Mode historique de HTML5
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4" >
+            
+                <span>
+            
+                    
+                    Avancé
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter active" data-level="1.4.1" data-path="navigation-guards.html">
+            
+                <a href="navigation-guards.html">
+            
+                    
+                    Intercepteurs de navigation
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.2" data-path="meta.html">
+            
+                <a href="meta.html">
+            
+                    
+                    Champs meta de route
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.3" data-path="transitions.html">
+            
+                <a href="transitions.html">
+            
+                    
+                    Transitions
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.4" data-path="data-fetching.html">
+            
+                <a href="data-fetching.html">
+            
+                    
+                    Récupération de données
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.5" data-path="scroll-behavior.html">
+            
+                <a href="scroll-behavior.html">
+            
+                    
+                    Comportement du défilement
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.6" data-path="lazy-loading.html">
+            
+                <a href="lazy-loading.html">
+            
+                    
+                    Chargement à la volée
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5" >
+            
+                <span>
+            
+                    
+                    Référence de l'API
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.5.1" data-path="../api/options.html">
+            
+                <a href="../api/options.html">
+            
+                    
+                    Options de construction du routeur
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.5.1.1" data-path="../api/options.html">
+            
+                <a href="../api/options.html#routes">
+            
+                    
+                    routes
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.1.2" data-path="../api/options.html">
+            
+                <a href="../api/options.html#mode">
+            
+                    
+                    mode
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.1.3" data-path="../api/options.html">
+            
+                <a href="../api/options.html#base">
+            
+                    
+                    base
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.1.4" data-path="../api/options.html">
+            
+                <a href="../api/options.html#linkactiveclass">
+            
+                    
+                    linkActiveClass
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.1.5" data-path="../api/options.html">
+            
+                <a href="../api/options.html#linkexactactiveclass">
+            
+                    
+                    linkExactActiveClass
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.1.6" data-path="../api/options.html">
+            
+                <a href="../api/options.html#scrollbehavior">
+            
+                    
+                    scrollBehavior
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.1.7" data-path="../api/options.html">
+            
+                <a href="../api/options.html#parsequery--stringifyquery">
+            
+                    
+                    parseQuery / stringifyQuery
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.1.8" data-path="../api/options.html">
+            
+                <a href="../api/options.html#fallback">
+            
+                    
+                    fallback
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.2" data-path="../api/router-instance.html">
+            
+                <a href="../api/router-instance.html">
+            
+                    
+                    L'instance du routeur
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.5.2.1" data-path="../api/router-instance.html">
+            
+                <a href="../api/router-instance.html#propriétés">
+            
+                    
+                    Propriétés
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.2.2" data-path="../api/router-instance.html">
+            
+                <a href="../api/router-instance.html#méthodes">
+            
+                    
+                    Méthodes
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.3" data-path="../api/route-object.html">
+            
+                <a href="../api/route-object.html">
+            
+                    
+                    L'objet Route
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.4" data-path="../api/component-injections.html">
+            
+                <a href="../api/component-injections.html">
+            
+                    
+                    Injections de composant
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.5" data-path="../api/router-link.html">
+            
+                <a href="../api/router-link.html">
+            
+                    
+                    router-link
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.6" data-path="../api/router-view.html">
+            
+                <a href="../api/router-view.html">
+            
+                    
+                    router-view
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+    
+
+    <li class="divider"></li>
+
+    <li>
+        <a href="https://www.gitbook.com" target="blank" class="gitbook-link">
+            Publié avec GitBook
+        </a>
+    </li>
+</ul>
+
+
+
+                </nav>
+            
+        
+    </div>
+
+    <div class="book-body">
+        
+            <div class="body-inner">
+                
+  
+                    
+
+<div class="book-header" role="navigation">
+    
+
+    <!-- Title -->
+    <h1>
+        <i class="fa fa-circle-o-notch fa-spin"></i>
+        <a href=".." >Intercepteurs de navigation</a>
+    </h1>
+</div>
+
+
+
+
+                    <div class="page-wrapper" tabindex="-1" role="main">
+                        <div class="page-inner">
+                            
+<div id="book-search-results">
+    <div class="search-noresults">
+    
+                                <section class="normal markdown-section">
+                                
+                                <h1 id="intercepteurs-de-navigation">Intercepteurs de navigation</h1>
+<p>Comme le nom le sugg&#xE8;re, l&apos;interception de navigation fournie par <code>vue-router</code> est principalement utilis&#xE9;e pour intercepter la navigation avec des redirections ou des annulations d&apos;acc&#xE8;s. Il y a plusieurs hooks disponibles lors du processus de navigation : globaux, par route ou par composant.</p>
+<p>Souvenez-vous de cela : <strong>le changement de param&#xE8;tre ou de query ne va pas lancer d&apos;interception d&apos;entr&#xE9;e ou de sortie de navigation</strong>. Vous pouvez toujours <a href="../essentials/dynamic-matching.html#reacting-to-params-changes">observer l&apos;objet <code>$route</code></a> pour r&#xE9;agir &#xE0; ces changements, ou utiliser la fonction <code>beforeRouteUpdate</code> d&apos;une interception par composant.</p>
+<h3 id="interception-globale">Interception globale</h3>
+<p>Vous pouvez abonner une interception d&apos;entr&#xE9;e en utilisant <code>router.beforeEach</code> :</p>
+<pre><code class="lang-js"><span class="hljs-keyword">const</span> router = <span class="hljs-keyword">new</span> VueRouter({ ... })
+
+router.beforeEach((to, <span class="hljs-keyword">from</span>, next) =&gt; {
+  <span class="hljs-comment">// ...</span>
+})
+</code></pre>
+<p>Les interceptions d&apos;entr&#xE9;es globales sont appel&#xE9;es lors de l&apos;ordre de cr&#xE9;ation, chaque fois qu&apos;une navigation est d&#xE9;clench&#xE9;e. Les interceptions peuvent &#xEA;tre r&#xE9;solues de mani&#xE8;re asynchrone, et la navigation est consid&#xE9;r&#xE9;e comme <strong>en attente</strong> avant que tous les hooks ne soient r&#xE9;solus.</p>
+<p>Chaque fonction d&apos;interception re&#xE7;oit trois arguments :</p>
+<ul>
+<li><p><strong><code>to: Route</code></strong>: L&apos;<a href="../api/route-object.html">objet <code>Route</code></a> cible vers lequel on navigue.</p>
+</li>
+<li><p><strong><code>from: Route</code></strong>: la route courante depuis laquelle nous venons de naviguer.</p>
+</li>
+<li><p><strong><code>next: Function</code></strong>: cette fonction doit &#xEA;tre appel&#xE9;e pour <strong>r&#xE9;soudre</strong> le hook. L&apos;action d&#xE9;pend des arguments fournis &#xE0; <code>next</code>:</p>
+<ul>
+<li><p><strong><code>next()</code></strong>: se d&#xE9;placer jusqu&apos;au prochain hook du workflow. S&apos;il ne reste aucun hook, la navigation est <strong>confirm&#xE9;e</strong>.</p>
+</li>
+<li><p><strong><code>next(false)</code></strong>: annuler la navigation courante. Si l&apos;URL du navigateur avait chang&#xE9; (manuellement par l&apos;utilisateur ou via le bouton retour du navigateur), il sera remis &#xE0; sa valeur de route de <code>from</code>.</p>
+</li>
+<li><p><strong><code>next(&apos;/&apos;)</code> ou <code>next({ path: &apos;/&apos; })</code></strong>: redirige vers le nouvel URL. La navigation courante va &#xEA;tre arr&#xEA;t&#xE9;e et une nouvelle va se lancer. Vous pouvez passer n&apos;importe quel objet &#xE0; <code>next</code>, vous permettant ainsi de sp&#xE9;cifier des options comme <code>replace: true</code>, <code>name: &apos;home&apos;</code> et n&apos;importe quelles options dans <a href="../api/router-link.html">la prop <code>to</code> du <code>router-link</code></a> ou <a href="../api/router-instance#m&#xE9;thodes"><code>router.push</code></a>.</p>
+</li>
+<li><p><strong><code>next(error)</code></strong>: (2.4.0+) si l&apos;argument pass&#xE9; &#xE0; <code>next</code> est une instance de <code>Error</code>, la navigation va s&apos;arr&#xEA;ter et l&apos;erreur sera pass&#xE9;e aux fonctions de rappel enregistr&#xE9;es via <a href="../api/router-instance.html#methods"><code>router.onError()</code></a>.</p>
+</li>
+</ul>
+</li>
+</ul>
+<p><strong>Assurez-vous de toujours appeler la fonction <code>next</code>, sinon le hook ne sera jamais r&#xE9;solu.</strong></p>
+<h3 id="r&#xE9;solutions-des-interceptions-globales">R&#xE9;solutions des interceptions globales</h3>
+<blockquote>
+<p>Nouveau dans la 2.5.0</p>
+</blockquote>
+<p>Dans la 2.5.0+ vous pouvez abonner une interception globale avec <code>router.beforeResolve</code>. Ceci est similaire a <code>router.beforeEach</code>, mais la diff&#xE9;rence est qu&apos;elle sera appel&#xE9;e juste apr&#xE8;s que la navigation soit confirm&#xE9;e, <strong>apr&#xE8;s que toutes les interceptions par composants et les composants de route asynchrone ait &#xE9;t&#xE9; r&#xE9;solu</strong>.</p>
+<h3 id="hooks-de-sortie-globaux">Hooks de sortie globaux</h3>
+<p>Vous pouvez &#xE9;galement abonner des hooks de sortie, cependant, &#xE0; la diff&#xE9;rence des interceptions, ces hooks ne fournissent pas de fonction <code>next</code> et n&apos;affecte pas la navigation :</p>
+<pre><code class="lang-js">router.afterEach((to, <span class="hljs-keyword">from</span>) =&gt; {
+  <span class="hljs-comment">// ...</span>
+})
+</code></pre>
+<h3 id="interception-par-route">Interception par route</h3>
+<p>Vous pouvez d&#xE9;finir l&apos;interception <code>beforeEnter</code> directement sur l&apos;objet de configuration d&apos;une route :</p>
+<pre><code class="lang-js"><span class="hljs-keyword">const</span> router = <span class="hljs-keyword">new</span> VueRouter({
+  routes: [
+    {
+      path: <span class="hljs-string">&apos;/foo&apos;</span>,
+      component: Foo,
+      beforeEnter: (to, <span class="hljs-keyword">from</span>, next) =&gt; {
+        <span class="hljs-comment">// ...</span>
+      }
+    }
+  ]
+})
+</code></pre>
+<p>Ces interceptions ont exactement le m&#xEA;me effet que les interceptions globales d&apos;entr&#xE9;e.</p>
+<h3 id="interception-par-composant">Interception par composant</h3>
+<p>Enfin, vous pouvez directement d&#xE9;finir une interception de navigation a l&apos;int&#xE9;rieur du composant lui-m&#xEA;me (celui passer &#xE0; la configuration du routeur) avec les options suivantes :</p>
+<ul>
+<li><code>beforeRouteEnter</code></li>
+<li><code>beforeRouteUpdate</code> (ajout&#xE9; dans la 2.2+)</li>
+<li><code>beforeRouteLeave</code></li>
+</ul>
+<pre><code class="lang-js"><span class="hljs-keyword">const</span> Foo = {
+  template: <span class="hljs-string">`...`</span>,
+  beforeRouteEnter (to, <span class="hljs-keyword">from</span>, next) {
+    <span class="hljs-comment">// appel&#xE9;e avant que la route vers le composant soit confirm&#xE9;e.</span>
+    <span class="hljs-comment">// cette fonction n&apos;a pas acc&#xE8;s &#xE0; l&apos;instance du composant avec `this`,</span>
+    <span class="hljs-comment">// car le composant n&apos;a pas encore &#xE9;t&#xE9; cr&#xE9;&#xE9; quand cette interception est appel&#xE9;e !</span>
+  },
+  beforeRouteUpdate (to, <span class="hljs-keyword">from</span>, next) {
+    <span class="hljs-comment">// appel&#xE9;e quand la route qui fait le rendu de ce composant change,</span>
+    <span class="hljs-comment">// mais que ce composant est utilis&#xE9; de nouveau dans la nouvelle route.</span>
+    <span class="hljs-comment">// Par exemple, pour une route avec le param&#xE8;tre dynamique `/foo/:id`, quand nous</span>
+    <span class="hljs-comment">// naviguons entre `/foo/1` et `/foo/2`, la m&#xEA;me instance du composant `Foo`</span>
+    <span class="hljs-comment">// va &#xEA;tre r&#xE9;utilis&#xE9;e, et ce hook va &#xEA;tre appel&#xE9; quand cela arrivera.</span>
+    <span class="hljs-comment">// ce hook a acc&#xE8;s &#xE0; l&apos;instance de ce composant via `this`.</span>
+  },
+  beforeRouteLeave (to, <span class="hljs-keyword">from</span>, next) {
+    <span class="hljs-comment">// appel&#xE9;e quand la route qui fait le rendu de ce composant est sur le point</span>
+    <span class="hljs-comment">// d&apos;&#xEA;tre laiss&#xE9;e en faveur de la prochaine route.</span>
+    <span class="hljs-comment">// elle a acc&#xE8;s &#xE0; l&apos;instance de ce composant via `this`.</span>
+  }
+}
+</code></pre>
+<p>L&apos;interception <code>beforeRouteEnter</code> <strong>n&apos;</strong>a <strong>PAS</strong> acc&#xE8;s &#xE0; <code>this</code>, car l&apos;interception est appel&#xE9;e avant que la navigation soit confirm&#xE9;e, et le nouveau composant entrant n&apos;a m&#xEA;me pas encore &#xE9;t&#xE9; cr&#xE9;&#xE9;.</p>
+<p>Cependant, vous pouvez acc&#xE9;der &#xE0; l&apos;instance en passant dans la fonction de rappel <code>next</code>. Cette fonction de rappel va &#xEA;tre appel&#xE9;e quand la navigation sera confirm&#xE9;e, et l&apos;instance du composant sera pass&#xE9;e &#xE0; la fonction de rappel en tant qu&apos;argument :</p>
+<pre><code class="lang-js">beforeRouteEnter (to, <span class="hljs-keyword">from</span>, next) {
+  next(vm =&gt; {
+    <span class="hljs-comment">// acc&#xE8;s &#xE0; l&apos;instance du composant via `vm`</span>
+  })
+}
+</code></pre>
+<p>Notez que <code>beforeRouteEnter</code> est la seule interception qui supporte une fonction de rappelle dans <code>next</code>. Pour <code>beforeRouteUpdate</code> et <code>beforeRouteLeave</code>, <code>this</code> est d&#xE9;j&#xE0; disponible. Le passage d&apos;une fonction de rappel n&apos;&#xE9;tant pas n&#xE9;cessaire, il n&apos;est donc pas <em>support&#xE9;</em> :</p>
+<pre><code class="lang-js">beforeRouteUpdate (to, <span class="hljs-keyword">from</span>, next) {
+  <span class="hljs-comment">// utiliser juste `this`</span>
+  <span class="hljs-keyword">this</span>.name = to.params.name
+  next()
+}
+</code></pre>
+<p>L&apos;<strong>interception de sortie</strong> est habituellement utilis&#xE9;e pour emp&#xE9;cher l&apos;utilisateur de quitter la route sans avoir sauvegard&#xE9; ses changements. La navigation peut &#xEA;tre annul&#xE9;e en appelant <code>next(false)</code>.</p>
+<pre><code class="lang-js">beforeRouteLeave (to, <span class="hljs-keyword">from</span> , next) {
+  <span class="hljs-keyword">const</span> answer = <span class="hljs-built_in">window</span>.confirm(<span class="hljs-string">&apos;Voulez-vous vraiment quitter cette page ? Vos changements seront perdus.&apos;</span>)
+  <span class="hljs-keyword">if</span> (answer) {
+    next()
+  } <span class="hljs-keyword">else</span> {
+    next(<span class="hljs-literal">false</span>)
+  }
+}
+</code></pre>
+<h3 id="le-flux-de-r&#xE9;solution-de-navigation-complet">Le flux de r&#xE9;solution de navigation complet</h3>
+<ol>
+<li>La navigation est demand&#xE9;e.</li>
+<li>Appel de l&apos;interception de sortie des composants d&#xE9;sactiv&#xE9;s (ceux que l&apos;on va quitter).</li>
+<li>Appel des interceptions globales <code>beforeEach</code>.</li>
+<li>Appel des interceptions <code>beforeRouteUpdate</code> pour les composants r&#xE9;utilis&#xE9;s (2.2+).</li>
+<li>Appel de <code>beforeEnter</code> dans la configuration de route.</li>
+<li>R&#xE9;solution des composants de route asynchrones.</li>
+<li>Appel de <code>beforeRouteEnter</code> dans les composants activ&#xE9;s (ceux o&#xF9; l&apos;on va arriver).</li>
+<li>Appel des interceptions <code>beforeResolve</code> (2.5+).</li>
+<li>Confirmation de la navigation.</li>
+<li>Appel des hooks globaux <code>afterEach</code>.</li>
+<li>Modification du DOM demand&#xE9;e.</li>
+<li>Appel des fonctions de rappel pass&#xE9;es &#xE0; <code>next</code> dans l&apos;interception <code>beforeRouteEnter</code> avec l&apos;instance instanci&#xE9;e.</li>
+</ol>
+
+                                
+                                </section>
+                            
+    </div>
+    <div class="search-results">
+        <div class="has-results">
+            
+            <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+            <ul class="search-results-list"></ul>
+            
+        </div>
+        <div class="no-results">
+            
+            <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+            
+        </div>
+    </div>
+</div>
+
+                        </div>
+                    </div>
+                
+  <script src="//m.servedby-buysellads.com/monetization.js" type="text/javascript"></script>
+  <div class="bsa-cpc"></div>
+  <script>
+    (function(){
+      if(typeof _bsa !== 'undefined' && _bsa) {
+      _bsa.init('default', 'CKYD62QM', 'placement:vuejsorg', {
+        target: '.bsa-cpc',
+        align: 'horizontal',
+        disable_css: 'true'
+      });
+        }
+    })();
+  </script>
+
+            </div>
+
+            
+                
+                
+                <a href="meta.html" class="navigation navigation-next navigation-unique" aria-label="Next page: Champs meta de route">
+                    <i class="fa fa-angle-right"></i>
+                </a>
+                
+            
+        
+    </div>
+
+    <script>
+        var gitbook = gitbook || [];
+        gitbook.push(function() {
+            gitbook.page.hasChanged({"page":{"title":"Intercepteurs de navigation","level":"1.4.1","depth":2,"next":{"title":"Champs meta de route","level":"1.4.2","depth":2,"path":"advanced/meta.md","ref":"advanced/meta.md","articles":[]},"previous":{"title":"Avancé","level":"1.4","depth":1,"ref":"","articles":[{"title":"Intercepteurs de navigation","level":"1.4.1","depth":2,"path":"advanced/navigation-guards.md","ref":"advanced/navigation-guards.md","articles":[]},{"title":"Champs meta de route","level":"1.4.2","depth":2,"path":"advanced/meta.md","ref":"advanced/meta.md","articles":[]},{"title":"Transitions","level":"1.4.3","depth":2,"path":"advanced/transitions.md","ref":"advanced/transitions.md","articles":[]},{"title":"Récupération de données","level":"1.4.4","depth":2,"path":"advanced/data-fetching.md","ref":"advanced/data-fetching.md","articles":[]},{"title":"Comportement du défilement","level":"1.4.5","depth":2,"path":"advanced/scroll-behavior.md","ref":"advanced/scroll-behavior.md","articles":[]},{"title":"Chargement à la volée","level":"1.4.6","depth":2,"path":"advanced/lazy-loading.md","ref":"advanced/lazy-loading.md","articles":[]}]},"dir":"ltr"},"config":{"plugins":["edit-link","theme-vuejs","-fontsettings","github"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"edit-link":{"label":"Edit This Page","base":"https://github.com/vuejs/vue-router/edit/dev/docs"},"github":{"url":"https://github.com/vuejs/vue-router/"},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":false,"twitter":false,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-vuejs":{},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"vue-router","language":"fr","links":{"sharing":{"facebook":false,"twitter":false}},"gitbook":"*"},"file":{"path":"advanced/navigation-guards.md","mtime":"2018-03-05T03:45:20.000Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-03-23T22:35:25.582Z"},"basePath":"..","book":{"language":"fr"}});
+        });
+    </script>
+</div>
+
+        
+    <script src="../../gitbook/gitbook.js"></script>
+    <script src="../../gitbook/theme.js"></script>
+    
+        
+        <script src="../../gitbook/gitbook-plugin-edit-link/plugin.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-github/plugin.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-search/search-engine.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-search/search.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-lunr/lunr.min.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-lunr/search-lunr.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-sharing/buttons.js"></script>
+        
+    
+
+    </body>
+</html>
+

@@ -1,0 +1,872 @@
+
+<!DOCTYPE HTML>
+<html lang="zh-cn" >
+    <head>
+        <meta charset="UTF-8">
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <title>router-link · vue-router</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="description" content="">
+        <meta name="generator" content="GitBook 3.2.3">
+        
+        
+        
+    
+    <link rel="stylesheet" href="../../gitbook/style.css">
+
+    
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-highlight/website.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-search/search.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-theme-vuejs/vue.css">
+                
+            
+        
+
+    
+
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+        
+    
+    
+    <meta name="HandheldFriendly" content="true"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="../../gitbook/images/apple-touch-icon-precomposed-152.png">
+    <link rel="shortcut icon" href="../../gitbook/images/favicon.ico" type="image/x-icon">
+
+    
+    <link rel="next" href="router-view.html" />
+    
+    
+    <link rel="prev" href="component-injections.html" />
+    
+
+    </head>
+    <body>
+        
+<div class="book">
+    <div class="book-summary">
+        
+            
+<div id="book-search-input" role="search">
+    <input type="text" placeholder="輸入並搜尋" />
+</div>
+
+            
+                <nav role="navigation">
+                
+<script async type="text/javascript" src="//cdn.carbonads.com/carbon.js?zoneid=1673&serve=C6AILKT&placement=vuejs" id="_carbonads_js"></script>
+
+
+
+
+<ul class="summary">
+    
+    
+
+    
+
+    
+        
+        
+    
+        <li class="chapter " data-level="1.1" data-path="../">
+            
+                <a href="../">
+            
+                    
+                    Introduction
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2" data-path="../installation.html">
+            
+                <a href="../installation.html">
+            
+                    
+                    安装
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3" >
+            
+                <span>
+            
+                    
+                    基础
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.3.1" data-path="../essentials/getting-started.html">
+            
+                <a href="../essentials/getting-started.html">
+            
+                    
+                    开始
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.2" data-path="../essentials/dynamic-matching.html">
+            
+                <a href="../essentials/dynamic-matching.html">
+            
+                    
+                    动态路由匹配
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.3" data-path="../essentials/nested-routes.html">
+            
+                <a href="../essentials/nested-routes.html">
+            
+                    
+                    嵌套路由
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.4" data-path="../essentials/navigation.html">
+            
+                <a href="../essentials/navigation.html">
+            
+                    
+                    编程式导航
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.5" data-path="../essentials/named-routes.html">
+            
+                <a href="../essentials/named-routes.html">
+            
+                    
+                    命名路由
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.6" data-path="../essentials/named-views.html">
+            
+                <a href="../essentials/named-views.html">
+            
+                    
+                    命名视图
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.7" data-path="../essentials/redirect-and-alias.html">
+            
+                <a href="../essentials/redirect-and-alias.html">
+            
+                    
+                    重定向和别名
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.8" data-path="../essentials/passing-props.html">
+            
+                <a href="../essentials/passing-props.html">
+            
+                    
+                    向路由组件传递 props
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.9" data-path="../essentials/history-mode.html">
+            
+                <a href="../essentials/history-mode.html">
+            
+                    
+                    HTML5 History 模式
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4" >
+            
+                <span>
+            
+                    
+                    进阶
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.4.1" data-path="../advanced/navigation-guards.html">
+            
+                <a href="../advanced/navigation-guards.html">
+            
+                    
+                    导航守卫
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.2" data-path="../advanced/meta.html">
+            
+                <a href="../advanced/meta.html">
+            
+                    
+                    路由元信息
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.3" data-path="../advanced/transitions.html">
+            
+                <a href="../advanced/transitions.html">
+            
+                    
+                    过渡动效
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.4" data-path="../advanced/data-fetching.html">
+            
+                <a href="../advanced/data-fetching.html">
+            
+                    
+                    数据获取
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.5" data-path="../advanced/scroll-behavior.html">
+            
+                <a href="../advanced/scroll-behavior.html">
+            
+                    
+                    滚动行为
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.6" data-path="../advanced/lazy-loading.html">
+            
+                <a href="../advanced/lazy-loading.html">
+            
+                    
+                    懒加载
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5" >
+            
+                <span>
+            
+                    
+                    API 文档
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.5.1" data-path="options.html">
+            
+                <a href="options.html">
+            
+                    
+                    Router 构造配置
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.5.1.1" data-path="options.html">
+            
+                <a href="options.html#routes">
+            
+                    
+                    routes
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.1.2" data-path="options.html">
+            
+                <a href="options.html#mode">
+            
+                    
+                    mode
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.1.3" data-path="options.html">
+            
+                <a href="options.html#base">
+            
+                    
+                    base
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.1.4" data-path="options.html">
+            
+                <a href="options.html#linkactiveclass">
+            
+                    
+                    linkActiveClass
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.1.5" data-path="options.html">
+            
+                <a href="options.html#linkexactactiveclass">
+            
+                    
+                    linkExactActiveClass
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.1.6" data-path="options.html">
+            
+                <a href="options.html#scrollbehavior">
+            
+                    
+                    scrollBehavior
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.1.7" data-path="options.html">
+            
+                <a href="options.html#parsequery--stringifyquery">
+            
+                    
+                    parseQuery / stringifyQuery
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.1.8" data-path="options.html">
+            
+                <a href="options.html#fallback">
+            
+                    
+                    fallback
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.2" data-path="router-instance.html">
+            
+                <a href="router-instance.html">
+            
+                    
+                    Router 实例
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.5.2.1" data-path="router-instance.html">
+            
+                <a href="router-instance.html#properties">
+            
+                    
+                    Properties
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.2.2" data-path="router-instance.html">
+            
+                <a href="router-instance.html#methods">
+            
+                    
+                    Methods
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.3" data-path="route-object.html">
+            
+                <a href="route-object.html">
+            
+                    
+                    路由信息对象
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.4" data-path="component-injections.html">
+            
+                <a href="component-injections.html">
+            
+                    
+                    对组件注入
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter active" data-level="1.5.5" data-path="router-link.html">
+            
+                <a href="router-link.html">
+            
+                    
+                    router-link
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.6" data-path="router-view.html">
+            
+                <a href="router-view.html">
+            
+                    
+                    router-view
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+    
+
+    <li class="divider"></li>
+
+    <li>
+        <a href="https://www.gitbook.com" target="blank" class="gitbook-link">
+            本書使用 GitBook 釋出
+        </a>
+    </li>
+</ul>
+
+
+
+                </nav>
+            
+        
+    </div>
+
+    <div class="book-body">
+        
+            <div class="body-inner">
+                
+  
+                    
+
+<div class="book-header" role="navigation">
+    
+
+    <!-- Title -->
+    <h1>
+        <i class="fa fa-circle-o-notch fa-spin"></i>
+        <a href=".." >router-link</a>
+    </h1>
+</div>
+
+
+
+
+                    <div class="page-wrapper" tabindex="-1" role="main">
+                        <div class="page-inner">
+                            
+<div id="book-search-results">
+    <div class="search-noresults">
+    
+                                <section class="normal markdown-section">
+                                
+                                <h1 id="router-link"><code>&lt;router-link&gt;</code></h1>
+<p><code>&lt;router-link&gt;</code> &#x7EC4;&#x4EF6;&#x652F;&#x6301;&#x7528;&#x6237;&#x5728;&#x5177;&#x6709;&#x8DEF;&#x7531;&#x529F;&#x80FD;&#x7684;&#x5E94;&#x7528;&#x4E2D;&#xFF08;&#x70B9;&#x51FB;&#xFF09;&#x5BFC;&#x822A;&#x3002;
+&#x901A;&#x8FC7; <code>to</code> &#x5C5E;&#x6027;&#x6307;&#x5B9A;&#x76EE;&#x6807;&#x5730;&#x5740;&#xFF0C;&#x9ED8;&#x8BA4;&#x6E32;&#x67D3;&#x6210;&#x5E26;&#x6709;&#x6B63;&#x786E;&#x94FE;&#x63A5;&#x7684; <code>&lt;a&gt;</code> &#x6807;&#x7B7E;&#xFF0C;&#x53EF;&#x4EE5;&#x901A;&#x8FC7;&#x914D;&#x7F6E; <code>tag</code> &#x5C5E;&#x6027;&#x751F;&#x6210;&#x522B;&#x7684;&#x6807;&#x7B7E;.&#x3002;&#x53E6;&#x5916;&#xFF0C;&#x5F53;&#x76EE;&#x6807;&#x8DEF;&#x7531;&#x6210;&#x529F;&#x6FC0;&#x6D3B;&#x65F6;&#xFF0C;&#x94FE;&#x63A5;&#x5143;&#x7D20;&#x81EA;&#x52A8;&#x8BBE;&#x7F6E;&#x4E00;&#x4E2A;&#x8868;&#x793A;&#x6FC0;&#x6D3B;&#x7684; CSS &#x7C7B;&#x540D;&#x3002;</p>
+<p><code>&lt;router-link&gt;</code> &#x6BD4;&#x8D77;&#x5199;&#x6B7B;&#x7684; <code>&lt;a href=&quot;...&quot;&gt;</code> &#x4F1A;&#x597D;&#x4E00;&#x4E9B;&#xFF0C;&#x7406;&#x7531;&#x5982;&#x4E0B;&#xFF1A;</p>
+<ul>
+<li><p>&#x65E0;&#x8BBA;&#x662F; HTML5 history &#x6A21;&#x5F0F;&#x8FD8;&#x662F; hash &#x6A21;&#x5F0F;&#xFF0C;&#x5B83;&#x7684;&#x8868;&#x73B0;&#x884C;&#x4E3A;&#x4E00;&#x81F4;&#xFF0C;&#x6240;&#x4EE5;&#xFF0C;&#x5F53;&#x4F60;&#x8981;&#x5207;&#x6362;&#x8DEF;&#x7531;&#x6A21;&#x5F0F;&#xFF0C;&#x6216;&#x8005;&#x5728; IE9 &#x964D;&#x7EA7;&#x4F7F;&#x7528; hash &#x6A21;&#x5F0F;&#xFF0C;&#x65E0;&#x987B;&#x4F5C;&#x4EFB;&#x4F55;&#x53D8;&#x52A8;&#x3002;</p>
+</li>
+<li><p>&#x5728; HTML5 history &#x6A21;&#x5F0F;&#x4E0B;&#xFF0C;<code>router-link</code>  &#x4F1A;&#x5B88;&#x536B;&#x70B9;&#x51FB;&#x4E8B;&#x4EF6;&#xFF0C;&#x8BA9;&#x6D4F;&#x89C8;&#x5668;&#x4E0D;&#x518D;&#x91CD;&#x65B0;&#x52A0;&#x8F7D;&#x9875;&#x9762;&#x3002;</p>
+</li>
+<li><p>&#x5F53;&#x4F60;&#x5728; HTML5 history &#x6A21;&#x5F0F;&#x4E0B;&#x4F7F;&#x7528; <code>base</code> &#x9009;&#x9879;&#x4E4B;&#x540E;&#xFF0C;&#x6240;&#x6709;&#x7684; <code>to</code> &#x5C5E;&#x6027;&#x90FD;&#x4E0D;&#x9700;&#x8981;&#x5199;&#xFF08;&#x57FA;&#x8DEF;&#x5F84;&#xFF09;&#x4E86;&#x3002;</p>
+</li>
+</ul>
+<h3 id="props">Props</h3>
+<ul>
+<li><p><strong>to</strong></p>
+<ul>
+<li><p>&#x7C7B;&#x578B;: <code>string | Location</code></p>
+</li>
+<li><p>required</p>
+</li>
+</ul>
+<p>&#x8868;&#x793A;&#x76EE;&#x6807;&#x8DEF;&#x7531;&#x7684;&#x94FE;&#x63A5;&#x3002;&#x5F53;&#x88AB;&#x70B9;&#x51FB;&#x540E;&#xFF0C;&#x5185;&#x90E8;&#x4F1A;&#x7ACB;&#x523B;&#x628A; <code>to</code> &#x7684;&#x503C;&#x4F20;&#x5230; <code>router.push()</code>&#xFF0C;&#x6240;&#x4EE5;&#x8FD9;&#x4E2A;&#x503C;&#x53EF;&#x4EE5;&#x662F;&#x4E00;&#x4E2A;&#x5B57;&#x7B26;&#x4E32;&#x6216;&#x8005;&#x662F;&#x63CF;&#x8FF0;&#x76EE;&#x6807;&#x4F4D;&#x7F6E;&#x7684;&#x5BF9;&#x8C61;&#x3002;</p>
+<pre><code class="lang-html"><span class="hljs-comment">&lt;!-- &#x5B57;&#x7B26;&#x4E32; --&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">router-link</span> <span class="hljs-attr">to</span>=<span class="hljs-string">&quot;home&quot;</span>&gt;</span>Home<span class="hljs-tag">&lt;/<span class="hljs-name">router-link</span>&gt;</span>
+<span class="hljs-comment">&lt;!-- &#x6E32;&#x67D3;&#x7ED3;&#x679C; --&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;home&quot;</span>&gt;</span>Home<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span>
+
+<span class="hljs-comment">&lt;!-- &#x4F7F;&#x7528; v-bind &#x7684; JS &#x8868;&#x8FBE;&#x5F0F; --&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">router-link</span> <span class="hljs-attr">v-bind:to</span>=<span class="hljs-string">&quot;&apos;home&apos;&quot;</span>&gt;</span>Home<span class="hljs-tag">&lt;/<span class="hljs-name">router-link</span>&gt;</span>
+
+<span class="hljs-comment">&lt;!-- &#x4E0D;&#x5199; v-bind &#x4E5F;&#x53EF;&#x4EE5;&#xFF0C;&#x5C31;&#x50CF;&#x7ED1;&#x5B9A;&#x522B;&#x7684;&#x5C5E;&#x6027;&#x4E00;&#x6837; --&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">router-link</span> <span class="hljs-attr">:to</span>=<span class="hljs-string">&quot;&apos;home&apos;&quot;</span>&gt;</span>Home<span class="hljs-tag">&lt;/<span class="hljs-name">router-link</span>&gt;</span>
+
+<span class="hljs-comment">&lt;!-- &#x540C;&#x4E0A; --&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">router-link</span> <span class="hljs-attr">:to</span>=<span class="hljs-string">&quot;{ path: &apos;home&apos; }&quot;</span>&gt;</span>Home<span class="hljs-tag">&lt;/<span class="hljs-name">router-link</span>&gt;</span>
+
+<span class="hljs-comment">&lt;!-- &#x547D;&#x540D;&#x7684;&#x8DEF;&#x7531; --&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">router-link</span> <span class="hljs-attr">:to</span>=<span class="hljs-string">&quot;{ name: &apos;user&apos;, params: { userId: 123 }}&quot;</span>&gt;</span>User<span class="hljs-tag">&lt;/<span class="hljs-name">router-link</span>&gt;</span>
+
+<span class="hljs-comment">&lt;!-- &#x5E26;&#x67E5;&#x8BE2;&#x53C2;&#x6570;&#xFF0C;&#x4E0B;&#x9762;&#x7684;&#x7ED3;&#x679C;&#x4E3A; /register?plan=private --&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">router-link</span> <span class="hljs-attr">:to</span>=<span class="hljs-string">&quot;{ path: &apos;register&apos;, query: { plan: &apos;private&apos; }}&quot;</span>&gt;</span>Register<span class="hljs-tag">&lt;/<span class="hljs-name">router-link</span>&gt;</span>
+</code></pre>
+</li>
+<li><p><strong>replace</strong></p>
+<ul>
+<li><p>&#x7C7B;&#x578B;: <code>boolean</code></p>
+</li>
+<li><p>&#x9ED8;&#x8BA4;&#x503C;: <code>false</code></p>
+</li>
+</ul>
+<p>&#x8BBE;&#x7F6E; <code>replace</code> &#x5C5E;&#x6027;&#x7684;&#x8BDD;&#xFF0C;&#x5F53;&#x70B9;&#x51FB;&#x65F6;&#xFF0C;&#x4F1A;&#x8C03;&#x7528; <code>router.replace()</code> &#x800C;&#x4E0D;&#x662F; <code>router.push()</code>&#xFF0C;&#x4E8E;&#x662F;&#x5BFC;&#x822A;&#x540E;&#x4E0D;&#x4F1A;&#x7559;&#x4E0B; history &#x8BB0;&#x5F55;&#x3002;</p>
+<pre><code class="lang-html"><span class="hljs-tag">&lt;<span class="hljs-name">router-link</span> <span class="hljs-attr">:to</span>=<span class="hljs-string">&quot;{ path: &apos;/abc&apos;}&quot;</span> <span class="hljs-attr">replace</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">router-link</span>&gt;</span>
+</code></pre>
+</li>
+<li><p><strong>append</strong></p>
+<ul>
+<li><p>&#x7C7B;&#x578B;: <code>boolean</code></p>
+</li>
+<li><p>&#x9ED8;&#x8BA4;&#x503C;: <code>false</code></p>
+</li>
+</ul>
+<p>&#x8BBE;&#x7F6E; <code>append</code> &#x5C5E;&#x6027;&#x540E;&#xFF0C;&#x5219;&#x5728;&#x5F53;&#x524D;&#xFF08;&#x76F8;&#x5BF9;&#xFF09;&#x8DEF;&#x5F84;&#x524D;&#x6DFB;&#x52A0;&#x57FA;&#x8DEF;&#x5F84;&#x3002;&#x4F8B;&#x5982;&#xFF0C;&#x6211;&#x4EEC;&#x4ECE; <code>/a</code> &#x5BFC;&#x822A;&#x5230;&#x4E00;&#x4E2A;&#x76F8;&#x5BF9;&#x8DEF;&#x5F84; <code>b</code>&#xFF0C;&#x5982;&#x679C;&#x6CA1;&#x6709;&#x914D;&#x7F6E; <code>append</code>&#xFF0C;&#x5219;&#x8DEF;&#x5F84;&#x4E3A; <code>/b</code>&#xFF0C;&#x5982;&#x679C;&#x914D;&#x4E86;&#xFF0C;&#x5219;&#x4E3A; <code>/a/b</code></p>
+<pre><code class="lang-html"><span class="hljs-tag">&lt;<span class="hljs-name">router-link</span> <span class="hljs-attr">:to</span>=<span class="hljs-string">&quot;{ path: &apos;relative/path&apos;}&quot;</span> <span class="hljs-attr">append</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">router-link</span>&gt;</span>
+</code></pre>
+</li>
+<li><p><strong>tag</strong></p>
+<ul>
+<li><p>&#x7C7B;&#x578B;: <code>string</code></p>
+</li>
+<li><p>&#x9ED8;&#x8BA4;&#x503C;: <code>&quot;a&quot;</code></p>
+</li>
+</ul>
+<p>&#x6709;&#x65F6;&#x5019;&#x60F3;&#x8981;  <code>&lt;router-link&gt;</code> &#x6E32;&#x67D3;&#x6210;&#x67D0;&#x79CD;&#x6807;&#x7B7E;&#xFF0C;&#x4F8B;&#x5982; <code>&lt;li&gt;</code>&#x3002;
+&#x4E8E;&#x662F;&#x6211;&#x4EEC;&#x4F7F;&#x7528; <code>tag</code> prop &#x7C7B;&#x6307;&#x5B9A;&#x4F55;&#x79CD;&#x6807;&#x7B7E;&#xFF0C;&#x540C;&#x6837;&#x5B83;&#x8FD8;&#x662F;&#x4F1A;&#x76D1;&#x542C;&#x70B9;&#x51FB;&#xFF0C;&#x89E6;&#x53D1;&#x5BFC;&#x822A;&#x3002;</p>
+<pre><code class="lang-html"><span class="hljs-tag">&lt;<span class="hljs-name">router-link</span> <span class="hljs-attr">to</span>=<span class="hljs-string">&quot;/foo&quot;</span> <span class="hljs-attr">tag</span>=<span class="hljs-string">&quot;li&quot;</span>&gt;</span>foo<span class="hljs-tag">&lt;/<span class="hljs-name">router-link</span>&gt;</span>
+<span class="hljs-comment">&lt;!-- &#x6E32;&#x67D3;&#x7ED3;&#x679C; --&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">li</span>&gt;</span>foo<span class="hljs-tag">&lt;/<span class="hljs-name">li</span>&gt;</span>
+</code></pre>
+</li>
+<li><p><strong>active-class</strong></p>
+<ul>
+<li><p>&#x7C7B;&#x578B;: <code>string</code></p>
+</li>
+<li><p>&#x9ED8;&#x8BA4;&#x503C;: <code>&quot;router-link-active&quot;</code></p>
+</li>
+</ul>
+<p>&#x8BBE;&#x7F6E; &#x94FE;&#x63A5;&#x6FC0;&#x6D3B;&#x65F6;&#x4F7F;&#x7528;&#x7684; CSS &#x7C7B;&#x540D;&#x3002;&#x9ED8;&#x8BA4;&#x503C;&#x53EF;&#x4EE5;&#x901A;&#x8FC7;&#x8DEF;&#x7531;&#x7684;&#x6784;&#x9020;&#x9009;&#x9879; <code>linkActiveClass</code> &#x6765;&#x5168;&#x5C40;&#x914D;&#x7F6E;&#x3002;</p>
+</li>
+<li><p><strong>exact</strong></p>
+<ul>
+<li><p>&#x7C7B;&#x578B;: <code>boolean</code></p>
+</li>
+<li><p>&#x9ED8;&#x8BA4;&#x503C;: <code>false</code></p>
+</li>
+</ul>
+<p>&quot;&#x662F;&#x5426;&#x6FC0;&#x6D3B;&quot; &#x9ED8;&#x8BA4;&#x7C7B;&#x540D;&#x7684;&#x4F9D;&#x636E;&#x662F; <strong>inclusive match</strong> &#xFF08;&#x5168;&#x5305;&#x542B;&#x5339;&#x914D;&#xFF09;&#x3002;
+&#x4E3E;&#x4E2A;&#x4F8B;&#x5B50;&#xFF0C;&#x5982;&#x679C;&#x5F53;&#x524D;&#x7684;&#x8DEF;&#x5F84;&#x662F; <code>/a</code> &#x5F00;&#x5934;&#x7684;&#xFF0C;&#x90A3;&#x4E48; <code>&lt;router-link to=&quot;/a&quot;&gt;</code> &#x4E5F;&#x4F1A;&#x88AB;&#x8BBE;&#x7F6E; CSS &#x7C7B;&#x540D;&#x3002;</p>
+<p>&#x6309;&#x7167;&#x8FD9;&#x4E2A;&#x89C4;&#x5219;&#xFF0C;&#x6BCF;&#x4E2A;&#x8DEF;&#x7531;&#x90FD;&#x4F1A;&#x6FC0;&#x6D3B;<code>&lt;router-link to=&quot;/&quot;&gt;</code>&#xFF01;&#x60F3;&#x8981;&#x94FE;&#x63A5;&#x4F7F;&#x7528; &quot;exact &#x5339;&#x914D;&#x6A21;&#x5F0F;&quot;&#xFF0C;&#x5219;&#x4F7F;&#x7528; <code>exact</code> &#x5C5E;&#x6027;&#xFF1A;</p>
+<pre><code class="lang-html"><span class="hljs-comment">&lt;!-- &#x8FD9;&#x4E2A;&#x94FE;&#x63A5;&#x53EA;&#x4F1A;&#x5728;&#x5730;&#x5740;&#x4E3A; / &#x7684;&#x65F6;&#x5019;&#x88AB;&#x6FC0;&#x6D3B; --&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">router-link</span> <span class="hljs-attr">to</span>=<span class="hljs-string">&quot;/&quot;</span> <span class="hljs-attr">exact</span>&gt;</span>
+</code></pre>
+<p>&#x67E5;&#x770B;&#x66F4;&#x591A;&#x5173;&#x4E8E;&#x6FC0;&#x6D3B;&#x94FE;&#x63A5;&#x7C7B;&#x540D;&#x7684;&#x4F8B;&#x5B50;<a href="https://jsfiddle.net/8xrk1n9f/" target="_blank">&#x53EF;&#x8FD0;&#x884C;</a></p>
+</li>
+<li><p><strong>event</strong></p>
+<blockquote>
+<p>2.1.0+</p>
+</blockquote>
+<ul>
+<li><p>&#x7C7B;&#x578B;: <code>string | Array&lt;string&gt;</code></p>
+</li>
+<li><p>&#x9ED8;&#x8BA4;&#x503C;: <code>&apos;click&apos;</code></p>
+</li>
+</ul>
+<p>&#x58F0;&#x660E;&#x53EF;&#x4EE5;&#x7528;&#x6765;&#x89E6;&#x53D1;&#x5BFC;&#x822A;&#x7684;&#x4E8B;&#x4EF6;&#x3002;&#x53EF;&#x4EE5;&#x662F;&#x4E00;&#x4E2A;&#x5B57;&#x7B26;&#x4E32;&#x6216;&#x662F;&#x4E00;&#x4E2A;&#x5305;&#x542B;&#x5B57;&#x7B26;&#x4E32;&#x7684;&#x6570;&#x7EC4;&#x3002;</p>
+</li>
+<li><p><strong>exact-active-class</strong></p>
+<blockquote>
+<p>2.5.0+</p>
+</blockquote>
+<ul>
+<li><p>&#x7C7B;&#x578B;: <code>string</code></p>
+</li>
+<li><p>&#x9ED8;&#x8BA4;&#x503C;: <code>&quot;router-link-exact-active&quot;</code></p>
+</li>
+</ul>
+<p>&#x914D;&#x7F6E;&#x5F53;&#x94FE;&#x63A5;&#x88AB;&#x7CBE;&#x786E;&#x5339;&#x914D;&#x7684;&#x65F6;&#x5019;&#x5E94;&#x8BE5;&#x6FC0;&#x6D3B;&#x7684; class&#x3002;&#x6CE8;&#x610F;&#x9ED8;&#x8BA4;&#x503C;&#x4E5F;&#x662F;&#x53EF;&#x4EE5;&#x901A;&#x8FC7;&#x8DEF;&#x7531;&#x6784;&#x9020;&#x51FD;&#x6570;&#x9009;&#x9879; <code>linkExactActiveClass</code> &#x8FDB;&#x884C;&#x5168;&#x5C40;&#x914D;&#x7F6E;&#x7684;&#x3002;</p>
+</li>
+</ul>
+<h3 id="&#x5C06;&#x6FC0;&#x6D3B;-class-&#x5E94;&#x7528;&#x5728;&#x5916;&#x5C42;&#x5143;&#x7D20;">&#x5C06;&#x6FC0;&#x6D3B; class &#x5E94;&#x7528;&#x5728;&#x5916;&#x5C42;&#x5143;&#x7D20;</h3>
+<p>&#x6709;&#x65F6;&#x5019;&#x6211;&#x4EEC;&#x8981;&#x8BA9;&#x6FC0;&#x6D3B; class &#x5E94;&#x7528;&#x5728;&#x5916;&#x5C42;&#x5143;&#x7D20;&#xFF0C;&#x800C;&#x4E0D;&#x662F; <code>&lt;a&gt;</code> &#x6807;&#x7B7E;&#x672C;&#x8EAB;&#xFF0C;&#x90A3;&#x4E48;&#x53EF;&#x4EE5;&#x7528; <code>&lt;router-link&gt;</code> &#x6E32;&#x67D3;&#x5916;&#x5C42;&#x5143;&#x7D20;&#xFF0C;&#x5305;&#x88F9;&#x7740;&#x5185;&#x5C42;&#x7684;&#x539F;&#x751F; <code>&lt;a&gt;</code> &#x6807;&#x7B7E;&#xFF1A;</p>
+<pre><code class="lang-html"><span class="hljs-tag">&lt;<span class="hljs-name">router-link</span> <span class="hljs-attr">tag</span>=<span class="hljs-string">&quot;li&quot;</span> <span class="hljs-attr">to</span>=<span class="hljs-string">&quot;/foo&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">a</span>&gt;</span>/foo<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">router-link</span>&gt;</span>
+</code></pre>
+<p>&#x5728;&#x8FD9;&#x79CD;&#x60C5;&#x51B5;&#x4E0B;&#xFF0C;<code>&lt;a&gt;</code> &#x5C06;&#x4F5C;&#x4E3A;&#x771F;&#x5B9E;&#x7684;&#x94FE;&#x63A5;&#xFF08;&#x5B83;&#x4F1A;&#x83B7;&#x5F97;&#x6B63;&#x786E;&#x7684; <code>href</code> &#x7684;&#xFF09;&#xFF0C;&#x800C; &quot;&#x6FC0;&#x6D3B;&#x65F6;&#x7684;CSS&#x7C7B;&#x540D;&quot; &#x5219;&#x8BBE;&#x7F6E;&#x5230;&#x5916;&#x5C42;&#x7684; <code>&lt;li&gt;</code>&#x3002;</p>
+
+                                
+                                </section>
+                            
+    </div>
+    <div class="search-results">
+        <div class="has-results">
+            
+            <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+            <ul class="search-results-list"></ul>
+            
+        </div>
+        <div class="no-results">
+            
+            <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+            
+        </div>
+    </div>
+</div>
+
+                        </div>
+                    </div>
+                
+  <script src="//m.servedby-buysellads.com/monetization.js" type="text/javascript"></script>
+  <div class="bsa-cpc"></div>
+  <script>
+    (function(){
+      if(typeof _bsa !== 'undefined' && _bsa) {
+      _bsa.init('default', 'CKYD62QM', 'placement:vuejsorg', {
+        target: '.bsa-cpc',
+        align: 'horizontal',
+        disable_css: 'true'
+      });
+        }
+    })();
+  </script>
+
+            </div>
+
+            
+                
+                <a href="component-injections.html" class="navigation navigation-prev " aria-label="Previous page: 对组件注入">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+                
+                
+                <a href="router-view.html" class="navigation navigation-next " aria-label="Next page: router-view">
+                    <i class="fa fa-angle-right"></i>
+                </a>
+                
+            
+        
+    </div>
+
+    <script>
+        var gitbook = gitbook || [];
+        gitbook.push(function() {
+            gitbook.page.hasChanged({"page":{"title":"router-link","level":"1.5.5","depth":2,"next":{"title":"router-view","level":"1.5.6","depth":2,"path":"api/router-view.md","ref":"api/router-view.md","articles":[]},"previous":{"title":"对组件注入","level":"1.5.4","depth":2,"path":"api/component-injections.md","ref":"api/component-injections.md","articles":[]},"dir":"ltr"},"config":{"plugins":["edit-link","theme-vuejs","-fontsettings","github"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"edit-link":{"label":"Edit This Page","base":"https://github.com/vuejs/vue-router/edit/dev/docs"},"github":{"url":"https://github.com/vuejs/vue-router/"},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":false,"twitter":false,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-vuejs":{},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"vue-router","language":"zh-cn","links":{"sharing":{"facebook":false,"twitter":false}},"gitbook":"*"},"file":{"path":"api/router-link.md","mtime":"2018-01-12T18:38:00.000Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-03-23T22:35:25.582Z"},"basePath":"..","book":{"language":"zh-cn"}});
+        });
+    </script>
+</div>
+
+        
+    <script src="../../gitbook/gitbook.js"></script>
+    <script src="../../gitbook/theme.js"></script>
+    
+        
+        <script src="../../gitbook/gitbook-plugin-edit-link/plugin.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-github/plugin.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-search/search-engine.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-search/search.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-lunr/lunr.min.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-lunr/search-lunr.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-sharing/buttons.js"></script>
+        
+    
+
+    </body>
+</html>
+

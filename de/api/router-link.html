@@ -1,0 +1,699 @@
+
+<!DOCTYPE HTML>
+<html lang="de" >
+    <head>
+        <meta charset="UTF-8">
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <title>router-link · vue-router</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="description" content="">
+        <meta name="generator" content="GitBook 3.2.3">
+        
+        
+        
+    
+    <link rel="stylesheet" href="../../gitbook/style.css">
+
+    
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-highlight/website.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-search/search.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-theme-vuejs/vue.css">
+                
+            
+        
+
+    
+
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+        
+    
+    
+    <meta name="HandheldFriendly" content="true"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="../../gitbook/images/apple-touch-icon-precomposed-152.png">
+    <link rel="shortcut icon" href="../../gitbook/images/favicon.ico" type="image/x-icon">
+
+    
+    <link rel="next" href="router-view.html" />
+    
+    
+
+    </head>
+    <body>
+        
+<div class="book">
+    <div class="book-summary">
+        
+            
+<div id="book-search-input" role="search">
+    <input type="text" placeholder="Suchbegriff eingeben" />
+</div>
+
+            
+                <nav role="navigation">
+                
+<script async type="text/javascript" src="//cdn.carbonads.com/carbon.js?zoneid=1673&serve=C6AILKT&placement=vuejs" id="_carbonads_js"></script>
+
+
+
+
+<ul class="summary">
+    
+    
+
+    
+
+    
+        
+        
+    
+        <li class="chapter " data-level="1.1" data-path="../">
+            
+                <a href="../">
+            
+                    
+                    Introduction
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2" data-path="../installation.html">
+            
+                <a href="../installation.html">
+            
+                    
+                    Installation
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3" >
+            
+                <span>
+            
+                    
+                    Grundlegendes
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.3.1" data-path="../essentials/getting-started.html">
+            
+                <a href="../essentials/getting-started.html">
+            
+                    
+                    Erste Schritte
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.2" data-path="../essentials/dynamic-matching.html">
+            
+                <a href="../essentials/dynamic-matching.html">
+            
+                    
+                    Dynamisches Route-Matching
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.3" data-path="../essentials/nested-routes.html">
+            
+                <a href="../essentials/nested-routes.html">
+            
+                    
+                    Verschachtelte Routes
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.4" data-path="../essentials/navigation.html">
+            
+                <a href="../essentials/navigation.html">
+            
+                    
+                    Programmatische Navigation
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.5" data-path="../essentials/named-routes.html">
+            
+                <a href="../essentials/named-routes.html">
+            
+                    
+                    Benannte Routes
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.6" data-path="../essentials/named-views.html">
+            
+                <a href="../essentials/named-views.html">
+            
+                    
+                    Benannte Views
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.7" data-path="../essentials/redirect-and-alias.html">
+            
+                <a href="../essentials/redirect-and-alias.html">
+            
+                    
+                    Redirect und Alias
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.8" data-path="../essentials/history-mode.html">
+            
+                <a href="../essentials/history-mode.html">
+            
+                    
+                    HTML5-Verlaufsmodus
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4" >
+            
+                <span>
+            
+                    
+                    Fortgeschritten
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.4.1" data-path="../advanced/navigation-guards.html">
+            
+                <a href="../advanced/navigation-guards.html">
+            
+                    
+                    Navigations-Guards
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.2" data-path="../advanced/meta.html">
+            
+                <a href="../advanced/meta.html">
+            
+                    
+                    Route Meta-Felder
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.3" data-path="../advanced/transitions.html">
+            
+                <a href="../advanced/transitions.html">
+            
+                    
+                    Transitions (Übergänge)
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.4" data-path="../advanced/data-fetching.html">
+            
+                <a href="../advanced/data-fetching.html">
+            
+                    
+                    Daten laden
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.5" data-path="../advanced/scroll-behavior.html">
+            
+                <a href="../advanced/scroll-behavior.html">
+            
+                    
+                    Scroll-Verhalten
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.6" data-path="../advanced/lazy-loading.html">
+            
+                <a href="../advanced/lazy-loading.html">
+            
+                    
+                    Lazy Loading
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5" >
+            
+                <span>
+            
+                    
+                    API-Referenz
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter active" data-level="1.5.1" data-path="router-link.html">
+            
+                <a href="router-link.html">
+            
+                    
+                    router-link
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.2" data-path="router-view.html">
+            
+                <a href="router-view.html">
+            
+                    
+                    router-view
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.3" data-path="route-object.html">
+            
+                <a href="route-object.html">
+            
+                    
+                    Das Route-Objekt
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.4" data-path="options.html">
+            
+                <a href="options.html">
+            
+                    
+                    Router-Option
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.5" data-path="router-instance.html">
+            
+                <a href="router-instance.html">
+            
+                    
+                    Router-Instanz
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.6" data-path="component-injections.html">
+            
+                <a href="component-injections.html">
+            
+                    
+                    Injection von Komponenten
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+    
+
+    <li class="divider"></li>
+
+    <li>
+        <a href="https://www.gitbook.com" target="blank" class="gitbook-link">
+            Veröffentlicht mit GitBook
+        </a>
+    </li>
+</ul>
+
+
+
+                </nav>
+            
+        
+    </div>
+
+    <div class="book-body">
+        
+            <div class="body-inner">
+                
+  
+                    
+
+<div class="book-header" role="navigation">
+    
+
+    <!-- Title -->
+    <h1>
+        <i class="fa fa-circle-o-notch fa-spin"></i>
+        <a href=".." >router-link</a>
+    </h1>
+</div>
+
+
+
+
+                    <div class="page-wrapper" tabindex="-1" role="main">
+                        <div class="page-inner">
+                            
+<div id="book-search-results">
+    <div class="search-noresults">
+    
+                                <section class="normal markdown-section">
+                                
+                                <h1 id="router-link"><code>&lt;router-link&gt;</code></h1>
+<p><code>&lt;router-link&gt;</code> ist eine Komponente zum Ausl&#xF6;sen von Nutzernavigationen. Die Ziel-Route wird mit der <code>to</code>-Prop angegeben. Sie wird standardm&#xE4;&#xDF;ig als <code>&lt;a&gt;</code> mit korrektem <code>href</code> Attribut gerendert, das Element kann jedoch mit dem <code>tag</code>-Prop ge&#xE4;ndert werden. Dar&#xFC;ber hinaus erh&#xE4;lt der Link automatisch die &quot;active&quot; CSS-Klasse, wenn die Ziel-Route gerade aktiv ist.</p>
+<p><code>&lt;router-link&gt;</code> ist aus folgenden Gr&#xFC;nden gegen&#xFC;ber fest definierten <code>&lt;a href=&quot;&quot;&gt;</code> links zu bevorzugen:</p>
+<ul>
+<li><p>Funktioniert in allen Router-Modi (history, hash, abstract) gleich. Daher muss man nichts &#xE4;ndern, wenn man den Modus jemals wechslen sollte oder er automatisch in den Hash-Modus f&#xFC;r IE9 zur&#xFC;ckf&#xE4;llt.</p>
+</li>
+<li><p>Im HTML5-Verlaufsmodus f&#xE4;ngt <code>router-link</code> das <code>click</code>-Event ab, sodass der Browser nicht versucht, das Fenster neu zu laden.</p>
+</li>
+<li><p>Wenn die <code>base</code>-Option im HTML5-Verlaufsmodus genutzt wird, muss man die Base-URL nicht immer wieder in <code>to</code> mit angeben.</p>
+</li>
+</ul>
+<h3 id="props">Props</h3>
+<ul>
+<li><p><strong>to</strong></p>
+<ul>
+<li><p>Typ: <code>string | Location</code></p>
+</li>
+<li><p>Pflichtfeld</p>
+</li>
+</ul>
+<p>Kennzeichnet die Ziel-Route des Links. Wenn die Komponente geklickt wird, wird der Wert von <code>to</code> intern an <code>router.push()</code> &#xFC;bergeben - der Wert kann also entweder ein String oder ein Objekt sein kann.</p>
+</li>
+</ul>
+<pre><code class="lang-html">  <span class="hljs-comment">&lt;!-- literaler String --&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">router-link</span> <span class="hljs-attr">to</span>=<span class="hljs-string">&quot;home&quot;</span>&gt;</span>Home<span class="hljs-tag">&lt;/<span class="hljs-name">router-link</span>&gt;</span>
+  <span class="hljs-comment">&lt;!-- gerendert zu --&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;home&quot;</span>&gt;</span>Home<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span>
+
+  <span class="hljs-comment">&lt;!-- JavaScript-Expression mit v-bind --&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">router-link</span> <span class="hljs-attr">v-bind:to</span>=<span class="hljs-string">&quot;&apos;home&apos;&quot;</span>&gt;</span>Home<span class="hljs-tag">&lt;/<span class="hljs-name">router-link</span>&gt;</span>
+
+  <span class="hljs-comment">&lt;!-- Auslassen von v-bind ist okay wie bei jedem anderen Prop --&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">router-link</span> <span class="hljs-attr">:to</span>=<span class="hljs-string">&quot;&apos;home&apos;&quot;</span>&gt;</span>Home<span class="hljs-tag">&lt;/<span class="hljs-name">router-link</span>&gt;</span>
+
+  <span class="hljs-comment">&lt;!-- entspricht dem obigen Link --&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">router-link</span> <span class="hljs-attr">:to</span>=<span class="hljs-string">&quot;{ path: &apos;home&apos; }&quot;</span>&gt;</span>Home<span class="hljs-tag">&lt;/<span class="hljs-name">router-link</span>&gt;</span>
+
+  <span class="hljs-comment">&lt;!-- benannte Route --&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">router-link</span> <span class="hljs-attr">:to</span>=<span class="hljs-string">&quot;{ name: &apos;user&apos;, params: { userId: 123 }}&quot;</span>&gt;</span>User<span class="hljs-tag">&lt;/<span class="hljs-name">router-link</span>&gt;</span>
+
+  <span class="hljs-comment">&lt;!-- mit Query, resultiert in /register?plan=private --&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">router-link</span> <span class="hljs-attr">:to</span>=<span class="hljs-string">&quot;{ path: &apos;register&apos;, query: { plan: &apos;private&apos; }}&quot;</span>&gt;</span>Register<span class="hljs-tag">&lt;/<span class="hljs-name">router-link</span>&gt;</span>
+</code></pre>
+<ul>
+<li><p><strong>replace</strong></p>
+<ul>
+<li><p>Typ: <code>boolean</code></p>
+</li>
+<li><p>Default: <code>false</code></p>
+</li>
+</ul>
+<p>Das Setzen von <code>replace</code> aktiviert <code>router.replace()</code> anstelle von <code>router.push()</code>. Die Navigation hinterl&#xE4;sst also keinen Verlaufseintrag.</p>
+<pre><code class="lang-html"><span class="hljs-tag">&lt;<span class="hljs-name">router-link</span> <span class="hljs-attr">:to</span>=<span class="hljs-string">&quot;{ path: &apos;/abc&apos;}&quot;</span> <span class="hljs-attr">replace</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">router-link</span>&gt;</span>
+</code></pre>
+</li>
+<li><p><strong>append</strong></p>
+<ul>
+<li><p>Typ: <code>boolean</code></p>
+</li>
+<li><p>Default: <code>false</code></p>
+</li>
+</ul>
+<p>Das Setzen von <code>append</code> h&#xE4;ngt immer den relativen Pfad an den aktuellen an. Angenommen, man navigiert von <code>/a</code> zu einem relativen Pfad <code>b</code> - ohne <code>append</code> gelangt man zu <code>/b</code>, mit <code>append</code> jedoch wird daraus <code>/a/b</code>.</p>
+<pre><code class="lang-html"><span class="hljs-tag">&lt;<span class="hljs-name">router-link</span> <span class="hljs-attr">:to</span>=<span class="hljs-string">&quot;{ path: &apos;relative/path&apos;}&quot;</span> <span class="hljs-attr">append</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">router-link</span>&gt;</span>
+</code></pre>
+</li>
+<li><p><strong>tag</strong></p>
+<ul>
+<li><p>Typ: <code>string</code></p>
+</li>
+<li><p>Default: <code>&quot;a&quot;</code></p>
+</li>
+</ul>
+<p>Manchmal soll <code>&lt;router-link&gt;</code> einen anderen Tag rendern, zB. <code>&lt;li&gt;</code>. Mit Hilfe des <code>tag</code>-Props kann man definieren, welcher Tag gerendert werden soll. Der Tag reagiert nach wie vor auf Klick-Events f&#xFC;r die Navigation.</p>
+<pre><code class="lang-html"><span class="hljs-tag">&lt;<span class="hljs-name">router-link</span> <span class="hljs-attr">to</span>=<span class="hljs-string">&quot;/foo&quot;</span> <span class="hljs-attr">tag</span>=<span class="hljs-string">&quot;li&quot;</span>&gt;</span>foo<span class="hljs-tag">&lt;/<span class="hljs-name">router-link</span>&gt;</span>
+<span class="hljs-comment">&lt;!-- gerendert als --&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">li</span>&gt;</span>foo<span class="hljs-tag">&lt;/<span class="hljs-name">li</span>&gt;</span>
+</code></pre>
+</li>
+<li><p><strong>active-class</strong></p>
+<ul>
+<li><p>Typ: <code>string</code></p>
+</li>
+<li><p>Default: <code>&quot;router-link-active&quot;</code></p>
+</li>
+</ul>
+<p>Festlegen der aktiven CSS-Klasse die zugewiesen wird, wenn der Link aktiv ist.
+Der Standardwert kann ebenfalls mit der <code>linkActiveClass</code>-Option des Router-Konstruktors global konfiguriert werden.</p>
+</li>
+<li><p><strong>exact</strong></p>
+<ul>
+<li><p>Typ: <code>boolean</code></p>
+</li>
+<li><p>Default: <code>false</code></p>
+</li>
+</ul>
+<p>Das standardm&#xE4;&#xDF;ige Matching-Verfahren der aktiven Klasse ist ein <strong>inklusives Match</strong>. Zum Beispiel erh&#xE4;lt <code>&lt;router-link to=&quot;/a&quot;&gt;</code> die Klasse, solange der aktuelle Pfad mit <code>/a</code> beginnt.</p>
+<p>Eine Konsequenz daraus ist, dass <code>&lt;router-link to=/&gt;</code> f&#xFC;r jede Route aktiv ist! Um den &quot;exakten Match-Modus&quot; zu aktivieren, nutzt man die <code>exact</code>-Prop:</p>
+<pre><code class="lang-html"><span class="hljs-comment">&lt;!-- dieser Link wird nur bei &apos;/&apos; aktiv --&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">router-link</span> <span class="hljs-attr">to</span>=<span class="hljs-string">&quot;/&quot;</span> <span class="hljs-attr">exact</span>&gt;</span>
+</code></pre>
+<p>Siehe weitere Beispiele zur aktiven Linkklasse <a href="http://jsfiddle.net/fnlCtrl/dokbyypq/" target="_blank">hier</a>.</p>
+</li>
+<li><p><strong>event</strong></p>
+<blockquote>
+<p>2.1.0+</p>
+</blockquote>
+<ul>
+<li><p>Typ: <code>string | Array&lt;string&gt;</code></p>
+</li>
+<li><p>Default: <code>&apos;click&apos;</code></p>
+</li>
+</ul>
+<p>Lege das Event fest, das die Navigation ausl&#xF6;st.</p>
+</li>
+</ul>
+<h3 id="active-klasse-auf-ein-&#xE4;u&#xDF;eres-element-anwenden">&quot;active&quot; Klasse auf ein &#xE4;u&#xDF;eres Element anwenden</h3>
+<p>Machmal soll die aktive Klasse an einem &#xE4;u&#xDF;eren Element anstelle das <code>&lt;a&gt;</code> gesetzt werden. In diesem Fall kann man das &#xE4;u&#xDF;ere Element als <code>&lt;router-link&gt;</code> rendern und damit den <code>&lt;a&gt;</code>-Tag umschlie&#xDF;en:</p>
+<pre><code class="lang-html"><span class="hljs-tag">&lt;<span class="hljs-name">router-link</span> <span class="hljs-attr">tag</span>=<span class="hljs-string">&quot;li&quot;</span> <span class="hljs-attr">to</span>=<span class="hljs-string">&quot;/foo&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">a</span>&gt;</span>/foo<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">router-link</span>&gt;</span>
+</code></pre>
+<p>In diesem Fall ist <code>&lt;a&gt;</code> der eigentliche Link und erh&#xE4;lt das korrekte <code>href</code> attribut, aber die aktive Klasse wird auf das &#xE4;u&#xDF;ere <code>&lt;li&gt;</code> gesetzt.</p>
+
+                                
+                                </section>
+                            
+    </div>
+    <div class="search-results">
+        <div class="has-results">
+            
+            <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+            <ul class="search-results-list"></ul>
+            
+        </div>
+        <div class="no-results">
+            
+            <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+            
+        </div>
+    </div>
+</div>
+
+                        </div>
+                    </div>
+                
+  <script src="//m.servedby-buysellads.com/monetization.js" type="text/javascript"></script>
+  <div class="bsa-cpc"></div>
+  <script>
+    (function(){
+      if(typeof _bsa !== 'undefined' && _bsa) {
+      _bsa.init('default', 'CKYD62QM', 'placement:vuejsorg', {
+        target: '.bsa-cpc',
+        align: 'horizontal',
+        disable_css: 'true'
+      });
+        }
+    })();
+  </script>
+
+            </div>
+
+            
+                
+                
+                <a href="router-view.html" class="navigation navigation-next navigation-unique" aria-label="Next page: router-view">
+                    <i class="fa fa-angle-right"></i>
+                </a>
+                
+            
+        
+    </div>
+
+    <script>
+        var gitbook = gitbook || [];
+        gitbook.push(function() {
+            gitbook.page.hasChanged({"page":{"title":"router-link","level":"1.5.1","depth":2,"next":{"title":"router-view","level":"1.5.2","depth":2,"path":"api/router-view.md","ref":"api/router-view.md","articles":[]},"previous":{"title":"API-Referenz","level":"1.5","depth":1,"ref":"","articles":[{"title":"router-link","level":"1.5.1","depth":2,"path":"api/router-link.md","ref":"api/router-link.md","articles":[]},{"title":"router-view","level":"1.5.2","depth":2,"path":"api/router-view.md","ref":"api/router-view.md","articles":[]},{"title":"Das Route-Objekt","level":"1.5.3","depth":2,"path":"api/route-object.md","ref":"api/route-object.md","articles":[]},{"title":"Router-Option","level":"1.5.4","depth":2,"path":"api/options.md","ref":"api/options.md","articles":[]},{"title":"Router-Instanz","level":"1.5.5","depth":2,"path":"api/router-instance.md","ref":"api/router-instance.md","articles":[]},{"title":"Injection von Komponenten","level":"1.5.6","depth":2,"path":"api/component-injections.md","ref":"api/component-injections.md","articles":[]}]},"dir":"ltr"},"config":{"plugins":["edit-link","theme-vuejs","-fontsettings","github"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"edit-link":{"label":"Edit This Page","base":"https://github.com/vuejs/vue-router/edit/dev/docs"},"github":{"url":"https://github.com/vuejs/vue-router/"},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":false,"twitter":false,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-vuejs":{},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"vue-router","language":"de","links":{"sharing":{"facebook":false,"twitter":false}},"gitbook":"*"},"file":{"path":"api/router-link.md","mtime":"2017-08-26T17:43:13.000Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-03-23T22:35:25.582Z"},"basePath":"..","book":{"language":"de"}});
+        });
+    </script>
+</div>
+
+        
+    <script src="../../gitbook/gitbook.js"></script>
+    <script src="../../gitbook/theme.js"></script>
+    
+        
+        <script src="../../gitbook/gitbook-plugin-edit-link/plugin.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-github/plugin.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-search/search-engine.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-search/search.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-lunr/lunr.min.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-lunr/search-lunr.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-sharing/buttons.js"></script>
+        
+    
+
+    </body>
+</html>
+

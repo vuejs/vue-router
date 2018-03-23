@@ -1,0 +1,832 @@
+
+<!DOCTYPE HTML>
+<html lang="ru" >
+    <head>
+        <meta charset="UTF-8">
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <title>Режим HTML5 History · vue-router</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="description" content="">
+        <meta name="generator" content="GitBook 3.2.3">
+        
+        
+        
+    
+    <link rel="stylesheet" href="../../gitbook/style.css">
+
+    
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-highlight/website.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-search/search.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-theme-vuejs/vue.css">
+                
+            
+        
+
+    
+
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+        
+    
+    
+    <meta name="HandheldFriendly" content="true"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="../../gitbook/images/apple-touch-icon-precomposed-152.png">
+    <link rel="shortcut icon" href="../../gitbook/images/favicon.ico" type="image/x-icon">
+
+    
+    
+    <link rel="prev" href="passing-props.html" />
+    
+
+    </head>
+    <body>
+        
+<div class="book">
+    <div class="book-summary">
+        
+            
+<div id="book-search-input" role="search">
+    <input type="text" placeholder="Введите условия поиска" />
+</div>
+
+            
+                <nav role="navigation">
+                
+<script async type="text/javascript" src="//cdn.carbonads.com/carbon.js?zoneid=1673&serve=C6AILKT&placement=vuejs" id="_carbonads_js"></script>
+
+
+
+
+<ul class="summary">
+    
+    
+
+    
+
+    
+        
+        
+    
+        <li class="chapter " data-level="1.1" data-path="../">
+            
+                <a href="../">
+            
+                    
+                    Введение
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2" data-path="../installation.html">
+            
+                <a href="../installation.html">
+            
+                    
+                    Установка
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3" >
+            
+                <span>
+            
+                    
+                    Основы
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.3.1" data-path="getting-started.html">
+            
+                <a href="getting-started.html">
+            
+                    
+                    Начало работы
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.2" data-path="dynamic-matching.html">
+            
+                <a href="dynamic-matching.html">
+            
+                    
+                    Динамические пути
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.3" data-path="nested-routes.html">
+            
+                <a href="nested-routes.html">
+            
+                    
+                    Вложенные пути
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.4" data-path="navigation.html">
+            
+                <a href="navigation.html">
+            
+                    
+                    Императивная навигация
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.5" data-path="named-routes.html">
+            
+                <a href="named-routes.html">
+            
+                    
+                    Именованные пути
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.6" data-path="named-views.html">
+            
+                <a href="named-views.html">
+            
+                    
+                    Именованные представления
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.7" data-path="redirect-and-alias.html">
+            
+                <a href="redirect-and-alias.html">
+            
+                    
+                    Редиректы и псевдонимы
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.8" data-path="passing-props.html">
+            
+                <a href="passing-props.html">
+            
+                    
+                    Передача входных параметров в компоненты маршрутов
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter active" data-level="1.3.9" data-path="history-mode.html">
+            
+                <a href="history-mode.html">
+            
+                    
+                    Режим HTML5 History
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4" >
+            
+                <span>
+            
+                    
+                    Продвинутые возможности
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.4.1" data-path="../advanced/navigation-guards.html">
+            
+                <a href="../advanced/navigation-guards.html">
+            
+                    
+                    Сторожевые хуки
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.2" data-path="../advanced/meta.html">
+            
+                <a href="../advanced/meta.html">
+            
+                    
+                    Метаданные путей
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.3" data-path="../advanced/transitions.html">
+            
+                <a href="../advanced/transitions.html">
+            
+                    
+                    Анимация переходов
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.4" data-path="../advanced/data-fetching.html">
+            
+                <a href="../advanced/data-fetching.html">
+            
+                    
+                    Запросы данных
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.5" data-path="../advanced/scroll-behavior.html">
+            
+                <a href="../advanced/scroll-behavior.html">
+            
+                    
+                    Скроллинг
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.6" data-path="../advanced/lazy-loading.html">
+            
+                <a href="../advanced/lazy-loading.html">
+            
+                    
+                    Ленивая загрузка путей
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5" >
+            
+                <span>
+            
+                    
+                    Справочник API
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.5.1" data-path="../api/options.html">
+            
+                <a href="../api/options.html">
+            
+                    
+                    Опции конструктора Router'а
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.5.1.1" data-path="../api/options.html">
+            
+                <a href="../api/options.html#routes">
+            
+                    
+                    routes
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.1.2" data-path="../api/options.html">
+            
+                <a href="../api/options.html#mode">
+            
+                    
+                    mode
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.1.3" data-path="../api/options.html">
+            
+                <a href="../api/options.html#base">
+            
+                    
+                    base
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.1.4" data-path="../api/options.html">
+            
+                <a href="../api/options.html#linkactiveclass">
+            
+                    
+                    linkActiveClass
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.1.5" data-path="../api/options.html">
+            
+                <a href="../api/options.html#linkexactactiveclass">
+            
+                    
+                    linkExactActiveClass
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.1.6" data-path="../api/options.html">
+            
+                <a href="../api/options.html#scrollbehavior">
+            
+                    
+                    scrollBehavior
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.1.7" data-path="../api/options.html">
+            
+                <a href="../api/options.html#parsequery--stringifyquery">
+            
+                    
+                    parseQuery / stringifyQuery
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.1.8" data-path="../api/options.html">
+            
+                <a href="../api/options.html#fallback">
+            
+                    
+                    fallback
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.2" data-path="../api/router-instance.html">
+            
+                <a href="../api/router-instance.html">
+            
+                    
+                    Экземпляр Router
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.5.2.1" data-path="../api/router-instance.html">
+            
+                <a href="../api/router-instance.html#свойства">
+            
+                    
+                    Свойства
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.2.2" data-path="../api/router-instance.html">
+            
+                <a href="../api/router-instance.html#методы">
+            
+                    
+                    Методы
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.3" data-path="../api/route-object.html">
+            
+                <a href="../api/route-object.html">
+            
+                    
+                    Объект route
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.4" data-path="../api/component-injections.html">
+            
+                <a href="../api/component-injections.html">
+            
+                    
+                    Интеграция с компонентами Vue
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.5" data-path="../api/router-link.html">
+            
+                <a href="../api/router-link.html">
+            
+                    
+                    router-link
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.6" data-path="../api/router-view.html">
+            
+                <a href="../api/router-view.html">
+            
+                    
+                    router-view
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+    
+
+    <li class="divider"></li>
+
+    <li>
+        <a href="https://www.gitbook.com" target="blank" class="gitbook-link">
+            Опубликовано с помощью GitBook
+        </a>
+    </li>
+</ul>
+
+
+
+                </nav>
+            
+        
+    </div>
+
+    <div class="book-body">
+        
+            <div class="body-inner">
+                
+  
+                    
+
+<div class="book-header" role="navigation">
+    
+
+    <!-- Title -->
+    <h1>
+        <i class="fa fa-circle-o-notch fa-spin"></i>
+        <a href=".." >Режим HTML5 History</a>
+    </h1>
+</div>
+
+
+
+
+                    <div class="page-wrapper" tabindex="-1" role="main">
+                        <div class="page-inner">
+                            
+<div id="book-search-results">
+    <div class="search-noresults">
+    
+                                <section class="normal markdown-section">
+                                
+                                <h1 id="&#x440;&#x435;&#x436;&#x438;&#x43C;-html5-history">&#x420;&#x435;&#x436;&#x438;&#x43C; HTML5 History</h1>
+<p>&#x420;&#x435;&#x436;&#x438;&#x43C;&#x43E;&#x43C; &#x43F;&#x43E; &#x443;&#x43C;&#x43E;&#x43B;&#x447;&#x430;&#x43D;&#x438;&#x44E; &#x434;&#x43B;&#x44F; <code>Vue-router</code> &#x44F;&#x432;&#x43B;&#x44F;&#x435;&#x442;&#x441;&#x44F; <em>hash mode</em>, &#x438;&#x441;&#x43F;&#x43E;&#x43B;&#x44C;&#x437;&#x443;&#x44E;&#x449;&#x438;&#x439; &#x445;&#x44D;&#x448; URL&apos;&#x430; &#x434;&#x43B;&#x44F; &#x441;&#x438;&#x43C;&#x443;&#x43B;&#x44F;&#x446;&#x438;&#x438; &#x43F;&#x43E;&#x43B;&#x43D;&#x43E;&#x433;&#x43E; URL-&#x430;&#x434;&#x440;&#x435;&#x441;&#x430;, &#x447;&#x442;&#x43E; &#x43F;&#x43E;&#x437;&#x432;&#x43E;&#x43B;&#x44F;&#x435;&#x442; &#x438;&#x437;&#x431;&#x435;&#x436;&#x430;&#x442;&#x44C; &#x43F;&#x435;&#x440;&#x435;&#x437;&#x430;&#x433;&#x440;&#x443;&#x437;&#x43A;&#x438; &#x441;&#x442;&#x440;&#x430;&#x43D;&#x438;&#x446;&#x44B; &#x43F;&#x440;&#x438; &#x438;&#x437;&#x43C;&#x435;&#x43D;&#x435;&#x43D;&#x438;&#x438; URL.</p>
+<p>&#x41C;&#x44B; &#x43C;&#x43E;&#x436;&#x435;&#x43C; &#x43E;&#x431;&#x43E;&#x439;&#x442;&#x438;&#x441;&#x44C; &#x431;&#x435;&#x437; &#x445;&#x44D;&#x448;&#x430;, &#x438;&#x441;&#x43F;&#x43E;&#x43B;&#x44C;&#x437;&#x443;&#x44F; <strong>history mode</strong>, &#x43A;&#x43E;&#x442;&#x43E;&#x440;&#x44B;&#x439; &#x440;&#x430;&#x431;&#x43E;&#x442;&#x430;&#x435;&#x442; &#x441; API <code>history.pushState</code> &#x434;&#x43B;&#x44F; &#x434;&#x43E;&#x441;&#x442;&#x438;&#x436;&#x435;&#x43D;&#x438;&#x44F; &#x442;&#x43E;&#x439; &#x436;&#x435; &#x446;&#x435;&#x43B;&#x438;:</p>
+<pre><code class="lang-js"><span class="hljs-keyword">const</span> router = <span class="hljs-keyword">new</span> VueRouter({
+  mode: <span class="hljs-string">&apos;history&apos;</span>,
+  routes: [...]
+})
+</code></pre>
+<p>&#x41F;&#x440;&#x438; &#x438;&#x441;&#x43F;&#x43E;&#x43B;&#x44C;&#x437;&#x43E;&#x432;&#x430;&#x43D;&#x438;&#x438; history mode URL &#x432;&#x44B;&#x433;&#x43B;&#x44F;&#x434;&#x438;&#x442; &#x435;&#x441;&#x442;&#x435;&#x441;&#x442;&#x432;&#x435;&#x43D;&#x43D;&#x43E;, &#x43D;&#x430;&#x43F;&#x440;&#x438;&#x43C;&#x435;&#x440;: <code>http://oursite.com/user/id</code>. &#x41F;&#x440;&#x435;&#x43A;&#x440;&#x430;&#x441;&#x43D;&#x43E;!</p>
+<p>&#x412;&#x43E;&#x437;&#x43D;&#x438;&#x43A;&#x430;&#x435;&#x442;, &#x43E;&#x434;&#x43D;&#x430;&#x43A;&#x43E;, &#x438; &#x43F;&#x440;&#x43E;&#x431;&#x43B;&#x435;&#x43C;&#x430;: &#x43F;&#x43E;&#x441;&#x43A;&#x43E;&#x43B;&#x44C;&#x43A;&#x443; &#x43D;&#x430;&#x448;&#x435; &#x43F;&#x440;&#x438;&#x43B;&#x43E;&#x436;&#x435;&#x43D;&#x438;&#x435; &#x2014; &#x43E;&#x434;&#x43D;&#x43E;&#x441;&#x442;&#x440;&#x430;&#x43D;&#x438;&#x447;&#x43D;&#x43E;&#x435;, &#x43D;&#x435; &#x441;&#x43A;&#x43E;&#x43D;&#x444;&#x438;&#x433;&#x443;&#x440;&#x438;&#x440;&#x43E;&#x432;&#x430;&#x432; &#x441;&#x43E;&#x43E;&#x442;&#x432;&#x435;&#x442;&#x441;&#x442;&#x432;&#x443;&#x44E;&#x449;&#x438;&#x43C; &#x43E;&#x431;&#x440;&#x430;&#x437;&#x43E;&#x43C; &#x441;&#x435;&#x440;&#x432;&#x435;&#x440; &#x43C;&#x44B; &#x437;&#x430;&#x441;&#x442;&#x430;&#x432;&#x438;&#x43C; &#x43F;&#x43E;&#x43B;&#x44C;&#x437;&#x43E;&#x432;&#x430;&#x442;&#x435;&#x43B;&#x435;&#x439; &#x43F;&#x43E;&#x43B;&#x443;&#x447;&#x430;&#x442;&#x44C; &#x43E;&#x448;&#x438;&#x431;&#x43A;&#x443; 404, &#x435;&#x441;&#x43B;&#x438; &#x43E;&#x43D;&#x438; &#x43F;&#x435;&#x440;&#x435;&#x439;&#x434;&#x443;&#x442; &#x43F;&#x43E; <code>http://oursite.com/user/id</code> &#x43D;&#x430;&#x43F;&#x440;&#x44F;&#x43C;&#x443;&#x44E;. &#x412;&#x43E;&#x442; &#x44D;&#x442;&#x43E; &#x443;&#x436;&#x435; &#x43F;&#x440;&#x435;&#x43A;&#x440;&#x430;&#x441;&#x43D;&#x44B;&#x43C; &#x43D;&#x435; &#x43D;&#x430;&#x437;&#x432;&#x430;&#x442;&#x44C;.</p>
+<p>&#x41D;&#x435; &#x441;&#x43F;&#x435;&#x448;&#x438;&#x442;&#x435; &#x440;&#x430;&#x441;&#x441;&#x442;&#x440;&#x430;&#x438;&#x432;&#x430;&#x442;&#x44C;&#x441;&#x44F;: &#x432;&#x441;&#x451;, &#x447;&#x442;&#x43E; &#x43D;&#x443;&#x436;&#x43D;&#x43E; &#x2014; &#x435;&#x434;&#x438;&#x43D;&#x441;&#x442;&#x432;&#x435;&#x43D;&#x43D;&#x430;&#x44F; &quot;&#x440;&#x435;&#x437;&#x435;&#x440;&#x432;&#x43D;&#x430;&#x44F;&quot; &#x437;&#x430;&#x43F;&#x438;&#x441;&#x44C; &#x432; &#x43A;&#x43E;&#x43D;&#x444;&#x438;&#x433;&#x443;&#x440;&#x430;&#x446;&#x438;&#x438; &#x441;&#x435;&#x440;&#x432;&#x435;&#x440;&#x430;. &#x415;&#x441;&#x43B;&#x438; URL &#x43D;&#x435; &#x441;&#x43E;&#x432;&#x43F;&#x430;&#x434;&#x430;&#x435;&#x442; &#x43D;&#x438; &#x441; &#x43E;&#x434;&#x43D;&#x438;&#x43C; &#x441;&#x442;&#x430;&#x442;&#x438;&#x447;&#x435;&#x441;&#x43A;&#x438;&#x43C; &#x444;&#x430;&#x439;&#x43B;&#x43E;&#x43C;, &#x441;&#x435;&#x440;&#x432;&#x435;&#x440; &#x434;&#x43E;&#x43B;&#x436;&#x435;&#x43D; &#x43F;&#x440;&#x43E;&#x441;&#x442;&#x43E; &#x43E;&#x442;&#x434;&#x430;&#x442;&#x44C; <code>index.html</code>, &#x432; &#x43A;&#x43E;&#x442;&#x43E;&#x440;&#x43E;&#x43C; &#x438; &#x436;&#x438;&#x432;&#x451;&#x442; &#x43D;&#x430;&#x448;&#x435; &#x43F;&#x440;&#x438;&#x43B;&#x43E;&#x436;&#x435;&#x43D;&#x438;&#x435;. &#x418; &#x441;&#x43D;&#x43E;&#x432;&#x430;, &#x43F;&#x440;&#x435;&#x43A;&#x440;&#x430;&#x441;&#x43D;&#x43E;!</p>
+<h2 id="&#x43F;&#x440;&#x438;&#x43C;&#x435;&#x440;&#x44B;-&#x43A;&#x43E;&#x43D;&#x444;&#x438;&#x433;&#x443;&#x440;&#x430;&#x446;&#x438;&#x438;-&#x441;&#x435;&#x440;&#x432;&#x435;&#x440;&#x43E;&#x432;">&#x41F;&#x440;&#x438;&#x43C;&#x435;&#x440;&#x44B; &#x43A;&#x43E;&#x43D;&#x444;&#x438;&#x433;&#x443;&#x440;&#x430;&#x446;&#x438;&#x438; &#x441;&#x435;&#x440;&#x432;&#x435;&#x440;&#x43E;&#x432;</h2>
+<h4 id="apache">Apache</h4>
+<pre><code class="lang-apache"><span class="hljs-section">&lt;IfModule mod_rewrite.c&gt;</span>
+  <span class="hljs-attribute"><span class="hljs-nomarkup">RewriteEngine</span></span> <span class="hljs-literal">On</span>
+  <span class="hljs-attribute">RewriteBase</span> /
+  <span class="hljs-attribute"><span class="hljs-nomarkup">RewriteRule</span></span> ^index\.html$ -<span class="hljs-meta"> [L]</span>
+  <span class="hljs-attribute"><span class="hljs-nomarkup">RewriteCond</span></span> <span class="hljs-variable">%{REQUEST_FILENAME}</span> !-f
+  <span class="hljs-attribute"><span class="hljs-nomarkup">RewriteCond</span></span> <span class="hljs-variable">%{REQUEST_FILENAME}</span> !-d
+  <span class="hljs-attribute"><span class="hljs-nomarkup">RewriteRule</span></span> . /index.html<span class="hljs-meta"> [L]</span>
+<span class="hljs-section">&lt;/IfModule&gt;</span>
+</code></pre>
+<h4 id="nginx">nginx</h4>
+<pre><code class="lang-nginx"><span class="hljs-attribute">location</span> / {
+  <span class="hljs-attribute">try_files</span> <span class="hljs-variable">$uri</span> <span class="hljs-variable">$uri</span>/ /index.html;
+}
+</code></pre>
+<h4 id="nodejs">Node.js</h4>
+<pre><code class="lang-js"><span class="hljs-keyword">const</span> http = <span class="hljs-built_in">require</span>(<span class="hljs-string">&apos;http&apos;</span>)
+<span class="hljs-keyword">const</span> fs = <span class="hljs-built_in">require</span>(<span class="hljs-string">&apos;fs&apos;</span>)
+<span class="hljs-keyword">const</span> httpPort = <span class="hljs-number">80</span>
+
+http.createServer((req, res) =&gt; {
+  fs.readFile(<span class="hljs-string">&apos;index.htm&apos;</span>, <span class="hljs-string">&apos;utf-8&apos;</span>, (err, content) =&gt; {
+    <span class="hljs-keyword">if</span> (err) {
+      <span class="hljs-built_in">console</span>.log(<span class="hljs-string">&apos;&#x41D;&#x435;&#x432;&#x43E;&#x437;&#x43C;&#x43E;&#x436;&#x43D;&#x43E; &#x43E;&#x442;&#x43A;&#x440;&#x44B;&#x442;&#x44C; &#x444;&#x430;&#x439;&#x43B; &quot;index.htm&quot;.&apos;</span>)
+    }
+
+    res.writeHead(<span class="hljs-number">200</span>, {
+      <span class="hljs-string">&apos;Content-Type&apos;</span>: <span class="hljs-string">&apos;text/html; charset=utf-8&apos;</span>
+    })
+
+    res.end(content)
+  })
+}).listen(httpPort, () =&gt; {
+  <span class="hljs-built_in">console</span>.log(<span class="hljs-string">&apos;&#x421;&#x435;&#x440;&#x432;&#x435;&#x440; &#x437;&#x430;&#x43F;&#x443;&#x449;&#x435;&#x43D; &#x43D;&#x430;: http://localhost:%s&apos;</span>, httpPort)
+})
+</code></pre>
+<h4 id="nodejs-c-&#x438;&#x441;&#x43F;&#x43E;&#x43B;&#x44C;&#x437;&#x43E;&#x432;&#x430;&#x43D;&#x438;&#x435;&#x43C;-express">Node.js c &#x438;&#x441;&#x43F;&#x43E;&#x43B;&#x44C;&#x437;&#x43E;&#x432;&#x430;&#x43D;&#x438;&#x435;&#x43C; Express</h4>
+<p>&#x41F;&#x440;&#x438; &#x438;&#x441;&#x43F;&#x43E;&#x43B;&#x44C;&#x437;&#x43E;&#x432;&#x430;&#x43D;&#x438;&#x438; Node.js/Express, &#x43C;&#x44B; &#x440;&#x435;&#x43A;&#x43E;&#x43C;&#x435;&#x43D;&#x434;&#x443;&#x435;&#x43C; &#x43F;&#x43E;&#x43B;&#x44C;&#x437;&#x43E;&#x432;&#x430;&#x442;&#x44C;&#x441;&#x44F; <a href="https://github.com/bripkens/connect-history-api-fallback" target="_blank">connect-history-api-fallback middleware</a>.</p>
+<h4 id="internet-information-services-iis">Internet Information Services (IIS)</h4>
+<ol>
+<li>&#x423;&#x441;&#x442;&#x430;&#x43D;&#x43E;&#x432;&#x438;&#x442;&#x44C; <a href="https://www.iis.net/downloads/microsoft/url-rewrite" target="_blank">IIS UrlRewrite</a></li>
+<li>&#x421;&#x43E;&#x437;&#x434;&#x430;&#x442;&#x44C; &#x444;&#x430;&#x439;&#x43B; <code>web.config</code> &#x432; &#x43A;&#x43E;&#x440;&#x43D;&#x435;&#x432;&#x43E;&#x43C; &#x43A;&#x430;&#x442;&#x430;&#x43B;&#x43E;&#x433;&#x435; &#x432;&#x430;&#x448;&#x435;&#x433;&#x43E; &#x441;&#x430;&#x439;&#x442;&#x430; &#x441;&#x43E; &#x441;&#x43B;&#x435;&#x434;&#x443;&#x44E;&#x449;&#x438;&#x43C; &#x441;&#x43E;&#x434;&#x435;&#x440;&#x436;&#x438;&#x43C;&#x44B;&#x43C;:</li>
+</ol>
+<pre><code class="lang-xml"><span class="php"><span class="hljs-meta">&lt;?</span>xml version=<span class="hljs-string">&quot;1.0&quot;</span> encoding=<span class="hljs-string">&quot;UTF-8&quot;</span><span class="hljs-meta">?&gt;</span></span>
+<span class="hljs-tag">&lt;<span class="hljs-name">configuration</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">system.webServer</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">rewrite</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">rules</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">rule</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;Handle History Mode and custom 404/500&quot;</span> <span class="hljs-attr">stopProcessing</span>=<span class="hljs-string">&quot;true&quot;</span>&gt;</span>
+          <span class="hljs-tag">&lt;<span class="hljs-name">match</span> <span class="hljs-attr">url</span>=<span class="hljs-string">&quot;(.*)&quot;</span> /&gt;</span>
+          <span class="hljs-tag">&lt;<span class="hljs-name">conditions</span> <span class="hljs-attr">logicalGrouping</span>=<span class="hljs-string">&quot;MatchAll&quot;</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">add</span> <span class="hljs-attr">input</span>=<span class="hljs-string">&quot;{REQUEST_FILENAME}&quot;</span> <span class="hljs-attr">matchType</span>=<span class="hljs-string">&quot;IsFile&quot;</span> <span class="hljs-attr">negate</span>=<span class="hljs-string">&quot;true&quot;</span> /&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">add</span> <span class="hljs-attr">input</span>=<span class="hljs-string">&quot;{REQUEST_FILENAME}&quot;</span> <span class="hljs-attr">matchType</span>=<span class="hljs-string">&quot;IsDirectory&quot;</span> <span class="hljs-attr">negate</span>=<span class="hljs-string">&quot;true&quot;</span> /&gt;</span>
+          <span class="hljs-tag">&lt;/<span class="hljs-name">conditions</span>&gt;</span>
+          <span class="hljs-tag">&lt;<span class="hljs-name">action</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;Rewrite&quot;</span> <span class="hljs-attr">url</span>=<span class="hljs-string">&quot;/&quot;</span> /&gt;</span>
+        <span class="hljs-tag">&lt;/<span class="hljs-name">rule</span>&gt;</span>
+      <span class="hljs-tag">&lt;/<span class="hljs-name">rules</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">rewrite</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">system.webServer</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">configuration</span>&gt;</span>
+</code></pre>
+<h4 id="caddy">Caddy</h4>
+<pre><code>rewrite {
+    regexp .*
+    to {path} /
+}
+</code></pre><h4 id="&#x445;&#x43E;&#x441;&#x442;&#x438;&#x43D;&#x433;-firebase">&#x425;&#x43E;&#x441;&#x442;&#x438;&#x43D;&#x433; Firebase</h4>
+<p>&#x414;&#x43E;&#x431;&#x430;&#x432;&#x44C;&#x442;&#x435; &#x432; &#x444;&#x430;&#x439;&#x43B; <code>firebase.json</code>:</p>
+<pre><code>{
+  &quot;hosting&quot;: {
+    &quot;public&quot;: &quot;dist&quot;,
+    &quot;rewrites&quot;: [
+      {
+        &quot;source&quot;: &quot;**&quot;,
+        &quot;destination&quot;: &quot;/index.html&quot;
+      }
+    ]
+  }
+}
+</code></pre><h2 id="&#x43F;&#x440;&#x435;&#x434;&#x43E;&#x441;&#x442;&#x435;&#x440;&#x435;&#x436;&#x435;&#x43D;&#x438;&#x435;">&#x41F;&#x440;&#x435;&#x434;&#x43E;&#x441;&#x442;&#x435;&#x440;&#x435;&#x436;&#x435;&#x43D;&#x438;&#x435;</h2>
+<p>&#x41F;&#x440;&#x438; &#x442;&#x430;&#x43A;&#x43E;&#x43C; &#x43F;&#x43E;&#x434;&#x445;&#x43E;&#x434;&#x435; &#x432;&#x43E;&#x437;&#x43D;&#x438;&#x43A;&#x430;&#x435;&#x442; &#x43E;&#x434;&#x43D;&#x43E; &#x43D;&#x435;&#x43F;&#x440;&#x438;&#x44F;&#x442;&#x43D;&#x43E;&#x435; &#x43F;&#x43E;&#x441;&#x43B;&#x435;&#x434;&#x441;&#x442;&#x432;&#x438;&#x435;: &#x441;&#x435;&#x440;&#x432;&#x435;&#x440; &#x431;&#x43E;&#x43B;&#x44C;&#x448;&#x435; &#x43D;&#x435; &#x431;&#x443;&#x434;&#x435;&#x442; &#x432;&#x44B;&#x434;&#x430;&#x432;&#x430;&#x442;&#x44C; &#x43E;&#x448;&#x438;&#x431;&#x43A;&#x438; 404, &#x442;&#x430;&#x43A; &#x43A;&#x430;&#x43A; &#x43E;&#x431;&#x441;&#x43B;&#x443;&#x436;&#x438;&#x432;&#x430;&#x43D;&#x438;&#x435; &#x432;&#x441;&#x435;&#x445; &#x43F;&#x443;&#x442;&#x435;&#x439; &#x43E;&#x442;&#x434;&#x430;&#x451;&#x442;&#x441;&#x44F; &#x43D;&#x430; &#x43E;&#x442;&#x43A;&#x443;&#x43F; &#x43A;&#x43B;&#x438;&#x435;&#x43D;&#x442;&#x441;&#x43A;&#x43E;&#x43C;&#x443; &#x440;&#x43E;&#x443;&#x442;&#x438;&#x43D;&#x433;&#x443;. &#x427;&#x430;&#x441;&#x442;&#x438;&#x447;&#x43D;&#x43E; &#x44D;&#x442;&#x443; &#x43F;&#x440;&#x43E;&#x431;&#x43B;&#x435;&#x43C;&#x443; &#x43C;&#x43E;&#x436;&#x43D;&#x43E; &#x440;&#x435;&#x448;&#x438;&#x442;&#x44C;, &#x443;&#x43A;&#x430;&#x437;&#x430;&#x432; &#x43F;&#x443;&#x442;&#x44C; &#x43F;&#x43E; &#x443;&#x43C;&#x43E;&#x43B;&#x447;&#x430;&#x43D;&#x438;&#x44E; &#x432;&#x43E; Vue-router:</p>
+<pre><code class="lang-js"><span class="hljs-keyword">const</span> router = <span class="hljs-keyword">new</span> VueRouter({
+  mode: <span class="hljs-string">&apos;history&apos;</span>,
+  routes: [
+    { path: <span class="hljs-string">&apos;*&apos;</span>, component: NotFoundComponent }
+  ]
+})
+</code></pre>
+<p>&#x415;&#x441;&#x43B;&#x438; &#x436;&#x435; &#x432;&#x44B; &#x438;&#x441;&#x43F;&#x43E;&#x43B;&#x44C;&#x437;&#x443;&#x435;&#x442;&#x435; &#x43D;&#x430; &#x441;&#x435;&#x440;&#x432;&#x435;&#x440;&#x435; Node.js, &#x443;&#x436;&#x435; &#x43D;&#x430; &#x441;&#x442;&#x43E;&#x440;&#x43E;&#x43D;&#x435; &#x441;&#x435;&#x440;&#x432;&#x435;&#x440;&#x430; &#x43C;&#x43E;&#x436;&#x43D;&#x43E; &#x437;&#x430;&#x434;&#x435;&#x439;&#x441;&#x442;&#x432;&#x43E;&#x432;&#x430;&#x442;&#x44C; &#x43A;&#x43E;&#x43D;&#x444;&#x438;&#x433;&#x443;&#x440;&#x430;&#x446;&#x438;&#x44E; &#x440;&#x43E;&#x443;&#x442;&#x435;&#x440;&#x430; &#x438; &#x440;&#x435;&#x448;&#x438;&#x442;&#x44C; &#x442;&#x430;&#x43A;&#x438;&#x43C; &#x43E;&#x431;&#x440;&#x430;&#x437;&#x43E;&#x43C; &#x43F;&#x440;&#x43E;&#x431;&#x43B;&#x435;&#x43C;&#x443; &#x446;&#x435;&#x43B;&#x438;&#x43A;&#x43E;&#x43C;. &#x41E;&#x437;&#x43D;&#x430;&#x43A;&#x43E;&#x43C;&#x44C;&#x442;&#x435;&#x441;&#x44C; &#x441; <a href="https://ssr.vuejs.org/ru/" target="_blank">&#x440;&#x443;&#x43A;&#x43E;&#x432;&#x43E;&#x434;&#x441;&#x442;&#x432;&#x43E;&#x43C; &#x43F;&#x43E; &#x441;&#x435;&#x440;&#x432;&#x435;&#x440;&#x43D;&#x43E;&#x43C;&#x443; &#x440;&#x435;&#x43D;&#x434;&#x435;&#x440;&#x438;&#x43D;&#x433;&#x443; Vue.js</a> &#x434;&#x43B;&#x44F; &#x43F;&#x43E;&#x43B;&#x443;&#x447;&#x435;&#x43D;&#x438;&#x44F; &#x434;&#x43E;&#x43F;&#x43E;&#x43B;&#x43D;&#x438;&#x442;&#x435;&#x43B;&#x44C;&#x43D;&#x43E;&#x439; &#x438;&#x43D;&#x444;&#x43E;&#x440;&#x43C;&#x430;&#x446;&#x438;&#x438;.</p>
+
+                                
+                                </section>
+                            
+    </div>
+    <div class="search-results">
+        <div class="has-results">
+            
+            <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+            <ul class="search-results-list"></ul>
+            
+        </div>
+        <div class="no-results">
+            
+            <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+            
+        </div>
+    </div>
+</div>
+
+                        </div>
+                    </div>
+                
+  <script src="//m.servedby-buysellads.com/monetization.js" type="text/javascript"></script>
+  <div class="bsa-cpc"></div>
+  <script>
+    (function(){
+      if(typeof _bsa !== 'undefined' && _bsa) {
+      _bsa.init('default', 'CKYD62QM', 'placement:vuejsorg', {
+        target: '.bsa-cpc',
+        align: 'horizontal',
+        disable_css: 'true'
+      });
+        }
+    })();
+  </script>
+
+            </div>
+
+            
+                
+                <a href="passing-props.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page: Передача входных параметров в компоненты маршрутов">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+                
+                
+            
+        
+    </div>
+
+    <script>
+        var gitbook = gitbook || [];
+        gitbook.push(function() {
+            gitbook.page.hasChanged({"page":{"title":"Режим HTML5 History","level":"1.3.9","depth":2,"next":{"title":"Продвинутые возможности","level":"1.4","depth":1,"ref":"","articles":[{"title":"Сторожевые хуки","level":"1.4.1","depth":2,"path":"advanced/navigation-guards.md","ref":"advanced/navigation-guards.md","articles":[]},{"title":"Метаданные путей","level":"1.4.2","depth":2,"path":"advanced/meta.md","ref":"advanced/meta.md","articles":[]},{"title":"Анимация переходов","level":"1.4.3","depth":2,"path":"advanced/transitions.md","ref":"advanced/transitions.md","articles":[]},{"title":"Запросы данных","level":"1.4.4","depth":2,"path":"advanced/data-fetching.md","ref":"advanced/data-fetching.md","articles":[]},{"title":"Скроллинг","level":"1.4.5","depth":2,"path":"advanced/scroll-behavior.md","ref":"advanced/scroll-behavior.md","articles":[]},{"title":"Ленивая загрузка путей","level":"1.4.6","depth":2,"path":"advanced/lazy-loading.md","ref":"advanced/lazy-loading.md","articles":[]}]},"previous":{"title":"Передача входных параметров в компоненты маршрутов","level":"1.3.8","depth":2,"path":"essentials/passing-props.md","ref":"essentials/passing-props.md","articles":[]},"dir":"ltr"},"config":{"plugins":["edit-link","theme-vuejs","-fontsettings","github"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"edit-link":{"label":"Edit This Page","base":"https://github.com/vuejs/vue-router/edit/dev/docs"},"github":{"url":"https://github.com/vuejs/vue-router/"},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":false,"twitter":false,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-vuejs":{},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"vue-router","language":"ru","links":{"sharing":{"facebook":false,"twitter":false}},"gitbook":"*"},"file":{"path":"essentials/history-mode.md","mtime":"2018-03-05T03:45:20.000Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-03-23T22:35:25.582Z"},"basePath":"..","book":{"language":"ru"}});
+        });
+    </script>
+</div>
+
+        
+    <script src="../../gitbook/gitbook.js"></script>
+    <script src="../../gitbook/theme.js"></script>
+    
+        
+        <script src="../../gitbook/gitbook-plugin-edit-link/plugin.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-github/plugin.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-search/search-engine.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-search/search.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-lunr/lunr.min.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-lunr/search-lunr.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-sharing/buttons.js"></script>
+        
+    
+
+    </body>
+</html>
+

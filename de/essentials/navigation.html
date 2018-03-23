@@ -1,0 +1,652 @@
+
+<!DOCTYPE HTML>
+<html lang="de" >
+    <head>
+        <meta charset="UTF-8">
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <title>Programmatische Navigation · vue-router</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="description" content="">
+        <meta name="generator" content="GitBook 3.2.3">
+        
+        
+        
+    
+    <link rel="stylesheet" href="../../gitbook/style.css">
+
+    
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-highlight/website.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-search/search.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-theme-vuejs/vue.css">
+                
+            
+        
+
+    
+
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+        
+    
+    
+    <meta name="HandheldFriendly" content="true"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="../../gitbook/images/apple-touch-icon-precomposed-152.png">
+    <link rel="shortcut icon" href="../../gitbook/images/favicon.ico" type="image/x-icon">
+
+    
+    <link rel="next" href="named-routes.html" />
+    
+    
+    <link rel="prev" href="nested-routes.html" />
+    
+
+    </head>
+    <body>
+        
+<div class="book">
+    <div class="book-summary">
+        
+            
+<div id="book-search-input" role="search">
+    <input type="text" placeholder="Suchbegriff eingeben" />
+</div>
+
+            
+                <nav role="navigation">
+                
+<script async type="text/javascript" src="//cdn.carbonads.com/carbon.js?zoneid=1673&serve=C6AILKT&placement=vuejs" id="_carbonads_js"></script>
+
+
+
+
+<ul class="summary">
+    
+    
+
+    
+
+    
+        
+        
+    
+        <li class="chapter " data-level="1.1" data-path="../">
+            
+                <a href="../">
+            
+                    
+                    Introduction
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2" data-path="../installation.html">
+            
+                <a href="../installation.html">
+            
+                    
+                    Installation
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3" >
+            
+                <span>
+            
+                    
+                    Grundlegendes
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.3.1" data-path="getting-started.html">
+            
+                <a href="getting-started.html">
+            
+                    
+                    Erste Schritte
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.2" data-path="dynamic-matching.html">
+            
+                <a href="dynamic-matching.html">
+            
+                    
+                    Dynamisches Route-Matching
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.3" data-path="nested-routes.html">
+            
+                <a href="nested-routes.html">
+            
+                    
+                    Verschachtelte Routes
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter active" data-level="1.3.4" data-path="navigation.html">
+            
+                <a href="navigation.html">
+            
+                    
+                    Programmatische Navigation
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.5" data-path="named-routes.html">
+            
+                <a href="named-routes.html">
+            
+                    
+                    Benannte Routes
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.6" data-path="named-views.html">
+            
+                <a href="named-views.html">
+            
+                    
+                    Benannte Views
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.7" data-path="redirect-and-alias.html">
+            
+                <a href="redirect-and-alias.html">
+            
+                    
+                    Redirect und Alias
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.8" data-path="history-mode.html">
+            
+                <a href="history-mode.html">
+            
+                    
+                    HTML5-Verlaufsmodus
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4" >
+            
+                <span>
+            
+                    
+                    Fortgeschritten
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.4.1" data-path="../advanced/navigation-guards.html">
+            
+                <a href="../advanced/navigation-guards.html">
+            
+                    
+                    Navigations-Guards
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.2" data-path="../advanced/meta.html">
+            
+                <a href="../advanced/meta.html">
+            
+                    
+                    Route Meta-Felder
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.3" data-path="../advanced/transitions.html">
+            
+                <a href="../advanced/transitions.html">
+            
+                    
+                    Transitions (Übergänge)
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.4" data-path="../advanced/data-fetching.html">
+            
+                <a href="../advanced/data-fetching.html">
+            
+                    
+                    Daten laden
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.5" data-path="../advanced/scroll-behavior.html">
+            
+                <a href="../advanced/scroll-behavior.html">
+            
+                    
+                    Scroll-Verhalten
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.6" data-path="../advanced/lazy-loading.html">
+            
+                <a href="../advanced/lazy-loading.html">
+            
+                    
+                    Lazy Loading
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5" >
+            
+                <span>
+            
+                    
+                    API-Referenz
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.5.1" data-path="../api/router-link.html">
+            
+                <a href="../api/router-link.html">
+            
+                    
+                    router-link
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.2" data-path="../api/router-view.html">
+            
+                <a href="../api/router-view.html">
+            
+                    
+                    router-view
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.3" data-path="../api/route-object.html">
+            
+                <a href="../api/route-object.html">
+            
+                    
+                    Das Route-Objekt
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.4" data-path="../api/options.html">
+            
+                <a href="../api/options.html">
+            
+                    
+                    Router-Option
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.5" data-path="../api/router-instance.html">
+            
+                <a href="../api/router-instance.html">
+            
+                    
+                    Router-Instanz
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.6" data-path="../api/component-injections.html">
+            
+                <a href="../api/component-injections.html">
+            
+                    
+                    Injection von Komponenten
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+    
+
+    <li class="divider"></li>
+
+    <li>
+        <a href="https://www.gitbook.com" target="blank" class="gitbook-link">
+            Veröffentlicht mit GitBook
+        </a>
+    </li>
+</ul>
+
+
+
+                </nav>
+            
+        
+    </div>
+
+    <div class="book-body">
+        
+            <div class="body-inner">
+                
+  
+                    
+
+<div class="book-header" role="navigation">
+    
+
+    <!-- Title -->
+    <h1>
+        <i class="fa fa-circle-o-notch fa-spin"></i>
+        <a href=".." >Programmatische Navigation</a>
+    </h1>
+</div>
+
+
+
+
+                    <div class="page-wrapper" tabindex="-1" role="main">
+                        <div class="page-inner">
+                            
+<div id="book-search-results">
+    <div class="search-noresults">
+    
+                                <section class="normal markdown-section">
+                                
+                                <h1 id="programmatische-navigation">Programmatische Navigation</h1>
+<p>Neben <code>router-link</code> f&#xFC;r deklarative Links in Templates, k&#xF6;nnen wir mit Hilfe der Methoden der Router-Instanz programmatisch navigieren.</p>
+<h4 id="routerpushlocation-oncomplete-onabort"><code>router.push(location, onComplete?, onAbort?)</code></h4>
+<p>Um zu einer anderen URL zu navigieren, nutzt man <code>router.push</code>. Diese Methode &quot;pusht&quot; einen neuen Eintrag in den Browser-Verlauf, sodass der Nutzer, wenn er die Zur&#xFC;ck-Schaltfl&#xE4;che des Browsers bet&#xE4;tigt, zur vorherigen URL zur&#xFC;ckkehrt.</p>
+<p>Das ist dieselbe Methode, die intern aufgerufen wird, wenn wir auf einen <code>&lt;router-link&gt;</code> klicken. Das Anlicken von <code>&lt;router-link :to=&quot;...&quot;&gt;</code> ist also das &#xC4;quivalent zu <code>router.push(...)</code>.</p>
+<table>
+<thead>
+<tr>
+<th>Deklarativ</th>
+<th>Programmatisch</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>&lt;router-link :to=&quot;...&quot;&gt;</code></td>
+<td><code>router.push(...)</code></td>
+</tr>
+</tbody>
+</table>
+<p>Das Argument kann ein Pfad als String oder eine Beschreibung des Ziels (der &quot;location&quot;) als Objekt sein.</p>
+<pre><code class="lang-js"><span class="hljs-comment">// String</span>
+router.push(<span class="hljs-string">&apos;home&apos;</span>)
+
+<span class="hljs-comment">// Objekt</span>
+router.push({ path: <span class="hljs-string">&apos;home&apos;</span> })
+
+<span class="hljs-comment">// benannte (&quot;named&quot;) Route</span>
+router.push({ name: <span class="hljs-string">&apos;user&apos;</span>, params: { userId: <span class="hljs-number">123</span> }})
+
+<span class="hljs-comment">// mit Query, resultiert in /register?plan=private</span>
+router.push({ path: <span class="hljs-string">&apos;register&apos;</span>, query: { plan: <span class="hljs-string">&apos;private&apos;</span> }})
+</code></pre>
+<p>In Version 2.2.0 k&#xF6;nnen wir optional <code>onComplete</code> und <code>onAbort</code> Callbacks als zweites und drittes Argument angeben. Diese Callbacks werden jeweilse aufgerufen, wenn die Navigation entweder erfolgreich abgeschlossen wurde (nachdem alle asynchronen hooks durchlaufen wurden), oder wenn sie abgerochen wurde (weil eine neue Navigation zu derselben oder einer anderen Route gestartet wurde, z.B. durch einen Klick, bevor die aktuelle Navigation beendet werden konnte).</p>
+<h4 id="routerreplacelocation-oncomplete-onabort"><code>router.replace(location, onComplete?, onAbort?)</code></h4>
+<p>Dise methode verh&#xE4;lt sich wie <code>router.push</code>, allerdings erstellt sie keinen neuen Eintrag im Browser-Verlauf. Sie ersetzt lediglich den aktuellen Eintrag.</p>
+<table>
+<thead>
+<tr>
+<th>Deklarativ</th>
+<th>Programmatisch</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>&lt;router-link :to=&quot;...&quot; replace&gt;</code></td>
+<td><code>router.replace(...)</code></td>
+</tr>
+</tbody>
+</table>
+<h4 id="routergon"><code>router.go(n)</code></h4>
+<p>Diese Methode akzeptiert einen einfachen Integer als Parameter, der angibt, wie viele Schritte im Browser-Verlauf vor- oder r&#xFC;ckw&#xE4;rts zu gehen sind - &#xE4;hnlich wie <code>window.history.go(n)</code>.</p>
+<p>Beispiele</p>
+<pre><code class="lang-js"><span class="hljs-comment">// gehe einen Eintrag vorw&#xE4;rts - wie history.forward()</span>
+router.go(<span class="hljs-number">1</span>)
+
+<span class="hljs-comment">// gehe einen Eintrag zur&#xFC;ck - wie history.back()</span>
+router.go(<span class="hljs-number">-1</span>)
+
+<span class="hljs-comment">// gehe drei Eintr&#xE4;ge vor</span>
+router.go(<span class="hljs-number">3</span>)
+
+<span class="hljs-comment">// scheitert ohne Nachricht, wenn nicht gen&#xFC;gend Eintr&#xE4;ge vorhanden sind</span>
+router.go(<span class="hljs-number">-100</span>)
+router.go(<span class="hljs-number">100</span>)
+</code></pre>
+<h4 id="manipulation-des-verlaufs">Manipulation des Verlaufs</h4>
+<p>Vielleicht ist dir aufgefallen, dass <code>router.push</code>, <code>router.replace</code> und <code>router.go</code> Gegenst&#xFC;cke von <a href="https://developer.mozilla.org/de/docs/Web/API/History" target="_blank"><code>window.history.pushState</code>, <code>window.history.replaceState</code> und <code>window.history.go</code></a> sind und sie die <code>window.history</code>-API imitieren.</p>
+<p>Das macht es einfach, den Verlauf zu manipulieren, wenn man sich mit den <a href="https://developer.mozilla.org/de/docs/Web/Guide/DOM/Manipulating_the_browser_history" target="_blank">Browser-Verlauf-APIs</a>
+auskennt.</p>
+<p>Erw&#xE4;hnenswert ist, dass Navigationsmethoden von <code>vue-router</code> (<code>push</code>, <code>replace</code>, <code>go</code>) in allen router modes (<code>history</code>, <code>hash</code>, <code>abstract</code>) genau gleich funktionieren.</p>
+
+                                
+                                </section>
+                            
+    </div>
+    <div class="search-results">
+        <div class="has-results">
+            
+            <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+            <ul class="search-results-list"></ul>
+            
+        </div>
+        <div class="no-results">
+            
+            <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+            
+        </div>
+    </div>
+</div>
+
+                        </div>
+                    </div>
+                
+  <script src="//m.servedby-buysellads.com/monetization.js" type="text/javascript"></script>
+  <div class="bsa-cpc"></div>
+  <script>
+    (function(){
+      if(typeof _bsa !== 'undefined' && _bsa) {
+      _bsa.init('default', 'CKYD62QM', 'placement:vuejsorg', {
+        target: '.bsa-cpc',
+        align: 'horizontal',
+        disable_css: 'true'
+      });
+        }
+    })();
+  </script>
+
+            </div>
+
+            
+                
+                <a href="nested-routes.html" class="navigation navigation-prev " aria-label="Previous page: Verschachtelte Routes">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+                
+                
+                <a href="named-routes.html" class="navigation navigation-next " aria-label="Next page: Benannte Routes">
+                    <i class="fa fa-angle-right"></i>
+                </a>
+                
+            
+        
+    </div>
+
+    <script>
+        var gitbook = gitbook || [];
+        gitbook.push(function() {
+            gitbook.page.hasChanged({"page":{"title":"Programmatische Navigation","level":"1.3.4","depth":2,"next":{"title":"Benannte Routes","level":"1.3.5","depth":2,"path":"essentials/named-routes.md","ref":"essentials/named-routes.md","articles":[]},"previous":{"title":"Verschachtelte Routes","level":"1.3.3","depth":2,"path":"essentials/nested-routes.md","ref":"essentials/nested-routes.md","articles":[]},"dir":"ltr"},"config":{"plugins":["edit-link","theme-vuejs","-fontsettings","github"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"edit-link":{"label":"Edit This Page","base":"https://github.com/vuejs/vue-router/edit/dev/docs"},"github":{"url":"https://github.com/vuejs/vue-router/"},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":false,"twitter":false,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-vuejs":{},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"vue-router","language":"de","links":{"sharing":{"facebook":false,"twitter":false}},"gitbook":"*"},"file":{"path":"essentials/navigation.md","mtime":"2017-08-26T17:43:13.000Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-03-23T22:35:25.582Z"},"basePath":"..","book":{"language":"de"}});
+        });
+    </script>
+</div>
+
+        
+    <script src="../../gitbook/gitbook.js"></script>
+    <script src="../../gitbook/theme.js"></script>
+    
+        
+        <script src="../../gitbook/gitbook-plugin-edit-link/plugin.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-github/plugin.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-search/search-engine.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-search/search.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-lunr/lunr.min.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-lunr/search-lunr.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-sharing/buttons.js"></script>
+        
+    
+
+    </body>
+</html>
+

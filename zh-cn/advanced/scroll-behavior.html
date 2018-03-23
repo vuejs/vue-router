@@ -1,0 +1,794 @@
+
+<!DOCTYPE HTML>
+<html lang="zh-cn" >
+    <head>
+        <meta charset="UTF-8">
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <title>滚动行为 · vue-router</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="description" content="">
+        <meta name="generator" content="GitBook 3.2.3">
+        
+        
+        
+    
+    <link rel="stylesheet" href="../../gitbook/style.css">
+
+    
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-highlight/website.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-search/search.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-theme-vuejs/vue.css">
+                
+            
+        
+
+    
+
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+        
+    
+    
+    <meta name="HandheldFriendly" content="true"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="../../gitbook/images/apple-touch-icon-precomposed-152.png">
+    <link rel="shortcut icon" href="../../gitbook/images/favicon.ico" type="image/x-icon">
+
+    
+    <link rel="next" href="lazy-loading.html" />
+    
+    
+    <link rel="prev" href="data-fetching.html" />
+    
+
+    </head>
+    <body>
+        
+<div class="book">
+    <div class="book-summary">
+        
+            
+<div id="book-search-input" role="search">
+    <input type="text" placeholder="輸入並搜尋" />
+</div>
+
+            
+                <nav role="navigation">
+                
+<script async type="text/javascript" src="//cdn.carbonads.com/carbon.js?zoneid=1673&serve=C6AILKT&placement=vuejs" id="_carbonads_js"></script>
+
+
+
+
+<ul class="summary">
+    
+    
+
+    
+
+    
+        
+        
+    
+        <li class="chapter " data-level="1.1" data-path="../">
+            
+                <a href="../">
+            
+                    
+                    Introduction
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2" data-path="../installation.html">
+            
+                <a href="../installation.html">
+            
+                    
+                    安装
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3" >
+            
+                <span>
+            
+                    
+                    基础
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.3.1" data-path="../essentials/getting-started.html">
+            
+                <a href="../essentials/getting-started.html">
+            
+                    
+                    开始
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.2" data-path="../essentials/dynamic-matching.html">
+            
+                <a href="../essentials/dynamic-matching.html">
+            
+                    
+                    动态路由匹配
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.3" data-path="../essentials/nested-routes.html">
+            
+                <a href="../essentials/nested-routes.html">
+            
+                    
+                    嵌套路由
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.4" data-path="../essentials/navigation.html">
+            
+                <a href="../essentials/navigation.html">
+            
+                    
+                    编程式导航
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.5" data-path="../essentials/named-routes.html">
+            
+                <a href="../essentials/named-routes.html">
+            
+                    
+                    命名路由
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.6" data-path="../essentials/named-views.html">
+            
+                <a href="../essentials/named-views.html">
+            
+                    
+                    命名视图
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.7" data-path="../essentials/redirect-and-alias.html">
+            
+                <a href="../essentials/redirect-and-alias.html">
+            
+                    
+                    重定向和别名
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.8" data-path="../essentials/passing-props.html">
+            
+                <a href="../essentials/passing-props.html">
+            
+                    
+                    向路由组件传递 props
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.9" data-path="../essentials/history-mode.html">
+            
+                <a href="../essentials/history-mode.html">
+            
+                    
+                    HTML5 History 模式
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4" >
+            
+                <span>
+            
+                    
+                    进阶
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.4.1" data-path="navigation-guards.html">
+            
+                <a href="navigation-guards.html">
+            
+                    
+                    导航守卫
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.2" data-path="meta.html">
+            
+                <a href="meta.html">
+            
+                    
+                    路由元信息
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.3" data-path="transitions.html">
+            
+                <a href="transitions.html">
+            
+                    
+                    过渡动效
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.4" data-path="data-fetching.html">
+            
+                <a href="data-fetching.html">
+            
+                    
+                    数据获取
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter active" data-level="1.4.5" data-path="scroll-behavior.html">
+            
+                <a href="scroll-behavior.html">
+            
+                    
+                    滚动行为
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.6" data-path="lazy-loading.html">
+            
+                <a href="lazy-loading.html">
+            
+                    
+                    懒加载
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5" >
+            
+                <span>
+            
+                    
+                    API 文档
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.5.1" data-path="../api/options.html">
+            
+                <a href="../api/options.html">
+            
+                    
+                    Router 构造配置
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.5.1.1" data-path="../api/options.html">
+            
+                <a href="../api/options.html#routes">
+            
+                    
+                    routes
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.1.2" data-path="../api/options.html">
+            
+                <a href="../api/options.html#mode">
+            
+                    
+                    mode
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.1.3" data-path="../api/options.html">
+            
+                <a href="../api/options.html#base">
+            
+                    
+                    base
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.1.4" data-path="../api/options.html">
+            
+                <a href="../api/options.html#linkactiveclass">
+            
+                    
+                    linkActiveClass
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.1.5" data-path="../api/options.html">
+            
+                <a href="../api/options.html#linkexactactiveclass">
+            
+                    
+                    linkExactActiveClass
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.1.6" data-path="../api/options.html">
+            
+                <a href="../api/options.html#scrollbehavior">
+            
+                    
+                    scrollBehavior
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.1.7" data-path="../api/options.html">
+            
+                <a href="../api/options.html#parsequery--stringifyquery">
+            
+                    
+                    parseQuery / stringifyQuery
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.1.8" data-path="../api/options.html">
+            
+                <a href="../api/options.html#fallback">
+            
+                    
+                    fallback
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.2" data-path="../api/router-instance.html">
+            
+                <a href="../api/router-instance.html">
+            
+                    
+                    Router 实例
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.5.2.1" data-path="../api/router-instance.html">
+            
+                <a href="../api/router-instance.html#properties">
+            
+                    
+                    Properties
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.2.2" data-path="../api/router-instance.html">
+            
+                <a href="../api/router-instance.html#methods">
+            
+                    
+                    Methods
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.3" data-path="../api/route-object.html">
+            
+                <a href="../api/route-object.html">
+            
+                    
+                    路由信息对象
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.4" data-path="../api/component-injections.html">
+            
+                <a href="../api/component-injections.html">
+            
+                    
+                    对组件注入
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.5" data-path="../api/router-link.html">
+            
+                <a href="../api/router-link.html">
+            
+                    
+                    router-link
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.6" data-path="../api/router-view.html">
+            
+                <a href="../api/router-view.html">
+            
+                    
+                    router-view
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+    
+
+    <li class="divider"></li>
+
+    <li>
+        <a href="https://www.gitbook.com" target="blank" class="gitbook-link">
+            本書使用 GitBook 釋出
+        </a>
+    </li>
+</ul>
+
+
+
+                </nav>
+            
+        
+    </div>
+
+    <div class="book-body">
+        
+            <div class="body-inner">
+                
+  
+                    
+
+<div class="book-header" role="navigation">
+    
+
+    <!-- Title -->
+    <h1>
+        <i class="fa fa-circle-o-notch fa-spin"></i>
+        <a href=".." >滚动行为</a>
+    </h1>
+</div>
+
+
+
+
+                    <div class="page-wrapper" tabindex="-1" role="main">
+                        <div class="page-inner">
+                            
+<div id="book-search-results">
+    <div class="search-noresults">
+    
+                                <section class="normal markdown-section">
+                                
+                                <h1 id="&#x6EDA;&#x52A8;&#x884C;&#x4E3A;">&#x6EDA;&#x52A8;&#x884C;&#x4E3A;</h1>
+<p>&#x4F7F;&#x7528;&#x524D;&#x7AEF;&#x8DEF;&#x7531;&#xFF0C;&#x5F53;&#x5207;&#x6362;&#x5230;&#x65B0;&#x8DEF;&#x7531;&#x65F6;&#xFF0C;&#x60F3;&#x8981;&#x9875;&#x9762;&#x6EDA;&#x5230;&#x9876;&#x90E8;&#xFF0C;&#x6216;&#x8005;&#x662F;&#x4FDD;&#x6301;&#x539F;&#x5148;&#x7684;&#x6EDA;&#x52A8;&#x4F4D;&#x7F6E;&#xFF0C;&#x5C31;&#x50CF;&#x91CD;&#x65B0;&#x52A0;&#x8F7D;&#x9875;&#x9762;&#x90A3;&#x6837;&#x3002; <code>vue-router</code> &#x80FD;&#x505A;&#x5230;&#xFF0C;&#x800C;&#x4E14;&#x66F4;&#x597D;&#xFF0C;&#x5B83;&#x8BA9;&#x4F60;&#x53EF;&#x4EE5;&#x81EA;&#x5B9A;&#x4E49;&#x8DEF;&#x7531;&#x5207;&#x6362;&#x65F6;&#x9875;&#x9762;&#x5982;&#x4F55;&#x6EDA;&#x52A8;&#x3002;</p>
+<p><strong>&#x6CE8;&#x610F;: &#x8FD9;&#x4E2A;&#x529F;&#x80FD;&#x53EA;&#x5728;&#x652F;&#x6301; <code>history.pushState</code> &#x7684;&#x6D4F;&#x89C8;&#x5668;&#x4E2D;&#x53EF;&#x7528;&#x3002;</strong></p>
+<p>&#x5F53;&#x521B;&#x5EFA;&#x4E00;&#x4E2A; Router &#x5B9E;&#x4F8B;&#xFF0C;&#x4F60;&#x53EF;&#x4EE5;&#x63D0;&#x4F9B;&#x4E00;&#x4E2A; <code>scrollBehavior</code> &#x65B9;&#x6CD5;&#xFF1A;</p>
+<pre><code class="lang-js"><span class="hljs-keyword">const</span> router = <span class="hljs-keyword">new</span> VueRouter({
+  routes: [...],
+  scrollBehavior (to, <span class="hljs-keyword">from</span>, savedPosition) {
+    <span class="hljs-comment">// return &#x671F;&#x671B;&#x6EDA;&#x52A8;&#x5230;&#x54EA;&#x4E2A;&#x7684;&#x4F4D;&#x7F6E;</span>
+  }
+})
+</code></pre>
+<p><code>scrollBehavior</code> &#x65B9;&#x6CD5;&#x63A5;&#x6536; <code>to</code> &#x548C; <code>from</code> &#x8DEF;&#x7531;&#x5BF9;&#x8C61;&#x3002;&#x7B2C;&#x4E09;&#x4E2A;&#x53C2;&#x6570; <code>savedPosition</code> &#x5F53;&#x4E14;&#x4EC5;&#x5F53; <code>popstate</code> &#x5BFC;&#x822A; (&#x901A;&#x8FC7;&#x6D4F;&#x89C8;&#x5668;&#x7684; &#x524D;&#x8FDB;/&#x540E;&#x9000; &#x6309;&#x94AE;&#x89E6;&#x53D1;) &#x65F6;&#x624D;&#x53EF;&#x7528;&#x3002;</p>
+<p>&#x8FD9;&#x4E2A;&#x65B9;&#x6CD5;&#x8FD4;&#x56DE;&#x6EDA;&#x52A8;&#x4F4D;&#x7F6E;&#x7684;&#x5BF9;&#x8C61;&#x4FE1;&#x606F;&#xFF0C;&#x957F;&#x8FD9;&#x6837;&#xFF1A;</p>
+<ul>
+<li><code>{ x: number, y: number }</code></li>
+<li><code>{ selector: string, offset? : { x: number, y: number }}</code> (offset &#x53EA;&#x5728; 2.6.0+ &#x652F;&#x6301;)</li>
+</ul>
+<p>&#x5982;&#x679C;&#x8FD4;&#x56DE;&#x4E00;&#x4E2A; falsy (&#x8BD1;&#x8005;&#x6CE8;&#xFF1A;falsy &#x4E0D;&#x662F; <code>false</code>&#xFF0C;<a href="https://developer.mozilla.org/zh-CN/docs/Glossary/Falsy" target="_blank">&#x53C2;&#x8003;&#x8FD9;&#x91CC;</a>)&#x7684;&#x503C;&#xFF0C;&#x6216;&#x8005;&#x662F;&#x4E00;&#x4E2A;&#x7A7A;&#x5BF9;&#x8C61;&#xFF0C;&#x90A3;&#x4E48;&#x4E0D;&#x4F1A;&#x53D1;&#x751F;&#x6EDA;&#x52A8;&#x3002;</p>
+<p>&#x4E3E;&#x4F8B;&#xFF1A;</p>
+<pre><code class="lang-js">scrollBehavior (to, <span class="hljs-keyword">from</span>, savedPosition) {
+  <span class="hljs-keyword">return</span> { x: <span class="hljs-number">0</span>, y: <span class="hljs-number">0</span> }
+}
+</code></pre>
+<p>&#x5BF9;&#x4E8E;&#x6240;&#x6709;&#x8DEF;&#x7531;&#x5BFC;&#x822A;&#xFF0C;&#x7B80;&#x5355;&#x5730;&#x8BA9;&#x9875;&#x9762;&#x6EDA;&#x52A8;&#x5230;&#x9876;&#x90E8;&#x3002;</p>
+<p>&#x8FD4;&#x56DE; <code>savedPosition</code>&#xFF0C;&#x5728;&#x6309;&#x4E0B; &#x540E;&#x9000;/&#x524D;&#x8FDB; &#x6309;&#x94AE;&#x65F6;&#xFF0C;&#x5C31;&#x4F1A;&#x50CF;&#x6D4F;&#x89C8;&#x5668;&#x7684;&#x539F;&#x751F;&#x8868;&#x73B0;&#x90A3;&#x6837;&#xFF1A;</p>
+<pre><code class="lang-js">scrollBehavior (to, <span class="hljs-keyword">from</span>, savedPosition) {
+  <span class="hljs-keyword">if</span> (savedPosition) {
+    <span class="hljs-keyword">return</span> savedPosition
+  } <span class="hljs-keyword">else</span> {
+    <span class="hljs-keyword">return</span> { x: <span class="hljs-number">0</span>, y: <span class="hljs-number">0</span> }
+  }
+}
+</code></pre>
+<p>&#x5982;&#x679C;&#x4F60;&#x8981;&#x6A21;&#x62DF;&#x300E;&#x6EDA;&#x52A8;&#x5230;&#x951A;&#x70B9;&#x300F;&#x7684;&#x884C;&#x4E3A;&#xFF1A;</p>
+<pre><code class="lang-js">scrollBehavior (to, <span class="hljs-keyword">from</span>, savedPosition) {
+  <span class="hljs-keyword">if</span> (to.hash) {
+    <span class="hljs-keyword">return</span> {
+      selector: to.hash
+    }
+  }
+}
+</code></pre>
+<p>&#x6211;&#x4EEC;&#x8FD8;&#x53EF;&#x4EE5;&#x5229;&#x7528;<a href="meta.html">&#x8DEF;&#x7531;&#x5143;&#x4FE1;&#x606F;</a>&#x66F4;&#x7EC6;&#x9897;&#x7C92;&#x5EA6;&#x5730;&#x63A7;&#x5236;&#x6EDA;&#x52A8;&#x3002;&#x67E5;&#x770B;&#x5B8C;&#x6574;&#x4F8B;&#x5B50;&#x8BF7;<a href="https://github.com/vuejs/vue-router/blob/next/examples/scroll-behavior/app.js" target="_blank">&#x79FB;&#x6B65;&#x8FD9;&#x91CC;</a>&#x3002;</p>
+<h3 id="&#x5F02;&#x6B65;&#x6EDA;&#x52A8;">&#x5F02;&#x6B65;&#x6EDA;&#x52A8;</h3>
+<blockquote>
+<p>2.8.0 &#x65B0;&#x589E;</p>
+</blockquote>
+<p>&#x4F60;&#x4E5F;&#x53EF;&#x4EE5;&#x8FD4;&#x56DE;&#x4E00;&#x4E2A; Promise &#x6765;&#x5F97;&#x51FA;&#x9884;&#x671F;&#x7684;&#x4F4D;&#x7F6E;&#x63CF;&#x8FF0;&#xFF1A;</p>
+<pre><code class="lang-js">scrollBehavior (to, <span class="hljs-keyword">from</span>, savedPosition) {
+  <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-built_in">Promise</span>((resolve, reject) =&gt; {
+    setTimeout(() =&gt; {
+      resolve({ x: <span class="hljs-number">0</span>, y: <span class="hljs-number">0</span> })
+    }, <span class="hljs-number">500</span>)
+  })
+}
+</code></pre>
+<p>&#x5C06;&#x5176;&#x6302;&#x8F7D;&#x5230;&#x4ECE;&#x9875;&#x9762;&#x7EA7;&#x522B;&#x7684;&#x8FC7;&#x6E21;&#x7EC4;&#x4EF6;&#x7684;&#x4E8B;&#x4EF6;&#x4E0A;&#xFF0C;&#x4EE4;&#x5176;&#x6EDA;&#x52A8;&#x884C;&#x4E3A;&#x548C;&#x9875;&#x9762;&#x8FC7;&#x6E21;&#x4E00;&#x8D77;&#x826F;&#x597D;&#x8FD0;&#x884C;&#x662F;&#x53EF;&#x80FD;&#x7684;&#x3002;&#x4F46;&#x662F;&#x8003;&#x8651;&#x5230;&#x7528;&#x4F8B;&#x7684;&#x591A;&#x6837;&#x6027;&#x548C;&#x590D;&#x6742;&#x6027;&#xFF0C;&#x6211;&#x4EEC;&#x4EC5;&#x63D0;&#x4F9B;&#x8FD9;&#x4E2A;&#x539F;&#x59CB;&#x7684;&#x63A5;&#x53E3;&#xFF0C;&#x4EE5;&#x652F;&#x6301;&#x4E0D;&#x540C;&#x7528;&#x6237;&#x573A;&#x666F;&#x7684;&#x5177;&#x4F53;&#x5B9E;&#x73B0;&#x3002;</p>
+
+                                
+                                </section>
+                            
+    </div>
+    <div class="search-results">
+        <div class="has-results">
+            
+            <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+            <ul class="search-results-list"></ul>
+            
+        </div>
+        <div class="no-results">
+            
+            <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+            
+        </div>
+    </div>
+</div>
+
+                        </div>
+                    </div>
+                
+  <script src="//m.servedby-buysellads.com/monetization.js" type="text/javascript"></script>
+  <div class="bsa-cpc"></div>
+  <script>
+    (function(){
+      if(typeof _bsa !== 'undefined' && _bsa) {
+      _bsa.init('default', 'CKYD62QM', 'placement:vuejsorg', {
+        target: '.bsa-cpc',
+        align: 'horizontal',
+        disable_css: 'true'
+      });
+        }
+    })();
+  </script>
+
+            </div>
+
+            
+                
+                <a href="data-fetching.html" class="navigation navigation-prev " aria-label="Previous page: 数据获取">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+                
+                
+                <a href="lazy-loading.html" class="navigation navigation-next " aria-label="Next page: 懒加载">
+                    <i class="fa fa-angle-right"></i>
+                </a>
+                
+            
+        
+    </div>
+
+    <script>
+        var gitbook = gitbook || [];
+        gitbook.push(function() {
+            gitbook.page.hasChanged({"page":{"title":"滚动行为","level":"1.4.5","depth":2,"next":{"title":"懒加载","level":"1.4.6","depth":2,"path":"advanced/lazy-loading.md","ref":"advanced/lazy-loading.md","articles":[]},"previous":{"title":"数据获取","level":"1.4.4","depth":2,"path":"advanced/data-fetching.md","ref":"advanced/data-fetching.md","articles":[]},"dir":"ltr"},"config":{"plugins":["edit-link","theme-vuejs","-fontsettings","github"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"edit-link":{"label":"Edit This Page","base":"https://github.com/vuejs/vue-router/edit/dev/docs"},"github":{"url":"https://github.com/vuejs/vue-router/"},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":false,"twitter":false,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-vuejs":{},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"vue-router","language":"zh-cn","links":{"sharing":{"facebook":false,"twitter":false}},"gitbook":"*"},"file":{"path":"advanced/scroll-behavior.md","mtime":"2018-01-12T18:38:00.000Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-03-23T22:35:25.582Z"},"basePath":"..","book":{"language":"zh-cn"}});
+        });
+    </script>
+</div>
+
+        
+    <script src="../../gitbook/gitbook.js"></script>
+    <script src="../../gitbook/theme.js"></script>
+    
+        
+        <script src="../../gitbook/gitbook-plugin-edit-link/plugin.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-github/plugin.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-search/search-engine.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-search/search.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-lunr/lunr.min.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-lunr/search-lunr.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-sharing/buttons.js"></script>
+        
+    
+
+    </body>
+</html>
+

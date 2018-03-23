@@ -1,0 +1,833 @@
+
+<!DOCTYPE HTML>
+<html lang="kr" >
+    <head>
+        <meta charset="UTF-8">
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <title>네비게이션 가드 · vue-router</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="description" content="">
+        <meta name="generator" content="GitBook 3.2.3">
+        
+        
+        
+    
+    <link rel="stylesheet" href="../../gitbook/style.css">
+
+    
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-highlight/website.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-search/search.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-theme-vuejs/vue.css">
+                
+            
+        
+
+    
+
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+        
+    
+    
+    <meta name="HandheldFriendly" content="true"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="../../gitbook/images/apple-touch-icon-precomposed-152.png">
+    <link rel="shortcut icon" href="../../gitbook/images/favicon.ico" type="image/x-icon">
+
+    
+    <link rel="next" href="meta.html" />
+    
+    
+
+    </head>
+    <body>
+        
+<div class="book">
+    <div class="book-summary">
+        
+            
+<div id="book-search-input" role="search">
+    <input type="text" placeholder="Type to search" />
+</div>
+
+            
+                <nav role="navigation">
+                
+<script async type="text/javascript" src="//cdn.carbonads.com/carbon.js?zoneid=1673&serve=C6AILKT&placement=vuejs" id="_carbonads_js"></script>
+
+
+
+
+<ul class="summary">
+    
+    
+
+    
+
+    
+        
+        
+    
+        <li class="chapter " data-level="1.1" data-path="../">
+            
+                <a href="../">
+            
+                    
+                    Introduction
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2" data-path="../installation.html">
+            
+                <a href="../installation.html">
+            
+                    
+                    설치
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3" >
+            
+                <span>
+            
+                    
+                    필수 사항
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.3.1" data-path="../essentials/getting-started.html">
+            
+                <a href="../essentials/getting-started.html">
+            
+                    
+                    시작하기
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.2" data-path="../essentials/dynamic-matching.html">
+            
+                <a href="../essentials/dynamic-matching.html">
+            
+                    
+                    동적 라우트 매칭
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.3" data-path="../essentials/nested-routes.html">
+            
+                <a href="../essentials/nested-routes.html">
+            
+                    
+                    중첩된 라우트
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.4" data-path="../essentials/navigation.html">
+            
+                <a href="../essentials/navigation.html">
+            
+                    
+                    프로그래밍 방식 네비게이션
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.5" data-path="../essentials/named-routes.html">
+            
+                <a href="../essentials/named-routes.html">
+            
+                    
+                    이름을 가진 라우트
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.6" data-path="../essentials/named-views.html">
+            
+                <a href="../essentials/named-views.html">
+            
+                    
+                    이름을 가진 뷰
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.7" data-path="../essentials/redirect-and-alias.html">
+            
+                <a href="../essentials/redirect-and-alias.html">
+            
+                    
+                    리다이렉트와 별칭
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.8" data-path="../essentials/passing-props.html">
+            
+                <a href="../essentials/passing-props.html">
+            
+                    
+                    라우트 컴포넌트에 속성 전달
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.9" data-path="../essentials/history-mode.html">
+            
+                <a href="../essentials/history-mode.html">
+            
+                    
+                    HTML5 History 모드
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4" >
+            
+                <span>
+            
+                    
+                    고급
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter active" data-level="1.4.1" data-path="navigation-guards.html">
+            
+                <a href="navigation-guards.html">
+            
+                    
+                    네비게이션 가드
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.2" data-path="meta.html">
+            
+                <a href="meta.html">
+            
+                    
+                    라우트 메타 필드
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.3" data-path="transitions.html">
+            
+                <a href="transitions.html">
+            
+                    
+                    전환
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.4" data-path="data-fetching.html">
+            
+                <a href="data-fetching.html">
+            
+                    
+                    데이터 가져오기
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.5" data-path="scroll-behavior.html">
+            
+                <a href="scroll-behavior.html">
+            
+                    
+                    스크롤 동작
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.6" data-path="lazy-loading.html">
+            
+                <a href="lazy-loading.html">
+            
+                    
+                    지연된 로딩
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5" >
+            
+                <span>
+            
+                    
+                    API 레퍼런스
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.5.1" data-path="../api/options.html">
+            
+                <a href="../api/options.html">
+            
+                    
+                    라우터 생성자 옵션
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.5.1.1" data-path="../api/options.html">
+            
+                <a href="../api/options.html#routes">
+            
+                    
+                    routes
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.1.2" data-path="../api/options.html">
+            
+                <a href="../api/options.html#mode">
+            
+                    
+                    mode
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.1.3" data-path="../api/options.html">
+            
+                <a href="../api/options.html#base">
+            
+                    
+                    base
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.1.4" data-path="../api/options.html">
+            
+                <a href="../api/options.html#linkactiveclass">
+            
+                    
+                    linkActiveClass
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.1.5" data-path="../api/options.html">
+            
+                <a href="../api/options.html#linkexactactiveclass">
+            
+                    
+                    linkExactActiveClass
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.1.6" data-path="../api/options.html">
+            
+                <a href="../api/options.html#scrollbehavior">
+            
+                    
+                    scrollBehavior
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.1.7" data-path="../api/options.html">
+            
+                <a href="../api/options.html#parsequery--stringifyquery">
+            
+                    
+                    parseQuery / stringifyQuery
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.1.8" data-path="../api/options.html">
+            
+                <a href="../api/options.html#fallback">
+            
+                    
+                    fallback
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.2" data-path="../api/router-instance.html">
+            
+                <a href="../api/router-instance.html">
+            
+                    
+                    라우터 인스턴스
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.5.2.1" data-path="../api/router-instance.html">
+            
+                <a href="../api/router-instance.html#properties">
+            
+                    
+                    Properties
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.2.2" data-path="../api/router-instance.html">
+            
+                <a href="../api/router-instance.html#methods">
+            
+                    
+                    Methods
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.3" data-path="../api/route-object.html">
+            
+                <a href="../api/route-object.html">
+            
+                    
+                    라우트 객체
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.4" data-path="../api/component-injections.html">
+            
+                <a href="../api/component-injections.html">
+            
+                    
+                    컴포넌트 주입
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.5" data-path="../api/router-link.html">
+            
+                <a href="../api/router-link.html">
+            
+                    
+                    router-link
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.6" data-path="../api/router-view.html">
+            
+                <a href="../api/router-view.html">
+            
+                    
+                    router-view
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+    
+
+    <li class="divider"></li>
+
+    <li>
+        <a href="https://www.gitbook.com" target="blank" class="gitbook-link">
+            Published with GitBook
+        </a>
+    </li>
+</ul>
+
+
+
+                </nav>
+            
+        
+    </div>
+
+    <div class="book-body">
+        
+            <div class="body-inner">
+                
+  
+                    
+
+<div class="book-header" role="navigation">
+    
+
+    <!-- Title -->
+    <h1>
+        <i class="fa fa-circle-o-notch fa-spin"></i>
+        <a href=".." >네비게이션 가드</a>
+    </h1>
+</div>
+
+
+
+
+                    <div class="page-wrapper" tabindex="-1" role="main">
+                        <div class="page-inner">
+                            
+<div id="book-search-results">
+    <div class="search-noresults">
+    
+                                <section class="normal markdown-section">
+                                
+                                <h1 id="&#xB124;&#xBE44;&#xAC8C;&#xC774;&#xC158;-&#xAC00;&#xB4DC;">&#xB124;&#xBE44;&#xAC8C;&#xC774;&#xC158; &#xAC00;&#xB4DC;</h1>
+<p>&#xC774;&#xB984;&#xC5D0;&#xC11C; &#xC54C; &#xC218; &#xC788;&#xB4EF;&#xC774; <code>vue-router</code>&#xAC00; &#xC81C;&#xACF5;&#xD558;&#xB294; &#xB124;&#xBE44;&#xAC8C;&#xC774;&#xC158; &#xAC00;&#xB4DC;&#xB294; &#xC8FC;&#xB85C; &#xB9AC;&#xB514;&#xB809;&#xC158;&#xD558;&#xAC70;&#xB098; &#xCDE8;&#xC18C;&#xD558;&#xC5EC; &#xB124;&#xBE44;&#xAC8C;&#xC774;&#xC158;&#xC744; &#xBCF4;&#xD638;&#xD558;&#xB294; &#xB370; &#xC0AC;&#xC6A9;&#xB429;&#xB2C8;&#xB2E4;. &#xB77C;&#xC6B0;&#xD2B8; &#xD0D0;&#xC0C9; &#xD504;&#xB85C;&#xC138;&#xC2A4;&#xC5D0; &#xC5F0;&#xACB0;&#xD558;&#xB294; &#xBC29;&#xBC95;&#xC5D0;&#xB294; &#xC804;&#xC5ED;, &#xB77C;&#xC6B0;&#xD2B8;&#xBCC4; &#xB610;&#xB294; &#xCEF4;&#xD3EC;&#xB10C;&#xD2B8;&#xAC00; &#xC788;&#xC2B5;&#xB2C8;&#xB2E4;.</p>
+<p><strong>Params &#xB610;&#xB294; &#xCFFC;&#xB9AC;&#xB97C; &#xBCC0;&#xACBD;&#xD558;&#xBA74; &#xB124;&#xBE44;&#xAC8C;&#xC774;&#xC158; &#xAC00;&#xB4DC;&#xAC00; &#xC2E4;&#xD589;&#xB418;&#xC9C0; &#xC54A;&#xC2B5;&#xB2C8;&#xB2E4;</strong>. &#xB2E8;&#xC21C;&#xD788; <a href="../essentials/dynamic-matching.html#reacting-to-params-changes"><code>$route</code> &#xAC1D;&#xCCB4;&#xB97C; &#xAC10;&#xC2DC;</a>&#xD558;&#xACE0; &#xADF8; &#xBCC0;&#xD654;&#xC5D0; &#xBC18;&#xC751;&#xD558;&#xC2ED;&#xC2DC;&#xC624;. &#xB610;&#xB294; &#xCEF4;&#xD3EC;&#xB10C;&#xD2B8; &#xAC00;&#xB4DC;&#xC758; <code>beforeRouteUpdate</code>&#xB97C; &#xC0AC;&#xC6A9;&#xD558;&#xC2ED;&#xC2DC;&#xC624;</p>
+<h3 id="&#xC804;&#xC5ED;-&#xAC00;&#xB4DC;">&#xC804;&#xC5ED; &#xAC00;&#xB4DC;</h3>
+<p><code>router.beforeEach</code>&#xB97C; &#xC0AC;&#xC6A9;&#xD558;&#xC5EC; &#xBCF4;&#xD638;&#xD558;&#xAE30; &#xC774;&#xC804;&#xC5D0; &#xC804;&#xC5ED; &#xB4F1;&#xB85D;&#xC744; &#xD560; &#xC218; &#xC788;&#xC2B5;&#xB2C8;&#xB2E4;.</p>
+<pre><code class="lang-js"><span class="hljs-keyword">const</span> router = <span class="hljs-keyword">new</span> VueRouter({ ... })
+
+router.beforeEach((to, <span class="hljs-keyword">from</span>, next) =&gt; {
+  <span class="hljs-comment">// ...</span>
+})
+</code></pre>
+<p>&#xB124;&#xBE44;&#xAC8C;&#xC774;&#xC158;&#xC774; &#xD2B8;&#xB9AC;&#xAC70;&#xB420; &#xB54C;&#xB9C8;&#xB2E4; &#xAC00;&#xB4DC;&#xAC00; &#xC791;&#xC131; &#xC21C;&#xC11C;&#xC5D0; &#xB530;&#xB77C; &#xD638;&#xCD9C;&#xB418;&#xAE30; &#xC804;&#xC758; &#xBAA8;&#xB4E0; &#xACBD;&#xC6B0;&#xC5D0; &#xBC1C;&#xC0DD;&#xD569;&#xB2C8;&#xB2E4;. &#xAC00;&#xB4DC;&#xB294; &#xBE44;&#xB3D9;&#xAE30;&#xC2DD;&#xC73C;&#xB85C; &#xC2E4;&#xD589; &#xB420; &#xC218; &#xC788;&#xC73C;&#xBA70; &#xB124;&#xBE44;&#xAC8C;&#xC774;&#xC158;&#xC740; &#xBAA8;&#xB4E0; &#xD6C5;&#xC774; &#xD574;&#xACB0;&#xB418;&#xAE30; &#xC804;&#xAE4C;&#xC9C0; <strong>&#xBCF4;&#xB958; &#xC911;</strong> &#xC73C;&#xB85C; &#xAC04;&#xC8FC;&#xB429;&#xB2C8;&#xB2E4;.</p>
+<p>&#xBAA8;&#xB4E0; &#xAC00;&#xB4DC; &#xAE30;&#xB2A5;&#xC740; &#xC138; &#xAC00;&#xC9C0; &#xC804;&#xB2EC;&#xC778;&#xC790;&#xB97C; &#xBC1B;&#xC2B5;&#xB2C8;&#xB2E4;.</p>
+<ul>
+<li><p><strong><code>to: &#xB77C;&#xC6B0;&#xD2B8;</code></strong>: &#xB300;&#xC0C1; <a href="../api/route-object.html">Route &#xAC1D;&#xCCB4;</a> &#xB85C; &#xC774;&#xB3D9;&#xD569;&#xB2C8;&#xB2E4;.</p>
+</li>
+<li><p><strong><code>from: &#xB77C;&#xC6B0;&#xD2B8;</code></strong>: &#xD604;&#xC7AC; &#xB77C;&#xC6B0;&#xD2B8;&#xB85C; &#xC624;&#xAE30;&#xC804; &#xB77C;&#xC6B0;&#xD2B8; &#xC785;&#xB2C8;&#xB2E4;.</p>
+</li>
+<li><p><strong><code>next: &#xD568;&#xC218;</code></strong>: &#xC774; &#xD568;&#xC218;&#xB294; <strong>&#xD6C5;&#xC744; &#xD574;&#xACB0;&#xD558;&#xAE30; &#xC704;&#xD574;</strong> &#xD638;&#xCD9C; &#xB418;&#xC5B4;&#xC57C; &#xD569;&#xB2C8;&#xB2E4;. &#xC561;&#xC158;&#xC740; <code>next</code>&#xC5D0; &#xC81C;&#xACF5;&#xB41C; &#xC804;&#xB2EC;&#xC778;&#xC790;&#xC5D0; &#xB2EC;&#xB824; &#xC788;&#xC2B5;&#xB2C8;&#xB2E4;.</p>
+<ul>
+<li><p><strong><code>next()</code></strong>: &#xD30C;&#xC774;&#xD504;&#xB77C;&#xC778;&#xC758; &#xB2E4;&#xC74C; &#xD6C5;&#xC73C;&#xB85C; &#xC774;&#xB3D9;&#xD558;&#xC2ED;&#xC2DC;&#xC624;. &#xD6C5;&#xC774; &#xC5C6;&#xB294; &#xACBD;&#xC6B0; &#xB124;&#xBE44;&#xAC8C;&#xC774;&#xC158;&#xC740; <strong>&#xC2B9;&#xC778;</strong>&#xB429;&#xB2C8;&#xB2E4;.</p>
+</li>
+<li><p><strong><code>next(false)</code></strong>: &#xD604;&#xC7AC; &#xB124;&#xBE44;&#xAC8C;&#xC774;&#xC158;&#xC744; &#xC911;&#xB2E8;&#xD569;&#xB2C8;&#xB2E4;. &#xBE0C;&#xB77C;&#xC6B0;&#xC800; URL&#xC774; &#xBCC0;&#xACBD;&#xB418;&#xBA74;(&#xC0AC;&#xC6A9;&#xC790; &#xB610;&#xB294; &#xB4A4;&#xB85C; &#xBC84;&#xD2BC;&#xC744; &#xD1B5;&#xD574; &#xC218;&#xB3D9;&#xC73C;&#xB85C; &#xBCC0;&#xACBD;&#xB428;) <code>from</code>&#xACBD;&#xB85C;&#xC758; URL&#xB85C; &#xC7AC;&#xC124;&#xC815;&#xB429;&#xB2C8;&#xB2E4;.</p>
+</li>
+<li><p><strong><code>next(&apos;/&apos;)</code> &#xB610;&#xB294; <code>next({ path: &apos;/&apos; })</code></strong>: &#xB2E4;&#xB978; &#xC704;&#xCE58;&#xB85C; &#xB9AC;&#xB514;&#xB809;&#xC158;&#xD569;&#xB2C8;&#xB2E4;. &#xD604;&#xC7AC; &#xB124;&#xBE44;&#xAC8C;&#xC774;&#xC158;&#xC774; &#xC911;&#xB2E8;&#xB418;&#xACE0; &#xC0C8; &#xB124;&#xBE44;&#xAC8C;&#xC774;&#xC158;&#xC774; &#xC2DC;&#xC791;&#xB429;&#xB2C8;&#xB2E4;.</p>
+</li>
+<li><p><strong><code>next(error)</code></strong>: (2.4.0 &#xC774;&#xD6C4; &#xCD94;&#xAC00;) <code>next</code>&#xC5D0; &#xC804;&#xB2EC;&#xB41C; &#xC778;&#xC790;&#xAC00; <code>Error</code> &#xC758; &#xC778;&#xC2A4;&#xD134;&#xC2A4;&#xC774;&#xBA74; &#xD0D0;&#xC0C9;&#xC774; &#xC911;&#xB2E8;&#xB418;&#xACE0; <code>router.onError()</code>&#xB97C; &#xC774;&#xC6A9;&#xD574; &#xB4F1;&#xB85D; &#xB41C; &#xCF5C;&#xBC31;&#xC5D0; &#xC5D0;&#xB7EC;&#xAC00; &#xC804;&#xB2EC;&#xB429;&#xB2C8;&#xB2E4;.</p>
+</li>
+</ul>
+</li>
+</ul>
+<p><strong>&#xD56D;&#xC0C1; <code>next</code> &#xD568;&#xC218;&#xB97C; &#xD638;&#xCD9C;&#xD558;&#xC2ED;&#xC2DC;&#xC624;. &#xADF8;&#xB807;&#xC9C0; &#xC54A;&#xC73C;&#xBA74; &#xD6C5;&#xC774; &#xC808;&#xB300; &#xBD88;&#xB7EC;&#xC9C0;&#xC9C0; &#xC54A;&#xC2B5;&#xB2C8;&#xB2E4;.</strong></p>
+<h3 id="global-resolve-guards">Global Resolve Guards</h3>
+<blockquote>
+<p>2.5.0&#xC5D0;&#xC11C; &#xCD94;&#xAC00;&#xB428;</p>
+</blockquote>
+<p>2.5.0 &#xC774;&#xD6C4;&#xB85C; <code>router.beforeResolve</code>&#xB97C; &#xC0AC;&#xC6A9;&#xD558;&#xC5EC; &#xAE00;&#xB85C;&#xBC8C; &#xAC00;&#xB4DC;&#xB97C; &#xB4F1;&#xB85D; &#xD560; &#xC218; &#xC788;&#xC2B5;&#xB2C8;&#xB2E4;. &#xC774;&#xB294; <code>router.beforeEach</code>&#xC640; &#xC720;&#xC0AC;&#xD569;&#xB2C8;&#xB2E4;. &#xBAA8;&#xB4E0; &#xCEF4;&#xD3EC;&#xB10C;&#xD2B8; &#xAC00;&#xB4DC;&#xC640; &#xBE44;&#xB3D9;&#xAE30; &#xB77C;&#xC6B0;&#xD2B8; &#xCEF4;&#xD3EC;&#xB10C;&#xD2B8;&#xB97C; &#xBD88;&#xB7EC;&#xC628; &#xD6C4; &#xB124;&#xBE44;&#xAC8C;&#xC774;&#xC158; &#xAC00;&#xB4DC;&#xB97C; &#xD655;&#xC778;&#xD558;&#xAE30; &#xC804;&#xC5D0; &#xD638;&#xCD9C;&#xB41C;&#xB2E4;&#xB294; &#xCC28;&#xC774;&#xAC00; &#xC788;&#xC2B5;&#xB2C8;&#xB2E4;</p>
+<h3 id="global-after-hooks">Global After Hooks</h3>
+<p>&#xC804;&#xC5ED; &#xD6C5;&#xC744; &#xB4F1;&#xB85D; &#xD560; &#xC218;&#xB3C4; &#xC788;&#xC9C0;&#xB9CC;, &#xAC00;&#xB4DC;&#xC640; &#xB2EC;&#xB9AC; &#xC774; &#xD6C5;&#xC740; <code>next</code> &#xD568;&#xC218;&#xB97C; &#xC5BB;&#xC9C0; &#xBABB;&#xD558;&#xBA70; &#xB124;&#xBE44;&#xAC8C;&#xC774;&#xC158;&#xC5D0; &#xC601;&#xD5A5;&#xC744; &#xC904; &#xC218; &#xC5C6;&#xC2B5;&#xB2C8;&#xB2E4;.</p>
+<pre><code class="lang-js">router.afterEach((to, <span class="hljs-keyword">from</span>) =&gt; {
+  <span class="hljs-comment">// ...</span>
+})
+</code></pre>
+<h3 id="&#xB77C;&#xC6B0;&#xD2B8;-&#xBCC4;-&#xAC00;&#xB4DC;">&#xB77C;&#xC6B0;&#xD2B8; &#xBCC4; &#xAC00;&#xB4DC;</h3>
+<p><code>beforeEnter</code> &#xAC00;&#xB4DC;&#xB97C; &#xB77C;&#xC6B0;&#xD2B8;&#xC758; &#xC124;&#xC815; &#xAC1D;&#xCCB4;&#xC5D0; &#xC9C1;&#xC811; &#xC815;&#xC758; &#xD560; &#xC218; &#xC788;&#xC2B5;&#xB2C8;&#xB2E4;.</p>
+<pre><code class="lang-js"><span class="hljs-keyword">const</span> router = <span class="hljs-keyword">new</span> VueRouter({
+  routes: [
+    {
+      path: <span class="hljs-string">&apos;/foo&apos;</span>,
+      component: Foo,
+      beforeEnter: (to, <span class="hljs-keyword">from</span>, next) =&gt; {
+        <span class="hljs-comment">// ...</span>
+      }
+    }
+  ]
+})
+</code></pre>
+<p>&#xC774;&#xB7EC;&#xD55C; &#xAC00;&#xB4DC;&#xB294; &#xC804;&#xC5ED; &#xC774;&#xC804; &#xAC00;&#xB4DC;&#xC640; &#xB3D9;&#xC77C;&#xD55C; &#xC11C;&#xBA85;&#xC744; &#xAC00;&#xC9D1;&#xB2C8;&#xB2E4;.</p>
+<h3 id="&#xCEF4;&#xD3EC;&#xB10C;&#xD2B8;-&#xB0B4;&#xBD80;-&#xAC00;&#xB4DC;">&#xCEF4;&#xD3EC;&#xB10C;&#xD2B8; &#xB0B4;&#xBD80; &#xAC00;&#xB4DC;</h3>
+<p>&#xB9C8;&#xC9C0;&#xB9C9;&#xC73C;&#xB85C; <code>beforeRouteEnter</code> &#xC640; <code>beforeRouteLeave</code>&#xB97C; &#xC0AC;&#xC6A9;&#xD558;&#xC5EC; &#xB77C;&#xC6B0;&#xD2B8; &#xCEF4;&#xD3EC;&#xB10C;&#xD2B8;(&#xB77C;&#xC6B0;&#xD130; &#xC124;&#xC815;&#xC73C;&#xB85C; &#xC804;&#xB2EC;&#xB418;&#xB294; &#xCEF4;&#xD3EC;&#xB10C;&#xD2B8;) &#xC548;&#xC5D0; &#xB77C;&#xC6B0;&#xD2B8; &#xB124;&#xBE44;&#xAC8C;&#xC774;&#xC158; &#xAC00;&#xB4DC;&#xB97C; &#xC9C1;&#xC811; &#xC815;&#xC758; &#xD560; &#xC218; &#xC788;&#xC2B5;&#xB2C8;&#xB2E4;.</p>
+<ul>
+<li><code>beforeRouteEnter</code></li>
+<li><code>beforeRouteUpdate</code> (2.2 &#xBC84;&#xC804;&#xC5D0; &#xCD94;&#xAC00;)</li>
+<li><code>beforeRouteLeave</code></li>
+</ul>
+<pre><code class="lang-js"><span class="hljs-keyword">const</span> Foo = {
+  template: <span class="hljs-string">`...`</span>,
+  beforeRouteEnter (to, <span class="hljs-keyword">from</span>, next) {
+    <span class="hljs-comment">// &#xC774; &#xCEF4;&#xD3EC;&#xB10C;&#xD2B8;&#xB97C; &#xB80C;&#xB354;&#xB9C1;&#xD558;&#xB294; &#xB77C;&#xC6B0;&#xD2B8; &#xC55E;&#xC5D0; &#xD638;&#xCD9C;&#xB429;&#xB2C8;&#xB2E4;.</span>
+    <span class="hljs-comment">// &#xC774; &#xAC00;&#xB4DC;&#xAC00; &#xD638;&#xCD9C; &#xB420; &#xB54C; &#xC544;&#xC9C1; &#xC0DD;&#xC131;&#xB418;&#xC9C0; &#xC54A;&#xC558;&#xAE30; &#xB54C;&#xBB38;&#xC5D0;</span>
+    <span class="hljs-comment">// `this` &#xCEF4;&#xD3EC;&#xB10C;&#xD2B8; &#xC778;&#xC2A4;&#xD134;&#xC2A4;&#xC5D0; &#xC811;&#xADFC; &#xD560; &#xC218; &#xC5C6;&#xC2B5;&#xB2C8;&#xB2E4;!</span>
+  },
+  beforeRouteLeave (to, <span class="hljs-keyword">from</span>, next) {
+    <span class="hljs-comment">// &#xC774; &#xCEF4;&#xD3EC;&#xB10C;&#xD2B8;&#xB97C; &#xB80C;&#xB354;&#xB9C1;&#xD558;&#xB294; &#xB77C;&#xC6B0;&#xD2B8;&#xAC00; &#xC774;&#xC804;&#xC73C;&#xB85C; &#xB124;&#xBE44;&#xAC8C;&#xC774;&#xC158; &#xB420; &#xB54C; &#xD638;&#xCD9C;&#xB429;&#xB2C8;&#xB2E4;.</span>
+    <span class="hljs-comment">// `this` &#xCEF4;&#xD3EC;&#xB10C;&#xD2B8; &#xC778;&#xC2A4;&#xD134;&#xC2A4;&#xC5D0; &#xC811;&#xADFC; &#xD560; &#xC218; &#xC788;&#xC2B5;&#xB2C8;&#xB2E4;.</span>
+  }
+}
+</code></pre>
+<p><code>beforeRouteEnter</code> &#xAC00;&#xB4DC;&#xB294; &#xB124;&#xBE44;&#xAC8C;&#xC774;&#xC158;&#xC774; &#xD655;&#xC778;&#xB418;&#xAE30; &#xC804;&#xC5D0; &#xAC00;&#xB4DC;&#xAC00; &#xD638;&#xCD9C;&#xB418;&#xC5B4;&#xC11C; &#xC0C8;&#xB85C;&#xC6B4; &#xC5D4;&#xD2B8;&#xB9AC; &#xCEF4;&#xD3EC;&#xB10C;&#xD2B8;&#xAC00; &#xC544;&#xC9C1; &#xC0DD;&#xC131;&#xB418;&#xC9C0; &#xC54A;&#xC558;&#xAE30; &#xB54C;&#xBB38;&#xC5D0; <code>this</code>&#xC5D0; &#xC811;&#xADFC;&#xD558;&#xC9C0; <strong>&#xBABB;&#xD569;&#xB2C8;&#xB2E4;.</strong></p>
+<p>&#xADF8;&#xB7EC;&#xB098; &#xCF5C;&#xBC31;&#xC744; <code>next</code>&#xC5D0; &#xC804;&#xB2EC;&#xD558;&#xC5EC; &#xC778;&#xC2A4;&#xD134;&#xC2A4;&#xC5D0; &#xC561;&#xC138;&#xC2A4; &#xD560; &#xC218; &#xC788;&#xC2B5;&#xB2C8;&#xB2E4;. &#xB124;&#xBE44;&#xAC8C;&#xC774;&#xC158;&#xC774; &#xD655;&#xC778;&#xB418;&#xACE0; &#xCEF4;&#xD3EC;&#xB10C;&#xD2B8; &#xC778;&#xC2A4;&#xD134;&#xC2A4;&#xAC00; &#xCF5C;&#xBC31;&#xC5D0; &#xC804;&#xB2EC;&#xC778;&#xC790;&#xB85C; &#xC804;&#xB2EC; &#xB420; &#xB54C; &#xCF5C;&#xBC31;&#xC774; &#xD638;&#xCD9C;&#xB429;&#xB2C8;&#xB2E4;.</p>
+<pre><code class="lang-js">beforeRouteEnter (to, <span class="hljs-keyword">from</span>, next) {
+  next(vm =&gt; {
+    <span class="hljs-comment">// `vm`&#xC744; &#xD1B5;&#xD55C; &#xCEF4;&#xD3EC;&#xB10C;&#xD2B8; &#xC778;&#xC2A4;&#xD134;&#xC2A4; &#xC811;&#xADFC;</span>
+  })
+}
+</code></pre>
+<p><code>beforeRouteLeave</code> &#xC548;&#xC5D0;&#xC11C; <code>this</code>&#xC5D0; &#xC9C1;&#xC811; &#xC811;&#xADFC; &#xD560; &#xC218; &#xC788;&#xC2B5;&#xB2C8;&#xB2E4;. leave &#xAC00;&#xB4DC;&#xB294; &#xC77C;&#xBC18;&#xC801;&#xC73C;&#xB85C; &#xC0AC;&#xC6A9;&#xC790;&#xAC00; &#xC800;&#xC7A5;&#xD558;&#xC9C0; &#xC54A;&#xC740; &#xD3B8;&#xC9D1; &#xB0B4;&#xC6A9;&#xC744; &#xB450;&#xACE0; &#xC2E4;&#xC218;&#xB85C; &#xB77C;&#xC6B0;&#xD2B8;&#xB97C; &#xB5A0;&#xB098;&#xB294; &#xAC83;&#xC744; &#xBC29;&#xC9C0;&#xD558;&#xB294;&#xB370; &#xC0AC;&#xC6A9;&#xB429;&#xB2C8;&#xB2E4;. &#xD0D0;&#xC0C9;&#xC740; <code>next(false)</code>&#xB97C; &#xD638;&#xCD9C;&#xD558;&#xC5EC; &#xCDE8;&#xC18C;&#xD560; &#xC218; &#xC788;&#xC2B5;&#xB2C8;&#xB2E4;.</p>
+<h3 id="&#xC804;&#xCCB4;-&#xB124;&#xBE44;&#xAC8C;&#xC774;&#xC158;-&#xC2DC;&#xB098;&#xB9AC;&#xC624;">&#xC804;&#xCCB4; &#xB124;&#xBE44;&#xAC8C;&#xC774;&#xC158; &#xC2DC;&#xB098;&#xB9AC;&#xC624;</h3>
+<ol>
+<li>&#xB124;&#xBE44;&#xAC8C;&#xC774;&#xC158;&#xC774; &#xD2B8;&#xB9AC;&#xAC70;&#xB428;.</li>
+<li>&#xBE44;&#xD65C;&#xC131;&#xD654;&#xB420; &#xCEF4;&#xD3EC;&#xB10C;&#xD2B8;&#xC5D0;&#xC11C; &#xAC00;&#xB4DC;&#xB97C; &#xD638;&#xCD9C;.</li>
+<li>&#xC804;&#xC5ED; <code>beforeEach</code> &#xAC00;&#xB4DC; &#xD638;&#xCD9C;.</li>
+<li>&#xC7AC;&#xC0AC;&#xC6A9;&#xB418;&#xB294; &#xCEF4;&#xD3EC;&#xB10C;&#xD2B8;&#xC5D0;&#xC11C; <code>beforeRouteUpdate</code> &#xAC00;&#xB4DC; &#xD638;&#xCD9C;. (2.2 &#xC774;&#xC0C1;)</li>
+<li>&#xB77C;&#xC6B0;&#xD2B8; &#xC124;&#xC815;&#xC5D0;&#xC11C; <code>beforeEnter</code> &#xD638;&#xCD9C;.</li>
+<li>&#xBE44;&#xB3D9;&#xAE30; &#xB77C;&#xC6B0;&#xD2B8; &#xCEF4;&#xD3EC;&#xB10C;&#xD2B8; &#xD574;&#xACB0;.</li>
+<li>&#xD65C;&#xC131;&#xD654;&#xB41C; &#xCEF4;&#xD3EC;&#xB10C;&#xD2B8;&#xC5D0;&#xC11C; <code>beforeRouteEnter</code> &#xD638;&#xCD9C;.</li>
+<li>&#xC804;&#xC5ED; <code>beforeResolve</code> &#xAC00;&#xB4DC; &#xD638;&#xCD9C;. (2.5&#xC774;&#xC0C1;)</li>
+<li>&#xB124;&#xBE44;&#xAC8C;&#xC774;&#xC158; &#xC644;&#xB8CC;.</li>
+<li>&#xC804;&#xC5ED; <code>afterEach</code> &#xD6C5; &#xD638;&#xCD9C;.</li>
+<li>DOM &#xAC31;&#xC2E0; &#xD2B8;&#xB9AC;&#xAC70; &#xB428;.</li>
+<li>&#xC778;&#xC2A4;&#xD134;&#xC2A4;&#xD654; &#xB41C; &#xC778;&#xC2A4;&#xD134;&#xC2A4;&#xB4E4;&#xC758; <code>beforeRouteEnter</code>&#xAC00;&#xB4DC;&#xC5D0;&#xC11C; <code>next</code>&#xC5D0; &#xC804;&#xB2EC; &#xB41C; &#xCF5C;&#xBC31;&#xC744; &#xD638;&#xCD9C;&#xD569;&#xB2C8;&#xB2E4;.</li>
+</ol>
+
+                                
+                                </section>
+                            
+    </div>
+    <div class="search-results">
+        <div class="has-results">
+            
+            <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+            <ul class="search-results-list"></ul>
+            
+        </div>
+        <div class="no-results">
+            
+            <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+            
+        </div>
+    </div>
+</div>
+
+                        </div>
+                    </div>
+                
+  <script src="//m.servedby-buysellads.com/monetization.js" type="text/javascript"></script>
+  <div class="bsa-cpc"></div>
+  <script>
+    (function(){
+      if(typeof _bsa !== 'undefined' && _bsa) {
+      _bsa.init('default', 'CKYD62QM', 'placement:vuejsorg', {
+        target: '.bsa-cpc',
+        align: 'horizontal',
+        disable_css: 'true'
+      });
+        }
+    })();
+  </script>
+
+            </div>
+
+            
+                
+                
+                <a href="meta.html" class="navigation navigation-next navigation-unique" aria-label="Next page: 라우트 메타 필드">
+                    <i class="fa fa-angle-right"></i>
+                </a>
+                
+            
+        
+    </div>
+
+    <script>
+        var gitbook = gitbook || [];
+        gitbook.push(function() {
+            gitbook.page.hasChanged({"page":{"title":"네비게이션 가드","level":"1.4.1","depth":2,"next":{"title":"라우트 메타 필드","level":"1.4.2","depth":2,"path":"advanced/meta.md","ref":"advanced/meta.md","articles":[]},"previous":{"title":"고급","level":"1.4","depth":1,"ref":"","articles":[{"title":"네비게이션 가드","level":"1.4.1","depth":2,"path":"advanced/navigation-guards.md","ref":"advanced/navigation-guards.md","articles":[]},{"title":"라우트 메타 필드","level":"1.4.2","depth":2,"path":"advanced/meta.md","ref":"advanced/meta.md","articles":[]},{"title":"전환","level":"1.4.3","depth":2,"path":"advanced/transitions.md","ref":"advanced/transitions.md","articles":[]},{"title":"데이터 가져오기","level":"1.4.4","depth":2,"path":"advanced/data-fetching.md","ref":"advanced/data-fetching.md","articles":[]},{"title":"스크롤 동작","level":"1.4.5","depth":2,"path":"advanced/scroll-behavior.md","ref":"advanced/scroll-behavior.md","articles":[]},{"title":"지연된 로딩","level":"1.4.6","depth":2,"path":"advanced/lazy-loading.md","ref":"advanced/lazy-loading.md","articles":[]}]},"dir":"ltr"},"config":{"plugins":["edit-link","theme-vuejs","-fontsettings","github"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"edit-link":{"label":"Edit This Page","base":"https://github.com/vuejs/vue-router/edit/dev/docs"},"github":{"url":"https://github.com/vuejs/vue-router/"},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":false,"twitter":false,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-vuejs":{},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"vue-router","language":"kr","links":{"sharing":{"facebook":false,"twitter":false}},"gitbook":"*"},"file":{"path":"advanced/navigation-guards.md","mtime":"2017-10-23T16:17:53.000Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-03-23T22:35:25.582Z"},"basePath":"..","book":{"language":"kr"}});
+        });
+    </script>
+</div>
+
+        
+    <script src="../../gitbook/gitbook.js"></script>
+    <script src="../../gitbook/theme.js"></script>
+    
+        
+        <script src="../../gitbook/gitbook-plugin-edit-link/plugin.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-github/plugin.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-search/search-engine.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-search/search.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-lunr/lunr.min.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-lunr/search-lunr.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-sharing/buttons.js"></script>
+        
+    
+
+    </body>
+</html>
+

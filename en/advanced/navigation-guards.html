@@ -1,0 +1,858 @@
+
+<!DOCTYPE HTML>
+<html lang="en" >
+    <head>
+        <meta charset="UTF-8">
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <title>Navigation Guards · vue-router</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="description" content="">
+        <meta name="generator" content="GitBook 3.2.3">
+        
+        
+        
+    
+    <link rel="stylesheet" href="../../gitbook/style.css">
+
+    
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-highlight/website.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-search/search.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-theme-vuejs/vue.css">
+                
+            
+        
+
+    
+
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+        
+    
+    
+    <meta name="HandheldFriendly" content="true"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="../../gitbook/images/apple-touch-icon-precomposed-152.png">
+    <link rel="shortcut icon" href="../../gitbook/images/favicon.ico" type="image/x-icon">
+
+    
+    <link rel="next" href="meta.html" />
+    
+    
+
+    </head>
+    <body>
+        
+<div class="book">
+    <div class="book-summary">
+        
+            
+<div id="book-search-input" role="search">
+    <input type="text" placeholder="Type to search" />
+</div>
+
+            
+                <nav role="navigation">
+                
+<script async type="text/javascript" src="//cdn.carbonads.com/carbon.js?zoneid=1673&serve=C6AILKT&placement=vuejs" id="_carbonads_js"></script>
+
+
+
+
+<ul class="summary">
+    
+    
+
+    
+
+    
+        
+        
+    
+        <li class="chapter " data-level="1.1" data-path="../">
+            
+                <a href="../">
+            
+                    
+                    Introduction
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2" data-path="../installation.html">
+            
+                <a href="../installation.html">
+            
+                    
+                    Installation
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3" >
+            
+                <span>
+            
+                    
+                    Essentials
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.3.1" data-path="../essentials/getting-started.html">
+            
+                <a href="../essentials/getting-started.html">
+            
+                    
+                    Getting Started
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.2" data-path="../essentials/dynamic-matching.html">
+            
+                <a href="../essentials/dynamic-matching.html">
+            
+                    
+                    Dynamic Route Matching
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.3" data-path="../essentials/nested-routes.html">
+            
+                <a href="../essentials/nested-routes.html">
+            
+                    
+                    Nested Routes
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.4" data-path="../essentials/navigation.html">
+            
+                <a href="../essentials/navigation.html">
+            
+                    
+                    Programmatic Navigation
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.5" data-path="../essentials/named-routes.html">
+            
+                <a href="../essentials/named-routes.html">
+            
+                    
+                    Named Routes
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.6" data-path="../essentials/named-views.html">
+            
+                <a href="../essentials/named-views.html">
+            
+                    
+                    Named Views
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.7" data-path="../essentials/redirect-and-alias.html">
+            
+                <a href="../essentials/redirect-and-alias.html">
+            
+                    
+                    Redirect and Alias
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.8" data-path="../essentials/passing-props.html">
+            
+                <a href="../essentials/passing-props.html">
+            
+                    
+                    Passing Props to Route Components
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.9" data-path="../essentials/history-mode.html">
+            
+                <a href="../essentials/history-mode.html">
+            
+                    
+                    HTML5 History Mode
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4" >
+            
+                <span>
+            
+                    
+                    Advanced
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter active" data-level="1.4.1" data-path="navigation-guards.html">
+            
+                <a href="navigation-guards.html">
+            
+                    
+                    Navigation Guards
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.2" data-path="meta.html">
+            
+                <a href="meta.html">
+            
+                    
+                    Route Meta Fields
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.3" data-path="transitions.html">
+            
+                <a href="transitions.html">
+            
+                    
+                    Transitions
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.4" data-path="data-fetching.html">
+            
+                <a href="data-fetching.html">
+            
+                    
+                    Data Fetching
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.5" data-path="scroll-behavior.html">
+            
+                <a href="scroll-behavior.html">
+            
+                    
+                    Scroll Behavior
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.6" data-path="lazy-loading.html">
+            
+                <a href="lazy-loading.html">
+            
+                    
+                    Lazy Loading
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5" >
+            
+                <span>
+            
+                    
+                    API Reference
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.5.1" data-path="../api/options.html">
+            
+                <a href="../api/options.html">
+            
+                    
+                    Router Constructor Options
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.5.1.1" data-path="../api/options.html">
+            
+                <a href="../api/options.html#routes">
+            
+                    
+                    routes
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.1.2" data-path="../api/options.html">
+            
+                <a href="../api/options.html#mode">
+            
+                    
+                    mode
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.1.3" data-path="../api/options.html">
+            
+                <a href="../api/options.html#base">
+            
+                    
+                    base
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.1.4" data-path="../api/options.html">
+            
+                <a href="../api/options.html#linkactiveclass">
+            
+                    
+                    linkActiveClass
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.1.5" data-path="../api/options.html">
+            
+                <a href="../api/options.html#linkexactactiveclass">
+            
+                    
+                    linkExactActiveClass
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.1.6" data-path="../api/options.html">
+            
+                <a href="../api/options.html#scrollbehavior">
+            
+                    
+                    scrollBehavior
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.1.7" data-path="../api/options.html">
+            
+                <a href="../api/options.html#parsequery--stringifyquery">
+            
+                    
+                    parseQuery / stringifyQuery
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.1.8" data-path="../api/options.html">
+            
+                <a href="../api/options.html#fallback">
+            
+                    
+                    fallback
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.2" data-path="../api/router-instance.html">
+            
+                <a href="../api/router-instance.html">
+            
+                    
+                    The Router Instance
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.5.2.1" data-path="../api/router-instance.html">
+            
+                <a href="../api/router-instance.html#properties">
+            
+                    
+                    Properties
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.2.2" data-path="../api/router-instance.html">
+            
+                <a href="../api/router-instance.html#methods">
+            
+                    
+                    Methods
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.3" data-path="../api/route-object.html">
+            
+                <a href="../api/route-object.html">
+            
+                    
+                    The Route Object
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.4" data-path="../api/component-injections.html">
+            
+                <a href="../api/component-injections.html">
+            
+                    
+                    Component Injections
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.5" data-path="../api/router-link.html">
+            
+                <a href="../api/router-link.html">
+            
+                    
+                    router-link
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.6" data-path="../api/router-view.html">
+            
+                <a href="../api/router-view.html">
+            
+                    
+                    router-view
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+    
+
+    <li class="divider"></li>
+
+    <li>
+        <a href="https://www.gitbook.com" target="blank" class="gitbook-link">
+            Published with GitBook
+        </a>
+    </li>
+</ul>
+
+
+
+                </nav>
+            
+        
+    </div>
+
+    <div class="book-body">
+        
+            <div class="body-inner">
+                
+  
+                    
+
+<div class="book-header" role="navigation">
+    
+
+    <!-- Title -->
+    <h1>
+        <i class="fa fa-circle-o-notch fa-spin"></i>
+        <a href=".." >Navigation Guards</a>
+    </h1>
+</div>
+
+
+
+
+                    <div class="page-wrapper" tabindex="-1" role="main">
+                        <div class="page-inner">
+                            
+<div id="book-search-results">
+    <div class="search-noresults">
+    
+                                <section class="normal markdown-section">
+                                
+                                <h1 id="navigation-guards">Navigation Guards</h1>
+<p>As the name suggests, the navigation guards provided by <code>vue-router</code> are primarily used to guard navigations either by redirecting it or canceling it. There are a number of ways to hook into the route navigation process: globally, per-route, or in-component.</p>
+<p>Remember that <strong>params or query changes won&apos;t trigger enter/leave navigation guards</strong>. You can either <a href="../essentials/dynamic-matching.html#reacting-to-params-changes">watch the <code>$route</code> object</a> to react to those changes, or use the <code>beforeRouteUpdate</code> in-component guard.</p>
+<h3 id="global-guards">Global Guards</h3>
+<p>You can register global before guards using <code>router.beforeEach</code>:</p>
+<pre><code class="lang-js"><span class="hljs-keyword">const</span> router = <span class="hljs-keyword">new</span> VueRouter({ ... })
+
+router.beforeEach((to, <span class="hljs-keyword">from</span>, next) =&gt; {
+  <span class="hljs-comment">// ...</span>
+})
+</code></pre>
+<p>Global before guards are called in creation order, whenever a navigation is triggered. Guards may be resolved asynchronously, and the navigation is considered <strong>pending</strong> before all hooks have been resolved.</p>
+<p>Every guard function receives three arguments:</p>
+<ul>
+<li><p><strong><code>to: Route</code></strong>: the target <a href="../api/route-object.html">Route Object</a> being navigated to.</p>
+</li>
+<li><p><strong><code>from: Route</code></strong>: the current route being navigated away from.</p>
+</li>
+<li><p><strong><code>next: Function</code></strong>: this function must be called to <strong>resolve</strong> the hook. The action depends on the arguments provided to <code>next</code>:</p>
+<ul>
+<li><p><strong><code>next()</code></strong>: move on to the next hook in the pipeline. If no hooks are left, the navigation is <strong>confirmed</strong>.</p>
+</li>
+<li><p><strong><code>next(false)</code></strong>: abort the current navigation. If the browser URL was changed (either manually by the user or via back button), it will be reset to that of the <code>from</code> route.</p>
+</li>
+<li><p><strong><code>next(&apos;/&apos;)</code> or <code>next({ path: &apos;/&apos; })</code></strong>: redirect to a different location. The current navigation will be aborted and a new one will be started. You can pass any location object to <code>next</code>, which allows you to specify options like <code>replace: true</code>, <code>name: &apos;home&apos;</code> and any option used in <a href="../api/router-link.html"><code>router-link</code>&apos;s <code>to</code> prop</a> or <a href="../api/router-instance.html#methods"><code>router.push</code></a></p>
+</li>
+<li><p><strong><code>next(error)</code></strong>: (2.4.0+) if the argument passed to <code>next</code> is an instance of <code>Error</code>, the navigation will be aborted and the error will be passed to callbacks registered via <a href="../api/router-instance.html#methods"><code>router.onError()</code></a>.</p>
+</li>
+</ul>
+</li>
+</ul>
+<p><strong>Make sure to always call the <code>next</code> function, otherwise the hook will never be resolved.</strong></p>
+<h3 id="global-resolve-guards">Global Resolve Guards</h3>
+<blockquote>
+<p>New in 2.5.0</p>
+</blockquote>
+<p>In 2.5.0+ you can register a global guard with <code>router.beforeResolve</code>. This is similar to <code>router.beforeEach</code>, with the difference that resolve guards will be called right before the navigation is confirmed, <strong>after all in-component guards and async route components are resolved</strong>.</p>
+<h3 id="global-after-hooks">Global After Hooks</h3>
+<p>You can also register global after hooks, however unlike guards, these hooks do not get a <code>next</code> function and cannot affect the navigation:</p>
+<pre><code class="lang-js">router.afterEach((to, <span class="hljs-keyword">from</span>) =&gt; {
+  <span class="hljs-comment">// ...</span>
+})
+</code></pre>
+<h3 id="per-route-guard">Per-Route Guard</h3>
+<p>You can define <code>beforeEnter</code> guards directly on a route&apos;s configuration object:</p>
+<pre><code class="lang-js"><span class="hljs-keyword">const</span> router = <span class="hljs-keyword">new</span> VueRouter({
+  routes: [
+    {
+      path: <span class="hljs-string">&apos;/foo&apos;</span>,
+      component: Foo,
+      beforeEnter: (to, <span class="hljs-keyword">from</span>, next) =&gt; {
+        <span class="hljs-comment">// ...</span>
+      }
+    }
+  ]
+})
+</code></pre>
+<p>These guards have the exact same signature as global before guards.</p>
+<h3 id="in-component-guards">In-Component Guards</h3>
+<p>Finally, you can directly define route navigation guards inside route components (the ones passed to the router configuration) with the following options:</p>
+<ul>
+<li><code>beforeRouteEnter</code></li>
+<li><code>beforeRouteUpdate</code> (added in 2.2+)</li>
+<li><code>beforeRouteLeave</code></li>
+</ul>
+<pre><code class="lang-js"><span class="hljs-keyword">const</span> Foo = {
+  template: <span class="hljs-string">`...`</span>,
+  beforeRouteEnter (to, <span class="hljs-keyword">from</span>, next) {
+    <span class="hljs-comment">// called before the route that renders this component is confirmed.</span>
+    <span class="hljs-comment">// does NOT have access to `this` component instance,</span>
+    <span class="hljs-comment">// because it has not been created yet when this guard is called!</span>
+  },
+  beforeRouteUpdate (to, <span class="hljs-keyword">from</span>, next) {
+    <span class="hljs-comment">// called when the route that renders this component has changed,</span>
+    <span class="hljs-comment">// but this component is reused in the new route.</span>
+    <span class="hljs-comment">// For example, for a route with dynamic params `/foo/:id`, when we</span>
+    <span class="hljs-comment">// navigate between `/foo/1` and `/foo/2`, the same `Foo` component instance</span>
+    <span class="hljs-comment">// will be reused, and this hook will be called when that happens.</span>
+    <span class="hljs-comment">// has access to `this` component instance.</span>
+  },
+  beforeRouteLeave (to, <span class="hljs-keyword">from</span>, next) {
+    <span class="hljs-comment">// called when the route that renders this component is about to</span>
+    <span class="hljs-comment">// be navigated away from.</span>
+    <span class="hljs-comment">// has access to `this` component instance.</span>
+  }
+}
+</code></pre>
+<p>The <code>beforeRouteEnter</code> guard does <strong>NOT</strong> have access to <code>this</code>, because the guard is called before the navigation is confirmed, thus the new entering component has not even been created yet.</p>
+<p>However, you can access the instance by passing a callback to <code>next</code>. The callback will be called when the navigation is confirmed, and the component instance will be passed to the callback as the argument:</p>
+<pre><code class="lang-js">beforeRouteEnter (to, <span class="hljs-keyword">from</span>, next) {
+  next(vm =&gt; {
+    <span class="hljs-comment">// access to component instance via `vm`</span>
+  })
+}
+</code></pre>
+<p>Note that <code>beforeRouteEnter</code> is the only guard that supports passing a callback to <code>next</code>. For <code>beforeRouteUpdate</code> and <code>beforeRouteLeave</code>, <code>this</code> is already available, so passing a callback is unnecessary and therefore <em>not supported</em>:</p>
+<pre><code class="lang-js">beforeRouteUpdate (to, <span class="hljs-keyword">from</span>, next) {
+  <span class="hljs-comment">// just use `this`</span>
+  <span class="hljs-keyword">this</span>.name = to.params.name
+  next()
+}
+</code></pre>
+<p>The <strong>leave guard</strong> is usually used to prevent the user from accidentally leaving the route with unsaved edits. The navigation can be canceled by calling <code>next(false)</code>.</p>
+<pre><code class="lang-js">beforeRouteLeave (to, <span class="hljs-keyword">from</span> , next) {
+  <span class="hljs-keyword">const</span> answer = <span class="hljs-built_in">window</span>.confirm(<span class="hljs-string">&apos;Do you really want to leave? you have unsaved changes!&apos;</span>)
+  <span class="hljs-keyword">if</span> (answer) {
+    next()
+  } <span class="hljs-keyword">else</span> {
+    next(<span class="hljs-literal">false</span>)
+  }
+}
+</code></pre>
+<h3 id="the-full-navigation-resolution-flow">The Full Navigation Resolution Flow</h3>
+<ol>
+<li>Navigation triggered.</li>
+<li>Call leave guards in deactivated components.</li>
+<li>Call global <code>beforeEach</code> guards.</li>
+<li>Call <code>beforeRouteUpdate</code> guards in reused components (2.2+).</li>
+<li>Call <code>beforeEnter</code> in route configs.</li>
+<li>Resolve async route components.</li>
+<li>Call <code>beforeRouteEnter</code> in activated components.</li>
+<li>Call global <code>beforeResolve</code> guards (2.5+).</li>
+<li>Navigation confirmed.</li>
+<li>Call global <code>afterEach</code> hooks.</li>
+<li>DOM updates triggered.</li>
+<li>Call callbacks passed to <code>next</code> in <code>beforeRouteEnter</code> guards with instantiated instances.</li>
+</ol>
+
+                                
+                                </section>
+                            
+    </div>
+    <div class="search-results">
+        <div class="has-results">
+            
+            <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+            <ul class="search-results-list"></ul>
+            
+        </div>
+        <div class="no-results">
+            
+            <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+            
+        </div>
+    </div>
+</div>
+
+                        </div>
+                    </div>
+                
+  <script src="//m.servedby-buysellads.com/monetization.js" type="text/javascript"></script>
+  <div class="bsa-cpc"></div>
+  <script>
+    (function(){
+      if(typeof _bsa !== 'undefined' && _bsa) {
+      _bsa.init('default', 'CKYD62QM', 'placement:vuejsorg', {
+        target: '.bsa-cpc',
+        align: 'horizontal',
+        disable_css: 'true'
+      });
+        }
+    })();
+  </script>
+
+            </div>
+
+            
+                
+                
+                <a href="meta.html" class="navigation navigation-next navigation-unique" aria-label="Next page: Route Meta Fields">
+                    <i class="fa fa-angle-right"></i>
+                </a>
+                
+            
+        
+    </div>
+
+    <script>
+        var gitbook = gitbook || [];
+        gitbook.push(function() {
+            gitbook.page.hasChanged({"page":{"title":"Navigation Guards","level":"1.4.1","depth":2,"next":{"title":"Route Meta Fields","level":"1.4.2","depth":2,"path":"advanced/meta.md","ref":"advanced/meta.md","articles":[]},"previous":{"title":"Advanced","level":"1.4","depth":1,"ref":"","articles":[{"title":"Navigation Guards","level":"1.4.1","depth":2,"path":"advanced/navigation-guards.md","ref":"advanced/navigation-guards.md","articles":[]},{"title":"Route Meta Fields","level":"1.4.2","depth":2,"path":"advanced/meta.md","ref":"advanced/meta.md","articles":[]},{"title":"Transitions","level":"1.4.3","depth":2,"path":"advanced/transitions.md","ref":"advanced/transitions.md","articles":[]},{"title":"Data Fetching","level":"1.4.4","depth":2,"path":"advanced/data-fetching.md","ref":"advanced/data-fetching.md","articles":[]},{"title":"Scroll Behavior","level":"1.4.5","depth":2,"path":"advanced/scroll-behavior.md","ref":"advanced/scroll-behavior.md","articles":[]},{"title":"Lazy Loading","level":"1.4.6","depth":2,"path":"advanced/lazy-loading.md","ref":"advanced/lazy-loading.md","articles":[]}]},"dir":"ltr"},"config":{"plugins":["edit-link","theme-vuejs","-fontsettings","github"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"edit-link":{"label":"Edit This Page","base":"https://github.com/vuejs/vue-router/edit/dev/docs"},"github":{"url":"https://github.com/vuejs/vue-router/"},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":false,"twitter":false,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-vuejs":{},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"vue-router","language":"en","links":{"sharing":{"facebook":false,"twitter":false}},"gitbook":"*"},"file":{"path":"advanced/navigation-guards.md","mtime":"2018-01-12T18:38:00.000Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-03-23T22:35:25.582Z"},"basePath":"..","book":{"language":"en"}});
+        });
+    </script>
+</div>
+
+        
+    <script src="../../gitbook/gitbook.js"></script>
+    <script src="../../gitbook/theme.js"></script>
+    
+        
+        <script src="../../gitbook/gitbook-plugin-edit-link/plugin.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-github/plugin.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-search/search-engine.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-search/search.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-lunr/lunr.min.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-lunr/search-lunr.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-sharing/buttons.js"></script>
+        
+    
+
+    </body>
+</html>
+
