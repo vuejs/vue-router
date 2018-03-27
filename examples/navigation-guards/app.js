@@ -33,7 +33,7 @@ const Baz = {
   },
   template: `
     <div>
-      <p>baz ({{ saved ? 'saved' : 'not saved' }})<p>
+      <p>baz ({{ saved ? 'saved' : 'not saved' }})</p>
       <button @click="saved = true">save</button>
     </div>
   `,
