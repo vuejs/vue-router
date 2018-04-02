@@ -105,7 +105,7 @@ const route: Route = router.currentRoute;
 const path: string = route.path;
 const name: string | undefined = route.name;
 const hash: string = route.hash;
-const query: string = route.query["foo"];
+const query: string | string[] = route.query["foo"];
 const params: string = route.params["bar"];
 const fullPath: string = route.fullPath;
 const redirectedFrom: string | undefined = route.redirectedFrom;
@@ -148,7 +148,8 @@ router.push({
     foo: "foo"
   },
   query: {
-    bar: "bar"
+    bar: "bar",
+    foo: ["foo1", "foo2"]
   },
   hash: "hash"
 });

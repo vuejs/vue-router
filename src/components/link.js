@@ -39,17 +39,17 @@ export default {
     const globalExactActiveClass = router.options.linkExactActiveClass
     // Support global empty active class
     const activeClassFallback = globalActiveClass == null
-            ? 'router-link-active'
-            : globalActiveClass
+      ? 'router-link-active'
+      : globalActiveClass
     const exactActiveClassFallback = globalExactActiveClass == null
-            ? 'router-link-exact-active'
-            : globalExactActiveClass
-    const activeClass = props.activeClass == null
-            ? activeClassFallback
-            : props.activeClass
-    const exactActiveClass = props.exactActiveClass == null
-            ? exactActiveClassFallback
-            : props.exactActiveClass
+      ? 'router-link-exact-active'
+      : globalExactActiveClass
+    const activeClass = this.activeClass == null
+      ? activeClassFallback
+      : this.activeClass
+    const exactActiveClass = this.exactActiveClass == null
+      ? exactActiveClassFallback
+      : this.exactActiveClass
     const compareTarget = location.path
       ? createRoute(null, location, null, router)
       : route

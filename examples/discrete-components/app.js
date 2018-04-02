@@ -30,7 +30,7 @@ const BaseVue = Vue.extend({ router })
 // and bound on multiple *independent* nodes (eg. one Vue instance
 // per node); but the router should act as a singleton and keep all
 // instances in sync.
-document.querySelectorAll('.app').forEach((node) => {
+Array.prototype.forEach.call(document.querySelectorAll('.app'), (node) => {
   new BaseVue({
     el: node
   })

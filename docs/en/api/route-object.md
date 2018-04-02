@@ -87,3 +87,7 @@ The route object can be found in multiple places:
 - **$route.name**
 
   The name of the current route, if it has one. (See [Named Routes](../essentials/named-routes.md))
+
+- **$route.redirectedFrom**
+
+  The name of the route being redirected from, if there were one. (See [Redirect and Alias](../essentials/redirect-and-alias.md))

@@ -47,7 +47,7 @@ Cuando _props_ tiene asignado el valor true, `route.params` serán asignados com
 ### Modo objeto
 
 Cuando _props_ es un objeto, este será asignado tal cual como las _props_ del componente.
-Úitl para cuando las _props_ son estáticas.
+Útil para cuando las _props_ son estáticas.
 
 ``` js
 const router = new VueRouter({

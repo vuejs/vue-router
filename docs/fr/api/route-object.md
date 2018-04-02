@@ -87,3 +87,7 @@ L'objet `Route` peut être trouvé à plusieurs endroits :
 - **$route.name**
 
   Le nom de la route courante, si elle en a un. (Voir [Routes nommées](../essentials/named-routes.md)).
+
+- **$route.redirectedFrom**
+
+  Le nom de la route d'où la page a été redirigée, si elle en a un. (Voir [Redirection et alias](../essentials/redirect-and-alias.md)).

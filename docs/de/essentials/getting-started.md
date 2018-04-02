@@ -55,7 +55,7 @@ const router = new VueRouter({
   routes // kurz für 'routes: routes'
 })
 
-// 4. Ertelle und mounte die Root-Instanz.
+// 4. Erstelle und mounte die Root-Instanz.
 // Stelle sicher, dass der Router mit der `router` option an die Root Instanz übergeben wird, damit er später überall in deiner App zur Verfügung steht.
 
 const app = new Vue({

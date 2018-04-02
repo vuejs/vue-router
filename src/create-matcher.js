@@ -77,8 +77,8 @@ export function createMatcher (
   ): Route {
     const originalRedirect = record.redirect
     let redirect = typeof originalRedirect === 'function'
-        ? originalRedirect(createRoute(record, location, null, router))
-        : originalRedirect
+      ? originalRedirect(createRoute(record, location, null, router))
+      : originalRedirect
 
     if (typeof redirect === 'string') {
       redirect = { path: redirect }
