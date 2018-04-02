@@ -44,12 +44,12 @@ export default {
     const exactActiveClassFallback = globalExactActiveClass == null
       ? 'router-link-exact-active'
       : globalExactActiveClass
-    const activeClass = this.activeClass == null
+    const activeClass = props.activeClass == null
       ? activeClassFallback
-      : this.activeClass
-    const exactActiveClass = this.exactActiveClass == null
+      : props.activeClass
+    const exactActiveClass = props.exactActiveClass == null
       ? exactActiveClassFallback
-      : this.exactActiveClass
+      : props.exactActiveClass
     const compareTarget = location.path
       ? createRoute(null, location, null, router)
       : route
