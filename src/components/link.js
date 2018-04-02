@@ -1,6 +1,7 @@
 /* @flow */
 
 import { createRoute, isSameRoute, isIncludedRoute } from '../util/route'
+import { assign } from '../util/location'
 import { _Vue } from '../install'
 
 // work around weird flow bug
@@ -31,7 +32,8 @@ export default {
   render (h: Function) {
     const router = this.$router
     const current = this.$route
-    const { location, route, href } = router.resolve(this.to, current, this.append)
+    const to = typeof this.to === 'string' ? this.to : assign({}, this.to) // Fix bug #1572
+    const { location, route, href } = router.resolve(to, current, this.append)
 
     const classes = {}
     const globalActiveClass = router.options.linkActiveClass
