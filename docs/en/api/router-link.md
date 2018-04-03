@@ -136,3 +136,13 @@ Sometimes we may want the active class to be applied to an outer element rather 
 ```
 
 In this case the `<a>` will be the actual link (and will get the correct `href`), but the active class will be applied to the outer `<li>`.
+
+### Using `@click` with `<router-link>`
+
+Sometimes we want to use a `<router-link>` component to benefit from its visited state or other things but manually handle the `@click`. In these cases, you can use the `.native` modifier, for example:
+
+```html
+<router-link @click.native="doTheThing" to="/foo">
+  /foo
+</router-link>
+```
