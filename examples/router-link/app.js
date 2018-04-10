@@ -20,10 +20,14 @@ const router = new VueRouter({
   routes: [
     { path: '/', component: Home },
     { path: '/other', component: Home },
-    { path: '/sub/:id', component: Sub, children: [
-      { path: 'nested1', component: SubNested, name: 'sub1' },
-      { path: 'nested2', component: SubNested, name: 'sub2' }
-    ]}
+    {
+      path: '/sub/:id',
+      component: Sub,
+      children: [
+        { path: 'nested1', component: SubNested, name: 'sub1' },
+        { path: 'nested2', component: SubNested, name: 'sub2' }
+      ]
+    }
   ]
 })
 
