@@ -16,7 +16,7 @@ router.beforeEach((to, from, next) => {
 })
 ```
 
-Globale Before-Guards werden in der Reihenfolge aufgerufen, in der sie registriert wurden, wann immer eine Navigation ausgelöst wird. Der guard lann auch auch asynchron beendet werden - die Navigation ist solange im Status **pending**, bis alle bearbeitet wurden.
+Globale Before-Guards werden in der Reihenfolge aufgerufen, in der sie registriert wurden, wann immer eine Navigation ausgelöst wird. Der guard kann auch auch asynchron beendet werden - die Navigation ist solange im Status **pending**, bis alle bearbeitet wurden.
 
 Jede Guard Funktion erhält drei Argumente:
 
