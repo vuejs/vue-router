@@ -8,7 +8,7 @@ const Foo = { template: '<div>foo</div>' }
 const Bar = { template: '<div>bar</div>' }
 
 /**
- * Signatre of all route guards:
+ * Signature of all route guards:
  * @param {Route} to
  * @param {Route} from
  * @param {Function} next
