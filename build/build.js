@@ -9,7 +9,7 @@ if (!fs.existsSync('dist')) {
   fs.mkdirSync('dist')
 }
 
-build(Object.keys(configs).map(key => configs[key]))
+build(configs)
 
 function build (builds) {
   let built = 0
@@ -32,7 +32,7 @@ function buildEntry ({ input, output }) {
     .then(bundle => bundle.generate(output))
     .then(({ code }) => {
       if (isProd) {
-        var minified = uglify.minify(code, {
+        const minified = uglify.minify(code, {
           output: {
             preamble: output.banner,
             /* eslint-disable camelcase */
