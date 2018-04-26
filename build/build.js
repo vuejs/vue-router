@@ -9,7 +9,7 @@ if (!fs.existsSync('dist')) {
   fs.mkdirSync('dist')
 }
 
-build(Object.keys(configs).map(key => configs[key]))
+build(configs)
 
 function build (builds) {
   let built = 0
