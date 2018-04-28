@@ -8,12 +8,14 @@
   "module": "dist/vue-router.esm.js",
   "unpkg": "dist/vue-router.js",
   "jsdelivr": "dist/vue-router.js",
+  "sideEffects": false,
   "repository": {
     "type": "git",
     "url": "https://github.com/vuejs/vue-router.git"
   },
   "typings": "types/index.d.ts",
   "files": [
+    "src/*.js",
     "dist/*.js",
     "types/*.d.ts"
   ],
