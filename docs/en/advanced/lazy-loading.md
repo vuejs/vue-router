@@ -45,3 +45,52 @@ const Baz = () => import(/* webpackChunkName: "group-foo" */ './Baz.vue')
 ```
 
 webpack will group any async module with the same chunk name into the same async chunk.
+
+### Handling Loading State
+
+Async component factories can also [return an object](https://vuejs.org/v2/guide/components-dynamic-async.html#Handling-Loading-State), specifying alternative components to use when loading or if an error occurs. This is a great way to improve user experience on slow or intermittent connections.
+
+Unfortunately, routes can currently only resolve to a single component in Vue Router. So to make this work, you'll need a helper function to create an intermediary component, like this:
+
+```js
+function lazyLoadView (AsyncView) {
+  const AsyncHandler = () => ({
+    component: AsyncView,
+    // A component to use while the component is loading.
+    loading: require('./Loading.vue').default,
+    // A fallback component in case the timeout is exceeded
+    // when loading the component.
+    error: require('./Timeout.vue').default,
+    // Delay before showing the loading component.
+    // Default: 200 (milliseconds).
+    delay: 400,
+    // Time before giving up trying to load the component.
+    // Default: Infinity (milliseconds).
+    timeout: 10000
+  })
+
+  return Promise.resolve({
+    functional: true,
+    render (h, { data, children }) {
+      // Transparently pass any props or children
+      // to the view component.
+      return h(AsyncHandler, data, children)
+    }
+  })
+}
+```
+
+Then you can pass the `import()` to `lazyLoadView` for smarter, lazy-loaded view components:
+
+```js
+const router = new VueRouter({
+  routes: [
+    {
+      path: '/foo',
+      component: () => lazyLoadView(import('./Foo.vue'))
+    }
+  ]
+})
+```
+
+> WARNING: Components loaded with this strategy will **not** have access to in-component guards, such as `beforeRouteEnter`, `beforeRouteUpdate`, and `beforeRouteLeave`. If you need to use these, you must either use route-level guards instead or lazy-load the component directly, without handling loading state.
