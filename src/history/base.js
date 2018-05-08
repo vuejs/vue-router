@@ -112,13 +112,15 @@ export class History {
       activated
     } = resolveQueue(this.current.matched, route.matched)
 
+    const postCbs = []
+    const isValid = () => this.current === route
     const queue: Array<?NavigationGuard> = [].concat(
       // in-component leave guards
       extractLeaveGuards(deactivated),
       // global before hooks
       this.router.beforeHooks,
       // in-component update hooks
-      extractUpdateHooks(updated),
+      extractUpdateHooks(updated, postCbs, isValid),
       // in-config enter guards
       activated.map(m => m.beforeEnter),
       // async components
@@ -161,11 +163,9 @@ export class History {
     }
 
     runQueue(queue, iterator, () => {
-      const postEnterCbs = []
-      const isValid = () => this.current === route
       // wait until async components are resolved before
       // extracting in-component enter guards
-      const enterGuards = extractEnterGuards(activated, postEnterCbs, isValid)
+      const enterGuards = extractEnterGuards(activated, postCbs, isValid)
       const queue = enterGuards.concat(this.router.resolveHooks)
       runQueue(queue, iterator, () => {
         if (this.pending !== route) {
@@ -175,7 +175,7 @@ export class History {
         onComplete(route)
         if (this.router.app) {
           this.router.app.$nextTick(() => {
-            postEnterCbs.forEach(cb => { cb() })
+            postCbs.forEach(cb => { cb() })
           })
         }
       })
@@ -266,10 +266,6 @@ function extractLeaveGuards (deactivated: Array<RouteRecord>): Array<?Function> 
   return extractGuards(deactivated, 'beforeRouteLeave', bindGuard, true)
 }
 
-function extractUpdateHooks (updated: Array<RouteRecord>): Array<?Function> {
-  return extractGuards(updated, 'beforeRouteUpdate', bindGuard)
-}
-
 function bindGuard (guard: NavigationGuard, instance: ?_Vue): ?NavigationGuard {
   if (instance) {
     return function boundRouteGuard () {
@@ -278,24 +274,37 @@ function bindGuard (guard: NavigationGuard, instance: ?_Vue): ?NavigationGuard {
   }
 }
 
+function extractUpdateHooks (
+  updated: Array<RouteRecord>,
+  cbs: Array<Function>,
+  isValid: () => boolean
+): Array<?Function> {
+  return extractGuards(updated, 'beforeRouteUpdate', (guard, instance, match, key) => {
+    var boundGuard = bindGuard(guard, instance)
+    if (boundGuard) {
+      return bindCbGuard(boundGuard, match, key, cbs, isValid)
+    }
+  })
+}
+
 function extractEnterGuards (
   activated: Array<RouteRecord>,
   cbs: Array<Function>,
   isValid: () => boolean
 ): Array<?Function> {
   return extractGuards(activated, 'beforeRouteEnter', (guard, _, match, key) => {
-    return bindEnterGuard(guard, match, key, cbs, isValid)
+    return bindCbGuard(guard, match, key, cbs, isValid)
   })
 }
 
-function bindEnterGuard (
+function bindCbGuard (
   guard: NavigationGuard,
   match: RouteRecord,
   key: string,
   cbs: Array<Function>,
   isValid: () => boolean
 ): NavigationGuard {
-  return function routeEnterGuard (to, from, next) {
+  return function (to, from, next) {
     return guard(to, from, cb => {
       next(cb)
       if (typeof cb === 'function') {
