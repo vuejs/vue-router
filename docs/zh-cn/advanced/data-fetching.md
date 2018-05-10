@@ -48,7 +48,7 @@ export default {
     this.fetchData()
   },
   watch: {
-    // 如果路由有变化，会再次执行该方法
+    // 如果路由有变化，会再次执行该方法 (HTML5 History 模式下)
     '$route': 'fetchData'
   },
   methods: {
