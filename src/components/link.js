@@ -19,10 +19,12 @@ export default {
       default: 'a'
     },
     exact: Boolean,
+    exactPath: Boolean,
     append: Boolean,
     replace: Boolean,
     activeClass: String,
     exactActiveClass: String,
+    exactPathActiveClass: String,
     event: {
       type: eventTypes,
       default: 'click'
@@ -36,6 +38,7 @@ export default {
     const classes = {}
     const globalActiveClass = router.options.linkActiveClass
     const globalExactActiveClass = router.options.linkExactActiveClass
+    const globalExactPathActiveClass = router.options.linkExactPathActiveClass
     // Support global empty active class
     const activeClassFallback = globalActiveClass == null
       ? 'router-link-active'
@@ -43,20 +46,29 @@ export default {
     const exactActiveClassFallback = globalExactActiveClass == null
       ? 'router-link-exact-active'
       : globalExactActiveClass
+    const exactPathActiveClassFallback = globalExactPathActiveClass == null
+      ? 'router-link-exact-path-active'
+      : globalExactPathActiveClass
     const activeClass = this.activeClass == null
       ? activeClassFallback
       : this.activeClass
     const exactActiveClass = this.exactActiveClass == null
       ? exactActiveClassFallback
       : this.exactActiveClass
+    const exactPathActiveClass = this.exactPathActiveClass == null
+      ? exactPathActiveClassFallback
+      : this.exactPathActiveClass
     const compareTarget = location.path
       ? createRoute(null, location, null, router)
       : route
 
+    classes[exactPathActiveClass] = this.exactPath && isSameRoute(current, compareTarget, true)
     classes[exactActiveClass] = isSameRoute(current, compareTarget)
     classes[activeClass] = this.exact
       ? classes[exactActiveClass]
-      : isIncludedRoute(current, compareTarget)
+      : this.exactPath
+        ? classes[exactPathActiveClass]
+        : isIncludedRoute(current, compareTarget)
 
     const handler = e => {
       if (guardEvent(e)) {

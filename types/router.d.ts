@@ -53,6 +53,7 @@ export interface RouterOptions {
   base?: string;
   linkActiveClass?: string;
   linkExactActiveClass?: string;
+  linkExactPathActiveClass?: string;
   parseQuery?: (query: string) => Object;
   stringifyQuery?: (query: Object) => string;
   scrollBehavior?: (

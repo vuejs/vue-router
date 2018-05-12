@@ -42,6 +42,7 @@ new Vue({
 
         <li><router-link to="/users">/users</router-link></li>
         <li><router-link to="/users" exact>/users (exact match)</router-link></li>
+        <li><router-link to="/users?foo=bar" exact-path>/users?foo=bar (exact path match)</router-link></li>
 
         <li><router-link to="/users/evan">/users/evan</router-link></li>
         <li><router-link to="/users/evan#foo">/users/evan#foo</router-link></li>
@@ -58,6 +59,11 @@ new Vue({
         <li>
           <router-link :to="{ path: '/users/evan', query: { foo: 'bar', baz: 'qux' }}">
             /users/evan?foo=bar&baz=qux
+          </router-link>
+        </li>
+        <li>
+          <router-link :to="{ name: 'user', params: { username: 'evan' }, query: { baz: 'qux' }}" exact-path>
+            /users/evan?baz=qux (named view + exact path match)
           </router-link>
         </li>
 

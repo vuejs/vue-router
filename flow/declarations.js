@@ -36,6 +36,7 @@ declare type RouterOptions = {
   fallback?: boolean;
   base?: string;
   linkActiveClass?: string;
+  linkExactPathActiveClass?: string;
   parseQuery?: (query: string) => Object;
   stringifyQuery?: (query: Object) => string;
   scrollBehavior?: (

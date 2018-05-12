@@ -131,6 +131,30 @@ In this case the `<a>` will be the actual link (and will get the correct `href`)
 
   Configure the active CSS class applied when the link is active with exact match. Note the default value can also be configured globally via the `linkExactActiveClass` router constructor option.
 
+### exact-path
+
+- type: `boolean`
+- default: `false`
+
+  The exact active class matching behavior is **strict match**. For example, `<router-link to="/a" exact>` will get this class applied as long as the current path is `/a`.
+
+  One consequence of this is that `<router-link to="/a" exact>` won't be active when the query parameters do not match. To force the link into "exact path match mode", use the `exact-path` prop:
+  
+  ```html
+  <!-- this link will also be active at `/a?page=2` or `/a#foo` -->
+  <router-link to="/a" exact-path> 
+  ```
+  
+  This is useful when using pagination 
+
+### exact-path-active-class
+
+- type: `string`
+- default: `"router-link-exact-path-active"`
+
+  Configure the active CSS class applied when the link is active with exact path match. Note the default value can also be configured globally via the `linkExactPathActiveClass` router constructor option.
+
+
 ## `<router-view>`
 
 The `<router-view>` component is a functional component that renders the matched component for the given path. Components rendered in `<router-view>` can also contain its own `<router-view>`, which will render components for nested paths.
@@ -259,6 +283,15 @@ Since it's just a component, it works with `<transition>` and `<keep-alive>`. Wh
   Controls whether the router should fallback to `hash` mode when the browser does not support `history.pushState` but mode is set to `history`.
 
   Setting this to `false` essentially makes every `router-link` navigation a full page refresh in IE9. This is useful when the app is server-rendered and needs to work in IE9, because a hash mode URL does not work with SSR.
+
+### linkExactPathActiveClass
+
+- type: `string`
+
+- default: `"router-link-exact-path-active"`
+
+  Globally configure `<router-link>` default active class for exact path matches. Also see [router-link](router-link.md).
+
 
 ## Router Instance Properties
 
