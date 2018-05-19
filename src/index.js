@@ -1,7 +1,7 @@
 /* @flow */
 
 import { install } from './install'
-import { START } from './util/route'
+import { START, getMatchedRouteExternal } from './util/route'
 import { assert } from './util/warn'
 import { inBrowser } from './util/dom'
 import { cleanPath } from './util/path'
@@ -195,7 +195,10 @@ export default class VueRouter {
     const route = this.match(location, current)
     const fullPath = route.redirectedFrom || route.fullPath
     const base = this.history.base
-    const href = createHref(base, fullPath, this.mode)
+    const external = getMatchedRouteExternal(route)
+    const href = external
+      ? external + cleanPath(fullPath)
+      : createHref(base, fullPath, this.mode)
     return {
       location,
       route,

@@ -53,6 +53,7 @@ export interface RouterOptions {
   base?: string;
   linkActiveClass?: string;
   linkExactActiveClass?: string;
+  linkExternalTargetAttribute?: string;
   parseQuery?: (query: string) => Object;
   stringifyQuery?: (query: Object) => string;
   scrollBehavior?: (
@@ -101,6 +102,7 @@ export interface RouteRecord {
     next: () => void
   ) => any;
   props: boolean | Object | RoutePropsFunction | Dictionary<boolean | Object | RoutePropsFunction>;
+  external?: string;
 }
 
 export interface Location {

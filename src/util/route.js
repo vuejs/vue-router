@@ -122,6 +122,10 @@ export function isIncludedRoute (current: Route, target: Route): boolean {
   )
 }
 
+export function getMatchedRouteExternal (route: Route): ?string {
+  return route.matched.length > 0 ? route.matched[route.matched.length - 1].external : undefined
+}
+
 function queryIncludes (current: Dictionary<string>, target: Dictionary<string>): boolean {
   for (const key in target) {
     if (!(key in current)) {

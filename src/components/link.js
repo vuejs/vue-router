@@ -1,6 +1,6 @@
 /* @flow */
 
-import { createRoute, isSameRoute, isIncludedRoute } from '../util/route'
+import { createRoute, isSameRoute, isIncludedRoute, getMatchedRouteExternal } from '../util/route'
 import { _Vue } from '../install'
 
 // work around weird flow bug
@@ -68,20 +68,37 @@ export default {
       }
     }
 
-    const on = { click: guardEvent }
+    let on = { click: guardEvent }
     if (Array.isArray(this.event)) {
-      this.event.forEach(e => { on[e] = handler })
+      this.event.forEach(e => {
+        on[e] = handler
+      })
     } else {
       on[this.event] = handler
+    }
+
+    const attrs: any = { href }
+
+    const external = getMatchedRouteExternal(route)
+    if (external) {
+      on = {}
+      const globalTarget = router.options.linkExternalTargetAttribute
+      attrs.target = globalTarget == null
+        ? '_blank'
+        : globalTarget
+      if (attrs.target === '_blank') {
+        attrs.rel = 'noopener'
+      }
     }
 
     const data: any = {
       class: classes
     }
+    let children = this.$slots.default
 
     if (this.tag === 'a') {
       data.on = on
-      data.attrs = { href }
+      data.attrs = attrs
     } else {
       // find the first <a> child and apply listener and href
       const a = findAnchor(this.$slots.default)
@@ -89,17 +106,20 @@ export default {
         // in case the <a> is a static node
         a.isStatic = false
         const extend = _Vue.util.extend
-        const aData = a.data = extend({}, a.data)
-        aData.on = on
-        const aAttrs = a.data.attrs = extend({}, a.data.attrs)
-        aAttrs.href = href
+        a.data = extend({}, a.data)
+        a.data.on = on
+        a.data.attrs = extend({}, a.data.attrs)
+        assign(a.data.attrs, attrs)
       } else {
         // doesn't have <a> child, apply listener to self
         data.on = on
+        if (external) {
+          children = [h('a', { attrs }, this.$slots.default)]
+        }
       }
     }
 
-    return h(this.tag, data, this.$slots.default)
+    return h(this.tag, data, children)
   }
 }
 
@@ -135,4 +155,11 @@ function findAnchor (children) {
       }
     }
   }
+}
+
+function assign (a: Object, b) {
+  for (const key in b) {
+    a[key] = b[key]
+  }
+  return a
 }

@@ -223,6 +223,15 @@ Since it's just a component, it works with `<transition>` and `<keep-alive>`. Wh
 
   Globally configure `<router-link>` default active class for exact matches. Also see [router-link](#router-link).
 
+### linkExternalTargetAttribute
+
+- type: `string`
+
+- default: `"_blank"`
+
+  Globally configure `<router-link>` default target attribute for external routes. For improved security `rel="noopener"` will be added automatically if target is `_blank`. Also see [rel=noopener explained](https://github.com/mathiasbynens/rel-noopener/).
+
+
 ### scrollBehavior
 
 - type: `Function`

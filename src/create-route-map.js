@@ -60,8 +60,9 @@ function addRouteRecord (
   }
 
   const pathToRegexpOptions: PathToRegexpOptions = route.pathToRegexpOptions || {}
+  const external = isExternalPath(path)
   const normalizedPath = normalizePath(
-    path,
+    external ? path.replace(/https?:\//, '') : path,
     parent,
     pathToRegexpOptions.strict
   )
@@ -85,7 +86,12 @@ function addRouteRecord (
       ? {}
       : route.components
         ? route.props
-        : { default: route.props }
+        : { default: route.props },
+    external: parent
+      ? parent.external
+      : external
+        ? getExternalBase(path)
+        : undefined
   }
 
   if (route.children) {
@@ -133,7 +139,7 @@ function addRouteRecord (
     })
   }
 
-  if (!pathMap[record.path]) {
+  if (!pathMap[record.path] && !record.external) {
     pathList.push(record.path)
     pathMap[record.path] = record
   }
@@ -168,4 +174,14 @@ function normalizePath (path: string, parent?: RouteRecord, strict?: boolean): s
   if (path[0] === '/') return path
   if (parent == null) return path
   return cleanPath(`${parent.path}/${path}`)
+}
+
+function isExternalPath (path: string): boolean {
+  return path.indexOf('https://') !== -1 || path.indexOf('http://') !== -1
+}
+
+function getExternalBase (path: string): string {
+  return path.indexOf('https://') !== -1
+    ? path.substr(0, 'https:/'.length)
+    : path.substr(0, 'http:/'.length)
 }

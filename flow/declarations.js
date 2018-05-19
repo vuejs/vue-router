@@ -36,6 +36,8 @@ declare type RouterOptions = {
   fallback?: boolean;
   base?: string;
   linkActiveClass?: string;
+  linkExactActiveClass?: string;
+  linkExternalTargetAttribute?: string;
   parseQuery?: (query: string) => Object;
   stringifyQuery?: (query: Object) => string;
   scrollBehavior?: (
@@ -74,6 +76,7 @@ declare type RouteRecord = {
   beforeEnter: ?NavigationGuard;
   meta: any;
   props: boolean | Object | Function | Dictionary<boolean | Object | Function>;
+  external: ?string
 }
 
 declare type Location = {
