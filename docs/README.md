@@ -1,7 +1,6 @@
 # Introduction
 
 :::tip VERSION NOTE
-This is Vue Router 3.0 which works only with Vue 2.0. For the 1.x router see the [1.0 branch](https://github.com/vuejs/vue-router/tree/1.0).
 For TypeScript users, `vue-router@3.0+` requires `vue@2.5+`, and vice versa.
 :::
 
