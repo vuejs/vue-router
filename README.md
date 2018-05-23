@@ -32,7 +32,7 @@ npm run dev
 # lint & run all tests
 npm test
 
-# serve docs at localhost:4000 (requires global gitbook-cli)
+# serve docs at localhost:8080
 npm run docs
 ```
 
