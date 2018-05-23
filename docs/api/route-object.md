@@ -30,7 +30,7 @@ The route object can be found in multiple places:
   })
   ```
 
-### Route Object Properties
+## Route Object Properties
 
 - **$route.path**
 

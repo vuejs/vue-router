@@ -61,7 +61,7 @@ scrollBehavior (to, from, savedPosition) {
 
 We can also use [route meta fields](meta.md) to implement fine-grained scroll behavior control. Check out a full example [here](https://github.com/vuejs/vue-router/blob/dev/examples/scroll-behavior/app.js).
 
-### Async Scrolling
+## Async Scrolling
 
 > New in 2.8.0
 

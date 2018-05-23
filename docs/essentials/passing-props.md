@@ -40,11 +40,11 @@ const router = new VueRouter({
 
 This allows you to use the component anywhere, which makes the component easier to reuse and test.
 
-### Boolean mode
+## Boolean mode
 
 When `props` is set to `true`, the `route.params` will be set as the component props.
 
-### Object mode
+## Object mode
 
 When `props` is an object, this will be set as the component props as-is. Useful for when the props are static.
 
@@ -56,7 +56,7 @@ const router = new VueRouter({
 })
 ```
 
-### Function mode
+## Function mode
 
 You can create a function that returns props. This allows you to cast parameters into other types, combine static values with route-based values, etc.
 

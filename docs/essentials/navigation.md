@@ -2,7 +2,7 @@
 
 Aside from using `<router-link>` to create anchor tags for declarative navigation, we can do this programmatically using the router's instance methods.
 
-#### `router.push(location, onComplete?, onAbort?)`
+## `router.push(location, onComplete?, onAbort?)`
 
 **Note: Inside of a Vue instance, you have access to the router instance as `$router`. You can therefore call `this.$router.push`.**
 
@@ -46,7 +46,7 @@ In 2.2.0+, optionally provide `onComplete` and `onAbort` callbacks to `router.pu
 
 **Note:** If the destination is the same as the current route and only params are changing (e.g. going from one profile to another `/users/1` -> `/users/2`), you will have to use [`beforeRouteUpdate`](./dynamic-matching.html#reacting-to-params-changes) to react to changes (e.g. fetching the user information).
 
-#### `router.replace(location, onComplete?, onAbort?)`
+## `router.replace(location, onComplete?, onAbort?)`
 
 It acts like `router.push`, the only difference is that it navigates without pushing a new history entry, as its name suggests - it replaces the current entry.
 
@@ -54,7 +54,7 @@ It acts like `router.push`, the only difference is that it navigates without pus
 |-------------|--------------|
 | `<router-link :to="..." replace>` | `router.replace(...)` |
 
-#### `router.go(n)`
+## `router.go(n)`
 
 This method takes a single integer as parameter that indicates by how many steps to go forwards or go backwards in the history stack, similar to `window.history.go(n)`.
 
@@ -75,7 +75,7 @@ router.go(-100)
 router.go(100)
 ```
 
-#### History Manipulation
+## History Manipulation
 
 You may have noticed that `router.push`, `router.replace` and `router.go` are counterparts of [`window.history.pushState`, `window.history.replaceState` and `window.history.go`](https://developer.mozilla.org/en-US/docs/Web/API/History), and they do imitate the `window.history` APIs.
 

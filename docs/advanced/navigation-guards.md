@@ -4,7 +4,7 @@ As the name suggests, the navigation guards provided by `vue-router` are primari
 
 Remember that **params or query changes won't trigger enter/leave navigation guards**. You can either [watch the `$route` object](../essentials/dynamic-matching.md#reacting-to-params-changes) to react to those changes, or use the `beforeRouteUpdate` in-component guard.
 
-### Global Guards
+## Global Guards
 
 You can register global before guards using `router.beforeEach`:
 
@@ -36,13 +36,13 @@ Every guard function receives three arguments:
 
 **Make sure to always call the `next` function, otherwise the hook will never be resolved.**
 
-### Global Resolve Guards
+## Global Resolve Guards
 
 > New in 2.5.0
 
 In 2.5.0+ you can register a global guard with `router.beforeResolve`. This is similar to `router.beforeEach`, with the difference that resolve guards will be called right before the navigation is confirmed, **after all in-component guards and async route components are resolved**.
 
-### Global After Hooks
+## Global After Hooks
 
 You can also register global after hooks, however unlike guards, these hooks do not get a `next` function and cannot affect the navigation:
 
@@ -52,7 +52,7 @@ router.afterEach((to, from) => {
 })
 ```
 
-### Per-Route Guard
+## Per-Route Guard
 
 You can define `beforeEnter` guards directly on a route's configuration object:
 
@@ -72,7 +72,7 @@ const router = new VueRouter({
 
 These guards have the exact same signature as global before guards.
 
-### In-Component Guards
+## In-Component Guards
 
 Finally, you can directly define route navigation guards inside route components (the ones passed to the router configuration) with the following options:
 
@@ -139,7 +139,7 @@ beforeRouteLeave (to, from , next) {
 }
 ```
 
-### The Full Navigation Resolution Flow
+## The Full Navigation Resolution Flow
 
 1. Navigation triggered.
 2. Call leave guards in deactivated components.

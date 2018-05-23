@@ -1,6 +1,6 @@
 # Installation
 
-### Direct Download / CDN
+## Direct Download / CDN
 
 [https://unpkg.com/vue-router/dist/vue-router.js](https://unpkg.com/vue-router/dist/vue-router.js)
 
@@ -15,7 +15,7 @@ Include `vue-router` after Vue and it will install itself automatically:
 <script src="/path/to/vue-router.js"></script>
 ```
 
-### npm
+## npm
 
 ``` bash
 npm install vue-router
@@ -32,7 +32,7 @@ Vue.use(VueRouter)
 
 You don't need to do this when using global script tags.
 
-### Dev Build
+## Dev Build
 
 You will have to clone directly from GitHub and build `vue-router` yourself if
 you want to use the latest dev build.

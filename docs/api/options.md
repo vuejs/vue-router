@@ -1,6 +1,6 @@
 # Router Construction Options
 
-### routes
+## routes
 
 - type: `Array<RouteConfig>`
 
@@ -25,7 +25,7 @@
   }
   ```
 
-### mode
+## mode
 
 - type: `string`
 
@@ -41,7 +41,7 @@
 
   - `abstract`: works in all JavaScript environments, e.g. server-side with Node.js. **The router will automatically be forced into this mode if no browser API is present.**
 
-### base
+## base
 
 - type: `string`
 
@@ -49,7 +49,7 @@
 
   The base URL of the app. For example, if the entire single page application is served under `/app/`, then `base` should use the value `"/app/"`.
 
-### linkActiveClass
+## linkActiveClass
 
 - type: `string`
 
@@ -57,7 +57,7 @@
 
   Globally configure `<router-link>` default active class. Also see [router-link](router-link.md).
 
-### linkExactActiveClass
+## linkExactActiveClass
 
 > 2.5.0+
 
@@ -67,7 +67,7 @@
 
   Globally configure `<router-link>` default active class for exact matches. Also see [router-link](router-link.md).
 
-### scrollBehavior
+## scrollBehavior
 
 - type: `Function`
 
@@ -88,7 +88,7 @@
 
   For more details see [Scroll Behavior](../advanced/scroll-behavior.md).
 
-### parseQuery / stringifyQuery
+## parseQuery / stringifyQuery
 
 > 2.4.0+
 
@@ -96,7 +96,7 @@
 
   Provide custom query string parse / stringify functions. Overrides the default.
 
-### fallback
+## fallback
 
 > 2.6.0+
 

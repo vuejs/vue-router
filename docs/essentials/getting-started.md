@@ -6,7 +6,7 @@ Creating a Single-page Application with Vue + Vue Router is dead simple. With Vu
 
 > All examples will be using the full version of Vue to make template parsing possible. See more details [here](https://vuejs.org/v2/guide/installation.html#Runtime-Compiler-vs-Runtime-only).
 
-### HTML
+## HTML
 
 ``` html
 <script src="https://unpkg.com/vue/dist/vue.js"></script>
@@ -27,7 +27,7 @@ Creating a Single-page Application with Vue + Vue Router is dead simple. With Vu
 </div>
 ```
 
-### JavaScript
+## JavaScript
 
 ``` js
 // 0. If using a module system (e.g. via vue-cli), import Vue and VueRouter

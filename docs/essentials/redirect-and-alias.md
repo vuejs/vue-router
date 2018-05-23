@@ -1,6 +1,6 @@
 # Redirect and Alias
 
-### Redirect
+## Redirect
 
 Redirecting is also done in the `routes` configuration. To redirect from `/a` to `/b`:
 
@@ -39,7 +39,7 @@ Note that [Navigation Guards](../advanced/navigation-guards.md) are not applied 
 
 For other advanced usage, checkout the [example](https://github.com/vuejs/vue-router/blob/dev/examples/redirect/app.js).
 
-### Alias
+## Alias
 
 A redirect means when the user visits `/a`, and URL will be replaced by `/b`, and then matched as `/b`. But what is an alias?
 

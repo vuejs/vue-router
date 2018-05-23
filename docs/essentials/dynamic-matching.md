@@ -36,7 +36,7 @@ You can have multiple dynamic segments in the same route, and they will map to c
 
 In addition to `$route.params`, the `$route` object also exposes other useful information such as `$route.query` (if there is a query in the URL), `$route.hash`, etc. You can check out the full details in the [API Reference](../api/route-object.md).
 
-### Reacting to Params Changes
+## Reacting to Params Changes
 
 One thing to note when using routes with params is that when the user navigates from `/user/foo` to `/user/bar`, **the same component instance will be reused**. Since both routes render the same component, this is more efficient than destroying the old instance and then creating a new one. **However, this also means that the lifecycle hooks of the component will not be called**.
 
@@ -65,10 +65,10 @@ const User = {
 }
 ```
 
-### Advanced Matching Patterns
+## Advanced Matching Patterns
 
 `vue-router` uses [path-to-regexp](https://github.com/pillarjs/path-to-regexp) as its path matching engine, so it supports many advanced matching patterns such as optional dynamic segments, zero or more / one or more requirements, and even custom regex patterns. Check out its [documentation](https://github.com/pillarjs/path-to-regexp#parameters) for these advanced patterns, and [this example](https://github.com/vuejs/vue-router/blob/dev/examples/route-matching/app.js) of using them in `vue-router`.
 
-### Matching Priority
+## Matching Priority
 
 Sometimes the same URL may be matched by multiple routes. In such a case the matching priority is determined by the order of route definition: the earlier a route is defined, the higher priority it gets.

@@ -10,7 +10,7 @@ Since the `<router-view>` is essentially a dynamic component, we can apply trans
 
 [Everything about `<transition>`](https://vuejs.org/guide/transitions.html) works the same here.
 
-### Per-Route Transition
+## Per-Route Transition
 
 The above usage will apply the same transition for all routes. If you want each route's component to have different transitions, you can instead use `<transition>` with different names inside each route component:
 
@@ -32,7 +32,7 @@ const Bar = {
 }
 ```
 
-### Route-Based Dynamic Transition
+## Route-Based Dynamic Transition
 
 It is also possible to determine the transition to use dynamically based on the relationship between the target route and current route:
 

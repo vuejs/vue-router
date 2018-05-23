@@ -1,26 +1,26 @@
 # The Router Instance
 
-### Properties
+## Properties
 
-#### router.app
+### router.app
 
 - type: `Vue instance`
 
   The root Vue instance the `router` was injected into.
 
-#### router.mode
+### router.mode
 
 - type: `string`
 
   The [mode](options.md#mode) the router is using.
 
-#### router.currentRoute
+### router.currentRoute
 
 - type: `Route`
 
   The current route represented as a [Route Object](route-object.md).
 
-### Methods
+## Methods
 
 - **router.beforeEach(guard)**
 - **router.beforeResolve(guard)** (2.5.0+)
