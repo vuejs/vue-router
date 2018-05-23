@@ -2429,18 +2429,6 @@ getpass@^0.1.1:
   dependencies:
     assert-plus "^1.0.0"
 
-gitbook-plugin-edit-link@^2.0.2:
-  version "2.0.2"
-  resolved "https://registry.yarnpkg.com/gitbook-plugin-edit-link/-/gitbook-plugin-edit-link-2.0.2.tgz#d8fcd927eced81e7a662a72d59db609eafd7e72f"
-
-gitbook-plugin-github@^3.0.0:
-  version "3.0.0"
-  resolved "https://registry.yarnpkg.com/gitbook-plugin-github/-/gitbook-plugin-github-3.0.0.tgz#67457df98a57ea8ef9b2518b88340db370a5317b"
-
-gitbook-plugin-theme-vuejs@^1.1.0:
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/gitbook-plugin-theme-vuejs/-/gitbook-plugin-theme-vuejs-1.1.0.tgz#dc779c8e58113440a55755c2470fc3912948a9cc"
-
 glob-base@^0.3.0:
   version "0.3.0"
   resolved "https://registry.yarnpkg.com/glob-base/-/glob-base-0.3.0.tgz#dbb164f6221b1c0b1ccf82aea328b497df0ea3c4"
