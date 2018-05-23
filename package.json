@@ -74,15 +74,13 @@
     "vue": "^2.5.16",
     "vue-loader": "^13.7.1",
     "vue-template-compiler": "^2.5.16",
+    "vuepress": "^0.9.0",
+    "vuepress-theme-vue": "^1.0.3",
     "webpack": "^3.11.0",
     "webpack-dev-middleware": "^1.12.2"
   },
   "bugs": {
     "url": "https://github.com/vuejs/vue-router/issues"
   },
-  "homepage": "https://github.com/vuejs/vue-router#readme",
-  "dependencies": {
-    "vuepress": "^0.9.0",
-    "vuepress-theme-vue": "^1.0.3"
-  }
+  "homepage": "https://github.com/vuejs/vue-router#readme"
 }
