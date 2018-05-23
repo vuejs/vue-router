@@ -46,7 +46,7 @@ scrollBehavior (to, from, savedPosition) {
 }
 ```
 
-如果你要模拟『滚动到锚点』的行为：
+如果你要模拟“滚动到锚点”的行为：
 
 ``` js
 scrollBehavior (to, from, savedPosition) {
@@ -60,7 +60,7 @@ scrollBehavior (to, from, savedPosition) {
 
 我们还可以利用[路由元信息](meta.md)更细颗粒度地控制滚动。查看完整例子请[移步这里](https://github.com/vuejs/vue-router/blob/next/examples/scroll-behavior/app.js)。
 
-### 异步滚动
+## 异步滚动
 
 > 2.8.0 新增
 

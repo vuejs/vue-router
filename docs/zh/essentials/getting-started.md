@@ -1,12 +1,16 @@
-# Getting Started
+# 起步
 
-> 教程中的案例代码将使用 [ES2015](https://github.com/lukehoban/es6features) 来编写。
+::: tip 注意
+教程中的案例代码将使用 [ES2015](https://github.com/lukehoban/es6features) 来编写。
+:::
 
-用 Vue.js + vue-router 创建单页应用，是非常简单的。使用 Vue.js ，我们已经可以通过组合组件来组成应用程序，当你要把 vue-router 添加进来，我们需要做的是，将组件(components)映射到路由(routes)，然后告诉 vue-router 在哪里渲染它们。下面是个基本例子：
+用 Vue.js + Vue Router 创建单页应用，是非常简单的。使用 Vue.js ，我们已经可以通过组合组件来组成应用程序，当你要把 Vue Router 添加进来，我们需要做的是，将组件 (components) 映射到路由 (routes)，然后告诉 Vue Router 在哪里渲染它们。下面是个基本例子：
 
-> 所有的例子都将使用完整版的 Vue 以解析模板。更多细节请[移步这里](https://cn.vuejs.org/v2/guide/installation.html#运行时-编译器-vs-只包含运行时)。
+::: tip 注意
+所有的例子都将使用完整版的 Vue 以解析模板。更多细节请[移步这里](https://cn.vuejs.org/v2/guide/installation.html#运行时-编译器-vs-只包含运行时)。
+:::
 
-### HTML
+## HTML
 
 ``` html
 <script src="https://unpkg.com/vue/dist/vue.js"></script>
@@ -27,12 +31,12 @@
 </div>
 ```
 
-### JavaScript
+## JavaScript
 
 ``` js
 // 0. 如果使用模块化机制编程，导入Vue和VueRouter，要调用 Vue.use(VueRouter)
 
-// 1. 定义（路由）组件。
+// 1. 定义 (路由) 组件。
 // 可以从其他文件 import 进来
 const Foo = { template: '<div>foo</div>' }
 const Bar = { template: '<div>bar</div>' }
@@ -50,7 +54,7 @@ const routes = [
 // 3. 创建 router 实例，然后传 `routes` 配置
 // 你还可以传别的配置参数, 不过先这么简单着吧。
 const router = new VueRouter({
-  routes // （缩写）相当于 routes: routes
+  routes // (缩写) 相当于 routes: routes
 })
 
 // 4. 创建和挂载根实例。

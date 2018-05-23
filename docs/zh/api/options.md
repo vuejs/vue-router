@@ -1,6 +1,6 @@
 # Router 构造配置
 
-### routes
+## routes
 
 - 类型: `Array<RouteConfig>`
 
@@ -25,7 +25,7 @@
   }
   ```
 
-### mode
+## mode
 
 - 类型: `string`
 
@@ -41,7 +41,7 @@
 
   - `abstract`: 支持所有 JavaScript 运行环境，如 Node.js 服务器端。**如果发现没有浏览器的 API，路由会自动强制进入这个模式。**
 
-### base
+## base
 
 - 类型: `string`
 
@@ -49,15 +49,15 @@
 
   应用的基路径。例如，如果整个单页应用服务在 `/app/` 下，然后 `base` 就应该设为 `"/app/"`。
 
-### linkActiveClass
+## linkActiveClass
 
 - 类型: `string`
 
 - 默认值: `"router-link-active"`
 
-  全局配置 `<router-link>` 的默认『激活 class 类名』。参考 [router-link](router-link.md)。
+  全局配置 `<router-link>` 的默认“激活 class 类名”。参考 [router-link](router-link.md)。
 
-### linkExactActiveClass
+## linkExactActiveClass
 
 > 2.5.0+
 
@@ -67,7 +67,7 @@
 
   全局配置 `<router-link>` 精确激活的默认的 class。可同时翻阅 [router-link](router-link.md)。
 
-### scrollBehavior
+## scrollBehavior
 
 - 类型: `Function`
 
@@ -88,7 +88,7 @@
 
   更多详情参考[滚动行为](../advanced/scroll-behavior.md)。
 
-### parseQuery / stringifyQuery
+## parseQuery / stringifyQuery
 
 > 2.4.0+
 
@@ -96,7 +96,7 @@
 
   提供自定义查询字符串的解析/反解析函数。覆盖默认行为。
 
-### fallback
+## fallback
 
 > 2.6.0+
 

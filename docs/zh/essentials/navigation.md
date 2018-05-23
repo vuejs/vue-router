@@ -1,8 +1,12 @@
+---
+sidebarDepth: 0
+---
+
 # 编程式的导航
 
 除了使用 `<router-link>` 创建 a 标签来定义导航链接，我们还可以借助 router 的实例方法，通过编写代码来实现。
 
-#### `router.push(location, onComplete?, onAbort?)`
+## `router.push(location, onComplete?, onAbort?)`
 
 **注意：在 Vue 实例内部，你可以通过 `$router` 访问路由实例。因此你可以调用 `this.$router.push`。**
 
@@ -46,7 +50,7 @@ router.push({ path: '/user', params: { userId }}) // -> /user
 
 **注意：**如果目的地和当前路由相同，只有参数发生了改变 (比如从一个用户资料到另一个 `/users/1` -> `/users/2`)，你需要使用 [`beforeRouteUpdate`](./dynamic-matching.html#响应路由参数的变化) 来响应这个变化 (比如抓取用户信息)。
 
-#### `router.replace(location, onComplete?, onAbort?)`
+## `router.replace(location, onComplete?, onAbort?)`
 
 跟 `router.push` 很像，唯一的不同就是，它不会向 history 添加新记录，而是跟它的方法名一样 —— 替换掉当前的 history 记录。
 
@@ -54,7 +58,7 @@ router.push({ path: '/user', params: { userId }}) // -> /user
 |-------------|--------------|
 | `<router-link :to="..." replace>` | `router.replace(...)` |
 
-#### `router.go(n)`
+## `router.go(n)`
 
 这个方法的参数是一个整数，意思是在 history 记录中向前或者后退多少步，类似 `window.history.go(n)`。
 
@@ -75,10 +79,10 @@ router.go(-100)
 router.go(100)
 ```
 
-#### 操作 History
+## 操作 History
 
 你也许注意到 `router.push`、 `router.replace` 和 `router.go` 跟 [`window.history.pushState`、 `window.history.replaceState` 和 `window.history.go`](https://developer.mozilla.org/en-US/docs/Web/API/History)好像， 实际上它们确实是效仿 `window.history` API 的。
 
-因此，如果你已经熟悉 [Browser History APIs](https://developer.mozilla.org/en-US/docs/Web/API/History_API)，那么在 vue-router 中操作 history 就是超级简单的。
+因此，如果你已经熟悉 [Browser History APIs](https://developer.mozilla.org/en-US/docs/Web/API/History_API)，那么在 Vue Router 中操作 history 就是超级简单的。
 
-还有值得提及的，vue-router 的导航方法 （`push`、 `replace`、 `go`） 在各类路由模式（`history`、 `hash` 和 `abstract`）下表现一致。
+还有值得提及的，Vue Router 的导航方法 (`push`、 `replace`、 `go`) 在各类路由模式 (`history`、 `hash` 和 `abstract`) 下表现一致。

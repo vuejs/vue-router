@@ -16,7 +16,9 @@ const Foo = () => Promise.resolve({ /* 组件定义对象 */ })
 import('./Foo.vue') // 返回 Promise
 ```
 
-> 注意：如果您使用的是 Babel，你将需要添加 [`syntax-dynamic-import`](https://babeljs.io/docs/plugins/syntax-dynamic-import/) 插件，才能使 Babel 可以正确地解析语法。
+::: tip 注意
+如果您使用的是 Babel，你将需要添加 [`syntax-dynamic-import`](https://babeljs.io/docs/plugins/syntax-dynamic-import/) 插件，才能使 Babel 可以正确地解析语法。
+:::
 
 结合这两者，这就是如何定义一个能够被 Webpack 自动代码分割的异步组件。
 
@@ -34,7 +36,7 @@ const router = new VueRouter({
 })
 ```
 
-### 把组件按组分块
+## 把组件按组分块
 
 有时候我们想把某个路由下的所有组件都打包在同个异步块 (chunk) 中。只需要使用 [命名 chunk](https://webpack.js.org/guides/code-splitting-require/#chunkname)，一个特殊的注释语法来提供 chunk name (需要 Webpack > 2.4)。
 
