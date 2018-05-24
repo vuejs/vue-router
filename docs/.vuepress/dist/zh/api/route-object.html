@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Vue Router | 路由信息对象</title>
+    <meta name="description" content="Vue.js 官方的路由管理器。">
+    
+    
+    <link rel="preload" href="/assets/css/46.styles.f7bf332b.css" as="style"><link rel="preload" href="/assets/js/app.ad2c2e78.js" as="script"><link rel="preload" href="/assets/js/19.a2cda62d.js" as="script"><link rel="prefetch" href="/assets/js/24.09c707c1.js"><link rel="prefetch" href="/assets/js/1.57050575.js"><link rel="prefetch" href="/assets/js/2.f5a49f3a.js"><link rel="prefetch" href="/assets/js/3.ebfd1333.js"><link rel="prefetch" href="/assets/js/4.0e195647.js"><link rel="prefetch" href="/assets/js/5.683e9889.js"><link rel="prefetch" href="/assets/js/6.0fe50ed4.js"><link rel="prefetch" href="/assets/js/7.f37d172c.js"><link rel="prefetch" href="/assets/js/8.8e3c7d9e.js"><link rel="prefetch" href="/assets/js/9.2ccaaf9d.js"><link rel="prefetch" href="/assets/js/10.f0e09295.js"><link rel="prefetch" href="/assets/js/11.80b1d131.js"><link rel="prefetch" href="/assets/js/12.81bfd822.js"><link rel="prefetch" href="/assets/js/13.5d7752b0.js"><link rel="prefetch" href="/assets/js/14.304b67f1.js"><link rel="prefetch" href="/assets/js/15.ffb727f8.js"><link rel="prefetch" href="/assets/js/16.74e83634.js"><link rel="prefetch" href="/assets/js/17.cf5b0129.js"><link rel="prefetch" href="/assets/js/18.8cb980cc.js"><link rel="prefetch" href="/assets/js/20.276b83f1.js"><link rel="prefetch" href="/assets/js/21.08a08928.js"><link rel="prefetch" href="/assets/js/22.f68686b9.js"><link rel="prefetch" href="/assets/js/23.71db9bc5.js"><link rel="prefetch" href="/assets/js/0.3028103b.js"><link rel="prefetch" href="/assets/js/25.9dc6bb36.js"><link rel="prefetch" href="/assets/js/26.04527bf5.js"><link rel="prefetch" href="/assets/js/27.6437f73d.js"><link rel="prefetch" href="/assets/js/28.15cd3d6b.js"><link rel="prefetch" href="/assets/js/29.70f41011.js"><link rel="prefetch" href="/assets/js/30.41682606.js"><link rel="prefetch" href="/assets/js/31.c78f8679.js"><link rel="prefetch" href="/assets/js/32.3e88f0da.js"><link rel="prefetch" href="/assets/js/33.90414ec1.js"><link rel="prefetch" href="/assets/js/34.23cd3cb2.js"><link rel="prefetch" href="/assets/js/35.e8e3806c.js"><link rel="prefetch" href="/assets/js/36.ea101143.js"><link rel="prefetch" href="/assets/js/37.ed086ace.js"><link rel="prefetch" href="/assets/js/38.d3d58f69.js"><link rel="prefetch" href="/assets/js/39.5464bead.js"><link rel="prefetch" href="/assets/js/40.8bb79be3.js"><link rel="prefetch" href="/assets/js/41.677c6627.js"><link rel="prefetch" href="/assets/js/42.607297de.js"><link rel="prefetch" href="/assets/js/43.ab66895e.js"><link rel="prefetch" href="/assets/js/44.7962d8de.js"><link rel="prefetch" href="/assets/js/45.87d7d073.js">
+    <link rel="stylesheet" href="/assets/css/46.styles.f7bf332b.css">
+  </head>
+  <body>
+    <div id="app" data-server-rendered="true"><div class="theme-container"><header class="navbar"><div class="sidebar-button"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" viewBox="0 0 448 512" class="icon"><path fill="currentColor" d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z"></path></svg></div><a href="/zh/" class="home-link router-link-active"><!----><span class="site-name">
+      Vue Router
+    </span></a><div class="links"><div class="search-box"><input aria-label="Search" autocomplete="off" spellcheck="false" value=""><!----></div><nav class="nav-links can-hide"><div class="nav-item"><a href="/zh/guide/" class="nav-link">指南</a></div><div class="nav-item"><a href="/zh/api/" class="nav-link router-link-active">API 参考</a></div><div class="nav-item"><a href="https://github.com/vuejs/vue-router/releases" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  更新记录
+  <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path><polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></div><div class="nav-item"><div class="dropdown-wrapper"><a class="dropdown-title"><span class="title">选择语言</span><span class="arrow right"></span></a><ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----><a href="/api/route-object.html" class="nav-link">English</a></li><li class="dropdown-item"><!----><a href="/zh/api/route-object.html" class="nav-link router-link-exact-active router-link-active">简体中文</a></li></ul></div></div><a href="https://github.com/vuejs/vue-router" target="_blank" rel="noopener noreferrer" class="repo-link">
+    GitHub
+    <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path><polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></nav></div></header><div class="sidebar-mask"></div><div class="sidebar"><nav class="nav-links"><div class="nav-item"><a href="/zh/guide/" class="nav-link">指南</a></div><div class="nav-item"><a href="/zh/api/" class="nav-link router-link-active">API 参考</a></div><div class="nav-item"><a href="https://github.com/vuejs/vue-router/releases" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  更新记录
+  <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path><polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></div><div class="nav-item"><div class="dropdown-wrapper"><a class="dropdown-title"><span class="title">选择语言</span><span class="arrow right"></span></a><ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----><a href="/api/route-object.html" class="nav-link">English</a></li><li class="dropdown-item"><!----><a href="/zh/api/route-object.html" class="nav-link router-link-exact-active router-link-active">简体中文</a></li></ul></div></div><a href="https://github.com/vuejs/vue-router" target="_blank" rel="noopener noreferrer" class="repo-link">
+    GitHub
+    <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path><polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></nav><div class="carbon-ads"></div><ul class="sidebar-links"><li><div class="sidebar-group first"><p class="sidebar-heading open"><span>API 参考</span><!----></p><ul class="sidebar-group-items"><li><a href="/zh/api/options.html" class="sidebar-link">Router 构造配置</a></li><li><a href="/zh/api/router-instance.html" class="sidebar-link">Router 实例</a></li><li><a href="/zh/api/route-object.html" class="active sidebar-link">路由信息对象</a></li><li><a href="/zh/api/component-injections.html" class="sidebar-link">对组件注入</a></li><li><a href="/zh/api/router-link.html" class="sidebar-link">&lt;router-link&gt;</a></li><li><a href="/zh/api/router-view.html" class="sidebar-link">&lt;router-view&gt;</a></li></ul></div></li></ul></div><div class="page"><div class="content"><h1 id="路由信息对象"><a href="#路由信息对象" aria-hidden="true" class="header-anchor">#</a> 路由信息对象</h1><p>一个<strong>路由对象 (route object)</strong> 表示当前激活的路由的状态信息，包含了当前 URL 解析得到的信息，还有 URL 匹配到的<strong>路由记录 (route records)</strong>。</p><p>路由对象是不可变 (immutable) 的，每次成功的导航后都会产生一个新的对象。</p><p>路由对象出现在多个地方:</p><ul><li><p>在组件内，即 <code>this.$route</code></p></li><li><p>在 <code>$route</code> 观察者回调内</p></li><li><p><code>router.match(location)</code> 的返回值</p></li><li><p>导航守卫的参数：</p><div class="language-js extra-class"><pre class="language-js"><code>router<span class="token punctuation">.</span><span class="token function">beforeEach</span><span class="token punctuation">(</span><span class="token punctuation">(</span>to<span class="token punctuation">,</span> <span class="token keyword">from</span><span class="token punctuation">,</span> next<span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
+  <span class="token comment">// `to` 和 `from` 都是路由对象</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span>
+</code></pre></div></li><li><p><code>scrollBehavior</code> 方法的参数:</p><div class="language-js extra-class"><pre class="language-js"><code><span class="token keyword">const</span> router <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">VueRouter</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+  <span class="token function">scrollBehavior</span> <span class="token punctuation">(</span>to<span class="token punctuation">,</span> <span class="token keyword">from</span><span class="token punctuation">,</span> savedPosition<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+</code></pre></div></li></ul><p>// <code>to</code> 和 <code>from</code> 都是路由对象
+}
+})</p><div class="language- extra-class"><pre class="language-text"><code>
+## 路由信息对象的属性
+
+- **$route.path**
+
+- 类型: `string`
+
+  字符串，对应当前路由的路径，总是解析为绝对路径，如 `&quot;/foo/bar&quot;`。
+
+- **$route.params**
+
+- 类型: `Object`
+
+一个 key/value 对象，包含了动态片段和全匹配片段，如果没有路由参数，就是一个空对象。
+
+- **$route.query**
+
+- 类型: `Object`
+
+  一个 key/value 对象，表示 URL 查询参数。例如，对于路径 `/foo?user=1`，则有 `$route.query.user == 1`，如果没有查询参数，则是个空对象。
+
+- **$route.hash**
+
+- 类型: `string`
+
+  当前路由的 hash 值 (带 `#`) ，如果没有 hash 值，则为空字符串。
+
+- **$route.fullPath**
+
+- 类型: `string`
+
+  完成解析后的 URL，包含查询参数和 hash 的完整路径。
+
+- **$route.matched**
+
+- 类型: `Array&lt;RouteRecord&gt;`
+
+一个数组，包含当前路由的所有嵌套路径片段的**路由记录** 。路由记录就是 `routes` 配置数组中的对象副本 (还有在 `children` 数组)。
+
+``` js
+const router = new VueRouter({
+  routes: [
+    // 下面的对象就是路由记录
+    { path: '/foo', component: Foo,
+      children: [
+        // 这也是个路由记录
+        { path: 'bar', component: Bar }
+      ]
+    }
+  ]
+})
+</code></pre></div><p>当 URL 为 <code>/foo/bar</code>，<code>$route.matched</code> 将会是一个包含从上到下的所有对象 (副本)。</p><ul><li><p><strong>$route.name</strong></p><p>当前路由的名称，如果有的话。(查看<a href="/zh/essentials/named-routes.html">命名路由</a>)</p></li><li><p><strong>$route.redirectedFrom</strong></p><p>如果存在重定向，即为重定向来源的路由的名字。(参阅<a href="/zh/essentials/redirect-and-alias.html">重定向和别名</a>)</p></li></ul></div><!----><div class="content page-nav"><p class="inner"><span class="prev">
+        ← <a href="/zh/api/router-instance.html" class="prev">
+          Router 实例
+        </a></span><span class="next"><a href="/zh/api/component-injections.html">
+          对组件注入
+        </a> →
+      </span></p></div><div class="bsa-cpc-wrapper"><div class="bsa-cpc"></div></div></div></div></div>
+    <script src="/assets/js/19.a2cda62d.js" defer></script><script src="/assets/js/app.ad2c2e78.js" defer></script>
+  </body>
+</html>

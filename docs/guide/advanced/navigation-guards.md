@@ -20,7 +20,7 @@ Global before guards are called in creation order, whenever a navigation is trig
 
 Every guard function receives three arguments:
 
-- **`to: Route`**: the target [Route Object](../../api/route-object.md) being navigated to.
+- **`to: Route`**: the target [Route Object](../../api/#the-route-object) being navigated to.
 
 - **`from: Route`**: the current route being navigated away from.
 
@@ -30,17 +30,15 @@ Every guard function receives three arguments:
 
   - **`next(false)`**: abort the current navigation. If the browser URL was changed (either manually by the user or via back button), it will be reset to that of the `from` route.
 
-  - **`next('/')` or `next({ path: '/' })`**: redirect to a different location. The current navigation will be aborted and a new one will be started. You can pass any location object to `next`, which allows you to specify options like `replace: true`, `name: 'home'` and any option used in [`router-link`'s `to` prop](../../api/router-link.md) or [`router.push`](../../api/router-instance.md#methods)
+  - **`next('/')` or `next({ path: '/' })`**: redirect to a different location. The current navigation will be aborted and a new one will be started. You can pass any location object to `next`, which allows you to specify options like `replace: true`, `name: 'home'` and any option used in [`router-link`'s `to` prop](../../api/#to) or [`router.push`](../../api/#router-push)
 
-  - **`next(error)`**: (2.4.0+) if the argument passed to `next` is an instance of `Error`, the navigation will be aborted and the error will be passed to callbacks registered via [`router.onError()`](../../api/router-instance.html#methods).
+  - **`next(error)`**: (2.4.0+) if the argument passed to `next` is an instance of `Error`, the navigation will be aborted and the error will be passed to callbacks registered via [`router.onError()`](../../api/#router-onerror).
 
 **Make sure to always call the `next` function, otherwise the hook will never be resolved.**
 
 ## Global Resolve Guards
 
-> New in 2.5.0
-
-In 2.5.0+ you can register a global guard with `router.beforeResolve`. This is similar to `router.beforeEach`, with the difference that resolve guards will be called right before the navigation is confirmed, **after all in-component guards and async route components are resolved**.
+You can register a global guard with `router.beforeResolve`. This is similar to `router.beforeEach`, with the difference that resolve guards will be called right before the navigation is confirmed, **after all in-component guards and async route components are resolved**.
 
 ## Global After Hooks
 
@@ -77,7 +75,7 @@ These guards have the exact same signature as global before guards.
 Finally, you can directly define route navigation guards inside route components (the ones passed to the router configuration) with the following options:
 
 - `beforeRouteEnter`
-- `beforeRouteUpdate` (added in 2.2+)
+- `beforeRouteUpdate`
 - `beforeRouteLeave`
 
 ``` js
@@ -144,11 +142,11 @@ beforeRouteLeave (to, from , next) {
 1. Navigation triggered.
 2. Call leave guards in deactivated components.
 3. Call global `beforeEach` guards.
-4. Call `beforeRouteUpdate` guards in reused components (2.2+).
+4. Call `beforeRouteUpdate` guards in reused components.
 5. Call `beforeEnter` in route configs.
 6. Resolve async route components.
 7. Call `beforeRouteEnter` in activated components.
-8. Call global `beforeResolve` guards (2.5+).
+8. Call global `beforeResolve` guards.
 9. Navigation confirmed.
 10. Call global `afterEach` hooks.
 11. DOM updates triggered.
