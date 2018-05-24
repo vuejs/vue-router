@@ -8,7 +8,7 @@ Since the `<router-view>` is essentially a dynamic component, we can apply trans
 </transition>
 ```
 
-[Everything about `<transition>`](https://vuejs.org/guide/transitions.html) works the same here.
+[All transition APIs](https://vuejs.org/guide/transitions.html) work the same here.
 
 ## Per-Route Transition
 

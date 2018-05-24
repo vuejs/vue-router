@@ -8,7 +8,7 @@
 </transition>
 ```
 
-[`<transition>` 的所有功能](https://cn.vuejs.org/guide/transitions.html) 在这里同样适用。
+[Transition 的所有功能](https://cn.vuejs.org/guide/transitions.html) 在这里同样适用。
 
 ## 单个路由的过渡
 
