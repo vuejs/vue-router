@@ -20,7 +20,7 @@ Global before guards are called in creation order, whenever a navigation is trig
 
 Every guard function receives three arguments:
 
-- **`to: Route`**: the target [Route Object](../api/route-object.md) being navigated to.
+- **`to: Route`**: the target [Route Object](../../api/route-object.md) being navigated to.
 
 - **`from: Route`**: the current route being navigated away from.
 
@@ -30,9 +30,9 @@ Every guard function receives three arguments:
 
   - **`next(false)`**: abort the current navigation. If the browser URL was changed (either manually by the user or via back button), it will be reset to that of the `from` route.
 
-  - **`next('/')` or `next({ path: '/' })`**: redirect to a different location. The current navigation will be aborted and a new one will be started. You can pass any location object to `next`, which allows you to specify options like `replace: true`, `name: 'home'` and any option used in [`router-link`'s `to` prop](../api/router-link.md) or [`router.push`](../api/router-instance.md#methods)
+  - **`next('/')` or `next({ path: '/' })`**: redirect to a different location. The current navigation will be aborted and a new one will be started. You can pass any location object to `next`, which allows you to specify options like `replace: true`, `name: 'home'` and any option used in [`router-link`'s `to` prop](../../api/router-link.md) or [`router.push`](../../api/router-instance.md#methods)
 
-  - **`next(error)`**: (2.4.0+) if the argument passed to `next` is an instance of `Error`, the navigation will be aborted and the error will be passed to callbacks registered via [`router.onError()`](../api/router-instance.html#methods).
+  - **`next(error)`**: (2.4.0+) if the argument passed to `next` is an instance of `Error`, the navigation will be aborted and the error will be passed to callbacks registered via [`router.onError()`](../../api/router-instance.html#methods).
 
 **Make sure to always call the `next` function, otherwise the hook will never be resolved.**
 

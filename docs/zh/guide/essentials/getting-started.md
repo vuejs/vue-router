@@ -2,13 +2,11 @@
 
 ::: tip 注意
 教程中的案例代码将使用 [ES2015](https://github.com/lukehoban/es6features) 来编写。
+
+同时，所有的例子都将使用完整版的 Vue 以解析模板。更多细节请[移步这里](https://cn.vuejs.org/v2/guide/installation.html#运行时-编译器-vs-只包含运行时)。
 :::
 
 用 Vue.js + Vue Router 创建单页应用，是非常简单的。使用 Vue.js ，我们已经可以通过组合组件来组成应用程序，当你要把 Vue Router 添加进来，我们需要做的是，将组件 (components) 映射到路由 (routes)，然后告诉 Vue Router 在哪里渲染它们。下面是个基本例子：
-
-::: tip 注意
-所有的例子都将使用完整版的 Vue 以解析模板。更多细节请[移步这里](https://cn.vuejs.org/v2/guide/installation.html#运行时-编译器-vs-只包含运行时)。
-:::
 
 ## HTML
 
@@ -92,4 +90,4 @@ export default {
 
 你可以看看这个[在线的](https://jsfiddle.net/yyx990803/xgrjzsup/)例子。
 
-要注意，当 `<router-link>` 对应的路由匹配成功，将自动设置 class 属性值  `.router-link-active`。查看 [API 文档](../api/router-link.md) 学习更多相关内容。
+要注意，当 `<router-link>` 对应的路由匹配成功，将自动设置 class 属性值  `.router-link-active`。查看 [API 文档](../../api/router-link.md) 学习更多相关内容。

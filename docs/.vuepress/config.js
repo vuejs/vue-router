@@ -23,61 +23,65 @@ module.exports = {
         editLinkText: 'Edit this page on GitHub',
         nav: [
           {
-            text: 'Getting Started',
-            link: '/essentials/getting-started'
+            text: 'Guide',
+            link: '/guide/'
           },
           {
             text: 'API Reference',
-            link: '/api/options'
+            link: '/api/'
           },
           {
             text: 'Release Notes',
-            link: 'https://github.com/vuejs/vue-router/releasess'
+            link: 'https://github.com/vuejs/vue-router/releases'
           }
         ],
-        sidebar: [
-          '/installation.md',
-          '/',
-          {
-            title: 'Essentials',
-            collapsable: false,
-            children: [
-              '/essentials/getting-started.md',
-              '/essentials/dynamic-matching.md',
-              '/essentials/nested-routes.md',
-              '/essentials/navigation.md',
-              '/essentials/named-routes.md',
-              '/essentials/named-views.md',
-              '/essentials/redirect-and-alias.md',
-              '/essentials/passing-props.md',
-              '/essentials/history-mode.md'
-            ]
-          },
-          {
-            title: 'Advanced',
-            collapsable: false,
-            children: [
-              '/advanced/navigation-guards.md',
-              '/advanced/meta.md',
-              '/advanced/transitions.md',
-              '/advanced/data-fetching.md',
-              '/advanced/scroll-behavior.md',
-              '/advanced/lazy-loading.md'
-            ]
-          },
-          {
-            title: 'API Reference',
-            collapsable: false,
-            children: [
-              '/api/options.md',
-              '/api/router-instance.md',
-              '/api/route-object.md',
-              '/api/component-injections.md',
-              '/api/router-link.md',
-              '/api/router-view.md'
-            ]
-          }
-        ]
+        sidebar: {
+          '/api/': [
+            {
+              title: 'API Reference',
+              collapsable: false,
+              children: [
+                '/api/options.md',
+                '/api/router-instance.md',
+                '/api/route-object.md',
+                '/api/component-injections.md',
+                '/api/router-link.md',
+                '/api/router-view.md'
+              ]
+            }
+          ],
+          '/': [
+            '/installation.md',
+            '/',
+            {
+              title: 'Essentials',
+              collapsable: false,
+              children: [
+                '/guide/essentials/getting-started.md',
+                '/guide/essentials/dynamic-matching.md',
+                '/guide/essentials/nested-routes.md',
+                '/guide/essentials/navigation.md',
+                '/guide/essentials/named-routes.md',
+                '/guide/essentials/named-views.md',
+                '/guide/essentials/redirect-and-alias.md',
+                '/guide/essentials/passing-props.md',
+                '/guide/essentials/history-mode.md'
+              ]
+            },
+            {
+              title: 'Advanced',
+              collapsable: false,
+              children: [
+                '/guide/advanced/navigation-guards.md',
+                '/guide/advanced/meta.md',
+                '/guide/advanced/transitions.md',
+                '/guide/advanced/data-fetching.md',
+                '/guide/advanced/scroll-behavior.md',
+                '/guide/advanced/lazy-loading.md'
+              ]
+            }
+          ]
+        }
       },
       '/zh/': {
         label: '简体中文',
@@ -85,61 +89,65 @@ module.exports = {
         editLinkText: '在 GitHub 上编辑此页',
         nav: [
           {
-            text: '起步',
-            link: '/zh/essentials/getting-started'
+            text: '指南',
+            link: '/zh/guide/'
           },
           {
             text: 'API 参考',
-            link: '/zh/api/options'
+            link: '/zh/api/'
           },
           {
             text: '更新记录',
-            link: 'https://github.com/vuejs/vue-router/releasess'
+            link: 'https://github.com/vuejs/vue-router/releases'
           }
         ],
-        sidebar: [
-          '/zh/installation.md',
-          '/zh/',
-          {
-            title: '基础',
-            collapsable: false,
-            children: [
-              '/zh/essentials/getting-started.md',
-              '/zh/essentials/dynamic-matching.md',
-              '/zh/essentials/nested-routes.md',
-              '/zh/essentials/navigation.md',
-              '/zh/essentials/named-routes.md',
-              '/zh/essentials/named-views.md',
-              '/zh/essentials/redirect-and-alias.md',
-              '/zh/essentials/passing-props.md',
-              '/zh/essentials/history-mode.md'
-            ]
-          },
-          {
-            title: '进阶',
-            collapsable: false,
-            children: [
-              '/zh/advanced/navigation-guards.md',
-              '/zh/advanced/meta.md',
-              '/zh/advanced/transitions.md',
-              '/zh/advanced/data-fetching.md',
-              '/zh/advanced/scroll-behavior.md',
-              '/zh/advanced/lazy-loading.md'
-            ]
-          },
-          {
-            title: 'API 参考',
-            collapsable: false,
-            children: [
-              '/zh/api/options.md',
-              '/zh/api/router-instance.md',
-              '/zh/api/route-object.md',
-              '/zh/api/component-injections.md',
-              '/zh/api/router-link.md',
-              '/zh/api/router-view.md'
-            ]
-          }
-        ]
+        sidebar: {
+          '/zh/api/': [
+            {
+              title: 'API 参考',
+              collapsable: false,
+              children: [
+                '/zh/api/options.md',
+                '/zh/api/router-instance.md',
+                '/zh/api/route-object.md',
+                '/zh/api/component-injections.md',
+                '/zh/api/router-link.md',
+                '/zh/api/router-view.md'
+              ]
+            }
+          ],
+          '/zh/': [
+            '/zh/installation.md',
+            '/zh/',
+            {
+              title: '基础',
+              collapsable: false,
+              children: [
+                '/zh/guide/essentials/getting-started.md',
+                '/zh/guide/essentials/dynamic-matching.md',
+                '/zh/guide/essentials/nested-routes.md',
+                '/zh/guide/essentials/navigation.md',
+                '/zh/guide/essentials/named-routes.md',
+                '/zh/guide/essentials/named-views.md',
+                '/zh/guide/essentials/redirect-and-alias.md',
+                '/zh/guide/essentials/passing-props.md',
+                '/zh/guide/essentials/history-mode.md'
+              ]
+            },
+            {
+              title: '进阶',
+              collapsable: false,
+              children: [
+                '/zh/guide/advanced/navigation-guards.md',
+                '/zh/guide/advanced/meta.md',
+                '/zh/guide/advanced/transitions.md',
+                '/zh/guide/advanced/data-fetching.md',
+                '/zh/guide/advanced/scroll-behavior.md',
+                '/zh/guide/advanced/lazy-loading.md'
+              ]
+            }
+          ]
+        }
       }
     }
   }

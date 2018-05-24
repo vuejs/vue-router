@@ -1,3 +1,9 @@
 # redirect old urls to root
+
+/en/essentials/* /guide/essentials/*
+/en/advanced/* /guide/advanced/*
 /en/* /:splat
+
+/zh-cn/essentials/* /zh/guide/essentials/*
+/zh-cn/advanced/* /zh/guide/advanced/*
 /zh-cn/* /zh/:splat
