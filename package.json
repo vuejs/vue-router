@@ -34,8 +34,8 @@
     "test:unit": "jasmine JASMINE_CONFIG_PATH=test/unit/jasmine.json",
     "test:e2e": "node test/e2e/runner.js",
     "test:types": "tsc -p types/test",
-    "docs": "cd docs && gitbook install && gitbook serve",
-    "docs:deploy": "bash ./build/update-docs.sh",
+    "docs": "vuepress dev docs",
+    "docs:build": "vuepress build docs",
     "release": "bash build/release.sh"
   },
   "devDependencies": {
@@ -56,9 +56,6 @@
     "express": "^4.16.2",
     "express-urlrewrite": "^1.2.0",
     "flow-bin": "^0.66.0",
-    "gitbook-plugin-edit-link": "^2.0.2",
-    "gitbook-plugin-github": "^3.0.0",
-    "gitbook-plugin-theme-vuejs": "^1.1.0",
     "jasmine": "2.8.0",
     "nightwatch": "^0.9.20",
     "nightwatch-helpers": "^1.0.0",
@@ -77,6 +74,8 @@
     "vue": "^2.5.16",
     "vue-loader": "^13.7.1",
     "vue-template-compiler": "^2.5.16",
+    "vuepress": "^0.9.0",
+    "vuepress-theme-vue": "^1.0.3",
     "webpack": "^3.11.0",
     "webpack-dev-middleware": "^1.12.2"
   },
