@@ -52,7 +52,7 @@ const httpPort = 80
 http.createServer((req, res) => {
   fs.readFile('index.htm', 'utf-8', (err, content) => {
     if (err) {
-      console.log('Невозможно открыть файл "index.htm".)
+      console.log('Невозможно открыть файл "index.htm".')
     }
 
     res.writeHead(200, {
