@@ -90,4 +90,4 @@ export default {
 
 你可以看看这个[在线的](https://jsfiddle.net/yyx990803/xgrjzsup/)例子。
 
-要注意，当 `<router-link>` 对应的路由匹配成功，将自动设置 class 属性值  `.router-link-active`。查看 [API 文档](../api/router-link.md) 学习更多相关内容。
+要注意，当 `<router-link>` 对应的路由匹配成功，将自动设置 class 属性值  `.router-link-active`。查看 [API 文档](../api/#router-link) 学习更多相关内容。
