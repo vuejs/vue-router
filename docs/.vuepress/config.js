@@ -14,7 +14,7 @@ module.exports = {
       lang: 'ru',
       title: 'Vue Router',
       description: 'Официальный маршрутизатор для Vue.js.'
-    },
+    }
   },
   serviceWorker: true,
   theme: 'vue',
