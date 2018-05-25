@@ -254,7 +254,9 @@ Since it's just a component, it works with `<transition>` and `<keep-alive>`. Wh
 
 - type: `boolean`
 
-  Controls whether the router should fallback to `hash` mode when the browser does not support `history.pushState`. Defaults to `true`.
+- default: `true`
+
+  Controls whether the router should fallback to `hash` mode when the browser does not support `history.pushState` but mode is set to `history`.
 
   Setting this to `false` essentially makes every `router-link` navigation a full page refresh in IE9. This is useful when the app is server-rendered and needs to work in IE9, because a hash mode URL does not work with SSR.
 
