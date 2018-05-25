@@ -48,7 +48,7 @@ router.push({ path: '/user', params: { userId }}) // -> /user
 
 在 2.2.0+，可选的在 `router.push` 或 `router.replace` 中提供 `onComplete` 和 `onAbort` 回调作为第二个和第三个参数。这些回调将会在导航成功完成 (在所有的异步钩子被解析之后) 或终止 (导航到相同的路由、或在当前导航完成之前导航到另一个不同的路由) 的时候进行相应的调用。
 
-**注意：**如果目的地和当前路由相同，只有参数发生了改变 (比如从一个用户资料到另一个 `/users/1` -> `/users/2`)，你需要使用 [`beforeRouteUpdate`](./dynamic-matching.html#响应路由参数的变化) 来响应这个变化 (比如抓取用户信息)。
+**注意：**如果目的地和当前路由相同，只有参数发生了改变 (比如从一个用户资料到另一个 `/users/1` -> `/users/2`)，你需要使用 [`beforeRouteUpdate`](./dynamic-matching.md#响应路由参数的变化) 来响应这个变化 (比如抓取用户信息)。
 
 ## `router.replace(location, onComplete?, onAbort?)`
 
