@@ -15,4 +15,4 @@ Vue Router is the official router for [Vue.js](http://vuejs.org). It deeply inte
 - HTML5 history mode or hash mode, with auto-fallback in IE9
 - Customizable Scroll Behavior
 
-[Get started](./essentials/getting-started.md) or play with the [examples](https://github.com/vuejs/vue-router/tree/dev/examples) (see [`README.md`](https://github.com/vuejs/vue-router/) to run them).
+[Get started](./guide/) or play with the [examples](https://github.com/vuejs/vue-router/tree/dev/examples) (see [`README.md`](https://github.com/vuejs/vue-router/) to run them).
