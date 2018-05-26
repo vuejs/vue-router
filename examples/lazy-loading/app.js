@@ -33,8 +33,8 @@ const Foo = () => import('./Foo.vue')
 // nested route in the same async chunk, you can use a special comment
 // to indicate a chunk name for the imported module. (note this requires
 // webpack 2.4.0+)
-const Bar = () => import(/* webpackChunkName: "/bar" */ './Bar.vue')
-const Baz = () => import(/* webpackChunkName: "/bar" */ './Baz.vue')
+const Bar = () => import(/* webpackChunkName: "bar" */ './Bar.vue')
+const Baz = () => import(/* webpackChunkName: "bar" */ './Baz.vue')
 
 const router = new VueRouter({
   mode: 'history',
