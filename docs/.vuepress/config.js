@@ -10,6 +10,11 @@ module.exports = {
       title: 'Vue Router',
       description: 'Vue.js 官方的路由管理器。'
     },
+    '/ja/': {
+      lang: 'ja',
+      title: 'Vue Router',
+      description: 'Vue.js の公式ルータ'
+    },
     '/ru/': {
       lang: 'ru',
       title: 'Vue Router',
@@ -118,6 +123,56 @@ module.exports = {
               '/zh/guide/advanced/data-fetching.md',
               '/zh/guide/advanced/scroll-behavior.md',
               '/zh/guide/advanced/lazy-loading.md'
+            ]
+          }
+        ]
+      },
+      '/ja/': {
+        label: '日本語',
+        selectText: '言語',
+        editLinkText: 'GitHub 上でこのページを編集する',
+        nav: [
+          {
+            text: 'ガイド',
+            link: '/ja/guide/'
+          },
+          {
+            text: 'API リファレンス',
+            link: '/ja/api/'
+          },
+          {
+            text: 'リリースノート',
+            link: 'https://github.com/vuejs/vue-router/releases'
+          }
+        ],
+        sidebar: [
+          '/ja/installation.md',
+          '/ja/',
+          {
+            title: '基本的な使い方',
+            collapsable: false,
+            children: [
+              '/ja/guide/',
+              '/ja/guide/essentials/dynamic-matching.md',
+              '/ja/guide/essentials/nested-routes.md',
+              '/ja/guide/essentials/navigation.md',
+              '/ja/guide/essentials/named-routes.md',
+              '/ja/guide/essentials/named-views.md',
+              '/ja/guide/essentials/redirect-and-alias.md',
+              '/ja/guide/essentials/passing-props.md',
+              '/ja/guide/essentials/history-mode.md'
+            ]
+          },
+          {
+            title: '高度な使い方',
+            collapsable: false,
+            children: [
+              '/ja/guide/advanced/navigation-guards.md',
+              '/ja/guide/advanced/meta.md',
+              '/ja/guide/advanced/transitions.md',
+              '/ja/guide/advanced/data-fetching.md',
+              '/ja/guide/advanced/scroll-behavior.md',
+              '/ja/guide/advanced/lazy-loading.md'
             ]
           }
         ]
