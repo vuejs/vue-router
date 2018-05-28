@@ -38,7 +38,7 @@
 
   - `history`: HTML5 히스토리 API 및 서버 설정이 필요합니다. [HTML5 History 모드](../essentials/history-mode.md)를 확인하세요.
 
-  - `abstract`:   모든 자바 스크립트 환경에서 작동합니다 (예: Node.js가 있는 서버 측 **브라우저 API가없는 경우 라우터가 자동으로이 모드로 강제 전환됩니다.**
+  - `abstract`:   모든 자바 스크립트 환경에서 작동합니다 (예: Node.js가 있는 서버 측 **브라우저 API가없는 경우 라우터가 자동으로이 모드로 강제 트랜지션됩니다.**
 
 ### base
 
