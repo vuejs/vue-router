@@ -24,7 +24,7 @@ export function createRoute (
     path: location.path || '/',
     hash: location.hash || '',
     query,
-    params: location.params || {},
+    params: Object.assign({}, location.params || {}),
     fullPath: getFullPath(location, stringifyQuery),
     matched: record ? formatMatch(record) : []
   }
