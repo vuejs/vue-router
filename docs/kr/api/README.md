@@ -16,9 +16,9 @@ sidebar: auto
 
 - HTML5 히스토리 모드에서 `base` 옵션을 사용할 때 `to` prop의 URL에 이를 포함 할 필요가 없습니다.
 
-### Props
+## Props
 
-- **to**
+### to
 
   - 자료형: `string | Location`
 
@@ -48,7 +48,7 @@ sidebar: auto
   <router-link :to="{ path: 'register', query: { plan: 'private' }}">Register</router-link>
   ```
 
-- **replace**
+### replace
 
   - 자료형: `boolean`
 
@@ -60,7 +60,7 @@ sidebar: auto
   <router-link :to="{ path: '/abc'}" replace></router-link>
   ```
 
-- **append**
+### append
 
   - 자료형: `boolean`
 
@@ -72,7 +72,7 @@ sidebar: auto
   <router-link :to="{ path: 'relative/path'}" append></router-link>
   ```
 
-- **tag**
+### tag
 
   - 자료형: `string`
 
@@ -86,7 +86,7 @@ sidebar: auto
   <li>foo</li>
   ```
 
-- **active-class**
+### active-class
 
   - 자료형: `string`
 
@@ -94,7 +94,7 @@ sidebar: auto
 
   링크가 활성화 되어 있을 때 적용된 active CSS 클래스를 구성합니다. 기본값은 `linkActiveClass` 라우터 생성자 옵션을 통해 전역적으로 설정될 수 있습니다.
 
-- **exact**
+### exact
 
   - 자료형: `boolean`
 
@@ -111,7 +111,7 @@ sidebar: auto
 
   active 링크 클래스를 설명하는 추가 [예제](https://jsfiddle.net/8xrk1n9f/)를 확인 하십시오.
 
-- **event**
+### event
 
   > 2.1.0+
 
@@ -121,7 +121,7 @@ sidebar: auto
 
   링크 네비게이션을 트리거 할 수있는 이벤트를 지정합니다.
 
-- **exact-active-class**
+### exact-active-class
 
   > 2.5.0+
   - 자료형: `string`
@@ -146,9 +146,9 @@ sidebar: auto
 
 `<router-view>` 컴포넌트는 주어진 라우트에 대해 일치하는 컴포넌트를 렌더링하는 함수형 컴포넌트입니다. `<router-view>`에서 렌더링된 컴포넌트는 자체 `<router-view>`를 포함 할 수 있으며, 이는 중첩 된 라우트를 위해 컴포넌트를 렌더링합니다.
 
-### Props
+## `<router-view>` props
 
-- **name**
+### name**
 
   - 자료형: `string`
 
@@ -170,51 +170,49 @@ sidebar: auto
 </transition>
 ```
 
-# 라우터 인스턴스
+## 라우터 인스턴스
 
-### 속성
-
-#### router.app
+### router.app
 
 - 자료형: `Vue instance`
 
   `router`가 주입 된 루트 Vue 인스턴스.
 
-#### router.mode
+### router.mode
 
 - 자료형: `string`
 
   라우터가 사용하는 [mode](options.md#mode).
 
-#### router.currentRoute
+### router.currentRoute
 
 - 자료형: `Route`
 
   [라우트 객체](route-object.md)로 표시된 현재 라우트.
 
-### Methods
+## Methods
 
-- **router.beforeEach(guard)**
-- **router.beforeResolve(guard)** (2.5.0+)
-- **router.afterEach(hook)**
+### router.beforeEach
+### router.beforeResolve
+### router.afterEach
 
 전역 네비게이션 가드 추가. [네비게이션 가드](../advanced/navigation-guards.md)를 보십시오.
 
 2.5.0이상에서 세 가지 메소드 모두 등록된 guard / hook을 제거하는 함수를 반환합니다.
 
-- **router.push(location, onComplete?, onAbort?)**
-- **router.replace(location, onComplete?, onAbort?)**
-- **router.go(n)**
-- **router.back()**
-- **router.forward()**
+### router.push
+### router.replace
+### router.go
+### router.back
+### router.forward
 
   프로그래밍 방식으로 새 URL로 이동합니다. [프로그래밍 방식 네비게이션](../essentials/navigation.md)을 참조하십시오.
 
-- **router.getMatchedComponents(location?)**
+### router.getMatchedComponents
 
   지정된 위치 또는 현재의 라우트에 일치하는 컴퍼넌트(인스턴스는 아니고 정의/생성자)의 배열을 반환합니다. 이는 주로 데이터를 프리페치(prefetching)하기 위해 서버 측 렌더링 동안 사용됩니다.
 
-- **router.resolve(location, current?, append?)**
+### router.resolve
 
   > 2.1.0+
 
@@ -232,13 +230,13 @@ sidebar: auto
 
 - `append`는 `current` 라우트에 추가할 수 있도록 합니다 ([`router-link`](router-link.md#props)처럼)
 
-- **router.addRoutes(routes)**
+### router.addRoutes
 
   > 2.2.0+
 
   라우터에 동적으로 더 많은 라우트를 추가할 수 있습니다. 전달인자는 `routes` 생성자 옵션과 동일한 경로 설정 포맷을 사용하는 배열이어야 합니다.
 
-- **router.onReady(callback, [errorCallback])**
+### router.onReady
 
   > 2.2.0+
 
@@ -246,7 +244,7 @@ sidebar: auto
 
   이는 서버와 클라이언트 모두 일관된 출력을 보장하기 위해 서버측 렌더링을 사용할 때 유용합니다.
 
-- **router.onError(callback)**
+### router.onError
 
   > 2.4.0+
 
@@ -272,8 +270,8 @@ sidebar: auto
 
 ### 활성화된 옵션
 
-- **beforeRouteEnter**
-- **beforeRouteUpdate** (2.2에서 추가됨)
-- **beforeRouteLeave**
+  - beforeRouteEnter
+  - beforeRouteUpdate
+  - beforeRouteLeave
 
   [컴포넌트 내부 가드](../advanced/navigation-guards.md#incomponent-guards)를 확인하세요.
