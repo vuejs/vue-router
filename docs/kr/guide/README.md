@@ -1,12 +1,14 @@
-# Getting Started
+# 시작하기
 
-::: tip Note
-We will be using [ES2015](https://github.com/lukehoban/es6features) in the code samples in the guide.
+::: tip 참고
+이 가이드는 코드샘플에 [ES2015](https://github.com/lukehoban/es6features)를 사용합니다.
 
-Also, all examples will be using the full version of Vue to make on-the-fly template compilation possible. See more details [here](https://vuejs.org/v2/guide/installation.html#Runtime-Compiler-vs-Runtime-only).
+또한 모든 예제는 Vue 정식 버전을 이용해 바로 컴파일 할 수 있습니다. 더 자세한 내용은 [여기](https://vuejs.org/v2/guide/installation.html#Runtime-Compiler-vs-Runtime-only)를 확인하세요.
 :::
 
-Creating a Single-page Application with Vue + Vue Router is dead simple. With Vue.js, we are already composing our application with components. When adding Vue Router to the mix, all we need to do is map our components to the routes and let Vue Router know where to render them. Here's a basic example:
+Vue와 Vue 라우터를 이용해 싱글 페이지 앱을 만드는 것은 매우 쉽습니다. Vue.js를 사용한다면 이미 컴포넌트로 앱을 구성하고 있을 것입니다. Vue 라우터를 함께 사용할 때 추가로 해야하는 것은 라우트에 컴포넌트를 매핑한 후, 어떤 주소에서 렌더링할 지 알려주는 것 뿐입니다.
+
+아래는 기본 예제입니다.
 
 ## HTML
 
@@ -17,14 +19,14 @@ Creating a Single-page Application with Vue + Vue Router is dead simple. With Vu
 <div id="app">
   <h1>Hello App!</h1>
   <p>
-    <!-- use router-link component for navigation. -->
-    <!-- specify the link by passing the `to` prop. -->
-    <!-- `<router-link>` will be rendered as an `<a>` tag by default -->
+    <!-- 네비게이션을 위해 router-link 컴포넌트를 사용합니다. -->
+    <!-- 구체적인 속성은 `to` prop을 이용합니다. -->
+    <!-- 기본적으로 `<router-link>`는 `<a>` 태그로 렌더링됩니다.-->
     <router-link to="/foo">Go to Foo</router-link>
     <router-link to="/bar">Go to Bar</router-link>
   </p>
-  <!-- route outlet -->
-  <!-- component matched by the route will render here -->
+  <!-- 라우트 아울렛 -->
+  <!-- 현재 라우트에 맞는 컴포넌트가 렌더링됩니다. -->
   <router-view></router-view>
 </div>
 ```
@@ -32,49 +34,49 @@ Creating a Single-page Application with Vue + Vue Router is dead simple. With Vu
 ## JavaScript
 
 ``` js
-// 0. If using a module system (e.g. via vue-cli), import Vue and VueRouter
-// and then call `Vue.use(VueRouter)`.
+// 0. 모듈 시스템 (예: vue-cli)을 이용하고 있다면, Vue와 Vue 라우터를 import 하세요
+// 그리고 `Vue.use(VueRouter)`를 호출하세요
 
-// 1. Define route components.
-// These can be imported from other files
+
+// 1. 라우트 컴포넌트를 정의하세요.
+// 아래 내용들은 다른 파일로부터 가져올 수 있습니다.
 const Foo = { template: '<div>foo</div>' }
 const Bar = { template: '<div>bar</div>' }
 
-// 2. Define some routes
+// 2. 라우트를 정의하세요.
 // Each route should map to a component. The "component" can
-// either be an actual component constructor created via
-// `Vue.extend()`, or just a component options object.
-// We'll talk about nested routes later.
+// 각 라우트는 반드시 컴포넌트와 매핑되어야 합니다.
+// "component"는 `Vue.extend()`를 통해 만들어진
+// 실제 컴포넌트 생성자이거나 컴포넌트 옵션 객체입니다.
 const routes = [
   { path: '/foo', component: Foo },
   { path: '/bar', component: Bar }
 ]
 
-// 3. Create the router instance and pass the `routes` option
-// You can pass in additional options here, but let's
-// keep it simple for now.
+// 3. `routes` 옵션과 함께 router 인스턴스를 만드세요.
+// 추가 옵션을 여기서 전달해야합니다.
+// 지금은 간단하게 유지하겠습니다.
 const router = new VueRouter({
-  routes // short for `routes: routes`
+  routes // `routes: routes`의 줄임
 })
 
-// 4. Create and mount the root instance.
-// Make sure to inject the router with the router option to make the
-// whole app router-aware.
+// 4. 루트 인스턴스를 만들고 mount 하세요.
+// router와 router 옵션을 전체 앱에 주입합니다.
 const app = new Vue({
   router
 }).$mount('#app')
 
-// Now the app has started!
+// 이제 앱이 시작됩니다!
 ```
 
-By injecting the router, we get access to it as `this.$router` as well as the current route as `this.$route` inside of any component:
+라우터를 주입하였으므로 `this.$router`와 현재 라우트를 `this$.route`로 접근할 수 있습니다.
 
 ```js
 // Home.vue
 export default {
   computed: {
     username () {
-      // We will see what `params` is shortly
+      // 곧 `params` 확인할 수 있습니다.
       return this.$route.params.username
     }
   },
@@ -88,8 +90,9 @@ export default {
 }
 ```
 
-Throughout the docs, we will often use the `router` instance. Keep in mind that `this.$router` is exactly the same as using `router`. The reason we use `this.$router` is because we don't want to import the router in every single component that needs to manipulate routing.
+문서 전체에서 `router`를 자주 사용했습니다. `this.$router`는 정확히 `router`와 동일합니다. `this.$router`를 사용하는 이유는 라우터를 조작해야하는 모든 컴포넌트에서 라우트 객체를 가져올 필요가 없기 때문입니다.
 
-You can also check out this example [live](https://jsfiddle.net/yyx990803/xgrjzsup/).
 
-Notice that a `<router-link>` automatically gets the `.router-link-active` class when its target route is matched. You can learn more about it in its [API reference](../api/#router-link).
+이 [예제](https://jsfiddle.net/yyx990803/xgrjzsup/)에서 바로 확인해볼 수 있습니다.
+
+`<router-link>`는 현재 라우트와 일치할 때 자동으로 `.router-link-active` 클래스가 추가됩니다. [API 레퍼런스](../api/#router-link)를 확인하세요.
