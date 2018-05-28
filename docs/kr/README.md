@@ -1,41 +1,21 @@
 # 소개
-<!--email_off-->
-> 참고 : vue-router@2.x는 Vue 2.x에서만 작동합니다. 0.7.x용 문서는 [이 곳](https://github.com/vuejs/vue-router/tree/1.0/docs/en)입니다.
-<!--/email_off-->
-**[릴리즈 노트](https://github.com/vuejs/vue-router/releases)**
 
-- [설치](installation.md)
-- 필수 사항
-  - [시작하기](essentials/getting-started.md)
-  - [동적 라우트 매칭](essentials/dynamic-matching.md)
-  - [중첩된 라우트](essentials/nested-routes.md)
-  - [프로그래밍 방식 네비게이션](essentials/navigation.md)
-  - [이름을 가진 라우트](essentials/named-routes.md)
-  - [이름을 가진 뷰](essentials/named-views.md)
-  - [리다이렉트와 별칭](essentials/redirect-and-alias.md)
-  - [라우트 컴포넌트에 속성 전달](essentials/passing-props.md)
-  - [HTML5 History 모드](essentials/history-mode.md)
-- 고급
-  - [네비게이션 가드](advanced/navigation-guards.md)
-  - [라우트 메타 필드](advanced/meta.md)
-  - [전환](advanced/transitions.md)
-  - [데이터 가져오기](advanced/data-fetching.md)
-  - [스크롤 동작](advanced/scroll-behavior.md)
-  - [지연된 로딩](advanced/lazy-loading.md)
-- API 레퍼런스
-  - [라우터 생성자 옵션](api/options.md)
-    - [routes](api/options.md#routes)
-    - [mode](api/options.md#mode)
-    - [base](api/options.md#base)
-    - [linkActiveClass](api/options.md#linkactiveclass)
-    - [linkExactActiveClass](api/options.md#linkexactactiveclass)
-    - [scrollBehavior](api/options.md#scrollbehavior)
-    - [parseQuery / stringifyQuery](api/options.md#parsequery--stringifyquery)
-    - [fallback](api/options.md#fallback)
-  - [라우터 인스턴스](api/router-instance.md)
-    - [Properties](api/router-instance.md#properties)
-    - [Methods](api/router-instance.md#methods)
-  - [라우트 객체](api/route-object.md)
-  - [컴포넌트 주입](api/component-injections.md)
-  - [router-link](api/router-link.md)
-  - [router-view](api/router-view.md)
+:::tip 버전 정보
+TypeScript 사용자는 `vue-router@3.0+`와 `vue@2.5+`를 사용하세요.
+:::
+
+Vue 라우터는 [Vue.js](http://vuejs.org)의 공식 라우터입니다.
+Vue.js를 사용한 싱글 페이지 앱을 쉽게 만들 수 있도록 Vue.js의 코어와 긴밀히 통합되어 있습니다.
+
+아래의 기능을 포함합니다.
+
+- 중첩된 라우트/뷰 매핑
+- 모듈화된, 컴포넌트 기반의 라우터 설정
+- 라우터 파라미터, 쿼리, 와일드카드
+- Vue.js의 트랜지션 시스템을 이용한 트랜지션 효과
+- 세밀한 네비게이션 컨트롤
+- active CSS 클래스를 자동으로 추가해주는 링크
+- HTML5 히스토리 모드 또는 해시 모드(IE9에서 자동으로 폴백)
+- 사용자 정의 가능한 스크롤 동작
+
+[시작하기](./guide/) 또는 [예제](https://github.com/vuejs/vue-router/tree/dev/examples)를 참고하세요. ([`README.md`](https://github.com/vuejs/vue-router/)에서 사용법을 확인할 수 있습니다).
