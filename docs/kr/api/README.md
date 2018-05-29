@@ -154,7 +154,7 @@ sidebar: auto
 
   - 기본값: `"default"`
 
-  `<router-view>`가 이름을 가지고있을 때, 그것은 일치된 라우트 레코드의 `components` 옵션에서 해당 이름으로 컴포넌트를 렌더링 할 것입니다. 예제는 [이름을 가지는 뷰](../essentials/named-views.md)를 참조하십시오.
+  `<router-view>`가 이름을 가지고있을 때, 그것은 일치된 라우트 레코드의 `components` 옵션에서 해당 이름으로 컴포넌트를 렌더링 할 것입니다. 예제는 [이름을 가지는 뷰](../guide/essentials/named-views.md)를 참조하십시오.
 
 ### 동작
 
@@ -196,7 +196,7 @@ sidebar: auto
 ### router.beforeResolve
 ### router.afterEach
 
-전역 네비게이션 가드 추가. [네비게이션 가드](../advanced/navigation-guards.md)를 보십시오.
+전역 네비게이션 가드 추가. [네비게이션 가드](../guide/advanced/navigation-guards.md)를 보십시오.
 
 2.5.0이상에서 세 가지 메소드 모두 등록된 guard / hook을 제거하는 함수를 반환합니다.
 
@@ -206,7 +206,7 @@ sidebar: auto
 ### router.back
 ### router.forward
 
-  프로그래밍 방식으로 새 URL로 이동합니다. [프로그래밍 방식 네비게이션](../essentials/navigation.md)을 참조하십시오.
+  프로그래밍 방식으로 새 URL로 이동합니다. [프로그래밍 방식 네비게이션](../guide/essentials/navigation.md)을 참조하십시오.
 
 ### router.getMatchedComponents
 
@@ -274,4 +274,4 @@ sidebar: auto
   - beforeRouteUpdate
   - beforeRouteLeave
 
-  [컴포넌트 내부 가드](../advanced/navigation-guards.md#incomponent-guards)를 확인하세요.
+  [컴포넌트 내부 가드](../guide/advanced/navigation-guards.md#incomponent-guards)를 확인하세요.
