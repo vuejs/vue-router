@@ -20,7 +20,7 @@ router.beforeEach((to, from, next) => {
 
 모든 가드 기능은 세 가지 전달인자를 받습니다.
 
-- **`to: 라우트`**: 대상 [Route 객체](../api/route-object.md) 로 이동합니다.
+- **`to: 라우트`**: 대상 [Route 객체](../../api/#the-route-object) 로 이동합니다.
 
 - **`from: 라우트`**: 현재 라우트로 오기전 라우트 입니다.
 
