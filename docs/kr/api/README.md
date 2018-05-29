@@ -182,13 +182,13 @@ sidebar: auto
 
 - 자료형: `string`
 
-  라우터가 사용하는 [mode](options.md#mode).
+  라우터가 사용하는 [mode](./#mode).
 
 ### router.currentRoute
 
 - 자료형: `Route`
 
-  [라우트 객체](route-object.md)로 표시된 현재 라우트.
+  [라우트 객체](#the-route-object)로 표시된 현재 라우트.
 
 ## Methods
 
@@ -266,7 +266,7 @@ sidebar: auto
 
 - #### $route
 
-  현재 활성화 된 [Route](route-object.md)입니다. 이 속성은 읽기 전용이며 해당 속성은 변경할 수는 없지만 감시 할 수 있습니다.
+  현재 활성화 된 [Route](#the-route-object)입니다. 이 속성은 읽기 전용이며 해당 속성은 변경할 수는 없지만 감시 할 수 있습니다.
 
 ### 활성화된 옵션
 
