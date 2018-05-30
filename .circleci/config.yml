@@ -15,7 +15,7 @@ jobs:
             - v1-vue-{{ .Branch }}-{{ checksum "package-lock.json" }}
             - v1-vue-{{ .Branch }}-
             - v1-vue-
-      - run: npm install
+      - run: yarn install
       - save_cache:
           key: v1-vue-{{ .Branch }}-{{ checksum "package-lock.json" }}
           paths:
