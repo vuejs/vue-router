@@ -14,6 +14,11 @@ module.exports = {
       lang: 'ja',
       title: 'Vue Router',
       description: 'Vue.js の公式ルータ'
+    },
+    '/ru/': {
+      lang: 'ru',
+      title: 'Vue Router',
+      description: 'Официальный маршрутизатор для Vue.js.'
     }
   },
   serviceWorker: true,
@@ -168,6 +173,56 @@ module.exports = {
               '/ja/guide/advanced/data-fetching.md',
               '/ja/guide/advanced/scroll-behavior.md',
               '/ja/guide/advanced/lazy-loading.md'
+            ]
+          }
+        ]
+      },
+      '/ru/': {
+        label: 'Русский',
+        selectText: 'Languages',
+        editLinkText: 'Изменить эту страницу на GitHub',
+        nav: [
+          {
+            text: 'Руководство',
+            link: '/ru/guide/'
+          },
+          {
+            text: 'Справочник API',
+            link: '/ru/api/'
+          },
+          {
+            text: 'История изменений',
+            link: 'https://github.com/vuejs/vue-router/releases'
+          }
+        ],
+        sidebar: [
+          '/ru/installation.md',
+          '/ru/',
+          {
+            title: 'Основы',
+            collapsable: false,
+            children: [
+              '/ru/guide/',
+              '/ru/guide/essentials/dynamic-matching.md',
+              '/ru/guide/essentials/nested-routes.md',
+              '/ru/guide/essentials/navigation.md',
+              '/ru/guide/essentials/named-routes.md',
+              '/ru/guide/essentials/named-views.md',
+              '/ru/guide/essentials/redirect-and-alias.md',
+              '/ru/guide/essentials/passing-props.md',
+              '/ru/guide/essentials/history-mode.md'
+            ]
+          },
+          {
+            title: 'Продвинутые темы',
+            collapsable: false,
+            children: [
+              '/ru/guide/advanced/navigation-guards.md',
+              '/ru/guide/advanced/meta.md',
+              '/ru/guide/advanced/transitions.md',
+              '/ru/guide/advanced/data-fetching.md',
+              '/ru/guide/advanced/scroll-behavior.md',
+              '/ru/guide/advanced/lazy-loading.md'
             ]
           }
         ]
