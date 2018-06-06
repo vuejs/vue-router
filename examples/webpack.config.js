@@ -1,6 +1,5 @@
 const fs = require('fs')
 const path = require('path')
-const webpack = require('webpack')
 const VuePlugin = require('vue-loader/lib/plugin')
 
 module.exports = {
