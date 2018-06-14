@@ -1,7 +1,7 @@
 module.exports = {
   'Hash mode': function (browser) {
     browser
-    .url('http://localhost:8080/hash-mode/')
+    .url('http://localhost:8080/hash-mode/?foo=bar')
       .waitForElementVisible('#app', 1000)
       .assert.count('li', 4)
       .assert.count('li a', 3)
@@ -11,19 +11,19 @@ module.exports = {
       .assert.containsText('.view', 'home')
 
       .click('li:nth-child(2) a')
-      .assert.urlEquals('http://localhost:8080/hash-mode/#/foo')
+      .assert.urlEquals('http://localhost:8080/hash-mode/#/foo?foo=bar')
       .assert.containsText('.view', 'foo')
 
       .click('li:nth-child(3) a')
-      .assert.urlEquals('http://localhost:8080/hash-mode/#/bar')
+      .assert.urlEquals('http://localhost:8080/hash-mode/#/bar?foo=bar')
       .assert.containsText('.view', 'bar')
 
       .click('li:nth-child(1) a')
-      .assert.urlEquals('http://localhost:8080/hash-mode/#/')
+      .assert.urlEquals('http://localhost:8080/hash-mode/#/?foo=bar')
       .assert.containsText('.view', 'home')
 
       .click('li:nth-child(4)')
-      .assert.urlEquals('http://localhost:8080/hash-mode/#/bar')
+      .assert.urlEquals('http://localhost:8080/hash-mode/#/bar?foo=bar')
       .assert.containsText('.view', 'bar')
 
     // check initial visit

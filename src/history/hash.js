@@ -108,8 +108,15 @@ export function getHash (): string {
 function getUrl (path) {
   const href = window.location.href
   const i = href.indexOf('#')
-  const base = i >= 0 ? href.slice(0, i) : href
-  return `${base}#${path}`
+  let base = i >= 0 ? href.slice(0, i) : href
+  let query = ''
+  // If query string is present in URL, place it after the hash path
+  if (href.indexOf('?') >= 0) {
+    const j = href.indexOf('?')
+    base = base.slice(0, j)
+    query = href.slice(j)
+  }
+  return `${base}#${path}${query}`
 }
 
 function pushHash (path) {
