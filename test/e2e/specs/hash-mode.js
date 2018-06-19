@@ -2,7 +2,7 @@ module.exports = {
   'Hash mode': function (browser) {
     browser
       .url('http://localhost:8080/hash-mode/')
-      .waitForElementVisible('#app', 2000)
+      .waitForElementVisible('#app', 1000)
       .assert.count('li', 5)
       .assert.count('li a', 4)
       .assert.attributeContains('li:nth-child(1) a', 'href', '/hash-mode/#/')
