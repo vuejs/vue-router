@@ -14,6 +14,16 @@ module.exports = {
       lang: 'ja',
       title: 'Vue Router',
       description: 'Vue.js の公式ルータ'
+    },
+    '/ru/': {
+      lang: 'ru',
+      title: 'Vue Router',
+      description: 'Официальный маршрутизатор для Vue.js.'
+    },
+    '/kr/': {
+      lang: 'kr',
+      title: 'Vue Router',
+      description: 'Vue.js 공식 라우터'
     }
   },
   serviceWorker: true,
@@ -168,6 +178,106 @@ module.exports = {
               '/ja/guide/advanced/data-fetching.md',
               '/ja/guide/advanced/scroll-behavior.md',
               '/ja/guide/advanced/lazy-loading.md'
+            ]
+          }
+        ]
+      },
+      '/ru/': {
+        label: 'Русский',
+        selectText: 'Переводы',
+        editLinkText: 'Изменить эту страницу на GitHub',
+        nav: [
+          {
+            text: 'Руководство',
+            link: '/ru/guide/'
+          },
+          {
+            text: 'Справочник API',
+            link: '/ru/api/'
+          },
+          {
+            text: 'История изменений',
+            link: 'https://github.com/vuejs/vue-router/releases'
+          }
+        ],
+        sidebar: [
+          '/ru/installation.md',
+          '/ru/',
+          {
+            title: 'Основы',
+            collapsable: false,
+            children: [
+              '/ru/guide/',
+              '/ru/guide/essentials/dynamic-matching.md',
+              '/ru/guide/essentials/nested-routes.md',
+              '/ru/guide/essentials/navigation.md',
+              '/ru/guide/essentials/named-routes.md',
+              '/ru/guide/essentials/named-views.md',
+              '/ru/guide/essentials/redirect-and-alias.md',
+              '/ru/guide/essentials/passing-props.md',
+              '/ru/guide/essentials/history-mode.md'
+            ]
+          },
+          {
+            title: 'Продвинутые темы',
+            collapsable: false,
+            children: [
+              '/ru/guide/advanced/navigation-guards.md',
+              '/ru/guide/advanced/meta.md',
+              '/ru/guide/advanced/transitions.md',
+              '/ru/guide/advanced/data-fetching.md',
+              '/ru/guide/advanced/scroll-behavior.md',
+              '/ru/guide/advanced/lazy-loading.md'
+            ]
+          }
+        ]
+      },
+      '/kr/': {
+        label: '한국어',
+        selectText: '언어',
+        editLinkText: 'GitHub에서 이 문서를 수정하세요',
+        nav: [
+          {
+            text: '가이드',
+            link: '/kr/guide/'
+          },
+          {
+            text: 'API 레퍼런스',
+            link: '/kr/api/'
+          },
+          {
+            text: '릴리즈 노트',
+            link: 'https://github.com/vuejs/vue-router/releases'
+          }
+        ],
+        sidebar: [
+          '/kr/installation.md',
+          '/kr/',
+          {
+            title: '기본 사용법',
+            collapsable: false,
+            children: [
+              '/kr/guide/',
+              '/kr/guide/essentials/dynamic-matching.md',
+              '/kr/guide/essentials/nested-routes.md',
+              '/kr/guide/essentials/navigation.md',
+              '/kr/guide/essentials/named-routes.md',
+              '/kr/guide/essentials/named-views.md',
+              '/kr/guide/essentials/redirect-and-alias.md',
+              '/kr/guide/essentials/passing-props.md',
+              '/kr/guide/essentials/history-mode.md'
+            ]
+          },
+          {
+            title: '고급 사용법',
+            collapsable: false,
+            children: [
+              '/kr/guide/advanced/navigation-guards.md',
+              '/kr/guide/advanced/meta.md',
+              '/kr/guide/advanced/transitions.md',
+              '/kr/guide/advanced/data-fetching.md',
+              '/kr/guide/advanced/scroll-behavior.md',
+              '/kr/guide/advanced/lazy-loading.md'
             ]
           }
         ]

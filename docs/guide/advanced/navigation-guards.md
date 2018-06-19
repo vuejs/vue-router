@@ -127,7 +127,7 @@ beforeRouteUpdate (to, from, next) {
 The **leave guard** is usually used to prevent the user from accidentally leaving the route with unsaved edits. The navigation can be canceled by calling `next(false)`.
 
 ```js
-beforeRouteLeave (to, from , next) {
+beforeRouteLeave (to, from, next) {
   const answer = window.confirm('Do you really want to leave? you have unsaved changes!')
   if (answer) {
     next()
