@@ -52,6 +52,7 @@ const scrollBehavior = (to, from, savedPosition) => {
 
 const router = new VueRouter({
   mode: 'hash',
+  base: __dirname,
   scrollBehavior,
   routes: [
     { path: '/', component: Home, meta: { scrollToTop: true }},
