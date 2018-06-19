@@ -8,10 +8,10 @@ import { setupScroll, handleScroll } from '../util/scroll'
 import { pushState, replaceState, supportsPushState } from '../util/push-state'
 
 export class HashHistory extends History {
-  constructor (router: Router, base: ?string, fallback: boolean) {
+  constructor (router: Router, base: ?string) {
     super(router, base)
     // check history fallback deeplinking
-    if (fallback && checkFallback(this.base)) {
+    if (checkFallback(this.base)) {
       return
     }
     ensureSlash()
@@ -80,10 +80,13 @@ export class HashHistory extends History {
 
 function checkFallback (base) {
   const location = getLocation(base)
-  if (!/^\/#/.test(location)) {
-    window.location.replace(
-      cleanPath(base + '/#' + location)
-    )
+  if (location !== '/' && !/^\/#/.test(location)) {
+    const path = cleanPath(base + '/#' + location)
+    if (supportsPushState) {
+      replaceState(path)
+    } else {
+      window.location.replace(path)
+    }
     return true
   }
 }
