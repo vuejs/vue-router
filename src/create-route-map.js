@@ -182,6 +182,6 @@ function isExternalPath (path: string): boolean {
 
 function getExternalBase (path: string): string {
   return path.indexOf('https://') !== -1
-    ? path.substr(0, 'https:/'.length)
-    : path.substr(0, 'http:/'.length)
+    ? path.substr(0, 'https://'.length - 1)
+    : path.substr(0, 'http://'.length - 1)
 }
