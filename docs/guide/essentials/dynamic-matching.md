@@ -32,7 +32,7 @@ You can have multiple dynamic segments in the same route, and they will map to c
 | pattern | matched path | $route.params |
 |---------|------|--------|
 | /user/:username | /user/evan | `{ username: 'evan' }` |
-| /user/:username/post/:post_id | /user/evan/post/123 | `{ username: 'evan', post_id: 123 }` |
+| /user/:username/post/:post_id | /user/evan/post/123 | `{ username: 'evan', post_id: '123' }` |
 
 In addition to `$route.params`, the `$route` object also exposes other useful information such as `$route.query` (if there is a query in the URL), `$route.hash`, etc. You can check out the full details in the [API Reference](../../api/#the-route-object).
 

@@ -32,7 +32,7 @@ const User = {
 | パターン | マッチしたパス | $route.params |
 |---------|------|--------|
 | /user/:username | /user/evan | `{ username: 'evan' }` |
-| /user/:username/post/:post_id | /user/evan/post/123 | `{ username: 'evan', post_id: 123 }` |
+| /user/:username/post/:post_id | /user/evan/post/123 | `{ username: 'evan', post_id: '123' }` |
 
 `$route.params` に加えて、`$route` オブジェクトでは `$route.query` (もし URL 上にクエリがあるなら) や `$route.hash` など便利な情報も利用可能です。それらの詳細については [API リファレンス](../api/route-object.md) でご確認ください。
 

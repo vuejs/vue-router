@@ -34,7 +34,7 @@ const User = {
 | 패턴 | 일치하는 패스 | $route.params |
 |---------|------|--------|
 | /user/:username | /user/evan | `{ username: 'evan' }` |
-| /user/:username/post/:post_id | /user/evan/post/123 | `{ username: 'evan', post_id: 123 }` |
+| /user/:username/post/:post_id | /user/evan/post/123 | `{ username: 'evan', post_id: '123' }` |
 
 `$route.params` 외에도 `$route` 객체는 `$route.query` (URL에 쿼리가 있는 경우), `$route.hash` 등의 유용한 정보를 제공합니다. [API 레퍼런스](../../api/#the-route-object)에서 전체 세부 정보를 확인할 수 있습니다.
 
