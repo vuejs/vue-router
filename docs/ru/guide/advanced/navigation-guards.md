@@ -126,7 +126,7 @@ beforeRouteUpdate (to, from, next) {
 **Навигационный хук ухода со страницы** обычно используется для предотвращения случайного ухода пользователя со страницы с несохранёнными изменениями. Навигацию можно отменить вызовом `next(false)`.
 
 ```js
-beforeRouteLeave (to, from , next) {
+beforeRouteLeave (to, from, next) {
   const answer = window.confirm('Вы хотите уйти? У вас есть несохранённые изменения!')
   if (answer) {
     next()

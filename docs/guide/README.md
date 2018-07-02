@@ -1,5 +1,7 @@
 # Getting Started
 
+<Bit/>
+
 ::: tip Note
 We will be using [ES2015](https://github.com/lukehoban/es6features) in the code samples in the guide.
 
