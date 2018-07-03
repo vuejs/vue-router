@@ -1,7 +1,7 @@
 /* @flow */
 
 import { createRoute, isSameRoute, isIncludedRoute } from '../util/route'
-import { _Vue } from '../install'
+import { extend } from '../util/misc'
 
 // work around weird flow bug
 const toTypes: Array<Function> = [String, Object]
@@ -88,7 +88,6 @@ export default {
       if (a) {
         // in case the <a> is a static node
         a.isStatic = false
-        const extend = _Vue.util.extend
         const aData = a.data = extend({}, a.data)
         aData.on = on
         const aAttrs = a.data.attrs = extend({}, a.data.attrs)
