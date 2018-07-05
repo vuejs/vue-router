@@ -11,5 +11,5 @@
 flow
 
 [options]
-unsafe.enable_getters_and_setters=true
+#unsafe.enable_getters_and_setters=true
 suppress_comment= \\(.\\|\n\\)*\\$flow-disable-line

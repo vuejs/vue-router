@@ -32,7 +32,7 @@ npm run dev
 # lint & run all tests
 npm test
 
-# serve docs at localhost:4000 (requires global gitbook-cli)
+# serve docs at localhost:8080
 npm run docs
 ```
 
@@ -60,6 +60,6 @@ Details changes for each release are documented in the [release notes](https://g
 
 [MIT](http://opensource.org/licenses/MIT)
 
-Copyright (c) 2013-2017 Evan You
+Copyright (c) 2013-present Evan You
 
 

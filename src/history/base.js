@@ -318,7 +318,10 @@ function poll (
   key: string,
   isValid: () => boolean
 ) {
-  if (instances[key]) {
+  if (
+    instances[key] &&
+    !instances[key]._isBeingDestroyed // do not reuse being destroyed instance
+  ) {
     cb(instances[key])
   } else if (isValid()) {
     setTimeout(() => {

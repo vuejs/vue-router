@@ -5,6 +5,7 @@ import { parsePath, resolvePath } from './path'
 import { resolveQuery } from './query'
 import { fillParams } from './params'
 import { warn } from './warn'
+import { extend } from './misc'
 
 export function normalizeLocation (
   raw: RawLocation,
@@ -20,9 +21,9 @@ export function normalizeLocation (
 
   // relative params
   if (!next.path && next.params && current) {
-    next = assign({}, next)
+    next = extend({}, next)
     next._normalized = true
-    const params: any = assign(assign({}, current.params), next.params)
+    const params: any = extend(extend({}, current.params), next.params)
     if (current.name) {
       next.name = current.name
       next.params = params
@@ -58,11 +59,4 @@ export function normalizeLocation (
     query,
     hash
   }
-}
-
-function assign (a, b) {
-  for (const key in b) {
-    a[key] = b[key]
-  }
-  return a
 }

@@ -11,7 +11,7 @@ declare type PathToRegexpOptions = {
 }
 
 declare module 'path-to-regexp' {
-  declare var exports: {
+  declare module.exports: {
     (path: string, keys?: Array<?{ name: string }>, options?: PathToRegexpOptions): RouteRegExp;
     compile: (path: string) => (params: Object) => string;
   }
@@ -36,6 +36,7 @@ declare type RouterOptions = {
   fallback?: boolean;
   base?: string;
   linkActiveClass?: string;
+  linkExactActiveClass?: string;
   parseQuery?: (query: string) => Object;
   stringifyQuery?: (query: Object) => string;
   scrollBehavior?: (

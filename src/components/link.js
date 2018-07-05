@@ -1,7 +1,7 @@
 /* @flow */
 
 import { createRoute, isSameRoute, isIncludedRoute } from '../util/route'
-import { _Vue } from '../install'
+import { extend } from '../util/misc'
 
 // work around weird flow bug
 const toTypes: Array<Function> = [String, Object]
@@ -41,23 +41,23 @@ export default {
     const globalExactPathActiveClass = router.options.linkExactPathActiveClass
     // Support global empty active class
     const activeClassFallback = globalActiveClass == null
-            ? 'router-link-active'
-            : globalActiveClass
+      ? 'router-link-active'
+      : globalActiveClass
     const exactActiveClassFallback = globalExactActiveClass == null
-            ? 'router-link-exact-active'
-            : globalExactActiveClass
+      ? 'router-link-exact-active'
+      : globalExactActiveClass
     const exactPathActiveClassFallback = globalExactPathActiveClass == null
-            ? 'router-link-exact-path-active'
-            : globalExactPathActiveClass
+      ? 'router-link-exact-path-active'
+      : globalExactPathActiveClass
     const activeClass = this.activeClass == null
-            ? activeClassFallback
-            : this.activeClass
+      ? activeClassFallback
+      : this.activeClass
     const exactActiveClass = this.exactActiveClass == null
-            ? exactActiveClassFallback
-            : this.exactActiveClass
+      ? exactActiveClassFallback
+      : this.exactActiveClass
     const exactPathActiveClass = this.exactPathActiveClass == null
-            ? exactPathActiveClassFallback
-            : this.exactPathActiveClass
+      ? exactPathActiveClassFallback
+      : this.exactPathActiveClass
     const compareTarget = location.path
       ? createRoute(null, location, null, router)
       : route
@@ -101,7 +101,6 @@ export default {
       if (a) {
         // in case the <a> is a static node
         a.isStatic = false
-        const extend = _Vue.util.extend
         const aData = a.data = extend({}, a.data)
         aData.on = on
         const aAttrs = a.data.attrs = extend({}, a.data.attrs)
