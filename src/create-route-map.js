@@ -26,13 +26,11 @@ export function createRouteMap (
   })
 
   // ensure wildcard routes are always at the end
-  for (let i = 0, l = pathList.length; i < l; i++) {
-    if (pathList[i] === '*') {
-      pathList.push(pathList.splice(i, 1)[0])
-      l--
-      i--
-    }
-  }
+  const normalPathList = pathList.filter(it => it !== '*')
+  const wildcardPathList = pathList.filter(it => it === '*')
+  pathList.length = 0
+  pathList.push(...normalPathList)
+  pathList.push(...wildcardPathList)
 
   return {
     pathList,
