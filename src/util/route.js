@@ -70,7 +70,7 @@ function getFullPath (
   return (path || '/') + stringify(query) + hash
 }
 
-export function isSameRoute (a: Route, b: ?Route, ignoringQuery: boolean): boolean {
+export function isSameRoute (a: Route, b: ?Route, ignoringQuery: ?boolean): boolean {
   if (b === START) {
     return a === b
   } else if (!b) {
