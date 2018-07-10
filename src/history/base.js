@@ -64,9 +64,13 @@ export class History {
   transitionTo (location: RawLocation, onComplete?: Function, onAbort?: Function) {
     const route = this.router.match(location, this.current)
     this.confirmTransition(route, () => {
+      const prev = this.current
       this.updateRoute(route)
       onComplete && onComplete(route)
       this.ensureURL()
+      this.router.afterHooks.forEach(hook => {
+        hook && hook(route, prev)
+      })
 
       // fire ready cbs once
       if (!this.ready) {
@@ -183,12 +187,8 @@ export class History {
   }
 
   updateRoute (route: Route) {
-    const prev = this.current
     this.current = route
     this.cb && this.cb(route)
-    this.router.afterHooks.forEach(hook => {
-      hook && hook(route, prev)
-    })
   }
 }
 
