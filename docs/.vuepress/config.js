@@ -1,4 +1,11 @@
 module.exports = {
+  // chainWebpack: (config) => {
+  //   const jsRule = config.module.rule('js')
+  //   jsRule.use('babel-loader').tap(options => ({
+  //     ...options,
+  //     babelrc: false
+  //   }))
+  // },
   locales: {
     '/': {
       lang: 'en-US',

@@ -5271,7 +5271,7 @@ min-document@^2.19.0:
   dependencies:
     dom-walk "^0.1.0"
 
-mini-css-extract-plugin@^0.4.0:
+mini-css-extract-plugin@^0.4.1:
   version "0.4.1"
   resolved "https://registry.yarnpkg.com/mini-css-extract-plugin/-/mini-css-extract-plugin-0.4.1.tgz#d2bcf77bb2596b8e4bd9257e43d3f9164c2e86cb"
   dependencies:
@@ -7937,9 +7937,9 @@ vuepress-theme-vue@^1.0.3:
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/vuepress-theme-vue/-/vuepress-theme-vue-1.0.3.tgz#8465434401bc99325de53ba038e1eed2d2ec84b9"
 
-vuepress@^0.10.2:
-  version "0.10.2"
-  resolved "https://registry.yarnpkg.com/vuepress/-/vuepress-0.10.2.tgz#4f1cd6126619f7a94ab1b08caacdf6d91c52954f"
+vuepress@^0.11.0:
+  version "0.11.0"
+  resolved "https://registry.yarnpkg.com/vuepress/-/vuepress-0.11.0.tgz#f9e7b1eb069b2be7628dabbdfbc7eb643a8a817f"
   dependencies:
     "@babel/core" "7.0.0-beta.47"
     "@vue/babel-preset-app" "3.0.0-beta.11"
@@ -7973,7 +7973,7 @@ vuepress@^0.10.2:
     markdown-it-container "^2.0.0"
     markdown-it-emoji "^1.4.0"
     markdown-it-table-of-contents "^0.3.3"
-    mini-css-extract-plugin "^0.4.0"
+    mini-css-extract-plugin "^0.4.1"
     nprogress "^0.2.0"
     optimize-css-assets-webpack-plugin "^4.0.0"
     portfinder "^1.0.13"
