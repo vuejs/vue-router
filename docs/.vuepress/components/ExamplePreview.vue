@@ -1,6 +1,6 @@
 <template>
   <p class="demo">
-    <pre style="color: white" v-if="router">{{ router.currentRoute.fullPath }}</pre>
+    <ExamplePreviewBar :router="router" />
     <component :is="page" />
   </p>
 </template>
@@ -9,6 +9,7 @@
 // import Vue from 'vue'
 // import Basic from "../examples/basic";
 import Router from 'vue-router'
+import ExamplePreviewBar from './ExamplePreviewBar'
 // import Router from '../../../dist/vue-router.esm'
 // import Router from '../../../src/index'
 
@@ -46,6 +47,8 @@ export default {
       handler: 'loadPage',
       immediate: true
     }
-  }
+  },
+
+  components: { ExamplePreviewBar }
 }
 </script>
