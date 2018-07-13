@@ -12,7 +12,7 @@ const router = new VueRouter({
   base: __dirname,
   routes: [
     { path: '/', name: 'home', component: Home },
-    { path: '/foo', name: 'foo', component: Foo },
+    { path: '/foo-main', name: 'foo-main', component: Foo },
     { path: '/bar/:id', name: 'bar', component: Bar }
   ]
 })
@@ -25,7 +25,7 @@ new Vue({
       <p>Current route name: {{ $route.name }}</p>
       <ul>
         <li><router-link :to="{ name: 'home' }">home</router-link></li>
-        <li><router-link :to="{ name: 'foo' }">foo</router-link></li>
+        <li><router-link :to="{ name: 'foo-main' }">foo</router-link></li>
         <li><router-link :to="{ name: 'bar', params: { id: 123 }}">bar</router-link></li>
       </ul>
       <router-view class="view"></router-view>
