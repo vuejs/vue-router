@@ -53,7 +53,7 @@ const User = {
 }
 ```
 
-Или можно воспользоваться хуком `beforeRouteUpdate`, добавленным в версии 2.2:
+Или можно воспользоваться [хуком `beforeRouteUpdate`](../advanced/navigation-guards.md), добавленным в версии 2.2:
 
 ``` js
 const User = {
