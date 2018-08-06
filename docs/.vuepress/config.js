@@ -1,12 +1,4 @@
 module.exports = {
-  // NOTE: until https://github.com/vuejs/vuepress/pull/644 is merged
-  chainWebpack: (config) => {
-    const jsRule = config.module.rule('js')
-    jsRule.use('babel-loader').tap(options => ({
-      ...options,
-      babelrc: false
-    }))
-  },
   locales: {
     '/': {
       lang: 'en-US',
