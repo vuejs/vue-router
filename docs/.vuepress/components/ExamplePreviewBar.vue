@@ -26,34 +26,46 @@
     <div class="uri-container">
       <input class="uri" :disabled="!router" :value="uri" @keyup.enter="navigate">
     </div>
+    <div>
+      <button class="button" @click="$emit('update:viewCode', !viewCode)">&lt;&gt;</button>
+    </div>
   </div>
 </template>
 
 <script>
-  export default {
-    props: {
-      router: Object
-    },
+export default {
+  props: {
+    router: Object,
+    viewCode: Boolean
+  },
 
-    computed: {
-      uri: ({ router }) => router ? router.currentRoute.fullPath : '/',
-      history: ({ router }) => router && router.history,
-      previousPage: ({ history }) => history ? history.stack[history.index - 1] : '',
-      nextPage: ({ history }) => history ? history.stack[history.index + 1] : '',
+  computed: {
+    uri() {
+      return this.router ? this.router.currentRoute.fullPath : '/'
     },
+    history() {
+      return this.router && this.router.history
+    },
+    previousPage() {
+      return this.history ? this.history.stack[this.history.index - 1] : ''
+    },
+    nextPage() {
+      return this.history ? this.history.stack[this.history.index + 1] : ''
+    }
+  },
 
-    methods: {
-      back () {
-        this.router.go(-1)
-      },
-      forward () {
-        this.router.go(1)
-      },
-      navigate ({ target }) {
-        this.router.push(target.value)
-      }
+  methods: {
+    back() {
+      this.router.go(-1)
+    },
+    forward() {
+      this.router.go(1)
+    },
+    navigate({ target }) {
+      this.router.push(target.value)
     }
   }
+}
 </script>
 
 <style scoped>
@@ -67,8 +79,7 @@
   box-shadow: rgb(221, 221, 221) 0px 1px 3px;
   height: 2.5rem;
   min-height: 2.5rem;
-  /* remove padding added by .demo container*/
-  margin: -1rem -1.5rem;
+  margin-bottom: 0;
 }
 
 .uri-container {
