@@ -1,12 +1,15 @@
 <template>
   <div class="demo" :class="containerClasses">
-    <ExamplePreviewBar :router="router" :view-code.sync="viewCode" />
-    <div v-if="viewCode">
+    <ExamplePreviewBar :router="router" :view-code.sync="viewCode" :files="files" :current-file.sync="currentFile" />
+    <template v-if="viewCode">
+      <!-- <ExamplePreviewFilesTabs :files="files" :current-file.sync="currentFile" :view-code.sync="viewCode" /> -->
       <ExamplePreviewExplorer v-if="currentFile" :file="currentFile" />
-    </div>
-    <div v-else class="example">
-      <component :is="page" />
-    </div>
+    </template>
+    <template v-else>
+      <div class="example">
+        <component :is="page" />
+      </div>
+    </template>
   </div>
 </template>
 
