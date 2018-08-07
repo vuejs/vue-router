@@ -97,10 +97,10 @@ export default {
 .demo {
   border: 1px solid #ddd;
   border-radius: 4px;
-  overflow: hidden;
 }
 .demo .example {
   padding: 1rem 1.5rem;
+  overflow: hidden;
 }
 </style>
 

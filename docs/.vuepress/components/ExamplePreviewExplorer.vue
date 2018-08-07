@@ -3,6 +3,7 @@
 </template>
 
 <script>
+// pretty much copied from vuepress sourcecode
 const prism = require('prismjs')
 // const loadLanguages = require('prismjs/components/index')
 const escapeHtml = require('escape-html')
@@ -35,22 +36,13 @@ function highlightCode (str, lang) {
   if (lang === 'py') {
     lang = 'python'
   }
-  if (!prism.languages[lang]) {
-    try {
-      // loadLanguages([lang])
-    } catch (e) {
-      console.warn(`[vuepress] Syntax highlight for language "${lang}" is not supported.`)
-    }
-  }
   if (prism.languages[lang]) {
     const code = prism.highlight(str, prism.languages[lang], lang)
     return wrap(code, rawLang)
+  } else {
+      console.warn(`[vuepress] Syntax highlight for language "${lang}" is not supported.`)
   }
   return wrap(str, 'text')
-}
-
-function getExtension (name) {
-  return name.substring(name.lastIndexOf('.') + 1, name.length)
 }
 
 export default {
@@ -59,7 +51,7 @@ export default {
   },
 
   computed: {
-    language: ({ file }) => getExtension(file.name),
+    language: ({ file: { name }}) => name.substring(name.lastIndexOf('.') + 1, name.length),
     content: ({ file, language}) => highlightCode(file.content, language)
   }
 }
@@ -67,7 +59,7 @@ export default {
 
 <style scoped>
 .code {
-  border-radius: 0;
+  border-radius: 0 0 4px 4px;
 }
 
 .code pre {
