@@ -1,4 +1,13 @@
+const { join } = require('path')
+
 module.exports = {
+  configureWebpack: {
+    resolve: {
+      alias: {
+        '@docs': join(__dirname, '../')
+      }
+    }
+  },
   locales: {
     '/': {
       lang: 'en-US',

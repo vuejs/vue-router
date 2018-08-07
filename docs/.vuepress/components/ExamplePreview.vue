@@ -46,7 +46,7 @@ export default {
   methods: {
     async loadPage () {
       if (!this.name) return
-      const Page = (await import(`../examples/${this.name}/index.js`))
+      const Page = await (this.pagePath ? import(`@docs/${this.pagePath}/examples/${this.name}/index.js`) : import(`@docs/examples/${this.name}/index.js`))
       if (!Page || !Page.App) return
       let { App, files } = Page
 
@@ -68,10 +68,15 @@ export default {
 
       // load the content of all the files
       Object.keys(files).forEach(name => {
-        import(`!raw-loader!../examples/${this.name}/${files[name]}`).then(({ default: content }) => {
+        const handleImport = ({ default: content }) => {
           this.files.push({ name, content })
           if (!this.currentFile) this.currentFile = this.files[this.files.length - 1]
-        })
+        }
+        if (this.pagePath) {
+          import(`!raw-loader!@docs/${this.pagePath}/examples/${this.name}/${files[name]}`).then(handleImport)
+        } else {
+          import(`!raw-loader!@docs/examples/${this.name}/${files[name]}`).then(handleImport)
+        }
       })
     }
   },
@@ -79,7 +84,10 @@ export default {
   computed: {
     containerClasses() {
       return { explorer: this.viewCode } 
-    }
+    },
+    // this seems to be necessary to correctly code split
+    // it allows import path to have the slashes in them
+    pagePath: ({ $localePath }) => $localePath.replace(/^\//, '').replace(/\/$/, '') 
   },
 
   watch: {
