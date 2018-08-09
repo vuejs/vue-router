@@ -34,9 +34,14 @@
       </button>
     </div>
     <div>
-      <form action="https://codesandbox.io/api/v1/sandboxes/define" method="POST" target="_blank">
+      <form v-if="viewCode" class="codesandbox-form" action="https://codesandbox.io/api/v1/sandboxes/define" method="POST" target="_blank">
         <input type="hidden" name="parameters" :value="codesandboxParams">
-        <button>CodeSandbox</button>
+        <button class="reset-button button">
+          <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="24" height="24" class="icon outbound">
+            <path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path>
+            <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon>
+          </svg>
+        </button>
       </form>
       <button class="reset-button button" @click="$emit('update:viewCode', !viewCode)">
         <svg v-if="viewCode" fill="currentColor" preserveAspectRatio="xMidYMid meet" height="1em" width="1em" viewBox="0 0 200 200" style="vertical-align: middle;">
@@ -161,6 +166,10 @@ export default {
   padding: 0.2rem 0.5rem;
   vertical-align: middle;
   font-size: 1rem;
+}
+
+.codesandbox-form {
+  display: inline-block;
 }
 
 .button {

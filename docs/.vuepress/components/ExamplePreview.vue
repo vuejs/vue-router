@@ -15,9 +15,9 @@
 
 <script>
 import Router from 'vue-router'
-import ExamplePreviewBar from './ExamplePreviewBar'
-import ExamplePreviewExplorer from './ExamplePreviewExplorer'
-import { getParameters } from 'codesandbox/lib/api/define'
+import ExamplePreviewBar from '../example-preview/ExamplePreviewBar'
+import ExamplePreviewExplorer from '../example-preview/ExamplePreviewExplorer'
+import { getCodesandboxParameters } from '../example-preview/utils'
 
 export default {
   props: {
@@ -94,31 +94,14 @@ export default {
         }
       })
 
-      // add the entry point (common for all examples)
-      allFiles.push(import(`!raw-loader!@docs/examples/common/main.js`).then(({ default: content })=> ({
-        'main.js': { content }
-      })))
+      // add the entry point (common for all examples) main.js
+      if (codesandbox.indexOf('main.js') < 0) {
+        allFiles.push(import(`!raw-loader!@docs/examples/common/main.js`).then(({ default: content })=> ({
+          'main.js': { content }
+        })))
+      }
 
-      Promise.all(allFiles).then(files => {
-        const data = {
-          files: {
-            'package.json': {
-              content: {
-                main: 'main.js',
-                dependencies: {
-                  vue: 'latest',
-                  'vue-router': 'latest'
-                }
-              }
-            },
-            ...files.reduce((fileMap, file) => ({
-              ...fileMap,
-              ...file
-            }), {})
-          }
-        }
-        this.codesandboxParams = getParameters(data);
-      })
+      this.codesandboxParams = await Promise.all(allFiles).then(getCodesandboxParameters)
     }
   },
 
