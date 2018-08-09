@@ -111,11 +111,13 @@ export default {
 
   computed: {
     containerClasses() {
-      return { explorer: this.viewCode } 
+      return { explorer: this.viewCode }
     },
     // this seems to be necessary to correctly code split
     // it allows import path to have the slashes in them
-    pagePath: ({ $localePath }) => $localePath.replace(/^\//, '').replace(/\/$/, '') 
+    pagePath () {
+      return this.$localePath.replace(/^\//, '').replace(/\/$/, '')
+    }
   },
 
   watch: {
