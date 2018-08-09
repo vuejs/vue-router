@@ -2,24 +2,17 @@
   <div class="bar-container">
     <template v-if="!viewCode">
       <div>
-        <button class="reset-button button" @click="back" :disabled="!previousPage">
+        <button class="reset-button button" @click="back" :disabled="!previousPage" title="Go back">
           <svg fill="currentColor" preserveAspectRatio="xMidYMid meet" height="1em" width="1em" viewBox="0 0 40 40" style="vertical-align: middle;">
             <g>
               <path d="m26.5 12.1q0 0.3-0.2 0.6l-8.8 8.7 8.8 8.8q0.2 0.2 0.2 0.5t-0.2 0.5l-1.1 1.1q-0.3 0.3-0.6 0.3t-0.5-0.3l-10.4-10.4q-0.2-0.2-0.2-0.5t0.2-0.5l10.4-10.4q0.3-0.2 0.5-0.2t0.6 0.2l1.1 1.1q0.2 0.2 0.2 0.5z"></path>
             </g>
           </svg>
         </button>
-        <button class="reset-button button" @click="forward" :disabled="!nextPage">
+        <button class="reset-button button" @click="forward" :disabled="!nextPage" title="Go forward">
           <svg fill="currentColor" preserveAspectRatio="xMidYMid meet" height="1em" width="1em" viewBox="0 0 40 40" style="vertical-align: middle;">
             <g>
               <path d="m26.3 21.4q0 0.3-0.2 0.5l-10.4 10.4q-0.3 0.3-0.6 0.3t-0.5-0.3l-1.1-1.1q-0.2-0.2-0.2-0.5t0.2-0.5l8.8-8.8-8.8-8.7q-0.2-0.3-0.2-0.6t0.2-0.5l1.1-1.1q0.3-0.2 0.5-0.2t0.6 0.2l10.4 10.4q0.2 0.2 0.2 0.5z"></path>
-            </g>
-          </svg>
-        </button>
-        <button class="reset-button button" v-if="false">
-          <svg fill="currentColor" preserveAspectRatio="xMidYMid meet" height="1em" width="1em" viewBox="0 0 40 40" style="vertical-align: middle;">
-            <g>
-              <path d="m29.5 10.5l3.9-3.9v11.8h-11.8l5.4-5.4c-1.8-1.8-4.3-3-7-3-5.5 0-10 4.5-10 10s4.5 10 10 10c4.4 0 8.1-2.7 9.5-6.6h3.4c-1.5 5.7-6.6 10-12.9 10-7.3 0-13.3-6.1-13.3-13.4s6-13.4 13.3-13.4c3.7 0 7 1.5 9.5 3.9z"></path>
             </g>
           </svg>
         </button>
@@ -29,21 +22,25 @@
       </div>
     </template>
     <div class="tabs-container" v-else>
-      <button class="reset-button tab" v-for="file in files" :class="file === currentFile ? 'is-selected' : ''" @click="$emit('update:currentFile', file)">
+      <button class="reset-button tab" v-for="file in files" :class="file === currentFile ? 'is-selected' : ''" @click="$emit('update:currentFile', file)" >
         {{ file.name }}
       </button>
     </div>
     <div>
       <form v-if="viewCode && codesandboxParams" class="codesandbox-form" action="https://codesandbox.io/api/v1/sandboxes/define" method="POST" target="_blank">
         <input type="hidden" name="parameters" :value="codesandboxParams">
-        <button class="reset-button button">
-          <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="24" height="24" class="icon outbound">
-            <path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path>
-            <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon>
+        <button class="reset-button button" title="Edit on CodeSandbox">
+          <svg xmlns="http://www.w3.org/2000/svg" class="codesandbox-logo" width="24" height="24" viewBox="0 0 1063 1063" fill="none">
+            <path d="M0 317.198V106.046L182.999 0V211.465L0 317.198Z" transform="translate(739.001 551.802)" fill="currentColor" />
+            <path d="M179.915 104.303L0 0V208.606L179.915 313.438V104.303Z" transform="translate(142.167 557.135)" fill="currentColor" />
+            <path d="M183.546 212.795L366.503 106.633L183.624 0L0 106.987L183.546 212.795Z" transform="translate(348.436 81)" fill="currentColor" />
+            <path d="M390 0L0 225.167V675.167" transform="translate(529 305.833)" stroke="currentColor" stroke-width="100" stroke-miterlimit="10" />
+            <path d="M0 0L389.333 224" transform="translate(142.167 307)" stroke="currentColor" stroke-width="100" stroke-miterlimit="10" />
+            <path d="M0 677.083L389.917 901.042L780 676.333V226L390 0L0 227V677.083Z" transform="translate(141 80)" stroke="currentColor" stroke-width="100" stroke-miterlimit="10" />
           </svg>
         </button>
       </form>
-      <button class="reset-button button" @click="$emit('update:viewCode', !viewCode)">
+      <button class="reset-button button" @click="$emit('update:viewCode', !viewCode)" :title="viewCode? 'View Demo' : 'View Code'">
         <svg v-if="viewCode" fill="currentColor" preserveAspectRatio="xMidYMid meet" height="1em" width="1em" viewBox="0 0 200 200" style="vertical-align: middle;">
           <path d="M27,33 L173,33 C178.522847,33 183,37.4771525 183,43 L183,157 C183,162.522847 178.522847,167 173,167 L27,167 C21.4771525,167 17,162.522847 17,157 L17,43 C17,37.4771525 21.4771525,33 27,33 Z M29,64 L29,156 L171,156 L171,64 L29,64 Z M84.260356,82.6998802 L119.974518,107.161635 C121.797124,108.409995 122.262642,110.899505 121.014282,112.722111 C120.734924,113.129973 120.38238,113.482517 119.974518,113.761875 L84.260356,138.223629 C82.4377502,139.471989 79.9482404,139.006471 78.6998802,137.183866 C78.2439706,136.518238 78,135.730302 78,134.92351 L78,86 C78,83.790861 79.790861,82 82,82 C82.8067925,82 83.594728,82.2439706 84.260356,82.6998802 Z" fill="inherit"></path>
         </svg>
