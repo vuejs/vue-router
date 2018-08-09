@@ -4,4 +4,5 @@ const files = {
   'index.html': 'index.html',
   'index.js': 'code.js'
 }
-export { App, files }
+const codesandbox = ['App.vue', 'Bar.vue', 'Foo.vue', 'Home.vue', 'router.js']
+export { App, files, codesandbox }

@@ -47,6 +47,7 @@
     "babel-preset-flow-vue": "^1.0.0",
     "buble": "^0.19.3",
     "chromedriver": "^2.35.0",
+    "codesandbox": "^1.2.16",
     "cross-spawn": "^5.0.1",
     "css-loader": "^0.28.10",
     "es6-promise": "^4.2.4",
