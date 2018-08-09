@@ -34,7 +34,7 @@
       </button>
     </div>
     <div>
-      <form v-if="viewCode" class="codesandbox-form" action="https://codesandbox.io/api/v1/sandboxes/define" method="POST" target="_blank">
+      <form v-if="viewCode && codesandboxParams" class="codesandbox-form" action="https://codesandbox.io/api/v1/sandboxes/define" method="POST" target="_blank">
         <input type="hidden" name="parameters" :value="codesandboxParams">
         <button class="reset-button button">
           <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="24" height="24" class="icon outbound">

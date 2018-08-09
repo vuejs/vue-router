@@ -24,3 +24,8 @@ export function getCodesandboxParameters(files) {
 
   return getParameters(data)
 }
+
+const scriptRE = /\s*<script[^>]*>[\s\S]*<\/script>\s*/m
+export function removeScriptSection(content) {
+  return content.replace(scriptRE, '')
+}

@@ -17,7 +17,7 @@
 import Router from 'vue-router'
 import ExamplePreviewBar from '../example-preview/ExamplePreviewBar'
 import ExamplePreviewExplorer from '../example-preview/ExamplePreviewExplorer'
-import { getCodesandboxParameters } from '../example-preview/utils'
+import { getCodesandboxParameters, removeScriptSection } from '../example-preview/utils'
 
 export default {
   props: {
@@ -66,22 +66,26 @@ export default {
       // load the content of all the files
       Object.keys(files).forEach(name => {
         const handleImport = ({ default: content }) => {
+          // remove the script part that contains the router
+          if (name === 'App.vue') {
+            content = removeScriptSection(content)
+          }
           this.files.push({ name, content })
           if (!this.currentFile) this.currentFile = this.files[this.files.length - 1]
         }
-        let promise
         if (this.pagePath) {
-          promise = import(`!raw-loader!@docs/${this.pagePath}/examples/${this.name}/${files[name]}`).then(handleImport)
+          import(`!raw-loader!@docs/${this.pagePath}/examples/${this.name}/${files[name]}`).then(handleImport)
         } else {
-          promise = import(`!raw-loader!@docs/examples/${this.name}/${files[name]}`).then(handleImport)
+          import(`!raw-loader!@docs/examples/${this.name}/${files[name]}`).then(handleImport)
         }
       })
 
+      if (!codesandbox || !codesandbox.length) return
       const allFiles = codesandbox.map(filename => {
         const transformFile = ({ default: content }) => {
           // remove the script part from App.vue because it has the router
           if (filename === 'App.vue') {
-            content = content.replace(/<script[^>]*>[\s\S]*<\/script>/m, '')
+            content = removeScriptSection(content)
           }
           return {
             [filename]: { content }
