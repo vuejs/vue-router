@@ -1,20 +1,35 @@
 <template>
   <div class="demo" :class="containerClasses">
-    <ExamplePreviewBar :router="router" :view-code.sync="viewCode" :files="files" :current-file.sync="currentFile" :codesandbox-params="codesandboxParams" />
-    <template v-if="viewCode">
-      <!-- <ExamplePreviewFilesTabs :files="files" :current-file.sync="currentFile" :view-code.sync="viewCode" /> -->
-      <ExamplePreviewExplorer v-if="currentFile" :file="currentFile" />
-    </template>
-    <template v-else>
-      <div class="example">
-        <component :is="page" />
+    <Promised :promise="examplePromise">
+      <span></span>
+      <span slot="catch" slot-scope="error"></span>
+      <ExamplePreviewBar slot-scope="then" :router="router" :view-code.sync="viewCode" :files="files" :current-file.sync="currentFile" :codesandbox-params="codesandboxParams" />
+    </Promised>
+    <Promised :promise="examplePromise">
+      <div class="example">Loading example...</div>
+      <div slot-scope="then">
+        <template v-if="viewCode">
+          <!-- <ExamplePreviewFilesTabs :files="files" :current-file.sync="currentFile" :view-code.sync="viewCode" /> -->
+          <ExamplePreviewExplorer v-if="currentFile" :file="currentFile" />
+        </template>
+        <template v-else>
+          <div class="example">
+            <component :is="page" />
+          </div>
+        </template>
       </div>
-    </template>
+      <div class="example error" slot="catch" slot-scope="error">
+        <p>There was an error loading the example</p>
+
+        <button class="action-button" @click="loadPage">Retry</button>
+      </div>
+    </Promised>
   </div>
 </template>
 
 <script>
 import Router from 'vue-router'
+import Promised from 'vue-promised'
 import ExamplePreviewBar from '../example-preview/ExamplePreviewBar'
 import ExamplePreviewExplorer from '../example-preview/ExamplePreviewExplorer'
 import { getCodesandboxParameters, removeScriptSection } from '../example-preview/utils'
@@ -35,14 +50,17 @@ export default {
       page: null,
       files: [],
       currentFile: null,
-      codesandboxParams: null
+      codesandboxParams: null,
+
+      examplePromise: null
     }
   },
 
   methods: {
     async loadPage () {
       if (!this.name) return
-      const Page = await (this.pagePath ? import(`@docs/${this.pagePath}/examples/${this.name}/index.js`) : import(`@docs/examples/${this.name}/index.js`))
+      this.examplePromise = (this.pagePath ? import(`@docs/${this.pagePath}/examples/${this.name}/index.js`) : import(`@docs/examples/${this.name}/index.js`))
+      const Page = await this.examplePromise
       if (!Page || !Page.App) return
       let { App, files, codesandbox } = Page
 
@@ -127,7 +145,7 @@ export default {
     }
   },
 
-  components: { ExamplePreviewBar, ExamplePreviewExplorer }
+  components: { ExamplePreviewBar, ExamplePreviewExplorer, Promised }
 }
 </script>
 
@@ -139,6 +157,27 @@ export default {
 .demo .example {
   padding: 1rem 1.5rem;
   overflow: hidden;
+}
+
+.example.error {
+  color: #ff2828;
+}
+
+.action-button {
+  display: inline-block;
+  font-size: 1.2rem;
+  color: #fff;
+  background-color: #3eaf7c;
+  padding: 0.8rem 1.6rem;
+  border-radius: 4px;
+  transition: background-color 0.1s ease;
+  box-sizing: border-box;
+  border-bottom: 1px solid #389d70;
+}
+
+.action-button:hover {
+  background-color: #4abf8a;
+  cursor: pointer;
 }
 </style>
 

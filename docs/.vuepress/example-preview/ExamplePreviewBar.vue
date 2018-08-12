@@ -22,7 +22,7 @@
       </div>
     </template>
     <div class="tabs-container" v-else>
-      <button class="reset-button tab" v-for="file in files" :class="file === currentFile ? 'is-selected' : ''" @click="$emit('update:currentFile', file)" >
+      <button class="reset-button tab" v-for="file in files" :class="file === currentFile ? 'is-selected' : ''" @click="$emit('update:currentFile', file)">
         {{ file.name }}
       </button>
     </div>
@@ -94,7 +94,9 @@ export default {
 }
 </script>
 
-<style scoped>
+<style scoped lang="stylus">
+@import '~@default-theme/styles/config.styl';
+
 .bar-container {
   display: flex;
   border-radius: 4px 4px 0 0;
@@ -108,8 +110,7 @@ export default {
   margin-bottom: 0;
 }
 
-.uri-container,
-.tabs-container {
+.uri-container, .tabs-container {
   flex-grow: 1;
 }
 
@@ -146,7 +147,7 @@ export default {
 .tab.is-selected {
   color: inherit;
   font-weight: 500;
-  border-bottom: 3px solid #3eaf7c;
+  border-bottom: 3px solid $accentColor;
   background-color: rgba(0, 0, 0, 0.075);
 }
 
