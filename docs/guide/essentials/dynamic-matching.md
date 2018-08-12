@@ -38,7 +38,7 @@ const User = {
 }
 ```
 
-Or, use the `beforeRouteUpdate` guard introduced in 2.2:
+Or, use the `beforeRouteUpdate` [navigation guard](../advanced/navigation-guards.html) introduced in 2.2:
 
 ``` js
 const User = {
