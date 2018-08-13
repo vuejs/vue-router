@@ -27,7 +27,7 @@
       </button>
     </div>
     <div class="actions-container">
-      <form v-if="viewCode && codesandboxParams" class="codesandbox-form" action="https://codesandbox.io/api/v1/sandboxes/define" method="POST" target="_blank">
+      <form v-if="viewCode && codesandboxParams" action="https://codesandbox.io/api/v1/sandboxes/define" method="POST" target="_blank">
         <input type="hidden" name="parameters" :value="codesandboxParams">
         <button class="reset-button button" title="Edit on CodeSandbox">
           <svg xmlns="http://www.w3.org/2000/svg" class="codesandbox-logo" width="24" height="24" viewBox="0 0 1063 1063" fill="none">
