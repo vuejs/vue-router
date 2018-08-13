@@ -64,11 +64,19 @@ export default {
       if (!Page || !Page.App) return
       let { App, files, codesandbox } = Page
 
-      // create the router again but force the mode to abstract
-      this.router = App.router = new Router({
-        ...App.router.options,
-        mode: 'abstract'
-      })
+      // Do not create a new Router if the example has been loaded before
+      // otherwise, visiting a new page and coming back will break the navigation bar
+      if (App._exampleLoaded) {
+        this.router = App.router
+      } else {
+        // create the router again but force the mode to abstract
+        this.router = App.router = new Router({
+          ...App.router.options,
+          mode: 'abstract'
+        })
+        App._exampleLoaded = true
+      }
+
       this.router.push('/')
       this.page = App
       // reset file
