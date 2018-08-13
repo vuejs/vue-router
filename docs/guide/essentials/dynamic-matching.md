@@ -14,10 +14,10 @@ A dynamic segment is denoted by a colon `:`. When a route is matched, the value 
 
 You can have multiple dynamic segments in the same route, and they will map to corresponding fields on `$route.params`. Examples:
 
-| pattern | matched path | $route.params |
-|---------|------|--------|
-| /user/:username | /user/evan | `{ username: 'evan' }` |
-| /user/:username/post/:post_id | /user/evan/post/123 | `{ username: 'evan', post_id: 123 }` |
+| pattern                       | matched path        | $route.params                          |
+| ----------------------------- | ------------------- | -------------------------------------- |
+| /user/:username               | /user/evan          | `{ username: 'evan' }`                 |
+| /user/:username/post/:post_id | /user/evan/post/123 | `{ username: 'evan', post_id: '123' }` |
 
 In addition to `$route.params`, the `$route` object also exposes other useful information such as `$route.query` (if there is a query in the URL), `$route.hash`, etc. You can check out the full details in the [API Reference](../../api/#the-route-object).
 
@@ -31,7 +31,7 @@ To react to params changes in the same component, you can simply watch the `$rou
 const User = {
   template: '...',
   watch: {
-    '$route' (to, from) {
+    $route (to, from) {
       // react to route changes...
     }
   }
