@@ -15,37 +15,19 @@ Real app UIs are usually composed of components that are nested multiple levels 
 
 With `vue-router`, it is very simple to express this relationship using nested route configurations.
 
-Given the app we created in the last chapter:
+Given the app we created in the [last chapter](./dynamic-matching.md):
 
-``` html
-<div id="app">
-  <router-view></router-view>
-</div>
-```
+<ExamplePreview name="simple-dynamic-route" initial-view="code"/>
 
-``` js
-const User = {
-  template: '<div>User {{ $route.params.id }}</div>'
-}
+The `<router-view>` here is a top-level outlet. It renders the component matched by a top level route. Similarly, a rendered component can also contain its own, nested `<router-view>`. For example, if we add one inside the `User.vue` component's template:
 
-const router = new VueRouter({
-  routes: [
-    { path: '/user/:id', component: User }
-  ]
-})
-```
-
-The `<router-view>` here is a top-level outlet. It renders the component matched by a top level route. Similarly, a rendered component can also contain its own, nested `<router-view>`. For example, if we add one inside the `User` component's template:
-
-``` js
-const User = {
-  template: `
-    <div class="user">
-      <h2>User {{ $route.params.id }}</h2>
-      <router-view></router-view>
-    </div>
-  `
-}
+```vue
+<template>
+  <div>
+    <h2>User {{ $route.params.id }}</h2>
+    <router-view></router-view>
+  </div>
+</template>
 ```
 
 To render components into this nested outlet, we need to use the `children` option in `VueRouter` constructor config:
