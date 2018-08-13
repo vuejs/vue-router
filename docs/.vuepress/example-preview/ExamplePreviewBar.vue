@@ -1,7 +1,7 @@
 <template>
   <div class="bar-container">
     <template v-if="!viewCode">
-      <div>
+      <div class="actions-container">
         <button class="reset-button button" @click="back" :disabled="!previousPage" title="Go back">
           <svg fill="currentColor" preserveAspectRatio="xMidYMid meet" height="1em" width="1em" viewBox="0 0 40 40" style="vertical-align: middle;">
             <g>
@@ -26,7 +26,7 @@
         {{ file.name }}
       </button>
     </div>
-    <div>
+    <div class="actions-container">
       <form v-if="viewCode && codesandboxParams" class="codesandbox-form" action="https://codesandbox.io/api/v1/sandboxes/define" method="POST" target="_blank">
         <input type="hidden" name="parameters" :value="codesandboxParams">
         <button class="reset-button button" title="Edit on CodeSandbox">
@@ -110,6 +110,11 @@ export default {
   margin-bottom: 0;
 }
 
+.actions-container {
+  // Make sure they appar in line
+  display: flex;
+}
+
 .uri-container, .tabs-container {
   flex-grow: 1;
 }
@@ -118,6 +123,7 @@ export default {
   display: flex;
   height: 100%;
   margin-left: -0.5rem;
+  overflow-x: auto;
 }
 
 .reset-button {
@@ -138,17 +144,17 @@ export default {
   padding: 0 0.7rem;
   line-height: 2.5rem;
   color: #666;
-}
 
-.tab:hover {
-  cursor: pointer;
-}
+  &:hover {
+    cursor: pointer;
+  }
 
-.tab.is-selected {
-  color: inherit;
-  font-weight: 500;
-  border-bottom: 3px solid $accentColor;
-  background-color: rgba(0, 0, 0, 0.075);
+  &.is-selected {
+    color: inherit;
+    font-weight: 500;
+    border-bottom: 3px solid $accentColor;
+    background-color: rgba(0, 0, 0, 0.075);
+  }
 }
 
 .uri {
@@ -166,26 +172,21 @@ export default {
   font-size: 1rem;
 }
 
-.codesandbox-form {
-  display: inline-block;
-}
-
 .button {
-  display: inline-block;
   color: rgb(135, 135, 135);
   font-size: 1.5rem;
   line-height: 0.5;
   vertical-align: middle;
   text-align: center;
   margin: 0px 0.1rem;
-}
 
-.button:not([disabled]):hover {
-  background-color: rgb(226, 226, 226);
-  cursor: pointer;
-}
+  &:not([disabled]):hover {
+    background-color: rgb(226, 226, 226);
+    cursor: pointer;
+  }
 
-.button[disabled] {
-  color: rgb(192, 192, 192);
+  &[disabled] {
+    color: rgb(192, 192, 192);
+  }
 }
 </style>

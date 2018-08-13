@@ -157,18 +157,29 @@ export default {
 }
 </script>
 
-<style scoped>
+<style scoped lang="stylus">
+@import '~@default-theme/styles/config.styl';
+
 .demo {
   border: 1px solid #ddd;
   border-radius: 4px;
-}
-.demo .example {
-  padding: 1rem 1.5rem;
-  overflow: hidden;
+
+  & .example {
+    padding: 1rem 1.5rem;
+    overflow: hidden;
+
+    &.error {
+      color: #ff2828;
+    }
+  }
 }
 
-.example.error {
-  color: #ff2828;
+@media (max-width: $MQMobileNarrow) {
+  .demo {
+    margin-left: -1.5rem;
+    margin-right: -1.5rem;
+    border-radius: 0;
+  }
 }
 
 .action-button {
@@ -181,11 +192,11 @@ export default {
   transition: background-color 0.1s ease;
   box-sizing: border-box;
   border-bottom: 1px solid #389d70;
-}
 
-.action-button:hover {
-  background-color: #4abf8a;
-  cursor: pointer;
+  &:hover {
+    background-color: #4abf8a;
+    cursor: pointer;
+  }
 }
 </style>
 
