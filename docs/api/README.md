@@ -185,6 +185,8 @@ Since it's just a component, it works with `<transition>` and `<keep-alive>`. Wh
   }
   ```
 
+  Note: when using named views, `props` is a object with the view name as keys and the usual props object nested as value.
+
 ### mode
 
 - type: `string`
