@@ -54,7 +54,7 @@ const User = {
 }
 ```
 
-或者使用 2.2 中引入的 `beforeRouteUpdate` 守卫：
+或者使用 2.2 中引入的 `beforeRouteUpdate` [导航守卫](../advanced/navigation-guards.html)：
 
 ``` js
 const User = {
