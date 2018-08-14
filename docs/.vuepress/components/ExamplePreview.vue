@@ -31,6 +31,7 @@
 import Router from 'vue-router'
 import Promised from 'vue-promised'
 import ExamplePreviewBar from '../example-preview/ExamplePreviewBar'
+import 'focus-visible'
 import ExamplePreviewExplorer from '../example-preview/ExamplePreviewExplorer'
 import { getCodesandboxParameters, removeScriptSection } from '../example-preview/utils'
 
