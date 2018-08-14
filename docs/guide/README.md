@@ -37,3 +37,7 @@ export default {
 Throughout the docs, we will often use the `router` instance. Keep in mind that `this.$router` is exactly the same as using `router`. The reason we use `this.$router` is because we don't want to import the router in every single component that needs to manipulate routing.
 
 Notice that a `<router-link>` automatically gets the `.router-link-active` class when its target route is matched. You can learn more about it in its [API reference](../api/#router-link).
+
+::: warning Single File Components
+From here onwards, we will be using the [Single File Components](https://vuejs.org/v2/guide/single-file-components.html) (also called SFC or `.vue` files) format in our examples. This is the format you are more likely to use use in a real project. To quickly summarize it, a SFC is a file containing the template, javascript and style of one component.
+:::
