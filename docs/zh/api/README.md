@@ -4,6 +4,8 @@ sidebar: auto
 
 # API 参考
 
+<Bit/>
+
 ## `<router-link>`
 
 `<router-link>` 组件支持用户在具有路由功能的应用中 (点击) 导航。

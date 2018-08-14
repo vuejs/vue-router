@@ -1,5 +1,7 @@
 # 起步
 
+<Bit/>
+
 ::: tip 注意
 教程中的案例代码将使用 [ES2015](https://github.com/lukehoban/es6features) 来编写。
 
