@@ -26,14 +26,25 @@ const User = {
 }
 const router = new VueRouter({
   routes: [
-    { path: '/user/:id', component: User, props: true },
+    {
+      path: '/user/:id',
+      component: User,
+      props: true,
+      children: [
+        path: 'posts/:type',
+        component: UserPosts,
+        /* `id` and `type` will be passed to `UserPosts` */
+        props: true,
+      ]
+    },
 
     // for routes with named views, you have to define the `props` option for each named view:
     {
       path: '/user/:id',
       components: { default: User, sidebar: Sidebar },
-      props: { default: true, sidebar: false }
-    }
+      props: { default: true, sidebar: false },
+    },
+
   ]
 })
 ```
