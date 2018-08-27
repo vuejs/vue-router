@@ -80,7 +80,7 @@ export interface RouteConfig {
   children?: RouteConfig[];
   meta?: any;
   beforeEnter?: NavigationGuard;
-  props?: boolean | Object | RoutePropsFunction;
+  props?: boolean | Object | RoutePropsFunction | Dictionary<boolean | Object | RoutePropsFunction>;
   caseSensitive?: boolean;
   pathToRegexpOptions?: PathToRegexpOptions;
 }
