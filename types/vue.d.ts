@@ -7,8 +7,8 @@ import VueRouter, { Route, RawLocation, NavigationGuard } from "./index";
 
 declare module "vue/types/vue" {
   interface Vue {
-    $router: VueRouter;
-    $route: Route;
+    $router?: VueRouter;
+    $route?: Route;
   }
 }
 
