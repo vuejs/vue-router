@@ -109,6 +109,8 @@ export default class VueRouter {
         setupHashListener,
         setupHashListener
       )
+    } else if (history instanceof AbstractHistory && history.stack.length > -1) {
+      history.transitionTo(history.getCurrentLocation())
     }
 
     history.listen(route => {
