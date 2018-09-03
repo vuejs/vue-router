@@ -2,6 +2,7 @@
 
 import type Router from '../index'
 import { History } from './base'
+import { START } from '../util/route'
 
 export class AbstractHistory extends History {
   index: number;
@@ -9,8 +10,14 @@ export class AbstractHistory extends History {
 
   constructor (router: Router, base: ?string) {
     super(router, base)
-    this.stack = []
-    this.index = -1
+    const defaultRoute = this.router.match(START.path, this.current)
+    if (defaultRoute.matched.length) {
+      this.stack = [defaultRoute]
+      this.index = 0
+    } else {
+      this.stack = []
+      this.index = -1
+    }
   }
 
   push (location: RawLocation, onComplete?: Function, onAbort?: Function) {
