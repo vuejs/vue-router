@@ -53,7 +53,7 @@ const User = {
 }
 ```
 
-または、2.2 で導入された `beforeRouteUpdate` ガードを使用します:
+または、2.2 で導入された `beforeRouteUpdate` [ナビゲーションガード](../advanced/navigation-guards.html)を使用します:
 
 ``` js
 const User = {
