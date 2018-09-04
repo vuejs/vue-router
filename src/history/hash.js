@@ -102,7 +102,7 @@ export function getHash (): string {
   // consistent across browsers - Firefox will pre-decode it!
   const href = window.location.href
   const index = href.indexOf('#')
-  return index === -1 ? '' : href.slice(index + 1)
+  return index === -1 ? '' : decodeURI(href.slice(index + 1))
 }
 
 function getUrl (path) {
