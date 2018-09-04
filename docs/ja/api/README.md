@@ -254,7 +254,10 @@ name ではないプロパティも描画されるコンポーネントに渡さ
 
 - 型: `boolean`
 
+- default: `true`
+
   ブラウザが `history.pushState` をサポートしないとき、 ルーターが `hash` モードにフォールバックかどうか制御します。デフォルトは `true`
+  Controls whether the router should fallback to `hash` mode when the browser does not support `history.pushState` but mode is set to `history`.
 
   これを `false` に設定すると、本質的に全ての `router-link` ナビゲーションが IE9 においてフルページリフレッシュになります。これは、サーバサイドレンダリングでハッシュモードの URL が機能しないため、IE9 で動作する必要がある場合に便利です。
 
