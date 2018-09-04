@@ -32,7 +32,7 @@ history モードを使用する時は、URL は "普通" に見えます e.g. `
 </IfModule>
 ```
 
-Instead of `mod_rewrite`, you could also use [`FallbackResource`](https://httpd.apache.org/docs/2.2/mod/mod_dir.html#fallbackresource).
+`mod_rewrite`の代わりに、[`FallbackResource`](https://httpd.apache.org/docs/2.2/mod/mod_dir.html#fallbackresource) も使用することができます。
 
 #### nginx
 
