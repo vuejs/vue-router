@@ -6,10 +6,10 @@ type Dictionary<T> = { [key: string]: T };
 export type RouterMode = "hash" | "history" | "abstract";
 export type RawLocation = string | Location;
 export type RedirectOption = RawLocation | ((to: Route) => RawLocation);
-export type NavigationGuard = (
+export type NavigationGuard<V extends Vue = Vue> = (
   to: Route,
   from: Route,
-  next: (to?: RawLocation | false | ((vm: Vue) => any) | void) => void
+  next: (to?: RawLocation | false | ((vm: V) => any) | void) => void
 ) => any
 
 export declare class VueRouter {
