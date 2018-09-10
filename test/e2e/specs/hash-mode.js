@@ -34,17 +34,11 @@ module.exports = {
       .url('http://localhost:8080/hash-mode/#/%C3%A9')
       .waitForElementVisible('#app', 1000)
       .assert.containsText('.view', 'unicode')
-      .end()
 
       // check hash placed correctly
       .url('http://localhost:8080/hash-mode/foo?page=123')
       .waitForElementVisible('#app', 1000)
       .assert.urlEquals('http://localhost:8080/hash-mode/#/foo?page=123')
-      .assert.count('li', 4)
-      .assert.count('li a', 3)
-      .assert.attributeContains('li:nth-child(1) a', 'href', '/hash-mode/#/')
-      .assert.attributeContains('li:nth-child(2) a', 'href', '/hash-mode/#/foo')
-      .assert.attributeContains('li:nth-child(3) a', 'href', '/hash-mode/#/bar')
       .assert.containsText('.view', 'foo')
       .end()
   }
