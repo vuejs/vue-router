@@ -34,7 +34,7 @@ const User = {
 | /user/:username | /user/evan | `{ username: 'evan' }` |
 | /user/:username/post/:post_id | /user/evan/post/123 | `{ username: 'evan', post_id: 123 }` |
 
-Кроме `$route.params`, объект `$route` предоставляют и другую полезную информацию, например `$route.query` (если URL содержит строку запроса), `$route.hash`, и т.д. Подробнее в [справочнике API](../../api/#the-route-object).
+Кроме `$route.params`, объект `$route` предоставляют и другую полезную информацию, например `$route.query` (если URL содержит строку запроса), `$route.hash`, и т.д. Подробнее в [справочнике API](../../api/#объект-route).
 
 ## Отслеживание изменений параметров
 
@@ -53,7 +53,7 @@ const User = {
 }
 ```
 
-Или можно воспользоваться хуком `beforeRouteUpdate`, добавленным в версии 2.2:
+Или можно воспользоваться [хуком `beforeRouteUpdate`](../advanced/navigation-guards.md), добавленным в версии 2.2:
 
 ``` js
 const User = {

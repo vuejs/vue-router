@@ -228,7 +228,7 @@ sidebar: auto
 
 - `current` 현재 라우트를 나타냅니다. (대부분의 경우에 변경할 일이 없습니다.)
 
-- `append`는 `current` 라우트에 추가할 수 있도록 합니다 ([`router-link`](router-link.md#props)처럼)
+- `append`는 `current` 라우트에 추가할 수 있도록 합니다 ([`router-link`](#router-link-props)처럼)
 
 ### router.addRoutes
 

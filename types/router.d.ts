@@ -2,14 +2,15 @@ import Vue, { ComponentOptions, PluginFunction, AsyncComponent } from "vue";
 
 type Component = ComponentOptions<Vue> | typeof Vue | AsyncComponent;
 type Dictionary<T> = { [key: string]: T };
+type ErrorHandler = (err: Error) => void;
 
 export type RouterMode = "hash" | "history" | "abstract";
 export type RawLocation = string | Location;
 export type RedirectOption = RawLocation | ((to: Route) => RawLocation);
-export type NavigationGuard = (
+export type NavigationGuard<V extends Vue = Vue> = (
   to: Route,
   from: Route,
-  next: (to?: RawLocation | false | ((vm: Vue) => any) | void) => void
+  next: (to?: RawLocation | false | ((vm: V) => any) | void) => void
 ) => any
 
 export declare class VueRouter {
@@ -22,14 +23,14 @@ export declare class VueRouter {
   beforeEach (guard: NavigationGuard): Function;
   beforeResolve (guard: NavigationGuard): Function;
   afterEach (hook: (to: Route, from: Route) => any): Function;
-  push (location: RawLocation, onComplete?: Function, onAbort?: Function): void;
-  replace (location: RawLocation, onComplete?: Function, onAbort?: Function): void;
+  push (location: RawLocation, onComplete?: Function, onAbort?: ErrorHandler): void;
+  replace (location: RawLocation, onComplete?: Function, onAbort?: ErrorHandler): void;
   go (n: number): void;
   back (): void;
   forward (): void;
   getMatchedComponents (to?: RawLocation | Route): Component[];
-  onReady (cb: Function, errorCb?: Function): void;
-  onError (cb: Function): void;
+  onReady (cb: Function, errorCb?: ErrorHandler): void;
+  onError (cb: ErrorHandler): void;
   addRoutes (routes: RouteConfig[]): void;
   resolve (to: RawLocation, current?: Route, append?: boolean): {
     location: Location;

@@ -1,4 +1,5 @@
 import { warn } from '../util/warn'
+import { extend } from '../util/misc'
 
 export default {
   name: 'RouterView',
@@ -10,6 +11,7 @@ export default {
     }
   },
   render (_, { props, children, parent, data }) {
+    // used by devtools to display a router-view badge
     data.routerView = true
 
     // directly use parent context's createElement() function
@@ -105,11 +107,4 @@ function resolveProps (route, config) {
         )
       }
   }
-}
-
-function extend (to, from) {
-  for (const key in from) {
-    to[key] = from[key]
-  }
-  return to
 }

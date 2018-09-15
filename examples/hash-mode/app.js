@@ -10,6 +10,7 @@ Vue.use(VueRouter)
 const Home = { template: '<div>home</div>' }
 const Foo = { template: '<div>foo</div>' }
 const Bar = { template: '<div>bar</div>' }
+const Unicode = { template: '<div>unicode</div>' }
 
 // 3. Create the router
 const router = new VueRouter({
@@ -18,7 +19,8 @@ const router = new VueRouter({
   routes: [
     { path: '/', component: Home }, // all paths are defined without the hash.
     { path: '/foo', component: Foo },
-    { path: '/bar', component: Bar }
+    { path: '/bar', component: Bar },
+    { path: '/é', component: Unicode }
   ]
 })
 
@@ -35,6 +37,7 @@ new Vue({
         <li><router-link to="/foo">/foo</router-link></li>
         <li><router-link to="/bar">/bar</router-link></li>
         <router-link tag="li" to="/bar">/bar</router-link>
+        <li><router-link to="/é">/é</router-link></li>
       </ul>
       <router-view class="view"></router-view>
     </div>

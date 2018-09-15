@@ -8,7 +8,8 @@ const positionStore = Object.create(null)
 
 export function setupScroll () {
   // Fix for #1585 for Firefox
-  window.history.replaceState({ key: getStateKey() }, '')
+  // Fix for #2195 Add optional third attribute to workaround a bug in safari https://bugs.webkit.org/show_bug.cgi?id=182678
+  window.history.replaceState({ key: getStateKey() }, '', window.location.href.replace(window.location.origin, ''))
   window.addEventListener('popstate', e => {
     saveScrollPosition()
     if (e.state && e.state.key) {

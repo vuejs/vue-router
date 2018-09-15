@@ -92,4 +92,4 @@ export default {
 [動作](https://jsfiddle.net/yyx990803/xgrjzsup/) の例も確認してみてください.
 
 `<router-link>` は対象のルートがマッチした時に自動的に `.router-link-active` が付与されるのにお気づきでしょうか。
-より詳細については [API リファレンス](../api/router-link.md) をご参照ください。
+より詳細については [API リファレンス](../api/#router-link) をご参照ください。

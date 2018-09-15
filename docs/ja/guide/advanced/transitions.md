@@ -8,7 +8,7 @@
 </transition>
 ```
 
-[`<transition>` についての全て](http://jp.vuejs.org/guide/transitions.html) はここでも動作します。
+[全てのトランジション API は](http://jp.vuejs.org/guide/transitions.html) はここでも動作します。
 
 ## ルート単位のトランジション
 
