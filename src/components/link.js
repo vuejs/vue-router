@@ -1,6 +1,4 @@
 /* @flow */
-
-
 import { createRoute, isSameRoute, isIncludedRoute, getMatchedRouteExternal } from '../util/route'
 import { extend } from '../util/misc'
 
