@@ -18,6 +18,7 @@ export default {
       type: String,
       default: 'a'
     },
+    go: Boolean,
     exact: Boolean,
     append: Boolean,
     replace: Boolean,
@@ -60,7 +61,9 @@ export default {
 
     const handler = e => {
       if (guardEvent(e)) {
-        if (this.replace) {
+        if (this.go) {
+          router.go(location)
+        } else if (this.replace) {
           router.replace(location)
         } else {
           router.push(location)
