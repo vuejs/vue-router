@@ -4,7 +4,7 @@ import { createRoute, isSameRoute, isIncludedRoute } from '../util/route'
 import { extend } from '../util/misc'
 
 // work around weird flow bug
-const toTypes: Array<Function> = [String, Object]
+const toTypes: Array<Function> = [String, Object,Number]
 const eventTypes: Array<Function> = [String, Array]
 
 export default {
