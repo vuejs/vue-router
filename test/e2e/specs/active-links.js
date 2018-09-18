@@ -2,7 +2,7 @@
 module.exports = {
   'active links': function (browser) {
     browser
-    .url('http://localhost:8080/active-links/')
+      .url('http://localhost:8080/active-links/')
       .waitForElementVisible('#app', 1000)
       .assert.count('li a', 11)
       // assert correct href with base

@@ -6,7 +6,7 @@ module.exports = {
     }
 
     browser
-    .url('http://localhost:8080/navigation-guards/')
+      .url('http://localhost:8080/navigation-guards/')
       .waitForElementVisible('#app', 1000)
       .assert.count('li a', 8)
       .assert.containsText('.view', 'home')
@@ -73,7 +73,7 @@ module.exports = {
       .assert.containsText('.view', 'home')
 
       // test initial visit
-    .url('http://localhost:8080/navigation-guards/foo')
+      .url('http://localhost:8080/navigation-guards/foo')
       .dismissAlert()
       .waitFor(100)
       .dismissAlert()
@@ -82,12 +82,12 @@ module.exports = {
       // and should not render anything
       .assert.elementNotPresent('.view')
 
-    .url('http://localhost:8080/navigation-guards/foo')
+      .url('http://localhost:8080/navigation-guards/foo')
       .acceptAlert()
       .assert.urlEquals('http://localhost:8080/navigation-guards/foo')
       .assert.containsText('.view', 'foo')
 
-    .url('http://localhost:8080/navigation-guards/bar')
+      .url('http://localhost:8080/navigation-guards/bar')
       .dismissAlert()
       .waitFor(100)
       .dismissAlert()
@@ -96,13 +96,13 @@ module.exports = {
       // and should not render anything
       .assert.elementNotPresent('.view')
 
-    .url('http://localhost:8080/navigation-guards/bar')
+      .url('http://localhost:8080/navigation-guards/bar')
       .acceptAlert()
       .assert.urlEquals('http://localhost:8080/navigation-guards/bar')
       .assert.containsText('.view', 'bar')
 
     // in-component guard
-    .click('li:nth-child(5) a')
+      .click('li:nth-child(5) a')
       .assert.urlEquals('http://localhost:8080/navigation-guards/bar')
       .assert.containsText('.view', 'bar')
       .waitFor(300)
@@ -110,10 +110,10 @@ module.exports = {
       .assert.containsText('.view', 'Qux')
 
     // async component + in-component guard
-    .click('li:nth-child(1) a')
+      .click('li:nth-child(1) a')
       .assert.urlEquals('http://localhost:8080/navigation-guards/')
       .assert.containsText('.view', 'home')
-    .click('li:nth-child(6) a')
+      .click('li:nth-child(6) a')
       .assert.urlEquals('http://localhost:8080/navigation-guards/')
       .assert.containsText('.view', 'home')
       .waitFor(300)
@@ -121,13 +121,13 @@ module.exports = {
       .assert.containsText('.view', 'Qux')
 
     // beforeRouteUpdate
-    .click('li:nth-child(7) a')
+      .click('li:nth-child(7) a')
       .assert.urlEquals('http://localhost:8080/navigation-guards/quux/1')
       .assert.containsText('.view', 'id:1 prevId:0')
-    .click('li:nth-child(8) a')
+      .click('li:nth-child(8) a')
       .assert.urlEquals('http://localhost:8080/navigation-guards/quux/2')
       .assert.containsText('.view', 'id:2 prevId:1')
-    .click('li:nth-child(7) a')
+      .click('li:nth-child(7) a')
       .assert.urlEquals('http://localhost:8080/navigation-guards/quux/1')
       .assert.containsText('.view', 'id:1 prevId:2')
       .end()

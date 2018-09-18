@@ -1,3 +1,4 @@
+/* @flow */
 declare var document: Document;
 
 declare class RouteRegExp extends RegExp {

@@ -1,9 +1,10 @@
+/* eslint-env browser */
 module.exports = {
   'scroll behavior': function (browser) {
     const TIMEOUT = 2000
 
     browser
-    .url('http://localhost:8080/scroll-behavior/')
+      .url('http://localhost:8080/scroll-behavior/')
       .waitForElementVisible('#app', 1000)
       .assert.count('li a', 5)
       .assert.containsText('.view', 'home')

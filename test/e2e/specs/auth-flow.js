@@ -1,7 +1,7 @@
 module.exports = {
   'auth flow': function (browser) {
     browser
-    .url('http://localhost:8080/auth-flow/')
+      .url('http://localhost:8080/auth-flow/')
       .waitForElementVisible('#app', 1000)
       .assert.containsText('#app p', 'You are logged out')
 
@@ -21,7 +21,7 @@ module.exports = {
       .assert.containsText('#app p', 'Yay you made it!')
 
     // reload
-    .url('http://localhost:8080/auth-flow/')
+      .url('http://localhost:8080/auth-flow/')
       .waitForElementVisible('#app', 1000)
       .assert.containsText('#app p', 'You are logged in')
 
@@ -32,7 +32,7 @@ module.exports = {
       .assert.containsText('#app p', 'Yay you made it!')
 
     // directly visit dashboard when logged in
-    .url('http://localhost:8080/auth-flow/dashboard')
+      .url('http://localhost:8080/auth-flow/dashboard')
       .waitForElementVisible('#app', 1000)
       .assert.urlEquals('http://localhost:8080/auth-flow/dashboard')
       .assert.containsText('#app h2', 'Dashboard')
@@ -44,7 +44,7 @@ module.exports = {
       .assert.containsText('#app p', 'You are logged out')
 
     // directly visit dashboard when logged out
-    .url('http://localhost:8080/auth-flow/dashboard')
+      .url('http://localhost:8080/auth-flow/dashboard')
       .waitForElementVisible('#app', 1000)
       .assert.urlEquals('http://localhost:8080/auth-flow/login?redirect=%2Fdashboard')
       .assert.containsText('#app h2', 'Login')
