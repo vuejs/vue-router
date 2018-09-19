@@ -2,6 +2,7 @@
 
 import type VueRouter from '../index'
 import { stringifyQuery } from './query'
+import deepEqual from './deepEqual'
 
 const trailingSlashRE = /\/?$/
 
@@ -23,6 +24,7 @@ export function createRoute (
     meta: (record && record.meta) || {},
     path: location.path || '/',
     hash: location.hash || '',
+    state: location.state,
     query,
     params: location.params || {},
     fullPath: getFullPath(location, stringifyQuery),
@@ -79,14 +81,16 @@ export function isSameRoute (a: Route, b: ?Route): boolean {
     return (
       a.path.replace(trailingSlashRE, '') === b.path.replace(trailingSlashRE, '') &&
       a.hash === b.hash &&
-      isObjectEqual(a.query, b.query)
+      isObjectEqual(a.query, b.query) &&
+      deepEqual(a.state, b.state)
     )
   } else if (a.name && b.name) {
     return (
       a.name === b.name &&
       a.hash === b.hash &&
       isObjectEqual(a.query, b.query) &&
-      isObjectEqual(a.params, b.params)
+      isObjectEqual(a.params, b.params) &&
+      deepEqual(a.state, b.state)
     )
   } else {
     return false

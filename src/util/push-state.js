@@ -37,23 +37,23 @@ export function setStateKey (key: string) {
   _key = key
 }
 
-export function pushState (url?: string, replace?: boolean) {
+export function pushState (state: mixed, url: string, replace?: boolean) {
   saveScrollPosition()
   // try...catch the pushState call to get around Safari
   // DOM Exception 18 where it limits to 100 pushState calls
   const history = window.history
   try {
     if (replace) {
-      history.replaceState({ key: _key }, '', url)
+      history.replaceState({ key: _key, state }, '', url)
     } else {
       _key = genKey()
-      history.pushState({ key: _key }, '', url)
+      history.pushState({ key: _key, state }, '', url)
     }
   } catch (e) {
     window.location[replace ? 'replace' : 'assign'](url)
   }
 }
 
-export function replaceState (url?: string) {
-  pushState(url, true)
+export function replaceState (state: mixed, url: string) {
+  pushState(state, url, true)
 }

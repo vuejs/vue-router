@@ -16,8 +16,9 @@ describe('Usage in Node', () => {
         { path: '/bar', component: { name: 'bar' }}
       ]
     })
-    router.push('/bar')
+    router.push({ path: '/bar', state: { a: 1 }})
     expect(router.history.current.path).toBe('/bar')
+    expect(router.history.current.state).toEqual({ a: 1 })
   })
 
   it('getMatchedComponents', () => {
@@ -29,7 +30,7 @@ describe('Usage in Node', () => {
         { path: '/', component: Foo },
         { path: '/bar', component: Bar, children: [
           { path: 'baz', component: Baz }
-        ]}
+        ] }
       ]
     })
     expect(router.getMatchedComponents('/')).toEqual([Foo])

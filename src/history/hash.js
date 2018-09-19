@@ -2,7 +2,8 @@
 
 import type Router from '../index'
 import { History } from './base'
-import { cleanPath } from '../util/path'
+import { cleanPath, parsePath } from '../util/path'
+import { resolveQuery, stringifyQuery } from '../util/query'
 import { getLocation } from './html5'
 import { setupScroll, handleScroll } from '../util/scroll'
 import { pushState, replaceState, supportsPushState } from '../util/push-state'
@@ -74,12 +75,16 @@ export class HashHistory extends History {
   }
 
   getCurrentLocation () {
-    return getHash()
+    const { path, query, hash } = parsePath(getHash())
+    return { path, query: resolveQuery(query), hash }
   }
 }
 
 function checkFallback (base) {
-  const location = getLocation(base)
+  const rawLocation = getLocation(base)
+  const location = typeof rawLocation === 'string'
+    ? rawLocation
+    : `${rawLocation.path || ''}${stringifyQuery(rawLocation.query || {})}${rawLocation.hash || ''}`
   if (!/^\/#/.test(location)) {
     window.location.replace(
       cleanPath(base + '/#' + location)
@@ -114,7 +119,7 @@ function getUrl (path) {
 
 function pushHash (path) {
   if (supportsPushState) {
-    pushState(getUrl(path))
+    pushState(undefined, getUrl(path))
   } else {
     window.location.hash = path
   }
@@ -122,7 +127,7 @@ function pushHash (path) {
 
 function replaceHash (path) {
   if (supportsPushState) {
-    replaceState(getUrl(path))
+    replaceState(undefined, getUrl(path))
   } else {
     window.location.replace(getUrl(path))
   }

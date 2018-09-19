@@ -42,7 +42,14 @@ export class AbstractHistory extends History {
 
   getCurrentLocation () {
     const current = this.stack[this.stack.length - 1]
-    return current ? current.fullPath : '/'
+    return current
+      ? {
+        path: current.path,
+        query: current.query,
+        hash: current.hash,
+        state: current.state
+      }
+      : { path: '/' }
   }
 
   ensureURL () {

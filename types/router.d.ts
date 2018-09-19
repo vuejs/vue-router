@@ -111,6 +111,7 @@ export interface Location {
   params?: Dictionary<string>;
   append?: boolean;
   replace?: boolean;
+  state?: any;
 }
 
 export interface Route {
@@ -120,6 +121,7 @@ export interface Route {
   query: Dictionary<string | string[]>;
   params: Dictionary<string>;
   fullPath: string;
+  state: any;
   matched: RouteRecord[];
   redirectedFrom?: string;
   meta?: any;

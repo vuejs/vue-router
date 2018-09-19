@@ -28,7 +28,7 @@ export class History {
   +push: (loc: RawLocation) => void;
   +replace: (loc: RawLocation) => void;
   +ensureURL: (push?: boolean) => void;
-  +getCurrentLocation: () => string;
+  +getCurrentLocation: () => Location;
 
   constructor (router: Router, base: ?string) {
     this.router = router

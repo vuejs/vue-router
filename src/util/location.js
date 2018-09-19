@@ -57,6 +57,7 @@ export function normalizeLocation (
     _normalized: true,
     path,
     query,
-    hash
+    hash,
+    state: next.state
   }
 }
