@@ -70,6 +70,29 @@ http.createServer((req, res) => {
 
 Node.js/Express では [connect-history-api-fallback middleware](https://github.com/bripkens/connect-history-api-fallback) の利用を検討してください。
 
+##### 利用例
+```bash
+mkdir express_project
+cd express_project
+npm init
+npm i express connect-history-api-fallback -s
+touch app.js
+```
+
+```js
+// express_project/app.js
+
+const express = require('express')
+const history = require('connect-history-api-fallback')
+const app = express()
+const server = app
+    .use(history())
+    .use(express.static('dist'))
+    .listen(80, () => {
+        console.log('Node.js is listening to PORT:' + server.address().port)
+    })
+```
+
 #### Internet Information Services (IIS)
 
 1. [IIS UrlRewrite](https://www.iis.net/downloads/microsoft/url-rewrite) をインストール
