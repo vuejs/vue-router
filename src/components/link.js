@@ -9,6 +9,7 @@ const eventTypes: Array<Function> = [String, Array]
 
 export default {
   name: 'RouterLink',
+  inheritAttrs: false,
   props: {
     to: {
       type: toTypes,
@@ -95,6 +96,7 @@ export default {
       } else {
         // doesn't have <a> child, apply listener to self
         data.on = on
+        data.props = this.$attrs
       }
     }
 
