@@ -24,6 +24,11 @@ module.exports = {
       lang: 'kr',
       title: 'Vue Router',
       description: 'Vue.js 공식 라우터'
+    },
+    '/fr/': {
+        lang: 'fr',
+        title: 'Vue Router',
+        description: 'Routeur officiel pour Vue.Js'
     }
   },
   serviceWorker: true,
@@ -281,7 +286,57 @@ module.exports = {
             ]
           }
         ]
-      }
+      },
+      '/fr/': {
+          label: 'Français',
+          selectText: 'Langues',
+          editLinkText: 'Editer cette page sur Github',
+          nav: [
+              {
+                  text: 'Guide',
+                  link: '/fr/guide/'
+              },
+              {
+                  text: 'API',
+                  link: '/fr/api/'
+              },
+              {
+                  text: 'Notes de version',
+                  link: 'https://github.com/vuejs/vue-router/releases'
+              }
+          ],
+          sidebar: [
+              '/fr/installation.md',
+              '/fr/',
+              {
+                  title: 'Essentiels',
+                  collapsable: false,
+                  children: [
+                      '/fr/guide/',
+                      '/fr/guide/essentials/dynamic-matching.md',
+                      '/fr/guide/essentials/nested-routes.md',
+                      '/fr/guide/essentials/navigation.md',
+                      '/fr/guide/essentials/named-routes.md',
+                      '/fr/guide/essentials/named-views.md',
+                      '/fr/guide/essentials/redirect-and-alias.md',
+                      '/fr/guide/essentials/passing-props.md',
+                      '/fr/guide/essentials/history-mode.md'
+                  ]
+              },
+              {
+                  title: 'Avancés',
+                  collapsable: false,
+                  children: [
+                      '/fr/guide/advanced/navigation-guards.md',
+                      '/fr/guide/advanced/meta.md',
+                      '/fr/guide/advanced/transitions.md',
+                      '/fr/guide/advanced/data-fetching.md',
+                      '/fr/guide/advanced/scroll-behavior.md',
+                      '/fr/guide/advanced/lazy-loading.md'
+                  ]
+              }
+          ]
+      },
     }
   }
 }
