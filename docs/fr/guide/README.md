@@ -1,10 +1,13 @@
 # Pour commencer
 
-> Nous utiliserons [ES2015](https://github.com/lukehoban/es6features) dans les exemples de code dans ce guide.
+<Bit/>
+
+::: tip Note
+Nous utiliserons [ES2015](https://github.com/lukehoban/es6features) dans les exemples de code dans ce guide.
+ Tous les exemples utiliseront la version complète de Vue pour rendre l'analyse de template possible. Plus de détails [ici](https://fr.vuejs.org/guide/installation.html#Runtime-Compiler-vs-Runtime-seul).
+:::
 
 Créer une application monopage avec Vue + Vue Router est vraiment simple. Avec Vue.js, nous concevons déjà notre application avec des composants. En ajoutant vue-router dans notre application, tout ce qu'il nous reste à faire est de relier nos composants aux routes, et de laisser vue-router faire le rendu. Voici un exemple de base :
-
-> Tous les exemples utiliseront la version complète de Vue pour rendre l'analyse de template possible. Plus de détails [ici](https://fr.vuejs.org/guide/installation.html#Runtime-Compiler-vs-Runtime-seul).
 
 ## HTML
 
@@ -89,4 +92,4 @@ Dans les documentations, nous allons souvent utiliser l'instance `router`. Garde
 
 Vous pouvez aussi regarder cet [exemple](https://jsfiddle.net/yyx990803/xgrjzsup/).
 
-Notez qu'un `<router-link>` obtiendra automatiquement la classe `.router-link-active` lorsque sa route cible correspond à la route actuelle. Vous pouvez en apprendre plus à propos de cela dans sa [documentation d'API](../api/router-link.md).
+Notez qu'un `<router-link>` obtiendra automatiquement la classe `.router-link-active` lorsque sa route cible correspond à la route actuelle. Vous pouvez en apprendre plus à propos de cela dans sa [documentation d'API](../api/#router-link).

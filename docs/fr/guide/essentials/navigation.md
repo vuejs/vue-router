@@ -1,3 +1,7 @@
+---
+sidebarDepth: 0
+---
+
 # Navigation programmatique
 
 En complément du l'utilisation de `<router-link>` pour créer des balises ancres pour la navigation déclarative, nous pouvons le faire de manière programmatique en utilisant les méthodes de l'instance du routeur.
@@ -44,7 +48,7 @@ Les mêmes règles s'appliquent pour la propriété `to` du composant `router-li
 
 Dans la version 2.2.0+, vous pouvez optionnellement fournir les fonctions de rappel `onComplete` et `onAbort` à `router.push` ou `router.replace` en tant que deuxième et troisième arguments. Ces fonctions de rappel seront appelées quand la navigation sera respectivement ; complétée avec succès (après la résolution de tous les hooks asynchrones), ou arrêtée (navigation vers la même route ou vers une route différente avant que la navigation courante ne soit achevée).
 
-**Note :** si la destination est la même que la route courante et que seuls les paramètres ont changés (par ex. naviguer d'un profil à l'autre `/utilisateurs/1` -> `/utilisateurs/2`), vous devrez utiliser [`beforeRouteUpdate`](./dynamic-matching.html#réactivité-aux-changements-de-paramètres) pour réagir aux changements (par ex. récupérer les informations de l'utilisateur).
+**Note :** si la destination est la même que la route courante et que seuls les paramètres ont changés (par ex. naviguer d'un profil à l'autre `/utilisateurs/1` -> `/utilisateurs/2`), vous devrez utiliser [`beforeRouteUpdate`](./dynamic-matching.md#réactivité-aux-changements-de-paramètres) pour réagir aux changements (par ex. récupérer les informations de l'utilisateur).
 
 ## `router.replace(location, onComplete?, onAbort?)`
 
@@ -82,4 +86,4 @@ Vous avez peut être remarqué que `router.push`, `router.replace` et `router.go
 
 Donc, si vous utilisez déjà l'[API History des navigateurs](https://developer.mozilla.org/fr-FR/docs/Web/API/History_API), manipuler l'historique sera très simple avec vue-router.
 
-Il n'est pas nécessaire de préciser que les méthodes de navigation (`push`, `replace`, `go`) fonctionnent de la même manière dans tous les modes de routage (`history`, `hash` and `abstract`).
+Il n'est pas nécessaire de préciser que les méthodes de navigation (`push`, `replace`, `go`) fonctionnent de la même manière dans tous les modes de routage (`history`, `hash` et `abstract`).

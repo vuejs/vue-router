@@ -34,7 +34,7 @@ Vous pouvez avoir plusieurs segments dynamiques pour une même route, et ils ser
 | /utilisateur/:username | /utilisateur/evan | `{ username: 'evan' }` |
 | /utilisateur/:username/billet/:post_id | /utilisateur/evan/billet/123 | `{ username: 'evan', post_id: 123 }` |
 
-En plus de `$route.params`, l'objet `$route` expose également d'autres informations utiles comme la `$route.query` (s'il y a une requête dans l'URL), `$route.hash`, etc. Vous pouvez accéder à tous les détails de cela dans la [référence de l'API](../../api/#options-de-construction-du-routeur).
+En plus de `$route.params`, l'objet `$route` expose également d'autres informations utiles comme la `$route.query` (s'il y a une requête dans l'URL), `$route.hash`, etc. Vous pouvez accéder à tous les détails de cela dans la [référence de l'API](../../api/#the-route-object).
 
 ## Réactivité aux changements de paramètres
 
@@ -53,7 +53,7 @@ const User = {
 }
 ```
 
-Ou utiliser la fonction d'interception `beforeRouteUpdate` introduite avec la 2.2 :
+Ou utiliser la [fonction d'interception](../advanced/navigation-guards.html) `beforeRouteUpdate` introduite avec la 2.2 :
 
 ``` js
 const User = {

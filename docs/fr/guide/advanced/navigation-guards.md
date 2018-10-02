@@ -20,7 +20,7 @@ Les interceptions d'entrées globales sont appelées lors de l'ordre de créatio
 
 Chaque fonction d'interception reçoit trois arguments :
 
-- **`to: Route`**: L'[objet `Route`](../../api/#options-de-construction-du-routeur) cible vers lequel on navigue.
+- **`to: Route`**: L'[objet `Route`](../../api/#the-route-object) cible vers lequel on navigue.
 
 - **`from: Route`**: la route courante depuis laquelle nous venons de naviguer.
 
@@ -30,17 +30,15 @@ Chaque fonction d'interception reçoit trois arguments :
 
   - **`next(false)`**: annuler la navigation courante. Si l'URL du navigateur avait changé (manuellement par l'utilisateur ou via le bouton retour du navigateur), il sera remis à sa valeur de route de `from`.
 
-  - **`next('/')` ou `next({ path: '/' })`**: redirige vers le nouvel URL. La navigation courante va être arrêtée et une nouvelle va se lancer. Vous pouvez passer n'importe quel objet à `next`, vous permettant ainsi de spécifier des options comme `replace: true`, `name: 'home'` et n'importe quelles options dans [la prop `to` du `router-link`](../../api/#router-link) ou [`router.push`](../../api/#l-instance-du-routeur).
+  - **`next('/')` ou `next({ path: '/' })`**: redirige vers le nouvel URL. La navigation courante va être arrêtée et une nouvelle va se lancer. Vous pouvez passer n'importe quel objet à `next`, vous permettant ainsi de spécifier des options comme `replace: true`, `name: 'home'` et n'importe quelles options dans [la prop `to` du `router-link`](../../api/#to) ou [`router.push`](../../api/#routeur-push).
 
-  - **`next(error)`**: (2.4.0+) si l'argument passé à `next` est une instance de `Error`, la navigation va s'arrêter et l'erreur sera passée aux fonctions de rappel enregistrées via [`router.onError()`](../../api/#l-instance-du-routeur).
+  - **`next(error)`**: (2.4.0+) si l'argument passé à `next` est une instance de `Error`, la navigation va s'arrêter et l'erreur sera passée aux fonctions de rappel enregistrées via [`router.onError()`](../../api/#router-onerror).
 
 **Assurez-vous de toujours appeler la fonction `next`, sinon le hook ne sera jamais résolu.**
 
 ## Résolutions des interceptions globales
 
-> Nouveau dans la 2.5.0
-
-Dans la 2.5.0+ vous pouvez abonner une interception globale avec `router.beforeResolve`. Ceci est similaire a `router.beforeEach`, mais la différence est qu'elle sera appelée juste après que la navigation soit confirmée, **après que toutes les interceptions par composants et les composants de route asynchrone ait été résolu**.
+Vous pouvez abonner une interception globale avec `router.beforeResolve`. Ceci est similaire a `router.beforeEach`, mais la différence est qu'elle sera appelée juste après que la navigation soit confirmée, **après que toutes les interceptions par composants et les composants de route asynchrone ait été résolu**.
 
 ## Hooks de sortie globaux
 
@@ -77,7 +75,7 @@ Ces interceptions ont exactement le même effet que les interceptions globales d
 Enfin, vous pouvez directement définir une interception de navigation a l'intérieur du composant lui-même (celui passer à la configuration du routeur) avec les options suivantes :
 
 - `beforeRouteEnter`
-- `beforeRouteUpdate` (ajouté dans la 2.2+)
+- `beforeRouteUpdate`
 - `beforeRouteLeave`
 
 ``` js
@@ -142,13 +140,13 @@ beforeRouteLeave (to, from , next) {
 ## Le flux de résolution de navigation complet
 
 1. La navigation est demandée.
-2. Appel de l'interception de sortie des composants désactivés (ceux que l'on va quitter).
+2. Appel de l'interception de sortie des composants désactivés.
 3. Appel des interceptions globales `beforeEach`.
-4. Appel des interceptions `beforeRouteUpdate` pour les composants réutilisés (2.2+).
+4. Appel des interceptions `beforeRouteUpdate` pour les composants réutilisés.
 5. Appel de `beforeEnter` dans la configuration de route.
 6. Résolution des composants de route asynchrones.
-7. Appel de `beforeRouteEnter` dans les composants activés (ceux où l'on va arriver).
-8. Appel des interceptions `beforeResolve` (2.5+).
+7. Appel de `beforeRouteEnter` dans les composants activés.
+8. Appel des interceptions `beforeResolve`.
 9. Confirmation de la navigation.
 10. Appel des hooks globaux `afterEach`.
 11. Modification du DOM demandée.
