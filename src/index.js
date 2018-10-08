@@ -33,6 +33,10 @@ export default class VueRouter {
   afterHooks: Array<?AfterNavigationHook>;
 
   constructor (options: RouterOptions = {}) {
+    if (process.env.NODE_ENV !== 'production') {
+      assert(install.installed, `must call Vue.use(VueRouter) before creating a router instance.`)
+    }
+
     this.app = null
     this.apps = []
     this.options = options
