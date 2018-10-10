@@ -122,9 +122,15 @@ Add this to your `firebase.json`:
 }
 ```
 
-## Caveat
+## Caveats
 
-There is a caveat to this: Your server will no longer report 404 errors as all not-found paths now serve up your `index.html` file. To get around the issue, you should implement a catch-all route within your Vue app to show a 404 page:
+There are a couple of caveats to this:
+
+1. When a request for a not-found path is made to your server, the response will have a status code of 200 instead of 404 since all paths now serve up your `index.html` file
+
+1. Your Vue app will not know what to do with a not-found path, so your `<router-view>` component won't render anything, which could cause confusion for your users
+
+You can fix the second issue by implementing a catch-all route within your Vue app to show a "Not Found" page:
 
 ``` js
 const router = new VueRouter({
@@ -135,4 +141,4 @@ const router = new VueRouter({
 })
 ```
 
-Alternatively, if you are using a Node.js server, you can implement the fallback by using the router on the server side to match the incoming URL and respond with 404 if no route is matched. Check out the [Vue server side rendering documentation](https://ssr.vuejs.org/en/) for more information.
+Alternatively, if you are using a Node.js server, you can fix the first issue (which will also remove the second issue) by implementing the fallback using the router on the server side to match the incoming URL and respond with 404 if no route is matched. Check out the [Vue server side rendering documentation](https://ssr.vuejs.org/en/) for more information.
