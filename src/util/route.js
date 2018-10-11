@@ -39,7 +39,7 @@ function clone (value) {
     return value.map(clone)
   } else if (value instanceof Date) {
     return new Date(value.getTime())
-  } else if (value && typeof value === 'object') {
+  } else if (value && typeof value === 'object') {
     const res = {}
     for (const key in value) {
       res[key] = clone(value[key])
