@@ -2,6 +2,7 @@ import View from './components/view'
 import Link from './components/link'
 
 export let _Vue
+export let _vm
 
 export function install (Vue) {
   if (install.installed && _Vue === Vue) return
@@ -14,6 +15,7 @@ export function install (Vue) {
   const registerInstance = (vm, callVal) => {
     let i = vm.$options._parentVnode
     if (isDef(i) && isDef(i = i.data) && isDef(i = i.registerRouteInstance)) {
+      _vm = vm
       i(vm, callVal)
     }
   }
