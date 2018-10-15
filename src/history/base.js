@@ -187,7 +187,7 @@ export class History {
     this.current = route
     this.cb && this.cb(route)
     this.router.afterHooks.forEach(hook => {
-      hook && hook(route, prev)
+      hook && hook.call(_vm, route, prev)
     })
   }
 }
