@@ -177,7 +177,7 @@ sidebar: auto
     name?: string; // 命名路由
     components?: { [name: string]: Component }; // 命名视图组件
     redirect?: string | Location | Function;
-    props?: boolean | string | Function;
+    props?: boolean | Object | Function;
     alias?: string | Array<string>;
     children?: Array<RouteConfig>; // 嵌套路由
     beforeEnter?: (to: Route, from: Route, next: Function) => void;
