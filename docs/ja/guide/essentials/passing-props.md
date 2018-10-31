@@ -4,7 +4,7 @@
 
 コンポーネントをルーターから分離するために `props` オプションを使います:
 
-**  `$route` に結合**
+**`$route` に結合**
 
 ``` js
 const User = {
@@ -17,7 +17,7 @@ const router = new VueRouter({
 })
 ```
 
-**  `props` による分離**
+**`props` による分離**
 
 ``` js
 const User = {
