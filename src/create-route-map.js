@@ -112,6 +112,11 @@ function addRouteRecord (
     })
   }
 
+  if (!pathMap[record.path]) {
+    pathList.push(record.path)
+    pathMap[record.path] = record
+  }
+
   if (route.alias !== undefined) {
     const aliases = Array.isArray(route.alias)
       ? route.alias
@@ -131,11 +136,6 @@ function addRouteRecord (
         record.path || '/' // matchAs
       )
     })
-  }
-
-  if (!pathMap[record.path]) {
-    pathList.push(record.path)
-    pathMap[record.path] = record
   }
 
   if (name) {
