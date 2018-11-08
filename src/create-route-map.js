@@ -118,24 +118,32 @@ function addRouteRecord (
   }
 
   if (route.alias !== undefined) {
-    const aliases = Array.isArray(route.alias)
-      ? route.alias
-      : [route.alias]
-
-    aliases.forEach(alias => {
-      const aliasRoute = {
-        path: alias,
-        children: route.children
-      }
-      addRouteRecord(
-        pathList,
-        pathMap,
-        nameMap,
-        aliasRoute,
-        parent,
-        record.path || '/' // matchAs
+    if (route.alias === path) {
+      warn(
+        false,
+        `Path with the same value as an alias: ` +
+        `{ name: "${name}", path: "${path}" }`
       )
-    })
+    } else {
+      const aliases = Array.isArray(route.alias)
+        ? route.alias
+        : [route.alias]
+
+      aliases.forEach(alias => {
+        const aliasRoute = {
+          path: alias,
+          children: route.children
+        }
+        addRouteRecord(
+          pathList,
+          pathMap,
+          nameMap,
+          aliasRoute,
+          parent,
+          record.path || '/' // matchAs
+        )
+      })
+    }
   }
 
   if (name) {
