@@ -122,7 +122,7 @@ function addRouteRecord (
       warn(
         false,
         `Path with the same value as an alias: ` +
-        `{ name: "${name}", path: "${path}" }`
+        `{ path: "${path}" }`
       )
     } else {
       const aliases = Array.isArray(route.alias)
