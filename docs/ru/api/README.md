@@ -173,7 +173,7 @@ sidebar: auto
     name?: string; // для именованных маршрутов
     components?: { [name: string]: Component }; // для именованных представлений
     redirect?: string | Location | Function;
-    props?: boolean | string | Function;
+    props?: boolean | Object | Function;
     alias?: string | Array<string>;
     children?: Array<RouteConfig>; // для вложенных маршрутов
     beforeEnter?: (to: Route, from: Route, next: Function) => void;
