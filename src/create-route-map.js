@@ -118,13 +118,7 @@ function addRouteRecord (
   }
 
   if (route.alias !== undefined) {
-    if (route.alias === path) {
-      warn(
-        false,
-        `Path with the same value as an alias: ` +
-        `{ path: "${path}" }`
-      )
-    } else {
+    if (route.alias !== path) {
       const aliases = Array.isArray(route.alias)
         ? route.alias
         : [route.alias]
@@ -143,6 +137,11 @@ function addRouteRecord (
           record.path || '/' // matchAs
         )
       })
+    } else if (process.env.NODE_ENV !== 'production') {
+      warn(
+        false,
+        `Path with the same value as an alias: "${path}"`
+      )
     }
   }
 

@@ -97,6 +97,18 @@ describe('Creating Route Map', function () {
     expect(console.warn.calls.argsFor(0)[0]).toMatch('vue-router] Duplicate param keys in route with path: "/foo/:id/bar/:id"')
   })
 
+  it('in development, warn path with the same value as an alias', () => {
+    process.env.NODE_ENV = 'development'
+    maps = createRouteMap([
+      {
+        path: '/foo-alias', component: Foo,
+        alias: '/foo-alias'
+      }
+    ])
+    expect(console.warn).toHaveBeenCalled()
+    expect(console.warn.calls.argsFor(0)[0]).toMatch('vue-router] Path with the same value as an alias: "/foo-alias"')
+  })
+
   describe('path-to-regexp options', function () {
     const routes = [
       { path: '/foo', name: 'foo', component: Foo },
