@@ -72,4 +72,22 @@ The URL `/search?q=vue` would pass `{query: 'vue'}` as props to the `SearchUser`
 
 Try to keep the `props` function stateless, as it's only evaluated on route changes. Use a wrapper component if you need state to define the props, that way vue can react to state changes.
 
+## Name mode
+
+You can pass props to component using their component name.
+
+``` js
+const router = new VueRouter({
+  routes: [
+    {
+      path: '/user-profile',
+      component: {location: Location, userInfo: UserInfo},
+      props: { userInfo: route => ({ isNewUser: false }) }
+    }
+  ]
+})
+```
+
+The URL `/user-profile` would pass `{ isNewUser: false }` to `userInfo` Component.
+
 For advanced usage, check out the [example](https://github.com/vuejs/vue-router/blob/dev/examples/route-props/app.js).
