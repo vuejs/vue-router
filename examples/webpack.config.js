@@ -33,7 +33,13 @@ module.exports = {
       {
         test: /\.js$/,
         exclude: /node_modules/,
-        use: 'babel-loader'
+        use: {
+          loader: 'babel-loader',
+          options: {
+            presets: ['env', 'flow-vue'],
+            plugins: ['syntax-dynamic-import']
+          }
+        }
       },
       {
         test: /\.vue$/,
@@ -41,10 +47,7 @@ module.exports = {
       },
       {
         test: /\.css$/,
-        use: [
-          'vue-style-loader',
-          'css-loader'
-        ]
+        use: ['vue-style-loader', 'css-loader']
       }
     ]
   },
@@ -68,7 +71,5 @@ module.exports = {
     }
   },
 
-  plugins: [
-    new VuePlugin()
-  ]
+  plugins: [new VuePlugin()]
 }

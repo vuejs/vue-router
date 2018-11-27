@@ -16,16 +16,18 @@ const router = new VueRouter({
 
 To link to a named route, you can pass an object to the `router-link` component's `to` prop:
 
-``` html
-<router-link :to="{ name: 'user', params: { userId: 123 }}">User</router-link>
+```html
+<router-link :to="{ name: 'user', params: { userId: '123' }}">User</router-link>
 ```
 
 This is the exact same object used programatically with `router.push()`:
 
-``` js
-router.push({ name: 'user', params: { userId: 123 }})
+```js
+router.push({ name: 'user', params: { userId: '123' } })
 ```
 
 In both cases, the router will navigate to the path `/user/123`.
 
-Full example [here](https://github.com/vuejs/vue-router/blob/dev/examples/named-routes/app.js).
+Demo:
+
+<ExamplePreview name="named-routes"/>
