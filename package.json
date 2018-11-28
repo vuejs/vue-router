@@ -36,7 +36,18 @@
     "test:types": "tsc -p types/test",
     "docs": "vuepress dev docs",
     "docs:build": "vuepress build docs",
-    "release": "bash build/release.sh"
+    "release": "bash build/release.sh",
+    "prepublishOnly": "npm run build && conventional-changelog -p angular -r 2 -i CHANGELOG.md -s"
+  },
+  "gitHooks": {
+    "pre-commit": "lint-staged",
+    "commit-msg": "node scripts/verifyCommitMsg.js"
+  },
+  "lint-staged": {
+    "*.{js,vue}": [
+      "eslint --fix",
+      "git add"
+    ]
   },
   "devDependencies": {
     "babel-core": "^6.24.1",
