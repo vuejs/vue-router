@@ -36,7 +36,7 @@
     "test:types": "tsc -p types/test",
     "docs": "vuepress dev docs",
     "docs:build": "vuepress build docs",
-    "release": "bash build/release.sh",
+    "release": "bash scripts/release.sh",
     "prepublishOnly": "npm run build && conventional-changelog -p angular -r 2 -i CHANGELOG.md -s"
   },
   "gitHooks": {
