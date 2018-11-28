@@ -15,7 +15,7 @@
 - HTML5 history mode or hash mode, with auto-fallback in IE9
 - Customizable Scroll Behavior
 
-Get started with the [documentation](http://vuejs.github.io/vue-router), or play with the [examples](https://github.com/vuejs/vue-router/tree/dev/examples) (see how to run them below).
+Get started with the [documentation](http://router.vuejs.org), or play with the [examples](https://github.com/vuejs/vue-router/tree/dev/examples) (see how to run them below).
 
 ### Development Setup
 
