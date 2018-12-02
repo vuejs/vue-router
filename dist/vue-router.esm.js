@@ -1740,9 +1740,7 @@ function resolveAsyncComponents (matched) {
             resolvedDef = resolvedDef.default;
           }
           // save resolved on async factory in case it's used elsewhere
-          def.resolved = typeof resolvedDef === 'function'
-            ? resolvedDef
-            : _Vue.extend(resolvedDef);
+          def.resolved = resolvedDef;
           match.components[key] = resolvedDef;
           pending--;
           if (pending <= 0) {
@@ -2043,6 +2041,7 @@ function extractGuards (
         ? guard.map(function (guard) { return bind(guard, instance, match, key); })
         : bind(guard, instance, match, key)
     }
+    typeof def !== 'function' &&  _Vue.extend(def);
   });
   return flatten(reverse ? guards.reverse() : guards)
 }
@@ -2053,7 +2052,7 @@ function extractGuard (
 ) {
   if (typeof def !== 'function') {
     // extend now so that global mixins are applied.
-    def = _Vue.extend(def);
+      return def[key]
   }
   return def.options[key]
 }
@@ -2092,7 +2091,7 @@ function bindEnterGuard (
   isValid
 ) {
   return function routeEnterGuard (to, from, next) {
-    return guard(to, from, function (cb) {
+    return guard.call(match.components[key],to, from, function (cb) {
       next(cb);
       if (typeof cb === 'function') {
         cbs.push(function () {

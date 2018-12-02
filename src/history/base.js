@@ -247,7 +247,7 @@ function extractGuards (
         ? guard.map(guard => bind(guard, instance, match, key))
         : bind(guard, instance, match, key)
     }
-    typeof def !== 'function' &&  _Vue.extend(def)
+    typeof def !== 'function' && _Vue.extend(def)
   })
   return flatten(reverse ? guards.reverse() : guards)
 }
@@ -258,7 +258,7 @@ function extractGuard (
 ): NavigationGuard | Array<NavigationGuard> {
   if (typeof def !== 'function') {
     // extend now so that global mixins are applied.
-      return def[key]
+    return def[key]
   }
   return def.options[key]
 }
@@ -297,7 +297,7 @@ function bindEnterGuard (
   isValid: () => boolean
 ): NavigationGuard {
   return function routeEnterGuard (to, from, next) {
-    return guard.call(match.components[key],to, from, cb => {
+    return guard.call(match.components[key], to, from, cb => {
       next(cb)
       if (typeof cb === 'function') {
         cbs.push(() => {
