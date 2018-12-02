@@ -24,9 +24,7 @@ export function resolveAsyncComponents (matched: Array<RouteRecord>): Function {
             resolvedDef = resolvedDef.default
           }
           // save resolved on async factory in case it's used elsewhere
-          def.resolved = typeof resolvedDef === 'function'
-            ? resolvedDef
-            : _Vue.extend(resolvedDef)
+          def.resolved = resolvedDef
           match.components[key] = resolvedDef
           pending--
           if (pending <= 0) {
