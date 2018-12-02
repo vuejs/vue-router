@@ -32,7 +32,7 @@ const User = {
 | Шаблон | Совпадающий путь | $route.params |
 |---------|------|--------|
 | /user/:username | /user/evan | `{ username: 'evan' }` |
-| /user/:username/post/:post_id | /user/evan/post/123 | `{ username: 'evan', post_id: 123 }` |
+| /user/:username/post/:post_id | /user/evan/post/123 | `{ username: 'evan', post_id: '123' }` |
 
 Помимо `$route.params`, объект `$route` также позволяет получить доступ к другой полезной информации, например `$route.query` (если URL содержит строку запроса), `$route.hash`, и т.д. Подробнее в [справочнике API](../api/route-object.md).
 
