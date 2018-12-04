@@ -6,18 +6,5 @@
   "extends": [
     "plugin:vue-libs/recommended",
     "plugin:flowtype/recommended"
-  ],
-  "overrides": [
-    {
-      "files": [
-        "**/*.spec.js"
-      ],
-      "plugins": [
-        "jasmine"
-      ],
-      "env": {
-        "jasmine": true
-      }
-    }
   ]
 }
