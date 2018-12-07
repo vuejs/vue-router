@@ -14,13 +14,13 @@ To navigate to a different URL, use `router.push`. This method pushes a new entr
 
 This is the method called internally when you click a `<router-link>`, so clicking `<router-link :to="...">` is the equivalent of calling `router.push(...)`.
 
-| Declarative | Programmatic |
-|-------------|--------------|
+| Declarative               | Programmatic       |
+| ------------------------- | ------------------ |
 | `<router-link :to="...">` | `router.push(...)` |
 
 The argument can be a string path, or a location descriptor object. Examples:
 
-``` js
+```js
 // literal string path
 router.push('home')
 
@@ -28,20 +28,20 @@ router.push('home')
 router.push({ path: 'home' })
 
 // named route
-router.push({ name: 'user', params: { userId: 123 }})
+router.push({ name: 'user', params: { userId: '123' } })
 
 // with query, resulting in /register?plan=private
-router.push({ path: 'register', query: { plan: 'private' }})
+router.push({ path: 'register', query: { plan: 'private' } })
 ```
 
 **Note**: `params` are ignored if a `path` is provided, which is not the case for `query`, as shown in the example above. Instead, you need to provide the `name` of the route or manually specify the whole `path` with any parameter:
 
 ```js
-const userId = 123
-router.push({ name: 'user', params: { userId }}) // -> /user/123
+const userId = '123'
+router.push({ name: 'user', params: { userId } }) // -> /user/123
 router.push({ path: `/user/${userId}` }) // -> /user/123
 // This will NOT work
-router.push({ path: '/user', params: { userId }}) // -> /user
+router.push({ path: '/user', params: { userId } }) // -> /user
 ```
 
 The same rules apply for the `to` property of the `router-link` component.
@@ -54,8 +54,8 @@ In 2.2.0+, optionally provide `onComplete` and `onAbort` callbacks to `router.pu
 
 It acts like `router.push`, the only difference is that it navigates without pushing a new history entry, as its name suggests - it replaces the current entry.
 
-| Declarative | Programmatic |
-|-------------|--------------|
+| Declarative                       | Programmatic          |
+| --------------------------------- | --------------------- |
 | `<router-link :to="..." replace>` | `router.replace(...)` |
 
 ## `router.go(n)`
@@ -64,7 +64,7 @@ This method takes a single integer as parameter that indicates by how many steps
 
 Examples
 
-``` js
+```js
 // go forward by one record, the same as history.forward()
 router.go(1)
 

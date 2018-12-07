@@ -32,7 +32,7 @@ Se pueden tener múltiples segmentos dinámicos en la misma ruta, y todos serán
 | patrón | matching de ruta | $route.params |
 |---------|------|--------|
 | /user/:username | /user/evan | `{ username: 'evan' }` |
-| /user/:username/post/:post_id | /user/evan/post/123 | `{ username: 'evan', post_id: 123 }` |
+| /user/:username/post/:post_id | /user/evan/post/123 | `{ username: 'evan', post_id: '123' }` |
 
 Además de `$route.params`, el objeto `$route` expone más información útil, como `$route.query` (si hay alguna _query_ en la URL), `$route.hash`, etc. Puedes verificar todos los detalles en la documentación de la [API](../api/route-object.md).
 
