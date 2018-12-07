@@ -22,7 +22,7 @@ sidebar: auto
 
 Иногда может потребоваться применять активный класс к внешнему элементу, а не к тегу `<a>`, в этом случае можно отобразить внешний элемент с помощью `<router-link>` и обернуть содержимое тегом `<a>` внутри:
 
-``` html
+```html
 <router-link tag="li" to="/foo">
   <a>/foo</a>
 </router-link>
@@ -39,7 +39,7 @@ sidebar: auto
 
   Определяет итоговый маршрут ссылки. При нажатии, значение входного параметра `to` будет передано в `router.push()` — поэтому это значение может быть как строкой, так и объектом описывающим маршрут.
 
-  ``` html
+  ```html
   <!-- строка -->
   <router-link to="home">Home</router-link>
   <!-- отобразится в -->
@@ -68,7 +68,7 @@ sidebar: auto
 
   Указание входного параметра `replace` вызовет `router.replace()` вместо `router.push()` при нажатии на ссылку, поэтому навигация не оставит записи в истории переходов.
 
-  ``` html
+  ```html
   <router-link :to="{ path: '/abc'}" replace></router-link>
   ```
 
@@ -79,7 +79,7 @@ sidebar: auto
 
   Указание входного параметра `append` будет добавлять относительный путь к текущему. Например, если мы переходим от `/a` к относительной ссылке `b`, то без `append` будет адрес `/b`, а вместе с `append` получится `/a/b`.
 
-  ``` html
+  ```html
   <router-link :to="{ path: 'relative/path'}" append></router-link>
   ```
 
@@ -90,7 +90,7 @@ sidebar: auto
 
   Иногда необходимо чтобы `<router-link>` отображался другим тегом, например `<li>`. В таком случае мы можем использовать входной параметр `tag`, чтобы указать нужный тег, и он всё равно будет прослушивать события click для навигации.
 
-  ``` html
+  ```html
   <router-link to="/foo" tag="li">foo</router-link>
   <!-- отобразится как -->
   <li>foo</li>
@@ -112,7 +112,7 @@ sidebar: auto
 
   Обратите внимание, поэтому `<router-link to="/">` будет активным для каждого маршрута! Для «режима точного соответствия» укажите в ссылке входной параметр `exact`:
 
-  ``` html
+  ```html
   <!-- эта ссылка будет активной только для адреса `/` -->
   <router-link to="/" exact>
   ```
@@ -141,7 +141,7 @@ sidebar: auto
 
 Поскольку это всего лишь компонент, он работает вместе с `<transition>` и `<keep-alive>`. При одновременном использовании обоих обязательно располагайте `<keep-alive>` внутри:
 
-``` html
+```html
 <transition>
   <keep-alive>
     <router-view></router-view>
@@ -166,7 +166,7 @@ sidebar: auto
 
   Декларация типа для `RouteConfig`:
 
-  ``` js
+  ```js
   declare type RouteConfig = {
     path: string;
     component?: Component;
@@ -290,7 +290,7 @@ sidebar: auto
 
 Сигнатуры:
 
-``` js
+```js
 router.beforeEach((to, from, next) => {
   /* необходимо вызывать `next` */
 })
@@ -314,7 +314,7 @@ router.afterEach((to, from) => {})
 
 Сигнатуры:
 
-``` js
+```js
 router.push(location, onComplete?, onAbort?)
 router.replace(location, onComplete?, onAbort?)
 router.go(n)
@@ -328,7 +328,7 @@ router.forward()
 
 Сигнатура:
 
-``` js
+```js
 const matchedComponents: Array<Component> = router.getMatchedComponents(location?)
 ```
 
@@ -338,7 +338,7 @@ const matchedComponents: Array<Component> = router.getMatchedComponents(location
 
 Сигнатура:
 
-``` js
+```js
 const resolved: {
   location: Location;
   route: Route;
@@ -355,7 +355,7 @@ const resolved: {
 
 Сигнатура:
 
-``` js
+```js
 router.addRoutes(routes: Array<RouteConfig>)
 ```
 
@@ -365,7 +365,7 @@ router.addRoutes(routes: Array<RouteConfig>)
 
 Сигнатура:
 
-``` js
+```js
 router.onReady(callback, [errorCallback])
 ```
 
@@ -379,7 +379,7 @@ router.onReady(callback, [errorCallback])
 
 Сигнатура:
 
-``` js
+```js
 router.onError(callback)
 ```
 
@@ -407,7 +407,7 @@ router.onError(callback)
 
 - В качестве двух первых параметров навигационных хуков:
 
-  ``` js
+  ```js
   router.beforeEach((to, from, next) => {
     // как `to` так и `from` являются объектами маршрута
   })
@@ -415,7 +415,7 @@ router.onError(callback)
 
 - В качестве двух первых параметров функции `scrollBehavior`:
 
-  ``` js
+  ```js
   const router = new VueRouter({
     scrollBehavior (to, from, savedPosition) {
       // как `to` так и `from` являются объектами маршрута
@@ -461,7 +461,7 @@ router.onError(callback)
 
   Массив с **записями маршрутов** для всех вложенных сегментов текущего маршрута. Записи маршрутов — это копии объектов из опции `routes` (и вложенных массивов `children`):
 
-  ``` js
+  ```js
   const router = new VueRouter({
     routes: [
       // объект ниже — это запись маршрута

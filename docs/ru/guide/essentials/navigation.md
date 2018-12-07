@@ -14,13 +14,13 @@ sidebarDepth: 0
 
 При клике на `<router-link>` этот метод вызывается автоматически. Клик по `<router-link :to="...">` эквивалентен программному вызову `router.push(...)`.
 
-| Декларативная запись | Программная запись |
-|-------------|--------------|
+| Декларативная запись      | Программная запись |
+|---------------------------|--------------------|
 | `<router-link :to="...">` | `router.push(...)` |
 
 В качестве аргумента можно передать строку или объект, описывающий маршрут. Например:
 
-``` js
+```js
 // строка
 router.push('home')
 
@@ -28,20 +28,20 @@ router.push('home')
 router.push({ path: 'home' })
 
 // именованный маршрут
-router.push({ name: 'user', params: { userId: 123 }})
+router.push({ name: 'user', params: { userId: '123' } })
 
 // со строкой запроса, получится /register?plan=private
-router.push({ path: 'register', query: { plan: 'private' }})
+router.push({ path: 'register', query: { plan: 'private' } })
 ```
 
 **Примечание**: `params` игнорируются, если указан `path`, что не является случаем с `query` приведённым в примере выше. Вместо этого, вам нужно указать `name` маршрута или вручную указать весь `path` с необходимыми параметрами:
 
 ```js
-const userId = 123
-router.push({ name: 'user', params: { userId }}) // -> /user/123
+const userId = '123'
+router.push({ name: 'user', params: { userId } }) // -> /user/123
 router.push({ path: `/user/${userId}` }) // -> /user/123
 // Это НЕ БУДЕТ работать
-router.push({ path: '/user', params: { userId }}) // -> /user
+router.push({ path: '/user', params: { userId } }) // -> /user
 ```
 
 Такие же правила применяются и к входному параметру `to` компонента `router-link`.
@@ -54,8 +54,8 @@ router.push({ path: '/user', params: { userId }}) // -> /user
 
 Действует как `router.push`, с той лишь разницей, что переход осуществляется без добавления новой записи в историю навигации, а заменяет текущую запись в нём.
 
-| Декларативная запись | Программная запись |
-|-------------|--------------|
+| Декларативная запись              | Программная запись    |
+|-----------------------------------|-----------------------|
 | `<router-link :to="..." replace>` | `router.replace(...)` |
 
 ## `router.go(n)`
@@ -64,7 +64,7 @@ router.push({ path: '/user', params: { userId }}) // -> /user
 
 Примеры:
 
-``` js
+```js
 // перейти на одну запись вперёд, эквивалентно history.forward()
 router.go(1)
 
