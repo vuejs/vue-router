@@ -8,7 +8,7 @@
 
 Глобальный хук можно зарегистрировать через `router.beforeEach`:
 
-``` js
+```js
 const router = new VueRouter({ ... })
 
 router.beforeEach((to, from, next) => {
@@ -44,7 +44,7 @@ router.beforeEach((to, from, next) => {
 
 Можно также зарегистрировать глобальные хуки, вызываемые после завершения перехода. Однако, в отличие от сторожевых хуков, в них не передаётся функция `next`, и на навигацию они повлиять не могут:
 
-``` js
+```js
 router.afterEach((to, from) => {
   // ...
 })
@@ -54,7 +54,7 @@ router.afterEach((to, from) => {
 
 Навигационные хуки `beforeEnter` можно указать напрямую для конкретного маршрута в его конфигурации:
 
-``` js
+```js
 const router = new VueRouter({
   routes: [
     {
@@ -78,7 +78,7 @@ const router = new VueRouter({
 - `beforeRouteUpdate`
 - `beforeRouteLeave`
 
-``` js
+```js
 const Foo = {
   template: `...`,
   beforeRouteEnter (to, from, next) {
@@ -105,7 +105,7 @@ const Foo = {
 
 Тем не менее, доступ к экземпляру можно получить, передав коллбэк в `next`. Эта функция будет вызвана после подтверждения навигации, а экземпляр компонента будет передан в неё в качестве параметра:
 
-``` js
+```js
 beforeRouteEnter (to, from, next) {
   next(vm => {
     // экземпляр компонента доступен как `vm`

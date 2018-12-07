@@ -6,7 +6,7 @@
 
 При создании экземпляра маршрутизатора, вы можете указать функцию `scrollBehavior`:
 
-``` js
+```js
 const router = new VueRouter({
   routes: [...],
   scrollBehavior (to, from, savedPosition) {
@@ -26,7 +26,7 @@ const router = new VueRouter({
 
 Например:
 
-``` js
+```js
 scrollBehavior (to, from, savedPosition) {
   return { x: 0, y: 0 }
 }
@@ -36,7 +36,7 @@ scrollBehavior (to, from, savedPosition) {
 
 Возврат `savedPosition` позволяет эмулировать нативное поведение браузера при использовании кнопок назад/вперёд:
 
-``` js
+```js
 scrollBehavior (to, from, savedPosition) {
   if (savedPosition) {
     return savedPosition
@@ -48,7 +48,7 @@ scrollBehavior (to, from, savedPosition) {
 
 Эмулировать поведение "прокрутки к якорю" на странице можно так:
 
-``` js
+```js
 scrollBehavior (to, from, savedPosition) {
   if (to.hash) {
     return {
@@ -67,7 +67,7 @@ scrollBehavior (to, from, savedPosition) {
 
 Можно также вернуть Promise, который разрешится объектом с желаемой позицией прокрутки:
 
-``` js
+```js
 scrollBehavior (to, from, savedPosition) {
   return new Promise((resolve, reject) => {
     setTimeout(() => {

@@ -14,7 +14,7 @@
 
 Предположим, у нас есть компонент `Post`, которому требуется загрузить с сервера данные, соответствующие id поста из `$route.params.id`:
 
-``` html
+```html
 <template>
   <div class="post">
     <div class="loading" v-if="loading">
@@ -33,7 +33,7 @@
 </template>
 ```
 
-``` js
+```js
 export default {
   data () {
     return {
@@ -73,7 +73,7 @@ export default {
 
 Используя этот подход, мы запрашиваем данные до завершения перехода к новому маршруту. Запрос данных выполняется в навигационном хуке `beforeRouteEnter` компонента, который вызывает `next`, когда данные получены:
 
-``` js
+```js
 export default {
   data () {
     return {

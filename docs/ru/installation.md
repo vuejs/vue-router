@@ -10,20 +10,20 @@
 
 Подключите `vue-router` после Vue, и установка произойдёт автоматически:
 
-``` html
+```html
 <script src="/path/to/vue.js"></script>
 <script src="/path/to/vue-router.js"></script>
 ```
 
 ## npm
 
-``` bash
+```bash
 npm install vue-router
 ```
 
 При использовании модульной системы, необходимо явно обозначить использование роутера при помощи `Vue.use()`:
 
-``` js
+```js
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 
@@ -36,7 +36,7 @@ Vue.use(VueRouter)
 
 Если вы хотите использовать самую новую dev-сборку `vue-router`, то придётся вручную склонировать репозиторий с GitHub и запустить сборку:
 
-``` bash
+```bash
 git clone https://github.com/vuejs/vue-router.git node_modules/vue-router
 cd node_modules/vue-router
 npm install
