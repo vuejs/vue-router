@@ -31,6 +31,9 @@ export function createRoute (
   if (redirectedFrom) {
     route.redirectedFrom = getFullPath(redirectedFrom, stringifyQuery)
   }
+  if (location._force) {
+    route._force = true
+  }
   return Object.freeze(route)
 }
 

@@ -53,10 +53,16 @@ export function normalizeLocation (
     hash = `#${hash}`
   }
 
-  return {
+  const result = {
     _normalized: true,
     path,
     query,
     hash
   }
+  // check force
+  if (next._force) {
+    result._force = true
+  }
+
+  return result
 }

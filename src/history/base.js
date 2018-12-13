@@ -97,8 +97,9 @@ export class History {
       }
       onAbort && onAbort(err)
     }
-    if (
-      isSameRoute(route, current) &&
+    if (isSameRoute(route, current) &&
+      // case for public function "reload"
+      !route._force &&
       // in the case the route map has been dynamically appended to
       route.matched.length === current.matched.length
     ) {
