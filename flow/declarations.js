@@ -91,6 +91,7 @@ declare type Location = {
 declare type RawLocation = string | Location
 
 declare type Route = {
+  _force?: boolean;
   path: string;
   name: ?string;
   hash: string;

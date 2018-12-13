@@ -53,7 +53,7 @@ export function normalizeLocation (
     hash = `#${hash}`
   }
 
-  const result = {
+  const result: Object = {
     _normalized: true,
     path,
     query,

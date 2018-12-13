@@ -142,16 +142,15 @@ export default class VueRouter {
     this.history.push(location, onComplete, onAbort)
   }
 
-  reload (location: RawLocation) {
-    const current = this.history.current
-    this.history.push({
-      _force: true,
-      hash: current.hash,
-      name: current.name,
-      path: current.path,
-      params: current.params,
-      query: current.query
-    })
+  reload () {
+    const { current } = this.history
+    const result: Object = { _force: true }
+    if (current.hash) result.hash = current.hash
+    if (current.path) result.path = current.path
+    if (current.params) result.params = current.params
+    if (current.query) result.query = current.query
+
+    this.history.push(result)
   }
 
   replace (location: RawLocation, onComplete?: Function, onAbort?: Function) {
