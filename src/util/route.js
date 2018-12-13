@@ -73,7 +73,7 @@ function getFullPath (
 export function isSameRoute (a: Route, b: ?Route): boolean {
   if (b === START) {
     return a === b
-  } else if (!b) {
+  } else if (!a || !b) {
     return false
   } else if (a.path && b.path) {
     return (

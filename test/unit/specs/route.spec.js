@@ -66,6 +66,16 @@ describe('Route utils', () => {
       expect(isSameRoute(a, b)).toBe(true)
       expect(isSameRoute(a, c)).toBe(false)
     })
+
+    it('handles cases where the a route is falsey', () => {
+      const a = undefined
+      const b = {
+        name: 'a',
+        hash: '#hi',
+        query: { arr: ['1', '2'], foo: 'bar' }
+      }
+      expect(isSameRoute(a, b)).toBe(false)
+    })
   })
 
   describe('isIncludedRoute', () => {
