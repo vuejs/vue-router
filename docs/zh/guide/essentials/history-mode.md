@@ -72,15 +72,15 @@ http.createServer((req, res) => {
 
 ##### 例
 ```bash
-mkdir express_project
-cd express_project
+mkdir express-project
+cd express-project
 npm init
-npm i express connect-history-api-fallback -s
+npm install express connect-history-api-fallback
 touch app.js
 ```
 
 ```js
-// express_project/app.js
+// express-project/app.js
 
 const express = require('express')
 const history = require('connect-history-api-fallback')
