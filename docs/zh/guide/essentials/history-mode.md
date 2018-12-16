@@ -70,7 +70,7 @@ http.createServer((req, res) => {
 
 对于 Node.js/Express，请考虑使用 [connect-history-api-fallback 中间件](https://github.com/bripkens/connect-history-api-fallback)。
 
-##### 例
+##### 例子
 ```bash
 mkdir express-project
 cd express-project
