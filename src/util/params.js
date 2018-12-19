@@ -35,3 +35,14 @@ export function fillParams (
     delete params[0]
   }
 }
+
+export function parentHasOptionalParams (
+  record: Object): boolean {
+  if (record.regex) {
+    if (record.parent) {
+      return (record.regex.keys && record.regex.keys.find(key => key.optional)) || parentHasOptionalParams(record.parent)
+    }
+    return record.regex.keys && record.regex.keys.find(key => key.optional)
+  }
+  return false
+}

@@ -9,7 +9,7 @@ module.exports = {
     browser
       .url('http://localhost:8080/nested-routes/')
       .waitForElementVisible('#app', 1000)
-      .assert.count('li a', 11)
+      .assert.count('li a', 12)
       .assert.urlEquals('http://localhost:8080/nested-routes/parent')
       .assert.containsText('.view', 'Parent')
       .assert.containsText('.view', 'default')
@@ -99,7 +99,15 @@ module.exports = {
       .click('.nested-child a')
       .assert.urlEquals('http://localhost:8080/nested-routes/parent/qux/2/quuy')
 
-      // check initial visit
+      // test optional params
+      .click('li:nth-child(12) a')
+      .assert.urlEquals('http://localhost:8080/nested-routes/parent/fox/1/optional/2')
+      .assert.containsText('pre', 'optional')
+
+      .click('a.optional-param-nested')
+      .assert.urlEquals('http://localhost:8080/nested-routes/parent/fox/1/optional/2/foxy')
+      .assert.containsText('.optional-param-nested-child pre', 'optional')
+
       .url('http://localhost:8080/nested-routes/parent/foo')
       .waitForElementVisible('#app', 1000)
       .assert.containsText('.view', 'Parent')

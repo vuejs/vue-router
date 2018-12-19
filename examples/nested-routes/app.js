@@ -44,6 +44,17 @@ const Zap = {
   template: '<div><h3>zap</h3><pre>{{ $route.params.zapId }}</pre></div>'
 }
 
+const Fox = {
+  template: `
+    <div>
+      <h3>fox</h3>
+      <pre>{{ $route.params.paramOptional }}</pre>
+      <router-link class="optional-param-nested" :to="{ name: 'foxy' }">Child with optional param in parent</router-link>
+      <router-view class="optional-param-nested-child"></router-view>
+    </div>`
+}
+const Foxy = { template: '<div><h3>foxy</h3><pre>{{ $route.params.paramOptional }}</pre></div>' }
+
 const router = new VueRouter({
   mode: 'history',
   base: __dirname,
@@ -80,7 +91,14 @@ const router = new VueRouter({
 
         { path: 'quy/:quyId', component: Quy },
 
-        { name: 'zap', path: 'zap/:zapId?', component: Zap }
+        { name: 'zap', path: 'zap/:zapId?', component: Zap },
+
+        {
+          name: 'fox',
+          path: 'fox/:param1/:paramOptional?/:param2',
+          component: Fox,
+          children: [{ path: 'foxy', name: 'foxy', component: Foxy }]
+        }
       ]
     }
   ]
@@ -103,6 +121,7 @@ new Vue({
         <li><router-link :to="{ params: { zapId: 2 }}">{ params: { zapId: 2 }} (relative params)</router-link></li>
         <li><router-link to="/parent/qux/1/quux">/parent/qux/1/quux</router-link></li>
         <li><router-link to="/parent/qux/2/quux">/parent/qux/2/quux</router-link></li>
+        <li><router-link :to="{ name: 'fox', params: { param1: 1, param2: 2, paramOptional: 'optional' }}">/fox/:param1/:paramOptional?/:param2</router-link></li>
       </ul>
       <router-view class="view"></router-view>
     </div>
