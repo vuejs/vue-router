@@ -40,9 +40,9 @@ export function parentHasOptionalParams (
   record: Object): boolean {
   if (record.regex) {
     if (record.parent) {
-      return (record.regex.keys && record.regex.keys.find(key => key.optional)) || parentHasOptionalParams(record.parent)
+      return (record.regex.keys && record.regex.keys.filter(key => key.optional)[0]) || parentHasOptionalParams(record.parent)
     }
-    return record.regex.keys && record.regex.keys.find(key => key.optional)
+    return record.regex.keys && record.regex.keys.filter(key => key.optional)[0]
   }
   return false
 }
