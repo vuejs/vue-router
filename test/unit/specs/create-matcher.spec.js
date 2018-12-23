@@ -5,6 +5,7 @@ const routes = [
   { path: '/', name: 'home', component: { name: 'home' }},
   { path: '/foo', name: 'foo', component: { name: 'foo' }},
   { path: '/baz/:testparam', name: 'baz', component: { name: 'baz' }},
+  { path: '/error/*', name: 'error', component: { name: 'error' }},
   { path: '*', props: true, name: 'notFound', component: { name: 'notFound' }}
 ]
 
@@ -27,7 +28,9 @@ describe('Creating Matcher', function () {
     expect(matched.length).toBe(0)
     expect(name).toBe('bar')
     expect(console.warn).toHaveBeenCalled()
-    expect(console.warn.calls.argsFor(0)[0]).toMatch("Route with name 'bar' does not exist")
+    expect(console.warn.calls.argsFor(0)[0]).toMatch(
+      "Route with name 'bar' does not exist"
+    )
   })
 
   it('in production, it has not logged this warning', function () {
@@ -37,17 +40,35 @@ describe('Creating Matcher', function () {
 
   it('matches named route with params without warning', function () {
     process.env.NODE_ENV = 'development'
-    const { name, path } = match({ name: 'baz', params: { testparam: 'testvalue' }})
+    const { name, path, params } = match({
+      name: 'baz',
+      params: { testparam: 'testvalue' }
+    })
     expect(console.warn).not.toHaveBeenCalled()
     expect(name).toEqual('baz')
     expect(path).toEqual('/baz/testvalue')
+    expect(params).toEqual({ testparam: 'testvalue' })
   })
 
   it('matches asterisk routes with a default param name without warning', function () {
     process.env.NODE_ENV = 'development'
-    const { params } = match({ name: 'notfound', params: { pathMatch: '/not-found' }}, routes[0])
+    const { params } = match(
+      { name: 'notFound', params: { pathMatch: '/not-found' }},
+      routes[0]
+    )
     expect(console.warn).not.toHaveBeenCalled()
     expect(params).toEqual({ pathMatch: '/not-found' })
+  })
+
+  it('matches partial asterisk routes with a default param name without warning', function () {
+    process.env.NODE_ENV = 'development'
+    const { params, path } = match(
+      { name: 'error', params: { pathMatch: 'some' }},
+      routes[0]
+    )
+    expect(console.warn).not.toHaveBeenCalled()
+    expect(params).toEqual({ pathMatch: 'some' })
+    expect(path).toEqual('/error/some')
   })
 
   it('matches asterisk routes with a default param name', function () {
