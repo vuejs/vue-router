@@ -13,12 +13,12 @@ export function fillParams (
   params: ?Object,
   routeMsg: string
 ): string {
+  params = params || {}
   try {
     const filler =
       regexpCompileCache[path] ||
       (regexpCompileCache[path] = Regexp.compile(path))
 
-    params = params || {}
     // Fix #2505 resolving asterisk routes { name: 'not-found', params: { pathMatch: '/not-found' }}
     if (params.pathMatch) params[0] = params.pathMatch
 
