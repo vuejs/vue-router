@@ -34,6 +34,10 @@ module.exports = {
   serviceWorker: true,
   theme: 'vue',
   themeConfig: {
+    algolia: {
+      apiKey: 'f854bb46d3de7eeb921a3b9173bd0d4c',
+      indexName: 'vue-router',
+    },
     repo: 'vuejs/vue-router',
     docsDir: 'docs',
     locales: {

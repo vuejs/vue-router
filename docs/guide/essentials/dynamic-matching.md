@@ -81,7 +81,7 @@ Regular params will only match characters in between url fragments, separated by
 ```
 
 When using _asterisk_ routes, make sure to correctly order your routes so that _asterisk_ ones are at the end.
-The route `{ path; '*' }` is usually used to 404 client side. If you are using _History mode_, make sure to [correctly configure your server](./history-mode.md) as well.
+The route `{ path: '*' }` is usually used to 404 client side. If you are using _History mode_, make sure to [correctly configure your server](./history-mode.md) as well.
 
 When using an _asterisk_, a param named `pathMatch` is automatically added to `$route.params`. It contains the rest of the url matched by the _asterisk_:
 
