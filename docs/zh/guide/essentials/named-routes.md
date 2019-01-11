@@ -28,4 +28,4 @@ router.push({ name: 'user', params: { userId: 123 }})
 
 这两种方式都会把路由导航到 `/user/123` 路径。
 
-完整的例子请[移步这里](https://github.com/vuejs/vue-router/blob/next/examples/named-routes/app.js)。
+完整的例子请[移步这里](https://github.com/vuejs/vue-router/blob/dev/examples/named-routes/app.js)。

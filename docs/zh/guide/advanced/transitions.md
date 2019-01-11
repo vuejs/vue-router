@@ -55,4 +55,4 @@ watch: {
 }
 ```
 
-查看完整例子请[移步这里](https://github.com/vuejs/vue-router/blob/next/examples/transitions/app.js)。
+查看完整例子请[移步这里](https://github.com/vuejs/vue-router/blob/dev/examples/transitions/app.js)。
