@@ -66,6 +66,34 @@ const User = {
 }
 ```
 
+## 捕获所有路由或 404 Not found 路由
+
+常规参数只会匹配被 `/` 分隔的 URL 片段中的字符。如果想匹配**任意路径**，我们可以使用通配符 (`*`)：
+
+```js
+{
+  // 会匹配所有路径
+  path: '*'
+}
+{
+  // 会匹配以 `/user-` 开头的任意路径
+  path: '/user-*'
+}
+```
+
+当使用*通配符*路由时，请确保路由的顺序是正确的，也就是说含有*通配符*的路由应该放在最后。路由 `{ path: '*' }` 通常用于客户端 404 错误。如果你使用了*History 模式*，请确保[正确配置你的服务器](./history-mode.md)。
+
+当使用一个*通配符*时，`$route.params` 内会自动添加一个名为 `pathMatch` 参数。它包含了 URL 通过*通配符*被匹配的部分：
+
+```js
+// 给出一个路由 { path: '/user-*' }
+this.$router.push('/user-admin')
+this.$route.params.pathMatch // 'admin'
+// 给出一个路由 { path: '*' }
+this.$router.push('/non-existing')
+this.$route.params.pathMatch // '/non-existing'
+```
+
 ## 高级匹配模式
 
 `vue-router` 使用 [path-to-regexp](https://github.com/pillarjs/path-to-regexp) 作为路径匹配引擎，所以支持很多高级的匹配模式，例如：可选的动态路径参数、匹配零个或多个、一个或多个，甚至是自定义正则匹配。查看它的 [文档](https://github.com/pillarjs/path-to-regexp#parameters) 学习高阶的路径匹配，还有 [这个例子 ](https://github.com/vuejs/vue-router/blob/next/examples/route-matching/app.js) 展示 `vue-router` 怎么使用这类匹配。
