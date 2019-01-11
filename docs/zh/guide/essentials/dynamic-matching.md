@@ -86,10 +86,10 @@ const User = {
 当使用一个*通配符*时，`$route.params` 内会自动添加一个名为 `pathMatch` 参数。它包含了 URL 通过*通配符*被匹配的部分：
 
 ```js
-// Given a route { path: '/user-*' }
+// 给出一个路由 { path: '/user-*' }
 this.$router.push('/user-admin')
 this.$route.params.pathMatch // 'admin'
-// Given a route { path: '*' }
+// 给出一个路由 { path: '*' }
 this.$router.push('/non-existing')
 this.$route.params.pathMatch // '/non-existing'
 ```
