@@ -435,7 +435,7 @@ router.onError(callback)
 
   - 类型: `Object`
 
-  一个 key/value 对象，包含了动态片段和全匹配片段，如果没有路由参数，就是一个空对象。
+    一个 key/value 对象，包含了动态片段和全匹配片段，如果没有路由参数，就是一个空对象。
 
 - **$route.query**
 
