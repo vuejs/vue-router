@@ -87,7 +87,7 @@ For Node.js/Express, consider using [connect-history-api-fallback middleware](ht
             <add input="{REQUEST_FILENAME}" matchType="IsFile" negate="true" />
             <add input="{REQUEST_FILENAME}" matchType="IsDirectory" negate="true" />
           </conditions>
-          <action type="Rewrite" url="/" />
+          <action type="Rewrite" url="index.html" />
         </rule>
       </rules>
     </rewrite>
