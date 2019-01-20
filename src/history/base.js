@@ -146,9 +146,9 @@ export class History {
             // next('/') or next({ path: '/' }) -> redirect
             abort()
             if (typeof to === 'object' && to.replace) {
-              this.replace(to)
+              this.router.replace(to)
             } else {
-              this.push(to)
+              this.router.push(to)
             }
           } else {
             // confirm transition and pass on the value
