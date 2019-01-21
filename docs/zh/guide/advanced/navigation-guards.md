@@ -8,7 +8,7 @@
 
 记住**参数或查询的改变并不会触发进入/离开的导航守卫**。你可以通过[观察 `$route` 对象](../essentials/dynamic-matching.md#响应路由参数的变化)来应对这些变化，或使用 `beforeRouteUpdate` 的组件内守卫。
 
-## 全局守卫
+## 全局前置守卫
 
 你可以使用 `router.beforeEach` 注册一个全局前置守卫：
 
