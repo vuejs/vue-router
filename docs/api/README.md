@@ -251,6 +251,8 @@ Since it's just a component, it works with `<transition>` and `<keep-alive>`. Wh
 - type: `Function`
 
   Provide custom query string parse / stringify functions. Overrides the default.
+  
+  Note that `stringifyQuery` is supposed to prepend a non-empty query with the question mark itself while `parseQuery` is passed the query string without the question mark in the beginning.
 
 ### fallback
 
