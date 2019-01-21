@@ -4,7 +4,7 @@ As the name suggests, the navigation guards provided by `vue-router` are primari
 
 Remember that **params or query changes won't trigger enter/leave navigation guards**. You can either [watch the `$route` object](../essentials/dynamic-matching.md#reacting-to-params-changes) to react to those changes, or use the `beforeRouteUpdate` in-component guard.
 
-## Global Guards
+## Global Before Guards
 
 You can register global before guards using `router.beforeEach`:
 
