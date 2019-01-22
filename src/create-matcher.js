@@ -18,11 +18,6 @@ export function createMatcher (
   router: VueRouter
 ): Matcher {
   const { pathList, pathMap, nameMap } = createRouteMap(routes)
-  const pathsMissingSlashes = pathList.filter(path => !!path && path.charAt(0) !== '/')
-
-  if (pathsMissingSlashes.length > 0) {
-    warn(false, `There is at least one root route without a leading slash in its path.`)
-  }
 
   function addRoutes (routes) {
     createRouteMap(routes, pathList, pathMap, nameMap)

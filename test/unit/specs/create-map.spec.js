@@ -97,6 +97,48 @@ describe('Creating Route Map', function () {
     expect(console.warn.calls.argsFor(0)[0]).toMatch('vue-router] Duplicate param keys in route with path: "/foo/:id/bar/:id"')
   })
 
+  it('in development, warn if a path is missing a leading slash', function () {
+    process.env.NODE_ENV = 'development'
+    maps = createRouteMap([
+      { path: '/', name: 'home', component: Home },
+      { path: 'bar', name: 'bar', component: Bar },
+      { path: 'foo', name: 'foo', component: Foo,
+        children: [
+          { path: 'bar/:id', component: Bar }
+        ]
+      },
+      { path: '*', name: 'any', component: Baz }
+    ])
+    expect(console.warn).toHaveBeenCalledTimes(1)
+    expect(console.warn.calls.argsFor(0)[0]).toEqual('[vue-router] The following routes require a leading slash in their paths: bar, foo')
+  })
+
+  it('in development, it has not logged a missing leading slash warning when all paths have slashes', function () {
+    process.env.NODE_ENV = 'development'
+    maps = createRouteMap([
+      { path: '/', name: 'home', component: Home },
+      { path: '/bar', name: 'bar', component: Bar },
+      { path: '/foo', name: 'foo', component: Foo,
+        children: [
+          { path: 'bar/:id', component: Bar }
+        ]
+      },
+      { path: '*', name: 'any', component: Baz }
+    ])
+    expect(console.warn).not.toHaveBeenCalled()
+  })
+
+  it('in production, it has not logged a missing leading slash warning', function () {
+    process.env.NODE_ENV = 'production'
+    maps = createRouteMap([
+      { path: '/', name: 'home', component: Home },
+      { path: 'bar', name: 'bar', component: Bar },
+      { path: 'foo', name: 'foo', component: Foo },
+      { path: '*', name: 'any', component: Baz }
+    ])
+    expect(console.warn).not.toHaveBeenCalled()
+  })
+
   describe('path-to-regexp options', function () {
     const routes = [
       { path: '/foo', name: 'foo', component: Foo },

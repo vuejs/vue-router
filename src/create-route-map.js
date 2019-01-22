@@ -34,6 +34,16 @@ export function createRouteMap (
     }
   }
 
+  // warn if routes do not include leading slashes
+  const pathsMissingSlashes = pathList
+    .filter(path => !!path && path.charAt(0) !== '*' && path.charAt(0) !== '/')
+    .map(path => path.split('/')[0])
+    .filter((path, index, pathList) => pathList.indexOf(path) === index)
+
+  if (pathsMissingSlashes.length > 0) {
+    warn(false, `The following routes require a leading slash in their paths: ${pathsMissingSlashes.join(', ')}`)
+  }
+
   return {
     pathList,
     pathMap,
