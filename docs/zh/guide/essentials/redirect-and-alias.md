@@ -37,7 +37,7 @@ const router = new VueRouter({
 
 注意[导航守卫](../advanced/navigation-guards.md)并没有应用在跳转路由上，而仅仅应用在其目标上。在下面这个例子中，为 `/a` 路由添加一个 `beforeEach` 或 `beforeLeave` 守卫并不会有任何效果。
 
-其它高级用法，请参考[例子](https://github.com/vuejs/vue-router/blob/next/examples/redirect/app.js)。
+其它高级用法，请参考[例子](https://github.com/vuejs/vue-router/blob/dev/examples/redirect/app.js)。
 
 ## 别名
 
@@ -57,4 +57,4 @@ const router = new VueRouter({
 
 “别名”的功能让你可以自由地将 UI 结构映射到任意的 URL，而不是受限于配置的嵌套路由结构。
 
-更多高级用法，请查看[例子](https://github.com/vuejs/vue-router/blob/next/examples/route-alias/app.js)。
+更多高级用法，请查看[例子](https://github.com/vuejs/vue-router/blob/dev/examples/route-alias/app.js)。
