@@ -65,6 +65,35 @@ const User = {
 }
 ```
 
+## Catch all / 404 Not found Route
+
+Regular params will only match characters in between url fragments, separated by `/`. If we want to match **anything**, we can use the asterisk (`*`):
+
+```js
+{
+  // will match everything
+  path: '*'
+}
+{
+  // will match anything starting with `/user-`
+  path: '/user-*'
+}
+```
+
+When using _asterisk_ routes, make sure to correctly order your routes so that _asterisk_ ones are at the end.
+The route `{ path; '*' }` is usually used to 404 client side. If you are using _History mode_, make sure to [correctly configure your server](./history-mode.md) as well.
+
+When using an _asterisk_, a param named `pathMatch` is automatically added to `$route.params`. It contains the rest of the url matched by the _asterisk_:
+
+```js
+// Given a route { path: '/user-*' }
+this.$router.push('/user-admin')
+this.$route.params.pathMatch // 'admin'
+// Given a route { path: '*' }
+this.$router.push('/non-existing')
+this.$route.params.pathMatch // '/non-existing'
+```
+
 ## 高度なマッチングパターン
 
 `vue-router` はパスのマッチングエンジンとして [path-to-regexp](https://github.com/pillarjs/path-to-regexp) を使っています。これは Optional による動的なセグメント、Zero or more / One or more に対する要求、また、カスタム正規表現パターンまでもサポートしています。 これらの高度なパターンについてはこちらの [ドキュメンテーション](https://github.com/pillarjs/path-to-regexp#parameters) または、 `vue-router` の中でそれらを使っている [こちらの例](https://github.com/vuejs/vue-router/blob/dev/examples/route-matching/app.js) をご参照ください。
