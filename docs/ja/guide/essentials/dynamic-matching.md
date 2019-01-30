@@ -67,29 +67,29 @@ const User = {
 
 ## Catch all / 404 Not found Route
 
-Regular params will only match characters in between url fragments, separated by `/`. If we want to match **anything**, we can use the asterisk (`*`):
+通常のパラメータは、`/` で区切られた url フラグメントの間にある文字だけにマッチします。**何でも**一致させたい場合は、アスタリスク(`*`)を使うことができます:
 
 ```js
 {
-  // will match everything
+  // 全てにマッチします
   path: '*'
 }
 {
-  // will match anything starting with `/user-`
+  // `/user-`から始まるもにマッチします
   path: '/user-*'
 }
 ```
 
-When using _asterisk_ routes, make sure to correctly order your routes so that _asterisk_ ones are at the end.
-The route `{ path; '*' }` is usually used to 404 client side. If you are using _History mode_, make sure to [correctly configure your server](./history-mode.md) as well.
+_アスタリスク_ ルートを使用するときは、_アスタリスク_ ルートが最後になるようにルートを正しく順序付けでください。
+`{ path: '*' }` ルートは、通常 404 クライアントサイドで使われます。_History モード_ を使用する場合は、[正しいサーバの設定](./history-mode.md)も同様に確認してください。
 
-When using an _asterisk_, a param named `pathMatch` is automatically added to `$route.params`. It contains the rest of the url matched by the _asterisk_:
+_アスタリスク_ を使用するときは、 `pathMatch` と名付けられたパラメータは、自動的に `$route.params` に追加されます。_アスタリスク_ によってマッチされた url の残りを含みます:
 
 ```js
-// Given a route { path: '/user-*' }
+// 与えられた { path: '/user-*' } ルート
 this.$router.push('/user-admin')
 this.$route.params.pathMatch // 'admin'
-// Given a route { path: '*' }
+// 与えられた { path: '*' } ルート
 this.$router.push('/non-existing')
 this.$route.params.pathMatch // '/non-existing'
 ```
