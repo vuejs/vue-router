@@ -15,4 +15,4 @@ Vue Router は [Vue.js](http://vuejs.org) 公式ルータです。これは Vue.
 - HTML5 history モードまたは hash モードと IE9 の互換性
 - カスタマイズ可能なスクロール動作
 
-[ドキュメント](https://router.vuejs.org/ja/guide/)で始めるか、 [例](https://github.com/vuejs/vue-router/tree/dev/examples) から試してください。 ([`README.md`](https://github.com/vuejs/vue-router/)を参照してください。).
+[はじめに](./guide/) または [例](https://github.com/vuejs/vue-router/tree/dev/examples) から試してください。 ([`README.md`](https://github.com/vuejs/vue-router/)を参照してください。).
