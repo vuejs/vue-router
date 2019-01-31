@@ -65,7 +65,7 @@ const User = {
 }
 ```
 
-## Catch all / 404 Not found Route
+## すべてキャッチするルート / 404 Not found ルート
 
 通常のパラメータは、`/` で区切られた url フラグメントの間にある文字だけにマッチします。**何でも**一致させたい場合は、アスタリスク(`*`)を使うことができます:
 
@@ -86,10 +86,10 @@ _アスタリスク_ ルートを使用するときは、_アスタリスク_ �
 _アスタリスク_ を使用するときは、 `pathMatch` と名付けられたパラメータは、自動的に `$route.params` に追加されます。_アスタリスク_ によってマッチされた url の残りを含みます:
 
 ```js
-// 与えられた { path: '/user-*' } ルート
+// { path: '/user-*' } というルートが与えられた
 this.$router.push('/user-admin')
 this.$route.params.pathMatch // 'admin'
-// 与えられた { path: '*' } ルート
+// { path: '*' } というルートが与えられた
 this.$router.push('/non-existing')
 this.$route.params.pathMatch // '/non-existing'
 ```
