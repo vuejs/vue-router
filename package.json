@@ -82,7 +82,7 @@
     "rollup-plugin-replace": "^2.0.0",
     "rollup-watch": "^4.0.0",
     "selenium-server": "^2.53.1",
-    "typescript": "^2.7.2",
+    "typescript": "^3.3.1",
     "uglify-js": "^3.3.13",
     "vue": "^2.5.16",
     "vue-loader": "^15.2.1",
