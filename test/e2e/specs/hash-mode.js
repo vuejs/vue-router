@@ -1,7 +1,7 @@
 module.exports = {
   'Hash mode': function (browser) {
     browser
-    .url('http://localhost:8080/hash-mode/')
+      .url('http://localhost:8080/hash-mode/')
       .waitForElementVisible('#app', 1000)
       .assert.count('li', 5)
       .assert.count('li a', 4)
@@ -28,10 +28,10 @@ module.exports = {
       .assert.containsText('.view', 'bar')
 
     // check initial visit
-    .url('http://localhost:8080/hash-mode/#/foo')
+      .url('http://localhost:8080/hash-mode/#/foo')
       .waitForElementVisible('#app', 1000)
       .assert.containsText('.view', 'foo')
-    .url('http://localhost:8080/hash-mode/#/%C3%A9')
+      .url('http://localhost:8080/hash-mode/#/%C3%A9')
       .waitForElementVisible('#app', 1000)
       .assert.containsText('.view', 'unicode')
       .end()

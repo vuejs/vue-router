@@ -1,7 +1,7 @@
 module.exports = {
   'lazy loading': function (browser) {
     browser
-    .url('http://localhost:8080/lazy-loading/')
+      .url('http://localhost:8080/lazy-loading/')
       .waitForElementVisible('#app', 1000)
       .assert.count('li a', 4)
       .assert.containsText('.view', 'home')
@@ -20,11 +20,11 @@ module.exports = {
       .assert.containsText('.view h3', 'Baz')
 
       // test initial visit
-    .url('http://localhost:8080/lazy-loading/foo')
+      .url('http://localhost:8080/lazy-loading/foo')
       .waitForElementVisible('#app', 1000)
       .assert.containsText('.view', 'This is Foo!')
 
-    .url('http://localhost:8080/lazy-loading/bar/baz')
+      .url('http://localhost:8080/lazy-loading/bar/baz')
       .waitForElementVisible('#app', 1000)
       .assert.containsText('.view', 'This is Bar!')
       .assert.containsText('.view h3', 'Baz')

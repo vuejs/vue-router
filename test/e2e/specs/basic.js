@@ -1,7 +1,7 @@
 module.exports = {
   basic: function (browser) {
     browser
-    .url('http://localhost:8080/basic/')
+      .url('http://localhost:8080/basic/')
       .waitForElementVisible('#app', 1000)
       .assert.count('li', 5)
       .assert.count('li a', 5)
@@ -34,10 +34,10 @@ module.exports = {
       .assert.containsText('.view', 'unicode')
 
       // check initial visit
-    .url('http://localhost:8080/basic/foo')
+      .url('http://localhost:8080/basic/foo')
       .waitForElementVisible('#app', 1000)
       .assert.containsText('.view', 'foo')
-    .url('http://localhost:8080/basic/%C3%A9')
+      .url('http://localhost:8080/basic/%C3%A9')
       .waitForElementVisible('#app', 1000)
       .assert.containsText('.view', 'unicode')
       .end()

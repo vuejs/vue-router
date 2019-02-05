@@ -1,7 +1,7 @@
 module.exports = {
   'scroll behavior': function (browser) {
     browser
-    .url('http://localhost:8080/hash-scroll-behavior/')
+      .url('http://localhost:8080/hash-scroll-behavior/')
       .waitForElementVisible('#app', 1000)
       .assert.count('li a', 5)
       .assert.containsText('.view', 'home')

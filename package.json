@@ -28,7 +28,7 @@
     "dev": "node examples/server.js",
     "dev:dist": "rollup -wm -c build/rollup.dev.config.js",
     "build": "node build/build.js",
-    "lint": "eslint src examples",
+    "lint": "eslint src test examples",
     "test": "npm run lint && npm run flow && npm run test:unit && npm run test:e2e && npm run test:types",
     "flow": "flow check",
     "test:unit": "jasmine JASMINE_CONFIG_PATH=test/unit/jasmine.json",
