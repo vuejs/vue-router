@@ -108,7 +108,7 @@ export interface Location {
   name?: string;
   path?: string;
   hash?: string;
-  query?: Dictionary<string | string[]>;
+  query?: Dictionary<string | (string | null)[] | null | undefined>;
   params?: Dictionary<string>;
   append?: boolean;
   replace?: boolean;
@@ -118,7 +118,7 @@ export interface Route {
   path: string;
   name?: string;
   hash: string;
-  query: Dictionary<string | string[]>;
+  query: Dictionary<string | (string | null)[]>;
   params: Dictionary<string>;
   fullPath: string;
   matched: RouteRecord[];
