@@ -25,21 +25,21 @@ router.push('home')
 router.push({ path: 'home' })
 
 // 名前付きルート
-router.push({ name: 'user', params: { userId: 123 }})
+router.push({ name: 'user', params: { userId: '123' } })
 
 // 結果的に /register?plan=private になる query
-router.push({ path: 'register', query: { plan: 'private' }})
+router.push({ path: 'register', query: { plan: 'private' } })
 ```
 
 **注意**: `params` は、上記例に示すように、`path` が提供されている場合は無視されます。これは `query` に対するケースとは異なります。
 代わりに、ルートの `name` か任意のパラメータを付与した `path` 全体を手動で指定する必要があります:
 
 ```js
-const userId = 123
-router.push({ name: 'user', params: { userId }}) // -> /user/123
+const userId = '123'
+router.push({ name: 'user', params: { userId } }) // -> /user/123
 router.push({ path: `/user/${userId}` }) // -> /user/123
 // これは動作"しません"
-router.push({ path: '/user', params: { userId }}) // -> /user
+router.push({ path: '/user', params: { userId } }) // -> /user
 ```
 
 同じルールが、`router-link` コンポーネントの `to` プロパティに対して適用されます。
