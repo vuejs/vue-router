@@ -122,6 +122,20 @@ Add this to your `firebase.json`:
 }
 ```
 
+#### Flask (Python)
+
+Add the following route to your application in the `__init__.py` file or wherever the app is instantiated.
+
+```
+@app.route('/', defaults={'path': ''})
+@app.route("/<string:path>")
+def index():
+    """
+    Serve vue main page.
+    """
+    return render_template("index.html")
+```
+
 ## Caveat
 
 There is a caveat to this: Your server will no longer report 404 errors as all not-found paths now serve up your `index.html` file. To get around the issue, you should implement a catch-all route within your Vue app to show a 404 page:
