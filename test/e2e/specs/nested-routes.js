@@ -1,7 +1,7 @@
 module.exports = {
   'nested routes': function (browser) {
     browser
-    .url('http://localhost:8080/nested-routes/')
+      .url('http://localhost:8080/nested-routes/')
       .waitForElementVisible('#app', 1000)
       .assert.count('li a', 9)
       .assert.urlEquals('http://localhost:8080/nested-routes/parent')
@@ -71,11 +71,11 @@ module.exports = {
       }, null, 'relative params')
 
     // check initial visit
-    .url('http://localhost:8080/nested-routes/parent/foo')
+      .url('http://localhost:8080/nested-routes/parent/foo')
       .waitForElementVisible('#app', 1000)
       .assert.containsText('.view', 'Parent')
       .assert.containsText('.view', 'foo')
-    .url('http://localhost:8080/nested-routes/baz')
+      .url('http://localhost:8080/nested-routes/baz')
       .waitForElementVisible('#app', 1000)
       .assert.containsText('.view', 'Parent')
       .assert.containsText('.view', 'baz')

@@ -4,7 +4,7 @@
 
 **パラメータまたはクエリの変更は enter/leave ナビゲーションガードをトリガーしない** ということを覚えておいてください。それらの変更に対応するために [`$route` オブジェクトを監視する](../essentials/dynamic-matching.md#reacting-to-params-changes)、またはコンポーネント内ガード `beforeRouteUpdate` を使用するかの、どちらかができます。
 
-## グローバルガード
+## グローバルビフォーガード
 
 `router.beforeEach` を使ってグローバル before ガードを登録できます。
 

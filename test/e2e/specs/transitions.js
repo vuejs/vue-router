@@ -3,7 +3,7 @@ module.exports = {
     const TIMEOUT = 2000
 
     browser
-    .url('http://localhost:8080/transitions/')
+      .url('http://localhost:8080/transitions/')
       .waitForElementVisible('#app', 1000)
       .assert.count('li a', 4)
 

@@ -38,11 +38,11 @@ describe('Route utils', () => {
       }
       const b = {
         path: '/abc',
-        query: { arr: [1, 2], foo: { bar: 'bar' } }
+        query: { arr: [1, 2], foo: { bar: 'bar' }}
       }
       const c = {
         path: '/abc',
-        query: { arr: [1, 2], foo: { bar: 'not bar' } }
+        query: { arr: [1, 2], foo: { bar: 'not bar' }}
       }
       expect(isSameRoute(a, b)).toBe(true)
       expect(isSameRoute(a, c)).toBe(false)

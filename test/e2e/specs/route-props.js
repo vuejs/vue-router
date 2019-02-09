@@ -3,7 +3,7 @@ const $attrs = ' { "foo": "123" }'
 module.exports = {
   'route-props': function (browser) {
     browser
-    .url('http://localhost:8080/route-props/')
+      .url('http://localhost:8080/route-props/')
       .waitForElementVisible('#app', 1000)
       .assert.count('li a', 5)
 
@@ -20,7 +20,7 @@ module.exports = {
 
       .click('li:nth-child(4) a')
       .assert.urlEquals('http://localhost:8080/route-props/dynamic/1')
-      .assert.containsText('.hello', 'Hello ' + ((new Date()).getFullYear() + 1)+ '!' + $attrs)
+      .assert.containsText('.hello', 'Hello ' + ((new Date()).getFullYear() + 1) + '!' + $attrs)
 
       .click('li:nth-child(5) a')
       .assert.urlEquals('http://localhost:8080/route-props/attrs')

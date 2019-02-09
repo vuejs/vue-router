@@ -29,7 +29,7 @@ describe('Usage in Node', () => {
         { path: '/', component: Foo },
         { path: '/bar', component: Bar, children: [
           { path: 'baz', component: Baz }
-        ]}
+        ] }
       ]
     })
     expect(router.getMatchedComponents('/')).toEqual([Foo])
