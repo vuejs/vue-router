@@ -38,8 +38,7 @@ You will have to clone directly from GitHub and build `vue-router` yourself if
 you want to use the latest dev build.
 
 ``` bash
-git clone https://github.com/vuejs/vue-router.git node_modules/vue-router
+npm install vuejs/vue-router
 cd node_modules/vue-router
-npm install
 npm run build
 ```
