@@ -91,7 +91,7 @@ export default class VueRouter {
 
     // main app already initialized.
     if (this.app) {
-     app.$once('hook:destroyed', () {
+     app.$once('hook:destroyed', () => {
        // Clean out app from this.apps array once destroyed
        const index = this.apps.indexOf(app)
        if (index > -1) this.apps.splice(index, 1)
