@@ -1,6 +1,6 @@
-import Vue, { ComponentOptions, PluginFunction, AsyncComponent } from "vue";
+import Vue, { Component as VueComponent, PluginFunction, AsyncComponent } from "vue";
 
-type Component = ComponentOptions<Vue> | typeof Vue | AsyncComponent;
+export type Component = VueComponent | AsyncComponent;
 type Dictionary<T> = { [key: string]: T };
 type ErrorHandler = (err: Error) => void;
 
