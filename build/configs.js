@@ -5,10 +5,11 @@ const cjs = require('rollup-plugin-commonjs')
 const node = require('rollup-plugin-node-resolve')
 const replace = require('rollup-plugin-replace')
 const version = process.env.VERSION || require('../package.json').version
+const now = new Date(process.env.SOURCE_DATE_EPOCH ? (process.env.SOURCE_DATE_EPOCH * 1000) : new Date().getTime());
 const banner =
 `/*!
   * vue-router v${version}
-  * (c) ${new Date().getFullYear()} Evan You
+  * (c) ${now.getFullYear()} Evan You
   * @license MIT
   */`
 
