@@ -13,7 +13,7 @@ export function normalizeLocation (
   append: ?boolean,
   router: ?VueRouter
 ): Location {
-  let next: Location = typeof raw === 'string' ? { path: raw } : raw;
+  let next: Location = typeof raw === 'string' ? { path: raw } : raw
   // named target
   if (next.name || next._normalized) {
     return next
@@ -21,14 +21,14 @@ export function normalizeLocation (
 
   // relative params
   if (!next.path && next.params && current) {
-    next = extend({}, next);
-    next._normalized = true;
-    const params: any = extend(extend({}, current.params), next.params);
+    next = extend({}, next)
+    next._normalized = true
+    const params: any = extend(extend({}, current.params), next.params)
     if (current.name) {
-      next.name = current.name;
+      next.name = current.name
       next.params = params
     } else if (current.matched.length) {
-      const rawPath = current.matched[current.matched.length - 1].path;
+      const rawPath = current.matched[current.matched.length - 1].path
       next.path = fillParams(rawPath, params, `path ${current.path}`)
     } else if (process.env.NODE_ENV !== 'production') {
       warn(false, `relative params navigation requires a current route.`)
@@ -36,19 +36,19 @@ export function normalizeLocation (
     return next
   }
 
-  const parsedPath = parsePath(next.path || '');
-  const basePath = (current && current.path) || '/';
+  const parsedPath = parsePath(next.path || '')
+  const basePath = (current && current.path) || '/'
   const path = parsedPath.path
     ? resolvePath(parsedPath.path, basePath, append || next.append)
-    : basePath;
+    : basePath
 
   const query = resolveQuery(
     parsedPath.query,
     next.query,
     router && router.options.parseQuery
-  );
+  )
 
-  let hash = next.hash || parsedPath.hash;
+  let hash = next.hash || parsedPath.hash
   if (hash && hash.charAt(0) !== '#') {
     hash = `#${hash}`
   }
@@ -57,7 +57,7 @@ export function normalizeLocation (
     parsedPath.query,
     next.query,
     router && router.options.parseQuery
-  );
+  )
 
   return {
     _normalized: true,

@@ -3,7 +3,7 @@
 import type VueRouter from '../index'
 import { stringifyQuery } from './query'
 
-const trailingSlashRE = /\/?$/;
+const trailingSlashRE = /\/?$/
 
 export function createRoute (
   record: ?RouteRecord,
@@ -11,14 +11,14 @@ export function createRoute (
   redirectedFrom?: ?Location,
   router?: VueRouter
 ): Route {
-  const stringifyQuery = router && router.options.stringifyQuery;
+  const stringifyQuery = router && router.options.stringifyQuery
 
-  let query: any = location.query || {};
+  let query: any = location.query || {}
   try {
     query = clone(query)
   } catch (e) {}
 
-  let queryArray: any = location.queryArray || {};
+  let queryArray: any = location.queryArray || {}
   try {
     queryArray = clone(queryArray)
   } catch (e) {}
@@ -33,7 +33,7 @@ export function createRoute (
     fullPath: getFullPath(location, stringifyQuery),
     matched: record ? formatMatch(record) : [],
     queryArray
-  };
+  }
   if (redirectedFrom) {
     route.redirectedFrom = getFullPath(redirectedFrom, stringifyQuery)
   }
@@ -44,7 +44,7 @@ function clone (value) {
   if (Array.isArray(value)) {
     return value.map(clone)
   } else if (value && typeof value === 'object') {
-    const res = {};
+    const res = {}
     for (const key in value) {
       res[key] = clone(value[key])
     }
@@ -57,12 +57,12 @@ function clone (value) {
 // the starting route that represents the initial state
 export const START = createRoute(null, {
   path: '/'
-});
+})
 
 function formatMatch (record: ?RouteRecord): Array<RouteRecord> {
-  const res = [];
+  const res = []
   while (record) {
-    res.unshift(record);
+    res.unshift(record)
     record = record.parent
   }
   return res
@@ -72,7 +72,7 @@ function getFullPath (
   { path, query = {}, hash = '' },
   _stringifyQuery
 ): string {
-  const stringify = _stringifyQuery || stringifyQuery;
+  const stringify = _stringifyQuery || stringifyQuery
   return (path || '/') + stringify(query) + hash
 }
 
@@ -101,15 +101,15 @@ export function isSameRoute (a: Route, b: ?Route): boolean {
 
 function isObjectEqual (a = {}, b = {}): boolean {
   // handle null value #1566
-  if (!a || !b) return a === b;
-  const aKeys = Object.keys(a);
-  const bKeys = Object.keys(b);
+  if (!a || !b) return a === b
+  const aKeys = Object.keys(a)
+  const bKeys = Object.keys(b)
   if (aKeys.length !== bKeys.length) {
     return false
   }
   return aKeys.every(key => {
-    const aVal = a[key];
-    const bVal = b[key];
+    const aVal = a[key]
+    const bVal = b[key]
     // check nested equality
     if (typeof aVal === 'object' && typeof bVal === 'object') {
       return isObjectEqual(aVal, bVal)
