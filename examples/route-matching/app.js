@@ -1,7 +1,7 @@
 import Vue from 'vue'
-import VueRouter from 'vue-router'
+import VueRouter from '../../dist/vue-router'
 
-Vue.use(VueRouter)
+Vue.use(VueRouter);
 
 // The matching uses path-to-regexp, which is the matching engine used
 // by express as well, so the same matching rules apply.
@@ -23,7 +23,7 @@ const router = new VueRouter({
     // make part of the path optional by wrapping with parens and add "?"
     { path: '/optional-group/(foo/)?bar' }
   ]
-})
+});
 
 new Vue({
   router,
@@ -46,4 +46,4 @@ new Vue({
       <pre>{{ JSON.stringify($route, null, 2) }}</pre>
     </div>
   `
-}).$mount('#app')
+}).$mount('#app');
