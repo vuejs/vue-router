@@ -41,7 +41,7 @@ export function resolveQueryArray (
 ): Dictionary<string> {
   const q = resolveQuery(query, extraQuery, _parseQuery)
   const res = {}
-  Object.keys(q).forEach((key: String) => {
+  Object.keys(q).forEach((key: string) => {
     const val = Array.isArray(q[key]) ? q[key].join(',') : q[key]
     const arrayVal = typeof val === 'string' && val.trim().length > 0 ? val.split(',') : undefined
     if (arrayVal !== undefined) {

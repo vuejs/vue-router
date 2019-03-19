@@ -100,5 +100,5 @@ declare type Route = {
   matched: Array<RouteRecord>;
   redirectedFrom?: string;
   meta?: any;
-  queryArrayKeys: Dictionary<String>;
+  queryArray: Dictionary<String>;
 }
