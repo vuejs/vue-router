@@ -84,7 +84,7 @@
     "selenium-server": "^2.53.1",
     "typescript": "^3.3.1",
     "uglify-js": "^3.3.13",
-    "vue": "^2.5.16",
+    "vue": "^2.6.2",
     "vue-loader": "^15.2.1",
     "vue-template-compiler": "^2.5.16",
     "vuepress": "^0.14.1",
