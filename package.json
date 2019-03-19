@@ -96,8 +96,5 @@
   "bugs": {
     "url": "https://github.com/vuejs/vue-router/issues"
   },
-  "homepage": "https://github.com/vuejs/vue-router#readme",
-  "dependencies": {
-    "vue-server-renderer": "2.6.2"
-  }
+  "homepage": "https://github.com/vuejs/vue-router#readme"
 }
