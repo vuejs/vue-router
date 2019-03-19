@@ -10,3 +10,4 @@ explorations
 docs/.vuepress/dist
 yarn-error.log
 .idea
+package-lock.json
