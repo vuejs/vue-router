@@ -44,6 +44,46 @@ describe('router.onReady', () => {
   })
 })
 
+describe('route matching', () => {
+  it('resolves parent params when using current route', () => {
+    const router = new Router({
+      mode: 'abstract',
+      routes: [
+        {
+          path: '/a/:id',
+          component: { name: 'A' },
+          children: [{ name: 'b', path: 'b', component: { name: 'B' }}]
+        }
+      ]
+    })
+
+    router.push('/a/1')
+
+    const { route, resolved } = router.resolve({ name: 'b' })
+    expect(route.params).toEqual({ id: '1' })
+    expect(resolved.params).toEqual({ id: '1' })
+  })
+
+  it('can override currentRoute', () => {
+    const router = new Router({
+      mode: 'abstract',
+      routes: [
+        {
+          path: '/a/:id',
+          component: { name: 'A' },
+          children: [{ name: 'b', path: 'b', component: { name: 'B' }}]
+        }
+      ]
+    })
+
+    router.push('/a/1')
+
+    const { route, resolved } = router.resolve({ name: 'b' }, { params: { id: '2' }, path: '/a/2' })
+    expect(route.params).toEqual({ id: '2' })
+    expect(resolved.params).toEqual({ id: '2' })
+  })
+})
+
 describe('router.addRoutes', () => {
   it('should work', () => {
     const router = new Router({
