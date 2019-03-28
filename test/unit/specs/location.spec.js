@@ -126,7 +126,7 @@ describe('Location utils', () => {
       expect(normalizeLocation(l1)).not.toBe(l1)
       const l2 = { path: '/foo' }
       expect(normalizeLocation(l2)).not.toBe(l2)
-      const l3 = { path: '/foo', query: { foo: 'foo' } }
+      const l3 = { path: '/foo', query: { foo: 'foo' }}
       expect(normalizeLocation(l3)).not.toBe(l3)
     })
   })
