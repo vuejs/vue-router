@@ -217,7 +217,7 @@ describe('router app destroy handling', () => {
 
   it('router and apps should be defined', () => {
     expect(router).toBeDefined()
-    expect(router istanceof Router).toBe(true)
+    expect(router instanceof Router).toBe(true)
     expect(app1).toBeDefined()
     expect(app1 instanceof Vue).toBe(true)
     expect(app2).toBeDefined()
