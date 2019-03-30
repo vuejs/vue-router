@@ -188,74 +188,87 @@ describe('router.push/replace callbacks', () => {
 })
 
 describe('router app destroy handling', () => {
-  it('should remove destroyed apps from this.apps', () => {
-    Vue.use(Router)
+  Vue.use(Router)
 
-    const router = new Router({
-      mode: 'abstract',
-      routes: [
-        { path: '/', component: { name: 'A' }}
-      ]
-    })
+  const router = new Router({
+    mode: 'abstract',
+    routes: [
+      { path: '/', component: { name: 'A' }}
+    ]
+  })
 
-    expect(router.apps.length).toBe(0)
-    expect(router.app).toBe(null)
+  // Add main app
+  const app1 = new Vue({
+    router,
+    render (h) { return h('div') }
+  })
 
-    // Add main app
-    const app1 = new Vue({
-      router,
-      render (h) { return h('div') }
-    })
-    expect(router.app).toBe(app1)
-    expect(router.apps.length).toBe(1)
-    expect(router.app[0]).toBe(app1)
+  // Add 2nd app
+  const app2 = new Vue({
+    router,
+    render (h) { return h('div') }
+  })
 
-    // Add 2nd app
-    const app2 = new Vue({
-      router,
-      render (h) { return h('div') }
-    })
-    expect(router.app).toBe(app1)
-    expect(router.apps.length).toBe(2)
-    expect(router.app[0]).toBe(app1)
-    expect(router.app[1]).toBe(app2)
+  // Add 3rd app
+  const app3 = new Vue({
+    router,
+    render (h) { return h('div') }
+  })
 
-    // Add 3rd app
-    const app3 = new Vue({
-      router,
-      render (h) { return h('div') }
-    })
-    expect(router.app).toBe(app1)
-    expect(router.apps.length).toBe(3)
-    expect(router.app[0]).toBe(app1)
-    expect(router.app[1]).toBe(app2)
-    expect(router.app[2]).toBe(app3)
+  it('router and apps should be defined', async () => {
+    expect(router).toBeDefined()
+    expect(router).toBeInstanceOf(Router)
+    expect(app1).toBeDefined()
+    expect(app1).toBeInstanceOf(Vue)
+    expect(app2).toBeDefined()
+    expect(app2).toBeInstanceOf(Vue)
+    expect(app3).toBeDefined()
+    expect(app3).toBeInstanceOf(Vue)
+    expect(app1.$router.apps).toBe(app2.$router.apps)
+    expect(app2.$router.apps).toBe(app3.$router.apps)
+  })
 
-    // Destroy second app
+  it('should have 3 registered apps', async () => {
+    expect(app1.$router).toBeDefined()
+    expect(app1.$router.app).toBe(app1)
+    expect(app1.$router.apps.length).toBe(3)
+    expect(app1.$router.apps[0]).toBe(app1)
+    expect(app1.$router.apps[1]).toBe(app2)
+    expect(app1.$router.apps[2]).toBe(app3)
+  })
+
+  it('should remove 2nd destroyed app from this.apps', async () => {
     app2.$destroy()
-    expect(router.app).toBe(app1)
-    expect(router.apps.length).toBe(2)
-    expect(router.app[0]).toBe(app1)
-    expect(router.app[1]).toBe(app3)
+    await Vue.nextTick()
+    expect(app1.$router.app).toBe(app1)
+    expect(app1.$router.apps.length).toBe(2)
+    expect(app1.$router.app[0]).toBe(app1)
+    expect(app1.$router.app[1]).toBe(app3)
+  })
 
-    // Destroy 1st app
+  it('should remove 1st destroyed app from this.apps and replace this.app', async () => {
     app1.$destroy()
-    expect(router.app).toBe(app3)
-    expect(router.apps.length).toBe(1)
-    expect(router.app[0]).toBe(app3)
+    await Vue.nextTick()
+    expect(app3.$router.app).toBe(app3)
+    expect(app3.$router.apps.length).toBe(1)
+    expect(app3.$router.app[0]).toBe(app3)
+  })
 
-    // Destroy 3rd app
+  it('should remove last destroyed app from this.apps', async () => {
     app3.$destroy()
-    expect(router.app).toBe(app3)
-    expect(router.apps.length).toBe(0)
+    await Vue.nextTick()
+    expect(app3.$router.app).toBe(app3)
+    expect(app3.$router.apps.length).toBe(0)
+  })
 
-    // Add 4th app (should be the only app)
+  it('should replace app with new app', async () => {
     const app4 = new Vue({
       router,
       render (h) { return h('div') }
     })
-    expect(router.app).toBe(app4)
-    expect(router.apps.length).toBe(1)
-    expect(router.app[0]).toBe(app4)
+    await Vue.nextTick()
+    expect(app4.$router.app).toBe(app4)
+    expect(app4.$router.apps.length).toBe(1)
+    expect(app4.$router.app[0]).toBe(app4)
   })
 })
