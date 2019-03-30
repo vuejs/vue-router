@@ -156,29 +156,33 @@ describe('router app destroy handling', () => {
       ]
     })
 
-    const options = {
-      router,
-      render(h) { return h('div') }
-    }
-
     expect(router.apps.length).toBe(0)
     expect(router.app).toBe(null)
 
     // Add main app
-    const app1 = new Vue(options)
+    const app1 = new Vue({
+      router,
+      render (h) { return h('div') }
+    })
     expect(router.app).toBe(app1)
     expect(router.apps.length).toBe(1)
     expect(router.app[0]).toBe(app1)
 
     // Add 2nd app
-    const app2 = new Vue(options)
+    const app2 = new Vue({
+      router,
+      render (h) { return h('div') }
+    })
     expect(router.app).toBe(app1)
     expect(router.apps.length).toBe(2)
     expect(router.app[0]).toBe(app1)
     expect(router.app[1]).toBe(app2)
 
     // Add 3rd app
-    const app3 = new Vue(options)
+    const app3 = new Vue({
+      router,
+      render (h) { return h('div') }
+    })
     expect(router.app).toBe(app1)
     expect(router.apps.length).toBe(3)
     expect(router.app[0]).toBe(app1)
@@ -186,25 +190,28 @@ describe('router app destroy handling', () => {
     expect(router.app[2]).toBe(app3)
 
     // Destroy second app
-    app2.destroy()
+    app2.$destroy()
     expect(router.app).toBe(app1)
     expect(router.apps.length).toBe(2)
     expect(router.app[0]).toBe(app1)
     expect(router.app[1]).toBe(app3)
 
     // Destroy 1st app
-    app1.destroy()
+    app1.$destroy()
     expect(router.app).toBe(app3)
     expect(router.apps.length).toBe(1)
     expect(router.app[0]).toBe(app3)
 
     // Destroy 3rd app
-    app3.destroy()
+    app3.$destroy()
     expect(router.app).toBe(app3)
     expect(router.apps.length).toBe(0)
 
     // Add 4th app (should be the only app)
-    const app4 = new Vue(options)
+    const app4 = new Vue({
+      router,
+      render (h) { return h('div') }
+    })
     expect(router.app).toBe(app4)
     expect(router.apps.length).toBe(1)
     expect(router.app[0]).toBe(app4)
