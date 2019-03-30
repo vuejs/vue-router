@@ -200,9 +200,10 @@ export default class VueRouter {
     normalizedTo: Location,
     resolved: Route
   } {
+    current = current || this.history.current
     const location = normalizeLocation(
       to,
-      current || this.history.current,
+      current,
       append,
       this
     )
