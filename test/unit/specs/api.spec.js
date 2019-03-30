@@ -215,7 +215,7 @@ describe('router app destroy handling', () => {
     render (h) { return h('div') }
   })
 
-  it('router and apps should be defined', async () => {
+  it('router and apps should be defined', () => {
     expect(router).toBeDefined()
     expect(router).toBeInstanceOf(Router)
     expect(app1).toBeDefined()
@@ -228,7 +228,7 @@ describe('router app destroy handling', () => {
     expect(app2.$router.apps).toBe(app3.$router.apps)
   })
 
-  it('should have 3 registered apps', async () => {
+  it('should have 3 registered apps', () => {
     expect(app1.$router).toBeDefined()
     expect(app1.$router.app).toBe(app1)
     expect(app1.$router.apps.length).toBe(3)
@@ -237,36 +237,32 @@ describe('router app destroy handling', () => {
     expect(app1.$router.apps[2]).toBe(app3)
   })
 
-  it('should remove 2nd destroyed app from this.apps', async () => {
+  it('should remove 2nd destroyed app from this.apps', () => {
     app2.$destroy()
-    await Vue.nextTick()
     expect(app1.$router.app).toBe(app1)
     expect(app1.$router.apps.length).toBe(2)
     expect(app1.$router.app[0]).toBe(app1)
     expect(app1.$router.app[1]).toBe(app3)
   })
 
-  it('should remove 1st destroyed app from this.apps and replace this.app', async () => {
+  it('should remove 1st destroyed app from this.apps and replace this.app', () => {
     app1.$destroy()
-    await Vue.nextTick()
     expect(app3.$router.app).toBe(app3)
     expect(app3.$router.apps.length).toBe(1)
     expect(app3.$router.app[0]).toBe(app3)
   })
 
-  it('should remove last destroyed app from this.apps', async () => {
+  it('should remove last destroyed app from this.apps', () => {
     app3.$destroy()
-    await Vue.nextTick()
     expect(app3.$router.app).toBe(app3)
     expect(app3.$router.apps.length).toBe(0)
   })
 
-  it('should replace app with new app', async () => {
+  it('should replace app with new app', () => {
     const app4 = new Vue({
       router,
       render (h) { return h('div') }
     })
-    await Vue.nextTick()
     expect(app4.$router.app).toBe(app4)
     expect(app4.$router.apps.length).toBe(1)
     expect(app4.$router.app[0]).toBe(app4)
