@@ -201,17 +201,19 @@ describe('router app destroy handling', () => {
 
   it('should remove 2nd destroyed app from this.apps', () => {
     app2.$destroy()
+    expect(app1.$router).toBeDefined()
+    expect(app1.$router.app).toBeDefined()
     expect(app1.$router.app).toBe(app1)
     expect(app1.$router.apps.length).toBe(2)
-    expect(app1.$router.app[0]).toBe(app1)
-    expect(app1.$router.app[1]).toBe(app3)
+    expect(app1.$router.apps[0]).toBe(app1)
+    expect(app1.$router.apps[1]).toBe(app3)
   })
 
   it('should remove 1st destroyed app from this.apps and replace this.app', () => {
     app1.$destroy()
     expect(app3.$router.app).toBe(app3)
     expect(app3.$router.apps.length).toBe(1)
-    expect(app3.$router.app[0]).toBe(app3)
+    expect(app3.$router.apps[0]).toBe(app3)
   })
 
   it('should remove last destroyed app from this.apps', () => {
@@ -227,6 +229,6 @@ describe('router app destroy handling', () => {
     })
     expect(app4.$router.app).toBe(app4)
     expect(app4.$router.apps.length).toBe(1)
-    expect(app4.$router.app[0]).toBe(app4)
+    expect(app4.$router.apps[0]).toBe(app4)
   })
 })
