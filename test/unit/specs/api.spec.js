@@ -217,15 +217,17 @@ describe('router app destroy handling', () => {
 
   it('router and apps should be defined', () => {
     expect(router).toBeDefined()
-    expect(router).toBeInstanceOf(Router)
+    expect(router istanceof Router).toBe(true)
     expect(app1).toBeDefined()
-    expect(app1).toBeInstanceOf(Vue)
+    expect(app1 instanceof Vue).toBe(true)
     expect(app2).toBeDefined()
-    expect(app2).toBeInstanceOf(Vue)
+    expect(app2 instanceof Vue).toBe(true)
     expect(app3).toBeDefined()
-    expect(app3).toBeInstanceOf(Vue)
+    expect(app3 instanceof Vue).toBe(true)
     expect(app1.$router.apps).toBe(app2.$router.apps)
     expect(app2.$router.apps).toBe(app3.$router.apps)
+    expect(app1.$router.app).toBe(app2.$router.app)
+    expect(app2.$router.app).toBe(app3.$router.app)
   })
 
   it('should have 3 registered apps', () => {
