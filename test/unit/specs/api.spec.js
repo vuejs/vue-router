@@ -149,6 +149,8 @@ describe('router.push/replace callbacks', () => {
 
 describe('router app destroy handling', () => {
   it('should remove destroyed apps from this.apps', () => {
+    Vue.use(Router)
+
     const router = new Router({
       mode: 'abstract',
       routes: [
