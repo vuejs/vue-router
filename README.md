@@ -36,6 +36,17 @@ npm test
 npm run docs
 ```
 
+## Releasing
+
+- `yarn run release`
+  - Ensure tests are passing `yarn run test`
+  - Build dist files `VERSION=<the_version> yarn run build`
+  - Build changelog `yarn run changelod`
+  - Commit dist files `git add dist CHANGELOG.md && git commit -m "[build $VERSION]"`
+  - Publish a new version `npm version $VERSION --message "[release] $VERSION"
+  - Push tags `git push origin refs/tags/v$VERSION && git push`
+  - Publish to npm `npm publish`
+
 ## Questions
 
 For questions and support please use the [Discord chat server](https://chat.vuejs.org) or [the official forum](http://forum.vuejs.org). The issue list of this repo is **exclusively** for bug reports and feature requests.
