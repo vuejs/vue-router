@@ -1,3 +1,15 @@
+## [3.0.3](https://github.com/vuejs/vue-router/compare/v3.0.2...v3.0.3) (2019-04-08)
+
+
+### Bug Fixes
+
+* removes warning resolving asterisk routes ([e224637](https://github.com/vuejs/vue-router/commit/e224637)), closes [#2505](https://github.com/vuejs/vue-router/issues/2505) [#2505](https://github.com/vuejs/vue-router/issues/2505)
+* **normalizeLocation:** create a copy with named locations ([#2286](https://github.com/vuejs/vue-router/issues/2286)) ([53cce99](https://github.com/vuejs/vue-router/commit/53cce99)), closes [#2121](https://github.com/vuejs/vue-router/issues/2121)
+* **resolve:** use current location if not provided ([#2390](https://github.com/vuejs/vue-router/issues/2390)) ([7ff4de4](https://github.com/vuejs/vue-router/commit/7ff4de4)), closes [#2385](https://github.com/vuejs/vue-router/issues/2385)
+* **types:** allow null/undefined in query params ([ca30a75](https://github.com/vuejs/vue-router/commit/ca30a75)), closes [#2605](https://github.com/vuejs/vue-router/issues/2605)
+
+
+
 # [3.0.2](https://github.com/vuejs/vue-router/compare/v3.0.1...v3.0.2) (2018-11-23)
 
 ### Bug Fixes
