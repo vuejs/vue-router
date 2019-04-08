@@ -11,7 +11,7 @@ then
   VERSION=$VERSION npm run build
 
   # commit
-  git add -A
+  git add dist
   git commit -m "[build] $VERSION"
   npm version $VERSION --message "[release] $VERSION"
 
@@ -19,4 +19,11 @@ then
   git push origin refs/tags/v$VERSION
   git push
   npm publish
+
+  # changelog
+  npm run changelog
+  read OKAY
+  git add CHANGELOG.md
+  git commit -m "[changelog] $VERSION"
+  git push
 fi
