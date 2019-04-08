@@ -12,8 +12,8 @@ then
 
   # commit
   git add dist
-  git commit -m "[build] $VERSION"
-  npm version $VERSION --message "[release] $VERSION"
+  git commit -m "chore(build): $VERSION"
+  npm version $VERSION --message "chore(release): $VERSION"
 
   # publish
   git push origin refs/tags/v$VERSION
@@ -24,6 +24,6 @@ then
   npm run changelog
   read OKAY
   git add CHANGELOG.md
-  git commit -m "[changelog] $VERSION"
+  git commit -m "chore(changelog): $VERSION"
   git push
 fi
