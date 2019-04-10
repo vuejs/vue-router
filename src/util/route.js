@@ -2,6 +2,7 @@
 
 import type VueRouter from '../index'
 import { stringifyQuery } from './query'
+import { inBrowser } from './dom'
 
 const trailingSlashRE = /\/?$/
 
@@ -50,7 +51,7 @@ function clone (value) {
 
 // the starting route that represents the initial state
 export const START = createRoute(null, {
-  path: window.location.href.replace(window.location.origin, '')
+  path: inBrowser ? window.location.href.replace(window.location.origin, '') : ''
 })
 
 function formatMatch (record: ?RouteRecord): Array<RouteRecord> {
