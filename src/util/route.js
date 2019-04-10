@@ -50,7 +50,7 @@ function clone (value) {
 
 // the starting route that represents the initial state
 export const START = createRoute(null, {
-  path: '/'
+  path: window.location.href.replace(window.location.origin, '')
 })
 
 function formatMatch (record: ?RouteRecord): Array<RouteRecord> {
