@@ -95,13 +95,9 @@ export default class VueRouter {
       // clean out app from this.apps array once destroyed
       const index = this.apps.indexOf(app)
       if (index > -1) this.apps.splice(index, 1)
-      // ensure we still have a main app
+      // ensure we still have a main app or null if no apps
+      // we do not release the router so it can be reused
       if (this.app === app) this.app = this.apps[0] || null
-      // no more apps, the router can be released
-      if (!this.app) {
-        // TODO: destroy router, listeners?
-        // Maybe the user wants to reuse the router though
-      }
     })
 
     // main app previously initialized
