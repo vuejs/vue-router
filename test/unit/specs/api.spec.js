@@ -190,48 +190,41 @@ describe('router.push/replace callbacks', () => {
 describe('router app destroy handling', () => {
   Vue.use(Router)
 
-  const router = new Router({
-    mode: 'abstract',
-    routes: [
-      { path: '/', component: { name: 'A' }}
-    ]
+  let router, app1, app2, app3
+
+  beforeEach(() => {
+    router = new Router({
+      mode: 'abstract',
+      routes: [
+        { path: '/', component: { name: 'A' }}
+      ]
+    })
+
+    // Add main app
+    app1 = new Vue({
+      router,
+      render (h) { return h('div') }
+    })
+
+    // Add 2nd app
+    app2 = new Vue({
+      router,
+      render (h) { return h('div') }
+    })
+
+    // Add 3rd app
+    app3 = new Vue({
+      router,
+      render (h) { return h('div') }
+    })
   })
 
-  // Add main app
-  const app1 = new Vue({
-    router,
-    render (h) { return h('div') }
+  it('all apps point to the same router instance', () => {
+    expect(app1.$router).toBe(app2.$router)
+    expect(app2.$router).toBe(app3.$router)
   })
 
-  // Add 2nd app
-  const app2 = new Vue({
-    router,
-    render (h) { return h('div') }
-  })
-
-  // Add 3rd app
-  const app3 = new Vue({
-    router,
-    render (h) { return h('div') }
-  })
-
-  it('router and apps should be defined', () => {
-    expect(router).toBeDefined()
-    expect(router instanceof Router).toBe(true)
-    expect(app1).toBeDefined()
-    expect(app1 instanceof Vue).toBe(true)
-    expect(app2).toBeDefined()
-    expect(app2 instanceof Vue).toBe(true)
-    expect(app3).toBeDefined()
-    expect(app3 instanceof Vue).toBe(true)
-    expect(app1.$router.apps).toBe(app2.$router.apps)
-    expect(app2.$router.apps).toBe(app3.$router.apps)
-    expect(app1.$router.app).toBe(app2.$router.app)
-    expect(app2.$router.app).toBe(app3.$router.app)
-  })
-
-  it('should have 3 registered apps', () => {
-    expect(app1.$router).toBeDefined()
+  it('should have all 3 registered apps', () => {
     expect(app1.$router.app).toBe(app1)
     expect(app1.$router.apps.length).toBe(3)
     expect(app1.$router.apps[0]).toBe(app1)
@@ -241,33 +234,48 @@ describe('router app destroy handling', () => {
 
   it('should remove 2nd destroyed app from this.apps', () => {
     app2.$destroy()
-    expect(app1.$router).toBeDefined()
-    expect(app1.$router.app).toBeDefined()
     expect(app1.$router.app).toBe(app1)
     expect(app1.$router.apps.length).toBe(2)
     expect(app1.$router.apps[0]).toBe(app1)
     expect(app1.$router.apps[1]).toBe(app3)
   })
 
-  it('should remove 1st destroyed app from this.apps and replace this.app', () => {
+  it('should remove 1st destroyed app and replace current app', () => {
     app1.$destroy()
-    expect(app3.$router.app).toBe(app3)
-    expect(app3.$router.apps.length).toBe(1)
-    expect(app3.$router.apps[0]).toBe(app3)
+    expect(app3.$router.app).toBe(app2)
+    expect(app3.$router.apps.length).toBe(2)
+    expect(app3.$router.apps[0]).toBe(app2)
+    expect(app1.$router.apps[1]).toBe(app3)
   })
 
-  it('should remove last destroyed app from this.apps', () => {
+  it('should remove all apps', () => {
+    app1.$destroy()
     app3.$destroy()
-    expect(app3.$router.app).toBe(app3)
+    app2.$destroy()
+    expect(app3.$router.app).toBe(null)
     expect(app3.$router.apps.length).toBe(0)
   })
 
-  it('should replace app with new app', () => {
+  it('should keep current app if already defined', () => {
     const app4 = new Vue({
       router,
       render (h) { return h('div') }
     })
-    expect(app4.$router.app).toBe(app4)
+    expect(app4.$router.app).toBe(app1)
+    expect(app4.$router.apps.length).toBe(4)
+    expect(app4.$router.apps[3]).toBe(app4)
+  })
+
+  it('should replace current app if none is assigned when creating the app', () => {
+    app1.$destroy()
+    app3.$destroy()
+    app2.$destroy()
+    const app4 = new Vue({
+      router,
+      render (h) { return h('div') }
+    })
+    expect(router.app).toBe(app4)
+    expect(app4.$router).toBe(router)
     expect(app4.$router.apps.length).toBe(1)
     expect(app4.$router.apps[0]).toBe(app4)
   })

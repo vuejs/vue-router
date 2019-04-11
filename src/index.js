@@ -90,21 +90,23 @@ export default class VueRouter {
     this.apps.push(app)
 
     // set up app destroyed handler
+    // https://github.com/vuejs/vue-router/issues/2639
     app.$once('hook:destroyed', () => {
       // clean out app from this.apps array once destroyed
       const index = this.apps.indexOf(app)
       if (index > -1) this.apps.splice(index, 1)
-      // ensure we still have a main app, unless this is the last app left
-      if (this.apps.length > 0) this.app = this.apps[0]
+      // ensure we still have a main app
+      if (this.app === app) this.app = this.apps[0] || null
+      // no more apps, the router can be released
+      if (!this.app) {
+        // TODO: destroy router, listeners?
+        // Maybe the user wants to reuse the router though
+      }
     })
 
     // main app previously initialized
+    // return as we don't need to set up new history listener
     if (this.app) {
-      if (this.app !== this.apps[0]) {
-        // main app had been destroyed, so replace it with this new app
-        this.app = this.apps[0]
-      }
-      // return as we don't need to set up new history listener
       return
     }
 
