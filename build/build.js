@@ -43,6 +43,8 @@ function buildEntry ({ input, output }) {
           }
         }).code
         return write(file, minified, true)
+      } else {
+        return write(file, code)
       }
     })
 }
