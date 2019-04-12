@@ -15,6 +15,7 @@ then
   git add dist
   git commit --amend --no-edit # merge with previous commit
 
+  echo "Please the git history and press enter"
   read OKAY
 
   # publish
@@ -24,6 +25,7 @@ then
 
   # changelog
   npm run changelog
+  echo "Please check the changelog and press enter"
   read OKAY
   git add CHANGELOG.md
   git commit -m "chore(changelog): $VERSION"
