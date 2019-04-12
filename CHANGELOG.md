@@ -1,3 +1,18 @@
+## [3.0.4](https://github.com/vuejs/vue-router/compare/v3.0.3...v3.0.4) (2019-04-12)
+
+
+### Bug Fixes
+
+* prevent memory leaks by removing app references ([#2706](https://github.com/vuejs/vue-router/issues/2706)) ([8056105](https://github.com/vuejs/vue-router/commit/8056105)), closes [#2639](https://github.com/vuejs/vue-router/issues/2639)
+* **hash:** prevent double decoding ([#2711](https://github.com/vuejs/vue-router/issues/2711)) ([a775fb1](https://github.com/vuejs/vue-router/commit/a775fb1)), closes [#2708](https://github.com/vuejs/vue-router/issues/2708)
+
+
+### Features
+
+* **esm build:** build ES modules for browser ([#2705](https://github.com/vuejs/vue-router/issues/2705)) ([627027f](https://github.com/vuejs/vue-router/commit/627027f))
+
+
+
 ## [3.0.3](https://github.com/vuejs/vue-router/compare/v3.0.2...v3.0.3) (2019-04-08)
 
 
