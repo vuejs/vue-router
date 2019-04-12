@@ -73,4 +73,10 @@ Details changes for each release are documented in the [release notes](https://g
 
 Copyright (c) 2013-present Evan You
 
+## Special Thanks
 
+<a href="https://www.browserstack.com">
+  <img src="/assets/browserstack-logo-600x315.png" height="80" title="BrowserStack Logo" alt="BrowserStack Logo" />
+</a>
+
+Special thanks to [BrowserStack](https://www.browserstack.com) for letting the maintainers use their service to debug browser specific issues.
