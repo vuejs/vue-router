@@ -3,8 +3,8 @@ module.exports = {
     browser
       .url('http://localhost:8080/basic/')
       .waitForElementVisible('#app', 1000)
-      .assert.count('li', 5)
-      .assert.count('li a', 5)
+      .assert.count('li', 7)
+      .assert.count('li a', 7)
       // assert correct href with base
       .assert.attributeContains('li:nth-child(1) a', 'href', '/basic/')
       .assert.attributeContains('li:nth-child(2) a', 'href', '/basic/foo')

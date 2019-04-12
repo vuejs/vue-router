@@ -40,7 +40,11 @@ new Vue({
           <a>/bar</a>
         </router-link>
         <li><router-link to="/é">/é</router-link></li>
+        <li><router-link to="/é?t=%25ñ">/é?t=%ñ</router-link></li>
+        <li><router-link to="/é#%25ñ">/é#%25ñ</router-link></li>
       </ul>
+      <pre id="query-t">{{ $route.query.t }}</pre>
+      <pre id="hash">{{ $route.hash }}</pre>
       <router-view class="view"></router-view>
     </div>
   `
