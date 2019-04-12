@@ -8,12 +8,14 @@ if [[ $REPLY =~ ^[Yy]$ ]]
 then
   echo "Releasing $VERSION ..."
   npm test
-  VERSION=$VERSION npm run build
 
   # commit
+  npm version $VERSION --message "chore(release): %s"
+  VERSION=$VERSION npm run build
   git add dist
-  git commit -m "chore(build): $VERSION"
-  npm version $VERSION --message "chore(release): $VERSION"
+  git commit --amend --no-edit # merge with previous commit
+
+  read OKAY
 
   # publish
   git push origin refs/tags/v$VERSION
