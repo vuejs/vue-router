@@ -30,7 +30,7 @@ export function resolveAsyncComponents (matched: Array<RouteRecord>): Function {
           match.components[key] = resolvedDef
           pending--
           if (pending <= 0) {
-            next()
+            next(to)
           }
         })
 
