@@ -9,12 +9,6 @@
 * **router-view:** register instance in init hook ([c3abdf6](https://github.com/vuejs/vue-router/commit/c3abdf6)), closes [#2561](https://github.com/vuejs/vue-router/issues/2561) [#2689](https://github.com/vuejs/vue-router/issues/2689) [#2561](https://github.com/vuejs/vue-router/issues/2561) [#2561](https://github.com/vuejs/vue-router/issues/2561)
 
 
-### Features
-
-* **esm build:** build ES modules for browser ([#2705](https://github.com/vuejs/vue-router/issues/2705)) ([627027f](https://github.com/vuejs/vue-router/commit/627027f))
-
-
-
 ## [3.0.4](https://github.com/vuejs/vue-router/compare/v3.0.3...v3.0.4) (2019-04-12)
 
 
@@ -27,7 +21,6 @@
 ### Features
 
 * **esm build:** build ES modules for browser ([#2705](https://github.com/vuejs/vue-router/issues/2705)) ([627027f](https://github.com/vuejs/vue-router/commit/627027f))
-
 
 
 ## [3.0.3](https://github.com/vuejs/vue-router/compare/v3.0.2...v3.0.3) (2019-04-08)
