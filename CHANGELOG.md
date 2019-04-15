@@ -1,3 +1,20 @@
+## [3.0.5](https://github.com/vuejs/vue-router/compare/v3.0.3...v3.0.5) (2019-04-15)
+
+
+### Bug Fixes
+
+* prevent memory leaks by removing app references ([#2706](https://github.com/vuejs/vue-router/issues/2706)) ([8056105](https://github.com/vuejs/vue-router/commit/8056105)), closes [#2639](https://github.com/vuejs/vue-router/issues/2639)
+* push before creating Vue instance ([#2713](https://github.com/vuejs/vue-router/issues/2713)) ([6974a6f](https://github.com/vuejs/vue-router/commit/6974a6f)), closes [#2712](https://github.com/vuejs/vue-router/issues/2712)
+* **router-view:** add condition to see whether the tree is inactive (fix [#2552](https://github.com/vuejs/vue-router/issues/2552)) ([#2592](https://github.com/vuejs/vue-router/issues/2592)) ([e6d8fd2](https://github.com/vuejs/vue-router/commit/e6d8fd2))
+* **router-view:** register instance in init hook ([c3abdf6](https://github.com/vuejs/vue-router/commit/c3abdf6)), closes [#2561](https://github.com/vuejs/vue-router/issues/2561) [#2689](https://github.com/vuejs/vue-router/issues/2689) [#2561](https://github.com/vuejs/vue-router/issues/2561) [#2561](https://github.com/vuejs/vue-router/issues/2561)
+
+
+### Features
+
+* **esm build:** build ES modules for browser ([#2705](https://github.com/vuejs/vue-router/issues/2705)) ([627027f](https://github.com/vuejs/vue-router/commit/627027f))
+
+
+
 ## [3.0.4](https://github.com/vuejs/vue-router/compare/v3.0.3...v3.0.4) (2019-04-12)
 
 
