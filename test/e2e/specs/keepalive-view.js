@@ -22,6 +22,8 @@ module.exports = {
       // https://github.com/vuejs/vue-router/issues/2561
       .click('li:nth-child(4) a')
       .assert.containsText('.view', 'with-guard1: 1')
+      .click('li:nth-child(3) a')
+      .assert.containsText('.view', 'home')
       .click('li:nth-child(5) a')
       .assert.containsText('.view', 'with-guard2: 2')
       .click('li:nth-child(4) a')
