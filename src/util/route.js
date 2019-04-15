@@ -23,6 +23,7 @@ export function createRoute (
     meta: (record && record.meta) || {},
     path: location.path || '/',
     hash: location.hash || '',
+    replace: location.replace || false,
     query,
     params: location.params || {},
     fullPath: getFullPath(location, stringifyQuery),
