@@ -35,7 +35,7 @@
 
 
 
-# [3.0.2](https://github.com/vuejs/vue-router/compare/v3.0.1...v3.0.2) (2018-11-23)
+## [3.0.2](https://github.com/vuejs/vue-router/compare/v3.0.1...v3.0.2) (2018-11-23)
 
 ### Bug Fixes
 
@@ -52,13 +52,13 @@
 
 - call scrollBehavior with app context ([#1804](https://github.com/vuejs/vue-router/issues/1804)) ([c93a734](https://github.com/vuejs/vue-router/commit/c93a734))
 
-# [3.0.1](https://github.com/vuejs/vue-router/compare/v3.0.0...v3.0.1) (2017-10-13)
+## [3.0.1](https://github.com/vuejs/vue-router/compare/v3.0.0...v3.0.1) (2017-10-13)
 
 ### Bug Fixes
 
 - fix props-passing regression ([02ff792](https://github.com/vuejs/vue-router/commit/02ff792)), closes [#1800](https://github.com/vuejs/vue-router/issues/1800)
 
-# [3.0.0](https://github.com/vuejs/vue-router/compare/v2.8.0...v3.0.0) (2017-10-11)
+## [3.0.0](https://github.com/vuejs/vue-router/compare/v2.8.0...v3.0.0) (2017-10-11)
 
 ### Features
 
@@ -68,7 +68,7 @@
 
 - **typings:** It is no longer compatible with the old Vue typings
 
-# [2.8.0](https://github.com/vuejs/vue-router/compare/v2.7.0...v2.8.0) (2017-10-11)
+## [2.8.0](https://github.com/vuejs/vue-router/compare/v2.7.0...v2.8.0) (2017-10-11)
 
 ### Bug Fixes
 
