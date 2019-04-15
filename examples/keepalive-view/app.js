@@ -47,9 +47,9 @@ new Vue({
   template: `
     <div id="app">
       <ul>
-        <li><router-link tag="a" to="/index/child1">index child 1</router-link></li>
-        <li><router-link tag="a" to="/index/child2">index child 2</router-link></li>
-        <li><router-link tag="a" to="/home">home</router-link></li>
+        <li><router-link to="/index/child1">index child 1</router-link></li>
+        <li><router-link to="/index/child2">index child 2</router-link></li>
+        <li><router-link to="/home">home</router-link></li>
       </ul>
       <keep-alive>
         <router-view></router-view>
