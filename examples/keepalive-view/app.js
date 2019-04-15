@@ -12,10 +12,20 @@ const Index = {
   }
 }
 
-const IndexChild1 = { template: '<div class="current">index child1</div>' }
-const IndexChild2 = { template: '<div class="current">index child2</div>' }
+const WithGuard = {
+  template: '<div>{{ $route.name }}: {{ n }}</div>',
+  data: () => ({ n: 0 }),
+  beforeRouteEnter (to, from, next) {
+    next(vm => {
+      vm.n++
+    })
+  }
+}
 
-const Home = { template: '<div class="current">home</div>' }
+const IndexChild1 = { template: '<div>index child1</div>' }
+const IndexChild2 = { template: '<div>index child2</div>' }
+
+const Home = { template: '<div>home</div>' }
 
 const router = new VueRouter({
   mode: 'history',
@@ -38,6 +48,16 @@ const router = new VueRouter({
     {
       path: '/home',
       component: Home
+    },
+    {
+      path: '/with-guard1',
+      name: 'with-guard1',
+      component: WithGuard
+    },
+    {
+      path: '/with-guard2',
+      name: 'with-guard2',
+      component: WithGuard
     }
   ]
 })
@@ -47,12 +67,14 @@ new Vue({
   template: `
     <div id="app">
       <ul>
-        <li><router-link to="/index/child1">index child 1</router-link></li>
-        <li><router-link to="/index/child2">index child 2</router-link></li>
-        <li><router-link to="/home">home</router-link></li>
+        <li><router-link to="/index/child1">/index/child1</router-link></li>
+        <li><router-link to="/index/child2">/index/child2</router-link></li>
+        <li><router-link to="/home">/home</router-link></li>
+        <li><router-link to="/with-guard1">/with-guard1</router-link></li>
+        <li><router-link to="/with-guard2">/with-guard2</router-link></li>
       </ul>
       <keep-alive>
-        <router-view></router-view>
+        <router-view class="view"></router-view>
       </keep-alive>
     </div>
   `

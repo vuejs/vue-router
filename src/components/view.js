@@ -72,6 +72,17 @@ export default {
       matched.instances[name] = vnode.componentInstance
     }
 
+    // register instance in init hook
+    // in case kept-alive component be actived when routes changed
+    data.hook.init = (vnode) => {
+      if (vnode.data.keepAlive &&
+        vnode.componentInstance &&
+        vnode.componentInstance !== matched.instances[name]
+      ) {
+        matched.instances[name] = vnode.componentInstance
+      }
+    }
+
     // resolve props
     let propsToPass = data.props = resolveProps(route, matched.props && matched.props[name])
     if (propsToPass) {
