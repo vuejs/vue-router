@@ -1,3 +1,11 @@
+## [3.0.6](https://github.com/vuejs/vue-router/compare/v3.0.3...v3.0.6) (2019-04-17)
+
+
+### Bug Fixes
+
+* revert [#2713](https://github.com/vuejs/vue-router/issues/2713) ([#2723](https://github.com/vuejs/vue-router/issues/2723)) ([ec6eab7](https://github.com/vuejs/vue-router/commit/ec6eab7)), closes [#2719](https://github.com/vuejs/vue-router/issues/2719)
+
+
 ## [3.0.5](https://github.com/vuejs/vue-router/compare/v3.0.3...v3.0.5) (2019-04-15)
 
 
