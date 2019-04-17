@@ -23,7 +23,9 @@ const router = new VueRouter({
   ]
 })
 
-router.push('/async')
+router.onReady(() => {
+  router.push('/async')
+})
 
 document.getElementById('load-button').addEventListener('click', (event) => {
   new Vue({
