@@ -40,6 +40,15 @@ module.exports = {
       .url('http://localhost:8080/basic/%C3%A9')
       .waitForElementVisible('#app', 1000)
       .assert.containsText('.view', 'unicode')
+
+      // regression onComplete
+      // https://github.com/vuejs/vue-router/issues/2721
+      .assert.containsText('#counter', '0')
+      .click('#navigate-btn')
+      .assert.containsText('#counter', '1')
+      .click('#navigate-btn')
+      .assert.containsText('#counter', '2')
+
       .end()
   }
 }
