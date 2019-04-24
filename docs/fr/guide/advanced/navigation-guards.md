@@ -72,7 +72,7 @@ Ces interceptions ont exactement le même effet que les interceptions globales d
 
 ## Interception par composant
 
-Enfin, vous pouvez directement définir une interception de navigation a l'intérieur du composant lui-même (celui passer à la configuration du routeur) avec les options suivantes :
+Enfin, vous pouvez directement définir une interception de navigation a l'intérieur du composant lui-même (celui passé à la configuration du routeur) avec les options suivantes :
 
 - `beforeRouteEnter`
 - `beforeRouteUpdate`
