@@ -23,6 +23,7 @@ const router = new VueRouter({
 
 ```apache
 <IfModule mod_rewrite.c>
+  Options -MultiViews
   RewriteEngine On
   RewriteBase /
   RewriteRule ^index\.html$ - [L]

@@ -23,6 +23,7 @@ Ne vous inquiétez pas. Pour résoudre ce problème, il vous suffit d'ajouter un
 
 ```apache
 <IfModule mod_rewrite.c>
+  Options -MultiViews
   RewriteEngine On
   RewriteBase /
   RewriteRule ^index\.html$ - [L]

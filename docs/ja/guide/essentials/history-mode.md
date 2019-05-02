@@ -23,6 +23,7 @@ history モードを使用する時は、URL は "普通" に見えます e.g. `
 
 ```apache
 <IfModule mod_rewrite.c>
+  Options -MultiViews
   RewriteEngine On
   RewriteBase /
   RewriteRule ^index\.html$ - [L]
