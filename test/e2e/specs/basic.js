@@ -3,8 +3,8 @@ module.exports = {
     browser
       .url('http://localhost:8080/basic/')
       .waitForElementVisible('#app', 1000)
-      .assert.count('li', 5)
-      .assert.count('li a', 5)
+      .assert.count('li', 7)
+      .assert.count('li a', 7)
       // assert correct href with base
       .assert.attributeContains('li:nth-child(1) a', 'href', '/basic/')
       .assert.attributeContains('li:nth-child(2) a', 'href', '/basic/foo')
@@ -40,6 +40,15 @@ module.exports = {
       .url('http://localhost:8080/basic/%C3%A9')
       .waitForElementVisible('#app', 1000)
       .assert.containsText('.view', 'unicode')
+
+      // regression onComplete
+      // https://github.com/vuejs/vue-router/issues/2721
+      .assert.containsText('#counter', '0')
+      .click('#navigate-btn')
+      .assert.containsText('#counter', '1')
+      .click('#navigate-btn')
+      .assert.containsText('#counter', '2')
+
       .end()
   }
 }

@@ -505,4 +505,4 @@ These properties are injected into every child component by passing the router i
 - **beforeRouteUpdate**
 - **beforeRouteLeave**
 
-  See [In Component Guards](../guide/advanced/navigation-guards.md#incomponent-guards).
+  See [In Component Guards](../guide/advanced/navigation-guards.md#in-component-guards).

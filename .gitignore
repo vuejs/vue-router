@@ -9,3 +9,4 @@ dist/*.map
 explorations
 docs/.vuepress/dist
 yarn-error.log
+.vscode/settings.json

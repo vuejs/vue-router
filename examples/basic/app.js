@@ -29,6 +29,7 @@ const router = new VueRouter({
 // Route components will be rendered inside <router-view>.
 new Vue({
   router,
+  data: () => ({ n: 0 }),
   template: `
     <div id="app">
       <h1>Basic</h1>
@@ -40,8 +41,25 @@ new Vue({
           <a>/bar</a>
         </router-link>
         <li><router-link to="/é">/é</router-link></li>
+        <li><router-link to="/é?t=%25ñ">/é?t=%ñ</router-link></li>
+        <li><router-link to="/é#%25ñ">/é#%25ñ</router-link></li>
       </ul>
+      <button id="navigate-btn" @click="navigateAndIncrement">On Success</button>
+      <pre id="counter">{{ n }}</pre>
+      <pre id="query-t">{{ $route.query.t }}</pre>
+      <pre id="hash">{{ $route.hash }}</pre>
       <router-view class="view"></router-view>
     </div>
-  `
+  `,
+
+  methods: {
+    navigateAndIncrement () {
+      const increment = () => this.n++
+      if (this.$route.path === '/') {
+        this.$router.push('/foo', increment)
+      } else {
+        this.$router.push('/', increment)
+      }
+    }
+  }
 }).$mount('#app')

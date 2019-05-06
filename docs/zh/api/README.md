@@ -29,7 +29,7 @@ sidebar: auto
 </router-link>
 ```
 
-在这种情况下，`<a>` 将作为真实的链接 (它会获得正确的 `href` 的)，而 "激活时的CSS类名" 则设置到外层的 `<li>`。
+在这种情况下，`<a>` 将作为真实的链接 (它会获得正确的 `href` 的)，而 "激活时的 CSS 类名" 则设置到外层的 `<li>`。
 
 ## `<router-link>` Props
 
@@ -332,7 +332,7 @@ router.forward()
 const matchedComponents: Array<Component> = router.getMatchedComponents(location?)
 ```
 
-返回目标位置或是当前路由匹配的组件数组 (是数组的定义/构造类，不是实例)。通常在服务端渲染的数据预加载时时候。
+返回目标位置或是当前路由匹配的组件数组 (是数组的定义/构造类，不是实例)。通常在服务端渲染的数据预加载时使用。
 
 ### router.resolve
 
