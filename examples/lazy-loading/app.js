@@ -43,7 +43,7 @@ const router = new VueRouter({
     { path: '/', component: Home },
     // Just use them normally in the route config
     { path: '/foo', component: Foo },
-    // mulitple parameters, `/` should not be encoded. The name is also important
+    // multiple parameters, `/` should not be encoded. The name is also important
     // https://github.com/vuejs/vue-router/issues/2719
     { path: '/a/:tags*', name: 'tagged', component: () => new Promise(resolve => {
       setTimeout(() => {
