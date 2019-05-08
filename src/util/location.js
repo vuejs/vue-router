@@ -15,8 +15,10 @@ export function normalizeLocation (
 ): Location {
   let next: Location = typeof raw === 'string' ? { path: raw } : raw
   // named target
-  if (next.name || next._normalized) {
+  if (next._normalized) {
     return next
+  } else if (next.name) {
+    return extend({}, raw)
   }
 
   // relative params

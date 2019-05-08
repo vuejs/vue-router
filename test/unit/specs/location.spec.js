@@ -120,5 +120,14 @@ describe('Location utils', () => {
       const loc2 = normalizeLocation(loc1)
       expect(loc1).toBe(loc2)
     })
+
+    it('creates copies when not normalized', () => {
+      const l1 = { name: 'foo' }
+      expect(normalizeLocation(l1)).not.toBe(l1)
+      const l2 = { path: '/foo' }
+      expect(normalizeLocation(l2)).not.toBe(l2)
+      const l3 = { path: '/foo', query: { foo: 'foo' }}
+      expect(normalizeLocation(l3)).not.toBe(l3)
+    })
   })
 })
