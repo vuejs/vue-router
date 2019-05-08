@@ -1,5 +1,5 @@
 module.exports = {
-  'navigation guards step one': function (browser) {
+  'navigation guards with alerts': function (browser) {
     browser
       .url('http://localhost:8080/navigation-guards/')
       .waitForElementVisible('#app', 1000)
@@ -7,9 +7,7 @@ module.exports = {
       .assert.containsText('.view', 'home')
 
     // alert commands not available in phantom
-    if (process.env.PHANTOMJS) {
-      return
-    }
+    if (process.env.PHANTOMJS) return
 
     browser
       .click('li:nth-child(2) a')
@@ -64,16 +62,8 @@ module.exports = {
       .assert.urlEquals('http://localhost:8080/navigation-guards/foo')
       .assert.containsText('.view', 'foo')
 
-      .click('li:nth-child(4) a')
-      .assert.urlEquals('http://localhost:8080/navigation-guards/baz')
-      .assert.containsText('.view', 'baz (not saved)')
-      .click('button')
-      .assert.containsText('.view', 'baz (saved)')
-      .click('li:nth-child(1) a')
-      .assert.urlEquals('http://localhost:8080/navigation-guards/')
-      .assert.containsText('.view', 'home')
-
-      // test initial visit
+    // test initial visit
+    browser
       .url('http://localhost:8080/navigation-guards/foo')
       .dismissAlert()
       .waitFor(100)
@@ -102,10 +92,20 @@ module.exports = {
       .assert.urlEquals('http://localhost:8080/navigation-guards/bar')
       .assert.containsText('.view', 'bar')
   },
-  'navigation guards step two': function (browser) {
+  'navigation guards': function (browser) {
     browser
       // back to home
       .url('http://localhost:8080/navigation-guards/')
+      .waitForElementVisible('#app', 1000)
+      .assert.containsText('.view', 'home')
+
+      .click('li:nth-child(4) a')
+      .assert.urlEquals('http://localhost:8080/navigation-guards/baz')
+      .assert.containsText('.view', 'baz (not saved)')
+      .click('button')
+      .assert.containsText('.view', 'baz (saved)')
+      .click('li:nth-child(1) a')
+      .assert.urlEquals('http://localhost:8080/navigation-guards/')
       .assert.containsText('.view', 'home')
 
       // in-component guard
