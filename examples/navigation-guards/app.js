@@ -46,7 +46,7 @@ const Baz = {
   }
 }
 
-// Baz implements an in-component beforeRouteEnter hook
+// Qux implements an in-component beforeRouteEnter hook
 const Qux = {
   data () {
     return {
