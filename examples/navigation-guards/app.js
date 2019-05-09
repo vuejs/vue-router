@@ -38,7 +38,10 @@ const Baz = {
     </div>
   `,
   beforeRouteLeave (to, from, next) {
-    if (this.saved || window.confirm('Not saved, are you sure you want to navigate away?')) {
+    if (
+      this.saved ||
+      window.confirm('Not saved, are you sure you want to navigate away?')
+    ) {
       next()
     } else {
       next(false)
@@ -87,6 +90,43 @@ const Quux = {
   }
 }
 
+const NestedParent = {
+  template: `<div id="nested-parent">Nested Parent <hr>
+  <router-link to="/parent/child/1">/parent/child/1</router-link>
+  <router-link to="/parent/child/2">/parent/child/2</router-link>
+  <hr>
+  <p id="bre-order">
+    <span v-for="log in logs">{{ log }} </span>
+  </p>
+
+  <router-view/></div>`,
+  data: () => ({ logs: [] }),
+  beforeRouteEnter (to, from, next) {
+    next(vm => {
+      vm.logs.push('parent')
+    })
+  }
+}
+
+const GuardMixin = {
+  beforeRouteEnter (to, from, next) {
+    next(vm => {
+      vm.$parent.logs.push('mixin')
+    })
+  }
+}
+
+const NestedChild = {
+  props: ['n'],
+  template: `<div>Child {{ n }}</div>`,
+  mixins: [GuardMixin],
+  beforeRouteEnter (to, from, next) {
+    next(vm => {
+      vm.$parent.logs.push('child ' + vm.n)
+    })
+  }
+}
+
 const router = new VueRouter({
   mode: 'history',
   base: __dirname,
@@ -107,14 +147,25 @@ const router = new VueRouter({
     { path: '/qux', component: Qux },
 
     // in-component beforeRouteEnter hook for async components
-    { path: '/qux-async', component: resolve => {
-      setTimeout(() => {
-        resolve(Qux)
-      }, 0)
-    } },
+    {
+      path: '/qux-async',
+      component: resolve => {
+        setTimeout(() => {
+          resolve(Qux)
+        }, 0)
+      }
+    },
 
     // in-component beforeRouteUpdate hook
-    { path: '/quux/:id', component: Quux }
+    { path: '/quux/:id', component: Quux },
+    {
+      path: '/parent',
+      component: NestedParent,
+      children: [
+        { path: 'child/1', component: NestedChild, props: { n: 1 }},
+        { path: 'child/2', component: NestedChild, props: { n: 2 }}
+      ]
+    }
   ]
 })
 
@@ -140,6 +191,7 @@ new Vue({
         <li><router-link to="/qux-async">/qux-async</router-link></li>
         <li><router-link to="/quux/1">/quux/1</router-link></li>
         <li><router-link to="/quux/2">/quux/2</router-link></li>
+        <li><router-link to="/parent/child/2">/parent/child/2</router-link></li>
       </ul>
       <router-view class="view"></router-view>
     </div>

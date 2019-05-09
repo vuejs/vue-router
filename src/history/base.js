@@ -297,7 +297,6 @@ function bindEnterGuard (
 ): NavigationGuard {
   return function routeEnterGuard (to, from, next) {
     return guard(to, from, cb => {
-      next(cb)
       if (typeof cb === 'function') {
         cbs.push(() => {
           // #750
@@ -308,6 +307,7 @@ function bindEnterGuard (
           poll(cb, match.instances, key, isValid)
         })
       }
+      next(cb)
     })
   }
 }

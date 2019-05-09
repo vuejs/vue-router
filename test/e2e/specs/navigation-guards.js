@@ -3,7 +3,7 @@ module.exports = {
     browser
       .url('http://localhost:8080/navigation-guards/')
       .waitForElementVisible('#app', 1000)
-      .assert.count('li a', 8)
+      .assert.count('li a', 9)
       .assert.containsText('.view', 'home')
 
     // alert commands not available in phantom
@@ -137,6 +137,18 @@ module.exports = {
       .click('li:nth-child(7) a')
       .assert.urlEquals('http://localhost:8080/navigation-guards/quux/1')
       .assert.containsText('.view', 'id:1 prevId:2')
+
+      // beforeRouteEnter order in children
+      .click('li:nth-child(9) a')
+      .assert.urlEquals(
+        'http://localhost:8080/navigation-guards/parent/child/2'
+      )
+      .assert.containsText('#bre-order', 'parent mixin child 2')
+      .click('#nested-parent a')
+      .assert.urlEquals(
+        'http://localhost:8080/navigation-guards/parent/child/1'
+      )
+      .assert.containsText('#bre-order', 'parent mixin child 2 mixin child 1')
       .end()
   }
 }
