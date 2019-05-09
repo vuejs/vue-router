@@ -108,9 +108,18 @@ const NestedParent = {
   }
 }
 
+const GuardMixin = {
+  beforeRouteEnter (to, from, next) {
+    next(vm => {
+      vm.$parent.logs.push('mixin')
+    })
+  }
+}
+
 const NestedChild = {
   props: ['n'],
   template: `<div>Child {{ n }}</div>`,
+  mixins: [GuardMixin],
   beforeRouteEnter (to, from, next) {
     next(vm => {
       vm.$parent.logs.push('child ' + vm.n)
