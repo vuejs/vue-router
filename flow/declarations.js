@@ -48,6 +48,8 @@ declare type RouterOptions = {
 
 declare type RedirectOption = RawLocation | ((to: Route) => RawLocation)
 
+type RoutePropsFunction = (route: Route) => Object
+
 declare type RouteConfig = {
   path: string;
   name?: string;
@@ -58,7 +60,7 @@ declare type RouteConfig = {
   children?: Array<RouteConfig>;
   beforeEnter?: NavigationGuard;
   meta?: any;
-  props?: boolean | Object | Function;
+  props?: boolean | Object | RoutePropsFunction | Dictionary<boolean | Object | RoutePropsFunction>;
   caseSensitive?: boolean;
   pathToRegexpOptions?: PathToRegexpOptions;
 }
@@ -74,7 +76,7 @@ declare type RouteRecord = {
   matchAs: ?string;
   beforeEnter: ?NavigationGuard;
   meta: any;
-  props: boolean | Object | Function | Dictionary<boolean | Object | Function>;
+  props: Dictionary<boolean | Object | RoutePropsFunction>;
 }
 
 declare type Location = {

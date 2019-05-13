@@ -80,6 +80,11 @@ const router = new VueRouter({
           from.params;
           next({ name: "home" });
           next();
+        },
+        props: {
+          default: true,
+          bar: { id: 123 },
+          asyncComponent: (route: Route) => route.params
         }
       },
       {
@@ -121,6 +126,9 @@ matched.forEach(m => {
   const name: string | undefined = m.name;
   const parant: RouteRecord | undefined = m.parent;
   const redirect: RedirectOption | undefined = m.redirect;
+  const props: {
+    [key: string]: boolean | Object | ((route: Route) => Object)
+  } = m.props;
 });
 
 const unregister = router.beforeEach((to, from, next) => {

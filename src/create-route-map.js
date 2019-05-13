@@ -83,6 +83,7 @@ function addRouteRecord (
       route.props == null
         ? {}
         : route.components
+          // $flow-disable-line
           ? route.props
           : { default: route.props }
   }

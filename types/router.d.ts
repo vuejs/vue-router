@@ -81,7 +81,7 @@ export interface RouteConfig {
   children?: RouteConfig[];
   meta?: any;
   beforeEnter?: NavigationGuard;
-  props?: boolean | Object | RoutePropsFunction;
+  props?: boolean | Object | RoutePropsFunction | Dictionary<boolean | Object | RoutePropsFunction>;
   caseSensitive?: boolean;
   pathToRegexpOptions?: PathToRegexpOptions;
 }
@@ -101,7 +101,7 @@ export interface RouteRecord {
     redirect: (location: RawLocation) => void,
     next: () => void
   ) => any;
-  props: boolean | Object | RoutePropsFunction | Dictionary<boolean | Object | RoutePropsFunction>;
+  props: Dictionary<boolean | Object | RoutePropsFunction>;
 }
 
 export interface Location {
