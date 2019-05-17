@@ -103,7 +103,7 @@ export class History {
       route.matched.length === current.matched.length
     ) {
       this.ensureURL()
-      return abort()
+      return abort('SAME_ROUTE')
     }
 
     const {

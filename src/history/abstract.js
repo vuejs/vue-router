@@ -37,6 +37,10 @@ export class AbstractHistory extends History {
     this.confirmTransition(route, () => {
       this.index = targetIndex
       this.updateRoute(route)
+    }, (err) => {
+      if (err === 'SAME_ROUTE') {
+        this.index = targetIndex
+      }
     })
   }
 

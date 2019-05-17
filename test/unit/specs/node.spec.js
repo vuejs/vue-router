@@ -35,4 +35,21 @@ describe('Usage in Node', () => {
     expect(router.getMatchedComponents('/')).toEqual([Foo])
     expect(router.getMatchedComponents('/bar/baz')).toEqual([Bar, Baz])
   })
+
+  it('should navigate through history with same consecutive routes in history stack', () => {
+    const router = new VueRouter({
+      routes: [
+        { path: '/', component: { name: 'foo' }},
+        { path: '/bar', component: { name: 'bar' }}
+      ]
+    })
+    router.push('/')
+    router.push('/bar')
+    router.push('/')
+    router.replace('/bar')
+    router.back()
+    expect(router.history.current.path).toBe('/bar')
+    router.back()
+    expect(router.history.current.path).toBe('/')
+  })
 })
