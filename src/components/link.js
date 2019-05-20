@@ -2,6 +2,7 @@
 
 import { createRoute, isSameRoute, isIncludedRoute } from '../util/route'
 import { extend } from '../util/misc'
+import { normalizeLocation } from '../util/location'
 
 // work around weird flow bug
 const toTypes: Array<Function> = [String, Object]
@@ -49,8 +50,8 @@ export default {
     const exactActiveClass = this.exactActiveClass == null
       ? exactActiveClassFallback
       : this.exactActiveClass
-    const compareTarget = location.path
-      ? createRoute(null, location, null, router)
+    const compareTarget = route.redirectedFrom
+      ? createRoute(null, normalizeLocation(route.redirectedFrom), null, router)
       : route
 
     classes[exactActiveClass] = isSameRoute(current, compareTarget)

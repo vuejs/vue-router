@@ -9,7 +9,7 @@ module.exports = {
     browser
       .url('http://localhost:8080/active-links/')
       .waitForElementVisible('#app', 1000)
-      .assert.count('li a', 11)
+      .assert.count('li a', 14)
       // assert correct href with base
       .assert.attributeContains('li:nth-child(1) a', 'href', '/active-links/')
       .assert.attributeContains('li:nth-child(2) a', 'href', '/active-links/')
@@ -22,6 +22,9 @@ module.exports = {
       .assert.attributeContains('li:nth-child(9) a', 'href', '/active-links/users/evan?foo=bar&baz=qux')
       .assert.attributeContains('li:nth-child(10) a', 'href', '/active-links/about')
       .assert.attributeContains('li:nth-child(11) a', 'href', '/active-links/about')
+      .assert.attributeContains('li:nth-child(12) a', 'href', '/active-links/gallery')
+      .assert.attributeContains('li:nth-child(13) a', 'href', '/active-links/gallery/image2')
+      .assert.attributeContains('li:nth-child(14) a', 'href', '/active-links/gallery/image1')
       .assert.containsText('.view', 'Home')
 
     assertActiveLinks(1, [1, 2], null, [1, 2])
@@ -35,6 +38,9 @@ module.exports = {
     assertActiveLinks(9, [1, 3, 5, 7, 9], null, [9])
     assertActiveLinks(10, [1, 10], [11], [10], [11])
     assertActiveLinks(11, [1, 10], [11], [10], [11])
+    assertActiveLinks(12, [1, 12, 14], null, [14])
+    assertActiveLinks(13, [1, 12, 13], null, [13])
+    assertActiveLinks(14, [1, 12, 14], null, [14])
 
     browser.end()
 

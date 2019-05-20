@@ -17,6 +17,17 @@ const Users = {
 
 const User = { template: '<div>{{ $route.params.username }}</div>' }
 
+const Gallery = {
+  template: `
+    <div>
+      <h2>Gallery</h2>
+      <router-view></router-view>
+    </div>
+  `
+}
+
+const Image = { template: '<div>{{ $route.params.imageId }}</div>' }
+
 const router = new VueRouter({
   mode: 'history',
   base: __dirname,
@@ -27,7 +38,11 @@ const router = new VueRouter({
       children: [
         { path: ':username', name: 'user', component: User }
       ]
-    }
+    },
+    { path: '/gallery', component: Gallery, name: 'gallery',
+      children: [
+        { path: ':imageId', component: Image, name: 'image' }
+      ], redirect: { name: 'image', params: { imageId: 'image1' }}}
   ]
 })
 
@@ -66,6 +81,10 @@ new Vue({
         <router-link tag="li" to="/about">
           <a>/about (active class on outer element)</a>
         </router-link>
+
+        <li><router-link :to="{ name: 'gallery' }">/gallery (redirect to /gallery/image1)</router-link></li>
+        <li><router-link :to="{ name: 'image', params: {imageId: 'image2'} }">/gallery/image2</router-link></li>
+        <li><router-link :to="{ name: 'image', params: {imageId: 'image1'} }">/gallery/image1</router-link></li>
       </ul>
       <router-view class="view"></router-view>
     </div>
