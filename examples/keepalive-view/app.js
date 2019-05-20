@@ -29,6 +29,48 @@ const Home = { template: '<div>home</div>' }
 
 const ViewWithKeepalive = { template: '<keep-alive><router-view></router-view></keep-alive>' }
 
+const Parent = { template: '<router-view />' }
+
+const RequiredProps = {
+  template: '<div>props from route config is: {{msg}}</div>',
+  props: {
+    msg: {
+      type: String,
+      required: true
+    }
+  }
+}
+
+const savedSilent = Vue.config.silent
+const savedWarnHandler = Vue.config.warnHandler
+
+const CatchWarn = {
+  template: `<div>{{catchedWarn ? 'catched missing prop warn' : 'no missing prop warn'}}</div>`,
+  data () {
+    return {
+      catchedWarn: false
+    }
+  },
+  beforeRouteEnter (to, from, next) {
+    let missPropWarn = false
+    Vue.config.silent = false
+    Vue.config.warnHandler = function (msg, vm, trace) {
+      if (/Missing required prop/i.test(msg)) {
+        missPropWarn = true
+      }
+    }
+    next(vm => {
+      vm.catchedWarn = missPropWarn
+    })
+  },
+  beforeRouteLeave (to, from, next) {
+    // restore vue config
+    Vue.config.silent = savedSilent
+    Vue.config.warnHandler = savedWarnHandler
+    next()
+  }
+}
+
 const router = new VueRouter({
   mode: 'history',
   base: __dirname,
@@ -80,6 +122,23 @@ const router = new VueRouter({
           ]
         }
       ]
+    },
+    {
+      path: '/config-required-props',
+      component: Parent,
+      children: [
+        {
+          path: 'child',
+          component: RequiredProps,
+          props: {
+            msg: 'ok'
+          }
+        }
+      ]
+    },
+    {
+      path: '/catch-warn',
+      component: CatchWarn
     }
   ]
 })
@@ -96,6 +155,8 @@ new Vue({
         <li><router-link to="/with-guard2">/with-guard2</router-link></li>
         <li><router-link to="/one/two/child1">/one/two/child1</router-link></li>
         <li><router-link to="/one/two/child2">/one/two/child2</router-link></li>
+        <li><router-link to="/config-required-props/child">/config-required-props/child</router-link></li>
+        <li><router-link to="/catch-warn">/catch-warn</router-link></li>
       </ul>
       <keep-alive>
         <router-view class="view"></router-view>
