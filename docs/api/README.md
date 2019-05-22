@@ -61,6 +61,20 @@ In this case the `<a>` will be the actual link (and will get the correct `href`)
   <router-link :to="{ path: 'register', query: { plan: 'private' }}">Register</router-link>
   ```
 
+  Type declaration for `Location`:
+
+  ```js
+  declare type Location = {
+    name?: string; // for named routes
+    path?: string;
+    hash?: string; // Must start with a #
+    query?: Dictionary<string | (string | null)[] | null | undefined>;
+    params?: Dictionary<string>;
+    append?: boolean;
+    replace?: boolean;
+  }
+  ```
+
 ### replace
 
 - type: `boolean`
