@@ -28,7 +28,7 @@ declare type NavigationGuard = (
 declare type AfterNavigationHook = (to: Route, from: Route) => any
 
 type Position = { x: number, y: number };
-type PositionResult = Position | { selector: string, offset?: Position } | void;
+type PositionResult = Position | { selector: string, offset?: Position, scrollElement?: string } | void;
 
 declare type RouterOptions = {
   routes?: Array<RouteConfig>;
@@ -39,6 +39,7 @@ declare type RouterOptions = {
   linkExactActiveClass?: string;
   parseQuery?: (query: string) => Object;
   stringifyQuery?: (query: Object) => string;
+  scrollElement?: string;
   scrollBehavior?: (
     to: Route,
     from: Route,

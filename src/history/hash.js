@@ -25,7 +25,7 @@ export class HashHistory extends History {
     const supportsScroll = supportsPushState && expectScroll
 
     if (supportsScroll) {
-      setupScroll()
+      setupScroll(router.options.scrollElement)
     }
 
     window.addEventListener(supportsPushState ? 'popstate' : 'hashchange', () => {
@@ -38,7 +38,7 @@ export class HashHistory extends History {
           handleScroll(this.router, route, current, true)
         }
         if (!supportsPushState) {
-          replaceHash(route.fullPath)
+          replaceHash(route.fullPath, this.scrollElementSelector)
         }
       })
     })
@@ -47,7 +47,7 @@ export class HashHistory extends History {
   push (location: RawLocation, onComplete?: Function, onAbort?: Function) {
     const { current: fromRoute } = this
     this.transitionTo(location, route => {
-      pushHash(route.fullPath)
+      pushHash(route.fullPath, this.scrollElementSelector)
       handleScroll(this.router, route, fromRoute, false)
       onComplete && onComplete(route)
     }, onAbort)
@@ -56,7 +56,7 @@ export class HashHistory extends History {
   replace (location: RawLocation, onComplete?: Function, onAbort?: Function) {
     const { current: fromRoute } = this
     this.transitionTo(location, route => {
-      replaceHash(route.fullPath)
+      replaceHash(route.fullPath, this.scrollElementSelector)
       handleScroll(this.router, route, fromRoute, false)
       onComplete && onComplete(route)
     }, onAbort)
@@ -69,7 +69,7 @@ export class HashHistory extends History {
   ensureURL (push?: boolean) {
     const current = this.current.fullPath
     if (getHash() !== current) {
-      push ? pushHash(current) : replaceHash(current)
+      push ? pushHash(current, this.scrollElementSelector) : replaceHash(current, this.scrollElementSelector)
     }
   }
 
@@ -128,17 +128,17 @@ function getUrl (path) {
   return `${base}#${path}`
 }
 
-function pushHash (path) {
+function pushHash (path, scrollElementSelector?: string) {
   if (supportsPushState) {
-    pushState(getUrl(path))
+    pushState(getUrl(path,), scrollElementSelector)
   } else {
     window.location.hash = path
   }
 }
 
-function replaceHash (path) {
+function replaceHash (path, scrollElementSelector?: string) {
   if (supportsPushState) {
-    replaceState(getUrl(path))
+    replaceState(getUrl(path), scrollElementSelector)
   } else {
     window.location.replace(getUrl(path))
   }
