@@ -62,6 +62,20 @@ sidebar: auto
   <router-link :to="{ path: 'register', query: { plan: 'private' }}">Register</router-link>
   ```
 
+  `Location` 的类型定义:
+
+  ```js
+  declare type Location = {
+    name?: string; // 命名路由
+    path?: string;
+    hash?: string; // 必须以＃开头
+    query?: Dictionary<string | (string | null)[] | null | undefined>;
+    params?: Dictionary<string>;
+    append?: boolean;
+    replace?: boolean;
+  }
+  ```
+
 ### replace
 
 - 类型: `boolean`

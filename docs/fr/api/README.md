@@ -61,6 +61,20 @@ Dans ce cas, `<a>` sera le lien actuel (et récupèrera le bon `href`), mais la 
   <router-link :to="{ path: 'register', query: { plan: 'private' }}">S'enregistrer</router-link>
   ```
 
+  Déclaration de type pour `Location`:
+
+  ```js
+  declare type Location = {
+    name?: string; // pour les routes nommées
+    path?: string;
+    hash?: string; // Doit commencer par un #
+    query?: Dictionary<string | (string | null)[] | null | undefined>;
+    params?: Dictionary<string>;
+    append?: boolean;
+    replace?: boolean;
+  }
+  ```
+
 
 ### replace
 

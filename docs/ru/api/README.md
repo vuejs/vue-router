@@ -61,6 +61,20 @@ sidebar: auto
   <router-link :to="{ path: 'register', query: { plan: 'private' }}">Register</router-link>
   ```
 
+  Декларация типа для `Location`:
+
+  ```js
+  declare type Location = {
+    name?: string; // для именованных маршрутов
+    path?: string;
+    hash?: string; // Должен начинаться с #
+    query?: Dictionary<string | (string | null)[] | null | undefined>;
+    params?: Dictionary<string>;
+    append?: boolean;
+    replace?: boolean;
+  }
+  ```
+
 ### replace
 
 - тип: `boolean`

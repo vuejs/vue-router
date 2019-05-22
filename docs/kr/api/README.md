@@ -48,6 +48,20 @@ sidebar: auto
   <router-link :to="{ path: 'register', query: { plan: 'private' }}">Register</router-link>
   ```
 
+  Type declaration for `Location`:
+
+  ```js
+  declare type Location = {
+    name?: string; // for named routes
+    path?: string;
+    hash?: string; // Must start with a #
+    query?: Dictionary<string | (string | null)[] | null | undefined>;
+    params?: Dictionary<string>;
+    append?: boolean;
+    replace?: boolean;
+  }
+  ```
+
 ### replace
 
   - 자료형: `boolean`

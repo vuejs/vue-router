@@ -59,6 +59,20 @@ sidebar: auto
   <router-link :to="{ path: 'register', query: { plan: 'private' }}">Register</router-link>
   ```
 
+  `Location` の型宣言:
+
+  ```js
+  declare type Location = {
+    name?: string; // 名前付きルート用
+    path?: string;
+    hash?: string; // ＃で始まらなければなりません
+    query?: Dictionary<string | (string | null)[] | null | undefined>;
+    params?: Dictionary<string>;
+    append?: boolean;
+    replace?: boolean;
+  }
+  ```
+
 ### replace
 
   - 型: `boolean`
