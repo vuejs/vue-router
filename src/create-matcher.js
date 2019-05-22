@@ -53,10 +53,8 @@ export function createMatcher (
         }
       }
 
-      if (record) {
-        location.path = fillParams(record.path, location.params, `named route "${name}"`)
-        return _createRoute(record, location, redirectedFrom)
-      }
+      location.path = fillParams(record.path, location.params, `named route "${name}"`)
+      return _createRoute(record, location, redirectedFrom)
     } else if (location.path) {
       location.params = {}
       for (let i = 0; i < pathList.length; i++) {
