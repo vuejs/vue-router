@@ -13,8 +13,9 @@ declare module "vue/types/vue" {
 }
 
 declare module "vue/types/options" {
+  type VueRouterFactory = () => VueRouter;
   interface ComponentOptions<V extends Vue> {
-    router?: VueRouter;
+    router?: VueRouter | VueRouterFactory;
     beforeRouteEnter?: NavigationGuard<V>;
     beforeRouteLeave?: NavigationGuard<V>;
     beforeRouteUpdate?: NavigationGuard<V>;
