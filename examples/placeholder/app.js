@@ -34,10 +34,10 @@ new Vue({
     <div id="app">
       <h1>router-view placeholder</h1>
       <router-view name="header">
-        <div id="header-loading">Loading header...</div>
+        <div id="header-loading" class="placeholder">Loading header...</div>
       </router-view>
       <router-view>
-        <div id="default-loading">Loading default...</div>
+        <div id="default-loading" class="placeholder">Loading default...</div>
       </router-view>
       <router-view name="footer"></router-view>
     </div>

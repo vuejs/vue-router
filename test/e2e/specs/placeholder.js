@@ -6,13 +6,13 @@ module.exports = {
 
       // Assert that 2 elements exist
       // because the last one doesn't have a placeholder
-      .assert.count('#app div', 2)
+      .assert.count('#app div.placeholder', 2)
       .assert.containsText('#header-loading', 'Loading header...')
       .assert.containsText('#default-loading', 'Loading default...')
 
       // When the timeout ends, assert if the components are there
       .waitForElementVisible('#home', 1000)
-      .assert.count('.vue-router-placeholder', 0)
+      .assert.count('#app div.placeholder', 0)
       .assert.containsText('#header', 'This is Header')
       .assert.containsText('#home', 'This is Home')
       .assert.containsText('#footer', 'This is Footer')
