@@ -15,7 +15,7 @@ then
   git add dist
   git commit --amend --no-edit # merge with previous commit
 
-  echo "Please the git history and press enter"
+  echo "Please check the git history and press enter"
   read OKAY
 
   # publish
