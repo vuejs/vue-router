@@ -48,6 +48,15 @@ export default {
     // render empty node if no matched route
     if (!matched) {
       cache[name] = null
+
+      // The component child may act as the temporary placeholder
+      // up until the actual component from the route takes place.
+      // Using the first child because the actual component can only
+      // have one single element as the root anyway.
+      if (children && children.length === 1) {
+        return children[0]
+      }
+
       return h()
     }
 
