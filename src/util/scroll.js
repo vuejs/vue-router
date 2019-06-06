@@ -9,7 +9,10 @@ const positionStore = Object.create(null)
 export function setupScroll () {
   // Fix for #1585 for Firefox
   // Fix for #2195 Add optional third attribute to workaround a bug in safari https://bugs.webkit.org/show_bug.cgi?id=182678
-  window.history.replaceState({ key: getStateKey() }, '', window.location.href.replace(window.location.origin, ''))
+  // Fix for #2774 Support for apps loaded from Windows file shares not mapped to network drives
+  const protocolAndPath = window.location.protocol + '//' + window.location.host
+  const absolutePath = window.location.href.replace(protocolAndPath, '')
+  window.history.replaceState({ key: getStateKey() }, '', absolutePath)
   window.addEventListener('popstate', e => {
     saveScrollPosition()
     if (e.state && e.state.key) {
