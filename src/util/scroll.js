@@ -9,7 +9,9 @@ const positionStore = Object.create(null)
 export function setupScroll () {
   // Fix for #1585 for Firefox
   // Fix for #2195 Add optional third attribute to workaround a bug in safari https://bugs.webkit.org/show_bug.cgi?id=182678
-  // Fix for #2774 Support for apps loaded from Windows file shares not mapped to network drives
+  // Fix for #2774 Support for apps loaded from Windows file shares not mapped to network drives: replaced location.origin with
+  // window.location.protocol + '//' + window.location.host
+  // location.host contains the port and location.hostname doesn't
   const protocolAndPath = window.location.protocol + '//' + window.location.host
   const absolutePath = window.location.href.replace(protocolAndPath, '')
   window.history.replaceState({ key: getStateKey() }, '', absolutePath)
