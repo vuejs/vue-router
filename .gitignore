@@ -11,3 +11,4 @@ docs/.vuepress/dist
 yarn-error.log
 .idea
 .vscode/settings.json
+keys.env
