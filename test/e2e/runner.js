@@ -1,36 +1,42 @@
-var spawn = require('cross-spawn')
-var args = process.argv.slice(2)
+const { resolve } = require('path')
+const Nightwatch = require('nightwatch')
+const args = process.argv.slice(2)
 
-var server = args.indexOf('--dev') > -1
-  ? null
-  : require('../../examples/server')
+// if we are running yarn dev locally, we can pass --dev to avoid launching another server instance
+const server =
+  args.indexOf('--dev') > -1 ? null : require('../../examples/server')
 
-if (args.indexOf('--config') === -1) {
-  args = args.concat(['--config', 'test/e2e/nightwatch.config.js'])
-}
-if (args.indexOf('--env') === -1) {
-  args = args.concat(['--env', 'phantomjs'])
-}
-var i = args.indexOf('--test')
-if (i > -1) {
-  args[i + 1] = 'test/e2e/specs/' + args[i + 1].replace(/\.js$/, '') + '.js'
-}
-if (args.indexOf('phantomjs') > -1) {
-  process.env.PHANTOMJS = true
-}
+const DEFAULT_CONFIG = './nightwatch.json'
 
-// TODO: update while updating nightwatch
-// https://github.com/nightwatchjs/nightwatch/releases?after=v1.0.2
-var runner = spawn('./node_modules/.bin/nightwatch', args, {
-  stdio: 'inherit'
-})
+// read the CLI arguments
+Nightwatch.cli(function (argv) {
+  // take every remaining argument and treat it as a test file
+  // this allows to run `node test/e2e/runner.js test/e2e/basic.js`
+  argv.test = argv['_'].slice(0)
 
-runner.on('exit', function (code) {
-  server && server.close()
-  process.exit(code)
-})
+  // add a configuration by default if not provided
+  if (argv.c === DEFAULT_CONFIG && argv.config === DEFAULT_CONFIG) {
+    argv.config = resolve(__dirname, './nightwatch.config.js')
+  }
+  // Nightwatch does not accept an array with one element
+  if (argv.test.length === 1) argv.test = argv.test[0]
 
-runner.on('error', function (err) {
-  server && server.close()
-  throw err
+  // create the Nightwatch CLI runner
+  const runner = Nightwatch.CliRunner(argv)
+
+  // setup and run tests
+  runner
+    .setup()
+    .startWebDriver()
+    .then(() => runner.runTests())
+    .then(() => {
+      runner.stopWebDriver()
+      server && server.close()
+      process.exit(0)
+    })
+    .catch(err => {
+      server && server.close()
+      console.error(err)
+      process.exit(1)
+    })
 })

@@ -12,3 +12,4 @@ yarn-error.log
 .idea
 .vscode/settings.json
 keys.env
+selenium-server.log
