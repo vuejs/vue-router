@@ -87,11 +87,14 @@
     "vue": "^2.5.16",
     "vue-loader": "^15.2.1",
     "vue-template-compiler": "^2.5.16",
-    "vuepress": "^0.14.1",
+    "vuepress": "^0.14.11",
     "vuepress-theme-vue": "^1.1.0",
     "webpack": "^4.33.0",
     "webpack-dev-middleware": "^3.7.0",
     "yorkie": "^2.0.0"
+  },
+  "resolutions": {
+    "webpack-dev-middleware": "3.6.2"
   },
   "bugs": {
     "url": "https://github.com/vuejs/vue-router/issues"

@@ -22,7 +22,7 @@ sidebar: auto
 
 Parfois, on voudrait que la classe active soit appliquée à un élément extérieur au lieu de l'élément `<a>` lui-même, dans ce cas, vous pouvez faire le rendu de cet élément extérieur en utilisant `<router-link>` et en entourant le tag `<a>` :
 
-``` html
+```html
 <router-link tag="li" to="/foo">
   <a>/foo</a>
 </router-link>
@@ -37,9 +37,9 @@ Dans ce cas, `<a>` sera le lien actuel (et récupèrera le bon `href`), mais la 
 - type : `string | Location`
 - requis
 
-   Désigne la route cible du lien. Lorsqu'il est cliqué, la valeur de la prop `to` va être passée de manière interne à `router.push`, donc la valeur peut soit être une chaine de caractères, ou alors un objet décrivant une localisation.
+  Désigne la route cible du lien. Lorsqu'il est cliqué, la valeur de la prop `to` va être passée de manière interne à `router.push`, donc la valeur peut soit être une chaine de caractères, ou alors un objet décrivant une localisation.
 
-  ``` html
+  ```html
   <!--  chaine littérale  -->
   <router-link to="home">Accueil</router-link>
   <!-- rend -->
@@ -61,7 +61,6 @@ Dans ce cas, `<a>` sera le lien actuel (et récupèrera le bon `href`), mais la 
   <router-link :to="{ path: 'register', query: { plan: 'private' }}">S'enregistrer</router-link>
   ```
 
-
 ### replace
 
 - type : `boolean`
@@ -69,10 +68,9 @@ Dans ce cas, `<a>` sera le lien actuel (et récupèrera le bon `href`), mais la 
 
   Configurer la prop `replace` appellera `router.replace()` au lieu de `router.push()` lors du clic, comme ça, la navigation ne laissera pas un enregistrement dans l'historique.
 
-  ``` html
+  ```html
   <router-link :to="{ path: '/abc'}" replace></router-link>
   ```
-
 
 ### append
 
@@ -81,10 +79,9 @@ Dans ce cas, `<a>` sera le lien actuel (et récupèrera le bon `href`), mais la 
 
   Configurer la propriété `append` suffixe toujours le chemin relatif au chemin courant. Par exemple, assumons que nous naviguons de `/a` à un lien relatif `b`, sans `append` on finira sur `/b`, mais avec `append` on finira sur `/a/b`.
 
-  ``` html
+  ```html
   <router-link :to="{ path: 'relative/path'}" append></router-link>
   ```
-
 
 ### tag
 
@@ -93,12 +90,11 @@ Dans ce cas, `<a>` sera le lien actuel (et récupèrera le bon `href`), mais la 
 
   Parfois, on veut que `<router-link>` soit rendu avec une balise différente, ex : `<li>`. On peut alors utiliser la prop `tag` pour modifier la balise qui sera rendue, et elle écoutera toujours les évènements de clic pour la navigation.
 
-  ``` html
+  ```html
   <router-link to="/foo" tag="li">foo</router-link>
   <!-- rend -->
   <li>foo</li>
   ```
-
 
 ### active-class
 
@@ -109,20 +105,19 @@ Dans ce cas, `<a>` sera le lien actuel (et récupèrera le bon `href`), mais la 
 
 ### exact
 
-  - type : `boolean`
+- type : `boolean`
+- défaut : `false`
 
-  - défaut : `false`
+Le comportement par défaut de la correspondance de classe active est une **correspondance inclusive**. Par exemple, `<router-link to="/a">` verra cette classe appliquée tant que le chemin courant commencera par `/a/` ou `/a`.
 
-  Le comportement par défaut de la correspondance de classe active est une **correspondance inclusive**. Par exemple, `<router-link to="/a">` verra cette classe appliquée tant que le chemin courant commencera par `/a/` ou `/a`.
+Une conséquence de cela est que `<router-link to="/">` sera actif pour toutes les routes ! Pour forcer le lien dans un « mode correspondance exacte », utilisez la prop `exact`.
 
-  Une conséquence de cela est que `<router-link to="/">` sera actif pour toutes les routes ! Pour forcer le lien dans un « mode correspondance exacte », utilisez la prop `exact`.
+```html
+<!-- ce lien sera uniquement actif à `/` -->
+<router-link to="/" exact></router-link>
+```
 
-  ``` html
-  <!-- ce lien sera uniquement actif à `/` -->
-  <router-link to="/" exact>
-  ```
-
-  Allez voir les exemples expliquant la classe active pour les liens [ici](https://jsfiddle.net/8xrk1n9f/).
+Allez voir les exemples expliquant la classe active pour les liens [ici](https://jsfiddle.net/8xrk1n9f/).
 
 ### event
 
@@ -131,7 +126,7 @@ Dans ce cas, `<a>` sera le lien actuel (et récupèrera le bon `href`), mais la 
 
   Spécifie les évènement(s) que peu(ven)t lancer la navigation de lien.
 
-### exact-active-class**
+### exact-active-class
 
 - type : `string`
 - défaut : `"router-link-exact-active"`
@@ -149,7 +144,7 @@ Le composant `<router-view>` est un composant fonctionnel qui fait le rendu du c
 - type : `string`
 - défaut : `"default"`
 
-  Lorsqu'un `<router-view>` a un nom, il fera le rendu du composant correspondant à ce nom dans les itinéraires de route correspondant à l'option `components`. Voir les [Routes nommées](../essentials/named-views.md) pour un exemple.
+  Lorsqu'un `<router-view>` a un nom, il fera le rendu du composant correspondant à ce nom dans les itinéraires de route correspondant à l'option `components`. Voir les [Routes nommées](../guide/essentials/named-views.md) pour un exemple.
 
 ## Options de construction du routeur
 
@@ -159,22 +154,22 @@ Le composant `<router-view>` est un composant fonctionnel qui fait le rendu du c
 
   Déclaration de type pour `RouteConfig` :
 
-  ``` js
+  ```js
   declare type RouteConfig = {
-    path: string;
-    component?: Component;
-    name?: string; // pour les routes nommées
-    components?: { [name: string]: Component }; // pour les vues nommées
-    redirect?: string | Location | Function;
-    props?: boolean | string | Function;
-    alias?: string | Array<string>;
-    children?: Array<RouteConfig>; // pour les routes imbriquées
-    beforeEnter?: (to: Route, from: Route, next: Function) => void;
-    meta?: any;
+    path: string,
+    component?: Component,
+    name?: string, // pour les routes nommées
+    components?: { [name: string]: Component }, // pour les vues nommées
+    redirect?: string | Location | Function,
+    props?: boolean | string | Function,
+    alias?: string | Array<string>,
+    children?: Array<RouteConfig>, // pour les routes imbriquées
+    beforeEnter?: (to: Route, from: Route, next: Function) => void,
+    meta?: any,
 
     // 2.6.0+
-    caseSensitive?: boolean; // use case sensitive match? (default: false)
-    pathToRegexpOptions?: Object; // path-to-regexp options for compiling regex
+    caseSensitive?: boolean, // use case sensitive match? (default: false)
+    pathToRegexpOptions?: Object, // path-to-regexp options for compiling regex
   }
   ```
 
@@ -190,7 +185,7 @@ Le composant `<router-view>` est un composant fonctionnel qui fait le rendu du c
 
   - `hash` : utilise le hash de l'URL pour le routage. Fonctionne dans tous les navigateurs supportés par Vue, ainsi que ceux qui ne supportent pas l'API History d'HTML5.
 
-  - `history` : nécessite l'API History d'HTML 5 et la configuration du serveur. Voir [Mode historique de HTML5](../essentials/history-mode.md).
+  - `history` : nécessite l'API History d'HTML 5 et la configuration du serveur. Voir [Mode historique de HTML5](../guide/essentials/history-mode.md).
 
   - `abstract` : fonctionne dans tous les environnements JavaScript, ex. côté serveur avec Node.js. **Le routeur sera automatiquement forcé d'utiliser ce mode si aucune API navigateur n'est présente.**
 
@@ -208,7 +203,7 @@ Le composant `<router-view>` est un composant fonctionnel qui fait le rendu du c
 
 - défaut : `"router-link-active"`
 
-  Configure de manière globale la classe active par défaut de `<router-link>`. Voir aussi [router-link](router-link.md).
+  Configure de manière globale la classe active par défaut de `<router-link>`. Voir aussi [router-link](./#router-link).
 
 ### linkExactActiveClass
 
@@ -216,7 +211,7 @@ Le composant `<router-view>` est un composant fonctionnel qui fait le rendu du c
 
 - default : `"router-link-exact-active"`
 
-  Configure de manière globale la classe active par défaut de `<router-link>` lors d'une correspondance exacte. Voir aussi [router-link](router-link.md).
+  Configure de manière globale la classe active par défaut de `<router-link>` lors d'une correspondance exacte. Voir aussi [router-link](./#router-link).
 
 ### scrollBehavior
 
@@ -237,7 +232,7 @@ Le composant `<router-view>` est un composant fonctionnel qui fait le rendu du c
   ) => PositionDescriptor | Promise<PositionDescriptor>
   ```
 
-  Pour plus de détails, voir [Comportement du Scroll](../advanced/scroll-behavior.md).
+  Pour plus de détails, voir [Comportement du Scroll](../guide/advanced/scroll-behavior.md).
 
 ### parseQuery / stringifyQuery
 
@@ -259,78 +254,84 @@ Le composant `<router-view>` est un composant fonctionnel qui fait le rendu du c
 
 - type: `instance de Vue`
 
- L'instance racine de Vue dans laquelle l'instance de `routeur` a été injectée.
+L'instance racine de Vue dans laquelle l'instance de `routeur` a été injectée.
 
 ### router.mode
 
 - type: `string`
 
-  Le [mode](options.md#mode) que le routeur utilise.
+  Le [mode](./#mode) que le routeur utilise.
 
 ### router.currentRoute
 
 - type: `Route`
 
-  La route actuelle représentée en tant qu'un [objet route](route-object.md).
+  La route actuelle représentée en tant qu'un [objet route](./#proprietes-de-l-objet-route).
 
 ## Méthodes
 
 ### router.beforeEach
+
 ### router.beforeResolve
+
 ### router.afterEach
 
-  Ajout des interceptions globales de navigation. Voir les [Intercepteurs de navigation](../advanced/navigation-guards.md).
+Ajout des interceptions globales de navigation. Voir les [Intercepteurs de navigation](../guide/advanced/navigation-guards.md).
 
-  Dans la version 2.5.0+, ces trois méthodes retournent une fonction qui enlève les fonctions d'interception et hooks enregistrés.
+Dans la version 2.5.0+, ces trois méthodes retournent une fonction qui enlève les fonctions d'interception et hooks enregistrés.
 
 ### router.push
+
 ### router.replace
+
 ### router.go
+
 ### router.back
+
 ### router.forward
 
-  Navigue à une nouvelle URL de façon programmée. Voir [Navigation de façon programmée](../essentials/navigation.md).
+Navigue à une nouvelle URL de façon programmée. Voir [Navigation de façon programmée](../guide/essentials/navigation.md).
 
 ### router.getMatchedComponents
 
-  Retourne un tableau de composants (définition/constructeur et non les instances) correspondant à la `location` passée en paramètre, ou alors de la route actuelle. Cette fonction est principalement utilisée pendant le rendu côté serveur afin d'effectuer une prérécupération des données.
+Retourne un tableau de composants (définition/constructeur et non les instances) correspondant à la `location` passée en paramètre, ou alors de la route actuelle. Cette fonction est principalement utilisée pendant le rendu côté serveur afin d'effectuer une prérécupération des données.
 
 ### router.resolve
 
-  Inverse la résolution d'URL. La `location` doit avoir la même forme qu'utilisée dans `<router-link>`, retourne un objet avec les propriétés suivantes :
+Inverse la résolution d'URL. La `location` doit avoir la même forme qu'utilisée dans `<router-link>`, retourne un objet avec les propriétés suivantes :
 
-  ``` js
-  {
-    location: Location;
-    route: Route;
-    href: string;
-  }
-  ```
+```js
+{
+  location: Location
+  route: Route
+  href: string
+}
+```
 
-  - `current` is the current Route by default (most of the time you don't need to change this)
-  - `append` allows you to append the path to the `current` route (as with [`router-link`](router-link.md#props))
+- `current` is the current Route by default (most of the time you don't need to change this)
+- `append` allows you to append the path to the `current` route (as with [`router-link`](./#router-link-props))
 
 ### router.addRoutes
 
-  Permet d'ajouter dynamiquement des routes au routeur. L'argument doit être un tableau utilisant le même format de configuration que l'option `routes` du constructeur.
+Permet d'ajouter dynamiquement des routes au routeur. L'argument doit être un tableau utilisant le même format de configuration que l'option `routes` du constructeur.
 
 ### router.onReady
 
-  Cette méthode met en file d'attente une fonction de rappel qui sera appelée lorsque le routeur aura complété la navigation initiale, ce qui signifie qu'il a résolu tous les hooks d'entrées asynchrones et composants asynchrones qui sont associés à la route initiale.
+Cette méthode met en file d'attente une fonction de rappel qui sera appelée lorsque le routeur aura complété la navigation initiale, ce qui signifie qu'il a résolu tous les hooks d'entrées asynchrones et composants asynchrones qui sont associés à la route initiale.
 
-  C'est utile pendant un rendu côté serveur pour assurer une sortie consistance sur le serveur et le client.
+C'est utile pendant un rendu côté serveur pour assurer une sortie consistance sur le serveur et le client.
 
-  Le deuxième argument `errorCallback` est uniquement supporté à partir de la version 2.4. Il sera appelé lorsque la résolution de la route initiale résultera en une erreur (ex. : la résolution d'un composant asynchrone qui a échoué).
+Le deuxième argument `errorCallback` est uniquement supporté à partir de la version 2.4. Il sera appelé lorsque la résolution de la route initiale résultera en une erreur (ex. : la résolution d'un composant asynchrone qui a échoué).
 
 ### router.onError
 
-  Enregistre une fonction de rappel qui sera appelée lorsqu'une erreur sera capturée pendant la navigation vers une route. Notez que pour qu'une erreur soit appelée, cela doit correspondre à l'un des scénarios suivants :
+Enregistre une fonction de rappel qui sera appelée lorsqu'une erreur sera capturée pendant la navigation vers une route. Notez que pour qu'une erreur soit appelée, cela doit correspondre à l'un des scénarios suivants :
 
-  - L'erreur est lancée de manière synchrone à l'intérieur d'une fonction d'interception de route ;
+- L'erreur est lancée de manière synchrone à l'intérieur d'une fonction d'interception de route ;
 
-  - L'erreur est capturée et traitée de manière asynchrone en appelant `next(err)` à l'intérieur d'une fonction d'interception de route ;
+- L'erreur est capturée et traitée de manière asynchrone en appelant `next(err)` à l'intérieur d'une fonction d'interception de route ;
 
-  - Une erreur est survenue pendant la résolution d'un composant asynchrone qui est requis pour faire le rendu d'une route.
+- Une erreur est survenue pendant la résolution d'un composant asynchrone qui est requis pour faire le rendu d'une route.
 
 # L'objet `Route`
 
@@ -348,7 +349,7 @@ L'objet `Route` peut être trouvé à plusieurs endroits :
 
 - À l'intérieur des fonctions d'interception de la navigation, dans les deux premiers paramètres de la fonction :
 
-  ``` js
+  ```js
   router.beforeEach((to, from, next) => {
     // `to` et `from` sont tous les deux des objets Route
   })
@@ -356,75 +357,77 @@ L'objet `Route` peut être trouvé à plusieurs endroits :
 
 - À l'intérieur de la fonction `scrollBehavior` dans les deux premiers arguments :
 
-  ``` js
+  ```js
   const router = new VueRouter({
-    scrollBehavior (to, from, savedPosition) {
+    scrollBehavior(to, from, savedPosition) {
       // `to` et `from` sont tous les deux des objets Route
-    }
+    },
   })
   ```
 
 ### Propriétés de l'objet `Route`
 
-- **$route.path**
+- **\$route.path**
 
   - type : `string`
 
     Une chaine de caractères représentant le chemin de la route en cours, toujours résolue en tant que chemin absolu, ex : `"/foo/bar"`.
 
-- **$route.params**
+- **\$route.params**
 
   - type : `Object`
 
-    Un objet qui contient des pairs clé/valeur de segments dynamiques et segments *star*. S'il n'y a pas de paramètres, alors la valeur sera un objet vide.
+    Un objet qui contient des pairs clé/valeur de segments dynamiques et segments _star_. S'il n'y a pas de paramètres, alors la valeur sera un objet vide.
 
-- **$route.query**
+- **\$route.query**
 
   - type : `Object`
 
     Un objet qui contient des pairs clé/valeur de la requête au format d'une chaine de caractères. Par exemple, pour un chemin `/foo?user=1`, on aura `$route.query.user == 1`. S'il n'y a pas de requête, alors la valeur sera un objet vide.
 
-- **$route.hash**
+- **\$route.hash**
 
   - type : `string`
 
     Le hash de la route courante (avec le `#`), s'il y en a un. S'il n'y a pas de hash, alors la valeur sera une chaine de caractères vide.
 
-- **$route.fullPath**
+- **\$route.fullPath**
 
   - type : `string`
 
     L'URL entièrement résolu, incluant la requête et le hash.
 
-- **$route.matched**
+- **\$route.matched**
 
   - type : `Array<RouteRecord>`
 
     Un `Array` contenant les **les itinéraires de la route** pour chaque segment de chemin imbriqué de la route courante. Les itinéraires de la route sont des copies des objets dans le tableau de configuration `routes` (et dans les tableaux `children`).
 
-  ``` js
+  ```js
   const router = new VueRouter({
     routes: [
       // l'objet qui suit est un itinéraire de route
-      { path: '/foo', component: Foo,
+      {
+        path: '/foo',
+        component: Foo,
         children: [
           // c'est aussi un itinéraire
-          { path: 'bar', component: Bar }
-        ]
-      }
-    ]
+          { path: 'bar', component: Bar },
+        ],
+      },
+    ],
   })
   ```
 
   Lorsque l'URL sera `/foo/bar`, `$route.matched` sera un `Array` contenant les deux objets (clonés), dans l'ordre parent à l'enfant.
 
-- **$route.name**
+- **\$route.name**
 
-  Le nom de la route courante, si elle en a un. (Voir [Routes nommées](../essentials/named-routes.md)).
+  Le nom de la route courante, si elle en a un. (Voir [Routes nommées](../guide/essentials/named-routes.md)).
 
-- **$route.redirectedFrom**
+- **\$route.redirectedFrom**
 
-  Le nom de la route d'où la page a été redirigée, si elle en a un. (Voir [Redirection et alias](../essentials/redirect-and-alias.md)).
+  Le nom de la route d'où la page a été redirigée, si elle en a un. (Voir [Redirection et alias](../guide/essentials/redirect-and-alias.md)).
 
 ## Injections de composant
 
@@ -432,13 +435,13 @@ L'objet `Route` peut être trouvé à plusieurs endroits :
 
 Ces propriétés sont injectées dans chacun des composants enfants, en passant l'instance du routeur à l'application racine de Vue en tant qu'option `router`.
 
-- **$router**
+- **\$router**
 
   L'instance du routeur.
 
-- **$route**
+- **\$route**
 
- La [Route](route-object.md) actuellement active. C'est une propriété en lecture seule et ses propriétés sont immutables, mais elles restent malgré tout observables.
+La [Route](./#proprietes-de-l-objet-route) actuellement active. C'est une propriété en lecture seule et ses propriétés sont immutables, mais elles restent malgré tout observables.
 
 ### Options activées
 
@@ -446,4 +449,4 @@ Ces propriétés sont injectées dans chacun des composants enfants, en passant 
 - **beforeRouteUpdate** (ajouté en 2.2)
 - **beforeRouteLeave**
 
-  Voir l'[interception par composant](../advanced/navigation-guards.md#securisation-par-composant).
+  Voir l'[interception par composant](../guide/advanced/navigation-guards.md#securisation-par-composant).

@@ -10472,10 +10472,10 @@ vuepress-theme-vue@^1.1.0:
   resolved "https://registry.yarnpkg.com/vuepress-theme-vue/-/vuepress-theme-vue-1.1.0.tgz#8b109e3db8cad7b18459f4d77076808110c2bcaa"
   integrity sha512-oYbfWkeaQ6aUU8sl8fMzLnBnvsd23V0wkiqI0bR3Tq3mlI8EJu26PFOyyF7KvJu0qNo/lcL7CDSmX7ymUVpnvw==
 
-vuepress@^0.14.1:
-  version "0.14.10"
-  resolved "https://registry.yarnpkg.com/vuepress/-/vuepress-0.14.10.tgz#070281ad0c9d48e7c848eb9511c96ceb106414ab"
-  integrity sha512-upD0br3AUmZQ+kNJMg135jW36JjYAdShl6XYwDmVMw4XbtcLDSMGWTLqLCQN3PTIs/7TgiJ3cLWNL1ps63gyUQ==
+vuepress@^0.14.11:
+  version "0.14.11"
+  resolved "https://registry.yarnpkg.com/vuepress/-/vuepress-0.14.11.tgz#fc6ba0e609e3433a8070e95301b4d987712b2a08"
+  integrity sha512-5iB7iWeEG7GtEiNwmS2LOcifp2V93aZ4+oO9pq8OcUgOWay9/NqmNqzg7KQ7AJ0puZGg0tYwUKKjifIWIPE8jQ==
   dependencies:
     "@babel/core" "7.0.0-beta.47"
     "@vue/babel-preset-app" "3.0.0-beta.11"
@@ -10551,10 +10551,10 @@ webpack-chain@^4.6.0:
     deepmerge "^1.5.2"
     javascript-stringify "^1.6.0"
 
-webpack-dev-middleware@^3.0.0:
-  version "3.6.1"
-  resolved "https://registry.yarnpkg.com/webpack-dev-middleware/-/webpack-dev-middleware-3.6.1.tgz#91f2531218a633a99189f7de36045a331a4b9cd4"
-  integrity sha512-XQmemun8QJexMEvNFbD2BIg4eSKrmSIMrTfnl2nql2Sc6OGAYFyb8rwuYrCjl/IiEYYuyTEiimMscu7EXji/Dw==
+webpack-dev-middleware@3.6.2, webpack-dev-middleware@^3.0.0:
+  version "3.6.2"
+  resolved "https://registry.yarnpkg.com/webpack-dev-middleware/-/webpack-dev-middleware-3.6.2.tgz#f37a27ad7c09cd7dc67cd97655413abaa1f55942"
+  integrity sha512-A47I5SX60IkHrMmZUlB0ZKSWi29TZTcPz7cha1Z75yYOsgWh/1AcPmQEbC8ZIbU3A1ytSv1PMU0PyPz2Lmz2jg==
   dependencies:
     memory-fs "^0.4.1"
     mime "^2.3.1"
