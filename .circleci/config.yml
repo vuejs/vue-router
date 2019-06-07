@@ -3,7 +3,7 @@ version: 2
 defaults: &defaults
   working_directory: ~/project/vue-router
   docker:
-    - image: vuejs/ci
+    - image: circleci/node:lts-browsers
 
 jobs:
   install:
