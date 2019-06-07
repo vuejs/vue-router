@@ -11,5 +11,6 @@ docs/.vuepress/dist
 yarn-error.log
 .idea
 .vscode/settings.json
-keys.env
+.env
 selenium-server.log
+local.log

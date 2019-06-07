@@ -1,3 +1,25 @@
+/**
+ * Running tests
+ *
+ * By default tests are run locally on chrome headless
+ * $ node test/e2e/runner.js
+ *
+ * You can run a specific test by passing it, or pass various tests
+ * $ node test/e2e/runner.js test/e2e/specs/basic.js test/e2e/specs/redirect.js
+ *
+ * You can specify a list of browsers to run from nightwatch.config.js with -e separated by a comma
+ * $ node test/e2e/runner.js -e safari,firefox
+ *
+ * If you are already running the dev server with `yarn run serve`, you can pass the --dev option to avoid launching the server
+ * $ node test/e2e/runner.js --dev
+ *
+ * __For maintainers only__
+ * You can trigger tests on Browserstack on other browsers by passing the --local option
+ * It's also required to pass the list of browsers to test on to avoid launching too many tests. Available options are located inside nightwatch.browserstack.js
+ * $ node test/e2e/runner.js --local -e ie,chrome50
+ */
+
+require('dotenv').config()
 const { resolve } = require('path')
 const Nightwatch = require('nightwatch')
 const args = process.argv.slice(2)
@@ -6,37 +28,101 @@ const args = process.argv.slice(2)
 const server =
   args.indexOf('--dev') > -1 ? null : require('../../examples/server')
 
-const DEFAULT_CONFIG = './nightwatch.json'
+// allow running browserstack local
+const isLocal = args.indexOf('--local') > -1
 
-// read the CLI arguments
-Nightwatch.cli(function (argv) {
+const DEFAULT_CONFIG = './nightwatch.json'
+const NW_CONFIG = isLocal
+  ? resolve(__dirname, './nightwatch.browserstack.js')
+  : resolve(__dirname, './nightwatch.config.js')
+
+// add a configuration by default if not provided
+if (args.indexOf('-c') < -1) {
+  args.push('-c', NW_CONFIG)
+}
+
+function adaptArgv (argv) {
   // take every remaining argument and treat it as a test file
   // this allows to run `node test/e2e/runner.js test/e2e/basic.js`
   argv.test = argv['_'].slice(0)
 
-  // add a configuration by default if not provided
   if (argv.c === DEFAULT_CONFIG && argv.config === DEFAULT_CONFIG) {
-    argv.config = resolve(__dirname, './nightwatch.config.js')
+    argv.config = argv.c = NW_CONFIG
   }
   // Nightwatch does not accept an array with one element
   if (argv.test.length === 1) argv.test = argv.test[0]
 
-  // create the Nightwatch CLI runner
-  const runner = Nightwatch.CliRunner(argv)
+  // debugging easily
+  // console.log(argv)
+  // process.exit(0)
+}
 
-  // setup and run tests
-  runner
-    .setup()
-    .startWebDriver()
-    .then(() => runner.runTests())
-    .then(() => {
-      runner.stopWebDriver()
-      server && server.close()
-      process.exit(0)
-    })
-    .catch(err => {
-      server && server.close()
+if (isLocal) {
+  process.mainModule.filename = resolve(
+    __dirname,
+    '../../node_modules/.bin/nightwatch'
+  )
+  let bsLocal
+  const browserstack = require('browserstack-local')
+  Nightwatch.bs_local = bsLocal = new browserstack.Local()
+  bsLocal.start({ key: process.env.BS_KEY }, function (error) {
+    if (error) throw error
+
+    console.log('Connected. Now testing...')
+    try {
+      Nightwatch.cli(function (argv) {
+        adaptArgv(argv)
+        console.log(argv)
+        Nightwatch.CliRunner(argv)
+          .setup(null, function () {
+            // NOTE: I don't know when this is running or if it does
+            // Code to stop browserstack local after end of parallel test
+            bsLocal.stop(function () {
+              server && server.close()
+              process.exit(0)
+            })
+          })
+          .runTests()
+          .then(() => {
+            // Code to stop browserstack local after end of single test
+            bsLocal.stop(function () {
+              server && server.close()
+              process.exit(0)
+            })
+          })
+          .catch(() => {
+            server && server.close()
+            // fail execution
+            process.exit(1)
+          })
+      })
+    } catch (err) {
       console.error(err)
-      process.exit(1)
-    })
-})
+      bsLocal.stop(() => {
+        process.exit(1)
+      })
+    }
+  })
+} else {
+  // create the Nightwatch CLI runner
+  Nightwatch.cli(function (argv) {
+    adaptArgv(argv)
+    const runner = Nightwatch.CliRunner(argv)
+
+    // setup and run tests
+    runner
+      .setup()
+      .startWebDriver()
+      .then(() => runner.runTests())
+      .then(() => {
+        runner.stopWebDriver()
+        server && server.close()
+        process.exit(0)
+      })
+      .catch(err => {
+        server && server.close()
+        console.error(err)
+        process.exit(1)
+      })
+  })
+}
