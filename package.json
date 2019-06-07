@@ -59,7 +59,7 @@
     "buble": "^0.19.3",
     "chromedriver": "^2.35.0",
     "conventional-changelog-cli": "^2.0.11",
-    "cross-spawn": "^5.0.1",
+    "cross-spawn": "^6.0.5",
     "css-loader": "^2.1.1",
     "es6-promise": "^4.2.8",
     "eslint": "^4.19.1",

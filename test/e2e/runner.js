@@ -19,6 +19,8 @@ if (args.indexOf('phantomjs') > -1) {
   process.env.PHANTOMJS = true
 }
 
+// TODO: update while updating nightwatch
+// https://github.com/nightwatchjs/nightwatch/releases?after=v1.0.2
 var runner = spawn('./node_modules/.bin/nightwatch', args, {
   stdio: 'inherit'
 })
