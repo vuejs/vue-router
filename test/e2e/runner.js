@@ -57,11 +57,12 @@ function adaptArgv (argv) {
   // process.exit(0)
 }
 
+process.mainModule.filename = resolve(
+  __dirname,
+  '../../node_modules/.bin/nightwatch'
+)
+
 if (isLocal) {
-  process.mainModule.filename = resolve(
-    __dirname,
-    '../../node_modules/.bin/nightwatch'
-  )
   let bsLocal
   const browserstack = require('browserstack-local')
   Nightwatch.bs_local = bsLocal = new browserstack.Local()
