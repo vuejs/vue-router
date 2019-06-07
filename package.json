@@ -82,7 +82,7 @@
     "rollup-plugin-replace": "^2.0.0",
     "rollup-watch": "^4.0.0",
     "selenium-server": "^2.53.1",
-    "terser": "^3.17.0",
+    "terser": "^4.0.0",
     "typescript": "^3.5.1",
     "vue": "^2.5.16",
     "vue-loader": "^15.2.1",
