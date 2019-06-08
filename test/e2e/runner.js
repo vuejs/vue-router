@@ -84,19 +84,18 @@ if (isLocal) {
   let bsLocal
   const browserstack = require('browserstack-local')
   Nightwatch.bs_local = bsLocal = new browserstack.Local()
-  bsLocal.start({ key: process.env.BS_KEY }, function (error) {
+  bsLocal.start({ key: process.env.BS_KEY }, error => {
     if (error) throw error
 
     console.log('Connected. Now testing...')
     try {
-      Nightwatch.cli(function (argv) {
+      Nightwatch.cli(argv => {
         adaptArgv(argv)
-        console.log(argv)
         Nightwatch.CliRunner(argv)
-          .setup(null, function () {
+          .setup(null, () => {
             // NOTE: I don't know when this is running or if it does
             // Code to stop browserstack local after end of parallel test
-            bsLocal.stop(function () {
+            bsLocal.stop(() => {
               server && server.close()
               process.exit(0)
             })
@@ -104,7 +103,7 @@ if (isLocal) {
           .runTests()
           .then(() => {
             // Code to stop browserstack local after end of single test
-            bsLocal.stop(function () {
+            bsLocal.stop(() => {
               server && server.close()
               process.exit(0)
             })
@@ -124,7 +123,7 @@ if (isLocal) {
   })
 } else {
   // create the Nightwatch CLI runner
-  Nightwatch.cli(function (argv) {
+  Nightwatch.cli(argv => {
     adaptArgv(argv)
     const runner = Nightwatch.CliRunner(argv)
 

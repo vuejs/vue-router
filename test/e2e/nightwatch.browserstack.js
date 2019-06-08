@@ -4,6 +4,7 @@
 
 const BS_USER = process.env.BS_USER
 const BS_KEY = process.env.BS_KEY
+const isCI = process.env.CI
 
 if (!BS_USER || !BS_KEY) {
   console.log(
@@ -12,7 +13,8 @@ if (!BS_USER || !BS_KEY) {
     'If you are a contributor, this is normal, credentials are private. These tests must be run by a maintainer of vue-router',
     'If you are a maintainer, you forgot to `source keys.env`!'
   )
-  process.exit(0)
+  // fail if testing locally
+  process.exit(isCI ? 0 : 1)
 }
 
 const nwConf = {
@@ -58,10 +60,19 @@ const nwConf = {
       }
     },
 
-    ie: {
+    ie9: {
       desiredCapabilities: {
         browser: 'internet explorer',
         browser_version: '9'
+        // name: 'Bstack-[Nightwatch] Vue Router',
+        // 'browserstack.video': true
+      }
+    },
+
+    ie: {
+      desiredCapabilities: {
+        browser: 'internet explorer',
+        browser_version: '11'
         // name: 'Bstack-[Nightwatch] Vue Router',
         // 'browserstack.video': true
       }

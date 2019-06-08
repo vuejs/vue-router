@@ -55,6 +55,13 @@ jobs:
           at: ~/project
       - run: npm run test:e2e
 
+  test-e2e-browserstack:
+    <<: *defaults
+    steps:
+      - attach_workspace:
+          at: ~/project
+      - run: npm run test:e2e:ci
+
 workflows:
   version: 2
   install-and-parallel-test:
@@ -67,5 +74,8 @@ workflows:
           requires:
             - install
       - test-e2e:
+          requires:
+            - install
+      - test-e2e-browserstack:
           requires:
             - install
