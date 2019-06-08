@@ -46,6 +46,18 @@ const nwConf = {
       }
     },
 
+    firefox: {
+      desiredCapabilities: {
+        browser: 'firefox'
+      }
+    },
+
+    safari: {
+      desiredCapabilities: {
+        browser: 'safari'
+      }
+    },
+
     ie: {
       desiredCapabilities: {
         browser: 'internet explorer',

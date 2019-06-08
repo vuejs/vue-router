@@ -59,14 +59,12 @@ module.exports = {
         browserName: 'firefox',
         acceptSslCerts: true
       }
-    }
+    },
 
-    // phantomjs: {
-    //   desiredCapabilities: {
-    //     browserName: 'phantomjs',
-    //     javascriptEnabled: true,
-    //     acceptSslCerts: true,
-    //   },
-    // },
+    ie: {
+      desiredCapabilities: {
+        browser: 'internet explorer'
+      }
+    }
   }
 }

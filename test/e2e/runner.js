@@ -37,8 +37,26 @@ const NW_CONFIG = isLocal
   : resolve(__dirname, './nightwatch.config.js')
 
 // add a configuration by default if not provided
-if (args.indexOf('-c') < -1) {
+// add a configuration by default if not provided
+if (args.indexOf('-c') < 0) {
   args.push('-c', NW_CONFIG)
+  // check if multiple envs are provided. The way Nightwatch works
+  // requires to explicitely provide the conf
+  const envs = args[args.indexOf('-e') + 1]
+  if (!envs || envs.indexOf(',') > -1) {
+    console.warn(
+      `Specify the conf with providing multiple browsers:\n$ yarn run test:e2e ${args.join(
+        ' '
+      )} -c ${NW_CONFIG}`
+    )
+    process.exit(1)
+  }
+} else if (isLocal) {
+  const conf = args[args.indexOf('-c') + 1]
+  if (resolve('.', conf) !== NW_CONFIG) {
+    console.warn('The passed config should be', NW_CONFIG)
+    process.exit(1)
+  }
 }
 
 function adaptArgv (argv) {
