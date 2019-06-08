@@ -76,6 +76,22 @@ const nwConf = {
         // name: 'Bstack-[Nightwatch] Vue Router',
         // 'browserstack.video': true
       }
+    },
+
+    android44: {
+      desiredCapabilities: {
+        device: 'Google Nexus 5',
+        realMobile: 'true',
+        os_version: '4.4'
+      }
+    },
+
+    ios7: {
+      desiredCapabilities: {
+        device: 'iPhone 7',
+        realMobile: 'true',
+        os_version: '10'
+      }
     }
   }
 }
