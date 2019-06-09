@@ -1,4 +1,8 @@
+const bsStatus = require('../browserstack-send-status')
+
 module.exports = {
+  ...bsStatus(),
+
   'auth flow': function (browser) {
     browser
       .url('http://localhost:8080/auth-flow/')
@@ -20,7 +24,7 @@ module.exports = {
       .assert.containsText('#app h2', 'Dashboard')
       .assert.containsText('#app p', 'Yay you made it!')
 
-    // reload
+      // reload
       .url('http://localhost:8080/auth-flow/')
       .waitForElementVisible('#app', 1000)
       .assert.containsText('#app p', 'You are logged in')
@@ -31,7 +35,7 @@ module.exports = {
       .assert.containsText('#app h2', 'Dashboard')
       .assert.containsText('#app p', 'Yay you made it!')
 
-    // directly visit dashboard when logged in
+      // directly visit dashboard when logged in
       .url('http://localhost:8080/auth-flow/dashboard')
       .waitForElementVisible('#app', 1000)
       .assert.urlEquals('http://localhost:8080/auth-flow/dashboard')
@@ -43,7 +47,7 @@ module.exports = {
       .assert.urlEquals('http://localhost:8080/auth-flow/')
       .assert.containsText('#app p', 'You are logged out')
 
-    // directly visit dashboard when logged out
+      // directly visit dashboard when logged out
       .url('http://localhost:8080/auth-flow/dashboard')
       .waitForElementVisible('#app', 1000)
       .assert.urlEquals('http://localhost:8080/auth-flow/login?redirect=%2Fdashboard')

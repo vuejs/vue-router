@@ -22,6 +22,11 @@ const nwConf = {
   output_folder: 'test/e2e/reports',
   custom_commands_path: ['node_modules/nightwatch-helpers/commands'],
   custom_assertions_path: ['node_modules/nightwatch-helpers/assertions'],
+  // set to true when testing on multiple browsers (-e chrome,firefox) to display tests as they pass instead of waiting for everything to be finished
+  live_output: true,
+
+  // this couldn't work at the end, so we used ./browserstack-send-status.js
+  // globals_path: resolve(__dirname, './globalModules.js'),
 
   selenium: {
     start_process: false,
@@ -105,8 +110,7 @@ for (const setting in nwConf.test_settings) {
   // merge common_capabilities
   for (const key in nwConf.common_capabilities) {
     // fallback to common_capabilities
-    config['desiredCapabilities'][key] =
-      config['desiredCapabilities'][key] || nwConf.common_capabilities[key]
+    config['desiredCapabilities'][key] = config['desiredCapabilities'][key] || nwConf.common_capabilities[key]
   }
 }
 

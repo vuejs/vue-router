@@ -1,7 +1,11 @@
-const $attrs = ' { "foo": "123" }'
+const bsStatus = require('../browserstack-send-status')
 
 module.exports = {
+  ...bsStatus(),
+
   'route-props': function (browser) {
+    const $attrs = ' { "foo": "123" }'
+
     browser
       .url('http://localhost:8080/route-props/')
       .waitForElementVisible('#app', 1000)
@@ -20,7 +24,7 @@ module.exports = {
 
       .click('li:nth-child(4) a')
       .assert.urlEquals('http://localhost:8080/route-props/dynamic/1')
-      .assert.containsText('.hello', 'Hello ' + ((new Date()).getFullYear() + 1) + '!' + $attrs)
+      .assert.containsText('.hello', 'Hello ' + (new Date().getFullYear() + 1) + '!' + $attrs)
 
       .click('li:nth-child(5) a')
       .assert.urlEquals('http://localhost:8080/route-props/attrs')

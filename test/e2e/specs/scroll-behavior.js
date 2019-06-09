@@ -1,4 +1,8 @@
+const bsStatus = require('../browserstack-send-status')
+
 module.exports = {
+  ...bsStatus(),
+
   'scroll behavior': function (browser) {
     const TIMEOUT = 2000
 
@@ -20,9 +24,13 @@ module.exports = {
       })
       .waitForElementPresent('.view.home', TIMEOUT)
       .assert.containsText('.view', 'home')
-      .assert.evaluate(function () {
-        return window.pageYOffset === 100
-      }, null, 'restore scroll position on back')
+      .assert.evaluate(
+        function () {
+          return window.pageYOffset === 100
+        },
+        null,
+        'restore scroll position on back'
+      )
 
       // with manual scroll restoration
       // https://developers.google.com/web/updates/2015/09/history-api-scroll-restoration
@@ -39,9 +47,13 @@ module.exports = {
       })
       .waitForElementPresent('.view.home', TIMEOUT)
       .assert.containsText('.view', 'home')
-      .assert.evaluate(function () {
-        return window.pageYOffset === 100
-      }, null, 'restore scroll position on back with manual restoration')
+      .assert.evaluate(
+        function () {
+          return window.pageYOffset === 100
+        },
+        null,
+        'restore scroll position on back with manual restoration'
+      )
       .execute(function () {
         history.scrollRestoration = 'auto'
       })
@@ -53,36 +65,56 @@ module.exports = {
       })
       .waitForElementPresent('.view.foo', TIMEOUT)
       .assert.containsText('.view', 'foo')
-      .assert.evaluate(function () {
-        return window.pageYOffset === 200
-      }, null, 'restore scroll position on forward')
+      .assert.evaluate(
+        function () {
+          return window.pageYOffset === 200
+        },
+        null,
+        'restore scroll position on forward'
+      )
 
       .execute(function () {
         window.history.back()
       })
       .waitForElementPresent('.view.home', TIMEOUT)
       .assert.containsText('.view', 'home')
-      .assert.evaluate(function () {
-        return window.pageYOffset === 50
-      }, null, 'restore scroll position on back again')
+      .assert.evaluate(
+        function () {
+          return window.pageYOffset === 50
+        },
+        null,
+        'restore scroll position on back again'
+      )
 
       .click('li:nth-child(3) a')
       .waitForElementPresent('.view.bar', TIMEOUT)
-      .assert.evaluate(function () {
-        return window.pageYOffset === 0
-      }, null, 'scroll to top on new entry')
+      .assert.evaluate(
+        function () {
+          return window.pageYOffset === 0
+        },
+        null,
+        'scroll to top on new entry'
+      )
 
       .click('li:nth-child(4) a')
-      .assert.evaluate(function () {
-        return document.getElementById('anchor').getBoundingClientRect().top < 1
-      }, null, 'scroll to anchor')
+      .assert.evaluate(
+        function () {
+          return document.getElementById('anchor').getBoundingClientRect().top < 1
+        },
+        null,
+        'scroll to anchor'
+      )
 
       .execute(function () {
         document.querySelector('li:nth-child(5) a').click()
       })
-      .assert.evaluate(function () {
-        return document.getElementById('anchor2').getBoundingClientRect().top < 101
-      }, null, 'scroll to anchor with offset')
+      .assert.evaluate(
+        function () {
+          return document.getElementById('anchor2').getBoundingClientRect().top < 101
+        },
+        null,
+        'scroll to anchor with offset'
+      )
       .end()
   }
 }

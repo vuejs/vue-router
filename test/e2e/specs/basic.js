@@ -1,4 +1,8 @@
+const bsStatus = require('../browserstack-send-status')
+
 module.exports = {
+  ...bsStatus(),
+
   basic: function (browser) {
     browser
       .url('http://localhost:8080/basic/')

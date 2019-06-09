@@ -1,5 +1,9 @@
+const bsStatus = require('../browserstack-send-status')
+
 module.exports = {
-  'basic': function (browser) {
+  ...bsStatus(),
+
+  basic: function (browser) {
     browser
       .url('http://localhost:8080/nested-router/')
       .waitForElementVisible('#app', 1000)

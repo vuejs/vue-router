@@ -5,6 +5,8 @@ module.exports = {
   output_folder: 'test/e2e/reports',
   custom_commands_path: ['node_modules/nightwatch-helpers/commands'],
   custom_assertions_path: ['node_modules/nightwatch-helpers/assertions'],
+  // set to true when testing on multiple browsers (-e chrome,firefox) to display tests as they pass instead of waiting for everything to be finished
+  live_output: false,
 
   selenium: {
     start_process: true,

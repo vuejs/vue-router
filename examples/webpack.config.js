@@ -41,10 +41,7 @@ module.exports = {
       },
       {
         test: /\.css$/,
-        use: [
-          'vue-style-loader',
-          'css-loader'
-        ]
+        use: ['vue-style-loader', 'css-loader']
       }
     ]
   },
@@ -68,7 +65,5 @@ module.exports = {
     }
   },
 
-  plugins: [
-    new VuePlugin()
-  ]
+  plugins: [new VuePlugin()]
 }

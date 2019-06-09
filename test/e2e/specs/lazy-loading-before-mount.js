@@ -1,4 +1,8 @@
+const bsStatus = require('../browserstack-send-status')
+
 module.exports = {
+  ...bsStatus(),
+
   'lazy loading before mount': function (browser) {
     browser
       .url('http://localhost:8080/lazy-loading-before-mount/')

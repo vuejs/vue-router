@@ -1,5 +1,9 @@
+const bsStatus = require('../browserstack-send-status')
+
 module.exports = {
-  'transitions': function (browser) {
+  ...bsStatus(),
+
+  transitions: function (browser) {
     const TIMEOUT = 2000
 
     browser

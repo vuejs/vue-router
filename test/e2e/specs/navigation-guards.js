@@ -1,4 +1,8 @@
+const bsStatus = require('../browserstack-send-status')
+
 module.exports = {
+  ...bsStatus(),
+
   'navigation guards with alerts': function (browser) {
     browser
       .url('http://localhost:8080/navigation-guards/')
@@ -140,14 +144,10 @@ module.exports = {
 
       // beforeRouteEnter order in children
       .click('li:nth-child(9) a')
-      .assert.urlEquals(
-        'http://localhost:8080/navigation-guards/parent/child/2'
-      )
+      .assert.urlEquals('http://localhost:8080/navigation-guards/parent/child/2')
       .assert.containsText('#bre-order', 'parent mixin child 2')
       .click('#nested-parent a')
-      .assert.urlEquals(
-        'http://localhost:8080/navigation-guards/parent/child/1'
-      )
+      .assert.urlEquals('http://localhost:8080/navigation-guards/parent/child/1')
       .assert.containsText('#bre-order', 'parent mixin child 2 mixin child 1')
       .end()
   }

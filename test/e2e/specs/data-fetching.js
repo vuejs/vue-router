@@ -1,4 +1,8 @@
+const bsStatus = require('../browserstack-send-status')
+
 module.exports = {
+  ...bsStatus(),
+
   'data fetching': function (browser) {
     browser
       .url('http://localhost:8080/data-fetching/')

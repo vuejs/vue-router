@@ -1,4 +1,8 @@
+const bsStatus = require('../browserstack-send-status')
+
 module.exports = {
+  ...bsStatus(),
+
   'Hash mode': function (browser) {
     browser
       .url('http://localhost:8080/hash-mode/')
@@ -29,7 +33,7 @@ module.exports = {
       .assert.urlEquals('http://localhost:8080/hash-mode/#/bar')
       .assert.containsText('.view', 'bar')
 
-    // check initial visit
+      // check initial visit
       .url('http://localhost:8080/hash-mode/#/foo')
       .waitForElementVisible('#app', 1000)
       .assert.containsText('.view', 'foo')
