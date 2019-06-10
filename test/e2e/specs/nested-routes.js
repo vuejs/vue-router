@@ -3,6 +3,8 @@ const bsStatus = require('../browserstack-send-status')
 module.exports = {
   ...bsStatus(),
 
+  '@tags': ['history'],
+
   'nested routes': function (browser) {
     browser
       .url('http://localhost:8080/nested-routes/')

@@ -3,6 +3,8 @@ const bsStatus = require('../browserstack-send-status')
 module.exports = {
   ...bsStatus(),
 
+  '@tags': ['history'],
+
   transitions: function (browser) {
     const TIMEOUT = 2000
 

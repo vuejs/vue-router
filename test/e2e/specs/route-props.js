@@ -3,6 +3,8 @@ const bsStatus = require('../browserstack-send-status')
 module.exports = {
   ...bsStatus(),
 
+  '@tags': ['history'],
+
   'route-props': function (browser) {
     const $attrs = ' { "foo": "123" }'
 

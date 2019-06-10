@@ -35,6 +35,7 @@
     "test:e2e": "node test/e2e/runner.js",
     "test:e2e:ci": "node test/e2e/runner.js --local -e ie,android44 -c test/e2e/nightwatch.browserstack.js test/e2e/specs/active-links.js",
     "test:e2e:ff": "node test/e2e/runner.js -e firefox -c test/e2e/nightwatch.config.js",
+    "test:e2e:ie9": "node test/e2e/runner.js --local -e ie9 -c test/e2e/nightwatch.browserstack.js --skiptags history,ie9-fail",
     "test:types": "tsc -p types/test",
     "docs": "vuepress dev docs",
     "docs:build": "vuepress build docs",

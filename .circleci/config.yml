@@ -55,12 +55,12 @@ jobs:
           at: ~/project
       - run: npm run test:e2e
 
-  test-e2e-browserstack:
+  test-e2e-bs-ie9:
     <<: *defaults
     steps:
       - attach_workspace:
           at: ~/project
-      - run: npm run test:e2e:ci
+      - run: npm run test:e2e:ie9
 
 workflows:
   version: 2
@@ -76,6 +76,6 @@ workflows:
       - test-e2e:
           requires:
             - install
-      - test-e2e-browserstack:
+      - test-e2e-bs-ie9:
           requires:
             - install

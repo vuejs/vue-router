@@ -3,6 +3,8 @@ const bsStatus = require('../browserstack-send-status')
 module.exports = {
   ...bsStatus(),
 
+  '@tags': ['hash', 'ie9-fail'],
+
   'Hash mode': function (browser) {
     browser
       .url('http://localhost:8080/hash-mode/')

@@ -3,6 +3,8 @@ const bsStatus = require('../browserstack-send-status')
 module.exports = {
   ...bsStatus(),
 
+  '@tags': ['history', 'active', 'router-link'],
+
   'active links': function (browser) {
     browser
       .url('http://localhost:8080/active-links/')

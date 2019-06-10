@@ -3,6 +3,8 @@ const bsStatus = require('../browserstack-send-status')
 module.exports = {
   ...bsStatus(),
 
+  '@tags': ['history'],
+
   'named views': function (browser) {
     browser
       .url('http://localhost:8080/named-views/')

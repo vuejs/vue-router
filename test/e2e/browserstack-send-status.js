@@ -45,7 +45,7 @@ module.exports = function sendStatus () {
         return cb()
       }
 
-      if (results.errors > 0) {
+      if (results.errors > 0 || results.failed > 0) {
         const reason = results.lastError.message
         console.log('Found failed test', reason)
         axios
