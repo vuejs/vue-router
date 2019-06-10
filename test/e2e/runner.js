@@ -39,7 +39,6 @@ const NW_CONFIG = isLocal
 // add a configuration by default if not provided
 // add a configuration by default if not provided
 if (args.indexOf('-c') < 0) {
-  args.push('-c', NW_CONFIG)
   // check if multiple envs are provided. The way Nightwatch works
   // requires to explicitely provide the conf
   const envs = args[args.indexOf('-e') + 1]
@@ -51,6 +50,7 @@ if (args.indexOf('-c') < 0) {
     )
     process.exit(1)
   }
+  args.push('-c', NW_CONFIG)
 } else if (isLocal) {
   const conf = args[args.indexOf('-c') + 1]
   if (resolve('.', conf) !== NW_CONFIG) {
