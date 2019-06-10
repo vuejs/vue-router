@@ -89,7 +89,7 @@ if (isLocal) {
       'If you are a maintainer, make sure to create your `.env` file with both `BS_USER` and `BS_KEY` variables!'
     )
     // fail if testing locally
-    process.exit(process.env.isCI ? 0 : 1)
+    process.exit(process.env.CI ? 0 : 1)
   }
 
   let bsLocal
