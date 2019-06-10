@@ -17,6 +17,10 @@ function getKey (client) {
   return `${client.currentTest.module}: ${client.currentTest.name}`
 }
 
+function shouldSkipBrowserstackReporting (client) {
+  return !BS_USER || !BS_KEY || client.options.selenium_port !== 80
+}
+
 /**
  * Generates an object with beforeEach and afterEach functions to be added
  * to every test suite. It cannot be added globably because these must be
@@ -28,7 +32,7 @@ module.exports = function sendStatus () {
   return {
     beforeEach (browser, cb) {
       // avoid running if missing credentials
-      if (!BS_USER || !BS_KEY) return cb()
+      if (shouldSkipBrowserstackReporting(this.client)) return cb()
       // retrieve the session and save it to the map
       const key = getKey(this.client)
       browser.session(({ sessionId }) => {
@@ -39,7 +43,7 @@ module.exports = function sendStatus () {
 
     afterEach (browser, cb) {
       // avoid running if missing credentials
-      if (!BS_USER || !BS_KEY) return cb()
+      if (shouldSkipBrowserstackReporting(this.client)) return cb()
       const key = getKey(this.client)
       const { results } = this.client.currentTest
       const sessionId = sessionMap[key]
