@@ -27,6 +27,8 @@ module.exports = function sendStatus () {
 
   return {
     beforeEach (browser, cb) {
+      // avoid running if missing credentials
+      if (!BS_USER || !BS_KEY) return cb()
       // retrieve the session and save it to the map
       const key = getKey(this.client)
       browser.session(({ sessionId }) => {
@@ -36,6 +38,8 @@ module.exports = function sendStatus () {
     },
 
     afterEach (browser, cb) {
+      // avoid running if missing credentials
+      if (!BS_USER || !BS_KEY) return cb()
       const key = getKey(this.client)
       const { results } = this.client.currentTest
       const sessionId = sessionMap[key]
