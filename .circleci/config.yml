@@ -30,16 +30,16 @@ jobs:
     steps:
       - attach_workspace:
           at: ~/project
-      - run: npm run lint
-      - run: npm run flow
-      - run: npm run test:types
+      - run: yarn run lint
+      - run: yarn run flow
+      - run: yarn run test:types
 
   test-unit:
     <<: *defaults
     steps:
       - attach_workspace:
           at: ~/project
-      - run: npm run test:unit
+      - run: yarn run test:unit
       # add codecov once it is actually ran
       # - run:
       #    name: report coverage stats for non-PRs
@@ -53,14 +53,14 @@ jobs:
     steps:
       - attach_workspace:
           at: ~/project
-      - run: npm run test:e2e
+      - run: yarn run test:e2e
 
   test-e2e-bs-ie9:
     <<: *defaults
     steps:
       - attach_workspace:
           at: ~/project
-      - run: npm run test:e2e:ie9
+      - run: yarn run test:e2e:ie9
 
 workflows:
   version: 2
