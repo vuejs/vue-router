@@ -81,6 +81,17 @@ process.mainModule.filename = resolve(
 )
 
 if (isLocal) {
+  if (isLocal && (!process.env.BS_USER || !process.env.BS_KEY)) {
+    console.log(
+      'Hey!\n',
+      'You are missing credentials for Browserstack.\n',
+      'If you are a contributor, this is normal, credentials are private. These tests must be run by a maintainer of vue-router',
+      'If you are a maintainer, you forgot to `source keys.env`!'
+    )
+    // fail if testing locally
+    process.exit(process.env.isCI ? 0 : 1)
+  }
+
   let bsLocal
   const browserstack = require('browserstack-local')
   Nightwatch.bs_local = bsLocal = new browserstack.Local()

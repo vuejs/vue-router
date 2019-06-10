@@ -4,18 +4,6 @@
 
 const BS_USER = process.env.BS_USER
 const BS_KEY = process.env.BS_KEY
-const isCI = process.env.CI
-
-if (!BS_USER || !BS_KEY) {
-  console.log(
-    'Hey!\n',
-    'You are missing credentials for Browserstack.\n',
-    'If you are a contributor, this is normal, credentials are private. These tests must be run by a maintainer of vue-router',
-    'If you are a maintainer, you forgot to `source keys.env`!'
-  )
-  // fail if testing locally
-  process.exit(isCI ? 0 : 1)
-}
 
 const nwConf = {
   src_folders: ['test/e2e/specs'],
