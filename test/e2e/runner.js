@@ -43,9 +43,9 @@ if (args.indexOf('-c') < 0) {
   // check if multiple envs are provided. The way Nightwatch works
   // requires to explicitely provide the conf
   const envs = args[args.indexOf('-e') + 1]
-  if (!envs || envs.indexOf(',') > -1) {
+  if (envs && envs.indexOf(',') > -1) {
     console.warn(
-      `Specify the conf with providing multiple browsers:\n$ yarn run test:e2e ${args.join(
+      `Specify the conf when providing multiple browsers:\n$ yarn run test:e2e ${args.join(
         ' '
       )} -c ${NW_CONFIG}`
     )
