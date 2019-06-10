@@ -40,7 +40,8 @@ const nwConf = {
     name: 'Bstack-[Nightwatch] Vue Router Parallel Test',
     'browserstack.local': true,
     'browserstack.video': false,
-    acceptSslCerts: true
+    acceptSslCerts: true,
+    resolution: '1024x768'
   },
 
   test_settings: {
@@ -49,7 +50,13 @@ const nwConf = {
     chrome: {
       desiredCapabilities: {
         browser: 'chrome'
-        // name: 'Bstack-[Nightwatch] Vue Router',
+      }
+    },
+
+    chromeQt: {
+      desiredCapabilities: {
+        browser: 'chrome',
+        browser_version: '49.0'
       }
     },
 
@@ -61,7 +68,19 @@ const nwConf = {
 
     safari: {
       desiredCapabilities: {
-        browser: 'safari'
+        os: 'OS X',
+        os_version: 'Mojave',
+        browser: 'Safari',
+        browser_version: '12.0'
+      }
+    },
+
+    safari6: {
+      desiredCapabilities: {
+        os: 'OS X',
+        os_version: 'Lion',
+        browser: 'Safari',
+        browser_version: '6.0'
       }
     },
 
@@ -110,7 +129,8 @@ for (const setting in nwConf.test_settings) {
   // merge common_capabilities
   for (const key in nwConf.common_capabilities) {
     // fallback to common_capabilities
-    config['desiredCapabilities'][key] = config['desiredCapabilities'][key] || nwConf.common_capabilities[key]
+    config['desiredCapabilities'][key] =
+      config['desiredCapabilities'][key] || nwConf.common_capabilities[key]
   }
 }
 
