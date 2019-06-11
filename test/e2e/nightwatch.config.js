@@ -32,10 +32,7 @@ module.exports = {
       },
       desiredCapabilities: {
         browserName: 'chrome',
-        acceptSslCerts: true,
-        chromeOptions: {
-          args: ['window-size=1280,800', 'headless']
-        }
+        acceptSslCerts: true
       }
     },
 
@@ -44,7 +41,7 @@ module.exports = {
         browserName: 'chrome',
         acceptSslCerts: true,
         chromeOptions: {
-          args: ['window-size=1280,800']
+          args: ['window-size=1280,800', 'headless']
         }
       }
     },

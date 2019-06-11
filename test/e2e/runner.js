@@ -32,12 +32,13 @@ const server =
 const isLocal = args.indexOf('--local') > -1
 
 const DEFAULT_CONFIG = './nightwatch.json'
+const DEFAULT = 'default'
+const NW_ENV = 'chrome'
 const NW_CONFIG = isLocal
   ? resolve(__dirname, './nightwatch.browserstack.js')
   : resolve(__dirname, './nightwatch.config.js')
 
-// add a configuration by default if not provided
-// add a configuration by default if not provided
+// check configuration
 if (args.indexOf('-c') < 0) {
   // check if multiple envs are provided. The way Nightwatch works
   // requires to explicitely provide the conf
@@ -50,7 +51,6 @@ if (args.indexOf('-c') < 0) {
     )
     process.exit(1)
   }
-  args.push('-c', NW_CONFIG)
 } else if (isLocal) {
   const conf = args[args.indexOf('-c') + 1]
   if (resolve('.', conf) !== NW_CONFIG) {
@@ -66,6 +66,10 @@ function adaptArgv (argv) {
 
   if (argv.c === DEFAULT_CONFIG && argv.config === DEFAULT_CONFIG) {
     argv.config = argv.c = NW_CONFIG
+  }
+
+  if (argv.e === DEFAULT && argv.env === DEFAULT) {
+    argv.env = argv.e = NW_ENV
   }
   // Nightwatch does not accept an array with one element
   if (argv.test.length === 1) argv.test = argv.test[0]
