@@ -69,6 +69,12 @@ export class HTML5History extends History {
   getCurrentLocation (): string {
     return getLocation(this.base)
   }
+
+  shouldUpdateRoute (): boolean {
+    // when is ready and don't support pushState
+    // route shouldn't render, it suppose to be regular page jump
+    return !this.ready || supportsPushState
+  }
 }
 
 export function getLocation (base: string): string {
