@@ -36,8 +36,7 @@ const NW_CONFIG = isLocal
   ? resolve(__dirname, './nightwatch.browserstack.js')
   : resolve(__dirname, './nightwatch.config.js')
 
-// add a configuration by default if not provided
-// add a configuration by default if not provided
+// check configuration
 if (args.indexOf('-c') < 0) {
   // check if multiple envs are provided. The way Nightwatch works
   // requires to explicitely provide the conf
@@ -50,7 +49,6 @@ if (args.indexOf('-c') < 0) {
     )
     process.exit(1)
   }
-  args.push('-c', NW_CONFIG)
 } else if (isLocal) {
   const conf = args[args.indexOf('-c') + 1]
   if (resolve('.', conf) !== NW_CONFIG) {
