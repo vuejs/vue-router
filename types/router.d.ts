@@ -28,7 +28,7 @@ export declare class VueRouter {
   go (n: number): void;
   back (): void;
   forward (): void;
-  getMatchedComponents (to?: RawLocation | Route): (ComponentOptions<Vue> | typeof Vue)[];
+  getMatchedComponents (to?: RawLocation | Route): ComponentOptions<Vue>[];
   onReady (cb: Function, errorCb?: ErrorHandler): void;
   onError (cb: ErrorHandler): void;
   addRoutes (routes: RouteConfig[]): void;
