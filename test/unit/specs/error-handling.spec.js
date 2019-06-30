@@ -52,4 +52,21 @@ describe('error handling', () => {
     expect(spy1).toHaveBeenCalledWith(err)
     expect(spy2).toHaveBeenCalledWith(err)
   })
+
+  // #2833
+  it('async router.beforeEach, handle onError', () => {
+    const router = new VueRouter()
+    const err = new Error('foo')
+    const spy = jasmine.createSpy('error')
+    router.onError(spy)
+
+    router.push('/')
+    router.beforeEach(async () => { throw err })
+
+    router.push('/foo', () => {
+      fail('onError function did not receive an error')
+    }, () => {
+      expect(spy).toHaveBeenCalledWith(err)
+    })
+  })
 })
