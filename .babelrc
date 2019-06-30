@@ -1,4 +1,4 @@
 {
   "presets": ["env", "flow-vue"],
-  "plugins": ["syntax-dynamic-import"]
+  "plugins": ["syntax-dynamic-import", "transform-runtime"]
 }
