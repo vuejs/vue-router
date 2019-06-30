@@ -4,7 +4,7 @@ import VueRouter from 'vue-router'
 Vue.use(VueRouter)
 
 // eslint-disable-next-line no-unused-vars
-let asyncMode = false
+let asyncMode = true
 
 const makeError = (msg) => {
   if (asyncMode) {
@@ -96,7 +96,7 @@ new Vue({
   router,
   data () {
     return {
-      asyncMode: false
+      asyncMode
     }
   },
   watch: {
@@ -107,7 +107,7 @@ new Vue({
   template: `
     <div id="app">
       <h1>Error Handling</h1>
-      <strong @click="asyncMode = !asyncMode">
+      <strong @click="asyncMode = !asyncMode" style="cursor: pointer">
         Open console - <code>{{ asyncMode ? 'async' : 'sync' }} (click)</code>
       </strong>
       <br>
