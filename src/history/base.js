@@ -86,24 +86,13 @@ export class History {
 
   confirmTransition (route: Route, onComplete: Function, onAbort?: Function) {
     const current = this.current
-    const abort = err => {
-      if (isError(err)) {
-        if (this.errorCbs.length) {
-          this.errorCbs.forEach(cb => { cb(err) })
-        } else {
-          warn(false, 'uncaught error during route navigation:')
-          console.error(err)
-        }
-      }
-      onAbort && onAbort(err)
-    }
     if (
       isSameRoute(route, current) &&
       // in the case the route map has been dynamically appended to
       route.matched.length === current.matched.length
     ) {
       this.ensureURL()
-      return abort()
+      return this._abort(null, onAbort)
     }
 
     const {
@@ -128,14 +117,14 @@ export class History {
     this.pending = route
     const iterator = (hook: NavigationGuard, next) => {
       if (this.pending !== route) {
-        return abort()
+        return this._abort(null, onAbort)
       }
       try {
         const hookResponse = hook(route, current, (to: any) => {
           if (to === false || isError(to)) {
             // next(false) -> abort navigation, ensure current URL
             this.ensureURL(true)
-            abort(to)
+            this._abort(to, onAbort)
           } else if (
             typeof to === 'string' ||
             (typeof to === 'object' && (
@@ -144,7 +133,7 @@ export class History {
             ))
           ) {
             // next('/') or next({ path: '/' }) -> redirect
-            abort()
+            this._abort(null, onAbort)
             if (typeof to === 'object' && to.replace) {
               this.replace(to)
             } else {
@@ -158,10 +147,10 @@ export class History {
 
         // Support async/await in guard (#2833)
         if (hookResponse instanceof Promise) {
-          hookResponse.catch(err => abort(err))
+          hookResponse.catch(e => this._abort(e, onAbort))
         }
       } catch (e) {
-        abort(e)
+        this._abort(e, onAbort)
       }
     }
 
@@ -174,7 +163,7 @@ export class History {
       const queue = enterGuards.concat(this.router.resolveHooks)
       runQueue(queue, iterator, () => {
         if (this.pending !== route) {
-          return abort()
+          return this._abort(null, onAbort)
         }
         this.pending = null
         onComplete(route)
@@ -192,8 +181,27 @@ export class History {
     this.current = route
     this.cb && this.cb(route)
     this.router.afterHooks.forEach(hook => {
-      hook && hook(route, prev)
+      if (hook) {
+        const hookResponse = hook(route, prev)
+
+        // Support async/await in guard (#2833)
+        if (hookResponse instanceof Promise) {
+          hookResponse.catch(err => this._abort(err))
+        }
+      }
     })
+  }
+
+  _abort (err: any, cb: ?Function) {
+    if (isError(err)) {
+      if (this.errorCbs.length) {
+        this.errorCbs.forEach(cb => { cb(err) })
+      } else {
+        warn(false, 'uncaught error during route navigation:')
+        console.error(err)
+      }
+    }
+    cb && cb(err)
   }
 }
 
