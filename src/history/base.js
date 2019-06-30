@@ -126,12 +126,12 @@ export class History {
     )
 
     this.pending = route
-    const iterator = (hook: NavigationGuard, next) => {
+    const iterator = async (hook: NavigationGuard, next) => {
       if (this.pending !== route) {
         return abort()
       }
       try {
-        hook(route, current, (to: any) => {
+        await hook(route, current, (to: any) => {
           if (to === false || isError(to)) {
             // next(false) -> abort navigation, ensure current URL
             this.ensureURL(true)
