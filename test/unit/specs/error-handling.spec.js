@@ -54,19 +54,52 @@ describe('error handling', () => {
   })
 
   // #2833
-  it('async router.beforeEach, handle onError', () => {
-    const router = new VueRouter()
-    const err = new Error('foo')
-    const spy = jasmine.createSpy('error')
-    router.onError(spy)
+  // async/await => router.beforeEach(async () => { throw err })
+  // Promise => router.beforeEach(() => new Promise((resolve, reject) => reject(err)))
+  describe('async/await, handle onError', () => {
+    describe('Global', () => {
+      let router, err, spy
 
-    router.push('/')
-    router.beforeEach(async () => { throw err })
+      beforeEach(() => {
+        router = new VueRouter()
+        err = new Error('foo')
+        spy = jasmine.createSpy('error')
+        router.onError(spy)
+      })
 
-    router.push('/foo', () => {
-      fail('onError function did not receive an error')
-    }, () => {
-      expect(spy).toHaveBeenCalledWith(err)
+      const promiseError = () => new Promise((resolve, reject) => {
+        reject(err)
+      })
+
+      it('beforeEach', () => {
+        router.beforeEach(() => promiseError())
+
+        router.push('/foo', () => {
+          fail('onError function did not receive an error')
+        }, () => {
+          expect(spy).toHaveBeenCalledWith(err)
+        })
+      })
+
+      it('afterEach', () => {
+        router.afterEach(() => promiseError())
+
+        router.push('/foo', () => {
+          Vue.nextTick(() => expect(spy).toHaveBeenCalledWith(err))
+        }, () => {
+          fail('onError function did not receive an error')
+        })
+      })
+
+      it('beforeResolve', () => {
+        router.beforeResolve(() => promiseError())
+
+        router.push('/foo', () => {
+          fail('onError function did not receive an error')
+        }, () => {
+          expect(spy).toHaveBeenCalledWith(err)
+        })
+      })
     })
   })
 })
