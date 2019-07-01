@@ -8,7 +8,7 @@ module.exports = {
 
   '@tags': ['history'],
 
-  'named routes': function (browser) {
+  [BASE_PAGE]: function (browser) {
     browser
       .url(BASE_PAGE + '/')
       .waitForElementVisible('#app', 1000)
