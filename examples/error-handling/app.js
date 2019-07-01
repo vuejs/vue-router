@@ -6,6 +6,8 @@ Vue.use(VueRouter)
 // eslint-disable-next-line no-unused-vars
 let asyncMode = true
 
+const logEl = document.querySelector('.log code')
+
 const makeError = (msg) => {
   if (asyncMode) {
     return new Promise((resolve, reject) => {
@@ -59,6 +61,7 @@ const BeforeLeave = {
 }
 
 const router = new VueRouter({
+  mode: 'history',
   base: __dirname,
   routes: [
     { path: '/', component: Home, name: 'home' },
@@ -71,8 +74,11 @@ const router = new VueRouter({
 })
 
 router.onError((err) => {
+  const modeName = asyncMode ? 'async' : 'sync'
+  logEl.innerText = `${modeName}: ${err.message}`
+
   console.log(
-    '%c Router.onError - ' + (asyncMode ? 'async' : 'sync'),
+    '%c Router.onError - ' + modeName,
     'background: #fff; color: #000',
     err.message
   )
@@ -99,6 +105,11 @@ new Vue({
       asyncMode
     }
   },
+  computed: {
+    nameMode () {
+      return this.asyncMode ? 'async' : 'sync'
+    }
+  },
   watch: {
     asyncMode (val) {
       asyncMode = val
@@ -107,8 +118,8 @@ new Vue({
   template: `
     <div id="app">
       <h1>Error Handling</h1>
-      <strong @click="asyncMode = !asyncMode" style="cursor: pointer">
-        Open console - <code>{{ asyncMode ? 'async' : 'sync' }} (click)</code>
+      <strong @click="asyncMode = !asyncMode" :mode="nameMode" style="cursor: pointer">
+        Open console - <code>{{ nameMode }} (click)</code>
       </strong>
       <br>
       <ul>
@@ -120,7 +131,7 @@ new Vue({
         <li><router-link to="/before-leave">/beforeRouteLeave</router-link></li>
       </ul>
       <br>
-      <router-view></router-view>
+      <router-view class="view"></router-view>
     </div>
   `
 }).$mount('#app')
