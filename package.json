@@ -99,9 +99,6 @@
     "webpack-dev-middleware": "^3.7.0",
     "yorkie": "^2.0.0"
   },
-  "resolutions": {
-    "webpack-dev-middleware": "3.6.2"
-  },
   "bugs": {
     "url": "https://github.com/vuejs/vue-router/issues"
   },
