@@ -31,8 +31,7 @@ router.push({ name: 'user', params: { userId: '123' } })
 router.push({ path: 'register', query: { plan: 'private' } })
 ```
 
-**注意**: `params` は、上記例に示すように、`path` が提供されている場合は無視されます。これは `query` に対するケースとは異なります。
-代わりに、ルートの `name` か任意のパラメータを付与した `path` 全体を手動で指定する必要があります:
+**注意**: `path` が渡された場合は `params` は無視されます（`query` は上の例の通り無視されません）。代わりに `name` でルート名を渡すか、`path` にすべてのパラメータを含める必要があります:
 
 ```js
 const userId = '123'
