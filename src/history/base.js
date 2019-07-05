@@ -62,27 +62,39 @@ export class History {
     this.errorCbs.push(errorCb)
   }
 
-  transitionTo (location: RawLocation, onComplete?: Function, onAbort?: Function) {
+  transitionTo (
+    location: RawLocation,
+    onComplete?: Function,
+    onAbort?: Function
+  ) {
     const route = this.router.match(location, this.current)
-    this.confirmTransition(route, () => {
-      this.updateRoute(route)
-      onComplete && onComplete(route)
-      this.ensureURL()
+    this.confirmTransition(
+      route,
+      () => {
+        this.updateRoute(route)
+        onComplete && onComplete(route)
+        this.ensureURL()
 
-      // fire ready cbs once
-      if (!this.ready) {
-        this.ready = true
-        this.readyCbs.forEach(cb => { cb(route) })
+        // fire ready cbs once
+        if (!this.ready) {
+          this.ready = true
+          this.readyCbs.forEach(cb => {
+            cb(route)
+          })
+        }
+      },
+      err => {
+        if (onAbort) {
+          onAbort(err)
+        }
+        if (err && !this.ready) {
+          this.ready = true
+          this.readyErrorCbs.forEach(cb => {
+            cb(err)
+          })
+        }
       }
-    }, err => {
-      if (onAbort) {
-        onAbort(err)
-      }
-      if (err && !this.ready) {
-        this.ready = true
-        this.readyErrorCbs.forEach(cb => { cb(err) })
-      }
-    })
+    )
   }
 
   confirmTransition (route: Route, onComplete: Function, onAbort?: Function) {
@@ -113,11 +125,10 @@ export class History {
       return abort(new NavigationDuplicated(route))
     }
 
-    const {
-      updated,
-      deactivated,
-      activated
-    } = resolveQueue(this.current.matched, route.matched)
+    const { updated, deactivated, activated } = resolveQueue(
+      this.current.matched,
+      route.matched
+    )
 
     const queue: Array<?NavigationGuard> = [].concat(
       // in-component leave guards
@@ -145,10 +156,8 @@ export class History {
             abort(to)
           } else if (
             typeof to === 'string' ||
-            (typeof to === 'object' && (
-              typeof to.path === 'string' ||
-              typeof to.name === 'string'
-            ))
+            (typeof to === 'object' &&
+              (typeof to.path === 'string' || typeof to.name === 'string'))
           ) {
             // next('/') or next({ path: '/' }) -> redirect
             abort()
@@ -182,7 +191,9 @@ export class History {
         onComplete(route)
         if (this.router.app) {
           this.router.app.$nextTick(() => {
-            postEnterCbs.forEach(cb => { cb() })
+            postEnterCbs.forEach(cb => {
+              cb()
+            })
           })
         }
       })
@@ -290,9 +301,13 @@ function extractEnterGuards (
   cbs: Array<Function>,
   isValid: () => boolean
 ): Array<?Function> {
-  return extractGuards(activated, 'beforeRouteEnter', (guard, _, match, key) => {
-    return bindEnterGuard(guard, match, key, cbs, isValid)
-  })
+  return extractGuards(
+    activated,
+    'beforeRouteEnter',
+    (guard, _, match, key) => {
+      return bindEnterGuard(guard, match, key, cbs, isValid)
+    }
+  )
 }
 
 function bindEnterGuard (
