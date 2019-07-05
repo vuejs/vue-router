@@ -4,7 +4,7 @@ import { _Vue } from '../install'
 import type Router from '../index'
 import { inBrowser } from '../util/dom'
 import { runQueue } from '../util/async'
-import { warn, isError } from '../util/warn'
+import { warn, isError, isExtendedError } from '../util/warn'
 import { START, isSameRoute } from '../util/route'
 import {
   flatten,
@@ -92,9 +92,11 @@ export class History {
       // When the user navigates through history through back/forward buttons
       // we do not want to throw the error. We only throw it if directly calling
       // push/replace. That's why it's not included in isError
-      if (!(err instanceof NavigationDuplicated) && isError(err)) {
+      if (!isExtendedError(NavigationDuplicated, err) && isError(err)) {
         if (this.errorCbs.length) {
-          this.errorCbs.forEach(cb => { cb(err) })
+          this.errorCbs.forEach(cb => {
+            cb(err)
+          })
         } else {
           warn(false, 'uncaught error during route navigation:')
           console.error(err)

@@ -59,7 +59,8 @@ describe('Usage in Node', () => {
     router.replace('/bar', success, error)
     expect(success).toHaveBeenCalledTimes(4)
     expect(error).toHaveBeenCalledTimes(0)
-    spyOn(console, 'warn')
+
+    expect(router.history.current.path).toBe('/bar')
     router.back()
     expect(router.history.current.path).toBe('/bar')
     router.back()

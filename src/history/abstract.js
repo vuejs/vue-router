@@ -3,6 +3,7 @@
 import type Router from '../index'
 import { History } from './base'
 import { NavigationDuplicated } from './errors'
+import { isExtendedError } from '../util/warn'
 
 export class AbstractHistory extends History {
   index: number
@@ -15,18 +16,26 @@ export class AbstractHistory extends History {
   }
 
   push (location: RawLocation, onComplete?: Function, onAbort?: Function) {
-    this.transitionTo(location, route => {
-      this.stack = this.stack.slice(0, this.index + 1).concat(route)
-      this.index++
-      onComplete && onComplete(route)
-    }, onAbort)
+    this.transitionTo(
+      location,
+      route => {
+        this.stack = this.stack.slice(0, this.index + 1).concat(route)
+        this.index++
+        onComplete && onComplete(route)
+      },
+      onAbort
+    )
   }
 
   replace (location: RawLocation, onComplete?: Function, onAbort?: Function) {
-    this.transitionTo(location, route => {
-      this.stack = this.stack.slice(0, this.index).concat(route)
-      onComplete && onComplete(route)
-    }, onAbort)
+    this.transitionTo(
+      location,
+      route => {
+        this.stack = this.stack.slice(0, this.index).concat(route)
+        onComplete && onComplete(route)
+      },
+      onAbort
+    )
   }
 
   go (n: number) {
@@ -42,7 +51,7 @@ export class AbstractHistory extends History {
         this.updateRoute(route)
       },
       err => {
-        if (err instanceof NavigationDuplicated) {
+        if (isExtendedError(NavigationDuplicated, err)) {
           this.index = targetIndex
         }
       }
