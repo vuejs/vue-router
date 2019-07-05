@@ -32,24 +32,31 @@ export default {
   render (h: Function) {
     const router = this.$router
     const current = this.$route
-    const { location, route, href } = router.resolve(this.to, current, this.append)
+    const { location, route, href } = router.resolve(
+      this.to,
+      current,
+      this.append
+    )
 
     const classes = {}
     const globalActiveClass = router.options.linkActiveClass
     const globalExactActiveClass = router.options.linkExactActiveClass
     // Support global empty active class
-    const activeClassFallback = globalActiveClass == null
-      ? 'router-link-active'
-      : globalActiveClass
-    const exactActiveClassFallback = globalExactActiveClass == null
-      ? 'router-link-exact-active'
-      : globalExactActiveClass
-    const activeClass = this.activeClass == null
-      ? activeClassFallback
-      : this.activeClass
-    const exactActiveClass = this.exactActiveClass == null
-      ? exactActiveClassFallback
-      : this.exactActiveClass
+    const activeClassFallback =
+      globalActiveClass == null ? 'router-link-active' : globalActiveClass
+    const exactActiveClassFallback =
+      globalExactActiveClass == null
+        ? 'router-link-exact-active'
+        : globalExactActiveClass
+    const activeClass =
+      this.activeClass == null ? activeClassFallback : this.activeClass
+    const exactActiveClass =
+      this.exactActiveClass == null
+        ? exactActiveClassFallback
+        : this.exactActiveClass
+    // const compareTarget = location.path
+    // ? createRoute(null, location, null, router)
+    // : route
     const compareTarget = route.redirectedFrom
       ? createRoute(null, normalizeLocation(route.redirectedFrom), null, router)
       : route
@@ -71,7 +78,9 @@ export default {
 
     const on = { click: guardEvent }
     if (Array.isArray(this.event)) {
-      this.event.forEach(e => { on[e] = handler })
+      this.event.forEach(e => {
+        on[e] = handler
+      })
     } else {
       on[this.event] = handler
     }
@@ -89,9 +98,9 @@ export default {
       if (a) {
         // in case the <a> is a static node
         a.isStatic = false
-        const aData = a.data = extend({}, a.data)
+        const aData = (a.data = extend({}, a.data))
         aData.on = on
-        const aAttrs = a.data.attrs = extend({}, a.data.attrs)
+        const aAttrs = (a.data.attrs = extend({}, a.data.attrs))
         aAttrs.href = href
       } else {
         // doesn't have <a> child, apply listener to self

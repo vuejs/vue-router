@@ -34,15 +34,33 @@ const router = new VueRouter({
   routes: [
     { path: '/', component: Home },
     { path: '/about', component: About },
-    { path: '/users', component: Users,
-      children: [
-        { path: ':username', name: 'user', component: User }
-      ]
+    {
+      path: '/redirect-gallery',
+      name: 'redirect-gallery',
+      redirect: { name: 'gallery' }
     },
-    { path: '/gallery', component: Gallery, name: 'gallery',
+    {
+      path: '/redirect-image',
+      name: 'redirect-image',
+      redirect: { name: 'image', params: { imageId: 'image1' }}
+    },
+    {
+      path: '/users',
+      component: Users,
+      children: [{ path: ':username', name: 'user', component: User }]
+    },
+    {
+      path: '/gallery',
+      component: Gallery,
       children: [
+        {
+          path: '',
+          name: 'gallery',
+          redirect: { name: 'image', params: { imageId: 'image1' }}
+        },
         { path: ':imageId', component: Image, name: 'image' }
-      ], redirect: { name: 'image', params: { imageId: 'image1' }}}
+      ]
+    }
   ]
 })
 
@@ -82,9 +100,14 @@ new Vue({
           <a>/about (active class on outer element)</a>
         </router-link>
 
-        <li><router-link :to="{ name: 'gallery' }">/gallery (redirect to /gallery/image1)</router-link></li>
+        <li><router-link to="/gallery">/gallery (redirect to /gallery/image1)</router-link></li>
+        <li><router-link :to="{ name: 'gallery' }">/gallery named link (redirect to /gallery/image1)</router-link></li>
         <li><router-link :to="{ name: 'image', params: {imageId: 'image2'} }">/gallery/image2</router-link></li>
         <li><router-link :to="{ name: 'image', params: {imageId: 'image1'} }">/gallery/image1</router-link></li>
+        <li><router-link to="/redirect-gallery">/redirect-gallery (redirect to /gallery)</router-link></li>
+        <li><router-link :to="{ name: 'redirect-gallery' }">/redirect-gallery named (redirect to /gallery)</router-link></li>
+        <li><router-link to="/redirect-image">/redirect-image (redirect to /gallery/image1)</router-link></li>
+        <li><router-link :to="{ name: 'redirect-image' }" >/redirect-image named (redirect to /gallery/image1)</router-link></li>
       </ul>
       <router-view class="view"></router-view>
     </div>
