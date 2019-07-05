@@ -54,9 +54,7 @@ export default {
       this.exactActiveClass == null
         ? exactActiveClassFallback
         : this.exactActiveClass
-    // const compareTarget = location.path
-    // ? createRoute(null, location, null, router)
-    // : route
+
     const compareTarget = route.redirectedFrom
       ? createRoute(null, normalizeLocation(route.redirectedFrom), null, router)
       : route
