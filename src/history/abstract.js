@@ -2,10 +2,11 @@
 
 import type Router from '../index'
 import { History } from './base'
+import { NavigationDuplicated } from './errors'
 
 export class AbstractHistory extends History {
-  index: number;
-  stack: Array<Route>;
+  index: number
+  stack: Array<Route>
 
   constructor (router: Router, base: ?string) {
     super(router, base)
@@ -34,10 +35,18 @@ export class AbstractHistory extends History {
       return
     }
     const route = this.stack[targetIndex]
-    this.confirmTransition(route, () => {
-      this.index = targetIndex
-      this.updateRoute(route)
-    })
+    this.confirmTransition(
+      route,
+      () => {
+        this.index = targetIndex
+        this.updateRoute(route)
+      },
+      err => {
+        if (err instanceof NavigationDuplicated) {
+          this.index = targetIndex
+        }
+      }
+    )
   }
 
   getCurrentLocation () {

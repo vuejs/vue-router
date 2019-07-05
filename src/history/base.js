@@ -11,24 +11,25 @@ import {
   flatMapComponents,
   resolveAsyncComponents
 } from '../util/resolve-components'
+import { NavigationDuplicated } from './errors'
 
 export class History {
-  router: Router;
-  base: string;
-  current: Route;
-  pending: ?Route;
-  cb: (r: Route) => void;
-  ready: boolean;
-  readyCbs: Array<Function>;
-  readyErrorCbs: Array<Function>;
-  errorCbs: Array<Function>;
+  router: Router
+  base: string
+  current: Route
+  pending: ?Route
+  cb: (r: Route) => void
+  ready: boolean
+  readyCbs: Array<Function>
+  readyErrorCbs: Array<Function>
+  errorCbs: Array<Function>
 
   // implemented by sub-classes
-  +go: (n: number) => void;
-  +push: (loc: RawLocation) => void;
-  +replace: (loc: RawLocation) => void;
-  +ensureURL: (push?: boolean) => void;
-  +getCurrentLocation: () => string;
+  +go: (n: number) => void
+  +push: (loc: RawLocation) => void
+  +replace: (loc: RawLocation) => void
+  +ensureURL: (push?: boolean) => void
+  +getCurrentLocation: () => string
 
   constructor (router: Router, base: ?string) {
     this.router = router
@@ -87,7 +88,11 @@ export class History {
   confirmTransition (route: Route, onComplete: Function, onAbort?: Function) {
     const current = this.current
     const abort = err => {
-      if (isError(err)) {
+      // after merging https://github.com/vuejs/vue-router/pull/2771 we
+      // When the user navigates through history through back/forward buttons
+      // we do not want to throw the error. We only throw it if directly calling
+      // push/replace. That's why it's not included in isError
+      if (!(err instanceof NavigationDuplicated) && isError(err)) {
         if (this.errorCbs.length) {
           this.errorCbs.forEach(cb => { cb(err) })
         } else {
@@ -103,7 +108,7 @@ export class History {
       route.matched.length === current.matched.length
     ) {
       this.ensureURL()
-      return abort()
+      return abort(new NavigationDuplicated(route))
     }
 
     const {
