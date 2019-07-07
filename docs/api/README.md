@@ -101,7 +101,10 @@ In this case the `<a>` will be the actual link (and will get the correct `href`)
 - type: `string`
 - default: `"router-link-active"`
 
-  Configure the active CSS class applied when the link is active. Note the default value can also be configured globally via the `linkActiveClass` router constructor option.
+  The CSS class is applied when the link is active. You can then style this in your CSS using the class name `router-link-active`.  Note the default value can also be configured globally via the `linkActiveClass` property in your router file meaning your can name this class anything you want and your new class name will be applied when the link is active.
+ ``` js
+  linkActiveClass: "my-cool-active-class"
+  ```
 
 ### exact
 
@@ -131,7 +134,10 @@ In this case the `<a>` will be the actual link (and will get the correct `href`)
 - type: `string`
 - default: `"router-link-exact-active"`
 
-  Configure the active CSS class applied when the link is active with exact match. Note the default value can also be configured globally via the `linkExactActiveClass` router constructor option.
+  The CSS class is applied when the link is active with an exact match. You can then style this in your CSS using the class name `router-link-exact-active`.  Note the default value can also be configured globally via the `linkExactActiveClass` property in your router file meaning your can name this class anything you want and your new class name will be applied when the link is active.
+ ``` js
+  linkExactActiveClass: "my-cool-exact-active-class"
+  ```
 
 ## `<router-view>`
 
