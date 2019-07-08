@@ -97,6 +97,10 @@ export class History {
     )
   }
 
+  get scrollElementSelector (): ?string {
+    return this.router.options.scrollElement
+  }
+
   confirmTransition (route: Route, onComplete: Function, onAbort?: Function) {
     const current = this.current
     const abort = err => {

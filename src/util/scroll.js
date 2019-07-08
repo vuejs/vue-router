@@ -6,7 +6,7 @@ import { getStateKey, setStateKey } from './push-state'
 
 const positionStore = Object.create(null)
 
-export function setupScroll () {
+export function setupScroll (scrollElement?: ?string) {
   // Fix for #1585 for Firefox
   // Fix for #2195 Add optional third attribute to workaround a bug in safari https://bugs.webkit.org/show_bug.cgi?id=182678
   // Fix for #2774 Support for apps loaded from Windows file shares not mapped to network drives: replaced location.origin with
@@ -16,7 +16,7 @@ export function setupScroll () {
   const absolutePath = window.location.href.replace(protocolAndPath, '')
   window.history.replaceState({ key: getStateKey() }, '', absolutePath)
   window.addEventListener('popstate', e => {
-    saveScrollPosition()
+    saveScrollPosition(scrollElement)
     if (e.state && e.state.key) {
       setStateKey(e.state.key)
     }
@@ -53,25 +53,59 @@ export function handleScroll (
 
     if (typeof shouldScroll.then === 'function') {
       shouldScroll.then(shouldScroll => {
-        scrollToPosition((shouldScroll: any), position)
+        if (!shouldScroll) {
+          return
+        }
+        const scrollElementSelector = router.options.scrollElement || shouldScroll.scrollElement || null
+        scrollToPosition((shouldScroll: any), position, scrollElementSelector)
       }).catch(err => {
         if (process.env.NODE_ENV !== 'production') {
           assert(false, err.toString())
         }
       })
     } else {
-      scrollToPosition(shouldScroll, position)
+      const scrollElementSelector = router.options.scrollElement || shouldScroll.scrollElement || null
+      scrollToPosition(shouldScroll, position, scrollElementSelector)
     }
   })
 }
 
-export function saveScrollPosition () {
-  const key = getStateKey()
-  if (key) {
-    positionStore[key] = {
-      x: window.pageXOffset,
-      y: window.pageYOffset
+function getScrollElement (scrollElementSelector?: any): Element | WindowProxy {
+  let domScrollElement = window
+  if (!scrollElementSelector) {
+    return window
+  }
+
+  assert(typeof scrollElementSelector === 'string' || scrollElementSelector instanceof Element, 'Scroll Element must be a css selector string or a DOM element')
+  if (typeof scrollElementSelector === 'string') {
+    const customScrollElement = document.querySelector(scrollElementSelector)
+    if (customScrollElement) {
+      domScrollElement = customScrollElement
     }
+  } else if (scrollElementSelector instanceof Element) {
+    return scrollElementSelector
+  }
+
+  return domScrollElement
+}
+
+export function saveScrollPosition (scrollElement?: string | Element | null) {
+  const key = getStateKey()
+  if (!key) {
+    return
+  }
+
+  const domScrollElement = getScrollElement(scrollElement)
+  let propX = 'pageXOffset'
+  let propY = 'pageYOffset'
+  if (domScrollElement instanceof Element) {
+    propX = 'scrollLeft'
+    propY = 'scrollTop'
+  }
+
+  positionStore[key] = {
+    x: domScrollElement[propX],
+    y: domScrollElement[propY]
   }
 }
 
@@ -114,7 +148,7 @@ function isNumber (v: any): boolean {
   return typeof v === 'number'
 }
 
-function scrollToPosition (shouldScroll, position) {
+function scrollToPosition (shouldScroll, position, scrollElementSelector?) {
   const isObject = typeof shouldScroll === 'object'
   if (isObject && typeof shouldScroll.selector === 'string') {
     const el = document.querySelector(shouldScroll.selector)
@@ -130,6 +164,12 @@ function scrollToPosition (shouldScroll, position) {
   }
 
   if (position) {
-    window.scrollTo(position.x, position.y)
+    const scrollElement = getScrollElement(scrollElementSelector)
+    if (typeof scrollElement.scrollTo === 'function') {
+      scrollElement.scrollTo(position.x, position.y)
+    } else {
+      scrollElement.scrollTop = position.y
+      scrollElement.scrollLeft = position.x
+    }
   }
 }
