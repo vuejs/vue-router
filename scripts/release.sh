@@ -10,10 +10,10 @@ then
   npm test
 
   # commit
-  npm version $VERSION --message "chore(release): %s"
   VERSION=$VERSION npm run build
   git add dist
-  git commit --amend --no-edit # merge with previous commit
+  git commit -m "build: bundle $VERSION"
+  npm version $VERSION --message "chore(release): %s"
 
   echo "Please check the git history and press enter"
   read OKAY
