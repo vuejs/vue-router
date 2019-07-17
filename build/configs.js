@@ -49,9 +49,12 @@ module.exports = [
 ].map(genConfig)
 
 function genConfig (opts) {
+  const input = opts.format === 'es'
+    ? resolve('src/index-es.js')
+    : resolve('src/index.js')
   const config = {
     input: {
-      input: resolve('src/index.js'),
+      input,
       plugins: [
         flow(),
         node(),
