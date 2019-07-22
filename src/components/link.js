@@ -83,8 +83,28 @@ export default {
       on[this.event] = handler
     }
 
-    const data: any = {
-      class: classes
+    const data: any = { class: classes }
+
+    console.log({
+      scoped: this.$scopedSlots,
+      slots: this.$slots
+    })
+    const scopedSlot =
+      !this.$scopedSlots.$hasNormal &&
+      this.$scopedSlots.default &&
+      this.$scopedSlots.default({
+        href,
+        route,
+        navigate: handler,
+        isActive: classes[activeClass],
+        isExactActive: classes[exactActiveClass]
+      })
+
+    console.log(scopedSlot)
+
+    if (scopedSlot) {
+      if (scopedSlot.length > 1 || !scopedSlot.length) throw new Error('no')
+      return scopedSlot[0]
     }
 
     if (this.tag === 'a') {
