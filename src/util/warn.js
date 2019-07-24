@@ -17,5 +17,9 @@ export function isError (err: any): boolean {
 }
 
 export function isExtendedError (constructor: Function, err: any): boolean {
-  return err instanceof constructor || (err && err.name === constructor.name)
+  return (
+    err instanceof constructor ||
+    // _name is to support IE9 too
+    (err && (err.name === constructor.name || err._name === constructor._name))
+  )
 }
