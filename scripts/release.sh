@@ -15,19 +15,17 @@ then
   git commit -m "build: bundle $VERSION"
   npm version $VERSION --message "chore(release): %s"
 
-  echo "Please check the git history and press enter"
+  # changelog
+  npm run changelog
+  echo "Please check the git history and the changelog and press enter"
   read OKAY
+  git add CHANGELOG.md
+  git commit -m "chore(changelog): $VERSION"
 
   # publish
   git push origin refs/tags/v$VERSION
   git push
   npm publish
 
-  # changelog
-  npm run changelog
-  echo "Please check the changelog and press enter"
-  read OKAY
-  git add CHANGELOG.md
-  git commit -m "chore(changelog): $VERSION"
   git push
 fi
