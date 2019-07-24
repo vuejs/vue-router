@@ -3,6 +3,7 @@
 import { createRoute, isSameRoute, isIncludedRoute } from '../util/route'
 import { extend } from '../util/misc'
 import { normalizeLocation } from '../util/location'
+import { warn } from '../util/warn'
 
 // work around weird flow bug
 const toTypes: Array<Function> = [String, Object]
@@ -97,8 +98,19 @@ export default {
       })
 
     if (scopedSlot) {
-      if (scopedSlot.length > 1 || !scopedSlot.length) throw new Error('no')
-      return scopedSlot[0]
+      if (scopedSlot.length === 1) {
+        return scopedSlot[0]
+      } else if (scopedSlot.length > 1 || !scopedSlot.length) {
+        if (process.env.NODE_ENV !== 'production') {
+          warn(
+            false,
+            `RouterLink with to="${
+              this.props.to
+            }" is trying to use a scoped slot but it didn't provide exactly one child.`
+          )
+        }
+        return scopedSlot.length === 0 ? h() : h('span', {}, scopedSlot)
+      }
     }
 
     if (this.tag === 'a') {
