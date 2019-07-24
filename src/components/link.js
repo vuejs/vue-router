@@ -85,10 +85,6 @@ export default {
 
     const data: any = { class: classes }
 
-    console.log({
-      scoped: this.$scopedSlots,
-      slots: this.$slots
-    })
     const scopedSlot =
       !this.$scopedSlots.$hasNormal &&
       this.$scopedSlots.default &&
@@ -99,8 +95,6 @@ export default {
         isActive: classes[activeClass],
         isExactActive: classes[exactActiveClass]
       })
-
-    console.log(scopedSlot)
 
     if (scopedSlot) {
       if (scopedSlot.length > 1 || !scopedSlot.length) throw new Error('no')
