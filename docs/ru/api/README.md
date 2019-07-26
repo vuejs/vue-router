@@ -114,7 +114,7 @@ sidebar: auto
 
   ```html
   <!-- эта ссылка будет активной только для адреса `/` -->
-  <router-link to="/" exact>
+  <router-link to="/" exact></router-link>
   ```
 
   Ознакомьтесь с другими примерами активных классов ссылок [вживую](https://jsfiddle.net/8xrk1n9f/).
@@ -168,20 +168,20 @@ sidebar: auto
 
   ```js
   declare type RouteConfig = {
-    path: string;
-    component?: Component;
-    name?: string; // для именованных маршрутов
-    components?: { [name: string]: Component }; // для именованных представлений
-    redirect?: string | Location | Function;
-    props?: boolean | Object | Function;
-    alias?: string | Array<string>;
-    children?: Array<RouteConfig>; // для вложенных маршрутов
-    beforeEnter?: (to: Route, from: Route, next: Function) => void;
-    meta?: any;
+    path: string,
+    component?: Component,
+    name?: string, // для именованных маршрутов
+    components?: { [name: string]: Component }, // для именованных представлений
+    redirect?: string | Location | Function,
+    props?: boolean | Object | Function,
+    alias?: string | Array<string>,
+    children?: Array<RouteConfig>, // для вложенных маршрутов
+    beforeEnter?: (to: Route, from: Route, next: Function) => void,
+    meta?: any,
 
     // Добавлено в версии 2.6.0+
-    caseSensitive?: boolean; // учитывать регистр при сравнении? (по умолчанию: false)
-    pathToRegexpOptions?: Object; // настройки path-to-regexp для компиляции regex
+    caseSensitive?: boolean, // учитывать регистр при сравнении? (по умолчанию: false)
+    pathToRegexpOptions?: Object, // настройки path-to-regexp для компиляции regex
   }
   ```
 
