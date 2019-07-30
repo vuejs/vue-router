@@ -151,11 +151,25 @@ export default class VueRouter {
   }
 
   push (location: RawLocation, onComplete?: Function, onAbort?: Function) {
-    this.history.push(location, onComplete, onAbort)
+    // $flow-disable-line
+    if (!onComplete && !onAbort && typeof Promise !== 'undefined') {
+      return new Promise(resolve => {
+        this.history.push(location, resolve)
+      })
+    } else {
+      this.history.push(location, onComplete, onAbort)
+    }
   }
 
   replace (location: RawLocation, onComplete?: Function, onAbort?: Function) {
-    this.history.replace(location, onComplete, onAbort)
+    // $flow-disable-line
+    if (!onComplete && !onAbort && typeof Promise !== 'undefined') {
+      return new Promise(resolve => {
+        this.history.replace(location, resolve)
+      })
+    } else {
+      this.history.replace(location, onComplete, onAbort)
+    }
   }
 
   go (n: number) {

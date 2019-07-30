@@ -118,7 +118,7 @@ describe('router.addRoutes', () => {
   })
 })
 
-describe('router.push/replace callbacks', () => {
+describe('router.push/replace', () => {
   let calls = []
   let router, spy1, spy2
 
@@ -151,38 +151,87 @@ describe('router.push/replace callbacks', () => {
       }, 1)
     })
   })
+  describe('callbacks', () => {
+    it('push complete', done => {
+      router.push('/foo', () => {
+        expect(calls).toEqual([1, 2, 3, 4])
+        done()
+      })
+    })
 
-  it('push complete', done => {
-    router.push('/foo', () => {
-      expect(calls).toEqual([1, 2, 3, 4])
-      done()
+    it('push abort', done => {
+      router.push('/foo', spy1, spy2)
+      router.push('/bar', () => {
+        expect(calls).toEqual([1, 1, 2, 2])
+        expect(spy1).not.toHaveBeenCalled()
+        expect(spy2).toHaveBeenCalled()
+        done()
+      })
+    })
+
+    it('replace complete', done => {
+      router.replace('/foo', () => {
+        expect(calls).toEqual([1, 2, 3, 4])
+        done()
+      })
+    })
+
+    it('replace abort', done => {
+      router.replace('/foo', spy1, spy2)
+      router.replace('/bar', () => {
+        expect(calls).toEqual([1, 1, 2, 2])
+        expect(spy1).not.toHaveBeenCalled()
+        expect(spy2).toHaveBeenCalled()
+        done()
+      })
     })
   })
 
-  it('push abort', done => {
-    router.push('/foo', spy1, spy2)
-    router.push('/bar', () => {
-      expect(calls).toEqual([1, 1, 2, 2])
-      expect(spy1).not.toHaveBeenCalled()
-      expect(spy2).toHaveBeenCalled()
-      done()
+  describe('promises', () => {
+    it('push with callback return undefined', done => {
+      expect(router.push('/foo', done)).toEqual(undefined)
     })
-  })
 
-  it('replace complete', done => {
-    router.replace('/foo', () => {
-      expect(calls).toEqual([1, 2, 3, 4])
-      done()
+    it('push complete', done => {
+      router.push('/foo')
+        .then(spy1)
+        .finally(() => {
+          expect(calls).toEqual([1, 2, 3, 4])
+          expect(spy1).toHaveBeenCalledWith(router.currentRoute)
+          done()
+        })
     })
-  })
 
-  it('replace abort', done => {
-    router.replace('/foo', spy1, spy2)
-    router.replace('/bar', () => {
-      expect(calls).toEqual([1, 1, 2, 2])
-      expect(spy1).not.toHaveBeenCalled()
-      expect(spy2).toHaveBeenCalled()
-      done()
+    it('push abort', done => {
+      router.push('/foo')
+      router.push('/bar').finally(() => {
+        expect(calls).toEqual([1, 1, 2, 2])
+        expect(spy1).not.toHaveBeenCalled()
+        done()
+      })
+    })
+
+    it('replace with callback return undefined', done => {
+      expect(router.replace('/foo', done)).toEqual(undefined)
+    })
+
+    it('replace complete', done => {
+      router.replace('/foo')
+        .then(spy1)
+        .finally(() => {
+          expect(calls).toEqual([1, 2, 3, 4])
+          expect(spy1).toHaveBeenCalledWith(router.currentRoute)
+          done()
+        })
+    })
+
+    it('replace abort', done => {
+      router.replace('/foo')
+      router.replace('/bar').finally(() => {
+        expect(calls).toEqual([1, 1, 2, 2])
+        expect(spy1).not.toHaveBeenCalled()
+        done()
+      })
     })
   })
 })
