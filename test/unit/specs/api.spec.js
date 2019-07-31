@@ -152,7 +152,7 @@ describe('router.push/replace', () => {
     })
   })
   describe('callbacks', () => {
-    it('push with callback return undefined', done => {
+    it('push does not return a Promise when a callback is passed', done => {
       expect(router.push('/foo', done)).toEqual(undefined)
     })
 
@@ -173,7 +173,7 @@ describe('router.push/replace', () => {
       })
     })
 
-    it('replace with callback return undefined', done => {
+    it('replace does not return a Promise when a callback is passed', done => {
       expect(router.replace('/foo', done)).toEqual(undefined)
     })
 
