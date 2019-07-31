@@ -207,10 +207,11 @@ describe('router.push/replace', () => {
     })
 
     it('push abort', done => {
-      router.push('/foo')
+      router.push('/foo').catch(spy2)
       router.push('/bar').finally(() => {
         expect(calls).toEqual([1, 1, 2, 2])
         expect(spy1).not.toHaveBeenCalled()
+        expect(spy2).toHaveBeenCalled()
         done()
       })
     })
@@ -226,10 +227,11 @@ describe('router.push/replace', () => {
     })
 
     it('replace abort', done => {
-      router.replace('/foo')
+      router.replace('/foo').catch(spy2)
       router.replace('/bar').finally(() => {
         expect(calls).toEqual([1, 1, 2, 2])
         expect(spy1).not.toHaveBeenCalled()
+        expect(spy2).toHaveBeenCalled()
         done()
       })
     })

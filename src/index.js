@@ -153,8 +153,8 @@ export default class VueRouter {
   push (location: RawLocation, onComplete?: Function, onAbort?: Function) {
     // $flow-disable-line
     if (!onComplete && !onAbort && typeof Promise !== 'undefined') {
-      return new Promise(resolve => {
-        this.history.push(location, resolve)
+      return new Promise((resolve, reject) => {
+        this.history.push(location, resolve, reject)
       })
     } else {
       this.history.push(location, onComplete, onAbort)
@@ -164,8 +164,8 @@ export default class VueRouter {
   replace (location: RawLocation, onComplete?: Function, onAbort?: Function) {
     // $flow-disable-line
     if (!onComplete && !onAbort && typeof Promise !== 'undefined') {
-      return new Promise(resolve => {
-        this.history.replace(location, resolve)
+      return new Promise((resolve, reject) => {
+        this.history.replace(location, resolve, reject)
       })
     } else {
       this.history.replace(location, onComplete, onAbort)
