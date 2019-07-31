@@ -152,6 +152,10 @@ describe('router.push/replace', () => {
     })
   })
   describe('callbacks', () => {
+    it('push with callback return undefined', done => {
+      expect(router.push('/foo', done)).toEqual(undefined)
+    })
+
     it('push complete', done => {
       router.push('/foo', () => {
         expect(calls).toEqual([1, 2, 3, 4])
@@ -167,6 +171,10 @@ describe('router.push/replace', () => {
         expect(spy2).toHaveBeenCalled()
         done()
       })
+    })
+
+    it('replace with callback return undefined', done => {
+      expect(router.replace('/foo', done)).toEqual(undefined)
     })
 
     it('replace complete', done => {
@@ -188,10 +196,6 @@ describe('router.push/replace', () => {
   })
 
   describe('promises', () => {
-    it('push with callback return undefined', done => {
-      expect(router.push('/foo', done)).toEqual(undefined)
-    })
-
     it('push complete', done => {
       router.push('/foo')
         .then(spy1)
@@ -209,10 +213,6 @@ describe('router.push/replace', () => {
         expect(spy1).not.toHaveBeenCalled()
         done()
       })
-    })
-
-    it('replace with callback return undefined', done => {
-      expect(router.replace('/foo', done)).toEqual(undefined)
     })
 
     it('replace complete', done => {

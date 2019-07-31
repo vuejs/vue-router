@@ -23,8 +23,10 @@ export declare class VueRouter {
   beforeEach (guard: NavigationGuard): Function;
   beforeResolve (guard: NavigationGuard): Function;
   afterEach (hook: (to: Route, from: Route) => any): Function;
-  push (location: RawLocation, onComplete?: Function, onAbort?: ErrorHandler): Promise<Route> | void;
-  replace (location: RawLocation, onComplete?: Function, onAbort?: ErrorHandler): Promise<Route> | void;
+  push (location: RawLocation, onComplete?: Function, onAbort?: ErrorHandler): void;
+  replace (location: RawLocation, onComplete?: Function, onAbort?: ErrorHandler): void;
+  push (location: RawLocation): Promise<Route>;
+  replace (location: RawLocation): Promise<Route>;
   go (n: number): void;
   back (): void;
   forward (): void;
