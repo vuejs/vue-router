@@ -177,8 +177,14 @@ export class History {
     }
 
     runQueue(queue, iterator, () => {
+      const app = this.router.app
       const postEnterCbs = []
-      const isValid = () => this.current === route
+      const isValid = () => {
+        if (app && app._isBeingDestroyed) {
+          return false
+        }
+        return this.current === route
+      }
       // wait until async components are resolved before
       // extracting in-component enter guards
       const enterGuards = extractEnterGuards(activated, postEnterCbs, isValid)
@@ -189,8 +195,8 @@ export class History {
         }
         this.pending = null
         onComplete(route)
-        if (this.router.app) {
-          this.router.app.$nextTick(() => {
+        if (app) {
+          app.$nextTick(() => {
             postEnterCbs.forEach(cb => {
               cb()
             })
