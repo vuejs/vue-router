@@ -22,7 +22,7 @@ sidebar: auto
 
 Sometimes we may want the active class to be applied to an outer element rather than the `<a>` tag itself, in that case, you can render that outer element using `<router-link>` and wrap the raw `<a>` tag inside:
 
-``` html
+```html
 <router-link tag="li" to="/foo">
   <a>/foo</a>
 </router-link>
@@ -39,7 +39,7 @@ In this case the `<a>` will be the actual link (and will get the correct `href`)
 
   Denotes the target route of the link. When clicked, the value of the `to` prop will be passed to `router.push()` internally, so the value can be either a string or a location descriptor object.
 
-  ``` html
+  ```html
   <!-- literal string -->
   <router-link to="home">Home</router-link>
   <!-- renders to -->
@@ -58,7 +58,9 @@ In this case the `<a>` will be the actual link (and will get the correct `href`)
   <router-link :to="{ name: 'user', params: { userId: 123 }}">User</router-link>
 
   <!-- with query, resulting in `/register?plan=private` -->
-  <router-link :to="{ path: 'register', query: { plan: 'private' }}">Register</router-link>
+  <router-link :to="{ path: 'register', query: { plan: 'private' }}"
+    >Register</router-link
+  >
   ```
 
 ### replace
@@ -68,7 +70,7 @@ In this case the `<a>` will be the actual link (and will get the correct `href`)
 
   Setting `replace` prop will call `router.replace()` instead of `router.push()` when clicked, so the navigation will not leave a history record.
 
-  ``` html
+  ```html
   <router-link :to="{ path: '/abc'}" replace></router-link>
   ```
 
@@ -79,7 +81,7 @@ In this case the `<a>` will be the actual link (and will get the correct `href`)
 
   Setting `append` prop always appends the relative path to the current path. For example, assuming we are navigating from `/a` to a relative link `b`, without `append` we will end up at `/b`, but with `append` we will end up at `/a/b`.
 
-  ``` html
+  ```html
   <router-link :to="{ path: 'relative/path'}" append></router-link>
   ```
 
@@ -90,7 +92,7 @@ In this case the `<a>` will be the actual link (and will get the correct `href`)
 
   Sometimes we want `<router-link>` to render as another tag, e.g `<li>`. Then we can use `tag` prop to specify which tag to render to, and it will still listen to click events for navigation.
 
-  ``` html
+  ```html
   <router-link to="/foo" tag="li">foo</router-link>
   <!-- renders as -->
   <li>foo</li>
@@ -112,9 +114,9 @@ In this case the `<a>` will be the actual link (and will get the correct `href`)
 
   One consequence of this is that `<router-link to="/">` will be active for every route! To force the link into "exact match mode", use the `exact` prop:
 
-  ``` html
+  ```html
   <!-- this link will only be active at `/` -->
-  <router-link to="/" exact>
+  <router-link to="/" exact></router-link>
   ```
 
   Check out more examples explaining active link class [live](https://jsfiddle.net/8xrk1n9f/).
@@ -141,7 +143,7 @@ Any non-name props will be passed along to the rendered component, however most 
 
 Since it's just a component, it works with `<transition>` and `<keep-alive>`. When using the both together, make sure to use `<keep-alive>` inside:
 
-``` html
+```html
 <transition>
   <keep-alive>
     <router-view></router-view>
@@ -166,22 +168,22 @@ Since it's just a component, it works with `<transition>` and `<keep-alive>`. Wh
 
   Type declaration for `RouteConfig`:
 
-  ``` js
-  declare type RouteConfig = {
-    path: string;
-    component?: Component;
-    name?: string; // for named routes
-    components?: { [name: string]: Component }; // for named views
-    redirect?: string | Location | Function;
-    props?: boolean | Object | Function;
-    alias?: string | Array<string>;
-    children?: Array<RouteConfig>; // for nested routes
-    beforeEnter?: (to: Route, from: Route, next: Function) => void;
-    meta?: any;
+  ```ts
+  interface RouteConfig = {
+    path: string,
+    component?: Component,
+    name?: string, // for named routes
+    components?: { [name: string]: Component }, // for named views
+    redirect?: string | Location | Function,
+    props?: boolean | Object | Function,
+    alias?: string | Array<string>,
+    children?: Array<RouteConfig>, // for nested routes
+    beforeEnter?: (to: Route, from: Route, next: Function) => void,
+    meta?: any,
 
     // 2.6.0+
-    caseSensitive?: boolean; // use case sensitive match? (default: false)
-    pathToRegexpOptions?: Object; // path-to-regexp options for compiling regex
+    caseSensitive?: boolean, // use case sensitive match? (default: false)
+    pathToRegexpOptions?: Object // path-to-regexp options for compiling regex
   }
   ```
 
@@ -285,12 +287,14 @@ Since it's just a component, it works with `<transition>` and `<keep-alive>`. Wh
 ## Router Instance Methods
 
 ### router.beforeEach
+
 ### router.beforeResolve
+
 ### router.afterEach
 
 Signatures:
 
-``` js
+```js
 router.beforeEach((to, from, next) => {
   /* must call `next` */
 })
@@ -307,14 +311,18 @@ Add global navigation guards. See [Navigation Guards](../guide/advanced/navigati
 All three methods return a function that removes the registered guard/hook.
 
 ### router.push
+
 ### router.replace
+
 ### router.go
+
 ### router.back
+
 ### router.forward
 
 Signatures:
 
-``` js
+```js
 router.push(location, onComplete?, onAbort?)
 router.replace(location, onComplete?, onAbort?)
 router.go(n)
@@ -328,7 +336,7 @@ Programmatically navigate to a new URL. See [Programmatic Navigation](../guide/e
 
 Signature:
 
-``` js
+```js
 const matchedComponents: Array<Component> = router.getMatchedComponents(location?)
 ```
 
@@ -338,7 +346,7 @@ Returns an Array of the components (definition/constructor, not instances) match
 
 Signature:
 
-``` js
+```js
 const resolved: {
   location: Location;
   route: Route;
@@ -355,7 +363,7 @@ Reverse URL resolving. Given location in form same as used in `<router-link/>`.
 
 Signature:
 
-``` js
+```js
 router.addRoutes(routes: Array<RouteConfig>)
 ```
 
@@ -365,7 +373,7 @@ Dynamically add more routes to the router. The argument must be an Array using t
 
 Signature:
 
-``` js
+```js
 router.onReady(callback, [errorCallback])
 ```
 
@@ -379,7 +387,7 @@ The second argument `errorCallback` is only supported in 2.4+. It will be called
 
 Signature:
 
-``` js
+```js
 router.onError(callback)
 ```
 
@@ -407,7 +415,7 @@ The route object can be found in multiple places:
 
 - Inside navigation guards as the first two arguments:
 
-  ``` js
+  ```js
   router.beforeEach((to, from, next) => {
     // `to` and `from` are both route objects
   })
@@ -415,9 +423,9 @@ The route object can be found in multiple places:
 
 - Inside the `scrollBehavior` function as the first two arguments:
 
-  ``` js
+  ```js
   const router = new VueRouter({
-    scrollBehavior (to, from, savedPosition) {
+    scrollBehavior(to, from, savedPosition) {
       // `to` and `from` are both route objects
     }
   })
@@ -425,47 +433,49 @@ The route object can be found in multiple places:
 
 ### Route Object Properties
 
-- **$route.path**
+- **\$route.path**
 
   - type: `string`
 
     A string that equals the path of the current route, always resolved as an absolute path. e.g. `"/foo/bar"`.
 
-- **$route.params**
+- **\$route.params**
 
   - type: `Object`
 
     An object that contains key/value pairs of dynamic segments and star segments. If there are no params the value will be an empty object.
 
-- **$route.query**
+- **\$route.query**
 
   - type: `Object`
 
     An object that contains key/value pairs of the query string. For example, for a path `/foo?user=1`, we get `$route.query.user == 1`. If there is no query the value will be an empty object.
 
-- **$route.hash**
+- **\$route.hash**
 
   - type: `string`
 
     The hash of the current route (with the `#`), if it has one. If no hash is present the value will be an empty string.
 
-- **$route.fullPath**
+- **\$route.fullPath**
 
   - type: `string`
 
     The full resolved URL including query and hash.
 
-- **$route.matched**
+- **\$route.matched**
 
   - type: `Array<RouteRecord>`
 
   An Array containing **route records** for all nested path segments of the current route. Route records are the copies of the objects in the `routes` configuration Array (and in `children` Arrays):
 
-  ``` js
+  ```js
   const router = new VueRouter({
     routes: [
       // the following object is a route record
-      { path: '/foo', component: Foo,
+      {
+        path: '/foo',
+        component: Foo,
         children: [
           // this is also a route record
           { path: 'bar', component: Bar }
@@ -477,11 +487,11 @@ The route object can be found in multiple places:
 
   When the URL is `/foo/bar`, `$route.matched` will be an Array containing both objects (cloned), in parent to child order.
 
-- **$route.name**
+- **\$route.name**
 
   The name of the current route, if it has one. (See [Named Routes](../guide/essentials/named-routes.md))
 
-- **$route.redirectedFrom**
+- **\$route.redirectedFrom**
 
   The name of the route being redirected from, if there were one. (See [Redirect and Alias](../guide/essentials/redirect-and-alias.md))
 
@@ -491,11 +501,11 @@ The route object can be found in multiple places:
 
 These properties are injected into every child component by passing the router instance to the root instance as the `router` option.
 
-- **this.$router**
+- **this.\$router**
 
   The router instance.
 
-- **this.$route**
+- **this.\$route**
 
   The current active [Route](#the-route-object). This property is read-only and its properties are immutable, but it can be watched.
 
