@@ -16,7 +16,7 @@ sidebar: auto
 - In HTML5 history mode, `router-link` will intercept the click event so that the browser doesn't try to reload the page.
 - When you are using the `base` option in HTML5 history mode, you don't need to include it in `to` prop's URLs.
 
-### `v-slot` API (+3.1.0)
+### `v-slot` API (3.1.0+)
 
 `router-link` exposes a low level customization through a [scoped slot](https://vuejs.org/v2/guide/components-slots.html#Scoped-Slots). This is a more advanced API that primarily targets library authors but can come in handy for developers as well, most of the time in a custom component like a _NavLink_ or other.
 
