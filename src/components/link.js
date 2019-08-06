@@ -9,6 +9,8 @@ import { warn } from '../util/warn'
 const toTypes: Array<Function> = [String, Object]
 const eventTypes: Array<Function> = [String, Array]
 
+const noop = () => {}
+
 export default {
   name: 'RouterLink',
   props: {
@@ -68,9 +70,9 @@ export default {
     const handler = e => {
       if (guardEvent(e)) {
         if (this.replace) {
-          router.replace(location)
+          router.replace(location, null, noop)
         } else {
-          router.push(location)
+          router.push(location, null, noop)
         }
       }
     }
