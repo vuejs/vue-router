@@ -1,3 +1,20 @@
+# [3.1.0](https://github.com/vuejs/vue-router/compare/v3.0.7...v3.1.0) (2019-08-06)
+
+### Bug Fixes
+
+- **abstract history:** allow router.back in abstract mode when 2 consecutive same routes appear in history stack ([#2771](https://github.com/vuejs/vue-router/issues/2771)) ([8910979](https://github.com/vuejs/vue-router/commit/8910979)), closes [#2607](https://github.com/vuejs/vue-router/issues/2607)
+- **hash:** correctly place query if placed before hash ([#2851](https://github.com/vuejs/vue-router/issues/2851)) ([b7715dc](https://github.com/vuejs/vue-router/commit/b7715dc)), closes [#2125](https://github.com/vuejs/vue-router/issues/2125) [#2262](https://github.com/vuejs/vue-router/issues/2262)
+- **link:** Fix active links when parent link redirects to child ([#2772](https://github.com/vuejs/vue-router/issues/2772)) ([64785a9](https://github.com/vuejs/vue-router/commit/64785a9)), closes [#2724](https://github.com/vuejs/vue-router/issues/2724)
+- adapt error to work on IE9 ([527d6d5](https://github.com/vuejs/vue-router/commit/527d6d5))
+
+### Features
+
+- **alias:** warn against redundant aliases ([04a02c0](https://github.com/vuejs/vue-router/commit/04a02c0)), closes [#2461](https://github.com/vuejs/vue-router/issues/2461) [#2462](https://github.com/vuejs/vue-router/issues/2462)
+- **scroll:** handle id selectors starting with a number ([799ceca](https://github.com/vuejs/vue-router/commit/799ceca)), closes [#2163](https://github.com/vuejs/vue-router/issues/2163)
+- return a promise with push and replace ([#2862](https://github.com/vuejs/vue-router/issues/2862)) ([d907a13](https://github.com/vuejs/vue-router/commit/d907a13)), closes [#1769](https://github.com/vuejs/vue-router/issues/1769) [#1769](https://github.com/vuejs/vue-router/issues/1769)
+- scoped slot for link ([e289dde](https://github.com/vuejs/vue-router/commit/e289dde))
+- warn the user for invalid uses of v-slot with Link ([44c63a9](https://github.com/vuejs/vue-router/commit/44c63a9))
+
 ## [3.0.7](https://github.com/vuejs/vue-router/compare/v3.0.6...v3.0.7) (2019-07-03)
 
 ### Bug Fixes
