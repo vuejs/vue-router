@@ -1,5 +1,5 @@
 /*!
-  * vue-router v3.1.0
+  * vue-router v3.1.1
   * (c) 2019 Evan You
   * @license MIT
   */
@@ -1001,6 +1001,8 @@ function normalizeLocation (
 var toTypes = [String, Object];
 var eventTypes = [String, Array];
 
+var noop = function () {};
+
 var Link = {
   name: 'RouterLink',
   props: {
@@ -1065,9 +1067,9 @@ var Link = {
     var handler = function (e) {
       if (guardEvent(e)) {
         if (this$1.replace) {
-          router.replace(location);
+          router.replace(location, null, noop);
         } else {
-          router.push(location);
+          router.push(location, null, noop);
         }
       }
     };
@@ -2838,7 +2840,7 @@ function createHref (base, fullPath, mode) {
 }
 
 VueRouter.install = install;
-VueRouter.version = '3.1.0';
+VueRouter.version = '3.1.1';
 
 if (inBrowser && window.Vue) {
   window.Vue.use(VueRouter);
