@@ -14,8 +14,7 @@ sidebar: auto
 
 - It works the same way in both HTML5 history mode and hash mode, so if you ever decide to switch mode, or when the router falls back to hash mode in IE9, nothing needs to be changed.
 - In HTML5 history mode, `router-link` will intercept the click event so that the browser doesn't try to reload the page.
-- When you are using the `base` option in HTML5 history mode, you don't need to
-  include it in `to` prop's URLs.
+- When you are using the `base` option in HTML5 history mode, you don't need to include it in `to` prop's URLs.
 
 ### `v-slot` API (+3.1.0)
 
