@@ -1,3 +1,9 @@
+## [3.1.1](https://github.com/vuejs/vue-router/compare/v3.1.0...v3.1.1) (2019-08-06)
+
+### Bug Fixes
+
+- **link:** silence back navigations errors ([59b6da3](https://github.com/vuejs/vue-router/commit/59b6da3))
+
 # [3.1.0](https://github.com/vuejs/vue-router/compare/v3.0.7...v3.1.0) (2019-08-06)
 
 ### Bug Fixes
