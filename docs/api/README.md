@@ -13,22 +13,52 @@ sidebar: auto
 `<router-link>` is preferred over hard-coded `<a href="...">` for the following reasons:
 
 - It works the same way in both HTML5 history mode and hash mode, so if you ever decide to switch mode, or when the router falls back to hash mode in IE9, nothing needs to be changed.
-
 - In HTML5 history mode, `router-link` will intercept the click event so that the browser doesn't try to reload the page.
-
 - When you are using the `base` option in HTML5 history mode, you don't need to include it in `to` prop's URLs.
 
-### Applying Active Class to Outer Element
+### `v-slot` API (+3.1.0)
 
-Sometimes we may want the active class to be applied to an outer element rather than the `<a>` tag itself, in that case, you can render that outer element using `<router-link>` and wrap the raw `<a>` tag inside:
+`router-link` exposes a low level customization through a [scoped slot](https://vuejs.org/v2/guide/components-slots.html#Scoped-Slots). This is a more advanced API that primarily targets library authors but can come in handy for developers as well, most of the time in a custom component like a _NavLink_ or other.
+
+**When using the `v-slot` API, it is required to pass one single child to `router-link`**. If you don't, `router-link` will wrap its children in a `span` element.
 
 ```html
-<router-link tag="li" to="/foo">
-  <a>/foo</a>
+<router-link
+  to="/about"
+  v-slot="{ href, route, navigate, isActive, isExactActive }"
+>
+  <NavLink :active="isActive" :href="href" @click="navigate"
+    >{{ route.fullPath }}</NavLink
+  >
 </router-link>
 ```
 
-In this case the `<a>` will be the actual link (and will get the correct `href`), but the active class will be applied to the outer `<li>`.
+- `href`: resolved url. This would be the `href` attribute of an `a` element
+- `route`: resolved normalized location
+- `navigate`: function to trigger the navigation. **It will automatically prevent events when necessary**, the same way `router-link` does
+- `isActive`: `true` if the [active class](#active-class) should be applied. Allows to apply an arbitrary class
+- `isExactActive`: `true` if the [exact active class](#exact-active-class) should be applied. Allows to apply an arbitrary class
+
+#### Example: Applying Active Class to Outer Element
+
+Sometimes we may want the active class to be applied to an outer element rather than the `<a>` tag itself, in that case, you can wrap that element inside a `router-link` and use the `v-slot` properties to create your link:
+
+```html
+<router-link
+  to="/foo"
+  v-slot="{ href, route, navigate, isActive, isExactActive }"
+>
+  <li
+    :class="[isActive && 'router-link-active', isExactActive && 'router-link-exact-active']"
+  >
+    <a :href="href" @click="navigate">{{ route.fullPath }}</a>
+  </li>
+</router-link>
+```
+
+:::tip
+If you add a `target="_blank"` to your `a` element, you must omit the `@click="navigate"` handler.
+:::
 
 ## `<router-link>` Props
 
