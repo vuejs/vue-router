@@ -1,5 +1,6 @@
 import { warn } from '../util/warn'
 import { extend } from '../util/misc'
+import { tryFinalizeTransition } from '../history/base'
 
 export default {
   name: 'RouterView',
@@ -63,6 +64,10 @@ export default {
         (!val && current === vm)
       ) {
         matched.instances[name] = val
+        // if the route transition has already been confirmed then we weren't
+        // able to call the cb during confirmation as the component was not
+        // registered yet, so we call it here.
+        tryFinalizeTransition(matched, name)
       }
     }
 
@@ -70,6 +75,7 @@ export default {
     // in case the same component instance is reused across different routes
     ;(data.hook || (data.hook = {})).prepatch = (_, vnode) => {
       matched.instances[name] = vnode.componentInstance
+      tryFinalizeTransition(matched, name)
     }
 
     // register instance in init hook
@@ -80,6 +86,7 @@ export default {
         vnode.componentInstance !== matched.instances[name]
       ) {
         matched.instances[name] = vnode.componentInstance
+        tryFinalizeTransition(matched, name)
       }
     }
 

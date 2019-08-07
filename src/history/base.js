@@ -178,10 +178,9 @@ export class History {
 
     runQueue(queue, iterator, () => {
       const postEnterCbs = []
-      const isValid = () => this.current === route
       // wait until async components are resolved before
       // extracting in-component enter guards
-      const enterGuards = extractEnterGuards(activated, postEnterCbs, isValid)
+      const enterGuards = extractEnterGuards(activated, postEnterCbs)
       const queue = enterGuards.concat(this.router.resolveHooks)
       runQueue(queue, iterator, () => {
         if (this.pending !== route) {
@@ -299,13 +298,12 @@ function bindGuard (guard: NavigationGuard, instance: ?_Vue): ?NavigationGuard {
 function extractEnterGuards (
   activated: Array<RouteRecord>,
   cbs: Array<Function>,
-  isValid: () => boolean
 ): Array<?Function> {
   return extractGuards(
     activated,
     'beforeRouteEnter',
     (guard, _, match, key) => {
-      return bindEnterGuard(guard, match, key, cbs, isValid)
+      return bindEnterGuard(guard, match, key, cbs)
     }
   )
 }
@@ -315,18 +313,15 @@ function bindEnterGuard (
   match: RouteRecord,
   key: string,
   cbs: Array<Function>,
-  isValid: () => boolean
 ): NavigationGuard {
   return function routeEnterGuard (to, from, next) {
     return guard(to, from, cb => {
       if (typeof cb === 'function') {
+        match.pendingCbs[key] = cb
         cbs.push(() => {
-          // #750
-          // if a router-view is wrapped with an out-in transition,
-          // the instance may not have been registered at this time.
-          // we will need to poll for registration until current route
-          // is no longer valid.
-          poll(cb, match.instances, key, isValid)
+          // if the instance is registered call the cb here, otherwise it will
+          // get called when it is registered in the component's lifecycle hooks
+          tryFinalizeTransition(match, key)
         })
       }
       next(cb)
@@ -334,20 +329,11 @@ function bindEnterGuard (
   }
 }
 
-function poll (
-  cb: any, // somehow flow cannot infer this is a function
-  instances: Object,
-  key: string,
-  isValid: () => boolean
-) {
-  if (
-    instances[key] &&
-    !instances[key]._isBeingDestroyed // do not reuse being destroyed instance
-  ) {
-    cb(instances[key])
-  } else if (isValid()) {
-    setTimeout(() => {
-      poll(cb, instances, key, isValid)
-    }, 16)
+export function tryFinalizeTransition (record: RouteRecord, name: string) {
+  if (record.instances[name] && record.pendingCbs[name]) {
+    const instance = record.instances[name]
+    const cb = record.pendingCbs[name]
+    delete record.pendingCbs[name]
+    cb(instance)
   }
 }
