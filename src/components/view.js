@@ -1,6 +1,6 @@
 import { warn } from '../util/warn'
 import { extend } from '../util/misc'
-import { tryFinalizeTransition } from '../util/route'
+import { handleRouteEntered } from '../util/route'
 
 export default {
   name: 'RouterView',
@@ -74,7 +74,8 @@ export default {
       // if the route transition has already been confirmed then we weren't
       // able to call the cb during confirmation as the component was not
       // registered yet, so we call it here.
-      tryFinalizeTransition(matched, name)
+      matched.enteredCbs
+      handleRouteEntered(matched, name)
     }
 
     // register instance in init hook
@@ -85,7 +86,7 @@ export default {
         vnode.componentInstance !== matched.instances[name]
       ) {
         matched.instances[name] = vnode.componentInstance
-        tryFinalizeTransition(matched, name)
+        handleRouteEntered(matched, name)
       }
     }
 
