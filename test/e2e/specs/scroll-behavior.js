@@ -11,7 +11,7 @@ module.exports = {
     browser
       .url('http://localhost:8080/scroll-behavior/')
       .waitForElementVisible('#app', 1000)
-      .assert.count('li a', 5)
+      .assert.count('li a', 6)
       .assert.containsText('.view', 'home')
 
       .execute(function () {
@@ -116,6 +116,16 @@ module.exports = {
         },
         null,
         'scroll to anchor with offset'
+      )
+      .execute(function () {
+        document.querySelector('li:nth-child(6) a').click()
+      })
+      .assert.evaluate(
+        function () {
+          return document.getElementById('1number').getBoundingClientRect().top < 1
+        },
+        null,
+        'scroll to anchor that starts with number'
       )
       .end()
   }

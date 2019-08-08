@@ -1,6 +1,6 @@
 {
   "name": "vue-router",
-  "version": "3.0.7",
+  "version": "3.1.1",
   "description": "Official router for Vue.js 2",
   "author": "Evan You",
   "license": "MIT",
@@ -39,7 +39,7 @@
     "test:types": "tsc -p types/test",
     "docs": "vuepress dev docs",
     "docs:build": "vuepress build docs",
-    "changelog": "conventional-changelog -p angular -r 1 -i CHANGELOG.md -s",
+    "changelog": "conventional-changelog -p angular -r 2 -i CHANGELOG.md -s",
     "release": "bash scripts/release.sh"
   },
   "gitHooks": {
@@ -62,7 +62,7 @@
     "babel-preset-flow-vue": "^1.0.0",
     "browserstack-local": "^1.4.0",
     "buble": "^0.19.8",
-    "chromedriver": "^74.0.0",
+    "chromedriver": "^76.0.0",
     "conventional-changelog-cli": "^2.0.11",
     "cross-spawn": "^6.0.5",
     "css-loader": "^2.1.1",

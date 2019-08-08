@@ -34,6 +34,8 @@ module.exports = {
         browserName: 'chrome',
         acceptSslCerts: true,
         chromeOptions: {
+          // https://github.com/nightwatchjs/nightwatch/releases/tag/v1.1.12
+          w3c: false,
           args: ['window-size=1280,800', 'headless']
         }
       }
@@ -44,6 +46,8 @@ module.exports = {
         browserName: 'chrome',
         acceptSslCerts: true,
         chromeOptions: {
+          // https://github.com/nightwatchjs/nightwatch/releases/tag/v1.1.12
+          w3c: false,
           args: ['window-size=1280,800']
         }
       }

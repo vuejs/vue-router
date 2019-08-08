@@ -12,6 +12,7 @@
  *
  * If you are already running the dev server with `yarn run serve`, you can pass the --dev option to avoid launching the server
  * $ node test/e2e/runner.js --dev
+ * **Make sure to pass the option at the end**
  *
  * __For maintainers only__
  * You can trigger tests on Browserstack on other browsers by passing the --local option
@@ -62,6 +63,7 @@ if (args.indexOf('-c') < 0) {
 function adaptArgv (argv) {
   // take every remaining argument and treat it as a test file
   // this allows to run `node test/e2e/runner.js test/e2e/basic.js`
+  argv.retries = 1
   argv.test = argv['_'].slice(0)
 
   if (argv.c === DEFAULT_CONFIG && argv.config === DEFAULT_CONFIG) {
