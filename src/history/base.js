@@ -5,7 +5,7 @@ import type Router from '../index'
 import { inBrowser } from '../util/dom'
 import { runQueue } from '../util/async'
 import { warn, isError, isExtendedError } from '../util/warn'
-import { START, isSameRoute, tryFinalizeTransition } from '../util/route'
+import { START, isSameRoute, handleRouteEntered } from '../util/route'
 import {
   flatten,
   flatMapComponents,
@@ -177,10 +177,10 @@ export class History {
     }
 
     runQueue(queue, iterator, () => {
-      const postEnterCbs = []
+      const enteredCbs = []
       // wait until async components are resolved before
       // extracting in-component enter guards
-      const enterGuards = extractEnterGuards(activated, postEnterCbs)
+      const enterGuards = extractEnterGuards(activated, enteredCbs)
       const queue = enterGuards.concat(this.router.resolveHooks)
       runQueue(queue, iterator, () => {
         if (this.pending !== route) {
@@ -190,7 +190,7 @@ export class History {
         onComplete(route)
         if (this.router.app) {
           this.router.app.$nextTick(() => {
-            postEnterCbs.forEach(cb => {
+            enteredCbs.forEach(cb => {
               cb()
             })
           })
@@ -317,14 +317,14 @@ function bindEnterGuard (
   return function routeEnterGuard (to, from, next) {
     return guard(to, from, cb => {
       if (typeof cb === 'function') {
-        if (!match.pendingCbs[key]) {
-          match.pendingCbs[key] = []
+        if (!match.enteredCbs[key]) {
+          match.enteredCbs[key] = []
         }
-        match.pendingCbs[key].push(cb)
+        match.enteredCbs[key].push(cb)
         cbs.push(() => {
           // if the instance is registered call the cb here, otherwise it will
           // get called when it is registered in the component's lifecycle hooks
-          tryFinalizeTransition(match, key)
+          handleRouteEntered(match, key)
         })
       }
       next(cb)
