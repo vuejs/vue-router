@@ -1,7 +1,6 @@
-import Vue, { ComponentOptions, AsyncComponent } from "vue";
-
-import VueRouter from "../index";
-import { Route, RouteRecord, RedirectOption } from "../index";
+import Vue, { ComponentOptions } from "vue";
+import { Component } from "../router";
+import VueRouter, { Route, RouteRecord, RedirectOption } from "../index";
 
 Vue.use(VueRouter);
 
@@ -9,6 +8,7 @@ const Home = { template: "<div>home</div>" };
 const Foo = { template: "<div>foo</div>" };
 const Bar = { template: "<div>bar</div>" };
 const Async = () => Promise.resolve({ template: "<div>async</div>" })
+const Functional = { functional: true, template: "<div>functional</div>" };
 
 const Hook: ComponentOptions<Vue> = {
   template: "<div>hook</div>",
@@ -73,6 +73,7 @@ const router = new VueRouter({
           default: Foo,
           bar: Bar,
           asyncComponent: Async,
+          functionalComponent: Functional,
         },
         meta: { auth: true },
         beforeEnter (to, from, next) {
@@ -115,7 +116,7 @@ const matched: RouteRecord[] = route.matched;
 matched.forEach(m => {
   const path: string = m.path;
   const components: {
-    [key: string]: ComponentOptions<Vue> | typeof Vue | AsyncComponent
+    [key: string]: Component
   } = m.components;
   const instances: { [key: string]: Vue } = m.instances;
   const name: string | undefined = m.name;
@@ -171,7 +172,7 @@ router.go(-1);
 router.back();
 router.forward();
 
-const Components: (ComponentOptions<Vue> | typeof Vue | AsyncComponent)[] = router.getMatchedComponents();
+const Components: Component[] = router.getMatchedComponents();
 
 const vm = new Vue({
   router,
