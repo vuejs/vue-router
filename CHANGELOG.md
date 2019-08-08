@@ -1,3 +1,13 @@
+## [3.1.2](https://github.com/vuejs/vue-router/compare/v3.1.1...v3.1.2) (2019-08-08)
+
+### Bug Fixes
+
+- **types:** prioritize promise based push/replace ([1243e8b](https://github.com/vuejs/vue-router/commit/1243e8b))
+
+### Reverts
+
+- "fix(hash): correctly place query if placed before hash ([#2851](https://github.com/vuejs/vue-router/issues/2851))" ([9b30e4c](https://github.com/vuejs/vue-router/commit/9b30e4c)), closes [#2876](https://github.com/vuejs/vue-router/issues/2876). See more information at https://github.com/vuejs/vue-router/issues/2125#issuecomment-519521424
+
 ## [3.1.1](https://github.com/vuejs/vue-router/compare/v3.1.0...v3.1.1) (2019-08-06)
 
 ### Bug Fixes
