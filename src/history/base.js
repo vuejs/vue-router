@@ -5,7 +5,7 @@ import type Router from '../index'
 import { inBrowser } from '../util/dom'
 import { runQueue } from '../util/async'
 import { warn, isError, isExtendedError } from '../util/warn'
-import { START, isSameRoute } from '../util/route'
+import { START, isSameRoute, tryFinalizeTransition } from '../util/route'
 import {
   flatten,
   flatMapComponents,
@@ -317,7 +317,10 @@ function bindEnterGuard (
   return function routeEnterGuard (to, from, next) {
     return guard(to, from, cb => {
       if (typeof cb === 'function') {
-        match.pendingCbs[key] = cb
+        if (!match.pendingCbs[key]) {
+          match.pendingCbs[key] = []
+        }
+        match.pendingCbs[key].push(cb)
         cbs.push(() => {
           // if the instance is registered call the cb here, otherwise it will
           // get called when it is registered in the component's lifecycle hooks
@@ -326,14 +329,5 @@ function bindEnterGuard (
       }
       next(cb)
     })
-  }
-}
-
-export function tryFinalizeTransition (record: RouteRecord, name: string) {
-  if (record.instances[name] && record.pendingCbs[name]) {
-    const instance = record.instances[name]
-    const cb = record.pendingCbs[name]
-    delete record.pendingCbs[name]
-    cb(instance)
   }
 }

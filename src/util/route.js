@@ -130,3 +130,14 @@ function queryIncludes (current: Dictionary<string>, target: Dictionary<string>)
   }
   return true
 }
+
+export function tryFinalizeTransition (record: RouteRecord, name: string) {
+  if (record.instances[name] && record.pendingCbs[name]) {
+    const instance = record.instances[name]
+    const cbs = record.pendingCbs[name]
+    delete record.pendingCbs[name]
+    for (let i = 0; i < cbs.length; i++) {
+      cbs[i](instance)
+    }
+  }
+}
