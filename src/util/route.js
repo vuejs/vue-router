@@ -132,12 +132,11 @@ function queryIncludes (current: Dictionary<string>, target: Dictionary<string>)
 }
 
 export function handleRouteEntered (record: RouteRecord, name: string) {
-  if (record.instances[name] && record.enteredCbs[name]) {
-    const instance = record.instances[name]
-    const cbs = record.enteredCbs[name]
-    delete record.enteredCbs[name]
-    for (let i = 0; i < cbs.length; i++) {
-      cbs[i](instance)
-    }
+  const instance = record.instances[name]
+  const cbs = record.enteredCbs[name]
+  if (!instance || !cbs) return
+  delete record.enteredCbs[name]
+  for (let i = 0; i < cbs.length; i++) {
+    cbs[i](instance)
   }
 }
