@@ -142,7 +142,7 @@ function getUrl (path) {
   const query = searchPos > -1 ? base.slice(searchPos) : ''
   base = query ? base.slice(0, searchPos) : base
 
-  return `${base}#${path + query}`
+  return `${base}${query}#${path}`
 }
 
 function pushHash (path) {

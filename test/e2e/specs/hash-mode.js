@@ -62,13 +62,13 @@ module.exports = {
       // https://github.com/vuejs/vue-router/issues/2125
       .url('http://localhost:8080/hash-mode/?key=foo')
       .waitForElementVisible('#app', 1000)
-      .assert.urlEquals('http://localhost:8080/hash-mode/#/?key=foo')
+      .assert.urlEquals('http://localhost:8080/hash-mode/?key=foo#/')
       .url('http://localhost:8080/hash-mode?key=foo')
       .waitForElementVisible('#app', 1000)
-      .assert.urlEquals('http://localhost:8080/hash-mode/#/?key=foo')
+      .assert.urlEquals('http://localhost:8080/hash-mode/?key=foo#/')
       .url('http://localhost:8080/hash-mode?key=foo#other')
       .waitForElementVisible('#app', 1000)
-      .assert.urlEquals('http://localhost:8080/hash-mode/#/other?key=foo')
+      .assert.urlEquals('http://localhost:8080/hash-mode/?key=foo#/other')
       .end()
   }
 }
