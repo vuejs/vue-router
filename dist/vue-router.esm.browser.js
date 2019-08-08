@@ -1,5 +1,5 @@
 /*!
-  * vue-router v3.1.1
+  * vue-router v3.1.2
   * (c) 2019 Evan You
   * @license MIT
   */
@@ -1042,9 +1042,9 @@ var Link = {
     const handler = e => {
       if (guardEvent(e)) {
         if (this.replace) {
-          router.replace(location, null, noop);
+          router.replace(location, noop);
         } else {
-          router.push(location, null, noop);
+          router.push(location, noop);
         }
       }
     };
@@ -2456,14 +2456,9 @@ function getHash () {
 
 function getUrl (path) {
   const href = window.location.href;
-  const hashPos = href.indexOf('#');
-  let base = hashPos > -1 ? href.slice(0, hashPos) : href;
-
-  const searchPos = base.indexOf('?');
-  const query = searchPos > -1 ? base.slice(searchPos) : '';
-  base = query ? base.slice(0, searchPos) : base;
-
-  return `${base}#${path + query}`
+  const i = href.indexOf('#');
+  const base = i >= 0 ? href.slice(0, i) : href;
+  return `${base}#${path}`
 }
 
 function pushHash (path) {
@@ -2784,7 +2779,7 @@ function createHref (base, fullPath, mode) {
 }
 
 VueRouter.install = install;
-VueRouter.version = '3.1.1';
+VueRouter.version = '3.1.2';
 
 if (inBrowser && window.Vue) {
   window.Vue.use(VueRouter);
