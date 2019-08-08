@@ -71,11 +71,6 @@ export default {
     // in case the same component instance is reused across different routes
     ;(data.hook || (data.hook = {})).prepatch = (_, vnode) => {
       matched.instances[name] = vnode.componentInstance
-      // if the route transition has already been confirmed then we weren't
-      // able to call the cb during confirmation as the component was not
-      // registered yet, so we call it here.
-      matched.enteredCbs
-      handleRouteEntered(matched, name)
     }
 
     // register instance in init hook
@@ -86,7 +81,12 @@ export default {
         vnode.componentInstance !== matched.instances[name]
       ) {
         matched.instances[name] = vnode.componentInstance
-        handleRouteEntered(matched, name)
+        // if the route transition has already been confirmed then we weren't
+        // able to call the cbs during confirmation as the component was not
+        // registered yet, so we call it here.
+        if (matched.enteredCbs[name]) {
+          handleRouteEntered(matched, name)
+        }
       }
     }
 

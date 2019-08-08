@@ -324,7 +324,9 @@ function bindEnterGuard (
         cbs.push(() => {
           // if the instance is registered call the cb here, otherwise it will
           // get called when it is registered in the component's lifecycle hooks
-          handleRouteEntered(match, key)
+          if (match.instances[key]) {
+            handleRouteEntered(match, key)
+          }
         })
       }
       next(cb)
