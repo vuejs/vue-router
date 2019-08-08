@@ -159,7 +159,16 @@ router.push({
 router.replace({ name: "home" });
 
 router.push('/', () => {}, () => {})
-router.replace('/foo', () => {}, () => {});
+router.replace('/foo', () => {}, () => {})
+
+// promises
+
+router
+  .push('/')
+  .then(route => {
+    route.fullPath
+  })
+  .catch(() => {})
 
 router.onReady(() => {});
 
