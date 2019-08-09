@@ -81,13 +81,12 @@ export default {
         vnode.componentInstance !== matched.instances[name]
       ) {
         matched.instances[name] = vnode.componentInstance
-        // if the route transition has already been confirmed then we weren't
-        // able to call the cbs during confirmation as the component was not
-        // registered yet, so we call it here.
-        if (matched.enteredCbs[name]) {
-          handleRouteEntered(matched, name)
-        }
       }
+
+      // if the route transition has already been confirmed then we weren't
+      // able to call the cbs during confirmation as the component was not
+      // registered yet, so we call it here.
+      handleRouteEntered(route)
     }
 
     // resolve props
