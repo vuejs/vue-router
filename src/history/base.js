@@ -177,10 +177,9 @@ export class History {
     }
 
     runQueue(queue, iterator, () => {
-      const enteredCbs = []
       // wait until async components are resolved before
       // extracting in-component enter guards
-      const enterGuards = extractEnterGuards(activated, enteredCbs)
+      const enterGuards = extractEnterGuards(activated)
       const queue = enterGuards.concat(this.router.resolveHooks)
       runQueue(queue, iterator, () => {
         if (this.pending !== route) {
@@ -190,9 +189,7 @@ export class History {
         onComplete(route)
         if (this.router.app) {
           this.router.app.$nextTick(() => {
-            enteredCbs.forEach(cb => {
-              cb()
-            })
+            handleRouteEntered(route)
           })
         }
       })
@@ -296,14 +293,13 @@ function bindGuard (guard: NavigationGuard, instance: ?_Vue): ?NavigationGuard {
 }
 
 function extractEnterGuards (
-  activated: Array<RouteRecord>,
-  cbs: Array<Function>,
+  activated: Array<RouteRecord>
 ): Array<?Function> {
   return extractGuards(
     activated,
     'beforeRouteEnter',
     (guard, _, match, key) => {
-      return bindEnterGuard(guard, match, key, cbs)
+      return bindEnterGuard(guard, match, key)
     }
   )
 }
@@ -311,8 +307,7 @@ function extractEnterGuards (
 function bindEnterGuard (
   guard: NavigationGuard,
   match: RouteRecord,
-  key: string,
-  cbs: Array<Function>,
+  key: string
 ): NavigationGuard {
   return function routeEnterGuard (to, from, next) {
     return guard(to, from, cb => {
@@ -321,13 +316,6 @@ function bindEnterGuard (
           match.enteredCbs[key] = []
         }
         match.enteredCbs[key].push(cb)
-        cbs.push(() => {
-          // if the instance is registered call the cb here, otherwise it will
-          // get called when it is registered in the component's lifecycle hooks
-          if (match.instances[key]) {
-            handleRouteEntered(match, key)
-          }
-        })
       }
       next(cb)
     })
