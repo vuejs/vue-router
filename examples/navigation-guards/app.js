@@ -186,7 +186,7 @@ const router = new VueRouter({
         { path: 'child/1', component: NestedChild1, props: { n: 1 }},
         { path: 'child/2', component: NestedChild2, props: { n: 2 }}
       ]
-    },
+    }
   ]
 })
 
