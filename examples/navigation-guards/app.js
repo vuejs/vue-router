@@ -91,15 +91,25 @@ const Quux = {
 }
 
 const NestedParent = {
-  template: `<div id="nested-parent">Nested Parent <hr>
-  <router-link to="/parent/child/1">/parent/child/1</router-link>
-  <router-link to="/parent/child/2">/parent/child/2</router-link>
-  <hr>
-  <p id="bre-order">
-    <span v-for="log in logs">{{ log }} </span>
-  </p>
-
-  <router-view/></div>`,
+  template: `
+  <div id="nested-parent">
+    Nested Parent
+    <hr>
+    <router-link to="/parent/child/1">/parent/child/1</router-link>
+    <router-link to="/parent/child/2">/parent/child/2</router-link>
+    <hr>
+    <p id="bre-order">
+      <span v-for="log in logs">{{ log }} </span>
+    </p>
+    <!-- #705 -->
+    <!-- Some transitions, specifically out-in transitions, cause the view -->
+    <!-- that is transitioning in to appear significantly later than normal, -->
+    <!-- which can cause bugs as "vm" below in "next(vm => ...)" may not be -->
+    <!-- available at the time the callback is called -->
+    <transition name="fade" mode="out-in">
+      <router-view/>
+    </transition>
+  </div>`,
   data: () => ({ logs: [] }),
   beforeRouteEnter (to, from, next) {
     next(vm => {
@@ -116,7 +126,18 @@ const GuardMixin = {
   }
 }
 
-const NestedChild = {
+const NestedChild1 = {
+  props: ['n'],
+  template: `<div>Child {{ n }}</div>`,
+  mixins: [GuardMixin],
+  beforeRouteEnter (to, from, next) {
+    next(vm => {
+      vm.$parent.logs.push('child ' + vm.n)
+    })
+  }
+}
+
+const NestedChild2 = {
   props: ['n'],
   template: `<div>Child {{ n }}</div>`,
   mixins: [GuardMixin],
@@ -162,10 +183,10 @@ const router = new VueRouter({
       path: '/parent',
       component: NestedParent,
       children: [
-        { path: 'child/1', component: NestedChild, props: { n: 1 }},
-        { path: 'child/2', component: NestedChild, props: { n: 2 }}
+        { path: 'child/1', component: NestedChild1, props: { n: 1 }},
+        { path: 'child/2', component: NestedChild2, props: { n: 2 }}
       ]
-    }
+    },
   ]
 })
 
