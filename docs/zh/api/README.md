@@ -316,7 +316,9 @@ router.afterEach((to, from) => {})
 
 ``` js
 router.push(location, onComplete?, onAbort?)
+router.push(location).then(onComplete).catch(onAbort)
 router.replace(location, onComplete?, onAbort?)
+router.replace(location).then(onComplete).catch(onAbort)
 router.go(n)
 router.back()
 router.forward()
