@@ -41,7 +41,7 @@ For other advanced usage, checkout the [example](https://github.com/vuejs/vue-ro
 
 ## Alias
 
-A redirect means when the user visits `/a`, and URL will be replaced by `/b`, and then matched as `/b`. But what is an alias?
+A redirect means when the user visits `/a`, the URL will be replaced by `/b`, and then matched as `/b`. But what is an alias?
 
 **An alias of `/a` as `/b` means when the user visits `/b`, the URL remains `/b`, but it will be matched as if the user is visiting `/a`.**
 

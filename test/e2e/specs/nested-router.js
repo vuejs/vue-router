@@ -1,7 +1,13 @@
+const bsStatus = require('../browserstack-send-status')
+
 module.exports = {
-  'basic': function (browser) {
+  ...bsStatus(),
+
+  '@tags': ['history'],
+
+  basic: function (browser) {
     browser
-    .url('http://localhost:8080/nested-router/')
+      .url('http://localhost:8080/nested-router/')
       .waitForElementVisible('#app', 1000)
       .assert.count('li a', 3)
 

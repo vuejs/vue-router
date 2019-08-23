@@ -6,13 +6,13 @@
 
 Во-первых, асинхронный компонент можно определить как функцию-фабрику, которая возвращает Promise (который должен разрешиться самим компонентом):
 
-``` js
+```js
 const Foo = () => Promise.resolve({ /* определение компонента */ })
 ```
 
 Во-вторых, с Webpack 2 мы можем использовать синтаксис [динамических импортов](https://github.com/tc39/proposal-dynamic-import) для указания точек разделения кода:
 
-``` js
+```js
 import('./Foo.vue') // возвращает Promise
 ```
 
@@ -22,13 +22,13 @@ import('./Foo.vue') // возвращает Promise
 
 Эти два пункта — всё необходимое, чтобы определить асинхронный компонент, который Webpack автоматически выделит в отдельный фрагмент:
 
-``` js
+```js
 const Foo = () => import('./Foo.vue')
 ```
 
 В конфигурации маршрута ничего менять не нужно, можно использовать `Foo` как обычно:
 
-``` js
+```js
 const router = new VueRouter({
   routes: [
     { path: '/foo', component: Foo }
@@ -40,7 +40,7 @@ const router = new VueRouter({
 
 Иногда может понадобиться объединить в одном фрагменте все компоненты, расположенные по определённому маршруту. Для этого можно указывать [имена фрагментов Webpack](https://webpack.js.org/guides/code-splitting-async/#chunk-names), используя специальный синтаксис комментариев (в версиях Webpack > 2.4):
 
-``` js
+```js
 const Foo = () => import(/* webpackChunkName: "group-foo" */ './Foo.vue')
 const Bar = () => import(/* webpackChunkName: "group-foo" */ './Bar.vue')
 const Baz = () => import(/* webpackChunkName: "group-foo" */ './Baz.vue')

@@ -29,7 +29,7 @@ sidebar: auto
 </router-link>
 ```
 
-在这种情况下，`<a>` 将作为真实的链接 (它会获得正确的 `href` 的)，而 "激活时的CSS类名" 则设置到外层的 `<li>`。
+在这种情况下，`<a>` 将作为真实的链接 (它会获得正确的 `href` 的)，而 "激活时的 CSS 类名" 则设置到外层的 `<li>`。
 
 ## `<router-link>` Props
 
@@ -316,7 +316,9 @@ router.afterEach((to, from) => {})
 
 ``` js
 router.push(location, onComplete?, onAbort?)
+router.push(location).then(onComplete).catch(onAbort)
 router.replace(location, onComplete?, onAbort?)
+router.replace(location).then(onComplete).catch(onAbort)
 router.go(n)
 router.back()
 router.forward()
@@ -332,7 +334,7 @@ router.forward()
 const matchedComponents: Array<Component> = router.getMatchedComponents(location?)
 ```
 
-返回目标位置或是当前路由匹配的组件数组 (是数组的定义/构造类，不是实例)。通常在服务端渲染的数据预加载时时候。
+返回目标位置或是当前路由匹配的组件数组 (是数组的定义/构造类，不是实例)。通常在服务端渲染的数据预加载时使用。
 
 ### router.resolve
 
@@ -435,7 +437,7 @@ router.onError(callback)
 
   - 类型: `Object`
 
-  一个 key/value 对象，包含了动态片段和全匹配片段，如果没有路由参数，就是一个空对象。
+    一个 key/value 对象，包含了动态片段和全匹配片段，如果没有路由参数，就是一个空对象。
 
 - **$route.query**
 

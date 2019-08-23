@@ -33,6 +33,18 @@ module.exports = [
   {
     file: resolve('dist/vue-router.esm.js'),
     format: 'es'
+  },
+  {
+    file: resolve('dist/vue-router.esm.browser.js'),
+    format: 'es',
+    env: 'development',
+    transpile: false
+  },
+  {
+    file: resolve('dist/vue-router.esm.browser.min.js'),
+    format: 'es',
+    env: 'production',
+    transpile: false
   }
 ].map(genConfig)
 
@@ -46,8 +58,7 @@ function genConfig (opts) {
         cjs(),
         replace({
           __VERSION__: version
-        }),
-        buble()
+        })
       ]
     },
     output: {
@@ -62,6 +73,10 @@ function genConfig (opts) {
     config.input.plugins.unshift(replace({
       'process.env.NODE_ENV': JSON.stringify(opts.env)
     }))
+  }
+
+  if (opts.transpile !== false) {
+    config.input.plugins.push(buble())
   }
 
   return config

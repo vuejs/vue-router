@@ -1,9 +1,15 @@
+const bsStatus = require('../browserstack-send-status')
+
 module.exports = {
-  'transitions': function (browser) {
+  ...bsStatus(),
+
+  '@tags': ['history'],
+
+  transitions: function (browser) {
     const TIMEOUT = 2000
 
     browser
-    .url('http://localhost:8080/transitions/')
+      .url('http://localhost:8080/transitions/')
       .waitForElementVisible('#app', 1000)
       .assert.count('li a', 4)
 

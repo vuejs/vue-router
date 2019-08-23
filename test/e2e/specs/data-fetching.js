@@ -1,7 +1,13 @@
+const bsStatus = require('../browserstack-send-status')
+
 module.exports = {
+  ...bsStatus(),
+
+  '@tags': [],
+
   'data fetching': function (browser) {
     browser
-    .url('http://localhost:8080/data-fetching/')
+      .url('http://localhost:8080/data-fetching/')
       .waitForElementVisible('#app', 1000)
       .assert.count('li a', 4)
       .assert.containsText('.view', 'home')
