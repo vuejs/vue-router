@@ -80,7 +80,14 @@ const router = new VueRouter({
 
         { path: 'quy/:quyId', component: Quy },
 
-        { name: 'zap', path: 'zap/:zapId?', component: Zap }
+        { name: 'zap', path: 'zap/:zapId?', component: Zap },
+
+        {
+          path: 'wrap',
+          children: [
+            { path: 'foo', component: Foo }
+          ]
+        }
       ]
     }
   ]
@@ -103,6 +110,7 @@ new Vue({
         <li><router-link :to="{ params: { zapId: 2 }}">{ params: { zapId: 2 }} (relative params)</router-link></li>
         <li><router-link to="/parent/qux/1/quux">/parent/qux/1/quux</router-link></li>
         <li><router-link to="/parent/qux/2/quux">/parent/qux/2/quux</router-link></li>
+        <li><router-link to="/parent/wrap/foo">/parent/wrap/foo</router-link></li>
       </ul>
       <router-view class="view"></router-view>
     </div>

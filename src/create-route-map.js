@@ -1,6 +1,7 @@
 /* @flow */
 
 import Regexp from 'path-to-regexp'
+import PassThrough from './components/pass'
 import { cleanPath } from './util/path'
 import { assert, warn } from './util/warn'
 
@@ -109,12 +110,16 @@ function addRouteRecord (
         )
       }
     }
-    route.children.forEach(child => {
+    const children = route.children.map(child => {
       const childMatchAs = matchAs
         ? cleanPath(`${matchAs}/${child.path}`)
         : undefined
-      addRouteRecord(pathList, pathMap, nameMap, child, record, childMatchAs)
+      return addRouteRecord(pathList, pathMap, nameMap, child, record, childMatchAs)
     })
+    // Allow nested child routes to render inside routes without a component.
+    if (children.some(child => child.components.default)) {
+      record.components.default = record.components.default || PassThrough
+    }
   }
 
   if (!pathMap[record.path]) {
@@ -161,6 +166,8 @@ function addRouteRecord (
       )
     }
   }
+
+  return record
 }
 
 function compileRouteRegex (
