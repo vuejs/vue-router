@@ -57,10 +57,18 @@ describe('Creating Route Map', function () {
   })
 
   it('has a pathList which places wildcards at the end', () => {
-    expect(maps.pathList).toEqual(['', '/foo', '/bar/', '/bar', '/bar-redirect/', '/bar-redirect', '*'])
+    expect(maps.pathList).toEqual([
+      '',
+      '/foo',
+      '/bar/',
+      '/bar',
+      '/bar-redirect/',
+      '/bar-redirect',
+      '*'
+    ])
   })
 
-  it('has a nameMap object for default subroute at \'bar.baz\'', function () {
+  it("has a nameMap object for default subroute at 'bar.baz'", function () {
     expect(maps.nameMap['bar.baz']).not.toBeUndefined()
   })
 
@@ -68,7 +76,9 @@ describe('Creating Route Map', function () {
     process.env.NODE_ENV = 'development'
     maps = createRouteMap(routes)
     expect(console.warn).toHaveBeenCalledTimes(1)
-    expect(console.warn.calls.argsFor(0)[0]).toMatch('vue-router] Named Route \'bar\'')
+    expect(console.warn.calls.argsFor(0)[0]).toMatch(
+      "vue-router] Named Route 'bar'"
+    )
   })
 
   it('in development, throws if path is missing', function () {
@@ -87,22 +97,63 @@ describe('Creating Route Map', function () {
     process.env.NODE_ENV = 'development'
     maps = createRouteMap([
       {
-        path: '/foo/:id', component: Foo,
-        children: [
-          { path: 'bar/:id', component: Bar }
-        ]
+        path: '/foo/:id',
+        component: Foo,
+        children: [{ path: 'bar/:id', component: Bar }]
       }
     ])
     expect(console.warn).toHaveBeenCalled()
-    expect(console.warn.calls.argsFor(0)[0]).toMatch('vue-router] Duplicate param keys in route with path: "/foo/:id/bar/:id"')
+    expect(console.warn.calls.argsFor(0)[0]).toMatch(
+      'vue-router] Duplicate param keys in route with path: "/foo/:id/bar/:id"'
+    )
+  })
+
+  it('in development, warns about alias and path having the same value', () => {
+    process.env.NODE_ENV = 'development'
+    maps = createRouteMap([
+      {
+        path: '/foo-alias',
+        component: Foo,
+        alias: '/foo-alias'
+      }
+    ])
+    expect(console.warn).toHaveBeenCalled()
+    expect(console.warn.calls.argsFor(0)[0]).toMatch(
+      'vue-router] Found an alias with the same value as the path: "/foo-alias"'
+    )
+  })
+
+  it('in development, warns about one alias (in an array) having the same value as the path', () => {
+    process.env.NODE_ENV = 'development'
+    maps = createRouteMap([
+      {
+        path: '/foo-alias',
+        component: Foo,
+        alias: ['/bar', '/foo-alias']
+      }
+    ])
+    expect(console.warn).toHaveBeenCalled()
+    expect(console.warn.calls.argsFor(0)[0]).toMatch(
+      'vue-router] Found an alias with the same value as the path: "/foo-alias"'
+    )
   })
 
   describe('path-to-regexp options', function () {
     const routes = [
       { path: '/foo', name: 'foo', component: Foo },
       { path: '/bar', name: 'bar', component: Bar, caseSensitive: false },
-      { path: '/FooBar', name: 'FooBar', component: FooBar, caseSensitive: true },
-      { path: '/foobar', name: 'foobar', component: Foobar, caseSensitive: true }
+      {
+        path: '/FooBar',
+        name: 'FooBar',
+        component: FooBar,
+        caseSensitive: true
+      },
+      {
+        path: '/foobar',
+        name: 'foobar',
+        component: Foobar,
+        caseSensitive: true
+      }
     ]
 
     it('caseSensitive option in route', function () {

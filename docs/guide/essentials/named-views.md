@@ -48,7 +48,7 @@ It is possible to create complex layouts using named views with nested views. Wh
 - `UserSettings` is the view component
 - `UserEmailsSubscriptions`, `UserProfile`, `UserProfilePreview` are nested view components
 
-**Note**: _Let's forget about how the HTML/CSS should look like to represent such layout and focus on the components used_
+**Note**: _Let's forget about how the HTML/CSS should look like to represent such layout and focus on the components used._
 
 The `<template>` section for `UserSettings` component in the above layout would look something like this:
 
@@ -62,7 +62,7 @@ The `<template>` section for `UserSettings` component in the above layout would 
 </div>
 ```
 
-_The nested view components are omitted here but you can find the complete source code for the example above [here](https://jsfiddle.net/posva/22wgksa3/)_
+_The nested view components are omitted here but you can find the complete source code for the example above [here](https://jsfiddle.net/posva/22wgksa3/)._
 
 Then you can achieve the layout above with this route configuration:
 

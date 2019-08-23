@@ -10,6 +10,7 @@ Vue.use(VueRouter)
 const Home = { template: '<div>home</div>' }
 const Foo = { template: '<div>foo</div>' }
 const Bar = { template: '<div>bar</div>' }
+const Unicode = { template: '<div>unicode</div>' }
 
 // 3. Create the router
 const router = new VueRouter({
@@ -18,7 +19,8 @@ const router = new VueRouter({
   routes: [
     { path: '/', component: Home },
     { path: '/foo', component: Foo },
-    { path: '/bar', component: Bar }
+    { path: '/bar', component: Bar },
+    { path: '/é', component: Unicode }
   ]
 })
 
@@ -27,6 +29,7 @@ const router = new VueRouter({
 // Route components will be rendered inside <router-view>.
 new Vue({
   router,
+  data: () => ({ n: 0 }),
   template: `
     <div id="app">
       <h1>Basic</h1>
@@ -37,8 +40,31 @@ new Vue({
         <router-link tag="li" to="/bar" :event="['mousedown', 'touchstart']">
           <a>/bar</a>
         </router-link>
+        <li><router-link to="/é">/é</router-link></li>
+        <li><router-link to="/é?t=%25ñ">/é?t=%ñ</router-link></li>
+        <li><router-link to="/é#%25ñ">/é#%25ñ</router-link></li>
+        <router-link to="/foo" v-slot="props">
+          <li :class="[props.isActive && 'active', props.isExactActive && 'exact-active']">
+            <a :href="props.href" @click="props.navigate">{{ props.route.path }} (with v-slot).</a>
+          </li>
+        </router-link>
       </ul>
+      <button id="navigate-btn" @click="navigateAndIncrement">On Success</button>
+      <pre id="counter">{{ n }}</pre>
+      <pre id="query-t">{{ $route.query.t }}</pre>
+      <pre id="hash">{{ $route.hash }}</pre>
       <router-view class="view"></router-view>
     </div>
-  `
+  `,
+
+  methods: {
+    navigateAndIncrement () {
+      const increment = () => this.n++
+      if (this.$route.path === '/') {
+        this.$router.push('/foo', increment)
+      } else {
+        this.$router.push('/', increment)
+      }
+    }
+  }
 }).$mount('#app')

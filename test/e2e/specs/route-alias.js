@@ -1,7 +1,13 @@
+const bsStatus = require('../browserstack-send-status')
+
 module.exports = {
+  ...bsStatus(),
+
+  '@tags': ['history'],
+
   'route alias': function (browser) {
     browser
-    .url('http://localhost:8080/route-alias/')
+      .url('http://localhost:8080/route-alias/')
       .waitForElementVisible('#app', 1000)
       .assert.count('li a', 7)
       // assert correct href with base
@@ -47,38 +53,38 @@ module.exports = {
       .assert.containsText('.view', 'Home')
       .assert.containsText('.view', 'nested foo')
 
-    // check initial visit
-    .url('http://localhost:8080/route-alias/foo')
+      // check initial visit
+      .url('http://localhost:8080/route-alias/foo')
       .waitForElementVisible('#app', 1000)
       .assert.urlEquals('http://localhost:8080/route-alias/foo')
       .assert.containsText('.view', 'Home')
       .assert.containsText('.view', 'foo')
 
-    .url('http://localhost:8080/route-alias/home/bar-alias')
+      .url('http://localhost:8080/route-alias/home/bar-alias')
       .waitForElementVisible('#app', 1000)
       .assert.urlEquals('http://localhost:8080/route-alias/home/bar-alias')
       .assert.containsText('.view', 'Home')
       .assert.containsText('.view', 'bar')
 
-    .url('http://localhost:8080/route-alias/baz')
+      .url('http://localhost:8080/route-alias/baz')
       .waitForElementVisible('#app', 1000)
       .assert.urlEquals('http://localhost:8080/route-alias/baz')
       .assert.containsText('.view', 'Home')
       .assert.containsText('.view', 'baz')
 
-    .url('http://localhost:8080/route-alias/home/baz-alias')
+      .url('http://localhost:8080/route-alias/home/baz-alias')
       .waitForElementVisible('#app', 1000)
       .assert.urlEquals('http://localhost:8080/route-alias/home/baz-alias')
       .assert.containsText('.view', 'Home')
       .assert.containsText('.view', 'baz')
 
-    .url('http://localhost:8080/route-alias/home')
+      .url('http://localhost:8080/route-alias/home')
       .waitForElementVisible('#app', 1000)
       .assert.urlEquals('http://localhost:8080/route-alias/home')
       .assert.containsText('.view', 'Home')
       .assert.containsText('.view', 'default')
 
-    .url('http://localhost:8080/route-alias/home/nested-alias/foo')
+      .url('http://localhost:8080/route-alias/home/nested-alias/foo')
       .waitForElementVisible('#app', 1000)
       .assert.urlEquals('http://localhost:8080/route-alias/home/nested-alias/foo')
       .assert.containsText('.view', 'Home')

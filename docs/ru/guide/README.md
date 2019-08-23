@@ -12,7 +12,7 @@
 
 ## HTML
 
-``` html
+```html
 <script src="https://unpkg.com/vue/dist/vue.js"></script>
 <script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
 
@@ -32,8 +32,8 @@
 
 ## JavaScript
 
-``` js
-// 0. Если используем модульную систему (например через vue-cli), 
+```js
+// 0. Если используем модульную систему (например через vue-cli),
 // импортируем Vue и VueRouter и затем вызываем `Vue.use(VueRouter)`.
 
 // 1. Определяем компоненты для маршрутов.

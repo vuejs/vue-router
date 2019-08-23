@@ -1,7 +1,7 @@
 const fs = require('fs')
 const path = require('path')
 const zlib = require('zlib')
-const uglify = require('uglify-js')
+const terser = require('terser')
 const rollup = require('rollup')
 const configs = require('./configs')
 
@@ -15,34 +15,43 @@ function build (builds) {
   let built = 0
   const total = builds.length
   const next = () => {
-    buildEntry(builds[built]).then(() => {
-      built++
-      if (built < total) {
-        next()
-      }
-    }).catch(logError)
+    buildEntry(builds[built])
+      .then(() => {
+        built++
+        if (built < total) {
+          next()
+        }
+      })
+      .catch(logError)
   }
 
   next()
 }
 
 function buildEntry ({ input, output }) {
-  const isProd = /min\.js$/.test(output.file)
-  return rollup.rollup(input)
+  const { file, banner } = output
+  const isProd = /min\.js$/.test(file)
+  return rollup
+    .rollup(input)
     .then(bundle => bundle.generate(output))
-    .then(({ code }) => {
+    .then(bundle => {
+      // console.log(bundle)
+      const code = bundle.output[0].code
       if (isProd) {
-        const minified = uglify.minify(code, {
-          output: {
-            preamble: output.banner,
-            /* eslint-disable camelcase */
-            ascii_only: true
-            /* eslint-enable camelcase */
-          }
-        }).code
-        return write(output.file, minified, true)
+        const minified =
+          (banner ? banner + '\n' : '') +
+          terser.minify(code, {
+            toplevel: true,
+            output: {
+              ascii_only: true
+            },
+            compress: {
+              pure_funcs: ['makeMap']
+            }
+          }).code
+        return write(file, minified, true)
       } else {
-        return write(output.file, code)
+        return write(file, code)
       }
     })
 }
@@ -50,7 +59,12 @@ function buildEntry ({ input, output }) {
 function write (dest, code, zip) {
   return new Promise((resolve, reject) => {
     function report (extra) {
-      console.log(blue(path.relative(process.cwd(), dest)) + ' ' + getSize(code) + (extra || ''))
+      console.log(
+        blue(path.relative(process.cwd(), dest)) +
+          ' ' +
+          getSize(code) +
+          (extra || '')
+      )
       resolve()
     }
 

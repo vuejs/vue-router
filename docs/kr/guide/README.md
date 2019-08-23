@@ -69,7 +69,7 @@ const app = new Vue({
 // 이제 앱이 시작됩니다!
 ```
 
-라우터를 주입하였으므로 `this.$router`와 현재 라우트를 `this$.route`로 접근할 수 있습니다.
+라우터를 주입하였으므로 `this.$router`와 현재 라우트를 `this.$route`로 접근할 수 있습니다.
 
 ```js
 // Home.vue

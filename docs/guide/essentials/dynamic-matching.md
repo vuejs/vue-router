@@ -32,7 +32,7 @@ You can have multiple dynamic segments in the same route, and they will map to c
 | pattern | matched path | $route.params |
 |---------|------|--------|
 | /user/:username | /user/evan | `{ username: 'evan' }` |
-| /user/:username/post/:post_id | /user/evan/post/123 | `{ username: 'evan', post_id: 123 }` |
+| /user/:username/post/:post_id | /user/evan/post/123 | `{ username: 'evan', post_id: '123' }` |
 
 In addition to `$route.params`, the `$route` object also exposes other useful information such as `$route.query` (if there is a query in the URL), `$route.hash`, etc. You can check out the full details in the [API Reference](../../api/#the-route-object).
 
@@ -63,6 +63,36 @@ const User = {
     // don't forget to call next()
   }
 }
+```
+
+## Catch all / 404 Not found Route
+
+Regular params will only match characters in between url fragments, separated by `/`. If we want to match **anything**, we can use the asterisk (`*`):
+
+```js
+{
+  // will match everything
+  path: '*'
+}
+{
+  // will match anything starting with `/user-`
+  path: '/user-*'
+}
+```
+
+When using _asterisk_ routes, make sure to correctly order your routes so that _asterisk_ ones are at the end.
+The route `{ path: '*' }` is usually used to 404 client side. If you are using _History mode_, make sure to [correctly configure your server](./history-mode.md) as well.
+
+When using an _asterisk_, a param named `pathMatch` is automatically added to `$route.params`. It contains the rest of the url matched by the _asterisk_:
+
+```js
+// Given a route { path: '/user-*' }
+this.$router.push('/user-admin')
+this.$route.params.pathMatch // 'admin'
+
+// Given a route { path: '*' }
+this.$router.push('/non-existing')
+this.$route.params.pathMatch // '/non-existing'
 ```
 
 ## Advanced Matching Patterns

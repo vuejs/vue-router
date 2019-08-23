@@ -17,7 +17,7 @@ Let's assume we have a `Post` component that needs to fetch the data for a post 
 ``` html
 <template>
   <div class="post">
-    <div class="loading" v-if="loading">
+    <div v-if="loading" class="loading">
       Loading...
     </div>
 

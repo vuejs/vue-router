@@ -6,13 +6,15 @@ const WebpackConfig = require('./webpack.config')
 
 const app = express()
 
-app.use(webpackDevMiddleware(webpack(WebpackConfig), {
-  publicPath: '/__build__/',
-  stats: {
-    colors: true,
-    chunks: false
-  }
-}))
+app.use(
+  webpackDevMiddleware(webpack(WebpackConfig), {
+    publicPath: '/__build__/',
+    stats: {
+      colors: true,
+      chunks: false
+    }
+  })
+)
 
 const fs = require('fs')
 const path = require('path')

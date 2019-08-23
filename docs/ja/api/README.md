@@ -171,7 +171,7 @@ name ではないプロパティも描画されるコンポーネントに渡さ
     name?: string; // 名前付きルート用
     components?: { [name: string]: Component }; // 名前付き view 用
     redirect?: string | Location | Function;
-    props?: boolean | string | Function;
+    props?: boolean | Object | Function;
     alias?: string | Array<string>;
     children?: Array<RouteConfig>; // ネストされたルート用
     beforeEnter?: (to: Route, from: Route, next: Function) => void;
@@ -253,8 +253,9 @@ name ではないプロパティも描画されるコンポーネントに渡さ
 ### fallback
 
 - 型: `boolean`
+- デフォルト: `true`
 
-  ブラウザが `history.pushState` をサポートしないとき、 ルーターが `hash` モードにフォールバックかどうか制御します。デフォルトは `true`
+  `history.pushState` がサポートされていないブラウザにおいて、モードが `history` に設定されているとき、ルーターを `hash` モードにフォールバックかどうか制御します。
 
   これを `false` に設定すると、本質的に全ての `router-link` ナビゲーションが IE9 においてフルページリフレッシュになります。これは、サーバサイドレンダリングでハッシュモードの URL が機能しないため、IE9 で動作する必要がある場合に便利です。
 
