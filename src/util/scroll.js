@@ -2,7 +2,7 @@
 
 import type Router from '../index'
 import { assert } from './warn'
-import { getStateKey, setStateKey } from './push-state'
+import { getStateKey, setStateKey } from './state-key'
 
 const positionStore = Object.create(null)
 
