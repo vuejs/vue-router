@@ -140,7 +140,7 @@ beforeRouteLeave (to, from, next) {
 ## The Full Navigation Resolution Flow
 
 1. Navigation triggered.
-2. Call leave guards in deactivated components.
+2. Call `beforeRouteLeave` guards in deactivated components.
 3. Call global `beforeEach` guards.
 4. Call `beforeRouteUpdate` guards in reused components.
 5. Call `beforeEnter` in route configs.
