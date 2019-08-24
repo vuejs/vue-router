@@ -95,7 +95,7 @@ export interface RouteConfig {
   children?: RouteConfig[]
   meta?: any
   beforeEnter?: NavigationGuard
-  props:
+  props?:
     | boolean
     | Object
     | RoutePropsFunction
