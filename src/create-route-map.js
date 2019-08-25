@@ -37,10 +37,10 @@ export function createRouteMap (
   if (process.env.NODE_ENV === 'development') {
     // warn if routes do not include leading slashes
     const found = pathList
-      .find(path => path.charAt(0) !== '*' && path.charAt(0) !== '/')
+      .filter(path => path && path.charAt(0) !== '*' && path.charAt(0) !== '/')
 
-    if (found) {
-      warn(false, `Non-nested routes must include a leading slash character. Replace "${found}" with "/${found}".`)
+    if (found.length > 0) {
+      warn(false, `Non-nested routes must include a leading slash character. Replace "${found[0]}" with "/${found[0]}".`)
     }
   }
 
