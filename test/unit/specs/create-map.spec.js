@@ -68,7 +68,6 @@ describe('Creating Route Map', function () {
     process.env.NODE_ENV = 'development'
     maps = createRouteMap(routes)
     expect(console.warn).toHaveBeenCalledTimes(1)
-    console.log(console.warn.calls.argsFor(1))
     expect(console.warn.calls.argsFor(0)[0]).toMatch('vue-router] Named Route \'bar\'')
   })
 
