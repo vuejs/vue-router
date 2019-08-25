@@ -19,7 +19,7 @@ sidebar: auto
 
 ### `v-slot` API (3.1.0 新增)
 
-`router-link` 通过一个[作用域插槽](https://cn.vuejs.org/v2/guide/components-slots.html#作用域插槽)暴露低级别低的定制能力。这是一个更高阶的 API，主要面向库作者，但也可以为开发者提供便利，多数情况用在一个类似 _NavLink_ 或其它组件里。
+`router-link` 通过一个[作用域插槽](https://cn.vuejs.org/v2/guide/components-slots.html#作用域插槽)暴露底层的定制能力。这是一个更高阶的 API，主要面向库作者，但也可以为开发者提供便利，多数情况用在一个类似 _NavLink_ 这样的组件里。
 
 **在使用 `v-slot` API 时，需要向 `router-link` 传入一个单独的子元素**。否则 `router-link` 将会把子元素包裹在一个 `span` 元素内。
 
@@ -42,7 +42,7 @@ sidebar: auto
 
 ### 示例：将激活 class 应用在外层元素
 
-有的时候我们可能想把激活的 class 应用到一个外部元素而不是 `<a>` 标签本身，这时你可以在一个 `router-link` 中包裹该元素并使用 `v-slot` property 来创建链接：
+有的时候我们可能想把激活 class 应用到一个外部元素而不是 `<a>` 标签本身，这时你可以在一个 `router-link` 中包裹该元素并使用 `v-slot` property 来创建链接：
 
 ```html
 <router-link
