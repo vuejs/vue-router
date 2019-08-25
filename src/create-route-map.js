@@ -34,14 +34,14 @@ export function createRouteMap (
     }
   }
 
-  // warn if routes do not include leading slashes
-  const pathsMissingSlashes = pathList
-    .filter(path => !!path && path.charAt(0) !== '*' && path.charAt(0) !== '/')
-    .map(path => path.split('/')[0])
-    .filter((path, index, pathList) => pathList.indexOf(path) === index)
+  if (process.env.NODE_ENV === 'development') {
+    // warn if routes do not include leading slashes
+    const found = pathList
+      .find(path => path.charAt(0) !== '*' && path.charAt(0) !== '/')
 
-  if (pathsMissingSlashes.length > 0) {
-    warn(false, `The following routes require a leading slash in their paths: ${pathsMissingSlashes.join(', ')}`)
+    if (found) {
+      warn(false, `Non-nested routes must include a leading slash character. Replace "${found}" with "/${found}".`)
+    }
   }
 
   return {
