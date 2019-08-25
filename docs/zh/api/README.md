@@ -37,12 +37,12 @@ sidebar: auto
 - `href`：解析后的 URL。将会作为一个 `a` 元素的 `href` attribute。
 - `route`：解析后的规范化的地址。
 - `navigate`：触发导航的函数。**会在必要时自动阻止事件**，和 `router-link` 同理。
-- `isActive`：如果需要应用 [active class](#active-class) 则为 `true`。允许应用一个任意的 class。
-- `isExactActive`：：如果需要应用 [exact active class](#exact-active-class) 则为 `true`。允许应用一个任意的 class。
+- `isActive`：如果需要应用[激活的 class](#active-class) 则为 `true`。允许应用一个任意的 class。
+- `isExactActive`：如果需要应用[精确激活的 class](#exact-active-class) 则为 `true`。允许应用一个任意的 class。
 
-### 示例：将激活 class 应用在外层元素
+### 示例：将激活的 class 应用在外层元素
 
-有的时候我们可能想把激活 class 应用到一个外部元素而不是 `<a>` 标签本身，这时你可以在一个 `router-link` 中包裹该元素并使用 `v-slot` property 来创建链接：
+有的时候我们可能想把激活的 class 应用到一个外部元素而不是 `<a>` 标签本身，这时你可以在一个 `router-link` 中包裹该元素并使用 `v-slot` property 来创建链接：
 
 ```html
 <router-link
@@ -142,10 +142,10 @@ sidebar: auto
 - 类型: `boolean`
 - 默认值: `false`
 
-  "是否激活" 默认类名的依据是 **inclusive match** (全包含匹配)。
+  “是否激活”默认类名的依据是**包含匹配**。
   举个例子，如果当前的路径是 `/a` 开头的，那么 `<router-link to="/a">` 也会被设置 CSS 类名。
 
-  按照这个规则，每个路由都会激活`<router-link to="/">`！想要链接使用 "exact 匹配模式"，则使用 `exact` 属性：
+  按照这个规则，每个路由都会激活 `<router-link to="/">`！想要链接使用“精确匹配模式”，则使用 `exact` 属性：
 
   ```html
   <!-- 这个链接只会在地址为 / 的时候被激活 -->
@@ -249,7 +249,7 @@ sidebar: auto
 
 - 默认值: `"router-link-active"`
 
-  全局配置 `<router-link>` 的默认“激活 class 类名”。参考 [router-link](#router-link)。
+  全局配置 `<router-link>` 默认的激活的 class。参考 [router-link](#router-link)。
 
 ### linkExactActiveClass
 
@@ -257,7 +257,7 @@ sidebar: auto
 
 - 默认值: `"router-link-exact-active"`
 
-  全局配置 `<router-link>` 精确激活的默认的 class。可同时翻阅 [router-link](#router-link)。
+  全局配置 `<router-link>` 默认的精确激活的 class。可同时翻阅 [router-link](#router-link)。
 
 ### scrollBehavior
 
