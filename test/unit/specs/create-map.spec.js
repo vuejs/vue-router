@@ -103,7 +103,7 @@ describe('Creating Route Map', function () {
       { path: 'bar', name: 'bar', component: Bar }
     ])
     expect(console.warn).toHaveBeenCalledTimes(1)
-    expect(console.warn.calls.argsFor(0)[0]).toEqual('[vue-router] Non-nested routes must include a leading slash character. Fix the following routes: bar.')
+    expect(console.warn.calls.argsFor(0)[0]).toEqual('[vue-router] Non-nested routes must include a leading slash character. Fix the following routes: \n- bar')
   })
 
   it('in development, it does not log the missing leading slash when routes are valid', function () {
@@ -117,10 +117,7 @@ describe('Creating Route Map', function () {
   it('in production, it does not log the missing leading slash warning', function () {
     process.env.NODE_ENV = 'production'
     maps = createRouteMap([
-      { path: '/', name: 'home', component: Home },
-      { path: 'bar', name: 'bar', component: Bar },
-      { path: 'foo', name: 'foo', component: Foo },
-      { path: '*', name: 'any', component: Baz }
+      { path: 'bar', name: 'bar', component: Bar }
     ])
     expect(console.warn).not.toHaveBeenCalled()
   })

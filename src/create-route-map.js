@@ -39,13 +39,10 @@ export function createRouteMap (
     const found = pathList
     // check for missing leading slash
       .filter(path => path && path.charAt(0) !== '*' && path.charAt(0) !== '/')
-    // split the path to get the root path part only
-      .map(path => path.split('/')[0])
-    // remove duplicates caused by split child paths
-      .filter((path, index, pathList) => pathList.indexOf(path) === index)
 
     if (found.length > 0) {
-      warn(false, `Non-nested routes must include a leading slash character. Fix the following routes: ${found.join('\n')}.`)
+      const pathNames = found.map(path => `- ${path}`).join('\n')
+      warn(false, `Non-nested routes must include a leading slash character. Fix the following routes: \n${pathNames}`)
     }
   }
 
