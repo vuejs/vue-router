@@ -1,5 +1,5 @@
 /*!
-  * vue-router v3.1.2
+  * vue-router v3.1.3
   * (c) 2019 Evan You
   * @license MIT
   */
@@ -12,7 +12,7 @@ function assert (condition, message) {
 }
 
 function warn (condition, message) {
-  if ("development" !== 'production' && !condition) {
+  if ( !condition) {
     typeof console !== 'undefined' && console.warn(`[vue-router] ${message}`);
   }
 }
@@ -135,7 +135,7 @@ var View = {
 
     return h(component, data, children)
   }
-}
+};
 
 function resolveProps (route, config) {
   switch (typeof config) {
@@ -183,7 +183,7 @@ function resolveQuery (
   try {
     parsedQuery = parse(query || '');
   } catch (e) {
-    "development" !== 'production' && warn(false, e.message);
+     warn(false, e.message);
     parsedQuery = {};
   }
   for (const key in extraQuery) {
@@ -262,7 +262,7 @@ function createRoute (
   redirectedFrom,
   router
 ) {
-  const stringifyQuery$$1 = router && router.options.stringifyQuery;
+  const stringifyQuery = router && router.options.stringifyQuery;
 
   let query = location.query || {};
   try {
@@ -276,11 +276,11 @@ function createRoute (
     hash: location.hash || '',
     query,
     params: location.params || {},
-    fullPath: getFullPath(location, stringifyQuery$$1),
+    fullPath: getFullPath(location, stringifyQuery),
     matched: record ? formatMatch(record) : []
   };
   if (redirectedFrom) {
-    route.redirectedFrom = getFullPath(redirectedFrom, stringifyQuery$$1);
+    route.redirectedFrom = getFullPath(redirectedFrom, stringifyQuery);
   }
   return Object.freeze(route)
 }
@@ -1097,7 +1097,24 @@ var Link = {
         // in case the <a> is a static node
         a.isStatic = false;
         const aData = (a.data = extend({}, a.data));
-        aData.on = on;
+        aData.on = aData.on || {};
+        // transform existing events in both objects into arrays so we can push later
+        for (const event in aData.on) {
+          const handler = aData.on[event];
+          if (event in on) {
+            aData.on[event] = Array.isArray(handler) ? handler : [handler];
+          }
+        }
+        // append new listeners for router-link
+        for (const event in on) {
+          if (event in aData.on) {
+            // on[event] is always a function
+            aData.on[event].push(on[event]);
+          } else {
+            aData.on[event] = handler;
+          }
+        }
+
         const aAttrs = (a.data.attrs = extend({}, a.data.attrs));
         aAttrs.href = href;
       } else {
@@ -1108,7 +1125,7 @@ var Link = {
 
     return h(this.tag, data, this.$slots.default)
   }
-}
+};
 
 function guardEvent (e) {
   // don't redirect with control keys
@@ -1226,6 +1243,18 @@ function createRouteMap (
     }
   }
 
+  {
+    // warn if routes do not include leading slashes
+    const found = pathList
+    // check for missing leading slash
+      .filter(path => path && path.charAt(0) !== '*' && path.charAt(0) !== '/');
+
+    if (found.length > 0) {
+      const pathNames = found.map(path => `- ${path}`).join('\n');
+      warn(false, `Non-nested routes must include a leading slash character. Fix the following routes: \n${pathNames}`);
+    }
+  }
+
   return {
     pathList,
     pathMap,
@@ -1318,7 +1347,7 @@ function addRouteRecord (
     const aliases = Array.isArray(route.alias) ? route.alias : [route.alias];
     for (let i = 0; i < aliases.length; ++i) {
       const alias = aliases[i];
-      if ("development" !== 'production' && alias === path) {
+      if ( alias === path) {
         warn(
           false,
           `Found an alias with the same value as the path: "${path}". You have to remove that alias. It will be ignored in development.`
@@ -1345,7 +1374,7 @@ function addRouteRecord (
   if (name) {
     if (!nameMap[name]) {
       nameMap[name] = record;
-    } else if ("development" !== 'production' && !matchAs) {
+    } else if ( !matchAs) {
       warn(
         false,
         `Duplicate named routes definition: ` +
@@ -1576,6 +1605,28 @@ function resolveRecordPath (path, record) {
 
 /*  */
 
+// use User Timing api (if present) for more accurate key precision
+const Time =
+  inBrowser && window.performance && window.performance.now
+    ? window.performance
+    : Date;
+
+function genStateKey () {
+  return Time.now().toFixed(3)
+}
+
+let _key = genStateKey();
+
+function getStateKey () {
+  return _key
+}
+
+function setStateKey (key) {
+  return (_key = key)
+}
+
+/*  */
+
 const positionStore = Object.create(null);
 
 function setupScroll () {
@@ -1725,39 +1776,22 @@ function scrollToPosition (shouldScroll, position) {
 
 /*  */
 
-const supportsPushState = inBrowser && (function () {
-  const ua = window.navigator.userAgent;
+const supportsPushState =
+  inBrowser &&
+  (function () {
+    const ua = window.navigator.userAgent;
 
-  if (
-    (ua.indexOf('Android 2.') !== -1 || ua.indexOf('Android 4.0') !== -1) &&
-    ua.indexOf('Mobile Safari') !== -1 &&
-    ua.indexOf('Chrome') === -1 &&
-    ua.indexOf('Windows Phone') === -1
-  ) {
-    return false
-  }
+    if (
+      (ua.indexOf('Android 2.') !== -1 || ua.indexOf('Android 4.0') !== -1) &&
+      ua.indexOf('Mobile Safari') !== -1 &&
+      ua.indexOf('Chrome') === -1 &&
+      ua.indexOf('Windows Phone') === -1
+    ) {
+      return false
+    }
 
-  return window.history && 'pushState' in window.history
-})();
-
-// use User Timing api (if present) for more accurate key precision
-const Time = inBrowser && window.performance && window.performance.now
-  ? window.performance
-  : Date;
-
-let _key = genKey();
-
-function genKey () {
-  return Time.now().toFixed(3)
-}
-
-function getStateKey () {
-  return _key
-}
-
-function setStateKey (key) {
-  _key = key;
-}
+    return window.history && 'pushState' in window.history
+  })();
 
 function pushState (url, replace) {
   saveScrollPosition();
@@ -1766,10 +1800,9 @@ function pushState (url, replace) {
   const history = window.history;
   try {
     if (replace) {
-      history.replaceState({ key: _key }, '', url);
+      history.replaceState({ key: getStateKey() }, '', url);
     } else {
-      _key = genKey();
-      history.pushState({ key: _key }, '', url);
+      history.pushState({ key: setStateKey(genStateKey()) }, '', url);
     }
   } catch (e) {
     window.location[replace ? 'replace' : 'assign'](url);
@@ -1834,7 +1867,7 @@ function resolveAsyncComponents (matched) {
 
         const reject = once(reason => {
           const msg = `Failed to resolve async component ${key}: ${reason}`;
-          "development" !== 'production' && warn(false, msg);
+           warn(false, msg);
           if (!error) {
             error = isError(reason)
               ? reason
@@ -1906,9 +1939,22 @@ function once (fn) {
 }
 
 class NavigationDuplicated extends Error {
-  constructor () {
-    super('Navigating to current location is not allowed');
+  constructor (normalizedLocation) {
+    super();
     this.name = this._name = 'NavigationDuplicated';
+    // passing the message to super() doesn't seem to work in the transpiled version
+    this.message = `Navigating to current location ("${
+      normalizedLocation.fullPath
+    }") is not allowed`;
+    // add a stack property so services like Sentry can correctly display it
+    Object.defineProperty(this, 'stack', {
+      value: new Error().stack,
+      writable: true,
+      configurable: true
+    });
+    // we could also have used
+    // Error.captureStackTrace(this, this.constructor)
+    // but it only exists on node and chrome
   }
 }
 
@@ -2612,7 +2658,7 @@ class VueRouter {
   }
 
   init (app /* Vue component instance */) {
-    "development" !== 'production' && assert(
+     assert(
       install.installed,
       `not installed. Make sure to call \`Vue.use(VueRouter)\` ` +
       `before creating root instance.`
@@ -2779,7 +2825,7 @@ function createHref (base, fullPath, mode) {
 }
 
 VueRouter.install = install;
-VueRouter.version = '3.1.2';
+VueRouter.version = '3.1.3';
 
 if (inBrowser && window.Vue) {
   window.Vue.use(VueRouter);
