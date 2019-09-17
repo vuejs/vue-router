@@ -27,6 +27,8 @@ const IndexChild2 = { template: '<div>index child2</div>' }
 
 const Home = { template: '<div>home</div>' }
 
+const ViewWithKeepalive = { template: '<keep-alive><router-view></router-view></keep-alive>' }
+
 const router = new VueRouter({
   mode: 'history',
   base: __dirname,
@@ -58,6 +60,26 @@ const router = new VueRouter({
       path: '/with-guard2',
       name: 'with-guard2',
       component: WithGuard
+    },
+    {
+      path: '/one',
+      component: ViewWithKeepalive,
+      children: [
+        {
+          path: 'two',
+          component: ViewWithKeepalive,
+          children: [
+            {
+              path: 'child1',
+              component: IndexChild1
+            },
+            {
+              path: 'child2',
+              component: IndexChild2
+            }
+          ]
+        }
+      ]
     }
   ]
 })
@@ -72,6 +94,8 @@ new Vue({
         <li><router-link to="/home">/home</router-link></li>
         <li><router-link to="/with-guard1">/with-guard1</router-link></li>
         <li><router-link to="/with-guard2">/with-guard2</router-link></li>
+        <li><router-link to="/one/two/child1">/one/two/child1</router-link></li>
+        <li><router-link to="/one/two/child2">/one/two/child2</router-link></li>
       </ul>
       <keep-alive>
         <router-view class="view"></router-view>
