@@ -32,7 +32,7 @@ new Vue({
   router,
   template: `
     <div id="app">
-      <h1>Basic</h1>
+      <h1>Mode: 'hash'</h1>
       <ul>
         <li><router-link to="/">/</router-link></li>
         <li><router-link to="/foo">/foo</router-link></li>
