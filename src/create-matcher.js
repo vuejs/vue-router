@@ -5,12 +5,13 @@ import { resolvePath } from './util/path'
 import { assert, warn } from './util/warn'
 import { createRoute } from './util/route'
 import { fillParams } from './util/params'
-import { createRouteMap } from './create-route-map'
+import { createRouteMap, removeRoutesFromMap } from './create-route-map'
 import { normalizeLocation } from './util/location'
 
 export type Matcher = {
   match: (raw: RawLocation, current?: Route, redirectedFrom?: Location) => Route;
   addRoutes: (routes: Array<RouteConfig>) => void;
+  removeRoutes: (routes: Array<RouteConfig>) => void;
 };
 
 export function createMatcher (
@@ -21,6 +22,9 @@ export function createMatcher (
 
   function addRoutes (routes) {
     createRouteMap(routes, pathList, pathMap, nameMap)
+  }
+  function removeRoutes (routes) {
+    removeRoutesFromMap(routes, pathList, pathMap, nameMap)
   }
 
   function match (
@@ -166,7 +170,8 @@ export function createMatcher (
 
   return {
     match,
-    addRoutes
+    addRoutes,
+    removeRoutes
   }
 }
 
