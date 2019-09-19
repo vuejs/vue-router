@@ -103,5 +103,8 @@
   "bugs": {
     "url": "https://github.com/vuejs/vue-router/issues"
   },
-  "homepage": "https://github.com/vuejs/vue-router#readme"
+  "homepage": "https://github.com/vuejs/vue-router#readme",
+  "dependencies": {
+    "install": "^0.13.0"
+  }
 }
