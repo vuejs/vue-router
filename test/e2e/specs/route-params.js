@@ -1,4 +1,10 @@
+const bsStatus = require('../browserstack-send-status')
+
 module.exports = {
+  ...bsStatus(),
+
+  '@tags': ['history'],
+
   'route-params': function (browser) {
     browser
       .url('http://localhost:8080/route-params/')
