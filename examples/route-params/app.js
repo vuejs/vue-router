@@ -4,13 +4,14 @@ import VueRouter from 'vue-router'
 Vue.use(VueRouter)
 
 const Log = {
-  template: `<div class="log">id: {{$route.params.id}}, type: {{$route.params.type}}</div>`
+  template: `<div class="log">id: {{ $route.params.id }}, type: {{ $route.params.type }}</div>`
 }
 
 const Logs = {
   template: `
     <div>
-      <router-link :to="to" class="child-link">{{to.params.type}}</router-link>
+      <pre id="params">{{ to.params }}</pre>
+      <router-link :to="to" class="child-link">{{ to.params.type }}</router-link>
       <router-view></router-view>
     </div>
   `,
