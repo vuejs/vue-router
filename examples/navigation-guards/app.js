@@ -107,7 +107,7 @@ const NestedParent = {
     <!-- which can cause bugs as "vm" below in "next(vm => ...)" may not be -->
     <!-- available at the time the callback is called -->
     <transition name="fade" mode="out-in">
-      <router-view/>
+      <router-view :key="$route.path"/>
     </transition>
   </div>`,
   data: () => ({ logs: [] }),
@@ -126,18 +126,7 @@ const GuardMixin = {
   }
 }
 
-const NestedChild1 = {
-  props: ['n'],
-  template: `<div>Child {{ n }}</div>`,
-  mixins: [GuardMixin],
-  beforeRouteEnter (to, from, next) {
-    next(vm => {
-      vm.$parent.logs.push('child ' + vm.n)
-    })
-  }
-}
-
-const NestedChild2 = {
+const NestedChild = {
   props: ['n'],
   template: `<div>Child {{ n }}</div>`,
   mixins: [GuardMixin],
@@ -183,8 +172,8 @@ const router = new VueRouter({
       path: '/parent',
       component: NestedParent,
       children: [
-        { path: 'child/1', component: NestedChild1, props: { n: 1 }},
-        { path: 'child/2', component: NestedChild2, props: { n: 2 }}
+        { path: 'child/1', component: NestedChild, props: { n: 1 }},
+        { path: 'child/2', component: NestedChild, props: { n: 2 }}
       ]
     }
   ]
