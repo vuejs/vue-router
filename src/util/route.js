@@ -140,7 +140,7 @@ export function handleRouteEntered (route: Route) {
       if (!instance || !cbs) continue
       delete record.enteredCbs[name]
       for (let i = 0; i < cbs.length; i++) {
-        cbs[i](instance)
+        if (!instance._isBeingDestroyed) cbs[i](instance)
       }
     }
   }
