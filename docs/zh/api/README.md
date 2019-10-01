@@ -4,8 +4,6 @@ sidebar: auto
 
 # API 参考
 
-<Bit/>
-
 ## `<router-link>`
 
 `<router-link>` 组件支持用户在具有路由功能的应用中 (点击) 导航。
@@ -14,7 +12,7 @@ sidebar: auto
 `<router-link>` 比起写死的 `<a href="...">` 会好一些，理由如下：
 
 - 无论是 HTML5 history 模式还是 hash 模式，它的表现行为一致，所以，当你要切换路由模式，或者在 IE9 降级使用 hash 模式，无须作任何变动。
-- 在 HTML5 history 模式下，`router-link`  会守卫点击事件，让浏览器不再重新加载页面。
+- 在 HTML5 history 模式下，`router-link` 会守卫点击事件，让浏览器不再重新加载页面。
 - 当你在 HTML5 history 模式下使用 `base` 选项之后，所有的 `to` 属性都不需要写 (基路径) 了。
 
 ### `v-slot` API (3.1.0 新增)
@@ -121,7 +119,7 @@ sidebar: auto
 - 类型: `string`
 - 默认值: `"a"`
 
-  有时候想要  `<router-link>` 渲染成某种标签，例如 `<li>`。
+  有时候想要 `<router-link>` 渲染成某种标签，例如 `<li>`。
   于是我们使用 `tag` prop 类指定何种标签，同样它还是会监听点击，触发导航。
 
   ```html
