@@ -127,7 +127,7 @@ export interface Location {
   path?: string
   hash?: string
   query?: Dictionary<string | (string | null)[] | null | undefined>
-  params?: Dictionary<string>
+  params?: Dictionary<string | number | boolean>
   append?: boolean
   replace?: boolean
 }
