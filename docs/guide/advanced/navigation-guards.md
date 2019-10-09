@@ -8,7 +8,7 @@ Remember that **params or query changes won't trigger enter/leave navigation gua
 
 You can register global before guards using `router.beforeEach`:
 
-``` js
+```js
 const router = new VueRouter({ ... })
 
 router.beforeEach((to, from, next) => {
@@ -34,7 +34,7 @@ Every guard function receives three arguments:
 
   - **`next(error)`**: (2.4.0+) if the argument passed to `next` is an instance of `Error`, the navigation will be aborted and the error will be passed to callbacks registered via [`router.onError()`](../../api/#router-onerror).
 
-**Make sure to always call the `next` function, otherwise the hook will never be resolved.**
+**Make sure to always call the `next` function exactly one time in each navigation guard, otherwise the hook will never be resolved or produce errors.**
 
 ## Global Resolve Guards
 
@@ -44,7 +44,7 @@ You can register a global guard with `router.beforeResolve`. This is similar to 
 
 You can also register global after hooks, however unlike guards, these hooks do not get a `next` function and cannot affect the navigation:
 
-``` js
+```js
 router.afterEach((to, from) => {
   // ...
 })
@@ -54,7 +54,7 @@ router.afterEach((to, from) => {
 
 You can define `beforeEnter` guards directly on a route's configuration object:
 
-``` js
+```js
 const router = new VueRouter({
   routes: [
     {
@@ -78,7 +78,7 @@ Finally, you can directly define route navigation guards inside route components
 - `beforeRouteUpdate`
 - `beforeRouteLeave`
 
-``` js
+```js
 const Foo = {
   template: `...`,
   beforeRouteEnter (to, from, next) {
@@ -106,7 +106,7 @@ The `beforeRouteEnter` guard does **NOT** have access to `this`, because the gua
 
 However, you can access the instance by passing a callback to `next`. The callback will be called when the navigation is confirmed, and the component instance will be passed to the callback as the argument:
 
-``` js
+```js
 beforeRouteEnter (to, from, next) {
   next(vm => {
     // access to component instance via `vm`
