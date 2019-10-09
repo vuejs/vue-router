@@ -34,7 +34,24 @@ Every guard function receives three arguments:
 
   - **`next(error)`**: (2.4.0+) if the argument passed to `next` is an instance of `Error`, the navigation will be aborted and the error will be passed to callbacks registered via [`router.onError()`](../../api/#router-onerror).
 
-**Make sure to always call the `next` function exactly one time in each navigation guard, otherwise the hook will never be resolved or produce errors.**
+**Make sure that the `next` function is called exactly once in any given navigation guard. It can appear more than once, but only if the logical paths have no overlap, otherwise the hook will never be resolved or produce errors.** Here is an example of redirecting to user to `/login` if they are not authenticated:
+
+```js
+// BAD
+router.beforeEach((to, from, next) => {
+  if (!isAuthenticated) next('/login')
+  // if the user is not authenticated, `next` is called twice
+  next()
+})
+```
+
+```js
+// GOOD
+router.beforeEach((to, from, next) => {
+  if (!isAuthenticated) next('/login')
+  else next()
+})
+```
 
 ## Global Resolve Guards
 
