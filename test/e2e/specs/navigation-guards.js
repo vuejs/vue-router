@@ -150,7 +150,7 @@ module.exports = {
       .assert.containsText('#bre-order', 'parent mixin child 2')
       .click('#nested-parent a')
       .assert.urlEquals('http://localhost:8080/navigation-guards/parent/child/1')
-      .assert.containsText('#bre-order', 'parent mixin child 2 mixin child 1')
+      .assert.containsText('#bre-order', 'parent mixin child 2 parent mixin child 1')
       .end()
   }
 }

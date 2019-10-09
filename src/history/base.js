@@ -5,7 +5,7 @@ import type Router from '../index'
 import { inBrowser } from '../util/dom'
 import { runQueue } from '../util/async'
 import { warn, isError, isExtendedError } from '../util/warn'
-import { START, isSameRoute } from '../util/route'
+import { START } from '../util/route'
 import {
   flatten,
   flatMapComponents,
@@ -115,14 +115,6 @@ export class History {
         }
       }
       onAbort && onAbort(err)
-    }
-    if (
-      isSameRoute(route, current) &&
-      // in the case the route map has been dynamically appended to
-      route.matched.length === current.matched.length
-    ) {
-      this.ensureURL()
-      return abort(new NavigationDuplicated(route))
     }
 
     const { updated, deactivated, activated } = resolveQueue(
@@ -240,15 +232,18 @@ function resolveQueue (
 } {
   let i
   const max = Math.max(current.length, next.length)
+
+  // Get the index of the first non-matching route pair
   for (i = 0; i < max; i++) {
     if (current[i] !== next[i]) {
       break
     }
   }
+
   return {
     updated: next.slice(0, i),
-    activated: next.slice(i),
-    deactivated: current.slice(i)
+    activated: next,
+    deactivated: current
   }
 }
 
