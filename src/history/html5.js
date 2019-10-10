@@ -44,7 +44,8 @@ export class HTML5History extends History {
   push (location: RawLocation, onComplete?: Function, onAbort?: Function) {
     const { current: fromRoute } = this
     this.transitionTo(location, route => {
-      pushState(cleanPath(this.base + route.fullPath))
+      const fn = fromRoute.fullPath === route.fullPath ? replaceState : pushState
+      fn(cleanPath(this.base + route.fullPath))
       handleScroll(this.router, route, fromRoute, false)
       onComplete && onComplete(route)
     }, onAbort)

@@ -49,28 +49,21 @@ export class HashHistory extends History {
 
   push (location: RawLocation, onComplete?: Function, onAbort?: Function) {
     const { current: fromRoute } = this
-    this.transitionTo(
-      location,
-      route => {
-        pushHash(route.fullPath)
-        handleScroll(this.router, route, fromRoute, false)
-        onComplete && onComplete(route)
-      },
-      onAbort
-    )
+    this.transitionTo(location, route => {
+      const fn = fromRoute.fullPath === route.fullPath ? replaceHash : pushHash
+      fn(route.fullPath)
+      handleScroll(this.router, route, fromRoute, false)
+      onComplete && onComplete(route)
+    }, onAbort)
   }
 
   replace (location: RawLocation, onComplete?: Function, onAbort?: Function) {
     const { current: fromRoute } = this
-    this.transitionTo(
-      location,
-      route => {
-        replaceHash(route.fullPath)
-        handleScroll(this.router, route, fromRoute, false)
-        onComplete && onComplete(route)
-      },
-      onAbort
-    )
+    this.transitionTo(location, route => {
+      replaceHash(route.fullPath)
+      handleScroll(this.router, route, fromRoute, false)
+      onComplete && onComplete(route)
+    }, onAbort)
   }
 
   go (n: number) {
