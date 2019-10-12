@@ -55,12 +55,14 @@ import (
 )
 var httpPort = "80"
 var indexFile = "index.html"
+var folder = "./"
+
 func serverHandler(w http.ResponseWriter, r *http.Request) {
-	if _, err := os.Stat(indexFile); err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
+	if _, err := os.Stat(folder + r.URL.Path); err != nil {
+		http.ServeFile(w, r, folder+"/index.html")
 		return
 	}
-	http.ServeFile(w, r, indexFile)
+	http.ServeFile(w, r, folder+r.URL.Path)
 }
 func main() {
 	r := mux.NewRouter()
