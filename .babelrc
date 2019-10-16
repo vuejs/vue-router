@@ -1,4 +1,0 @@
-{
-  "presets": ["env", "flow-vue"],
-  "plugins": ["syntax-dynamic-import"]
-}
