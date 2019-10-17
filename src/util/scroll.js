@@ -15,12 +15,17 @@ export function setupScroll () {
   const protocolAndPath = window.location.protocol + '//' + window.location.host
   const absolutePath = window.location.href.replace(protocolAndPath, '')
   window.history.replaceState({ key: getStateKey() }, '', absolutePath)
-  window.addEventListener('popstate', e => {
+  const listener = e => {
     saveScrollPosition()
     if (e.state && e.state.key) {
       setStateKey(e.state.key)
     }
-  })
+  }
+  window.addEventListener('popstate', listener)
+
+  return function uninstall () {
+    window.removeEventListener('popstate', listener)
+  }
 }
 
 export function handleScroll (

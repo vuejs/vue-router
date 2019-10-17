@@ -23,6 +23,7 @@ export class History {
   readyCbs: Array<Function>
   readyErrorCbs: Array<Function>
   errorCbs: Array<Function>
+  removeEventListenerCbs: Array<Function>
 
   // implemented by sub-classes
   +go: (n: number) => void
@@ -41,6 +42,7 @@ export class History {
     this.readyCbs = []
     this.readyErrorCbs = []
     this.errorCbs = []
+    this.removeEventListenerCbs = []
   }
 
   listen (cb: Function) {
@@ -207,6 +209,10 @@ export class History {
     this.router.afterHooks.forEach(hook => {
       hook && hook(route, prev)
     })
+  }
+
+  destroy () {
+    this.removeEventListenerCbs.forEach(cb => { cb() })
   }
 }
 
