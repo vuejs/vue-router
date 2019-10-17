@@ -15,11 +15,12 @@ export class HTML5History extends History {
     const supportsScroll = supportsPushState && expectScroll
 
     if (supportsScroll) {
-      setupScroll()
+      const uninstall = setupScroll()
+      this.removeEventListenerCbs.push(uninstall)
     }
 
     const initLocation = getLocation(this.base)
-    window.addEventListener('popstate', e => {
+    const listener = e => {
       const current = this.current
 
       // Avoiding first `popstate` event dispatched in some browsers but first
@@ -34,7 +35,12 @@ export class HTML5History extends History {
           handleScroll(router, route, current, true)
         }
       })
-    })
+    }
+    window.addEventListener('popstate', listener)
+    const uninstall = () => {
+      window.removeEventListener('popstate', listener)
+    }
+    this.removeEventListenerCbs.push(uninstall)
   }
 
   go (n: number) {

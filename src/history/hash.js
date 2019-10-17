@@ -25,10 +25,12 @@ export class HashHistory extends History {
     const supportsScroll = supportsPushState && expectScroll
 
     if (supportsScroll) {
-      setupScroll()
+      const uninstall = setupScroll()
+      this.removeEventListenerCbs.push(uninstall)
     }
 
-    window.addEventListener(supportsPushState ? 'popstate' : 'hashchange', () => {
+    const eventName = supportsPushState ? 'popstate' : 'hashchange'
+    const listener = () => {
       const current = this.current
       if (!ensureSlash()) {
         return
@@ -41,7 +43,12 @@ export class HashHistory extends History {
           replaceHash(route.fullPath)
         }
       })
-    })
+    }
+    window.addEventListener(eventName, listener)
+    const uninstall = () => {
+      window.removeEventListener(eventName, listener)
+    }
+    this.removeEventListenerCbs.push(uninstall)
   }
 
   push (location: RawLocation, onComplete?: Function, onAbort?: Function) {
