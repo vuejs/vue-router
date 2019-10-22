@@ -7,7 +7,7 @@ import VueRouter from 'vue-router'
 Vue.use(VueRouter)
 
 // 2. Define route components
-const Home = { template: '<div>home</div>' }
+const Home = { template: '<div>home</div>', data: () => { console.log('data reprocessed'); return {} } }
 const Foo = { template: '<div>foo</div>' }
 const Bar = { template: '<div>bar</div>' }
 const Unicode = { template: '<div>unicode</div>' }
@@ -53,7 +53,7 @@ new Vue({
       <pre id="counter">{{ n }}</pre>
       <pre id="query-t">{{ $route.query.t }}</pre>
       <pre id="hash">{{ $route.hash }}</pre>
-      <router-view class="view"></router-view>
+      <router-view class="view" :key="$route.id"></router-view>
     </div>
   `,
 

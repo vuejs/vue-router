@@ -19,6 +19,7 @@ export function createRoute (
   } catch (e) {}
 
   const route: Route = {
+    id: Date.now(),
     name: location.name || (record && record.name),
     meta: (record && record.meta) || {},
     path: location.path || '/',
