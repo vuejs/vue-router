@@ -13,6 +13,7 @@ const Bar = {
       <p id="anchor" style="height:500px">Anchor</p>
       <p id="anchor2" style="height:500px">Anchor2</p>
       <p id="1number">with number</p>
+      <p id="1number/2number">with CSS special characters</p>
     </div>
   `
 }
@@ -37,8 +38,8 @@ const scrollBehavior = function (to, from, savedPosition) {
         position.offset = { y: 100 }
       }
 
-      // bypass #1number check
-      if (/^#\d/.test(to.hash) || document.querySelector(to.hash)) {
+      // bypass #1number && #1number/2number check
+      if (/^#[^, ]+$/.test(to.hash) || document.querySelector(to.hash)) {
         return position
       }
 
@@ -89,6 +90,7 @@ new Vue({
         <li><router-link to="/bar#anchor">/bar#anchor</router-link></li>
         <li><router-link to="/bar#anchor2">/bar#anchor2</router-link></li>
         <li><router-link to="/bar#1number">/bar#1number</router-link></li>
+        <li><router-link to="/bar#1number/2number">/bar#1number/2number</router-link></li>
       </ul>
       <transition name="fade" mode="out-in" @after-leave="afterLeave">
         <router-view class="view"></router-view>
