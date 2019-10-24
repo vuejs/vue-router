@@ -11,7 +11,7 @@ module.exports = {
     browser
       .url('http://localhost:8080/scroll-behavior/')
       .waitForElementVisible('#app', 1000)
-      .assert.count('li a', 6)
+      .assert.count('li a', 7)
       .assert.containsText('.view', 'home')
 
       .execute(function () {
@@ -126,6 +126,16 @@ module.exports = {
         },
         null,
         'scroll to anchor that starts with number'
+      )
+      .execute(function () {
+        document.querySelector('li:nth-child(7) a').click()
+      })
+      .assert.evaluate(
+        function () {
+          return document.getElementById('1number/2number').getBoundingClientRect().top < 1
+        },
+        null,
+        'scroll to anchor that includes CSS special characters'
       )
       .end()
   }
