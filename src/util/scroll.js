@@ -121,14 +121,16 @@ function isNumber (v: any): boolean {
   return typeof v === 'number'
 }
 
-const hashStartsWithNumberRE = /^#\d/
+const selectorLooksLikeIdRE = /^#[^, ]+$/
 
 function scrollToPosition (shouldScroll, position) {
   const isObject = typeof shouldScroll === 'object'
   if (isObject && typeof shouldScroll.selector === 'string') {
+    // getElementById is used only where a selector looks like a single [id] ... this allows for use of CSS
+    // 'special characters' that would otherwise fail in querySelector without escaping, e.g. "#one/two"
     // getElementById would still fail if the selector contains a more complicated query like #main[data-attr]
     // but at the same time, it doesn't make much sense to select an element with an id and an extra selector
-    const el = hashStartsWithNumberRE.test(shouldScroll.selector) // $flow-disable-line
+    const el = selectorLooksLikeIdRE.test(shouldScroll.selector) // $flow-disable-line
       ? document.getElementById(shouldScroll.selector.slice(1)) // $flow-disable-line
       : document.querySelector(shouldScroll.selector)
 
