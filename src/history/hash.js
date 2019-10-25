@@ -125,9 +125,7 @@ export function getHash (): string {
       href = decodeURI(href.slice(0, hashIndex)) + href.slice(hashIndex)
     } else href = decodeURI(href)
   } else {
-    if (searchIndex > -1) {
       href = decodeURI(href.slice(0, searchIndex)) + href.slice(searchIndex)
-    }
   }
 
   return href
