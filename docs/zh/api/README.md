@@ -4,8 +4,6 @@ sidebar: auto
 
 # API 参考
 
-<Bit/>
-
 ## `<router-link>`
 
 `<router-link>` 组件支持用户在具有路由功能的应用中 (点击) 导航。
@@ -14,22 +12,52 @@ sidebar: auto
 `<router-link>` 比起写死的 `<a href="...">` 会好一些，理由如下：
 
 - 无论是 HTML5 history 模式还是 hash 模式，它的表现行为一致，所以，当你要切换路由模式，或者在 IE9 降级使用 hash 模式，无须作任何变动。
-
-- 在 HTML5 history 模式下，`router-link`  会守卫点击事件，让浏览器不再重新加载页面。
-
+- 在 HTML5 history 模式下，`router-link` 会守卫点击事件，让浏览器不再重新加载页面。
 - 当你在 HTML5 history 模式下使用 `base` 选项之后，所有的 `to` 属性都不需要写 (基路径) 了。
 
-### 将激活 class 应用在外层元素
+### `v-slot` API (3.1.0 新增)
 
-有时候我们要让激活 class 应用在外层元素，而不是 `<a>` 标签本身，那么可以用 `<router-link>` 渲染外层元素，包裹着内层的原生 `<a>` 标签：
+`router-link` 通过一个[作用域插槽](https://cn.vuejs.org/v2/guide/components-slots.html#作用域插槽)暴露底层的定制能力。这是一个更高阶的 API，主要面向库作者，但也可以为开发者提供便利，多数情况用在一个类似 _NavLink_ 这样的组件里。
 
-``` html
-<router-link tag="li" to="/foo">
-  <a>/foo</a>
+**在使用 `v-slot` API 时，需要向 `router-link` 传入一个单独的子元素**。否则 `router-link` 将会把子元素包裹在一个 `span` 元素内。
+
+```html
+<router-link
+  to="/about"
+  v-slot="{ href, route, navigate, isActive, isExactActive }"
+>
+  <NavLink :active="isActive" :href="href" @click="navigate"
+    >{{ route.fullPath }}</NavLink
+  >
 </router-link>
 ```
 
-在这种情况下，`<a>` 将作为真实的链接 (它会获得正确的 `href` 的)，而 "激活时的 CSS 类名" 则设置到外层的 `<li>`。
+- `href`：解析后的 URL。将会作为一个 `a` 元素的 `href` attribute。
+- `route`：解析后的规范化的地址。
+- `navigate`：触发导航的函数。**会在必要时自动阻止事件**，和 `router-link` 同理。
+- `isActive`：如果需要应用[激活的 class](#active-class) 则为 `true`。允许应用一个任意的 class。
+- `isExactActive`：如果需要应用[精确激活的 class](#exact-active-class) 则为 `true`。允许应用一个任意的 class。
+
+### 示例：将激活的 class 应用在外层元素
+
+有的时候我们可能想把激活的 class 应用到一个外部元素而不是 `<a>` 标签本身，这时你可以在一个 `router-link` 中包裹该元素并使用 `v-slot` property 来创建链接：
+
+```html
+<router-link
+  to="/foo"
+  v-slot="{ href, route, navigate, isActive, isExactActive }"
+>
+  <li
+    :class="[isActive && 'router-link-active', isExactActive && 'router-link-exact-active']"
+  >
+    <a :href="href" @click="navigate">{{ route.fullPath }}</a>
+  </li>
+</router-link>
+```
+
+:::tip 提示
+如果你在 `<a>` 元素上添加一个 `target="_blank"`，则 `@click="navigate"` 处理器会被忽略。
+:::
 
 ## `<router-link>` Props
 
@@ -40,7 +68,7 @@ sidebar: auto
 
   表示目标路由的链接。当被点击后，内部会立刻把 `to` 的值传到 `router.push()`，所以这个值可以是一个字符串或者是描述目标位置的对象。
 
-  ``` html
+  ```html
   <!-- 字符串 -->
   <router-link to="home">Home</router-link>
   <!-- 渲染结果 -->
@@ -59,7 +87,9 @@ sidebar: auto
   <router-link :to="{ name: 'user', params: { userId: 123 }}">User</router-link>
 
   <!-- 带查询参数，下面的结果为 /register?plan=private -->
-  <router-link :to="{ path: 'register', query: { plan: 'private' }}">Register</router-link>
+  <router-link :to="{ path: 'register', query: { plan: 'private' }}"
+    >Register</router-link
+  >
   ```
 
 ### replace
@@ -69,7 +99,7 @@ sidebar: auto
 
   设置 `replace` 属性的话，当点击时，会调用 `router.replace()` 而不是 `router.push()`，于是导航后不会留下 history 记录。
 
-  ``` html
+  ```html
   <router-link :to="{ path: '/abc'}" replace></router-link>
   ```
 
@@ -80,7 +110,7 @@ sidebar: auto
 
   设置 `append` 属性后，则在当前 (相对) 路径前添加基路径。例如，我们从 `/a` 导航到一个相对路径 `b`，如果没有配置 `append`，则路径为 `/b`，如果配了，则为 `/a/b`
 
-  ``` html
+  ```html
   <router-link :to="{ path: 'relative/path'}" append></router-link>
   ```
 
@@ -89,10 +119,10 @@ sidebar: auto
 - 类型: `string`
 - 默认值: `"a"`
 
-  有时候想要  `<router-link>` 渲染成某种标签，例如 `<li>`。
+  有时候想要 `<router-link>` 渲染成某种标签，例如 `<li>`。
   于是我们使用 `tag` prop 类指定何种标签，同样它还是会监听点击，触发导航。
 
-  ``` html
+  ```html
   <router-link to="/foo" tag="li">foo</router-link>
   <!-- 渲染结果 -->
   <li>foo</li>
@@ -103,21 +133,21 @@ sidebar: auto
 - 类型: `string`
 - 默认值: `"router-link-active"`
 
-  设置 链接激活时使用的 CSS 类名。默认值可以通过路由的构造选项 `linkActiveClass` 来全局配置。
+  设置链接激活时使用的 CSS 类名。默认值可以通过路由的构造选项 `linkActiveClass` 来全局配置。
 
 ### exact
 
 - 类型: `boolean`
 - 默认值: `false`
 
-  "是否激活" 默认类名的依据是 **inclusive match** (全包含匹配)。
+  “是否激活”默认类名的依据是**包含匹配**。
   举个例子，如果当前的路径是 `/a` 开头的，那么 `<router-link to="/a">` 也会被设置 CSS 类名。
 
-  按照这个规则，每个路由都会激活`<router-link to="/">`！想要链接使用 "exact 匹配模式"，则使用 `exact` 属性：
+  按照这个规则，每个路由都会激活 `<router-link to="/">`！想要链接使用“精确匹配模式”，则使用 `exact` 属性：
 
-  ``` html
+  ```html
   <!-- 这个链接只会在地址为 / 的时候被激活 -->
-  <router-link to="/" exact>
+  <router-link to="/" exact></router-link>
   ```
 
   查看更多关于激活链接类名的例子[可运行](https://jsfiddle.net/8xrk1n9f/)
@@ -145,7 +175,7 @@ sidebar: auto
 
 因为它也是个组件，所以可以配合 `<transition>` 和 `<keep-alive>` 使用。如果两个结合一起用，要确保在内层使用 `<keep-alive>`：
 
-``` html
+```html
 <transition>
   <keep-alive>
     <router-view></router-view>
@@ -170,22 +200,22 @@ sidebar: auto
 
   `RouteConfig` 的类型定义：
 
-  ``` js
-  declare type RouteConfig = {
-    path: string;
-    component?: Component;
-    name?: string; // 命名路由
-    components?: { [name: string]: Component }; // 命名视图组件
-    redirect?: string | Location | Function;
-    props?: boolean | Object | Function;
-    alias?: string | Array<string>;
-    children?: Array<RouteConfig>; // 嵌套路由
-    beforeEnter?: (to: Route, from: Route, next: Function) => void;
-    meta?: any;
+  ```ts
+  interface RouteConfig = {
+    path: string,
+    component?: Component,
+    name?: string, // 命名路由
+    components?: { [name: string]: Component }, // 命名视图组件
+    redirect?: string | Location | Function,
+    props?: boolean | Object | Function,
+    alias?: string | Array<string>,
+    children?: Array<RouteConfig>, // 嵌套路由
+    beforeEnter?: (to: Route, from: Route, next: Function) => void,
+    meta?: any,
 
     // 2.6.0+
-    caseSensitive?: boolean; // 匹配规则是否大小写敏感？(默认值：false)
-    pathToRegexpOptions?: Object; // 编译正则的选项
+    caseSensitive?: boolean, // 匹配规则是否大小写敏感？(默认值：false)
+    pathToRegexpOptions?: Object // 编译正则的选项
   }
   ```
 
@@ -217,7 +247,7 @@ sidebar: auto
 
 - 默认值: `"router-link-active"`
 
-  全局配置 `<router-link>` 的默认“激活 class 类名”。参考 [router-link](#router-link)。
+  全局配置 `<router-link>` 默认的激活的 class。参考 [router-link](#router-link)。
 
 ### linkExactActiveClass
 
@@ -225,7 +255,7 @@ sidebar: auto
 
 - 默认值: `"router-link-exact-active"`
 
-  全局配置 `<router-link>` 精确激活的默认的 class。可同时翻阅 [router-link](#router-link)。
+  全局配置 `<router-link>` 默认的精确激活的 class。可同时翻阅 [router-link](#router-link)。
 
 ### scrollBehavior
 
@@ -285,18 +315,20 @@ sidebar: auto
 ## Router 实例方法
 
 ### router.beforeEach
+
 ### router.beforeResolve
+
 ### router.afterEach
 
 函数签名：
 
-``` js
+```js
 router.beforeEach((to, from, next) => {
-  /* must call `next` */
+  /* 必须调用 `next` */
 })
 
 router.beforeResolve((to, from, next) => {
-  /* must call `next` */
+  /* 必须调用 `next` */
 })
 
 router.afterEach((to, from) => {})
@@ -307,16 +339,22 @@ router.afterEach((to, from) => {})
 在 2.5.0+ 这三个方法都返回一个移除已注册的守卫/钩子的函数。
 
 ### router.push
+
 ### router.replace
+
 ### router.go
+
 ### router.back
+
 ### router.forward
 
 函数签名：
 
-``` js
+```js
 router.push(location, onComplete?, onAbort?)
+router.push(location).then(onComplete).catch(onAbort)
 router.replace(location, onComplete?, onAbort?)
+router.replace(location).then(onComplete).catch(onAbort)
 router.go(n)
 router.back()
 router.forward()
@@ -328,7 +366,7 @@ router.forward()
 
 函数签名：
 
-``` js
+```js
 const matchedComponents: Array<Component> = router.getMatchedComponents(location?)
 ```
 
@@ -338,7 +376,7 @@ const matchedComponents: Array<Component> = router.getMatchedComponents(location
 
 函数签名：
 
-``` js
+```js
 const resolved: {
   location: Location;
   route: Route;
@@ -355,7 +393,7 @@ const resolved: {
 
 函数签名：
 
-``` js
+```js
 router.addRoutes(routes: Array<RouteConfig>)
 ```
 
@@ -365,7 +403,7 @@ router.addRoutes(routes: Array<RouteConfig>)
 
 函数签名：
 
-``` js
+```js
 router.onReady(callback, [errorCallback])
 ```
 
@@ -379,7 +417,7 @@ router.onReady(callback, [errorCallback])
 
 函数签名：
 
-``` js
+```js
 router.onError(callback)
 ```
 
@@ -407,7 +445,7 @@ router.onError(callback)
 
 - 导航守卫的参数：
 
-  ``` js
+  ```js
   router.beforeEach((to, from, next) => {
     // `to` 和 `from` 都是路由对象
   })
@@ -415,9 +453,9 @@ router.onError(callback)
 
 - `scrollBehavior` 方法的参数:
 
-  ``` js
+  ```js
   const router = new VueRouter({
-    scrollBehavior (to, from, savedPosition) {
+    scrollBehavior(to, from, savedPosition) {
       // `to` 和 `from` 都是路由对象
     }
   })
@@ -425,47 +463,49 @@ router.onError(callback)
 
 ### 路由对象属性
 
-- **$route.path**
+- **\$route.path**
 
   - 类型: `string`
 
     字符串，对应当前路由的路径，总是解析为绝对路径，如 `"/foo/bar"`。
 
-- **$route.params**
+- **\$route.params**
 
   - 类型: `Object`
 
     一个 key/value 对象，包含了动态片段和全匹配片段，如果没有路由参数，就是一个空对象。
 
-- **$route.query**
+- **\$route.query**
 
   - 类型: `Object`
 
     一个 key/value 对象，表示 URL 查询参数。例如，对于路径 `/foo?user=1`，则有 `$route.query.user == 1`，如果没有查询参数，则是个空对象。
 
-- **$route.hash**
+- **\$route.hash**
 
   - 类型: `string`
 
     当前路由的 hash 值 (带 `#`) ，如果没有 hash 值，则为空字符串。
 
-- **$route.fullPath**
+- **\$route.fullPath**
 
   - 类型: `string`
 
     完成解析后的 URL，包含查询参数和 hash 的完整路径。
 
-- **$route.matched**
+- **\$route.matched**
 
   - 类型: `Array<RouteRecord>`
 
   一个数组，包含当前路由的所有嵌套路径片段的**路由记录** 。路由记录就是 `routes` 配置数组中的对象副本 (还有在 `children` 数组)。
 
-  ``` js
+  ```js
   const router = new VueRouter({
     routes: [
       // 下面的对象就是路由记录
-      { path: '/foo', component: Foo,
+      {
+        path: '/foo',
+        component: Foo,
         children: [
           // 这也是个路由记录
           { path: 'bar', component: Bar }
@@ -477,11 +517,11 @@ router.onError(callback)
 
   当 URL 为 `/foo/bar`，`$route.matched` 将会是一个包含从上到下的所有对象 (副本)。
 
-- **$route.name**
+- **\$route.name**
 
   当前路由的名称，如果有的话。(查看[命名路由](../guide/essentials/named-routes.md))
 
-- **$route.redirectedFrom**
+- **\$route.redirectedFrom**
 
   如果存在重定向，即为重定向来源的路由的名字。(参阅[重定向和别名](../guide/essentials/redirect-and-alias.md))
 
@@ -491,11 +531,11 @@ router.onError(callback)
 
 通过在 Vue 根实例的 `router` 配置传入 router 实例，下面这些属性成员会被注入到每个子组件。
 
-- **this.$router**
+- **this.\$router**
 
   router 实例。
 
-- **this.$route**
+- **this.\$route**
 
   当前激活的[路由信息对象](#路由对象)。这个属性是只读的，里面的属性是 immutable (不可变) 的，不过你可以 watch (监测变化) 它。
 

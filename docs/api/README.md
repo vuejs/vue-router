@@ -4,8 +4,6 @@ sidebar: auto
 
 # API Reference
 
-<Bit/>
-
 ## `<router-link>`
 
 `<router-link>` is the component for enabling user navigation in a router-enabled app. The target location is specified with the `to` prop. It renders as an `<a>` tag with correct `href` by default, but can be configured with the `tag` prop. In addition, the link automatically gets an active CSS class when the target route is active.

@@ -125,7 +125,24 @@ export default {
         // in case the <a> is a static node
         a.isStatic = false
         const aData = (a.data = extend({}, a.data))
-        aData.on = on
+        aData.on = aData.on || {}
+        // transform existing events in both objects into arrays so we can push later
+        for (const event in aData.on) {
+          const handler = aData.on[event]
+          if (event in on) {
+            aData.on[event] = Array.isArray(handler) ? handler : [handler]
+          }
+        }
+        // append new listeners for router-link
+        for (const event in on) {
+          if (event in aData.on) {
+            // on[event] is always a function
+            aData.on[event].push(on[event])
+          } else {
+            aData.on[event] = handler
+          }
+        }
+
         const aAttrs = (a.data.attrs = extend({}, a.data.attrs))
         aAttrs.href = href
       } else {

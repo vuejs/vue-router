@@ -125,9 +125,7 @@ export function getHash (): string {
       href = decodeURI(href.slice(0, hashIndex)) + href.slice(hashIndex)
     } else href = decodeURI(href)
   } else {
-    if (searchIndex > -1) {
-      href = decodeURI(href.slice(0, searchIndex)) + href.slice(searchIndex)
-    }
+    href = decodeURI(href.slice(0, searchIndex)) + href.slice(searchIndex)
   }
 
   return href
@@ -135,14 +133,9 @@ export function getHash (): string {
 
 function getUrl (path) {
   const href = window.location.href
-  const hashPos = href.indexOf('#')
-  let base = hashPos > -1 ? href.slice(0, hashPos) : href
-
-  const searchPos = base.indexOf('?')
-  const query = searchPos > -1 ? base.slice(searchPos) : ''
-  base = query ? base.slice(0, searchPos) : base
-
-  return `${base}#${path + query}`
+  const i = href.indexOf('#')
+  const base = i >= 0 ? href.slice(0, i) : href
+  return `${base}#${path}`
 }
 
 function pushHash (path) {

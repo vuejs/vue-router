@@ -97,7 +97,7 @@ this.$route.params.pathMatch // '/non-existing'
 
 ## Продвинутые возможности сопоставления
 
-`vue-router` использует [path-to-regexp](https://github.com/pillarjs/path-to-regexp) в качестве движка для проверки совпадения маршрутов, что позволяет задействовать многие продвинутые возможности, включая опциональные динамические сегменты и регулярные выражения. Подробнее об этих продвинутых возможностях можно изучить в [документации библиотеки](https://github.com/pillarjs/path-to-regexp#parameters), а на [примере](https://github.com/vuejs/vue-router/blob/dev/examples/route-matching/app.js) узнать как использовать их совместно с `vue-router`.
+`vue-router` использует [path-to-regexp](https://github.com/pillarjs/path-to-regexp/tree/v1.7.0) в качестве движка для проверки совпадения маршрутов, что позволяет задействовать многие продвинутые возможности, включая опциональные динамические сегменты и регулярные выражения. Подробнее об этих продвинутых возможностях можно изучить в [документации библиотеки](https://github.com/pillarjs/path-to-regexp/tree/v1.7.0#parameters), а на [примере](https://github.com/vuejs/vue-router/blob/dev/examples/route-matching/app.js) узнать как использовать их совместно с `vue-router`.
 
 ## Приоритеты при сопоставлении маршрутов
 

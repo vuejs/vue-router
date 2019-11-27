@@ -47,7 +47,7 @@ const router = new VueRouter({
 - `UserSettings` 是一个视图组件。
 - `UserEmailsSubscriptions`、`UserProfile`、`UserProfilePreview` 是嵌套的视图组件。
 
-**注意**：_我们先忘记 HTML/CSS 具体的布局的样子，只专注在用到的组件上_
+**注意**：_我们先忘记 HTML/CSS 具体的布局的样子，只专注在用到的组件上。_
 
 `UserSettings` 组件的 `<template>` 部分应该是类似下面的这段代码：
 
@@ -61,7 +61,7 @@ const router = new VueRouter({
 </div>
 ```
 
-_嵌套的视图组件在此已经被忽略了，但是你可以在[这里](https://jsfiddle.net/posva/22wgksa3/)找到完整的源代码_
+_嵌套的视图组件在此已经被忽略了，但是你可以在[这里](https://jsfiddle.net/posva/22wgksa3/)找到完整的源代码。_
 
 然后你可以用这个路由配置完成该布局：
 

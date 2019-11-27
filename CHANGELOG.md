@@ -1,3 +1,24 @@
+## [3.1.3](https://github.com/vuejs/vue-router/compare/v3.1.2...v3.1.3) (2019-08-30)
+
+### Bug Fixes
+
+- **link:** merge event listeners when provided in an anchor ([e0d4dc4](https://github.com/vuejs/vue-router/commit/e0d4dc4)), closes [#2890](https://github.com/vuejs/vue-router/issues/2890)
+
+### Features
+
+- **errors:** add stack trace to NavigationDuplicated ([5ef5d73](https://github.com/vuejs/vue-router/commit/5ef5d73)), closes [#2881](https://github.com/vuejs/vue-router/issues/2881)
+- warn about root paths without a leading slash ([#2591](https://github.com/vuejs/vue-router/issues/2591)) ([7d7e048](https://github.com/vuejs/vue-router/commit/7d7e048)), closes [#2550](https://github.com/vuejs/vue-router/issues/2550) [#2550](https://github.com/vuejs/vue-router/issues/2550)
+
+## [3.1.2](https://github.com/vuejs/vue-router/compare/v3.1.1...v3.1.2) (2019-08-08)
+
+### Bug Fixes
+
+- **types:** prioritize promise based push/replace ([1243e8b](https://github.com/vuejs/vue-router/commit/1243e8b))
+
+### Reverts
+
+- "fix(hash): correctly place query if placed before hash ([#2851](https://github.com/vuejs/vue-router/issues/2851))" ([9b30e4c](https://github.com/vuejs/vue-router/commit/9b30e4c)), closes [#2876](https://github.com/vuejs/vue-router/issues/2876). See more information at https://github.com/vuejs/vue-router/issues/2125#issuecomment-519521424
+
 ## [3.1.1](https://github.com/vuejs/vue-router/compare/v3.1.0...v3.1.1) (2019-08-06)
 
 ### Bug Fixes

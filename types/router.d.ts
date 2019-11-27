@@ -74,7 +74,7 @@ export interface RouterOptions {
     to: Route,
     from: Route,
     savedPosition: Position | void
-  ) => PositionResult | Promise<PositionResult>
+  ) => PositionResult | Promise<PositionResult> | undefined | null
 }
 
 type RoutePropsFunction = (route: Route) => Object

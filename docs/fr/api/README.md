@@ -4,8 +4,6 @@ sidebar: auto
 
 # API
 
-<Bit/>
-
 ## `<router-link>`
 
 `<router-link>` est le composant pour activer la navigation utilisateur dans une application où le routeur est activé. La localisation cible est spécifiée grâce à la prop `to`. Il est rendu en tant que balise `<a>` avec le `href` correct par défaut, mais peut être configuré grâce à la prop `tag`. De plus, le lien se verra attribuer une classe CSS active lorsque la route cible est active.
@@ -55,10 +53,14 @@ Dans ce cas, `<a>` sera le lien actuel (et récupèrera le bon `href`), mais la 
   <router-link :to="{ path: 'home' }">Accueil</router-link>
 
   <!-- route nommée -->
-  <router-link :to="{ name: 'user', params: { userId: 123 }}">Utilisateur</router-link>
+  <router-link :to="{ name: 'user', params: { userId: 123 }}"
+    >Utilisateur</router-link
+  >
 
   <!-- avec une requête, résulte en `/register?plan=private` -->
-  <router-link :to="{ path: 'register', query: { plan: 'private' }}">S'enregistrer</router-link>
+  <router-link :to="{ path: 'register', query: { plan: 'private' }}"
+    >S'enregistrer</router-link
+  >
   ```
 
 ### replace
@@ -169,7 +171,7 @@ Le composant `<router-view>` est un composant fonctionnel qui fait le rendu du c
 
     // 2.6.0+
     caseSensitive?: boolean, // use case sensitive match? (default: false)
-    pathToRegexpOptions?: Object, // path-to-regexp options for compiling regex
+    pathToRegexpOptions?: Object // path-to-regexp options for compiling regex
   }
   ```
 
@@ -361,7 +363,7 @@ L'objet `Route` peut être trouvé à plusieurs endroits :
   const router = new VueRouter({
     scrollBehavior(to, from, savedPosition) {
       // `to` et `from` sont tous les deux des objets Route
-    },
+    }
   })
   ```
 
@@ -412,10 +414,10 @@ L'objet `Route` peut être trouvé à plusieurs endroits :
         component: Foo,
         children: [
           // c'est aussi un itinéraire
-          { path: 'bar', component: Bar },
-        ],
-      },
-    ],
+          { path: 'bar', component: Bar }
+        ]
+      }
+    ]
   })
   ```
 
