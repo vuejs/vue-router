@@ -49,7 +49,7 @@ export default {
   },
   watch: {
     // при изменениях маршрута запрашиваем данные снова
-    '$route': 'fetchData'
+    $route: 'fetchData'
   },
   methods: {
     fetchData () {
