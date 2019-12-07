@@ -1,5 +1,5 @@
 /*!
-  * vue-router v3.0.6
+  * vue-router v3.1.3
   * (c) 2019 Evan You
   * @license MIT
   */
@@ -12,13 +12,21 @@ function assert (condition, message) {
 }
 
 function warn (condition, message) {
-  if ("development" !== 'production' && !condition) {
+  if ( !condition) {
     typeof console !== 'undefined' && console.warn(`[vue-router] ${message}`);
   }
 }
 
 function isError (err) {
   return Object.prototype.toString.call(err).indexOf('Error') > -1
+}
+
+function isExtendedError (constructor, err) {
+  return (
+    err instanceof constructor ||
+    // _name is to support IE9 too
+    (err && (err.name === constructor.name || err._name === constructor._name))
+  )
 }
 
 function extend (a, b) {
@@ -127,7 +135,7 @@ var View = {
 
     return h(component, data, children)
   }
-}
+};
 
 function resolveProps (route, config) {
   switch (typeof config) {
@@ -175,7 +183,7 @@ function resolveQuery (
   try {
     parsedQuery = parse(query || '');
   } catch (e) {
-    "development" !== 'production' && warn(false, e.message);
+     warn(false, e.message);
     parsedQuery = {};
   }
   for (const key in extraQuery) {
@@ -254,7 +262,7 @@ function createRoute (
   redirectedFrom,
   router
 ) {
-  const stringifyQuery$$1 = router && router.options.stringifyQuery;
+  const stringifyQuery = router && router.options.stringifyQuery;
 
   let query = location.query || {};
   try {
@@ -268,11 +276,11 @@ function createRoute (
     hash: location.hash || '',
     query,
     params: location.params || {},
-    fullPath: getFullPath(location, stringifyQuery$$1),
+    fullPath: getFullPath(location, stringifyQuery),
     matched: record ? formatMatch(record) : []
   };
   if (redirectedFrom) {
-    route.redirectedFrom = getFullPath(redirectedFrom, stringifyQuery$$1);
+    route.redirectedFrom = getFullPath(redirectedFrom, stringifyQuery);
   }
   return Object.freeze(route)
 }
@@ -373,195 +381,6 @@ function queryIncludes (current, target) {
   }
   return true
 }
-
-/*  */
-
-// work around weird flow bug
-const toTypes = [String, Object];
-const eventTypes = [String, Array];
-
-var Link = {
-  name: 'RouterLink',
-  props: {
-    to: {
-      type: toTypes,
-      required: true
-    },
-    tag: {
-      type: String,
-      default: 'a'
-    },
-    exact: Boolean,
-    append: Boolean,
-    replace: Boolean,
-    activeClass: String,
-    exactActiveClass: String,
-    event: {
-      type: eventTypes,
-      default: 'click'
-    }
-  },
-  render (h) {
-    const router = this.$router;
-    const current = this.$route;
-    const { location, route, href } = router.resolve(this.to, current, this.append);
-
-    const classes = {};
-    const globalActiveClass = router.options.linkActiveClass;
-    const globalExactActiveClass = router.options.linkExactActiveClass;
-    // Support global empty active class
-    const activeClassFallback = globalActiveClass == null
-      ? 'router-link-active'
-      : globalActiveClass;
-    const exactActiveClassFallback = globalExactActiveClass == null
-      ? 'router-link-exact-active'
-      : globalExactActiveClass;
-    const activeClass = this.activeClass == null
-      ? activeClassFallback
-      : this.activeClass;
-    const exactActiveClass = this.exactActiveClass == null
-      ? exactActiveClassFallback
-      : this.exactActiveClass;
-    const compareTarget = location.path
-      ? createRoute(null, location, null, router)
-      : route;
-
-    classes[exactActiveClass] = isSameRoute(current, compareTarget);
-    classes[activeClass] = this.exact
-      ? classes[exactActiveClass]
-      : isIncludedRoute(current, compareTarget);
-
-    const handler = e => {
-      if (guardEvent(e)) {
-        if (this.replace) {
-          router.replace(location);
-        } else {
-          router.push(location);
-        }
-      }
-    };
-
-    const on = { click: guardEvent };
-    if (Array.isArray(this.event)) {
-      this.event.forEach(e => { on[e] = handler; });
-    } else {
-      on[this.event] = handler;
-    }
-
-    const data = {
-      class: classes
-    };
-
-    if (this.tag === 'a') {
-      data.on = on;
-      data.attrs = { href };
-    } else {
-      // find the first <a> child and apply listener and href
-      const a = findAnchor(this.$slots.default);
-      if (a) {
-        // in case the <a> is a static node
-        a.isStatic = false;
-        const aData = a.data = extend({}, a.data);
-        aData.on = on;
-        const aAttrs = a.data.attrs = extend({}, a.data.attrs);
-        aAttrs.href = href;
-      } else {
-        // doesn't have <a> child, apply listener to self
-        data.on = on;
-      }
-    }
-
-    return h(this.tag, data, this.$slots.default)
-  }
-}
-
-function guardEvent (e) {
-  // don't redirect with control keys
-  if (e.metaKey || e.altKey || e.ctrlKey || e.shiftKey) return
-  // don't redirect when preventDefault called
-  if (e.defaultPrevented) return
-  // don't redirect on right click
-  if (e.button !== undefined && e.button !== 0) return
-  // don't redirect if `target="_blank"`
-  if (e.currentTarget && e.currentTarget.getAttribute) {
-    const target = e.currentTarget.getAttribute('target');
-    if (/\b_blank\b/i.test(target)) return
-  }
-  // this may be a Weex event which doesn't have this method
-  if (e.preventDefault) {
-    e.preventDefault();
-  }
-  return true
-}
-
-function findAnchor (children) {
-  if (children) {
-    let child;
-    for (let i = 0; i < children.length; i++) {
-      child = children[i];
-      if (child.tag === 'a') {
-        return child
-      }
-      if (child.children && (child = findAnchor(child.children))) {
-        return child
-      }
-    }
-  }
-}
-
-let _Vue;
-
-function install (Vue) {
-  if (install.installed && _Vue === Vue) return
-  install.installed = true;
-
-  _Vue = Vue;
-
-  const isDef = v => v !== undefined;
-
-  const registerInstance = (vm, callVal) => {
-    let i = vm.$options._parentVnode;
-    if (isDef(i) && isDef(i = i.data) && isDef(i = i.registerRouteInstance)) {
-      i(vm, callVal);
-    }
-  };
-
-  Vue.mixin({
-    beforeCreate () {
-      if (isDef(this.$options.router)) {
-        this._routerRoot = this;
-        this._router = this.$options.router;
-        this._router.init(this);
-        Vue.util.defineReactive(this, '_route', this._router.history.current);
-      } else {
-        this._routerRoot = (this.$parent && this.$parent._routerRoot) || this;
-      }
-      registerInstance(this, this);
-    },
-    destroyed () {
-      registerInstance(this);
-    }
-  });
-
-  Object.defineProperty(Vue.prototype, '$router', {
-    get () { return this._routerRoot._router }
-  });
-
-  Object.defineProperty(Vue.prototype, '$route', {
-    get () { return this._routerRoot._route }
-  });
-
-  Vue.component('RouterView', View);
-  Vue.component('RouterLink', Link);
-
-  const strats = Vue.config.optionMergeStrategies;
-  // use the same hook merging strategy for route hooks
-  strats.beforeRouteEnter = strats.beforeRouteLeave = strats.beforeRouteUpdate = strats.created;
-}
-
-/*  */
-
-const inBrowser = typeof window !== 'undefined';
 
 /*  */
 
@@ -1100,170 +919,6 @@ function fillParams (
 
 /*  */
 
-function createRouteMap (
-  routes,
-  oldPathList,
-  oldPathMap,
-  oldNameMap
-) {
-  // the path list is used to control path matching priority
-  const pathList = oldPathList || [];
-  // $flow-disable-line
-  const pathMap = oldPathMap || Object.create(null);
-  // $flow-disable-line
-  const nameMap = oldNameMap || Object.create(null);
-
-  routes.forEach(route => {
-    addRouteRecord(pathList, pathMap, nameMap, route);
-  });
-
-  // ensure wildcard routes are always at the end
-  for (let i = 0, l = pathList.length; i < l; i++) {
-    if (pathList[i] === '*') {
-      pathList.push(pathList.splice(i, 1)[0]);
-      l--;
-      i--;
-    }
-  }
-
-  return {
-    pathList,
-    pathMap,
-    nameMap
-  }
-}
-
-function addRouteRecord (
-  pathList,
-  pathMap,
-  nameMap,
-  route,
-  parent,
-  matchAs
-) {
-  const { path, name } = route;
-  {
-    assert(path != null, `"path" is required in a route configuration.`);
-    assert(
-      typeof route.component !== 'string',
-      `route config "component" for path: ${String(path || name)} cannot be a ` +
-      `string id. Use an actual component instead.`
-    );
-  }
-
-  const pathToRegexpOptions = route.pathToRegexpOptions || {};
-  const normalizedPath = normalizePath(
-    path,
-    parent,
-    pathToRegexpOptions.strict
-  );
-
-  if (typeof route.caseSensitive === 'boolean') {
-    pathToRegexpOptions.sensitive = route.caseSensitive;
-  }
-
-  const record = {
-    path: normalizedPath,
-    regex: compileRouteRegex(normalizedPath, pathToRegexpOptions),
-    components: route.components || { default: route.component },
-    instances: {},
-    name,
-    parent,
-    matchAs,
-    redirect: route.redirect,
-    beforeEnter: route.beforeEnter,
-    meta: route.meta || {},
-    props: route.props == null
-      ? {}
-      : route.components
-        ? route.props
-        : { default: route.props }
-  };
-
-  if (route.children) {
-    // Warn if route is named, does not redirect and has a default child route.
-    // If users navigate to this route by name, the default child will
-    // not be rendered (GH Issue #629)
-    {
-      if (route.name && !route.redirect && route.children.some(child => /^\/?$/.test(child.path))) {
-        warn(
-          false,
-          `Named Route '${route.name}' has a default child route. ` +
-          `When navigating to this named route (:to="{name: '${route.name}'"), ` +
-          `the default child route will not be rendered. Remove the name from ` +
-          `this route and use the name of the default child route for named ` +
-          `links instead.`
-        );
-      }
-    }
-    route.children.forEach(child => {
-      const childMatchAs = matchAs
-        ? cleanPath(`${matchAs}/${child.path}`)
-        : undefined;
-      addRouteRecord(pathList, pathMap, nameMap, child, record, childMatchAs);
-    });
-  }
-
-  if (route.alias !== undefined) {
-    const aliases = Array.isArray(route.alias)
-      ? route.alias
-      : [route.alias];
-
-    aliases.forEach(alias => {
-      const aliasRoute = {
-        path: alias,
-        children: route.children
-      };
-      addRouteRecord(
-        pathList,
-        pathMap,
-        nameMap,
-        aliasRoute,
-        parent,
-        record.path || '/' // matchAs
-      );
-    });
-  }
-
-  if (!pathMap[record.path]) {
-    pathList.push(record.path);
-    pathMap[record.path] = record;
-  }
-
-  if (name) {
-    if (!nameMap[name]) {
-      nameMap[name] = record;
-    } else if ("development" !== 'production' && !matchAs) {
-      warn(
-        false,
-        `Duplicate named routes definition: ` +
-        `{ name: "${name}", path: "${record.path}" }`
-      );
-    }
-  }
-}
-
-function compileRouteRegex (path, pathToRegexpOptions) {
-  const regex = pathToRegexp_1(path, [], pathToRegexpOptions);
-  {
-    const keys = Object.create(null);
-    regex.keys.forEach(key => {
-      warn(!keys[key.name], `Duplicate param keys in route with path: "${path}"`);
-      keys[key.name] = true;
-    });
-  }
-  return regex
-}
-
-function normalizePath (path, parent, strict) {
-  if (!strict) path = path.replace(/\/$/, '');
-  if (path[0] === '/') return path
-  if (parent == null) return path
-  return cleanPath(`${parent.path}/${path}`)
-}
-
-/*  */
-
 function normalizeLocation (
   raw,
   current,
@@ -1322,6 +977,444 @@ function normalizeLocation (
 
 /*  */
 
+// work around weird flow bug
+const toTypes = [String, Object];
+const eventTypes = [String, Array];
+
+const noop = () => {};
+
+var Link = {
+  name: 'RouterLink',
+  props: {
+    to: {
+      type: toTypes,
+      required: true
+    },
+    tag: {
+      type: String,
+      default: 'a'
+    },
+    exact: Boolean,
+    append: Boolean,
+    replace: Boolean,
+    activeClass: String,
+    exactActiveClass: String,
+    event: {
+      type: eventTypes,
+      default: 'click'
+    }
+  },
+  render (h) {
+    const router = this.$router;
+    const current = this.$route;
+    const { location, route, href } = router.resolve(
+      this.to,
+      current,
+      this.append
+    );
+
+    const classes = {};
+    const globalActiveClass = router.options.linkActiveClass;
+    const globalExactActiveClass = router.options.linkExactActiveClass;
+    // Support global empty active class
+    const activeClassFallback =
+      globalActiveClass == null ? 'router-link-active' : globalActiveClass;
+    const exactActiveClassFallback =
+      globalExactActiveClass == null
+        ? 'router-link-exact-active'
+        : globalExactActiveClass;
+    const activeClass =
+      this.activeClass == null ? activeClassFallback : this.activeClass;
+    const exactActiveClass =
+      this.exactActiveClass == null
+        ? exactActiveClassFallback
+        : this.exactActiveClass;
+
+    const compareTarget = route.redirectedFrom
+      ? createRoute(null, normalizeLocation(route.redirectedFrom), null, router)
+      : route;
+
+    classes[exactActiveClass] = isSameRoute(current, compareTarget);
+    classes[activeClass] = this.exact
+      ? classes[exactActiveClass]
+      : isIncludedRoute(current, compareTarget);
+
+    const handler = e => {
+      if (guardEvent(e)) {
+        if (this.replace) {
+          router.replace(location, noop);
+        } else {
+          router.push(location, noop);
+        }
+      }
+    };
+
+    const on = { click: guardEvent };
+    if (Array.isArray(this.event)) {
+      this.event.forEach(e => {
+        on[e] = handler;
+      });
+    } else {
+      on[this.event] = handler;
+    }
+
+    const data = { class: classes };
+
+    const scopedSlot =
+      !this.$scopedSlots.$hasNormal &&
+      this.$scopedSlots.default &&
+      this.$scopedSlots.default({
+        href,
+        route,
+        navigate: handler,
+        isActive: classes[activeClass],
+        isExactActive: classes[exactActiveClass]
+      });
+
+    if (scopedSlot) {
+      if (scopedSlot.length === 1) {
+        return scopedSlot[0]
+      } else if (scopedSlot.length > 1 || !scopedSlot.length) {
+        {
+          warn(
+            false,
+            `RouterLink with to="${
+              this.props.to
+            }" is trying to use a scoped slot but it didn't provide exactly one child.`
+          );
+        }
+        return scopedSlot.length === 0 ? h() : h('span', {}, scopedSlot)
+      }
+    }
+
+    if (this.tag === 'a') {
+      data.on = on;
+      data.attrs = { href };
+    } else {
+      // find the first <a> child and apply listener and href
+      const a = findAnchor(this.$slots.default);
+      if (a) {
+        // in case the <a> is a static node
+        a.isStatic = false;
+        const aData = (a.data = extend({}, a.data));
+        aData.on = aData.on || {};
+        // transform existing events in both objects into arrays so we can push later
+        for (const event in aData.on) {
+          const handler = aData.on[event];
+          if (event in on) {
+            aData.on[event] = Array.isArray(handler) ? handler : [handler];
+          }
+        }
+        // append new listeners for router-link
+        for (const event in on) {
+          if (event in aData.on) {
+            // on[event] is always a function
+            aData.on[event].push(on[event]);
+          } else {
+            aData.on[event] = handler;
+          }
+        }
+
+        const aAttrs = (a.data.attrs = extend({}, a.data.attrs));
+        aAttrs.href = href;
+      } else {
+        // doesn't have <a> child, apply listener to self
+        data.on = on;
+      }
+    }
+
+    return h(this.tag, data, this.$slots.default)
+  }
+};
+
+function guardEvent (e) {
+  // don't redirect with control keys
+  if (e.metaKey || e.altKey || e.ctrlKey || e.shiftKey) return
+  // don't redirect when preventDefault called
+  if (e.defaultPrevented) return
+  // don't redirect on right click
+  if (e.button !== undefined && e.button !== 0) return
+  // don't redirect if `target="_blank"`
+  if (e.currentTarget && e.currentTarget.getAttribute) {
+    const target = e.currentTarget.getAttribute('target');
+    if (/\b_blank\b/i.test(target)) return
+  }
+  // this may be a Weex event which doesn't have this method
+  if (e.preventDefault) {
+    e.preventDefault();
+  }
+  return true
+}
+
+function findAnchor (children) {
+  if (children) {
+    let child;
+    for (let i = 0; i < children.length; i++) {
+      child = children[i];
+      if (child.tag === 'a') {
+        return child
+      }
+      if (child.children && (child = findAnchor(child.children))) {
+        return child
+      }
+    }
+  }
+}
+
+let _Vue;
+
+function install (Vue) {
+  if (install.installed && _Vue === Vue) return
+  install.installed = true;
+
+  _Vue = Vue;
+
+  const isDef = v => v !== undefined;
+
+  const registerInstance = (vm, callVal) => {
+    let i = vm.$options._parentVnode;
+    if (isDef(i) && isDef(i = i.data) && isDef(i = i.registerRouteInstance)) {
+      i(vm, callVal);
+    }
+  };
+
+  Vue.mixin({
+    beforeCreate () {
+      if (isDef(this.$options.router)) {
+        this._routerRoot = this;
+        this._router = this.$options.router;
+        this._router.init(this);
+        Vue.util.defineReactive(this, '_route', this._router.history.current);
+      } else {
+        this._routerRoot = (this.$parent && this.$parent._routerRoot) || this;
+      }
+      registerInstance(this, this);
+    },
+    destroyed () {
+      registerInstance(this);
+    }
+  });
+
+  Object.defineProperty(Vue.prototype, '$router', {
+    get () { return this._routerRoot._router }
+  });
+
+  Object.defineProperty(Vue.prototype, '$route', {
+    get () { return this._routerRoot._route }
+  });
+
+  Vue.component('RouterView', View);
+  Vue.component('RouterLink', Link);
+
+  const strats = Vue.config.optionMergeStrategies;
+  // use the same hook merging strategy for route hooks
+  strats.beforeRouteEnter = strats.beforeRouteLeave = strats.beforeRouteUpdate = strats.created;
+}
+
+/*  */
+
+const inBrowser = typeof window !== 'undefined';
+
+/*  */
+
+function createRouteMap (
+  routes,
+  oldPathList,
+  oldPathMap,
+  oldNameMap
+) {
+  // the path list is used to control path matching priority
+  const pathList = oldPathList || [];
+  // $flow-disable-line
+  const pathMap = oldPathMap || Object.create(null);
+  // $flow-disable-line
+  const nameMap = oldNameMap || Object.create(null);
+
+  routes.forEach(route => {
+    addRouteRecord(pathList, pathMap, nameMap, route);
+  });
+
+  // ensure wildcard routes are always at the end
+  for (let i = 0, l = pathList.length; i < l; i++) {
+    if (pathList[i] === '*') {
+      pathList.push(pathList.splice(i, 1)[0]);
+      l--;
+      i--;
+    }
+  }
+
+  {
+    // warn if routes do not include leading slashes
+    const found = pathList
+    // check for missing leading slash
+      .filter(path => path && path.charAt(0) !== '*' && path.charAt(0) !== '/');
+
+    if (found.length > 0) {
+      const pathNames = found.map(path => `- ${path}`).join('\n');
+      warn(false, `Non-nested routes must include a leading slash character. Fix the following routes: \n${pathNames}`);
+    }
+  }
+
+  return {
+    pathList,
+    pathMap,
+    nameMap
+  }
+}
+
+function addRouteRecord (
+  pathList,
+  pathMap,
+  nameMap,
+  route,
+  parent,
+  matchAs
+) {
+  const { path, name } = route;
+  {
+    assert(path != null, `"path" is required in a route configuration.`);
+    assert(
+      typeof route.component !== 'string',
+      `route config "component" for path: ${String(
+        path || name
+      )} cannot be a ` + `string id. Use an actual component instead.`
+    );
+  }
+
+  const pathToRegexpOptions =
+    route.pathToRegexpOptions || {};
+  const normalizedPath = normalizePath(path, parent, pathToRegexpOptions.strict);
+
+  if (typeof route.caseSensitive === 'boolean') {
+    pathToRegexpOptions.sensitive = route.caseSensitive;
+  }
+
+  const record = {
+    path: normalizedPath,
+    regex: compileRouteRegex(normalizedPath, pathToRegexpOptions),
+    components: route.components || { default: route.component },
+    instances: {},
+    name,
+    parent,
+    matchAs,
+    redirect: route.redirect,
+    beforeEnter: route.beforeEnter,
+    meta: route.meta || {},
+    props:
+      route.props == null
+        ? {}
+        : route.components
+          ? route.props
+          : { default: route.props }
+  };
+
+  if (route.children) {
+    // Warn if route is named, does not redirect and has a default child route.
+    // If users navigate to this route by name, the default child will
+    // not be rendered (GH Issue #629)
+    {
+      if (
+        route.name &&
+        !route.redirect &&
+        route.children.some(child => /^\/?$/.test(child.path))
+      ) {
+        warn(
+          false,
+          `Named Route '${route.name}' has a default child route. ` +
+            `When navigating to this named route (:to="{name: '${
+              route.name
+            }'"), ` +
+            `the default child route will not be rendered. Remove the name from ` +
+            `this route and use the name of the default child route for named ` +
+            `links instead.`
+        );
+      }
+    }
+    route.children.forEach(child => {
+      const childMatchAs = matchAs
+        ? cleanPath(`${matchAs}/${child.path}`)
+        : undefined;
+      addRouteRecord(pathList, pathMap, nameMap, child, record, childMatchAs);
+    });
+  }
+
+  if (!pathMap[record.path]) {
+    pathList.push(record.path);
+    pathMap[record.path] = record;
+  }
+
+  if (route.alias !== undefined) {
+    const aliases = Array.isArray(route.alias) ? route.alias : [route.alias];
+    for (let i = 0; i < aliases.length; ++i) {
+      const alias = aliases[i];
+      if ( alias === path) {
+        warn(
+          false,
+          `Found an alias with the same value as the path: "${path}". You have to remove that alias. It will be ignored in development.`
+        );
+        // skip in dev to make it work
+        continue
+      }
+
+      const aliasRoute = {
+        path: alias,
+        children: route.children
+      };
+      addRouteRecord(
+        pathList,
+        pathMap,
+        nameMap,
+        aliasRoute,
+        parent,
+        record.path || '/' // matchAs
+      );
+    }
+  }
+
+  if (name) {
+    if (!nameMap[name]) {
+      nameMap[name] = record;
+    } else if ( !matchAs) {
+      warn(
+        false,
+        `Duplicate named routes definition: ` +
+          `{ name: "${name}", path: "${record.path}" }`
+      );
+    }
+  }
+}
+
+function compileRouteRegex (
+  path,
+  pathToRegexpOptions
+) {
+  const regex = pathToRegexp_1(path, [], pathToRegexpOptions);
+  {
+    const keys = Object.create(null);
+    regex.keys.forEach(key => {
+      warn(
+        !keys[key.name],
+        `Duplicate param keys in route with path: "${path}"`
+      );
+      keys[key.name] = true;
+    });
+  }
+  return regex
+}
+
+function normalizePath (
+  path,
+  parent,
+  strict
+) {
+  if (!strict) path = path.replace(/\/$/, '');
+  if (path[0] === '/') return path
+  if (parent == null) return path
+  return cleanPath(`${parent.path}/${path}`)
+}
+
+/*  */
+
 
 
 function createMatcher (
@@ -1364,10 +1457,8 @@ function createMatcher (
         }
       }
 
-      if (record) {
-        location.path = fillParams(record.path, location.params, `named route "${name}"`);
-        return _createRoute(record, location, redirectedFrom)
-      }
+      location.path = fillParams(record.path, location.params, `named route "${name}"`);
+      return _createRoute(record, location, redirectedFrom)
     } else if (location.path) {
       location.params = {};
       for (let i = 0; i < pathList.length; i++) {
@@ -1514,12 +1605,39 @@ function resolveRecordPath (path, record) {
 
 /*  */
 
+// use User Timing api (if present) for more accurate key precision
+const Time =
+  inBrowser && window.performance && window.performance.now
+    ? window.performance
+    : Date;
+
+function genStateKey () {
+  return Time.now().toFixed(3)
+}
+
+let _key = genStateKey();
+
+function getStateKey () {
+  return _key
+}
+
+function setStateKey (key) {
+  return (_key = key)
+}
+
+/*  */
+
 const positionStore = Object.create(null);
 
 function setupScroll () {
   // Fix for #1585 for Firefox
   // Fix for #2195 Add optional third attribute to workaround a bug in safari https://bugs.webkit.org/show_bug.cgi?id=182678
-  window.history.replaceState({ key: getStateKey() }, '', window.location.href.replace(window.location.origin, ''));
+  // Fix for #2774 Support for apps loaded from Windows file shares not mapped to network drives: replaced location.origin with
+  // window.location.protocol + '//' + window.location.host
+  // location.host contains the port and location.hostname doesn't
+  const protocolAndPath = window.location.protocol + '//' + window.location.host;
+  const absolutePath = window.location.href.replace(protocolAndPath, '');
+  window.history.replaceState({ key: getStateKey() }, '', absolutePath);
   window.addEventListener('popstate', e => {
     saveScrollPosition();
     if (e.state && e.state.key) {
@@ -1550,20 +1668,27 @@ function handleScroll (
   // wait until re-render finishes before scrolling
   router.app.$nextTick(() => {
     const position = getScrollPosition();
-    const shouldScroll = behavior.call(router, to, from, isPop ? position : null);
+    const shouldScroll = behavior.call(
+      router,
+      to,
+      from,
+      isPop ? position : null
+    );
 
     if (!shouldScroll) {
       return
     }
 
     if (typeof shouldScroll.then === 'function') {
-      shouldScroll.then(shouldScroll => {
-        scrollToPosition((shouldScroll), position);
-      }).catch(err => {
-        {
-          assert(false, err.toString());
-        }
-      });
+      shouldScroll
+        .then(shouldScroll => {
+          scrollToPosition((shouldScroll), position);
+        })
+        .catch(err => {
+          {
+            assert(false, err.toString());
+          }
+        });
     } else {
       scrollToPosition(shouldScroll, position);
     }
@@ -1619,12 +1744,22 @@ function isNumber (v) {
   return typeof v === 'number'
 }
 
+const hashStartsWithNumberRE = /^#\d/;
+
 function scrollToPosition (shouldScroll, position) {
   const isObject = typeof shouldScroll === 'object';
   if (isObject && typeof shouldScroll.selector === 'string') {
-    const el = document.querySelector(shouldScroll.selector);
+    // getElementById would still fail if the selector contains a more complicated query like #main[data-attr]
+    // but at the same time, it doesn't make much sense to select an element with an id and an extra selector
+    const el = hashStartsWithNumberRE.test(shouldScroll.selector) // $flow-disable-line
+      ? document.getElementById(shouldScroll.selector.slice(1)) // $flow-disable-line
+      : document.querySelector(shouldScroll.selector);
+
     if (el) {
-      let offset = shouldScroll.offset && typeof shouldScroll.offset === 'object' ? shouldScroll.offset : {};
+      let offset =
+        shouldScroll.offset && typeof shouldScroll.offset === 'object'
+          ? shouldScroll.offset
+          : {};
       offset = normalizeOffset(offset);
       position = getElementPosition(el, offset);
     } else if (isValidPosition(shouldScroll)) {
@@ -1641,39 +1776,22 @@ function scrollToPosition (shouldScroll, position) {
 
 /*  */
 
-const supportsPushState = inBrowser && (function () {
-  const ua = window.navigator.userAgent;
+const supportsPushState =
+  inBrowser &&
+  (function () {
+    const ua = window.navigator.userAgent;
 
-  if (
-    (ua.indexOf('Android 2.') !== -1 || ua.indexOf('Android 4.0') !== -1) &&
-    ua.indexOf('Mobile Safari') !== -1 &&
-    ua.indexOf('Chrome') === -1 &&
-    ua.indexOf('Windows Phone') === -1
-  ) {
-    return false
-  }
+    if (
+      (ua.indexOf('Android 2.') !== -1 || ua.indexOf('Android 4.0') !== -1) &&
+      ua.indexOf('Mobile Safari') !== -1 &&
+      ua.indexOf('Chrome') === -1 &&
+      ua.indexOf('Windows Phone') === -1
+    ) {
+      return false
+    }
 
-  return window.history && 'pushState' in window.history
-})();
-
-// use User Timing api (if present) for more accurate key precision
-const Time = inBrowser && window.performance && window.performance.now
-  ? window.performance
-  : Date;
-
-let _key = genKey();
-
-function genKey () {
-  return Time.now().toFixed(3)
-}
-
-function getStateKey () {
-  return _key
-}
-
-function setStateKey (key) {
-  _key = key;
-}
+    return window.history && 'pushState' in window.history
+  })();
 
 function pushState (url, replace) {
   saveScrollPosition();
@@ -1682,10 +1800,9 @@ function pushState (url, replace) {
   const history = window.history;
   try {
     if (replace) {
-      history.replaceState({ key: _key }, '', url);
+      history.replaceState({ key: getStateKey() }, '', url);
     } else {
-      _key = genKey();
-      history.pushState({ key: _key }, '', url);
+      history.pushState({ key: setStateKey(genStateKey()) }, '', url);
     }
   } catch (e) {
     window.location[replace ? 'replace' : 'assign'](url);
@@ -1750,7 +1867,7 @@ function resolveAsyncComponents (matched) {
 
         const reject = once(reason => {
           const msg = `Failed to resolve async component ${key}: ${reason}`;
-          "development" !== 'production' && warn(false, msg);
+           warn(false, msg);
           if (!error) {
             error = isError(reason)
               ? reason
@@ -1821,6 +1938,29 @@ function once (fn) {
   }
 }
 
+class NavigationDuplicated extends Error {
+  constructor (normalizedLocation) {
+    super();
+    this.name = this._name = 'NavigationDuplicated';
+    // passing the message to super() doesn't seem to work in the transpiled version
+    this.message = `Navigating to current location ("${
+      normalizedLocation.fullPath
+    }") is not allowed`;
+    // add a stack property so services like Sentry can correctly display it
+    Object.defineProperty(this, 'stack', {
+      value: new Error().stack,
+      writable: true,
+      configurable: true
+    });
+    // we could also have used
+    // Error.captureStackTrace(this, this.constructor)
+    // but it only exists on node and chrome
+  }
+}
+
+// support IE9
+NavigationDuplicated._name = 'NavigationDuplicated';
+
 /*  */
 
 class History {
@@ -1872,35 +2012,53 @@ class History {
     this.errorCbs.push(errorCb);
   }
 
-  transitionTo (location, onComplete, onAbort) {
+  transitionTo (
+    location,
+    onComplete,
+    onAbort
+  ) {
     const route = this.router.match(location, this.current);
-    this.confirmTransition(route, () => {
-      this.updateRoute(route);
-      onComplete && onComplete(route);
-      this.ensureURL();
+    this.confirmTransition(
+      route,
+      () => {
+        this.updateRoute(route);
+        onComplete && onComplete(route);
+        this.ensureURL();
 
-      // fire ready cbs once
-      if (!this.ready) {
-        this.ready = true;
-        this.readyCbs.forEach(cb => { cb(route); });
+        // fire ready cbs once
+        if (!this.ready) {
+          this.ready = true;
+          this.readyCbs.forEach(cb => {
+            cb(route);
+          });
+        }
+      },
+      err => {
+        if (onAbort) {
+          onAbort(err);
+        }
+        if (err && !this.ready) {
+          this.ready = true;
+          this.readyErrorCbs.forEach(cb => {
+            cb(err);
+          });
+        }
       }
-    }, err => {
-      if (onAbort) {
-        onAbort(err);
-      }
-      if (err && !this.ready) {
-        this.ready = true;
-        this.readyErrorCbs.forEach(cb => { cb(err); });
-      }
-    });
+    );
   }
 
   confirmTransition (route, onComplete, onAbort) {
     const current = this.current;
     const abort = err => {
-      if (isError(err)) {
+      // after merging https://github.com/vuejs/vue-router/pull/2771 we
+      // When the user navigates through history through back/forward buttons
+      // we do not want to throw the error. We only throw it if directly calling
+      // push/replace. That's why it's not included in isError
+      if (!isExtendedError(NavigationDuplicated, err) && isError(err)) {
         if (this.errorCbs.length) {
-          this.errorCbs.forEach(cb => { cb(err); });
+          this.errorCbs.forEach(cb => {
+            cb(err);
+          });
         } else {
           warn(false, 'uncaught error during route navigation:');
           console.error(err);
@@ -1914,14 +2072,13 @@ class History {
       route.matched.length === current.matched.length
     ) {
       this.ensureURL();
-      return abort()
+      return abort(new NavigationDuplicated(route))
     }
 
-    const {
-      updated,
-      deactivated,
-      activated
-    } = resolveQueue(this.current.matched, route.matched);
+    const { updated, deactivated, activated } = resolveQueue(
+      this.current.matched,
+      route.matched
+    );
 
     const queue = [].concat(
       // in-component leave guards
@@ -1949,10 +2106,8 @@ class History {
             abort(to);
           } else if (
             typeof to === 'string' ||
-            (typeof to === 'object' && (
-              typeof to.path === 'string' ||
-              typeof to.name === 'string'
-            ))
+            (typeof to === 'object' &&
+              (typeof to.path === 'string' || typeof to.name === 'string'))
           ) {
             // next('/') or next({ path: '/' }) -> redirect
             abort();
@@ -1986,7 +2141,9 @@ class History {
         onComplete(route);
         if (this.router.app) {
           this.router.app.$nextTick(() => {
-            postEnterCbs.forEach(cb => { cb(); });
+            postEnterCbs.forEach(cb => {
+              cb();
+            });
           });
         }
       });
@@ -2090,9 +2247,13 @@ function extractEnterGuards (
   cbs,
   isValid
 ) {
-  return extractGuards(activated, 'beforeRouteEnter', (guard, _, match, key) => {
-    return bindEnterGuard(guard, match, key, cbs, isValid)
-  })
+  return extractGuards(
+    activated,
+    'beforeRouteEnter',
+    (guard, _, match, key) => {
+      return bindEnterGuard(guard, match, key, cbs, isValid)
+    }
+  )
 }
 
 function bindEnterGuard (
@@ -2104,7 +2265,6 @@ function bindEnterGuard (
 ) {
   return function routeEnterGuard (to, from, next) {
     return guard(to, from, cb => {
-      next(cb);
       if (typeof cb === 'function') {
         cbs.push(() => {
           // #750
@@ -2115,6 +2275,7 @@ function bindEnterGuard (
           poll(cb, match.instances, key, isValid);
         });
       }
+      next(cb);
     })
   }
 }
@@ -2234,38 +2395,49 @@ class HashHistory extends History {
       setupScroll();
     }
 
-    window.addEventListener(supportsPushState ? 'popstate' : 'hashchange', () => {
-      const current = this.current;
-      if (!ensureSlash()) {
-        return
+    window.addEventListener(
+      supportsPushState ? 'popstate' : 'hashchange',
+      () => {
+        const current = this.current;
+        if (!ensureSlash()) {
+          return
+        }
+        this.transitionTo(getHash(), route => {
+          if (supportsScroll) {
+            handleScroll(this.router, route, current, true);
+          }
+          if (!supportsPushState) {
+            replaceHash(route.fullPath);
+          }
+        });
       }
-      this.transitionTo(getHash(), route => {
-        if (supportsScroll) {
-          handleScroll(this.router, route, current, true);
-        }
-        if (!supportsPushState) {
-          replaceHash(route.fullPath);
-        }
-      });
-    });
+    );
   }
 
   push (location, onComplete, onAbort) {
     const { current: fromRoute } = this;
-    this.transitionTo(location, route => {
-      pushHash(route.fullPath);
-      handleScroll(this.router, route, fromRoute, false);
-      onComplete && onComplete(route);
-    }, onAbort);
+    this.transitionTo(
+      location,
+      route => {
+        pushHash(route.fullPath);
+        handleScroll(this.router, route, fromRoute, false);
+        onComplete && onComplete(route);
+      },
+      onAbort
+    );
   }
 
   replace (location, onComplete, onAbort) {
     const { current: fromRoute } = this;
-    this.transitionTo(location, route => {
-      replaceHash(route.fullPath);
-      handleScroll(this.router, route, fromRoute, false);
-      onComplete && onComplete(route);
-    }, onAbort);
+    this.transitionTo(
+      location,
+      route => {
+        replaceHash(route.fullPath);
+        handleScroll(this.router, route, fromRoute, false);
+        onComplete && onComplete(route);
+      },
+      onAbort
+    );
   }
 
   go (n) {
@@ -2287,9 +2459,7 @@ class HashHistory extends History {
 function checkFallback (base) {
   const location = getLocation(base);
   if (!/^\/#/.test(location)) {
-    window.location.replace(
-      cleanPath(base + '/#' + location)
-    );
+    window.location.replace(cleanPath(base + '/#' + location));
     return true
   }
 }
@@ -2318,10 +2488,13 @@ function getHash () {
   const searchIndex = href.indexOf('?');
   if (searchIndex < 0) {
     const hashIndex = href.indexOf('#');
-    if (hashIndex > -1) href = decodeURI(href.slice(0, hashIndex)) + href.slice(hashIndex);
-    else href = decodeURI(href);
+    if (hashIndex > -1) {
+      href = decodeURI(href.slice(0, hashIndex)) + href.slice(hashIndex);
+    } else href = decodeURI(href);
   } else {
-    if (searchIndex > -1) href = decodeURI(href.slice(0, searchIndex)) + href.slice(searchIndex);
+    if (searchIndex > -1) {
+      href = decodeURI(href.slice(0, searchIndex)) + href.slice(searchIndex);
+    }
   }
 
   return href
@@ -2363,18 +2536,26 @@ class AbstractHistory extends History {
   }
 
   push (location, onComplete, onAbort) {
-    this.transitionTo(location, route => {
-      this.stack = this.stack.slice(0, this.index + 1).concat(route);
-      this.index++;
-      onComplete && onComplete(route);
-    }, onAbort);
+    this.transitionTo(
+      location,
+      route => {
+        this.stack = this.stack.slice(0, this.index + 1).concat(route);
+        this.index++;
+        onComplete && onComplete(route);
+      },
+      onAbort
+    );
   }
 
   replace (location, onComplete, onAbort) {
-    this.transitionTo(location, route => {
-      this.stack = this.stack.slice(0, this.index).concat(route);
-      onComplete && onComplete(route);
-    }, onAbort);
+    this.transitionTo(
+      location,
+      route => {
+        this.stack = this.stack.slice(0, this.index).concat(route);
+        onComplete && onComplete(route);
+      },
+      onAbort
+    );
   }
 
   go (n) {
@@ -2383,10 +2564,18 @@ class AbstractHistory extends History {
       return
     }
     const route = this.stack[targetIndex];
-    this.confirmTransition(route, () => {
-      this.index = targetIndex;
-      this.updateRoute(route);
-    });
+    this.confirmTransition(
+      route,
+      () => {
+        this.index = targetIndex;
+        this.updateRoute(route);
+      },
+      err => {
+        if (isExtendedError(NavigationDuplicated, err)) {
+          this.index = targetIndex;
+        }
+      }
+    );
   }
 
   getCurrentLocation () {
@@ -2469,7 +2658,7 @@ class VueRouter {
   }
 
   init (app /* Vue component instance */) {
-    "development" !== 'production' && assert(
+     assert(
       install.installed,
       `not installed. Make sure to call \`Vue.use(VueRouter)\` ` +
       `before creating root instance.`
@@ -2539,11 +2728,25 @@ class VueRouter {
   }
 
   push (location, onComplete, onAbort) {
-    this.history.push(location, onComplete, onAbort);
+    // $flow-disable-line
+    if (!onComplete && !onAbort && typeof Promise !== 'undefined') {
+      return new Promise((resolve, reject) => {
+        this.history.push(location, resolve, reject);
+      })
+    } else {
+      this.history.push(location, onComplete, onAbort);
+    }
   }
 
   replace (location, onComplete, onAbort) {
-    this.history.replace(location, onComplete, onAbort);
+    // $flow-disable-line
+    if (!onComplete && !onAbort && typeof Promise !== 'undefined') {
+      return new Promise((resolve, reject) => {
+        this.history.replace(location, resolve, reject);
+      })
+    } else {
+      this.history.replace(location, onComplete, onAbort);
+    }
   }
 
   go (n) {
@@ -2622,7 +2825,7 @@ function createHref (base, fullPath, mode) {
 }
 
 VueRouter.install = install;
-VueRouter.version = '3.0.6';
+VueRouter.version = '3.1.3';
 
 if (inBrowser && window.Vue) {
   window.Vue.use(VueRouter);

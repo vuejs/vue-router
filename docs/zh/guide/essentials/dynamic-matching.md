@@ -96,7 +96,7 @@ this.$route.params.pathMatch // '/non-existing'
 
 ## 高级匹配模式
 
-`vue-router` 使用 [path-to-regexp](https://github.com/pillarjs/path-to-regexp) 作为路径匹配引擎，所以支持很多高级的匹配模式，例如：可选的动态路径参数、匹配零个或多个、一个或多个，甚至是自定义正则匹配。查看它的 [文档](https://github.com/pillarjs/path-to-regexp#parameters) 学习高阶的路径匹配，还有 [这个例子 ](https://github.com/vuejs/vue-router/blob/dev/examples/route-matching/app.js) 展示 `vue-router` 怎么使用这类匹配。
+`vue-router` 使用 [path-to-regexp](https://github.com/pillarjs/path-to-regexp/tree/v1.7.0) 作为路径匹配引擎，所以支持很多高级的匹配模式，例如：可选的动态路径参数、匹配零个或多个、一个或多个，甚至是自定义正则匹配。查看它的 [文档](https://github.com/pillarjs/path-to-regexp/tree/v1.7.0#parameters) 学习高阶的路径匹配，还有 [这个例子 ](https://github.com/vuejs/vue-router/blob/dev/examples/route-matching/app.js) 展示 `vue-router` 怎么使用这类匹配。
 
 ## 匹配优先级
 

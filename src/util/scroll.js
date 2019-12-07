@@ -2,14 +2,19 @@
 
 import type Router from '../index'
 import { assert } from './warn'
-import { getStateKey, setStateKey } from './push-state'
+import { getStateKey, setStateKey } from './state-key'
 
 const positionStore = Object.create(null)
 
 export function setupScroll () {
   // Fix for #1585 for Firefox
   // Fix for #2195 Add optional third attribute to workaround a bug in safari https://bugs.webkit.org/show_bug.cgi?id=182678
-  window.history.replaceState({ key: getStateKey() }, '', window.location.href.replace(window.location.origin, ''))
+  // Fix for #2774 Support for apps loaded from Windows file shares not mapped to network drives: replaced location.origin with
+  // window.location.protocol + '//' + window.location.host
+  // location.host contains the port and location.hostname doesn't
+  const protocolAndPath = window.location.protocol + '//' + window.location.host
+  const absolutePath = window.location.href.replace(protocolAndPath, '')
+  window.history.replaceState({ key: getStateKey() }, '', absolutePath)
   window.addEventListener('popstate', e => {
     saveScrollPosition()
     if (e.state && e.state.key) {
@@ -40,20 +45,27 @@ export function handleScroll (
   // wait until re-render finishes before scrolling
   router.app.$nextTick(() => {
     const position = getScrollPosition()
-    const shouldScroll = behavior.call(router, to, from, isPop ? position : null)
+    const shouldScroll = behavior.call(
+      router,
+      to,
+      from,
+      isPop ? position : null
+    )
 
     if (!shouldScroll) {
       return
     }
 
     if (typeof shouldScroll.then === 'function') {
-      shouldScroll.then(shouldScroll => {
-        scrollToPosition((shouldScroll: any), position)
-      }).catch(err => {
-        if (process.env.NODE_ENV !== 'production') {
-          assert(false, err.toString())
-        }
-      })
+      shouldScroll
+        .then(shouldScroll => {
+          scrollToPosition((shouldScroll: any), position)
+        })
+        .catch(err => {
+          if (process.env.NODE_ENV !== 'production') {
+            assert(false, err.toString())
+          }
+        })
     } else {
       scrollToPosition(shouldScroll, position)
     }
@@ -109,12 +121,22 @@ function isNumber (v: any): boolean {
   return typeof v === 'number'
 }
 
+const hashStartsWithNumberRE = /^#\d/
+
 function scrollToPosition (shouldScroll, position) {
   const isObject = typeof shouldScroll === 'object'
   if (isObject && typeof shouldScroll.selector === 'string') {
-    const el = document.querySelector(shouldScroll.selector)
+    // getElementById would still fail if the selector contains a more complicated query like #main[data-attr]
+    // but at the same time, it doesn't make much sense to select an element with an id and an extra selector
+    const el = hashStartsWithNumberRE.test(shouldScroll.selector) // $flow-disable-line
+      ? document.getElementById(shouldScroll.selector.slice(1)) // $flow-disable-line
+      : document.querySelector(shouldScroll.selector)
+
     if (el) {
-      let offset = shouldScroll.offset && typeof shouldScroll.offset === 'object' ? shouldScroll.offset : {}
+      let offset =
+        shouldScroll.offset && typeof shouldScroll.offset === 'object'
+          ? shouldScroll.offset
+          : {}
       offset = normalizeOffset(offset)
       position = getElementPosition(el, offset)
     } else if (isValidPosition(shouldScroll)) {

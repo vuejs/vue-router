@@ -1,5 +1,11 @@
+const bsStatus = require('../browserstack-send-status')
+
 module.exports = {
-  'redirect': function (browser) {
+  ...bsStatus(),
+
+  '@tags': ['history'],
+
+  redirect: function (browser) {
     browser
       .url('http://localhost:8080/redirect/')
       .waitForElementVisible('#app', 1000)
@@ -68,7 +74,7 @@ module.exports = {
       .assert.urlEquals('http://localhost:8080/redirect/')
       .assert.containsText('.view', 'default')
 
-    // check initial visit
+      // check initial visit
       .url('http://localhost:8080/redirect/relative-redirect')
       .waitForElementVisible('#app', 1000)
       .assert.urlEquals('http://localhost:8080/redirect/foo')

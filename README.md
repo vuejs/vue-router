@@ -41,7 +41,7 @@ npm run docs
 - `yarn run release`
   - Ensure tests are passing `yarn run test`
   - Build dist files `VERSION=<the_version> yarn run build`
-  - Build changelog `yarn run changelod`
+  - Build changelog `yarn run changelog`
   - Commit dist files `git add dist CHANGELOG.md && git commit -m "[build $VERSION]"`
   - Publish a new version `npm version $VERSION --message "[release] $VERSION"
   - Push tags `git push origin refs/tags/v$VERSION && git push`

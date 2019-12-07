@@ -47,6 +47,7 @@ router.push({ path: '/user', params: { userId } }) // -> /user
 The same rules apply for the `to` property of the `router-link` component.
 
 In 2.2.0+, optionally provide `onComplete` and `onAbort` callbacks to `router.push` or `router.replace` as the 2nd and 3rd arguments. These callbacks will be called when the navigation either successfully completed (after all async hooks are resolved), or aborted (navigated to the same route, or to a different route before current navigation has finished), respectively.
+In 3.1.0+, you can omit the 2nd and 3rd parameter and `router.push`/`router.replace` will return a promise instead if Promises are supported.
 
 **Note:** If the destination is the same as the current route and only params are changing (e.g. going from one profile to another `/users/1` -> `/users/2`), you will have to use [`beforeRouteUpdate`](./dynamic-matching.md#reacting-to-params-changes) to react to changes (e.g. fetching the user information).
 

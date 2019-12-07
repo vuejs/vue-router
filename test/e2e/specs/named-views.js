@@ -1,4 +1,10 @@
+const bsStatus = require('../browserstack-send-status')
+
 module.exports = {
+  ...bsStatus(),
+
+  '@tags': ['history'],
+
   'named views': function (browser) {
     browser
       .url('http://localhost:8080/named-views/')
@@ -24,7 +30,7 @@ module.exports = {
       .assert.containsText('.view.two', 'bar')
       .assert.containsText('.view.three', 'baz')
 
-    // check initial visit
+      // check initial visit
       .url('http://localhost:8080/named-views/other')
       .waitForElementVisible('#app', 1000)
       .assert.containsText('.view.one', 'baz')

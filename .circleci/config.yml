@@ -3,7 +3,7 @@ version: 2
 defaults: &defaults
   working_directory: ~/project/vue-router
   docker:
-    - image: vuejs/ci
+    - image: circleci/node:lts-browsers
 
 jobs:
   install:
@@ -12,12 +12,12 @@ jobs:
       - checkout
       - restore_cache:
           keys:
-            - v1-vue-{{ .Branch }}-{{ checksum "yarn.lock" }}
-            - v1-vue-{{ .Branch }}-
-            - v1-vue-
+            - v1-vue-router-{{ .Branch }}-{{ checksum "yarn.lock" }}
+            - v1-vue-router-{{ .Branch }}-
+            - v1-vue-router-
       - run: yarn install
       - save_cache:
-          key: v1-vue-{{ .Branch }}-{{ checksum "yarn.lock" }}
+          key: v1-vue-router-{{ .Branch }}-{{ checksum "yarn.lock" }}
           paths:
             - node_modules/
       - persist_to_workspace:
@@ -30,16 +30,16 @@ jobs:
     steps:
       - attach_workspace:
           at: ~/project
-      - run: npm run lint
-      - run: npm run flow
-      - run: npm run test:types
+      - run: yarn run lint
+      - run: yarn run flow
+      - run: yarn run test:types
 
   test-unit:
     <<: *defaults
     steps:
       - attach_workspace:
           at: ~/project
-      - run: npm run test:unit
+      - run: yarn run test:unit
       # add codecov once it is actually ran
       # - run:
       #    name: report coverage stats for non-PRs
@@ -53,7 +53,14 @@ jobs:
     steps:
       - attach_workspace:
           at: ~/project
-      - run: npm run test:e2e
+      - run: yarn run test:e2e
+
+  test-e2e-bs-ie9:
+    <<: *defaults
+    steps:
+      - attach_workspace:
+          at: ~/project
+      - run: yarn run test:e2e:ie9
 
 workflows:
   version: 2
@@ -67,5 +74,8 @@ workflows:
           requires:
             - install
       - test-e2e:
+          requires:
+            - install
+      - test-e2e-bs-ie9:
           requires:
             - install

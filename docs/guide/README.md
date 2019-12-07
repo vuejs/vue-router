@@ -1,7 +1,5 @@
 # Getting Started
 
-<Bit/>
-
 ::: tip Note
 We will be using [ES2015](https://github.com/lukehoban/es6features) in the code samples in the guide.
 
@@ -12,7 +10,7 @@ Creating a Single-page Application with Vue + Vue Router is dead simple. With Vu
 
 ## HTML
 
-``` html
+```html
 <script src="https://unpkg.com/vue/dist/vue.js"></script>
 <script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
 
@@ -33,7 +31,7 @@ Creating a Single-page Application with Vue + Vue Router is dead simple. With Vu
 
 ## JavaScript
 
-``` js
+```js
 // 0. If using a module system (e.g. via vue-cli), import Vue and VueRouter
 // and then call `Vue.use(VueRouter)`.
 
@@ -75,16 +73,14 @@ By injecting the router, we get access to it as `this.$router` as well as the cu
 // Home.vue
 export default {
   computed: {
-    username () {
+    username() {
       // We will see what `params` is shortly
       return this.$route.params.username
     }
   },
   methods: {
-    goBack () {
-      window.history.length > 1
-        ? this.$router.go(-1)
-        : this.$router.push('/')
+    goBack() {
+      window.history.length > 1 ? this.$router.go(-1) : this.$router.push('/')
     }
   }
 }

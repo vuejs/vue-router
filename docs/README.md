@@ -1,7 +1,5 @@
 # Introduction
 
-<Bit/>
-
 :::tip VERSION NOTE
 For TypeScript users, `vue-router@3.0+` requires `vue@2.5+`, and vice versa.
 :::
