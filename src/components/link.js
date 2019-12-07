@@ -148,6 +148,7 @@ export default {
       } else {
         // doesn't have <a> child, apply listener to self
         data.on = on
+        data.nativeOn = on
       }
     }
 
