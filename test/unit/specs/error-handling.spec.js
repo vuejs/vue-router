@@ -40,6 +40,56 @@ describe('error handling', () => {
     })
   })
 
+  it('NavigationDuplicated error', done => {
+    const router = new VueRouter()
+
+    router.push('/foo')
+    router.push('/foo').catch(err => {
+      expect(err._type).toBe('NavigationDuplicated')
+      done()
+    })
+  })
+
+  it('NavigationCancelled error', done => {
+    const router = new VueRouter()
+
+    router.beforeEach((to, from, next) => {
+      setTimeout(() => next(), 100)
+    })
+
+    router.push('/foo').catch(err => {
+      expect(err._type).toBe('NavigationCancelled')
+      done()
+    })
+    router.push('/')
+  })
+
+  it('NavigationRedirected error', done => {
+    const router = new VueRouter()
+
+    router.beforeEach((to, from, next) => {
+      if (to.query.redirect) {
+        next(to.query.redirect)
+      }
+    })
+
+    router.push('/foo?redirect=/').catch(err => {
+      expect(err._type).toBe('NavigationRedirected')
+      done()
+    })
+  })
+
+  it('NavigationAborted error', done => {
+    const router = new VueRouter()
+
+    router.beforeEach((to, from, next) => { next(false) })
+
+    router.push('/foo').catch(err => {
+      expect(err._type).toBe('NavigationAborted')
+      done()
+    })
+  })
+
   it('async component errors', done => {
     spyOn(console, 'warn')
     const err = new Error('foo')
