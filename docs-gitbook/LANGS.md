@@ -1,7 +1,5 @@
-* [English](en/)
 * [French](fr/)
 * [Japanese](ja/)
-* [中文](zh-cn/)
 * [German](de/)
 * [Русский](ru/)
 * [한국어(Korean)](kr/)
