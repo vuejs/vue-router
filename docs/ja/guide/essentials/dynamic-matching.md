@@ -46,7 +46,7 @@ const User = {
 const User = {
   template: '...',
   watch: {
-    '$route' (to, from) {
+    $route (to, from) {
       // ルートの変更の検知...
     }
   }
