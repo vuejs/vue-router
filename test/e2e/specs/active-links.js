@@ -60,11 +60,15 @@ module.exports = {
     function assertActiveLinks (n, activeA, activeLI, exactActiveA, exactActiveLI) {
       browser.click(`li:nth-child(${n}) a`)
       activeA.forEach(i => {
-        browser.assert.cssClassPresent(`li:nth-child(${i}) a`, 'router-link-active')
+        browser
+          .assert.cssClassPresent(`li:nth-child(${i}) a`, 'router-link-active')
+          .assert.attributeEquals(`li:nth-child(${i}) a`, 'aria-current', 'page')
       })
       activeLI &&
         activeLI.forEach(i => {
-          browser.assert.cssClassPresent(`li:nth-child(${i})`, 'router-link-active')
+          browser
+            .assert.cssClassPresent(`li:nth-child(${i})`, 'router-link-active')
+            .assert.attributeEquals(`li:nth-child(${i}) a`, 'aria-current', 'page')
         })
       exactActiveA.forEach(i => {
         browser.assert
