@@ -71,6 +71,15 @@ describe('Creating Matcher', function () {
     expect(path).toEqual('/error/some')
   })
 
+  it('matches named catch-all route with empty pathMath param without warning', function () {
+    process.env.NODE_ENV = 'development'
+    match(
+      { name: 'notFound', params: { pathMatch: '' }},
+      routes[0]
+    )
+    expect(console.warn).not.toHaveBeenCalled()
+  })
+
   it('matches asterisk routes with a default param name', function () {
     const { params } = match({ path: '/not-found' }, routes[0])
     expect(params).toEqual({ pathMatch: '/not-found' })

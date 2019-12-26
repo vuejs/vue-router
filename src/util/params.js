@@ -25,7 +25,8 @@ export function fillParams (
     return filler(params, { pretty: true })
   } catch (e) {
     if (process.env.NODE_ENV !== 'production') {
-      warn(false, `missing param for ${routeMsg}: ${e.message}`)
+      // Fix #3072 no warn if `pathMatch` is string
+      warn(typeof params.pathMatch === 'string', `missing param for ${routeMsg}: ${e.message}`)
     }
     return ''
   } finally {
