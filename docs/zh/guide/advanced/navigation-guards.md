@@ -130,7 +130,7 @@ beforeRouteUpdate (to, from, next) {
 这个离开守卫通常用来禁止用户在还未保存修改前突然离开。该导航可以通过 `next(false)` 来取消。
 
 ```js
-beforeRouteLeave (to, from , next) {
+beforeRouteLeave (to, from, next) {
   const answer = window.confirm('Do you really want to leave? you have unsaved changes!')
   if (answer) {
     next()
