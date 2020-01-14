@@ -84,6 +84,11 @@ const router = new VueRouter({
             from.params
             next({ name: 'home' })
             next()
+          },
+          props: {
+            default: true,
+            bar: { id: 123 },
+            asyncComponent: (route: Route) => route.params
           }
         },
         {
