@@ -26,10 +26,11 @@ export default {
     let depth = 0
     let inactive = false
     while (parent && parent._routerRoot !== parent) {
-      if (parent.$vnode && parent.$vnode.data.routerView) {
+      const vnodeData = parent.$vnode ? parent.$vnode.data : {}
+      if (vnodeData.routerView) {
         depth++
       }
-      if (parent._directInactive && parent._inactive) {
+      if (vnodeData.keepAlive && parent._directInactive && parent._inactive) {
         inactive = true
       }
       parent = parent.$parent
