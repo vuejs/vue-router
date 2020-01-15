@@ -9,7 +9,7 @@ module.exports = {
     browser
       .url('http://localhost:8080/keepalive-view/')
       .waitForElementVisible('#app', 1000)
-      .assert.count('li a', 9)
+      .assert.count('li a', 10)
 
       .click('li:nth-child(1) a')
       .assert.containsText('.view', 'index child1')
@@ -47,11 +47,13 @@ module.exports = {
       // missing props in nested routes with keep alive
       // https://github.com/vuejs/vue-router/issues/2301
       .click('li:nth-child(8) a')
-      .assert.containsText('.view', 'props from route config is: ok')
+      .assert.containsText('.view', 'msg: from parent')
       .click('li:nth-child(9) a')
+      .assert.containsText('.view', 'msg: from parent\nprops from route config is: from child')
+      .click('li:nth-child(10) a')
       .assert.containsText('.view', 'no missing prop warn')
-      .click('li:nth-child(8) a')
-      .assert.containsText('.view', 'props from route config is: ok')
+      .click('li:nth-child(9) a')
+      .assert.containsText('.view', 'msg: from parent\nprops from route config is: from child')
 
       .end()
   }
