@@ -45,7 +45,7 @@ export default {
         // #2301
         // pass props
         if (cachedData.configProps) {
-          passProps(cachedComponent, data, cachedData.route, cachedData.configProps)
+          fillPropsinData(cachedComponent, data, cachedData.route, cachedData.configProps)
         }
         return h(cachedComponent, data, children)
       } else {
@@ -97,21 +97,20 @@ export default {
     }
 
     const configProps = matched.props && matched.props[name]
-    // pass props
+    // save route and configProps in cachce
     if (configProps) {
-      // add route and config props to cache data
       extend(cache[name], {
         route,
         configProps
       })
-      passProps(component, data, route, configProps)
+      fillPropsinData(component, data, route, configProps)
     }
 
     return h(component, data, children)
   }
 }
 
-function passProps (component, data, route, configProps) {
+function fillPropsinData (component, data, route, configProps) {
   // resolve props
   let propsToPass = data.props = resolveProps(route, configProps)
   if (propsToPass) {
