@@ -1,3 +1,13 @@
+## [3.1.5](https://github.com/vuejs/vue-router/compare/v3.1.4...v3.1.5) (2020-01-15)
+
+
+### Bug Fixes
+
+* **view:** add passing props to inactive component ([#2773](https://github.com/vuejs/vue-router/issues/2773)) ([0fb1343](https://github.com/vuejs/vue-router/commit/0fb1343)), closes [#2301](https://github.com/vuejs/vue-router/issues/2301)
+* **view:** fix deeply nested keep-alive router-views displaying ([#2930](https://github.com/vuejs/vue-router/issues/2930)) ([0c2b1aa](https://github.com/vuejs/vue-router/commit/0c2b1aa)), closes [#2923](https://github.com/vuejs/vue-router/issues/2923)
+
+
+
 ## [3.1.4](https://github.com/vuejs/vue-router/compare/v3.1.3...v3.1.4) (2020-01-14)
 
 
