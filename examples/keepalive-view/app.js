@@ -27,12 +27,14 @@ const IndexChild2 = { template: '<div>index child2</div>' }
 
 const Home = { template: '<div>home</div>' }
 
-const ViewWithKeepalive = { template: '<keep-alive><router-view></router-view></keep-alive>' }
+const ViewWithKeepalive = {
+  template: '<keep-alive><router-view></router-view></keep-alive>'
+}
 
-const Parent = { template: '<router-view />' }
+const Parent = { template: '<div>msg: {{ msg }}<router-view /></div>', props: ['msg'] }
 
 const RequiredProps = {
-  template: '<div>props from route config is: {{msg}}</div>',
+  template: '<div>props from route config is: {{ msg }}</div>',
   props: {
     msg: {
       type: String,
@@ -41,14 +43,15 @@ const RequiredProps = {
   }
 }
 
-const savedSilent = Vue.config.silent
-const savedWarnHandler = Vue.config.warnHandler
+// keep original values to restore them later
+const originalSilent = Vue.config.silent
+const originalWarnHandler = Vue.config.warnHandler
 
 const CatchWarn = {
-  template: `<div>{{catchedWarn ? 'catched missing prop warn' : 'no missing prop warn'}}</div>`,
+  template: `<div>{{ didWarn ? 'caught missing prop warn' : 'no missing prop warn' }}</div>`,
   data () {
     return {
-      catchedWarn: false
+      didWarn: false
     }
   },
   beforeRouteEnter (to, from, next) {
@@ -60,13 +63,13 @@ const CatchWarn = {
       }
     }
     next(vm => {
-      vm.catchedWarn = missPropWarn
+      vm.didWarn = missPropWarn
     })
   },
   beforeRouteLeave (to, from, next) {
     // restore vue config
-    Vue.config.silent = savedSilent
-    Vue.config.warnHandler = savedWarnHandler
+    Vue.config.silent = originalSilent
+    Vue.config.warnHandler = originalWarnHandler
     next()
   }
 }
@@ -126,12 +129,13 @@ const router = new VueRouter({
     {
       path: '/config-required-props',
       component: Parent,
+      props: { msg: 'from parent' },
       children: [
         {
           path: 'child',
           component: RequiredProps,
           props: {
-            msg: 'ok'
+            msg: 'from child'
           }
         }
       ]
@@ -155,6 +159,7 @@ new Vue({
         <li><router-link to="/with-guard2">/with-guard2</router-link></li>
         <li><router-link to="/one/two/child1">/one/two/child1</router-link></li>
         <li><router-link to="/one/two/child2">/one/two/child2</router-link></li>
+        <li><router-link to="/config-required-props">/config-required-props</router-link></li>
         <li><router-link to="/config-required-props/child">/config-required-props/child</router-link></li>
         <li><router-link to="/catch-warn">/catch-warn</router-link></li>
       </ul>
