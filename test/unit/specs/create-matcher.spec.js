@@ -84,4 +84,14 @@ describe('Creating Matcher', function () {
     const { params } = match({ path: '/not-found' }, routes[0])
     expect(params).toEqual({ pathMatch: '/not-found' })
   })
+
+  it('calculates correctly and without warning the path of a partial asterisk route with a default param name and pathMatch empty string', function () {
+    process.env.NODE_ENV = 'development'
+    const { path } = match(
+      { name: 'error', params: { pathMatch: '' }},
+      routes[0]
+    )
+    expect(console.warn).not.toHaveBeenCalled()
+    expect(path).toEqual('/error/')
+  })
 })
