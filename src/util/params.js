@@ -20,8 +20,8 @@ export function fillParams (
       (regexpCompileCache[path] = Regexp.compile(path))
 
     // Fix #2505 resolving asterisk routes { name: 'not-found', params: { pathMatch: '/not-found' }}
-    // `params.pathMatch === ''` fixes #3106 so that you can work with location descriptor object having params.pathMatch equal to empty string
-    if (params.pathMatch || params.pathMatch === '') params[0] = params.pathMatch
+    // and fix #3106 so that you can work with location descriptor object having params.pathMatch equal to empty string
+    if (typeof params.pathMatch === 'string') params[0] = params.pathMatch
 
     return filler(params, { pretty: true })
   } catch (e) {
