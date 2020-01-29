@@ -84,4 +84,20 @@ describe('Creating Matcher', function () {
     const { params } = match({ path: '/not-found' }, routes[0])
     expect(params).toEqual({ pathMatch: '/not-found' })
   })
+
+  it('allows an empty pathMatch', function () {
+    process.env.NODE_ENV = 'development'
+    const pathForErrorRoute = match(
+      { name: 'error', params: { pathMatch: '' }},
+      routes[0]
+    ).path
+    const pathForNotFoundRoute = match(
+      { name: 'notFound', params: { pathMatch: '' }},
+      routes[0]
+    ).path
+
+    expect(console.warn).not.toHaveBeenCalled()
+    expect(pathForErrorRoute).toEqual('/error/')
+    expect(pathForNotFoundRoute).toEqual('/')
+  })
 })
