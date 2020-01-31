@@ -19,7 +19,19 @@ Not to worry: To fix the issue, all you need to do is add a simple catch-all fal
 
 ## Example Server Configurations
 
-**Note**: The following examples assume you are serving your app from the root folder. If you deploy to a subfolder, you should use [the `publicPath` option of Vue CLI](https://cli.vuejs.org/config/#publicpath) and the related [`base` property of the router](https://router.vuejs.org/api/#base). You also need to adjust the examples below to use the subfolder instead of the root folder (e.g. replacing `RewriteBase /` with `RewriteBase /name-of-your-subfolder/`).
+**Note**: The following examples assume you are serving your app from the root folder. If you deploy to a subfolder, you should use [the `publicPath` option of Vue CLI](https://cli.vuejs.org/config/#publicpath) and the related [`base` property of the router](https://router.vuejs.org/api/#base). You also need to adjust the examples below to use the subfolder instead of the root folder (e.g. replacing `RewriteRule . /index.html [L]` with `RewriteRule . /name-of-your-subfolder/index.html [L]` and add a default route for error handling as your last route with a component of your choise as a fallback like:
+
+```js
+routes: [
+  ...,
+  {
+    path: '*',
+    component: NotFound
+  }
+]
+```
+
+That way if you try to acecss and endpoint that doesn't exist the fallback route will display the component you chose and if you try to access any other route the correct component will be loaded and not just the default index.html
 
 #### Apache
 
