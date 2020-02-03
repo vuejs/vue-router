@@ -30,7 +30,9 @@ export default {
     event: {
       type: eventTypes,
       default: 'click'
-    }
+    },
+    onComplete: Function,
+    onAbort: Function
   },
   render (h: Function) {
     const router = this.$router
@@ -70,9 +72,9 @@ export default {
     const handler = e => {
       if (guardEvent(e)) {
         if (this.replace) {
-          router.replace(location, noop)
+          router.replace(location, this.onComplete || noop, this.onAbort || noop)
         } else {
-          router.push(location, noop)
+          router.push(location, this.onComplete || noop, this.onAbort || noop)
         }
       }
     }
