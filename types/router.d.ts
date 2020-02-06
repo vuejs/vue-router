@@ -134,7 +134,7 @@ export interface Location {
 
 export interface Route {
   path: string
-  name?: string
+  name?: string | null
   hash: string
   query: Dictionary<string | (string | null)[]>
   params: Dictionary<string>
