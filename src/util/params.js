@@ -23,7 +23,7 @@ export function fillParams (
     // and fix #3106 so that you can work with location descriptor object having params.pathMatch equal to empty string
     if (typeof params.pathMatch === 'string') params[0] = params.pathMatch
 
-    return filler(params, { pretty: true })
+    return decodeURI(filler(params, { pretty: true }))
   } catch (e) {
     if (process.env.NODE_ENV !== 'production') {
       // Fix #3072 no warn if `pathMatch` is string
