@@ -9,7 +9,7 @@ module.exports = {
     browser
       .url('http://localhost:8080/route-matching/')
       .waitForElementVisible('#app', 1000)
-      .assert.count('li a', 10)
+      .assert.count('li a', 12)
       .assert.evaluate(
         function () {
           var route = JSON.parse(document.querySelector('pre').textContent)
@@ -175,6 +175,62 @@ module.exports = {
         },
         null,
         '/optional-group/foo/bar'
+      )
+
+      .click('li:nth-child(11) a')
+      .assert.evaluate(
+        function () {
+          var route = JSON.parse(document.querySelector('pre').textContent)
+          return (
+            route.matched.length === 1 &&
+            route.matched[0].path === '/special/:word' &&
+            route.fullPath === '/special/tést1' &&
+            JSON.stringify(route.params) ===
+            JSON.stringify({
+              word: 'tést1'
+            })
+          )
+        },
+        null,
+        '/optional-group/special/tést1'
+      )
+
+      .click('li:nth-child(12) a')
+      .assert.evaluate(
+        function () {
+          var route = JSON.parse(document.querySelector('pre').textContent)
+          return (
+            route.matched.length === 1 &&
+            route.matched[0].path === '/special/:word' &&
+            route.fullPath === '/special/tést2' &&
+            JSON.stringify(route.params) ===
+            JSON.stringify({
+              word: 'tést2'
+            })
+          )
+        },
+        null,
+        '/optional-group/special/tést2'
+      )
+
+      .url('http://localhost:8080/route-matching/special/tést1')
+      .waitForElementVisible('#app', 1000)
+      .assert.evaluate(
+        function () {
+          return document.querySelector('li:nth-child(11) a').classList.contains('router-link-active')
+        },
+        null,
+        '/optional-group/special/tést1 init active router'
+      )
+
+      .url('http://localhost:8080/route-matching/special/tést2')
+      .waitForElementVisible('#app', 1000)
+      .assert.evaluate(
+        function () {
+          return document.querySelector('li:nth-child(12) a').classList.contains('router-link-active')
+        },
+        null,
+        '/optional-group/special/tést2 init active router'
       )
       .end()
   }
