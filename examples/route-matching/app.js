@@ -43,7 +43,7 @@ new Vue({
         <li><router-link to="/asterisk/foo/bar">/asterisk/foo/bar</router-link></li>
         <li><router-link to="/optional-group/bar">/optional-group/bar</router-link></li>
         <li><router-link to="/optional-group/foo/bar">/optional-group/foo/bar</router-link></li>
-        <li><router-link to="/special/tést1">/special/tést1</router-link></li>
+        <li><router-link :to="encodeURI('/special/tést1')">/special/tést1</router-link></li>
         <li><router-link :to="{ name: 'special', params: {word: 'tést2'} }">/special/tést2</router-link></li>
       </ul>
       <p>Route context</p>
