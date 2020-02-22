@@ -119,5 +119,13 @@ new Vue({
       </ul>
       <router-view class="view"></router-view>
     </div>
-  `
+  `,
+  methods: {
+    jump() {
+       // Vue.$http.post() 
+       // let redirect = this.$route.query.redirect
+       var redirect = '/foobar'
+       this.$router.push(redirect) // jump to foobar
+    }
+  }
 }).$mount('#app')
