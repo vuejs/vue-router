@@ -39,7 +39,7 @@ Every guard function receives three arguments:
 ```js
 // BAD
 router.beforeEach((to, from, next) => {
-  if (to.path !== '/login' && !isAuthenticated) next('/login')
+  if (to.name !== 'Login' && !isAuthenticated) next({ name: 'Login' })
   // if the user is not authenticated, `next` is called twice
   next()
 })
