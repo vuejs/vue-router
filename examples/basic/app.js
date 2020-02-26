@@ -48,6 +48,7 @@ new Vue({
             <a :href="props.href" @click="props.navigate">{{ props.route.path }} (with v-slot).</a>
           </li>
         </router-link>
+        <li><router-link to="/foo" replace>/foo (replace)</router-link></li>
       </ul>
       <button id="navigate-btn" @click="navigateAndIncrement">On Success</button>
       <pre id="counter">{{ n }}</pre>
