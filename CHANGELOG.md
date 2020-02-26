@@ -1,3 +1,14 @@
+## [3.1.6](https://github.com/vuejs/vue-router/compare/v3.1.5...v3.1.6) (2020-02-26)
+
+
+### Bug Fixes
+
+* preserve history state when reloading ([a4ec3e2](https://github.com/vuejs/vue-router/commit/a4ec3e2))
+* **ts:** add null to Route.name ([#3117](https://github.com/vuejs/vue-router/issues/3117)) ([8f831f2](https://github.com/vuejs/vue-router/commit/8f831f2))
+* correctly calculate `path` when `pathMatch` is empty string ([#3111](https://github.com/vuejs/vue-router/issues/3111)) ([38e6ccd](https://github.com/vuejs/vue-router/commit/38e6ccd)), closes [#3106](https://github.com/vuejs/vue-router/issues/3106)
+
+
+
 ## [3.1.5](https://github.com/vuejs/vue-router/compare/v3.1.4...v3.1.5) (2020-01-15)
 
 
