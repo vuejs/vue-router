@@ -136,7 +136,7 @@ export interface Route {
   path: string
   name?: string | null
   hash: string
-  query: Dictionary<string | (string | null)[]>
+  query: Dictionary<string | (string | null)[] | undefined>
   params: Dictionary<string>
   fullPath: string
   matched: RouteRecord[]
