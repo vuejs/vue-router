@@ -1,3 +1,40 @@
+## [3.1.6](https://github.com/vuejs/vue-router/compare/v3.1.5...v3.1.6) (2020-02-26)
+
+
+### Bug Fixes
+
+* preserve history state when reloading ([a4ec3e2](https://github.com/vuejs/vue-router/commit/a4ec3e2))
+* **ts:** add null to Route.name ([#3117](https://github.com/vuejs/vue-router/issues/3117)) ([8f831f2](https://github.com/vuejs/vue-router/commit/8f831f2))
+* correctly calculate `path` when `pathMatch` is empty string ([#3111](https://github.com/vuejs/vue-router/issues/3111)) ([38e6ccd](https://github.com/vuejs/vue-router/commit/38e6ccd)), closes [#3106](https://github.com/vuejs/vue-router/issues/3106)
+
+
+
+## [3.1.5](https://github.com/vuejs/vue-router/compare/v3.1.4...v3.1.5) (2020-01-15)
+
+
+### Bug Fixes
+
+* **view:** add passing props to inactive component ([#2773](https://github.com/vuejs/vue-router/issues/2773)) ([0fb1343](https://github.com/vuejs/vue-router/commit/0fb1343)), closes [#2301](https://github.com/vuejs/vue-router/issues/2301)
+* **view:** fix deeply nested keep-alive router-views displaying ([#2930](https://github.com/vuejs/vue-router/issues/2930)) ([0c2b1aa](https://github.com/vuejs/vue-router/commit/0c2b1aa)), closes [#2923](https://github.com/vuejs/vue-router/issues/2923)
+
+
+
+## [3.1.4](https://github.com/vuejs/vue-router/compare/v3.1.3...v3.1.4) (2020-01-14)
+
+
+### Bug Fixes
+
+* suppress warning if `pathMatch` is empty ([#3081](https://github.com/vuejs/vue-router/issues/3081)) ([ddc6bc7](https://github.com/vuejs/vue-router/commit/ddc6bc7)), closes [#3072](https://github.com/vuejs/vue-router/issues/3072)
+* **link:** correctly warn wrong v-slot usage ([a150291](https://github.com/vuejs/vue-router/commit/a150291)), closes [#3091](https://github.com/vuejs/vue-router/issues/3091)
+* **location:** add a copy for params with named locations ([#2802](https://github.com/vuejs/vue-router/issues/2802)) ([2b39f5a](https://github.com/vuejs/vue-router/commit/2b39f5a)), closes [#2800](https://github.com/vuejs/vue-router/issues/2800) [#2938](https://github.com/vuejs/vue-router/issues/2938) [#2938](https://github.com/vuejs/vue-router/issues/2938)
+
+
+### Features
+
+* **history:** preserve existing history.state ([c0d3376](https://github.com/vuejs/vue-router/commit/c0d3376)), closes [#3006](https://github.com/vuejs/vue-router/issues/3006)
+
+
+
 ## [3.1.3](https://github.com/vuejs/vue-router/compare/v3.1.2...v3.1.3) (2019-08-30)
 
 ### Bug Fixes

@@ -41,6 +41,7 @@ describe('error handling', () => {
   })
 
   it('async component errors', done => {
+    spyOn(console, 'warn')
     const err = new Error('foo')
     const spy1 = jasmine.createSpy('error')
     const spy2 = jasmine.createSpy('errpr')
@@ -59,6 +60,7 @@ describe('error handling', () => {
       expect(spy1).toHaveBeenCalledWith(err)
       expect(spy2).toHaveBeenCalledWith(err)
       expect(spy3).toHaveBeenCalled()
+      expect(console.warn).toHaveBeenCalledTimes(1)
       done()
     })
   })

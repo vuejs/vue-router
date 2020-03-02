@@ -20,7 +20,7 @@ To link to a named route, you can pass an object to the `router-link` component'
 <router-link :to="{ name: 'user', params: { userId: 123 }}">User</router-link>
 ```
 
-This is the exact same object used programatically with `router.push()`:
+This is the exact same object used programmatically with `router.push()`:
 
 ``` js
 router.push({ name: 'user', params: { userId: 123 }})

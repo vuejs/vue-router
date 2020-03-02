@@ -84,6 +84,11 @@ const router = new VueRouter({
             from.params
             next({ name: 'home' })
             next()
+          },
+          props: {
+            default: true,
+            bar: { id: 123 },
+            asyncComponent: (route: Route) => route.params
           }
         },
         {
@@ -108,7 +113,7 @@ const mode: string = router.mode
 
 const route: Route = router.currentRoute
 const path: string = route.path
-const name: string | undefined = route.name
+const name: string | undefined | null = route.name
 const hash: string = route.hash
 const query: string | (string | null)[] | null = route.query['foo']
 const params: string = route.params['bar']
@@ -123,7 +128,7 @@ matched.forEach(m => {
   [key: string]: ComponentOptions<Vue> | typeof Vue | AsyncComponent
   } = m.components
   const instances: { [key: string]: Vue } = m.instances
-  const name: string | undefined = m.name
+  const name: string | undefined | null = m.name
   const parant: RouteRecord | undefined = m.parent
   const redirect: RedirectOption | undefined = m.redirect
 })
