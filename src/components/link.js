@@ -67,7 +67,7 @@ export default {
       ? classes[exactActiveClass]
       : isIncludedRoute(current, compareTarget)
 
-    const ariaCurrentValue = classes[activeClass] ? 'page' : null
+    const ariaCurrentValue = classes[exactActiveClass] ? 'page' : null
 
     const handler = e => {
       if (guardEvent(e)) {
