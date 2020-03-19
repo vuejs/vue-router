@@ -8,6 +8,7 @@ import { warn } from '../util/warn'
 // work around weird flow bug
 const toTypes: Array<Function> = [String, Object]
 const eventTypes: Array<Function> = [String, Array]
+let ariaCurrentTypes: 'page' | 'step' | 'location' | 'date' | 'time'
 
 const noop = () => {}
 
@@ -27,7 +28,10 @@ export default {
     replace: Boolean,
     activeClass: String,
     exactActiveClass: String,
-    ariaCurrentValue: 'page' | 'step' | 'location' | 'date' | 'time',
+    ariaCurrentValue: {
+      type: ariaCurrentTypes,
+      default: 'page'
+    },
     event: {
       type: eventTypes,
       default: 'click'
@@ -68,8 +72,7 @@ export default {
       ? classes[exactActiveClass]
       : isIncludedRoute(current, compareTarget)
 
-    const ariaCurrentType = this.ariaCurrentValue || 'page'
-    const ariaCurrentValue = classes[exactActiveClass] ? ariaCurrentType : null
+    const ariaCurrentValue = classes[exactActiveClass] ? this.ariaCurrentValue : null
 
     const handler = e => {
       if (guardEvent(e)) {
