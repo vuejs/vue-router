@@ -27,6 +27,7 @@ export default {
     replace: Boolean,
     activeClass: String,
     exactActiveClass: String,
+    ariaCurrentValue: 'page' | 'step' | 'location' | 'date' | 'time',
     event: {
       type: eventTypes,
       default: 'click'
@@ -67,7 +68,8 @@ export default {
       ? classes[exactActiveClass]
       : isIncludedRoute(current, compareTarget)
 
-    const ariaCurrentValue = classes[exactActiveClass] ? 'page' : null
+    const ariaCurrentType = this.ariaCurrentValue || 'page'
+    const ariaCurrentValue = classes[exactActiveClass] ? ariaCurrentType : null
 
     const handler = e => {
       if (guardEvent(e)) {

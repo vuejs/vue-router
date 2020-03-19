@@ -71,6 +71,9 @@ module.exports = {
           .cssClassPresent(`li:nth-child(${i}) a`, 'router-link-exact-active')
           .assert.cssClassPresent(`li:nth-child(${i}) a`, 'router-link-active')
           .assert.attributeEquals(`li:nth-child(${i}) a`, 'aria-current', 'page')
+        if (i < 19) {
+          browser.assert.not.attributeEquals(`li:nth-child(${i + 1}) a`, 'aria-current', 'page')
+        }
       })
       exactActiveLI &&
         exactActiveLI.forEach(i => {
