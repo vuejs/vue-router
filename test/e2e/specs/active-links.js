@@ -31,6 +31,7 @@ module.exports = {
       .assert.attributeContains('li:nth-child(18) a', 'href', '/active-links/redirect-image')
       .assert.attributeContains('li:nth-child(19) a', 'href', '/active-links/redirect-image')
       .assert.containsText('.view', 'Home')
+      .assert.not.attributeEquals(`li:nth-child(3) a`, 'aria-current', 'page')
 
     assertActiveLinks(1, [1, 2], null, [1, 2])
     assertActiveLinks(2, [1, 2], null, [1, 2])
@@ -70,12 +71,14 @@ module.exports = {
         browser.assert
           .cssClassPresent(`li:nth-child(${i}) a`, 'router-link-exact-active')
           .assert.cssClassPresent(`li:nth-child(${i}) a`, 'router-link-active')
+          .assert.attributeEquals(`li:nth-child(${i}) a`, 'aria-current', 'page')
       })
       exactActiveLI &&
         exactActiveLI.forEach(i => {
           browser.assert
             .cssClassPresent(`li:nth-child(${i})`, 'router-link-exact-active')
             .assert.cssClassPresent(`li:nth-child(${i})`, 'router-link-active')
+            .assert.attributeEquals(`li:nth-child(${i}) a`, 'aria-current', 'page')
         })
     }
   }

@@ -27,6 +27,10 @@ export default {
     replace: Boolean,
     activeClass: String,
     exactActiveClass: String,
+    ariaCurrentValue: {
+      type: String,
+      default: 'page'
+    },
     event: {
       type: eventTypes,
       default: 'click'
@@ -66,6 +70,8 @@ export default {
     classes[activeClass] = this.exact
       ? classes[exactActiveClass]
       : isIncludedRoute(current, compareTarget)
+
+    const ariaCurrentValue = classes[exactActiveClass] ? this.ariaCurrentValue : null
 
     const handler = e => {
       if (guardEvent(e)) {
@@ -117,7 +123,7 @@ export default {
 
     if (this.tag === 'a') {
       data.on = on
-      data.attrs = { href }
+      data.attrs = { href, 'aria-current': ariaCurrentValue }
     } else {
       // find the first <a> child and apply listener and href
       const a = findAnchor(this.$slots.default)
@@ -145,6 +151,7 @@ export default {
 
         const aAttrs = (a.data.attrs = extend({}, a.data.attrs))
         aAttrs.href = href
+        aAttrs['aria-current'] = ariaCurrentValue
       } else {
         // doesn't have <a> child, apply listener to self
         data.on = on
