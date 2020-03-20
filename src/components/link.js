@@ -8,7 +8,6 @@ import { warn } from '../util/warn'
 // work around weird flow bug
 const toTypes: Array<Function> = [String, Object]
 const eventTypes: Array<Function> = [String, Array]
-let ariaCurrentTypes: 'page' | 'step' | 'location' | 'date' | 'time'
 
 const noop = () => {}
 
@@ -29,7 +28,7 @@ export default {
     activeClass: String,
     exactActiveClass: String,
     ariaCurrentValue: {
-      type: ariaCurrentTypes,
+      type: String,
       default: 'page'
     },
     event: {
