@@ -19,7 +19,7 @@ export const supportsPushState =
       return false
     }
 
-    return window.history && 'pushState' in window.history
+    return window.history && typeof window.history.pushState === 'function'
   })()
 
 export function pushState (url?: string, replace?: boolean) {
