@@ -23,6 +23,8 @@ export class History {
   readyCbs: Array<Function>
   readyErrorCbs: Array<Function>
   errorCbs: Array<Function>
+  listeners: Array<Function>
+  cleanupListeners: Function
 
   // implemented by sub-classes
   +go: (n: number) => void
@@ -30,6 +32,7 @@ export class History {
   +replace: (loc: RawLocation) => void
   +ensureURL: (push?: boolean) => void
   +getCurrentLocation: () => string
+  +setupListeners: Function
 
   constructor (router: Router, base: ?string) {
     this.router = router
@@ -41,6 +44,7 @@ export class History {
     this.readyCbs = []
     this.readyErrorCbs = []
     this.errorCbs = []
+    this.listeners = []
   }
 
   listen (cb: Function) {
@@ -207,6 +211,17 @@ export class History {
     this.router.afterHooks.forEach(hook => {
       hook && hook(route, prev)
     })
+  }
+
+  setupListeners () {
+    // Default implementation is empty
+  }
+
+  teardownListeners () {
+    this.listeners.forEach(cleanupListener => {
+      cleanupListener()
+    })
+    this.listeners = []
   }
 }
 

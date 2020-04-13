@@ -8,24 +8,37 @@ import { setupScroll, handleScroll } from '../util/scroll'
 import { pushState, replaceState, supportsPushState } from '../util/push-state'
 
 export class HTML5History extends History {
+  +initLocation: string
+
   constructor (router: Router, base: ?string) {
     super(router, base)
 
+    this.initLocation = getLocation(this.base)
+  }
+
+  setupListeners () {
+    if (this.listeners.length > 0) {
+      return
+    }
+
+    const router = this.router
     const expectScroll = router.options.scrollBehavior
     const supportsScroll = supportsPushState && expectScroll
 
     if (supportsScroll) {
-      setupScroll()
+      this.listeners.push(setupScroll())
     }
 
-    const initLocation = getLocation(this.base)
-    window.addEventListener('popstate', e => {
+    const handleRoutingEvent = () => {
+      const expectScroll = router.options.scrollBehavior
+      const supportsScroll = supportsPushState && expectScroll
+
       const current = this.current
 
       // Avoiding first `popstate` event dispatched in some browsers but first
       // history route not updated since async guard at the same time.
       const location = getLocation(this.base)
-      if (this.current === START && location === initLocation) {
+      if (this.current === START && location === this.initLocation) {
         return
       }
 
@@ -34,6 +47,10 @@ export class HTML5History extends History {
           handleScroll(router, route, current, true)
         }
       })
+    }
+    window.addEventListener('popstate', handleRoutingEvent)
+    this.listeners.push(() => {
+      window.removeEventListener('popstate', handleRoutingEvent)
     })
   }
 

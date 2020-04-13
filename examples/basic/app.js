@@ -1,6 +1,30 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 
+// track number of popstate listeners
+// This should be replaced with something better
+let numPopstateListeners = 0
+const listenerCountDiv = document.createElement('div')
+listenerCountDiv.textContent = numPopstateListeners + ' popstate listeners'
+document.body.appendChild(listenerCountDiv)
+
+const originalAddEventListener = window.addEventListener
+const originalRemoveEventListener = window.removeEventListener
+window.addEventListener = function (name, handler) {
+  if (name === 'popstate') {
+    listenerCountDiv.textContent =
+      ++numPopstateListeners + ' popstate listeners'
+  }
+  return originalAddEventListener.apply(this, arguments)
+}
+window.removeEventListener = function (name, handler) {
+  if (name === 'popstate') {
+    listenerCountDiv.textContent =
+      --numPopstateListeners + ' popstate listeners'
+  }
+  return originalRemoveEventListener.apply(this, arguments)
+}
+
 // 1. Use plugin.
 // This installs <router-view> and <router-link>,
 // and injects $router and $route to all router-enabled child components
@@ -55,6 +79,7 @@ new Vue({
       <pre id="query-t">{{ $route.query.t }}</pre>
       <pre id="hash">{{ $route.hash }}</pre>
       <router-view class="view"></router-view>
+      <button v-on:click="teardown">Teardown app</button>
     </div>
   `,
 
@@ -66,6 +91,10 @@ new Vue({
       } else {
         this.$router.push('/', increment)
       }
+    },
+    teardown () {
+      this.$destroy()
+      this.$el.innerHTML = ''
     }
   }
 }).$mount('#app')

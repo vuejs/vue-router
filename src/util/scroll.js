@@ -19,12 +19,10 @@ export function setupScroll () {
   const stateCopy = extend({}, window.history.state)
   stateCopy.key = getStateKey()
   window.history.replaceState(stateCopy, '', absolutePath)
-  window.addEventListener('popstate', e => {
-    saveScrollPosition()
-    if (e.state && e.state.key) {
-      setStateKey(e.state.key)
-    }
-  })
+  window.addEventListener('popstate', handlePopState)
+  return () => {
+    window.removeEventListener('popstate', handlePopState)
+  }
 }
 
 export function handleScroll (
@@ -83,6 +81,13 @@ export function saveScrollPosition () {
       x: window.pageXOffset,
       y: window.pageYOffset
     }
+  }
+}
+
+function handlePopState (e) {
+  saveScrollPosition()
+  if (e.state && e.state.key) {
+    setStateKey(e.state.key)
   }
 }
 
