@@ -2,9 +2,9 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 
 // track number of popstate listeners
-// This should be replaced with something better
 let numPopstateListeners = 0
 const listenerCountDiv = document.createElement('div')
+listenerCountDiv.id = 'popstate-count'
 listenerCountDiv.textContent = numPopstateListeners + ' popstate listeners'
 document.body.appendChild(listenerCountDiv)
 
@@ -70,7 +70,7 @@ new Vue({
       <pre id="query-t">{{ $route.query.t }}</pre>
       <pre id="hash">{{ $route.hash }}</pre>
       <router-view class="view"></router-view>
-      <button v-on:click="teardown">Teardown app</button>
+      <button id="teardown-app" v-on:click="teardown">Teardown app</button>
     </div>
   `,
   methods: {
