@@ -70,6 +70,12 @@ function addRouteRecord (
         path || name
       )} cannot be a ` + `string id. Use an actual component instead.`
     )
+    assert(
+      route.component.toString() !== '[object Promise]',
+      `route config "component" for path: ${String(
+        path || name
+      )} cannot be a promise. Use a function that returns a promise instead (e.g. \`() => import ('./components/About.vue')\`)`
+    )
   }
 
   const pathToRegexpOptions: PathToRegexpOptions =
