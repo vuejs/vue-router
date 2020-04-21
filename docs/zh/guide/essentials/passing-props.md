@@ -1,5 +1,7 @@
 # 路由组件传参
 
+<div class="vueschool"><a href="https://vueschool.io/lessons/how-to-pass-vue-router-params-as-props-to-components?friend=vuejs" target="_blank" rel="sponsored noopener" title="Learn how to pass props to route components with Vue School">观看 Vue School 的如何向路由组件传递 prop 的免费视频课程 (英文)</a></div>
+
 在组件中使用 `$route` 会使之与其对应路由形成高度耦合，从而使组件只能在某些特定的 URL 上使用，限制了其灵活性。
 
 使用 `props` 将组件和路由解耦：

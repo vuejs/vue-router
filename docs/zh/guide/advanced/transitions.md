@@ -1,5 +1,7 @@
 # 过渡动效
 
+<div class="vueschool"><a href="https://vueschool.io/lessons/how-to-create-route-transitions-with-vue-router?friend=vuejs" target="_blank" rel="sponsored noopener" title="Learn how to create route transitions on Vue School">观看 Vue School 的如何创建路由过渡动效的免费视频课程 (英文)</a></div>
+
 `<router-view>` 是基本的动态组件，所以我们可以用 `<transition>` 组件给它添加一些过渡效果：
 
 ``` html
