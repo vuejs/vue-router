@@ -133,6 +133,13 @@ If you add a `target="_blank"` to your `a` element, you must omit the `@click="n
 
   Configure the active CSS class applied when the link is active. Note the default value can also be configured globally via the `linkActiveClass` router constructor option.
 
+### inactive-class
+
+- type: `string`
+- default: `"router-link-inactive"`
+
+  Configure the CSS class applied when the link is inactive. Note the default value can also be configured globally via the `linkInactiveClass` router constructor option.
+
 ### exact
 
 - type: `boolean`
