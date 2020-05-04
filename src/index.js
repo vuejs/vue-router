@@ -256,7 +256,3 @@ function createHref (base: string, fullPath: string, mode) {
 
 VueRouter.install = install
 VueRouter.version = '__VERSION__'
-
-if (inBrowser && window.Vue) {
-  window.Vue.use(VueRouter)
-}
