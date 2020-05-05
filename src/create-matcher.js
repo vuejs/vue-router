@@ -10,6 +10,7 @@ import { normalizeLocation } from './util/location'
 
 export type Matcher = {
   match: (raw: RawLocation, current?: Route, redirectedFrom?: Location) => Route;
+  matchAll: (raw: RawLocation, current?: Route, redirectedFrom?: Location) => Array<Route>;
   addRoutes: (routes: Array<RouteConfig>) => void;
 };
 
@@ -23,11 +24,12 @@ export function createMatcher (
     createRouteMap(routes, pathList, pathMap, nameMap)
   }
 
-  function match (
+  function matchAll (
     raw: RawLocation,
     currentRoute?: Route,
-    redirectedFrom?: Location
-  ): Route {
+    redirectedFrom?: Location,
+    matchFirst?: boolean
+  ): Array<Route> {
     const location = normalizeLocation(raw, currentRoute, false, router)
     const { name } = location
 
@@ -36,7 +38,7 @@ export function createMatcher (
       if (process.env.NODE_ENV !== 'production') {
         warn(record, `Route with name '${name}' does not exist`)
       }
-      if (!record) return _createRoute(null, location)
+      if (!record) return [_createRoute(null, location)]
       const paramNames = record.regex.keys
         .filter(key => !key.optional)
         .map(key => key.name)
@@ -54,19 +56,32 @@ export function createMatcher (
       }
 
       location.path = fillParams(record.path, location.params, `named route "${name}"`)
-      return _createRoute(record, location, redirectedFrom)
+      return [_createRoute(record, location, redirectedFrom)]
     } else if (location.path) {
       location.params = {}
+      const matches = []
       for (let i = 0; i < pathList.length; i++) {
         const path = pathList[i]
         const record = pathMap[path]
         if (matchRoute(record.regex, location.path, location.params)) {
-          return _createRoute(record, location, redirectedFrom)
+          const route = _createRoute(record, location, redirectedFrom)
+          if (matchFirst) return [route]
+          else matches.push(route)
         }
       }
+      if (matches.length) return matches
     }
     // no match
-    return _createRoute(null, location)
+    return [_createRoute(null, location)]
+  }
+
+  function match (
+    raw: RawLocation,
+    currentRoute?: Route,
+    redirectedFrom?: Location
+  ): Route {
+    const matched = matchAll(raw, currentRoute, redirectedFrom, true)
+    return matched[0]
   }
 
   function redirect (
@@ -166,6 +181,7 @@ export function createMatcher (
 
   return {
     match,
+    matchAll,
     addRoutes
   }
 }

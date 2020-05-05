@@ -76,6 +76,14 @@ export default class VueRouter {
     return this.matcher.match(raw, current, redirectedFrom)
   }
 
+  matchAll (
+    raw: RawLocation,
+    current?: Route,
+    redirectedFrom?: Location
+  ): Array<Route> {
+    return this.matcher.matchAll(raw, current, redirectedFrom)
+  }
+
   get currentRoute (): ?Route {
     return this.history && this.history.current
   }
