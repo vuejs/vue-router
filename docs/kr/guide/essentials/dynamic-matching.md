@@ -34,7 +34,7 @@ const User = {
 | 패턴 | 일치하는 패스 | $route.params |
 |---------|------|--------|
 | /user/:username | /user/evan | `{ username: 'evan' }` |
-| /user/:username/post/:post_id | /user/evan/post/123 | `{ username: 'evan', post_id: 123 }` |
+| /user/:username/post/:post_id | /user/evan/post/123 | `{ username: 'evan', post_id: '123' }` |
 
 `$route.params` 외에도 `$route` 객체는 `$route.query` (URL에 쿼리가 있는 경우), `$route.hash` 등의 유용한 정보를 제공합니다. [API 레퍼런스](../../api/#the-route-object)에서 전체 세부 정보를 확인할 수 있습니다.
 
@@ -68,7 +68,7 @@ const User = {
 
 ### 고급 매칭 패턴
 
-`vue-router`는 라우트 매칭 엔진으로 [path-to-regexp](https://github.com/pillarjs/path-to-regexp)를 사용하기 때문에 선택적 동적 세그먼트, 0개 이상/하나 이상의 요구 사항, 심지어 커스텀 정규식 패턴과 같은 많은 고급 매칭 패턴을 지원합니다. 이 고급 패턴들과 `vue-router`에서 사용하는 [예제](https://github.com/vuejs/vue-router/blob/dev/examples/route-matching/app.js)에 대한 [문서](https://github.com/pillarjs/path-to-regexp#parameters)를 확인하십시오.
+`vue-router`는 라우트 매칭 엔진으로 [path-to-regexp](https://github.com/pillarjs/path-to-regexp/tree/v1.7.0)를 사용하기 때문에 선택적 동적 세그먼트, 0개 이상/하나 이상의 요구 사항, 심지어 커스텀 정규식 패턴과 같은 많은 고급 매칭 패턴을 지원합니다. 이 고급 패턴들과 `vue-router`에서 사용하는 [예제](https://github.com/vuejs/vue-router/blob/dev/examples/route-matching/app.js)에 대한 [문서](https://github.com/pillarjs/path-to-regexp/tree/v1.7.0#parameters)를 확인하십시오.
 
 ### 매칭 우선순위
 

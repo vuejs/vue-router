@@ -9,9 +9,10 @@ const Bar = {
   template: `
     <div class="bar">
       bar
-      <div style="height:500px"></div>
+      <div style="height:1500px"></div>
       <p id="anchor" style="height:500px">Anchor</p>
-      <p id="anchor2">Anchor2</p>
+      <p id="anchor2" style="height:500px">Anchor2</p>
+      <p id="1number">with number</p>
     </div>
   `
 }
@@ -36,7 +37,8 @@ const scrollBehavior = function (to, from, savedPosition) {
         position.offset = { y: 100 }
       }
 
-      if (document.querySelector(to.hash)) {
+      // bypass #1number check
+      if (/^#\d/.test(to.hash) || document.querySelector(to.hash)) {
         return position
       }
 
@@ -86,6 +88,7 @@ new Vue({
         <li><router-link to="/bar">/bar</router-link></li>
         <li><router-link to="/bar#anchor">/bar#anchor</router-link></li>
         <li><router-link to="/bar#anchor2">/bar#anchor2</router-link></li>
+        <li><router-link to="/bar#1number">/bar#1number</router-link></li>
       </ul>
       <transition name="fade" mode="out-in" @after-leave="afterLeave">
         <router-view class="view"></router-view>

@@ -4,7 +4,7 @@
 
 Перенаправления также определяются в конфигурации маршрутов в опции `routes`. Например, чтобы перенаправить с `/a` на `/b`:
 
-``` js
+```js
 const router = new VueRouter({
   routes: [
     { path: '/a', redirect: '/b' }
@@ -14,7 +14,7 @@ const router = new VueRouter({
 
 Перенаправление может осуществляться и на именованный маршрут:
 
-``` js
+```js
 const router = new VueRouter({
   routes: [
     { path: '/a', redirect: { name: 'foo' }}
@@ -24,7 +24,7 @@ const router = new VueRouter({
 
 Или даже можно указать функцию для организации динамического перенаправления:
 
-``` js
+```js
 const router = new VueRouter({
   routes: [
     { path: '/a', redirect: to => {
@@ -35,7 +35,7 @@ const router = new VueRouter({
 })
 ```
 
-Обратите внимание, что [навигационные хуки](../advanced/navigation-guards.md) не применяются на маршруте, который служит для перенаправления, только на его цель. В приведённом ниже примере добавление хуков `beforeEnter` или `beforeLeave` на маршрут `/a` не будет иметь никакого эффекта.
+Обратите внимание, что [навигационные хуки](../advanced/navigation-guards.md) не применяются на маршруте, который служит для перенаправления, только на его цель. В приведённом ниже примере добавление хуков `beforeEnter` на маршрут `/a` не будет иметь никакого эффекта.
 
 Для демонстрации более сложных возможностей, обратите внимание на [этот пример](https://github.com/vuejs/vue-router/blob/dev/examples/redirect/app.js).
 
@@ -47,7 +47,7 @@ const router = new VueRouter({
 
 В виде конфигурации маршрутизатора вышесказанное может быть выражено так:
 
-``` js
+```js
 const router = new VueRouter({
   routes: [
     { path: '/a', component: A, alias: '/b' }

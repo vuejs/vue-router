@@ -2,7 +2,7 @@
 
 Вы можете добавить поле `meta` при определении маршрута:
 
-``` js
+```js
 const router = new VueRouter({
   routes: [
     {
@@ -31,7 +31,7 @@ const router = new VueRouter({
 
 В качестве примера можно привести проверку метаданных в глобальном навигационном хуке:
 
-``` js
+```js
 router.beforeEach((to, from, next) => {
   if (to.matched.some(record => record.meta.requiresAuth)) {
     // этот путь требует авторизации, проверяем залогинен ли

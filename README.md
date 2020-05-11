@@ -1,6 +1,6 @@
 # vue-router [![Build Status](https://img.shields.io/circleci/project/github/vuejs/vue-router/dev.svg)](https://circleci.com/gh/vuejs/vue-router)
 
-> This is vue-router 2.0 which works only with Vue 2.0. For the 1.x router see the [1.0 branch](https://github.com/vuejs/vue-router/tree/1.0).
+> This is vue-router 3.0 which works only with Vue 2.0. For the 1.x router see the [1.0 branch](https://github.com/vuejs/vue-router/tree/1.0).
 
 ### Introduction
 
@@ -15,7 +15,7 @@
 - HTML5 history mode or hash mode, with auto-fallback in IE9
 - Customizable Scroll Behavior
 
-Get started with the [documentation](http://vuejs.github.io/vue-router), or play with the [examples](https://github.com/vuejs/vue-router/tree/dev/examples) (see how to run them below).
+Get started with the [documentation](http://router.vuejs.org), or play with the [examples](https://github.com/vuejs/vue-router/tree/dev/examples) (see how to run them below).
 
 ### Development Setup
 
@@ -35,6 +35,17 @@ npm test
 # serve docs at localhost:8080
 npm run docs
 ```
+
+## Releasing
+
+- `yarn run release`
+  - Ensure tests are passing `yarn run test`
+  - Build dist files `VERSION=<the_version> yarn run build`
+  - Build changelog `yarn run changelog`
+  - Commit dist files `git add dist CHANGELOG.md && git commit -m "[build $VERSION]"`
+  - Publish a new version `npm version $VERSION --message "[release] $VERSION"
+  - Push tags `git push origin refs/tags/v$VERSION && git push`
+  - Publish to npm `npm publish`
 
 ## Questions
 
@@ -62,4 +73,10 @@ Details changes for each release are documented in the [release notes](https://g
 
 Copyright (c) 2013-present Evan You
 
+## Special Thanks
 
+<a href="https://www.browserstack.com">
+  <img src="/assets/browserstack-logo-600x315.png" height="80" title="BrowserStack Logo" alt="BrowserStack Logo" />
+</a>
+
+Special thanks to [BrowserStack](https://www.browserstack.com) for letting the maintainers use their service to debug browser specific issues.

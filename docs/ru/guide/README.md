@@ -1,7 +1,5 @@
 # Начало работы
 
-<Bit/>
-
 ::: tip Примечание
 Мы будем использовать синтаксис [ES2015](https://github.com/lukehoban/es6features) в примерах кода в этом руководстве.
 
@@ -12,7 +10,7 @@
 
 ## HTML
 
-``` html
+```html
 <script src="https://unpkg.com/vue/dist/vue.js"></script>
 <script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
 
@@ -32,7 +30,7 @@
 
 ## JavaScript
 
-``` js
+```js
 // 0. Если используем модульную систему (например через vue-cli),
 // импортируем Vue и VueRouter и затем вызываем `Vue.use(VueRouter)`.
 
@@ -73,16 +71,14 @@ const app = new Vue({
 // Home.vue
 export default {
   computed: {
-    username () {
+    username() {
       // Мы скоро разберём что такое `params`
       return this.$route.params.username
     }
   },
   methods: {
-    goBack () {
-      window.history.length > 1
-        ? this.$router.go(-1)
-        : this.$router.push('/')
+    goBack() {
+      window.history.length > 1 ? this.$router.go(-1) : this.$router.push('/')
     }
   }
 }

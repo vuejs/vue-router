@@ -32,7 +32,7 @@ Mehrere dynamische Segmente in der gleichen Route sind möglich und werden den e
 | Muster | passender Pfad | $route.params |
 |---------|------|--------|
 | /user/:username | /user/evan | `{ username: 'evan' }` |
-| /user/:username/post/:post_id | /user/evan/post/123 | `{ username: 'evan', post_id: 123 }` |
+| /user/:username/post/:post_id | /user/evan/post/123 | `{ username: 'evan', post_id: '123' }` |
 
 Neben `$route.params` bietet das `$route`-Objekt Zugriff auf weitere nützliche Informationen wie `$route.query` (sofern eine Query in der URL vorhanden ist). Du findest alle Details dazu in der [API Referenz](../api/route-object.md).
 

@@ -6,7 +6,7 @@
 
 **Вместо жёсткой связи с `$route`**
 
-``` js
+```js
 const User = {
   template: '<div>Пользователь {{ $route.params.id }}</div>'
 }
@@ -19,7 +19,7 @@ const router = new VueRouter({
 
 **Разделяем с помощью входных параметров**
 
-``` js
+```js
 const User = {
   props: ['id'],
   template: '<div>Пользователь {{ id }}</div>'
@@ -49,7 +49,7 @@ const router = new VueRouter({
 
 Когда `props` объект, они будут устанавливаться входными параметрами компонента как есть. Полезно, когда входные параметры являются статическими данными.
 
-``` js
+```js
 const router = new VueRouter({
   routes: [
     { path: '/promotion/from-newsletter', component: Promotion, props: { newsletterPopup: false } }
@@ -61,7 +61,7 @@ const router = new VueRouter({
 
 Вы можете создать функцию, которая вернёт объект с входными параметрами. Это позволяет вам приводить параметры к другим типам, комбинировать статические значения с значениями из маршрута, и т.д.
 
-``` js
+```js
 const router = new VueRouter({
   routes: [
     { path: '/search', component: SearchUser, props: (route) => ({ query: route.query.q }) }

@@ -14,10 +14,10 @@
 
 Предположим, у нас есть компонент `Post`, которому требуется загрузить с сервера данные, соответствующие id поста из `$route.params.id`:
 
-``` html
+```html
 <template>
   <div class="post">
-    <div class="loading" v-if="loading">
+    <div v-if="loading" class="loading">
       Загрузка...
     </div>
 
@@ -33,26 +33,26 @@
 </template>
 ```
 
-``` js
+```js
 export default {
-  data () {
+  data() {
     return {
       loading: false,
       post: null,
       error: null
     }
   },
-  created () {
+  created() {
     // загружаем данные, когда представление создано
     // и данные реактивно отслеживаются
     this.fetchData()
   },
   watch: {
     // при изменениях маршрута запрашиваем данные снова
-    '$route': 'fetchData'
+    $route: 'fetchData'
   },
   methods: {
-    fetchData () {
+    fetchData() {
       this.error = this.post = null
       this.loading = true
       // замените `getPost` используемым методом получения данных / доступа к API
@@ -73,7 +73,7 @@ export default {
 
 Используя этот подход, мы запрашиваем данные до завершения перехода к новому маршруту. Запрос данных выполняется в навигационном хуке `beforeRouteEnter` компонента, который вызывает `next`, когда данные получены:
 
-``` js
+```js
 export default {
   data () {
     return {

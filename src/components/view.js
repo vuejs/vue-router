@@ -26,10 +26,11 @@ export default {
     let depth = 0
     let inactive = false
     while (parent && parent._routerRoot !== parent) {
-      if (parent.$vnode && parent.$vnode.data.routerView) {
+      const vnodeData = parent.$vnode ? parent.$vnode.data : {}
+      if (vnodeData.routerView) {
         depth++
       }
-      if (parent._inactive) {
+      if (vnodeData.keepAlive && parent._directInactive && parent._inactive) {
         inactive = true
       }
       parent = parent.$parent
@@ -38,17 +39,32 @@ export default {
 
     // render previous view if the tree is inactive and kept-alive
     if (inactive) {
-      return h(cache[name], data, children)
+      const cachedData = cache[name]
+      const cachedComponent = cachedData && cachedData.component
+      if (cachedComponent) {
+        // #2301
+        // pass props
+        if (cachedData.configProps) {
+          fillPropsinData(cachedComponent, data, cachedData.route, cachedData.configProps)
+        }
+        return h(cachedComponent, data, children)
+      } else {
+        // render previous empty view
+        return h()
+      }
     }
 
     const matched = route.matched[depth]
-    // render empty node if no matched route
-    if (!matched) {
+    const component = matched && matched.components[name]
+
+    // render empty node if no matched route or no config component
+    if (!matched || !component) {
       cache[name] = null
       return h()
     }
 
-    const component = cache[name] = matched.components[name]
+    // cache component
+    cache[name] = { component }
 
     // attach instance registration hook
     // this will be called in the instance's injected lifecycle hooks
@@ -69,22 +85,45 @@ export default {
       matched.instances[name] = vnode.componentInstance
     }
 
-    // resolve props
-    let propsToPass = data.props = resolveProps(route, matched.props && matched.props[name])
-    if (propsToPass) {
-      // clone to prevent mutation
-      propsToPass = data.props = extend({}, propsToPass)
-      // pass non-declared props as attrs
-      const attrs = data.attrs = data.attrs || {}
-      for (const key in propsToPass) {
-        if (!component.props || !(key in component.props)) {
-          attrs[key] = propsToPass[key]
-          delete propsToPass[key]
-        }
+    // register instance in init hook
+    // in case kept-alive component be actived when routes changed
+    data.hook.init = (vnode) => {
+      if (vnode.data.keepAlive &&
+        vnode.componentInstance &&
+        vnode.componentInstance !== matched.instances[name]
+      ) {
+        matched.instances[name] = vnode.componentInstance
       }
     }
 
+    const configProps = matched.props && matched.props[name]
+    // save route and configProps in cachce
+    if (configProps) {
+      extend(cache[name], {
+        route,
+        configProps
+      })
+      fillPropsinData(component, data, route, configProps)
+    }
+
     return h(component, data, children)
+  }
+}
+
+function fillPropsinData (component, data, route, configProps) {
+  // resolve props
+  let propsToPass = data.props = resolveProps(route, configProps)
+  if (propsToPass) {
+    // clone to prevent mutation
+    propsToPass = data.props = extend({}, propsToPass)
+    // pass non-declared props as attrs
+    const attrs = data.attrs = data.attrs || {}
+    for (const key in propsToPass) {
+      if (!component.props || !(key in component.props)) {
+        attrs[key] = propsToPass[key]
+        delete propsToPass[key]
+      }
+    }
   }
 }
 

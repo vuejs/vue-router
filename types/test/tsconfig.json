@@ -5,15 +5,7 @@
     "moduleResolution": "node",
     "strict": true,
     "noEmit": true,
-    "lib": [
-      "es5",
-      "dom",
-      "es2015.promise",
-      "es2015.core"
-    ]
+    "lib": ["es5", "dom", "es2015.promise", "es2015.iterable", "es2015.core"]
   },
-  "include": [
-    "*.ts",
-    "../*.d.ts"
-  ]
+  "include": ["*.ts", "../*.d.ts"]
 }

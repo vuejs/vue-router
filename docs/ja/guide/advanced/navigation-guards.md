@@ -4,7 +4,7 @@
 
 **パラメータまたはクエリの変更は enter/leave ナビゲーションガードをトリガーしない** ということを覚えておいてください。それらの変更に対応するために [`$route` オブジェクトを監視する](../essentials/dynamic-matching.md#reacting-to-params-changes)、またはコンポーネント内ガード `beforeRouteUpdate` を使用するかの、どちらかができます。
 
-## グローバルガード
+## グローバルビフォーガード
 
 `router.beforeEach` を使ってグローバル before ガードを登録できます。
 
@@ -128,7 +128,7 @@ beforeRouteUpdate (to, from, next) {
 **leave ガード**は、通常、ユーザが保存されていない編集内容で誤って経路を離れるのを防ぐために使用されます。ナビゲーションは `next(false)` を呼び出すことで取り消すことができます。
 
 ```js
-beforeRouteLeave (to, from , next) {
+beforeRouteLeave (to, from, next) {
   const answer = window.confirm('Do you really want to leave? you have unsaved changes!')
   if (answer) {
     next()

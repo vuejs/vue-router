@@ -1,7 +1,5 @@
 # 起步
 
-<Bit/>
-
 ::: tip 注意
 教程中的案例代码将使用 [ES2015](https://github.com/lukehoban/es6features) 来编写。
 
@@ -12,7 +10,7 @@
 
 ## HTML
 
-``` html
+```html
 <script src="https://unpkg.com/vue/dist/vue.js"></script>
 <script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
 
@@ -33,7 +31,7 @@
 
 ## JavaScript
 
-``` js
+```js
 // 0. 如果使用模块化机制编程，导入Vue和VueRouter，要调用 Vue.use(VueRouter)
 
 // 1. 定义 (路由) 组件。
@@ -73,16 +71,14 @@ const app = new Vue({
 // Home.vue
 export default {
   computed: {
-    username () {
+    username() {
       // 我们很快就会看到 `params` 是什么
       return this.$route.params.username
     }
   },
   methods: {
-    goBack () {
-      window.history.length > 1
-        ? this.$router.go(-1)
-        : this.$router.push('/')
+    goBack() {
+      window.history.length > 1 ? this.$router.go(-1) : this.$router.push('/')
     }
   }
 }
@@ -92,4 +88,4 @@ export default {
 
 你可以看看这个[在线的](https://jsfiddle.net/yyx990803/xgrjzsup/)例子。
 
-要注意，当 `<router-link>` 对应的路由匹配成功，将自动设置 class 属性值  `.router-link-active`。查看 [API 文档](../api/#router-link) 学习更多相关内容。
+要注意，当 `<router-link>` 对应的路由匹配成功，将自动设置 class 属性值 `.router-link-active`。查看 [API 文档](../api/#router-link) 学习更多相关内容。

@@ -32,7 +32,7 @@ const User = {
 | パターン | マッチしたパス | $route.params |
 |---------|------|--------|
 | /user/:username | /user/evan | `{ username: 'evan' }` |
-| /user/:username/post/:post_id | /user/evan/post/123 | `{ username: 'evan', post_id: 123 }` |
+| /user/:username/post/:post_id | /user/evan/post/123 | `{ username: 'evan', post_id: '123' }` |
 
 `$route.params` に加えて、`$route` オブジェクトでは `$route.query` (もし URL 上にクエリがあるなら) や `$route.hash` など便利な情報も利用可能です。それらの詳細については [API リファレンス](../../api/#the-route-object) でご確認ください。
 
@@ -46,7 +46,7 @@ const User = {
 const User = {
   template: '...',
   watch: {
-    '$route' (to, from) {
+    $route (to, from) {
       // ルートの変更の検知...
     }
   }
@@ -65,9 +65,38 @@ const User = {
 }
 ```
 
+## すべてキャッチするルート / 404 Not found ルート
+
+通常のパラメータは、`/` で区切られた url フラグメントの間にある文字だけにマッチします。**何でも**一致させたい場合は、アスタリスク(`*`)を使うことができます:
+
+```js
+{
+  // 全てにマッチします
+  path: '*'
+}
+{
+  // `/user-`から始まる任意のものにマッチします
+  path: '/user-*'
+}
+```
+
+_アスタリスク_ ルートを使用するときは、_アスタリスク_ ルートが最後になるようにルートを正しく順序付けてください。
+`{ path: '*' }` ルートは、通常クライアントサイドの404ページで使われます。_History モード_ を使用する場合は、[正しいサーバの設定](./history-mode.md)も同様にしっかりしてください。
+
+_アスタリスク_ を使用するときは、 `pathMatch` と名付けられたパラメータは、自動的に `$route.params` に追加されます。_アスタリスク_ によってマッチされた url の残りを含みます:
+
+```js
+// { path: '/user-*' } というルートが与えられた
+this.$router.push('/user-admin')
+this.$route.params.pathMatch // 'admin'
+// { path: '*' } というルートが与えられた
+this.$router.push('/non-existing')
+this.$route.params.pathMatch // '/non-existing'
+```
+
 ## 高度なマッチングパターン
 
-`vue-router` はパスのマッチングエンジンとして [path-to-regexp](https://github.com/pillarjs/path-to-regexp) を使っています。これは Optional による動的なセグメント、Zero or more / One or more に対する要求、また、カスタム正規表現パターンまでもサポートしています。 これらの高度なパターンについてはこちらの [ドキュメンテーション](https://github.com/pillarjs/path-to-regexp#parameters) または、 `vue-router` の中でそれらを使っている [こちらの例](https://github.com/vuejs/vue-router/blob/dev/examples/route-matching/app.js) をご参照ください。
+`vue-router` はパスのマッチングエンジンとして [path-to-regexp](https://github.com/pillarjs/path-to-regexp/tree/v1.7.0) を使っています。これは Optional による動的なセグメント、Zero or more / One or more に対する要求、また、カスタム正規表現パターンまでもサポートしています。 これらの高度なパターンについてはこちらの [ドキュメンテーション](https://github.com/pillarjs/path-to-regexp/tree/v1.7.0#parameters) または、 `vue-router` の中でそれらを使っている [こちらの例](https://github.com/vuejs/vue-router/blob/dev/examples/route-matching/app.js) をご参照ください。
 
 ## マッチングの優先度
 

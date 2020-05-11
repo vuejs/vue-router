@@ -10,7 +10,7 @@ Vue.use(VueRouter)
 const Home = { template: '<div>home</div>' }
 const Foo = { template: '<div>foo</div>' }
 const Bar = { template: '<div>bar</div>' }
-const Unicode = { template: '<div>unicode</div>' }
+const Unicode = { template: '<div>unicode: {{ $route.params.unicode }}</div>' }
 
 // 3. Create the router
 const router = new VueRouter({
@@ -20,7 +20,8 @@ const router = new VueRouter({
     { path: '/', component: Home }, // all paths are defined without the hash.
     { path: '/foo', component: Foo },
     { path: '/bar', component: Bar },
-    { path: '/é', component: Unicode }
+    { path: '/é', component: Unicode },
+    { path: '/é/:unicode', component: Unicode }
   ]
 })
 
@@ -31,14 +32,19 @@ new Vue({
   router,
   template: `
     <div id="app">
-      <h1>Basic</h1>
+      <h1>Mode: 'hash'</h1>
       <ul>
         <li><router-link to="/">/</router-link></li>
         <li><router-link to="/foo">/foo</router-link></li>
         <li><router-link to="/bar">/bar</router-link></li>
         <router-link tag="li" to="/bar">/bar</router-link>
         <li><router-link to="/é">/é</router-link></li>
+        <li><router-link to="/é/ñ">/é/ñ</router-link></li>
+        <li><router-link to="/é/ñ?t=%25ñ">/é/ñ?t=%ñ</router-link></li>
+        <li><router-link to="/é/ñ#é">/é/ñ#é</router-link></li>
       </ul>
+      <pre id="query-t">{{ $route.query.t }}</pre>
+      <pre id="hash">{{ $route.hash }}</pre>
       <router-view class="view"></router-view>
     </div>
   `

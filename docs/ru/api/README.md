@@ -4,8 +4,6 @@ sidebar: auto
 
 # Справочник API
 
-<Bit/>
-
 ## `<router-link>`
 
 `<router-link>` — это компонент предназначенный для навигации пользователя в приложении с клиентской маршрутизацией. Путь назначения указывается входным параметром `to`. По умолчанию компонент рендерится в тег `<a>` с корректным значением `href`, но это можно изменить входным параметром `tag`. Кроме того, ссылка автоматически получает активный класс CSS при переходе на путь назначения.
@@ -13,22 +11,52 @@ sidebar: auto
 `<router-link>` предпочтительнее `<a href="...">` по следующим причинам:
 
 - Он работает одинаково вне зависимости от режима работы (HTML5 history или хэш), поэтому если вы решите переключить режим, или маршрутизатор для совместимости переключится обратно в режим хэша в IE9, ничего не потребуется изменять.
-
 - В режиме HTML5 history, `router-link` будет перехватывать событие click, чтобы браузер не пытался перезагрузить страницу.
-
 - При использовании опции `base` в режиме работы HTML5 history, вам не потребуется добавлять её в URL входного параметра `to`.
 
-### Применение активного класса к внешнему элементу
+### `v-slot` API (3.1.0+)
 
-Иногда может потребоваться применять активный класс к внешнему элементу, а не к тегу `<a>`, в этом случае можно отобразить внешний элемент с помощью `<router-link>` и обернуть содержимое тегом `<a>` внутри:
+`router-link` предоставляет возможность более низкоуровневой настройки с помощью [слота с ограниченной областью видимости](https://ru.vuejs.org/v2/guide/components-slots.html#%D0%A1%D0%BB%D0%BE%D1%82%D1%8B-%D1%81-%D0%BE%D0%B3%D1%80%D0%B0%D0%BD%D0%B8%D1%87%D0%B5%D0%BD%D0%BD%D0%BE%D0%B9-%D0%BE%D0%B1%D0%BB%D0%B0%D1%81%D1%82%D1%8C%D1%8E-%D0%B2%D0%B8%D0%B4%D0%B8%D0%BC%D0%BE%D1%81%D1%82%D0%B8). Это более продвинутое API ориентировано в первую очередь на создателей библиотек, но может пригодиться и разработчикам, к примеру для создании пользовательских компонентов таких как _NavLink_ или подобных.
 
-``` html
-<router-link tag="li" to="/foo">
-  <a>/foo</a>
+**При использовании API `v-slot` необходимо передавать один дочерний элемент в `router-link`**. Если этого не сделать, `router-link` обернёт все дочерние элементы в `span`.
+
+```html
+<router-link
+  to="/about"
+  v-slot="{ href, route, navigate, isActive, isExactActive }"
+>
+  <NavLink :active="isActive" :href="href" @click="navigate">
+    {{ route.fullPath }}
+  </NavLink>
 </router-link>
 ```
 
-В этом случае `<a>` будет фактической ссылкой (и получит правильный `href`), но активный класс будет применён к внешнему `<li>`.
+- `href`: разрешённый URL. Это будет атрибутом `href` для элемента `a`
+- `route`: разрешённый нормализованный маршрут
+- `navigate`: функция для запуска навигации. **Она автоматически предотвращает события, когда это необходимо**, аналогичным способом, как это делает `router-link`
+- `isActive`: `true` если [активный класс](#active-class) должен применяться. Позволяет применить произвольный класс
+- `isExactActive`: `true` если [активный класс при точном совпадении пути](#exact-active-class) должен применяться. Позволяет применить произвольный класс
+
+### Пример: Добавление активного класса к внешнему элементу
+
+Иногда может потребоваться применять активный класс к внешнему элементу, а не к тегу `<a>`, в этом случае можно обернуть этот элемент в `<router-link>` и использовать свойства `v-slot` для создания ссылки:
+
+```html
+<router-link
+  to="/foo"
+  v-slot="{ href, route, navigate, isActive, isExactActive }"
+>
+  <li
+    :class="[isActive && 'router-link-active', isExactActive && 'router-link-exact-active']"
+  >
+    <a :href="href" @click="navigate">{{ route.fullPath }}</a>
+  </li>
+</router-link>
+```
+
+:::tip ПРИМЕЧАНИЕ
+При добавлении `target="_blank"` на элемент `a`, необходимо опустить обработчик `@click="navigate"`.
+:::
 
 ## Входные параметры `<router-link>`
 
@@ -39,7 +67,7 @@ sidebar: auto
 
   Определяет итоговый маршрут ссылки. При нажатии, значение входного параметра `to` будет передано в `router.push()` — поэтому это значение может быть как строкой, так и объектом описывающим маршрут.
 
-  ``` html
+  ```html
   <!-- строка -->
   <router-link to="home">Home</router-link>
   <!-- отобразится в -->
@@ -58,7 +86,9 @@ sidebar: auto
   <router-link :to="{ name: 'user', params: { userId: 123 }}">User</router-link>
 
   <!-- с использованием query-строки, получим `/register?plan=private` -->
-  <router-link :to="{ path: 'register', query: { plan: 'private' }}">Register</router-link>
+  <router-link :to="{ path: 'register', query: { plan: 'private' }}">
+    Регистрация
+  </router-link>
   ```
 
 ### replace
@@ -68,7 +98,7 @@ sidebar: auto
 
   Указание входного параметра `replace` вызовет `router.replace()` вместо `router.push()` при нажатии на ссылку, поэтому навигация не оставит записи в истории переходов.
 
-  ``` html
+  ```html
   <router-link :to="{ path: '/abc'}" replace></router-link>
   ```
 
@@ -79,7 +109,7 @@ sidebar: auto
 
   Указание входного параметра `append` будет добавлять относительный путь к текущему. Например, если мы переходим от `/a` к относительной ссылке `b`, то без `append` будет адрес `/b`, а вместе с `append` получится `/a/b`.
 
-  ``` html
+  ```html
   <router-link :to="{ path: 'relative/path'}" append></router-link>
   ```
 
@@ -90,7 +120,7 @@ sidebar: auto
 
   Иногда необходимо чтобы `<router-link>` отображался другим тегом, например `<li>`. В таком случае мы можем использовать входной параметр `tag`, чтобы указать нужный тег, и он всё равно будет прослушивать события click для навигации.
 
-  ``` html
+  ```html
   <router-link to="/foo" tag="li">foo</router-link>
   <!-- отобразится как -->
   <li>foo</li>
@@ -112,9 +142,9 @@ sidebar: auto
 
   Обратите внимание, поэтому `<router-link to="/">` будет активным для каждого маршрута! Для «режима точного соответствия» укажите в ссылке входной параметр `exact`:
 
-  ``` html
+  ```html
   <!-- эта ссылка будет активной только для адреса `/` -->
-  <router-link to="/" exact>
+  <router-link to="/" exact></router-link>
   ```
 
   Ознакомьтесь с другими примерами активных классов ссылок [вживую](https://jsfiddle.net/8xrk1n9f/).
@@ -133,15 +163,22 @@ sidebar: auto
 
   Указание активного CSS класса, который применяется когда ссылка активна с точным соответствием пути. Обратите внимание, что значение по умолчанию можно задать глобально в опции `linkExactActiveClass` конструктора маршрутизатора.
 
+### aria-current-value
+
+- тип: `'page' | 'step' | 'location' | 'date' | 'time'`
+- по умолчанию: `"page"`
+
+  Настройка значения `aria-current` когда ссылка активна по точному (exact) совпадению. Это должно быть одно из [разрешённых значений для aria-current](https://www.w3.org/TR/wai-aria-1.2/#aria-current) спецификации ARIA. В большинстве случаев наиболее подходящим значением будет `page`.
+
 ## `<router-view>`
 
-Функциональный компонент `<router-view>` отображает компонент соответствующий данному маршруту. Компоненты внутри `<router-view>` также могут содержать в шаблоне собственный `<router-view>` (он  будет использован для отображения компонентов вложенных маршрутов).
+Функциональный компонент `<router-view>` отображает компонент соответствующий данному маршруту. Компоненты внутри `<router-view>` также могут содержать в шаблоне собственный `<router-view>` (он будет использован для отображения компонентов вложенных маршрутов).
 
 Все остальные входные параметры передаются в отображаемый компонент, однако данные маршрута удобнее получать из `$route.params` текущего маршрута.
 
 Поскольку это всего лишь компонент, он работает вместе с `<transition>` и `<keep-alive>`. При одновременном использовании обоих обязательно располагайте `<keep-alive>` внутри:
 
-``` html
+```html
 <transition>
   <keep-alive>
     <router-view></router-view>
@@ -166,22 +203,22 @@ sidebar: auto
 
   Декларация типа для `RouteConfig`:
 
-  ``` js
-  declare type RouteConfig = {
-    path: string;
-    component?: Component;
-    name?: string; // для именованных маршрутов
-    components?: { [name: string]: Component }; // для именованных представлений
-    redirect?: string | Location | Function;
-    props?: boolean | Object | Function;
-    alias?: string | Array<string>;
-    children?: Array<RouteConfig>; // для вложенных маршрутов
-    beforeEnter?: (to: Route, from: Route, next: Function) => void;
-    meta?: any;
+  ```ts
+  interface RouteConfig = {
+    path: string,
+    component?: Component,
+    name?: string, // для именованных маршрутов
+    components?: { [name: string]: Component }, // для именованных представлений
+    redirect?: string | Location | Function,
+    props?: boolean | Object | Function,
+    alias?: string | Array<string>,
+    children?: Array<RouteConfig>, // для вложенных маршрутов
+    beforeEnter?: (to: Route, from: Route, next: Function) => void,
+    meta?: any,
 
     // Добавлено в версии 2.6.0+
-    caseSensitive?: boolean; // учитывать регистр при сравнении? (по умолчанию: false)
-    pathToRegexpOptions?: Object; // настройки path-to-regexp для компиляции regex
+    caseSensitive?: boolean, // учитывать регистр при сравнении? (по умолчанию: false)
+    pathToRegexpOptions?: Object // настройки path-to-regexp для компиляции regex
   }
   ```
 
@@ -285,12 +322,14 @@ sidebar: auto
 ## Методы экземпляра Router
 
 ### router.beforeEach
+
 ### router.beforeResolve
+
 ### router.afterEach
 
 Сигнатуры:
 
-``` js
+```js
 router.beforeEach((to, from, next) => {
   /* необходимо вызывать `next` */
 })
@@ -307,16 +346,22 @@ router.afterEach((to, from) => {})
 Все три метода возвращают функцию для удаления зарегистрированного хука.
 
 ### router.push
+
 ### router.replace
+
 ### router.go
+
 ### router.back
+
 ### router.forward
 
 Сигнатуры:
 
-``` js
+```js
 router.push(location, onComplete?, onAbort?)
+router.push(location).then(onComplete).catch(onAbort)
 router.replace(location, onComplete?, onAbort?)
+router.replace(location).then(onComplete).catch(onAbort)
 router.go(n)
 router.back()
 router.forward()
@@ -328,7 +373,7 @@ router.forward()
 
 Сигнатура:
 
-``` js
+```js
 const matchedComponents: Array<Component> = router.getMatchedComponents(location?)
 ```
 
@@ -338,7 +383,7 @@ const matchedComponents: Array<Component> = router.getMatchedComponents(location
 
 Сигнатура:
 
-``` js
+```js
 const resolved: {
   location: Location;
   route: Route;
@@ -355,7 +400,7 @@ const resolved: {
 
 Сигнатура:
 
-``` js
+```js
 router.addRoutes(routes: Array<RouteConfig>)
 ```
 
@@ -365,7 +410,7 @@ router.addRoutes(routes: Array<RouteConfig>)
 
 Сигнатура:
 
-``` js
+```js
 router.onReady(callback, [errorCallback])
 ```
 
@@ -379,7 +424,7 @@ router.onReady(callback, [errorCallback])
 
 Сигнатура:
 
-``` js
+```js
 router.onError(callback)
 ```
 
@@ -407,7 +452,7 @@ router.onError(callback)
 
 - В качестве двух первых параметров навигационных хуков:
 
-  ``` js
+  ```js
   router.beforeEach((to, from, next) => {
     // как `to` так и `from` являются объектами маршрута
   })
@@ -415,9 +460,9 @@ router.onError(callback)
 
 - В качестве двух первых параметров функции `scrollBehavior`:
 
-  ``` js
+  ```js
   const router = new VueRouter({
-    scrollBehavior (to, from, savedPosition) {
+    scrollBehavior(to, from, savedPosition) {
       // как `to` так и `from` являются объектами маршрута
     }
   })
@@ -425,47 +470,49 @@ router.onError(callback)
 
 ### Свойства объекта Route
 
-- **$route.path**
+- **\$route.path**
 
   - тип: `string`
 
     Строка пути текущего маршрута, всегда в абсолютном формате, например `"/foo/bar"`.
 
-- **$route.params**
+- **\$route.params**
 
   - тип: `Object`
 
-    Объект, который содержит пары ключ/значение динамических сегментов маршрута (включая *-сегменты). Если параметров нет, то значением будет пустой объект.
+    Объект, который содержит пары ключ/значение динамических сегментов маршрута (включая \*-сегменты). Если параметров нет, то значением будет пустой объект.
 
-- **$route.query**
+- **\$route.query**
 
   - тип: `Object`
 
     Объект, который содержит пары ключ/значение строки запроса (query string). Например, для пути `/foo?user=1` получим `$route.query.user == 1`. Если строки запроса нет, то значением будет пустой объект.
 
-- **$route.hash**
+- **\$route.hash**
 
   - тип: `string`
 
     Хэш текущего маршрута (вместе с символом `#`) при его наличии. Если хэша нет, то значением будет пустая строка.
 
-- **$route.fullPath**
+- **\$route.fullPath**
 
   - тип: `string`
 
     Полная запись URL-адреса, включая строку запроса и хэш.
 
-- **$route.matched**
+- **\$route.matched**
 
   - тип: `Array<RouteRecord>`
 
   Массив с **записями маршрутов** для всех вложенных сегментов текущего маршрута. Записи маршрутов — это копии объектов из опции `routes` (и вложенных массивов `children`):
 
-  ``` js
+  ```js
   const router = new VueRouter({
     routes: [
       // объект ниже — это запись маршрута
-      { path: '/foo', component: Foo,
+      {
+        path: '/foo',
+        component: Foo,
         children: [
           // это — тоже запись маршрута
           { path: 'bar', component: Bar }
@@ -477,11 +524,11 @@ router.onError(callback)
 
 Для URL `/foo/bar`, значение `$route.matched` будет массивом, содержащим копии объектов (клоны), в порядке сортировки от родителя к потомку.
 
-- **$route.name**
+- **\$route.name**
 
   Имя текущего маршрута, если было указано. (Подробнее в разделе [именованные маршруты](../guide/essentials/named-routes.md))
 
-- **$route.redirectedFrom**
+- **\$route.redirectedFrom**
 
   Имя маршрута с которого произошло перенаправление, если было указано. (Подробнее в разделе [перенаправления и псевдонимы](../guide/essentials/redirect-and-alias.md))
 
@@ -491,11 +538,11 @@ router.onError(callback)
 
 Эти свойства внедряются в каждый дочерний компонент, передавая экземпляр маршрутизатора в корневой экземпляр в качестве опции `router`.
 
-- **this.$router**
+- **this.\$router**
 
   Экземпляр маршрутизатора.
 
-- **this.$route**
+- **this.\$route**
 
   Текущий активный [маршрут](#объект-route). Это свойство только для чтения и все его свойства иммутабельны, но можно отслеживать их изменения.
 
