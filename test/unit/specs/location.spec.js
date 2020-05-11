@@ -79,13 +79,13 @@ describe('Location utils', () => {
     })
 
     it('relative params (non-named)', () => {
-      const loc = normalizeLocation({ params: { lang: 'fr' }}, {
+      const loc = normalizeLocation({ params: { lang: 'FR' }}, {
         path: '/en/foo',
         params: { lang: 'en', id: 'foo' },
-        matched: [{ path: '/:lang/:id' }]
+        matched: [{ path: '/:lang(en|fr)/:id' }]
       })
       expect(loc._normalized).toBe(true)
-      expect(loc.path).toBe('/fr/foo')
+      expect(loc.path).toBe('/FR/foo')
     })
 
     it('relative append', () => {
