@@ -14,4 +14,4 @@ export {
   Route,
   NavigationGuard,
   NavigationGuardNext
-} from "./router";
+} from './router'
