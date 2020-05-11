@@ -12,5 +12,6 @@ export {
   RouteRecord,
   Location,
   Route,
-  NavigationGuard
-} from './router'
+  NavigationGuard,
+  NavigationGuardNext
+} from "./router";
