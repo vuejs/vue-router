@@ -7,11 +7,11 @@ type ErrorHandler = (err: Error) => void;
 export type RouterMode = "hash" | "history" | "abstract";
 export type RawLocation = string | Location;
 export type RedirectOption = RawLocation | ((to: Route) => RawLocation);
-export type Next<V extends Vue = Vue> = (to?: RawLocation | false | ((vm: V) => any) | void) => void;
+export type NavigationGuardNext<V extends Vue = Vue> = (to?: RawLocation | false | ((vm: V) => any) | void) => void;
 export type NavigationGuard<V extends Vue = Vue> = (
   to: Route,
   from: Route,
-  next: Next<V>
+  next: NavigationGuardNext<V>
 ) => any
 
 export declare class VueRouter {

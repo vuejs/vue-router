@@ -13,5 +13,5 @@ export {
   Location,
   Route,
   NavigationGuard,
-  Next
+  NavigationGuardNext
 } from "./router";
