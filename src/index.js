@@ -116,10 +116,12 @@ export default class VueRouter {
 
     const history = this.history
 
-    const setupListeners = () => {
-      history.setupListeners()
+    if (history instanceof HTML5History || history instanceof HashHistory) {
+      const setupListeners = () => {
+        history.setupListeners()
+      }
+      history.transitionTo(history.getCurrentLocation(), setupListeners, setupListeners)
     }
-    history.transitionTo(history.getCurrentLocation(), setupListeners, setupListeners)
 
     history.listen(route => {
       this.apps.forEach((app) => {
