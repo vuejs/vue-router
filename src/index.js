@@ -8,6 +8,7 @@ import { cleanPath } from './util/path'
 import { createMatcher } from './create-matcher'
 import { normalizeLocation } from './util/location'
 import { supportsPushState } from './util/push-state'
+import { handleScroll } from './util/scroll'
 
 import { HashHistory } from './history/hash'
 import { HTML5History } from './history/html5'
@@ -111,15 +112,30 @@ export default class VueRouter {
     const history = this.history
 
     if (history instanceof HTML5History) {
-      history.transitionTo(history.getCurrentLocation())
+      history.transitionTo(history.getCurrentLocation(), route => {
+        const expectScroll = this.options.scrollBehavior
+        const supportsScroll = supportsPushState && expectScroll
+
+        if (supportsScroll) {
+          handleScroll(this, route, route, false)
+        }
+      })
     } else if (history instanceof HashHistory) {
-      const setupHashListener = () => {
-        history.setupListeners()
-      }
       history.transitionTo(
         history.getCurrentLocation(),
-        setupHashListener,
-        setupHashListener
+        route => {
+          const expectScroll = this.options.scrollBehavior
+          const supportsScroll = supportsPushState && expectScroll
+          
+          history.setupListeners()
+          
+          if (supportsScroll) {
+            handleScroll(this, route, route, false)
+          }
+        },
+        () => {
+          history.setupListeners()
+        }
       )
     }
 
