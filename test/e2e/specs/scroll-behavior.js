@@ -127,6 +127,44 @@ module.exports = {
         null,
         'scroll to anchor that starts with number'
       )
+
+      .url('http://localhost:8080/scroll-behavior/bar#anchor')
+      .execute(function () {
+        location.reload(true)
+      })
+      .waitForElementVisible('#app', 1000)
+      .assert.evaluate(
+        function () {
+          return document.getElementById('anchor').getBoundingClientRect().top < 1
+        },
+        null,
+        'scroll to anchor on load'
+      )
+      .url('http://localhost:8080/scroll-behavior/bar#anchor2')
+      .execute(function () {
+        location.reload(true)
+      })
+      .waitForElementVisible('#app', 1000)
+      .assert.evaluate(
+        function () {
+          return document.getElementById('anchor2').getBoundingClientRect().top < 101
+        },
+        null,
+        'scroll to anchor with offset on load'
+      )
+      .url('http://localhost:8080/scroll-behavior/bar#1number')
+      .execute(function () {
+        location.reload(true)
+      })
+      .waitForElementVisible('#app', 1000)
+      .assert.evaluate(
+        function () {
+          return document.getElementById('1number').getBoundingClientRect().top < 1
+        },
+        null,
+        'scroll to anchor that starts with number on load'
+      )
+
       .end()
   }
 }
