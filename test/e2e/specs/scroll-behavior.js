@@ -33,12 +33,8 @@ module.exports = {
         null,
         'restore scroll position on back'
       )
-
-      // with manual scroll restoration
-      // https://developers.google.com/web/updates/2015/09/history-api-scroll-restoration
       .execute(function () {
         window.scrollTo(0, 100)
-        history.scrollRestoration = 'manual'
       })
       .click('li:nth-child(2) a')
       .waitForElementPresent('.view.foo', TIMEOUT)
@@ -97,7 +93,6 @@ module.exports = {
         null,
         'scroll to top on new entry'
       )
-
       .click('li:nth-child(4) a')
       .assert.evaluate(
         function () {
@@ -106,10 +101,7 @@ module.exports = {
         null,
         'scroll to anchor'
       )
-
-      .execute(function () {
-        document.querySelector('li:nth-child(5) a').click()
-      })
+      .click('li:nth-child(5) a')
       .assert.evaluate(
         function () {
           return document.getElementById('anchor2').getBoundingClientRect().top < 101
@@ -117,9 +109,7 @@ module.exports = {
         null,
         'scroll to anchor with offset'
       )
-      .execute(function () {
-        document.querySelector('li:nth-child(6) a').click()
-      })
+      .click('li:nth-child(6) a')
       .assert.evaluate(
         function () {
           return document.getElementById('1number').getBoundingClientRect().top < 1
