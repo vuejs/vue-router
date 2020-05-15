@@ -8,12 +8,12 @@ import { setupScroll, handleScroll } from '../util/scroll'
 import { pushState, replaceState, supportsPushState } from '../util/push-state'
 
 export class HTML5History extends History {
-  +initLocation: string
+  _startLocation: string
 
   constructor (router: Router, base: ?string) {
     super(router, base)
 
-    this.initLocation = getLocation(this.base)
+    this._startLocation = getLocation(this.base)
   }
 
   setupListeners () {
@@ -38,7 +38,7 @@ export class HTML5History extends History {
       // Avoiding first `popstate` event dispatched in some browsers but first
       // history route not updated since async guard at the same time.
       const location = getLocation(this.base)
-      if (this.current === START && location === this.initLocation) {
+      if (this.current === START && location === this._startLocation) {
         return
       }
 
