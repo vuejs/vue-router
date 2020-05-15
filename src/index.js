@@ -99,7 +99,7 @@ export default class VueRouter {
       // we do not release the router so it can be reused
       if (this.app === app) this.app = this.apps[0] || null
 
-      if (this.apps.length === 0) {
+      if (!this.app) {
         // clean up event listeners
         // https://github.com/vuejs/vue-router/issues/2341
         this.history.teardownListeners()
