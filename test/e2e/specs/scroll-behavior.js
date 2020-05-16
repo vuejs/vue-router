@@ -102,6 +102,7 @@ module.exports = {
         null,
         'scroll to anchor'
       )
+
       .click('li:nth-child(5) a')
       .assert.evaluate(
         function () {
