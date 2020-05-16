@@ -93,6 +93,7 @@ module.exports = {
         null,
         'scroll to top on new entry'
       )
+
       .click('li:nth-child(4) a')
       .assert.evaluate(
         function () {
