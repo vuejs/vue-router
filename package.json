@@ -62,7 +62,7 @@
     "babel-preset-flow-vue": "^1.0.0",
     "browserstack-local": "^1.4.0",
     "buble": "^0.19.8",
-    "chromedriver": "^79.0.0",
+    "chromedriver": "^81.0.0",
     "conventional-changelog-cli": "^2.0.11",
     "cross-spawn": "^6.0.5",
     "css-loader": "^2.1.1",
