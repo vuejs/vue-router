@@ -5,6 +5,7 @@ module.exports = {
 
   '@tags': ['history', 'active', 'router-link'],
 
+  /** @type {import('nightwatch').NightwatchTest} */
   'active links': function (browser) {
     browser
       .url('http://localhost:8080/active-links/')
