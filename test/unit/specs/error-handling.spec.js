@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import VueRouter from '../../../src/index'
+import { NavigationFailureType } from '../../../src/history/errors'
 
 Vue.use(VueRouter)
 
@@ -45,7 +46,7 @@ describe('error handling', () => {
 
     router.push('/foo')
     router.push('/foo').catch(err => {
-      expect(err._type).toBe('NavigationDuplicated')
+      expect(err.type).toBe(NavigationFailureType.duplicated)
       done()
     })
   })
@@ -58,7 +59,7 @@ describe('error handling', () => {
     })
 
     router.push('/foo').catch(err => {
-      expect(err._type).toBe('NavigationCancelled')
+      expect(err.type).toBe(NavigationFailureType.cancelled)
       done()
     })
     router.push('/')
@@ -74,7 +75,7 @@ describe('error handling', () => {
     })
 
     router.push('/foo?redirect=/').catch(err => {
-      expect(err._type).toBe('NavigationRedirected')
+      expect(err.type).toBe(NavigationFailureType.redirected)
       done()
     })
   })
@@ -85,7 +86,7 @@ describe('error handling', () => {
     router.beforeEach((to, from, next) => { next(false) })
 
     router.push('/foo').catch(err => {
-      expect(err._type).toBe('NavigationAborted')
+      expect(err.type).toBe(NavigationFailureType.aborted)
       done()
     })
   })
