@@ -30,9 +30,6 @@ export class HTML5History extends History {
     }
 
     const handleRoutingEvent = () => {
-      const expectScroll = router.options.scrollBehavior
-      const supportsScroll = supportsPushState && expectScroll
-
       const current = this.current
 
       // Avoiding first `popstate` event dispatched in some browsers but first

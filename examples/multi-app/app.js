@@ -31,7 +31,9 @@ Vue.use(VueRouter)
 const looper = [1, 2, 3]
 
 looper.forEach((n) => {
+  let vueInstance
   const mountEl = document.getElementById('mount' + n)
+  const unmountEl = document.getElementById('unmount' + n)
 
   mountEl.addEventListener('click', () => {
     // 2. Define route components
@@ -51,7 +53,7 @@ looper.forEach((n) => {
     // 4. Create and mount root instance.
     // Make sure to inject the router.
     // Route components will be rendered inside <router-view>.
-    new Vue({
+    vueInstance = new Vue({
       router,
       template: `
         <div id="app-${n}">
@@ -61,16 +63,13 @@ looper.forEach((n) => {
             <li><router-link to="/foo">/foo</router-link></li>
           </ul>
           <router-view class="view"></router-view>
-          <button id="unmount${n}" v-on:click="teardown">Teardown app</button>
         </div>
-      `,
-
-      methods: {
-        teardown () {
-          this.$destroy()
-          this.$el.innerHTML = ''
-        }
-      }
+      `
     }).$mount('#app-' + n)
+  })
+
+  unmountEl.addEventListener('click', () => {
+    vueInstance.$destroy()
+    vueInstance.$el.innerHTML = ''
   })
 })
