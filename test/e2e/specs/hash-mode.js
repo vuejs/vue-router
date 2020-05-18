@@ -60,7 +60,7 @@ module.exports = {
 
       // Listener cleanup
       .assert.containsText('#popstate-count', '1 popstate listeners')
-      .click('#teardown-app')
+      .click('#unmount')
       .assert.containsText('#popstate-count', '0 popstate listeners')
 
       .end()

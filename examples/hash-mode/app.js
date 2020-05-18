@@ -52,7 +52,7 @@ const router = new VueRouter({
 // 4. Create and mount root instance.
 // Make sure to inject the router.
 // Route components will be rendered inside <router-view>.
-new Vue({
+const vueInstance = new Vue({
   router,
   template: `
     <div id="app">
@@ -70,13 +70,13 @@ new Vue({
       <pre id="query-t">{{ $route.query.t }}</pre>
       <pre id="hash">{{ $route.hash }}</pre>
       <router-view class="view"></router-view>
-      <button id="teardown-app" v-on:click="teardown">Teardown app</button>
     </div>
   `,
   methods: {
-    teardown () {
-      this.$destroy()
-      this.$el.innerHTML = ''
-    }
   }
 }).$mount('#app')
+
+document.getElementById('unmount').addEventListener('click', () => {
+  vueInstance.$destroy()
+  vueInstance.$el.innerHTML = ''
+})
