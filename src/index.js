@@ -121,7 +121,7 @@ export default class VueRouter {
       const handleInitialScroll = (route) => {
         const expectScroll = this.options.scrollBehavior
         const supportsScroll = supportsPushState && expectScroll
-  
+
         if (supportsScroll) {
           handleScroll(this, route, route, false)
         }
