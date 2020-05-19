@@ -4,14 +4,20 @@ import { _Vue } from '../install'
 import type Router from '../index'
 import { inBrowser } from '../util/dom'
 import { runQueue } from '../util/async'
-import { warn, isError, isExtendedError } from '../util/warn'
+import { warn, isError, isRouterError } from '../util/warn'
 import { START, isSameRoute } from '../util/route'
 import {
   flatten,
   flatMapComponents,
   resolveAsyncComponents
 } from '../util/resolve-components'
-import { NavigationDuplicated } from './errors'
+import {
+  createNavigationDuplicatedError,
+  createNavigationCancelledError,
+  createNavigationRedirectedError,
+  createNavigationAbortedError,
+  NavigationFailureType
+} from './errors'
 
 export class History {
   router: Router
@@ -108,7 +114,7 @@ export class History {
       // When the user navigates through history through back/forward buttons
       // we do not want to throw the error. We only throw it if directly calling
       // push/replace. That's why it's not included in isError
-      if (!isExtendedError(NavigationDuplicated, err) && isError(err)) {
+      if (!isRouterError(err, NavigationFailureType.NAVIGATION_DUPLICATED) && isError(err)) {
         if (this.errorCbs.length) {
           this.errorCbs.forEach(cb => {
             cb(err)
@@ -126,7 +132,7 @@ export class History {
       route.matched.length === current.matched.length
     ) {
       this.ensureURL()
-      return abort(new NavigationDuplicated(route))
+      return abort(createNavigationDuplicatedError(current, route))
     }
 
     const { updated, deactivated, activated } = resolveQueue(
@@ -150,12 +156,15 @@ export class History {
     this.pending = route
     const iterator = (hook: NavigationGuard, next) => {
       if (this.pending !== route) {
-        return abort()
+        return abort(createNavigationCancelledError(current, route))
       }
       try {
         hook(route, current, (to: any) => {
-          if (to === false || isError(to)) {
+          if (to === false) {
             // next(false) -> abort navigation, ensure current URL
+            this.ensureURL(true)
+            abort(createNavigationAbortedError(current, route))
+          } else if (isError(to)) {
             this.ensureURL(true)
             abort(to)
           } else if (
@@ -164,7 +173,7 @@ export class History {
               (typeof to.path === 'string' || typeof to.name === 'string'))
           ) {
             // next('/') or next({ path: '/' }) -> redirect
-            abort()
+            abort(createNavigationRedirectedError(current, route))
             if (typeof to === 'object' && to.replace) {
               this.replace(to)
             } else {
