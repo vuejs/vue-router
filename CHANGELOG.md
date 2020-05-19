@@ -1,3 +1,20 @@
+# [3.2.0](https://github.com/vuejs/vue-router/compare/v3.1.6...v3.2.0) (2020-05-19)
+
+
+### Bug Fixes
+
+* **html5:** make base case insensitive ([04a2143](https://github.com/vuejs/vue-router/commit/04a2143)), closes [#2154](https://github.com/vuejs/vue-router/issues/2154)
+* check for pushState being a function ([bc41f67](https://github.com/vuejs/vue-router/commit/bc41f67)), closes [#3154](https://github.com/vuejs/vue-router/issues/3154)
+
+
+### Features
+
+* **link:** add aria-current to active links (close [#2116](https://github.com/vuejs/vue-router/issues/2116)) ([#3073](https://github.com/vuejs/vue-router/issues/3073)) ([6ec0ee5](https://github.com/vuejs/vue-router/commit/6ec0ee5))
+* **scroll:** use manual scrollRestoration with scrollBehavior ([#1814](https://github.com/vuejs/vue-router/issues/1814)) ([1261363](https://github.com/vuejs/vue-router/commit/1261363))
+* **types:** NavigationGuardNext ([#2497](https://github.com/vuejs/vue-router/issues/2497)) ([d18c497](https://github.com/vuejs/vue-router/commit/d18c497))
+
+
+
 ## [3.1.6](https://github.com/vuejs/vue-router/compare/v3.1.5...v3.1.6) (2020-02-26)
 
 

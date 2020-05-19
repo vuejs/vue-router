@@ -1,5 +1,5 @@
 /*!
-  * vue-router v3.1.6
+  * vue-router v3.2.0
   * (c) 2020 Evan You
   * @license MIT
   */
@@ -610,7 +610,7 @@
    * @return {!function(Object=, Object=)}
    */
   function compile (str, options) {
-    return tokensToFunction(parse(str, options))
+    return tokensToFunction(parse(str, options), options)
   }
 
   /**
@@ -640,14 +640,14 @@
   /**
    * Expose a method for transforming tokens into the path function.
    */
-  function tokensToFunction (tokens) {
+  function tokensToFunction (tokens, options) {
     // Compile all the tokens into regexps.
     var matches = new Array(tokens.length);
 
     // Compile all the patterns before compilation.
     for (var i = 0; i < tokens.length; i++) {
       if (typeof tokens[i] === 'object') {
-        matches[i] = new RegExp('^(?:' + tokens[i].pattern + ')$');
+        matches[i] = new RegExp('^(?:' + tokens[i].pattern + ')$', flags(options));
       }
     }
 
@@ -760,7 +760,7 @@
    * @return {string}
    */
   function flags (options) {
-    return options.sensitive ? '' : 'i'
+    return options && options.sensitive ? '' : 'i'
   }
 
   /**
@@ -1051,6 +1051,10 @@
       replace: Boolean,
       activeClass: String,
       exactActiveClass: String,
+      ariaCurrentValue: {
+        type: String,
+        default: 'page'
+      },
       event: {
         type: eventTypes,
         default: 'click'
@@ -1095,6 +1099,8 @@
       classes[activeClass] = this.exact
         ? classes[exactActiveClass]
         : isIncludedRoute(current, compareTarget);
+
+      var ariaCurrentValue = classes[exactActiveClass] ? this.ariaCurrentValue : null;
 
       var handler = function (e) {
         if (guardEvent(e)) {
@@ -1144,7 +1150,7 @@
 
       if (this.tag === 'a') {
         data.on = on;
-        data.attrs = { href: href };
+        data.attrs = { href: href, 'aria-current': ariaCurrentValue };
       } else {
         // find the first <a> child and apply listener and href
         var a = findAnchor(this.$slots.default);
@@ -1172,6 +1178,7 @@
 
           var aAttrs = (a.data.attrs = extend({}, a.data.attrs));
           aAttrs.href = href;
+          aAttrs['aria-current'] = ariaCurrentValue;
         } else {
           // doesn't have <a> child, apply listener to self
           data.on = on;
@@ -1690,6 +1697,10 @@
   var positionStore = Object.create(null);
 
   function setupScroll () {
+    // Prevent browser scroll behavior on History popstate
+    if ('scrollRestoration' in window.history) {
+      window.history.scrollRestoration = 'manual';
+    }
     // Fix for #1585 for Firefox
     // Fix for #2195 Add optional third attribute to workaround a bug in safari https://bugs.webkit.org/show_bug.cgi?id=182678
     // Fix for #2774 Support for apps loaded from Windows file shares not mapped to network drives: replaced location.origin with
@@ -1853,7 +1864,7 @@
         return false
       }
 
-      return window.history && 'pushState' in window.history
+      return window.history && typeof window.history.pushState === 'function'
     })();
 
   function pushState (url, replace) {
@@ -2441,7 +2452,7 @@
 
   function getLocation (base) {
     var path = decodeURI(window.location.pathname);
-    if (base && path.indexOf(base) === 0) {
+    if (base && path.toLowerCase().indexOf(base.toLowerCase()) === 0) {
       path = path.slice(base.length);
     }
     return (path || '/') + window.location.search + window.location.hash
@@ -2915,7 +2926,7 @@
   }
 
   VueRouter.install = install;
-  VueRouter.version = '3.1.6';
+  VueRouter.version = '3.2.0';
 
   if (inBrowser && window.Vue) {
     window.Vue.use(VueRouter);

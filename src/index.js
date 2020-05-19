@@ -99,6 +99,12 @@ export default class VueRouter {
       // ensure we still have a main app or null if no apps
       // we do not release the router so it can be reused
       if (this.app === app) this.app = this.apps[0] || null
+
+      if (!this.app) {
+        // clean up event listeners
+        // https://github.com/vuejs/vue-router/issues/2341
+        this.history.teardownListeners()
+      }
     })
 
     // main app previously initialized
@@ -111,28 +117,20 @@ export default class VueRouter {
 
     const history = this.history
 
-    const handleInitialScroll = (route) => {
-      const expectScroll = this.options.scrollBehavior
-      const supportsScroll = supportsPushState && expectScroll
-
-      if (supportsScroll) {
-        handleScroll(this, route, route, false)
-      }
-    }
-
-    if (history instanceof HTML5History) {
-      history.transitionTo(history.getCurrentLocation(), handleInitialScroll)
-    } else if (history instanceof HashHistory) {
-      history.transitionTo(
-        history.getCurrentLocation(),
-        route => {
-          history.setupListeners()
-          handleInitialScroll(route)
-        },
-        () => {
-          history.setupListeners()
+    if (history instanceof HTML5History || history instanceof HashHistory) {
+      const handleInitialScroll = (route) => {
+        const expectScroll = this.options.scrollBehavior
+        const supportsScroll = supportsPushState && expectScroll
+  
+        if (supportsScroll) {
+          handleScroll(this, route, route, false)
         }
-      )
+      }
+      const setupListeners = (route) => {
+        history.setupListeners()
+        handleInitialScroll(route)
+      }
+      history.transitionTo(history.getCurrentLocation(), setupListeners, setupListeners)
     }
 
     history.listen(route => {
