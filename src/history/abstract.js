@@ -51,7 +51,7 @@ export class AbstractHistory extends History {
         this.updateRoute(route)
       },
       err => {
-        if (isRouterError(err, NavigationFailureType.NAVIGATION_DUPLICATED)) {
+        if (isRouterError(err, NavigationFailureType.duplicated)) {
           this.index = targetIndex
         }
       }

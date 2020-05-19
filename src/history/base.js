@@ -114,7 +114,7 @@ export class History {
       // When the user navigates through history through back/forward buttons
       // we do not want to throw the error. We only throw it if directly calling
       // push/replace. That's why it's not included in isError
-      if (!isRouterError(err, NavigationFailureType.NAVIGATION_DUPLICATED) && isError(err)) {
+      if (!isRouterError(err, NavigationFailureType.duplicated) && isError(err)) {
         if (this.errorCbs.length) {
           this.errorCbs.forEach(cb => {
             cb(err)
