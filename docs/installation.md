@@ -32,6 +32,14 @@ Vue.use(VueRouter)
 
 You don't need to do this when using global script tags.
 
+## Vue CLI
+
+If you created a project using [Vue CLI](https://cli.vuejs.org/) you can add Vue Router as a [plugin](https://github.com/vuejs/vue-cli/tree/dev/packages/@vue/cli-plugin-router). This will import the router, generate two [named routes](https://router.vuejs.org/guide/essentials/named-routes.html), and overwrite `App.vue` to include two router links.
+
+```sh
+vue add router
+```
+
 ## Dev Build
 
 You will have to clone directly from GitHub and build `vue-router` yourself if
