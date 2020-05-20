@@ -34,7 +34,7 @@ You don't need to do this when using global script tags.
 
 ## Vue CLI
 
-If you have a project using [Vue CLI](https://cli.vuejs.org/) you can add Vue Router as a plugin. You can let the CLI generate the code above for you as well as two sample routes. **It will also overwrite your `App.vue`** so make sure to backup up the file before running the following command inside your project:
+If you have a project using [Vue CLI](https://cli.vuejs.org/) you can add Vue Router as a plugin. You can let the CLI generate the code above for you as well as two sample routes. **It will also overwrite your `App.vue`** so make sure to backup the file before running the following command inside your project:
 
 ```sh
 vue add router
