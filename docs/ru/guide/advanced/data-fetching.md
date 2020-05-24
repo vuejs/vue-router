@@ -35,24 +35,24 @@
 
 ```js
 export default {
-  data () {
+  data() {
     return {
       loading: false,
       post: null,
       error: null
     }
   },
-  created () {
+  created() {
     // загружаем данные, когда представление создано
     // и данные реактивно отслеживаются
     this.fetchData()
   },
   watch: {
     // при изменениях маршрута запрашиваем данные снова
-    '$route': 'fetchData'
+    $route: 'fetchData'
   },
   methods: {
-    fetchData () {
+    fetchData() {
       this.error = this.post = null
       this.loading = true
       // замените `getPost` используемым методом получения данных / доступа к API

@@ -105,7 +105,7 @@ const Foo = {
 }
 ```
 
-`beforeRouteEnter` 守卫 **不能** 访问 `this`，因为守卫在导航确认前被调用,因此即将登场的新组件还没被创建。
+`beforeRouteEnter` 守卫 **不能** 访问 `this`，因为守卫在导航确认前被调用，因此即将登场的新组件还没被创建。
 
 不过，你可以通过传一个回调给 `next`来访问组件实例。在导航被确认的时候执行回调，并且把组件实例作为回调方法的参数。
 
@@ -130,7 +130,7 @@ beforeRouteUpdate (to, from, next) {
 这个离开守卫通常用来禁止用户在还未保存修改前突然离开。该导航可以通过 `next(false)` 来取消。
 
 ```js
-beforeRouteLeave (to, from , next) {
+beforeRouteLeave (to, from, next) {
   const answer = window.confirm('Do you really want to leave? you have unsaved changes!')
   if (answer) {
     next()

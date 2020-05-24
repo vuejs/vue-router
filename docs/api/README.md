@@ -4,8 +4,6 @@ sidebar: auto
 
 # API Reference
 
-<Bit/>
-
 ## `<router-link>`
 
 `<router-link>` is the component for enabling user navigation in a router-enabled app. The target location is specified with the `to` prop. It renders as an `<a>` tag with correct `href` by default, but can be configured with the `tag` prop. In addition, the link automatically gets an active CSS class when the target route is active.
@@ -165,13 +163,20 @@ If you add a `target="_blank"` to your `a` element, you must omit the `@click="n
 
   Configure the active CSS class applied when the link is active with exact match. Note the default value can also be configured globally via the `linkExactActiveClass` router constructor option.
 
+### aria-current-value
+
+- type: `'page' | 'step' | 'location' | 'date' | 'time'`
+- default: `"page"`
+
+  Configure the value of `aria-current` when the link is active with exact match. It must be one of the [allowed values for aria-current](https://www.w3.org/TR/wai-aria-1.2/#aria-current) in the ARIA spec. In most cases, the default of `page` should be the best fit.
+
 ## `<router-view>`
 
-The `<router-view>` component is a functional component that renders the matched component for the given path. Components rendered in `<router-view>` can also contain its own `<router-view>`, which will render components for nested paths.
+The `<router-view>` component is a functional component that renders the matched component for the given path. Components rendered in `<router-view>` can also contain their own `<router-view>`, which will render components for nested paths.
 
 Any non-name props will be passed along to the rendered component, however most of the time the per-route data is contained in the route's params.
 
-Since it's just a component, it works with `<transition>` and `<keep-alive>`. When using the both together, make sure to use `<keep-alive>` inside:
+Since it's just a component, it works with `<transition>` and `<keep-alive>`. When using them both together, make sure to use `<keep-alive>` inside:
 
 ```html
 <transition>

@@ -1,7 +1,5 @@
 # 介绍
 
-<Bit/>
-
 :::tip 版本说明
 对于 TypeScript 用户来说，`vue-router@3.0+` 依赖 `vue@2.5+`，反之亦然。
 :::

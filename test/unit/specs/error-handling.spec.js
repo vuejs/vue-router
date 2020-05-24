@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import VueRouter from '../../../src/index'
+import { NavigationFailureType } from '../../../src/history/errors'
 
 Vue.use(VueRouter)
 
@@ -40,7 +41,58 @@ describe('error handling', () => {
     })
   })
 
+  it('NavigationDuplicated error', done => {
+    const router = new VueRouter()
+
+    router.push('/foo')
+    router.push('/foo').catch(err => {
+      expect(err.type).toBe(NavigationFailureType.duplicated)
+      done()
+    })
+  })
+
+  it('NavigationCancelled error', done => {
+    const router = new VueRouter()
+
+    router.beforeEach((to, from, next) => {
+      setTimeout(() => next(), 100)
+    })
+
+    router.push('/foo').catch(err => {
+      expect(err.type).toBe(NavigationFailureType.cancelled)
+      done()
+    })
+    router.push('/')
+  })
+
+  it('NavigationRedirected error', done => {
+    const router = new VueRouter()
+
+    router.beforeEach((to, from, next) => {
+      if (to.query.redirect) {
+        next(to.query.redirect)
+      }
+    })
+
+    router.push('/foo?redirect=/').catch(err => {
+      expect(err.type).toBe(NavigationFailureType.redirected)
+      done()
+    })
+  })
+
+  it('NavigationAborted error', done => {
+    const router = new VueRouter()
+
+    router.beforeEach((to, from, next) => { next(false) })
+
+    router.push('/foo').catch(err => {
+      expect(err.type).toBe(NavigationFailureType.aborted)
+      done()
+    })
+  })
+
   it('async component errors', done => {
+    spyOn(console, 'warn')
     const err = new Error('foo')
     const spy1 = jasmine.createSpy('error')
     const spy2 = jasmine.createSpy('errpr')
@@ -59,6 +111,7 @@ describe('error handling', () => {
       expect(spy1).toHaveBeenCalledWith(err)
       expect(spy2).toHaveBeenCalledWith(err)
       expect(spy3).toHaveBeenCalled()
+      expect(console.warn).toHaveBeenCalledTimes(1)
       done()
     })
   })

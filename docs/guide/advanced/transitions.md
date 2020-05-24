@@ -1,5 +1,7 @@
 # Transitions
 
+<div class="vueschool"><a href="https://vueschool.io/lessons/how-to-create-route-transitions-with-vue-router?friend=vuejs" target="_blank" rel="sponsored noopener" title="Learn how to create route transitions on Vue School">Learn how to create route transitions with a free lesson on Vue School</a></div>
+
 Since the `<router-view>` is essentially a dynamic component, we can apply transition effects to it the same way using the `<transition>` component:
 
 ``` html

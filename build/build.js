@@ -15,12 +15,14 @@ function build (builds) {
   let built = 0
   const total = builds.length
   const next = () => {
-    buildEntry(builds[built]).then(() => {
-      built++
-      if (built < total) {
-        next()
-      }
-    }).catch(logError)
+    buildEntry(builds[built])
+      .then(() => {
+        built++
+        if (built < total) {
+          next()
+        }
+      })
+      .catch(logError)
   }
 
   next()
@@ -29,19 +31,24 @@ function build (builds) {
 function buildEntry ({ input, output }) {
   const { file, banner } = output
   const isProd = /min\.js$/.test(file)
-  return rollup.rollup(input)
+  return rollup
+    .rollup(input)
     .then(bundle => bundle.generate(output))
-    .then(({ code }) => {
+    .then(bundle => {
+      // console.log(bundle)
+      const code = bundle.output[0].code
       if (isProd) {
-        const minified = (banner ? banner + '\n' : '') + terser.minify(code, {
-          toplevel: true,
-          output: {
-            ascii_only: true
-          },
-          compress: {
-            pure_funcs: ['makeMap']
-          }
-        }).code
+        const minified =
+          (banner ? banner + '\n' : '') +
+          terser.minify(code, {
+            toplevel: true,
+            output: {
+              ascii_only: true
+            },
+            compress: {
+              pure_funcs: ['makeMap']
+            }
+          }).code
         return write(file, minified, true)
       } else {
         return write(file, code)
@@ -52,7 +59,12 @@ function buildEntry ({ input, output }) {
 function write (dest, code, zip) {
   return new Promise((resolve, reject) => {
     function report (extra) {
-      console.log(blue(path.relative(process.cwd(), dest)) + ' ' + getSize(code) + (extra || ''))
+      console.log(
+        blue(path.relative(process.cwd(), dest)) +
+          ' ' +
+          getSize(code) +
+          (extra || '')
+      )
       resolve()
     }
 

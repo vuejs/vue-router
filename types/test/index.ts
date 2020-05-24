@@ -13,7 +13,7 @@ const Async = () => Promise.resolve({ template: '<div>async</div>' })
 const Hook: ComponentOptions<Vue> = {
   template: '<div>hook</div>',
 
-  beforeRouteEnter (to, from, next) {
+  beforeRouteEnter(to, from, next) {
     route.params
     next('/')
     next({ path: '/' })
@@ -22,14 +22,14 @@ const Hook: ComponentOptions<Vue> = {
     })
   },
 
-  beforeRouteLeave (to, from, next) {
+  beforeRouteLeave(to, from, next) {
     route.params
     next('/')
     next({ path: '/' })
     next()
   },
 
-  beforeRouteUpdate (to, from, next) {
+  beforeRouteUpdate(to, from, next) {
     route.params
     next('/')
     next({ path: '/' })
@@ -49,7 +49,7 @@ const router = new VueRouter({
     }
 
     if (from.path === '/offset') {
-      return { selector: '#foo', offset: { x: 0, y: 100 }}
+      return { selector: '#foo', offset: { x: 0, y: 100 } }
     }
 
     if (to.path === '/child') {
@@ -79,11 +79,16 @@ const router = new VueRouter({
             asyncComponent: Async
           },
           meta: { auth: true },
-          beforeEnter (to, from, next) {
+          beforeEnter(to, from, next) {
             to.params
             from.params
             next({ name: 'home' })
             next()
+          },
+          props: {
+            default: true,
+            bar: { id: 123 },
+            asyncComponent: (route: Route) => route.params
           }
         },
         {
@@ -97,7 +102,7 @@ const router = new VueRouter({
     },
     { path: '/home', alias: '/' },
     { path: '/foo', props: true },
-    { path: '/bar', props: { id: 123 }},
+    { path: '/bar', props: { id: 123 } },
     { path: '/baz', props: (route: Route) => route.params },
     { path: '*', redirect: '/' }
   ]
@@ -108,7 +113,7 @@ const mode: string = router.mode
 
 const route: Route = router.currentRoute
 const path: string = route.path
-const name: string | undefined = route.name
+const name: string | undefined | null = route.name
 const hash: string = route.hash
 const query: string | (string | null)[] | null = route.query['foo']
 const params: string = route.params['bar']
@@ -120,11 +125,11 @@ const matched: RouteRecord[] = route.matched
 matched.forEach(m => {
   const path: string = m.path
   const components: {
-  [key: string]: ComponentOptions<Vue> | typeof Vue | AsyncComponent
+    [key: string]: ComponentOptions<Vue> | typeof Vue | AsyncComponent
   } = m.components
   const instances: { [key: string]: Vue } = m.instances
-  const name: string | undefined = m.name
-  const parant: RouteRecord | undefined = m.parent
+  const name: string | undefined | null = m.name
+  const parent: RouteRecord | undefined = m.parent
   const redirect: RedirectOption | undefined = m.redirect
 })
 
