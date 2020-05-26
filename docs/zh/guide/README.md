@@ -6,6 +6,8 @@
 同时，所有的例子都将使用完整版的 Vue 以解析模板。更多细节请[移步这里](https://cn.vuejs.org/v2/guide/installation.html#运行时-编译器-vs-只包含运行时)。
 :::
 
+<div class="vueschool"><a href="https://vueschool.io/courses/vue-router-for-everyone?friend=vuejs" target="_blank" rel="sponsored noopener" title="Learn how to build powerful Single Page Applications with the Vue Router on Vue School">观看 Vue School 的关于 Vue Router 的免费视频课程 (英文)</a></div>
+
 用 Vue.js + Vue Router 创建单页应用，是非常简单的。使用 Vue.js ，我们已经可以通过组合组件来组成应用程序，当你要把 Vue Router 添加进来，我们需要做的是，将组件 (components) 映射到路由 (routes)，然后告诉 Vue Router 在哪里渲染它们。下面是个基本例子：
 
 ## HTML

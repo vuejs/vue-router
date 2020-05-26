@@ -1,5 +1,7 @@
 # 嵌套路由
 
+<div class="vueschool"><a href="https://vueschool.io/lessons/vue-router-nested-routes?friend=vuejs" target="_blank" rel="sponsored noopener" title="Learn how to work with nested routes with Vue School">观看 Vue School 的如何使用嵌套路由的免费视频课程 (英文)</a></div>
+
 实际生活中的应用界面，通常由多层嵌套的组件组合而成。同样地，URL 中各段动态路径也按某种结构对应嵌套的各层组件，例如：
 
 ```
