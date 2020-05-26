@@ -186,9 +186,9 @@ module.exports = {
             route.matched[0].path === '/special/:word' &&
             route.fullPath === encodeURI('/special/tést1') &&
             JSON.stringify(route.params) ===
-            JSON.stringify({
-              word: 'tést1'
-            })
+              JSON.stringify({
+                word: 'tést1'
+              })
           )
         },
         null,
@@ -204,9 +204,9 @@ module.exports = {
             route.matched[0].path === '/special/:word' &&
             route.fullPath === encodeURI('/special/tést2') &&
             JSON.stringify(route.params) ===
-            JSON.stringify({
-              word: 'tést2'
-            })
+              JSON.stringify({
+                word: 'tést2'
+              })
           )
         },
         null,
