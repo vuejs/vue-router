@@ -1,6 +1,30 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 
+// track number of popstate listeners
+let numPopstateListeners = 0
+const listenerCountDiv = document.createElement('div')
+listenerCountDiv.id = 'popstate-count'
+listenerCountDiv.textContent = numPopstateListeners + ' popstate listeners'
+document.body.appendChild(listenerCountDiv)
+
+const originalAddEventListener = window.addEventListener
+const originalRemoveEventListener = window.removeEventListener
+window.addEventListener = function (name, handler) {
+  if (name === 'popstate') {
+    listenerCountDiv.textContent =
+      ++numPopstateListeners + ' popstate listeners'
+  }
+  return originalAddEventListener.apply(this, arguments)
+}
+window.removeEventListener = function (name, handler) {
+  if (name === 'popstate') {
+    listenerCountDiv.textContent =
+      --numPopstateListeners + ' popstate listeners'
+  }
+  return originalRemoveEventListener.apply(this, arguments)
+}
+
 // 1. Use plugin.
 // This installs <router-view> and <router-link>,
 // and injects $router and $route to all router-enabled child components
@@ -28,11 +52,11 @@ const router = new VueRouter({
 // 4. Create and mount root instance.
 // Make sure to inject the router.
 // Route components will be rendered inside <router-view>.
-new Vue({
+const vueInstance = new Vue({
   router,
   template: `
     <div id="app">
-      <h1>Basic</h1>
+      <h1>Mode: 'hash'</h1>
       <ul>
         <li><router-link to="/">/</router-link></li>
         <li><router-link to="/foo">/foo</router-link></li>
@@ -47,5 +71,12 @@ new Vue({
       <pre id="hash">{{ $route.hash }}</pre>
       <router-view class="view"></router-view>
     </div>
-  `
+  `,
+  methods: {
+  }
 }).$mount('#app')
+
+document.getElementById('unmount').addEventListener('click', () => {
+  vueInstance.$destroy()
+  vueInstance.$el.innerHTML = ''
+})

@@ -1,4 +1,10 @@
+const bsStatus = require('../browserstack-send-status')
+
 module.exports = {
+  ...bsStatus(),
+
+  '@tags': ['history'],
+
   'named routes': function (browser) {
     browser
       .url('http://localhost:8080/named-routes/')
@@ -26,7 +32,7 @@ module.exports = {
       .assert.containsText('p', 'Current route name: home')
       .assert.containsText('.view', 'Home')
 
-    // check initial visit
+      // check initial visit
       .url('http://localhost:8080/named-routes/foo')
       .waitForElementVisible('#app', 1000)
       .assert.containsText('p', 'Current route name: foo')

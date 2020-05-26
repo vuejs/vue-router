@@ -1,4 +1,10 @@
+const bsStatus = require('../browserstack-send-status')
+
 module.exports = {
+  ...bsStatus(),
+
+  '@tags': ['history'],
+
   'route alias': function (browser) {
     browser
       .url('http://localhost:8080/route-alias/')
@@ -47,7 +53,7 @@ module.exports = {
       .assert.containsText('.view', 'Home')
       .assert.containsText('.view', 'nested foo')
 
-    // check initial visit
+      // check initial visit
       .url('http://localhost:8080/route-alias/foo')
       .waitForElementVisible('#app', 1000)
       .assert.urlEquals('http://localhost:8080/route-alias/foo')

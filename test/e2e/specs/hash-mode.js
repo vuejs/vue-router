@@ -1,4 +1,10 @@
+const bsStatus = require('../browserstack-send-status')
+
 module.exports = {
+  ...bsStatus(),
+
+  '@tags': ['hash', 'ie9-fail'],
+
   'Hash mode': function (browser) {
     browser
       .url('http://localhost:8080/hash-mode/')
@@ -29,7 +35,7 @@ module.exports = {
       .assert.urlEquals('http://localhost:8080/hash-mode/#/bar')
       .assert.containsText('.view', 'bar')
 
-    // check initial visit
+      // check initial visit
       .url('http://localhost:8080/hash-mode/#/foo')
       .waitForElementVisible('#app', 1000)
       .assert.containsText('.view', 'foo')
@@ -51,6 +57,12 @@ module.exports = {
       .waitForElementVisible('#app', 1000)
       .assert.containsText('.view', 'unicode: ñ')
       .assert.containsText('#query-t', '%')
+
+      // Listener cleanup
+      .assert.containsText('#popstate-count', '1 popstate listeners')
+      .click('#unmount')
+      .assert.containsText('#popstate-count', '0 popstate listeners')
+
       .end()
   }
 }

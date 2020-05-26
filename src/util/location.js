@@ -18,7 +18,12 @@ export function normalizeLocation (
   if (next._normalized) {
     return next
   } else if (next.name) {
-    return extend({}, raw)
+    next = extend({}, raw)
+    const params = next.params
+    if (params && typeof params === 'object') {
+      next.params = extend({}, params)
+    }
+    return next
   }
 
   // relative params

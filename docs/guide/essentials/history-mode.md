@@ -19,6 +19,8 @@ Not to worry: To fix the issue, all you need to do is add a simple catch-all fal
 
 ## Example Server Configurations
 
+**Note**: The following examples assume you are serving your app from the root folder. If you deploy to a subfolder, you should use [the `publicPath` option of Vue CLI](https://cli.vuejs.org/config/#publicpath) and the related [`base` property of the router](https://router.vuejs.org/api/#base). You also need to adjust the examples below to use the subfolder instead of the root folder (e.g. replacing `RewriteBase /` with `RewriteBase /name-of-your-subfolder/`).
+
 #### Apache
 
 ```apache
@@ -50,9 +52,9 @@ const fs = require('fs')
 const httpPort = 80
 
 http.createServer((req, res) => {
-  fs.readFile('index.htm', 'utf-8', (err, content) => {
+  fs.readFile('index.html', 'utf-8', (err, content) => {
     if (err) {
-      console.log('We cannot open "index.htm" file.')
+      console.log('We cannot open "index.html" file.')
     }
 
     res.writeHead(200, {

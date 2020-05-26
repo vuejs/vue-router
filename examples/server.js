@@ -6,13 +6,15 @@ const WebpackConfig = require('./webpack.config')
 
 const app = express()
 
-app.use(webpackDevMiddleware(webpack(WebpackConfig), {
-  publicPath: '/__build__/',
-  stats: {
-    colors: true,
-    chunks: false
-  }
-}))
+app.use(
+  webpackDevMiddleware(webpack(WebpackConfig), {
+    publicPath: '/__build__/',
+    stats: {
+      colors: true,
+      chunks: false
+    }
+  })
+)
 
 const fs = require('fs')
 const path = require('path')
@@ -25,7 +27,8 @@ fs.readdirSync(__dirname).forEach(file => {
 
 app.use(express.static(__dirname))
 
+const host = process.env.HOST || 'localhost'
 const port = process.env.PORT || 8080
-module.exports = app.listen(port, () => {
-  console.log(`Server listening on http://localhost:${port}, Ctrl+C to stop`)
+module.exports = app.listen(port, host, () => {
+  console.log(`Server listening on http://${host}:${port}, Ctrl+C to stop`)
 })

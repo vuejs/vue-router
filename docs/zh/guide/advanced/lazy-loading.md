@@ -1,5 +1,7 @@
 # 路由懒加载
 
+<div class="vueschool"><a href="https://vueschool.io/lessons/how-to-lazy-load-routes-with-vue-router?friend=vuejs" target="_blank" rel="sponsored noopener" title="Learn how to increase performance by lazy loading routes on Vue School">观看 Vue School 的如何路由懒加载的免费视频课程 (英文)</a></div>
+
 当打包构建应用时，JavaScript 包会变得非常大，影响页面加载。如果我们能把不同路由对应的组件分割成不同的代码块，然后当路由被访问的时候才加载对应组件，这样就更加高效了。
 
 结合 Vue 的[异步组件](https://cn.vuejs.org/v2/guide/components-dynamic-async.html#异步组件)和 Webpack 的[代码分割功能](https://doc.webpack-china.org/guides/code-splitting-async/#require-ensure-/)，轻松实现路由组件的懒加载。

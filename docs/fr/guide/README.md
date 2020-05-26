@@ -1,17 +1,15 @@
 # Pour commencer
 
-<Bit/>
-
 ::: tip Note
 Nous utiliserons [ES2015](https://github.com/lukehoban/es6features) dans les exemples de code dans ce guide.
- Tous les exemples utiliseront la version complète de Vue pour rendre l'analyse de template possible. Plus de détails [ici](https://fr.vuejs.org/guide/installation.html#Runtime-Compiler-vs-Runtime-seul).
+Tous les exemples utiliseront la version complète de Vue pour rendre l'analyse de template possible. Plus de détails [ici](https://fr.vuejs.org/guide/installation.html#Runtime-Compiler-vs-Runtime-seul).
 :::
 
 Créer une application monopage avec Vue + Vue Router est vraiment simple. Avec Vue.js, nous concevons déjà notre application avec des composants. En ajoutant vue-router dans notre application, tout ce qu'il nous reste à faire est de relier nos composants aux routes, et de laisser vue-router faire le rendu. Voici un exemple de base :
 
 ## HTML
 
-``` html
+```html
 <script src="https://unpkg.com/vue/dist/vue.js"></script>
 <script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
 
@@ -32,7 +30,7 @@ Créer une application monopage avec Vue + Vue Router est vraiment simple. Avec 
 
 ## JavaScript
 
-``` js
+```js
 // 0. Si vous utilisez un système de module (par ex. via vue-cli), il faut importer Vue et Vue Router et ensuite appeler `Vue.use(VueRouter)`.
 
 // 1. Définissez les composants de route.
@@ -73,16 +71,14 @@ En injectant le routeur, nous y avons accès à travers `this.$router`. Nous avo
 // Home.vue
 export default {
   computed: {
-    username () {
+    username() {
       // Nous verrons ce que représente `params` dans un instant.
       return this.$route.params.username
     }
   },
   methods: {
-    goBack () {
-      window.history.length > 1
-        ? this.$router.go(-1)
-        : this.$router.push('/')
+    goBack() {
+      window.history.length > 1 ? this.$router.go(-1) : this.$router.push('/')
     }
   }
 }

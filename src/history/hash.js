@@ -20,15 +20,19 @@ export class HashHistory extends History {
   // this is delayed until the app mounts
   // to avoid the hashchange listener being fired too early
   setupListeners () {
+    if (this.listeners.length > 0) {
+      return
+    }
+
     const router = this.router
     const expectScroll = router.options.scrollBehavior
     const supportsScroll = supportsPushState && expectScroll
 
     if (supportsScroll) {
-      setupScroll()
+      this.listeners.push(setupScroll())
     }
 
-    window.addEventListener(supportsPushState ? 'popstate' : 'hashchange', () => {
+    const handleRoutingEvent = () => {
       const current = this.current
       if (!ensureSlash()) {
         return
@@ -41,25 +45,41 @@ export class HashHistory extends History {
           replaceHash(route.fullPath)
         }
       })
+    }
+    const eventType = supportsPushState ? 'popstate' : 'hashchange'
+    window.addEventListener(
+      eventType,
+      handleRoutingEvent
+    )
+    this.listeners.push(() => {
+      window.removeEventListener(eventType, handleRoutingEvent)
     })
   }
 
   push (location: RawLocation, onComplete?: Function, onAbort?: Function) {
     const { current: fromRoute } = this
-    this.transitionTo(location, route => {
-      pushHash(route.fullPath)
-      handleScroll(this.router, route, fromRoute, false)
-      onComplete && onComplete(route)
-    }, onAbort)
+    this.transitionTo(
+      location,
+      route => {
+        pushHash(route.fullPath)
+        handleScroll(this.router, route, fromRoute, false)
+        onComplete && onComplete(route)
+      },
+      onAbort
+    )
   }
 
   replace (location: RawLocation, onComplete?: Function, onAbort?: Function) {
     const { current: fromRoute } = this
-    this.transitionTo(location, route => {
-      replaceHash(route.fullPath)
-      handleScroll(this.router, route, fromRoute, false)
-      onComplete && onComplete(route)
-    }, onAbort)
+    this.transitionTo(
+      location,
+      route => {
+        replaceHash(route.fullPath)
+        handleScroll(this.router, route, fromRoute, false)
+        onComplete && onComplete(route)
+      },
+      onAbort
+    )
   }
 
   go (n: number) {
@@ -81,9 +101,7 @@ export class HashHistory extends History {
 function checkFallback (base) {
   const location = getLocation(base)
   if (!/^\/#/.test(location)) {
-    window.location.replace(
-      cleanPath(base + '/#' + location)
-    )
+    window.location.replace(cleanPath(base + '/#' + location))
     return true
   }
 }
@@ -112,10 +130,11 @@ export function getHash (): string {
   const searchIndex = href.indexOf('?')
   if (searchIndex < 0) {
     const hashIndex = href.indexOf('#')
-    if (hashIndex > -1) href = decodeURI(href.slice(0, hashIndex)) + href.slice(hashIndex)
-    else href = decodeURI(href)
+    if (hashIndex > -1) {
+      href = decodeURI(href.slice(0, hashIndex)) + href.slice(hashIndex)
+    } else href = decodeURI(href)
   } else {
-    if (searchIndex > -1) href = decodeURI(href.slice(0, searchIndex)) + href.slice(searchIndex)
+    href = decodeURI(href.slice(0, searchIndex)) + href.slice(searchIndex)
   }
 
   return href
