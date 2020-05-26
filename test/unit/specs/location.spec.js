@@ -82,10 +82,20 @@ describe('Location utils', () => {
       const loc = normalizeLocation({ params: { lang: 'fr' }}, {
         path: '/en/foo',
         params: { lang: 'en', id: 'foo' },
-        matched: [{ path: '/:lang/:id' }]
+        matched: [{ path: '/:lang(en|fr)/:id' }]
       })
       expect(loc._normalized).toBe(true)
       expect(loc.path).toBe('/fr/foo')
+    })
+
+    it('custom regex can be case insensitive', () => {
+      const loc = normalizeLocation({ params: { lang: 'FR' }}, {
+        path: '/en/foo',
+        params: { lang: 'en', id: 'foo' },
+        matched: [{ path: '/:lang(en|fr)/:id' }]
+      })
+      expect(loc._normalized).toBe(true)
+      expect(loc.path).toBe('/FR/foo')
     })
 
     it('relative append', () => {

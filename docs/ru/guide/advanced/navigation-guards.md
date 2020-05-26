@@ -39,7 +39,7 @@ router.beforeEach((to, from, next) => {
 ```js
 // ПЛОХО
 router.beforeEach((to, from, next) => {
-  if (!isAuthenticated) next('/login')
+  if (to.name !== 'Login' && !isAuthenticated) next({ name: 'Login' })
   // если пользователь не авторизован, то `next` будет вызываться дважды
   next()
 })
@@ -48,7 +48,7 @@ router.beforeEach((to, from, next) => {
 ```js
 // ХОРОШО
 router.beforeEach((to, from, next) => {
-  if (!isAuthenticated) next('/login')
+  if (to.name !== 'Login' && !isAuthenticated) next({ name: 'Login' })
   else next()
 })
 ```

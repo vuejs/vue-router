@@ -1,16 +1,20 @@
 import Vue, { ComponentOptions, PluginFunction, AsyncComponent } from 'vue'
 
 type Component = ComponentOptions<Vue> | typeof Vue | AsyncComponent
-type Dictionary < T > = { [key: string]: T }
+type Dictionary<T> = { [key: string]: T }
 type ErrorHandler = (err: Error) => void
 
 export type RouterMode = 'hash' | 'history' | 'abstract'
 export type RawLocation = string | Location
 export type RedirectOption = RawLocation | ((to: Route) => RawLocation)
-export type NavigationGuard < V extends Vue = Vue > = (
+export type NavigationGuardNext<V extends Vue = Vue> = (
+  to?: RawLocation | false | ((vm: V) => any) | void
+) => void
+
+export type NavigationGuard<V extends Vue = Vue> = (
   to: Route,
   from: Route,
-  next: (to?: RawLocation | false | ((vm: V) => any) | void) => void
+  next: NavigationGuardNext<V>
 ) => any
 
 export declare class VueRouter {

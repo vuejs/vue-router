@@ -8,6 +8,8 @@
 
 记住**参数或查询的改变并不会触发进入/离开的导航守卫**。你可以通过[观察 `$route` 对象](../essentials/dynamic-matching.md#响应路由参数的变化)来应对这些变化，或使用 `beforeRouteUpdate` 的组件内守卫。
 
+<div class="vueschool"><a href="https://vueschool.io/lessons/how-to-configure-an-authentication-middleware-route-guard-with-vue-router?friend=vuejs" target="_blank" rel="sponsored noopener" title="Learn how to create an authentication middleware with a global route guard on Vue School">观看 Vue School 的导航守卫如何工作的免费视频课程 (英文)</a></div>
+
 ## 全局前置守卫
 
 你可以使用 `router.beforeEach` 注册一个全局前置守卫：
@@ -38,7 +40,24 @@ router.beforeEach((to, from, next) => {
 
   - **`next(error)`**: (2.4.0+) 如果传入 `next` 的参数是一个 `Error` 实例，则导航会被终止且该错误会被传递给 [`router.onError()`](../../api/#router-onerror) 注册过的回调。
 
-**确保要调用 `next` 方法，否则钩子就不会被 resolved。**
+**确保 `next` 函数在任何给定的导航守卫中都被严格调用一次。它可以出现多于一次，但是只能在所有的逻辑路径都不重叠的情况下，否则钩子永远都不会被解析或报错。**这里有一个在用户未能验证身份时重定向到 `/login` 的示例：
+
+```js
+// BAD
+router.beforeEach((to, from, next) => {
+  if (to.name !== 'Login' && !isAuthenticated) next({ name: 'Login' })
+  // 如果用户未能验证身份，则 `next` 会被调用两次
+  next()
+})
+```
+
+```js
+// GOOD
+router.beforeEach((to, from, next) => {
+  if (to.name !== 'Login' && !isAuthenticated) next({ name: 'Login' })
+  else next()
+})
+```
 
 ## 全局解析守卫
 
@@ -105,7 +124,7 @@ const Foo = {
 }
 ```
 
-`beforeRouteEnter` 守卫 **不能** 访问 `this`，因为守卫在导航确认前被调用,因此即将登场的新组件还没被创建。
+`beforeRouteEnter` 守卫 **不能** 访问 `this`，因为守卫在导航确认前被调用，因此即将登场的新组件还没被创建。
 
 不过，你可以通过传一个回调给 `next`来访问组件实例。在导航被确认的时候执行回调，并且把组件实例作为回调方法的参数。
 
@@ -143,7 +162,7 @@ beforeRouteLeave (to, from, next) {
 ## 完整的导航解析流程
 
 1. 导航被触发。
-2. 在失活的组件里调用离开守卫。
+2. 在失活的组件里调用 `beforeRouteLeave` 守卫。
 3. 调用全局的 `beforeEach` 守卫。
 4. 在重用的组件里调用 `beforeRouteUpdate` 守卫 (2.2+)。
 5. 在路由配置里调用 `beforeEnter`。

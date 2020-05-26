@@ -1,5 +1,8 @@
 # Passing Props to Route Components
 
+<div class="vueschool"><a href="https://vueschool.io/lessons/how-to-pass-vue-router-params-as-props-to-components?friend=vuejs" target="_blank" rel="sponsored noopener" title="Learn how to pass props to route components with Vue School">Learn how to pass props to route components with a free lesson on Vue School</a></div>
+
+
 Using `$route` in your component creates a tight coupling with the route which limits the flexibility of the component as it can only be used on certain URLs.
 
 To decouple this component from the router use option `props`:

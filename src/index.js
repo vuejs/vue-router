@@ -98,6 +98,12 @@ export default class VueRouter {
       // ensure we still have a main app or null if no apps
       // we do not release the router so it can be reused
       if (this.app === app) this.app = this.apps[0] || null
+
+      if (!this.app) {
+        // clean up event listeners
+        // https://github.com/vuejs/vue-router/issues/2341
+        this.history.teardownListeners()
+      }
     })
 
     // main app previously initialized
@@ -110,17 +116,11 @@ export default class VueRouter {
 
     const history = this.history
 
-    if (history instanceof HTML5History) {
-      history.transitionTo(history.getCurrentLocation())
-    } else if (history instanceof HashHistory) {
-      const setupHashListener = () => {
+    if (history instanceof HTML5History || history instanceof HashHistory) {
+      const setupListeners = () => {
         history.setupListeners()
       }
-      history.transitionTo(
-        history.getCurrentLocation(),
-        setupHashListener,
-        setupHashListener
-      )
+      history.transitionTo(history.getCurrentLocation(), setupListeners, setupListeners)
     }
 
     history.listen(route => {

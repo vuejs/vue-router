@@ -9,8 +9,8 @@ module.exports = {
     browser
       .url('http://localhost:8080/basic/')
       .waitForElementVisible('#app', 1000)
-      .assert.count('li', 8)
-      .assert.count('li a', 8)
+      .assert.count('li', 9)
+      .assert.count('li a', 9)
       // assert correct href with base
       .assert.attributeContains('li:nth-child(1) a', 'href', '/basic/')
       .assert.attributeContains('li:nth-child(2) a', 'href', '/basic/foo')
@@ -69,6 +69,11 @@ module.exports = {
       .assert.cssClassPresent('li:nth-child(8)', 'active')
       .assert.cssClassPresent('li:nth-child(8)', 'exact-active')
       .assert.attributeEquals('li:nth-child(8) a', 'class', '')
+
+      // Listener cleanup
+      .assert.containsText('#popstate-count', '1 popstate listeners')
+      .click('#unmount')
+      .assert.containsText('#popstate-count', '0 popstate listeners')
 
       .end()
   }

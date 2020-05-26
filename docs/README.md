@@ -4,6 +4,8 @@
 For TypeScript users, `vue-router@3.0+` requires `vue@2.5+`, and vice versa.
 :::
 
+<div class="vueschool"><a href="https://vueschool.io/courses/vue-router-for-everyone?friend=vuejs" target="_blank" rel="sponsored noopener" title="Learn how to build powerful Single Page Applications with the Vue Router on Vue School">Watch a free video course about Vue Router on Vue School</a></div>
+
 Vue Router is the official router for [Vue.js](http://vuejs.org). It deeply integrates with Vue.js core to make building Single Page Applications with Vue.js a breeze. Features include:
 
 - Nested route/view mapping
