@@ -1,5 +1,5 @@
 /*!
-  * vue-router v3.2.0
+  * vue-router v3.3.0
   * (c) 2020 Evan You
   * @license MIT
   */
@@ -21,12 +21,8 @@ function isError (err) {
   return Object.prototype.toString.call(err).indexOf('Error') > -1
 }
 
-function isExtendedError (constructor, err) {
-  return (
-    err instanceof constructor ||
-    // _name is to support IE9 too
-    (err && (err.name === constructor.name || err._name === constructor._name))
-  )
+function isRouterError (err, errorType) {
+  return isError(err) && err._isRouter && (errorType == null || err.type === errorType)
 }
 
 function extend (a, b) {
@@ -1684,12 +1680,10 @@ function setupScroll () {
   const stateCopy = extend({}, window.history.state);
   stateCopy.key = getStateKey();
   window.history.replaceState(stateCopy, '', absolutePath);
-  window.addEventListener('popstate', e => {
-    saveScrollPosition();
-    if (e.state && e.state.key) {
-      setStateKey(e.state.key);
-    }
-  });
+  window.addEventListener('popstate', handlePopState);
+  return () => {
+    window.removeEventListener('popstate', handlePopState);
+  }
 }
 
 function handleScroll (
@@ -1748,6 +1742,13 @@ function saveScrollPosition () {
       x: window.pageXOffset,
       y: window.pageYOffset
     };
+  }
+}
+
+function handlePopState (e) {
+  saveScrollPosition();
+  if (e.state && e.state.key) {
+    setStateKey(e.state.key);
   }
 }
 
@@ -1987,32 +1988,79 @@ function once (fn) {
   }
 }
 
-class NavigationDuplicated extends Error {
-  constructor (normalizedLocation) {
-    super();
-    this.name = this._name = 'NavigationDuplicated';
-    // passing the message to super() doesn't seem to work in the transpiled version
-    this.message = `Navigating to current location ("${
-      normalizedLocation.fullPath
-    }") is not allowed`;
-    // add a stack property so services like Sentry can correctly display it
-    Object.defineProperty(this, 'stack', {
-      value: new Error().stack,
-      writable: true,
-      configurable: true
-    });
-    // we could also have used
-    // Error.captureStackTrace(this, this.constructor)
-    // but it only exists on node and chrome
-  }
+const NavigationFailureType = {
+  redirected: 1,
+  aborted: 2,
+  cancelled: 3,
+  duplicated: 4
+};
+
+function createNavigationRedirectedError (from, to) {
+  return createRouterError(
+    from,
+    to,
+    NavigationFailureType.redirected,
+    `Redirected from "${from.fullPath}" to "${stringifyRoute(to)}" via a navigation guard.`
+  )
 }
 
-// support IE9
-NavigationDuplicated._name = 'NavigationDuplicated';
+function createNavigationDuplicatedError (from, to) {
+  return createRouterError(
+    from,
+    to,
+    NavigationFailureType.duplicated,
+    `Avoided redundant navigation to current location: "${from.fullPath}".`
+  )
+}
+
+function createNavigationCancelledError (from, to) {
+  return createRouterError(
+    from,
+    to,
+    NavigationFailureType.cancelled,
+    `Navigation cancelled from "${from.fullPath}" to "${to.fullPath}" with a new navigation.`
+  )
+}
+
+function createNavigationAbortedError (from, to) {
+  return createRouterError(
+    from,
+    to,
+    NavigationFailureType.aborted,
+    `Navigation aborted from "${from.fullPath}" to "${to.fullPath}" via a navigation guard.`
+  )
+}
+
+function createRouterError (from, to, type, message) {
+  const error = new Error(message);
+  error._isRouter = true;
+  error.from = from;
+  error.to = to;
+  error.type = type;
+
+  const newStack = error.stack.split('\n');
+  newStack.splice(1, 2); // remove 2 last useless calls
+  error.stack = newStack.join('\n');
+  return error
+}
+
+const propertiesToLog = ['params', 'query', 'hash'];
+
+function stringifyRoute (to) {
+  if (typeof to === 'string') return to
+  if ('path' in to) return to.path
+  const location = {};
+  propertiesToLog.forEach(key => {
+    if (key in to) location[key] = to[key];
+  });
+  return JSON.stringify(location, null, 2)
+}
 
 /*  */
 
 class History {
+  
+  
   
   
   
@@ -2029,6 +2077,7 @@ class History {
   
   
   
+  
 
   constructor (router, base) {
     this.router = router;
@@ -2040,6 +2089,7 @@ class History {
     this.readyCbs = [];
     this.readyErrorCbs = [];
     this.errorCbs = [];
+    this.listeners = [];
   }
 
   listen (cb) {
@@ -2070,9 +2120,13 @@ class History {
     this.confirmTransition(
       route,
       () => {
+        const prev = this.current;
         this.updateRoute(route);
         onComplete && onComplete(route);
         this.ensureURL();
+        this.router.afterHooks.forEach(hook => {
+          hook && hook(route, prev);
+        });
 
         // fire ready cbs once
         if (!this.ready) {
@@ -2103,7 +2157,7 @@ class History {
       // When the user navigates through history through back/forward buttons
       // we do not want to throw the error. We only throw it if directly calling
       // push/replace. That's why it's not included in isError
-      if (!isExtendedError(NavigationDuplicated, err) && isError(err)) {
+      if (!isRouterError(err, NavigationFailureType.duplicated) && isError(err)) {
         if (this.errorCbs.length) {
           this.errorCbs.forEach(cb => {
             cb(err);
@@ -2121,7 +2175,7 @@ class History {
       route.matched.length === current.matched.length
     ) {
       this.ensureURL();
-      return abort(new NavigationDuplicated(route))
+      return abort(createNavigationDuplicatedError(current, route))
     }
 
     const { updated, deactivated, activated } = resolveQueue(
@@ -2145,12 +2199,15 @@ class History {
     this.pending = route;
     const iterator = (hook, next) => {
       if (this.pending !== route) {
-        return abort()
+        return abort(createNavigationCancelledError(current, route))
       }
       try {
         hook(route, current, (to) => {
-          if (to === false || isError(to)) {
+          if (to === false) {
             // next(false) -> abort navigation, ensure current URL
+            this.ensureURL(true);
+            abort(createNavigationAbortedError(current, route));
+          } else if (isError(to)) {
             this.ensureURL(true);
             abort(to);
           } else if (
@@ -2159,7 +2216,7 @@ class History {
               (typeof to.path === 'string' || typeof to.name === 'string'))
           ) {
             // next('/') or next({ path: '/' }) -> redirect
-            abort();
+            abort(createNavigationRedirectedError(current, route));
             if (typeof to === 'object' && to.replace) {
               this.replace(to);
             } else {
@@ -2200,12 +2257,19 @@ class History {
   }
 
   updateRoute (route) {
-    const prev = this.current;
     this.current = route;
     this.cb && this.cb(route);
-    this.router.afterHooks.forEach(hook => {
-      hook && hook(route, prev);
+  }
+
+  setupListeners () {
+    // Default implementation is empty
+  }
+
+  teardownListeners () {
+    this.listeners.forEach(cleanupListener => {
+      cleanupListener();
     });
+    this.listeners = [];
   }
 }
 
@@ -2350,24 +2414,34 @@ function poll (
 /*  */
 
 class HTML5History extends History {
+  
+
   constructor (router, base) {
     super(router, base);
 
+    this._startLocation = getLocation(this.base);
+  }
+
+  setupListeners () {
+    if (this.listeners.length > 0) {
+      return
+    }
+
+    const router = this.router;
     const expectScroll = router.options.scrollBehavior;
     const supportsScroll = supportsPushState && expectScroll;
 
     if (supportsScroll) {
-      setupScroll();
+      this.listeners.push(setupScroll());
     }
 
-    const initLocation = getLocation(this.base);
-    window.addEventListener('popstate', e => {
+    const handleRoutingEvent = () => {
       const current = this.current;
 
       // Avoiding first `popstate` event dispatched in some browsers but first
       // history route not updated since async guard at the same time.
       const location = getLocation(this.base);
-      if (this.current === START && location === initLocation) {
+      if (this.current === START && location === this._startLocation) {
         return
       }
 
@@ -2376,6 +2450,10 @@ class HTML5History extends History {
           handleScroll(router, route, current, true);
         }
       });
+    };
+    window.addEventListener('popstate', handleRoutingEvent);
+    this.listeners.push(() => {
+      window.removeEventListener('popstate', handleRoutingEvent);
     });
   }
 
@@ -2436,31 +2514,40 @@ class HashHistory extends History {
   // this is delayed until the app mounts
   // to avoid the hashchange listener being fired too early
   setupListeners () {
+    if (this.listeners.length > 0) {
+      return
+    }
+
     const router = this.router;
     const expectScroll = router.options.scrollBehavior;
     const supportsScroll = supportsPushState && expectScroll;
 
     if (supportsScroll) {
-      setupScroll();
+      this.listeners.push(setupScroll());
     }
 
-    window.addEventListener(
-      supportsPushState ? 'popstate' : 'hashchange',
-      () => {
-        const current = this.current;
-        if (!ensureSlash()) {
-          return
-        }
-        this.transitionTo(getHash(), route => {
-          if (supportsScroll) {
-            handleScroll(this.router, route, current, true);
-          }
-          if (!supportsPushState) {
-            replaceHash(route.fullPath);
-          }
-        });
+    const handleRoutingEvent = () => {
+      const current = this.current;
+      if (!ensureSlash()) {
+        return
       }
+      this.transitionTo(getHash(), route => {
+        if (supportsScroll) {
+          handleScroll(this.router, route, current, true);
+        }
+        if (!supportsPushState) {
+          replaceHash(route.fullPath);
+        }
+      });
+    };
+    const eventType = supportsPushState ? 'popstate' : 'hashchange';
+    window.addEventListener(
+      eventType,
+      handleRoutingEvent
     );
+    this.listeners.push(() => {
+      window.removeEventListener(eventType, handleRoutingEvent);
+    });
   }
 
   push (location, onComplete, onAbort) {
@@ -2618,7 +2705,7 @@ class AbstractHistory extends History {
         this.updateRoute(route);
       },
       err => {
-        if (isExtendedError(NavigationDuplicated, err)) {
+        if (isRouterError(err, NavigationFailureType.duplicated)) {
           this.index = targetIndex;
         }
       }
@@ -2722,6 +2809,12 @@ class VueRouter {
       // ensure we still have a main app or null if no apps
       // we do not release the router so it can be reused
       if (this.app === app) this.app = this.apps[0] || null;
+
+      if (!this.app) {
+        // clean up event listeners
+        // https://github.com/vuejs/vue-router/issues/2341
+        this.history.teardownListeners();
+      }
     });
 
     // main app previously initialized
@@ -2734,17 +2827,11 @@ class VueRouter {
 
     const history = this.history;
 
-    if (history instanceof HTML5History) {
-      history.transitionTo(history.getCurrentLocation());
-    } else if (history instanceof HashHistory) {
-      const setupHashListener = () => {
+    if (history instanceof HTML5History || history instanceof HashHistory) {
+      const setupListeners = () => {
         history.setupListeners();
       };
-      history.transitionTo(
-        history.getCurrentLocation(),
-        setupHashListener,
-        setupHashListener
-      );
+      history.transitionTo(history.getCurrentLocation(), setupListeners, setupListeners);
     }
 
     history.listen(route => {
@@ -2872,7 +2959,7 @@ function createHref (base, fullPath, mode) {
 }
 
 VueRouter.install = install;
-VueRouter.version = '3.2.0';
+VueRouter.version = '3.3.0';
 
 if (inBrowser && window.Vue) {
   window.Vue.use(VueRouter);
