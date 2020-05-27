@@ -16,6 +16,6 @@ export function isError (err: any): boolean {
   return Object.prototype.toString.call(err).indexOf('Error') > -1
 }
 
-export function isRouterError (err: any, errorType: ?string): boolean {
+export function isRouterError (err: any, errorType: ?number): boolean {
   return isError(err) && err._isRouter && (errorType == null || err.type === errorType)
 }

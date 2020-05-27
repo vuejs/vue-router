@@ -1,7 +1,7 @@
 /* @flow */
 
 import type Router from '../index'
-import { assert } from './warn'
+import { assert, warn } from './warn'
 import { getStateKey, setStateKey } from './state-key'
 import { extend } from './misc'
 
@@ -82,8 +82,8 @@ export function saveScrollPosition () {
   const key = getStateKey()
   if (key) {
     positionStore[key] = {
-      x: window.pageXOffset,
-      y: window.pageYOffset
+      left: window.pageXOffset,
+      top: window.pageYOffset
     }
   }
 }
@@ -107,26 +107,33 @@ function getElementPosition (el: Element, offset: Object): Object {
   const docRect = docEl.getBoundingClientRect()
   const elRect = el.getBoundingClientRect()
   return {
-    x: elRect.left - docRect.left - offset.x,
-    y: elRect.top - docRect.top - offset.y
+    behavior: offset.behavior,
+    left: elRect.left - docRect.left - offset.left,
+    top: elRect.top - docRect.top - offset.top
   }
 }
 
 function isValidPosition (obj: Object): boolean {
-  return isNumber(obj.x) || isNumber(obj.y)
+  return isNumber(obj.left) || isNumber(obj.top)
 }
 
-function normalizePosition (obj: Object): Object {
-  return {
-    x: isNumber(obj.x) ? obj.x : window.pageXOffset,
-    y: isNumber(obj.y) ? obj.y : window.pageYOffset
+function normalizePosition (obj: Object, defaultLeft?: number, defaultTop?: number): Object {
+  const left = isNumber(obj.left) ? obj.left : obj.x
+  const top = isNumber(obj.top) ? obj.top : obj.y
+  // defaultLeft = isNumber(defaultLeft) ? defaultLeft : window.pageXOffset
+  // defaultTop = isNumber(defaultTop) ? defaultTop : window.pageYOffset
+
+  if (process.env.NODE_ENV !== 'production') {
+    if (isNumber(obj.x) || isNumber(obj.y)) {
+      const original = JSON.stringify(obj, null, 2)
+      warn(false, 'Position objects returned by "scrollBehavior" with "x" and "y" positions are deprecated, replace it with "left" and "top" respectively. Replace\n\n' + original + '\n\nwith\n\n' + original.replace('"x"', '"left"').replace('"y"', '"top"'))
+    }
   }
-}
 
-function normalizeOffset (obj: Object): Object {
   return {
-    x: isNumber(obj.x) ? obj.x : 0,
-    y: isNumber(obj.y) ? obj.y : 0
+    behavior: obj.behavior,
+    left: isNumber(left) ? left : defaultLeft,
+    top: isNumber(top) ? top : defaultTop
   }
 }
 
@@ -150,16 +157,21 @@ function scrollToPosition (shouldScroll, position) {
         shouldScroll.offset && typeof shouldScroll.offset === 'object'
           ? shouldScroll.offset
           : {}
-      offset = normalizeOffset(offset)
+      offset = normalizePosition(offset, 0, 0)
       position = getElementPosition(el, offset)
-    } else if (isValidPosition(shouldScroll)) {
+    } else {
       position = normalizePosition(shouldScroll)
     }
-  } else if (isObject && isValidPosition(shouldScroll)) {
+  } else if (isObject) {
     position = normalizePosition(shouldScroll)
   }
 
-  if (position) {
-    window.scrollTo(position.x, position.y)
+  if (position && isValidPosition(position)) {
+    const docEl: any = document.documentElement
+    if ('scrollBehavior' in docEl.style) {
+      window.scrollTo(position)
+    } else {
+      window.scrollTo(position.left, position.top)
+    }
   }
 }
