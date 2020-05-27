@@ -1,3 +1,14 @@
+# [3.3.0](https://github.com/vuejs/vue-router/compare/v3.2.0...v3.3.0) (2020-05-27)
+
+
+### Features
+
+* **errors:** create router errors ([#3047](https://github.com/vuejs/vue-router/issues/3047)) ([4c727f9](https://github.com/vuejs/vue-router/commit/4c727f9))
+* **history:** Remove event listeners when all apps are destroyed. ([#3172](https://github.com/vuejs/vue-router/issues/3172)) ([4c81be8](https://github.com/vuejs/vue-router/commit/4c81be8)), closes [#3152](https://github.com/vuejs/vue-router/issues/3152) [#2341](https://github.com/vuejs/vue-router/issues/2341)
+* **url:** call afterEach hooks after url is ensured ([#2292](https://github.com/vuejs/vue-router/issues/2292)) ([1575a18](https://github.com/vuejs/vue-router/commit/1575a18)), closes [#2079](https://github.com/vuejs/vue-router/issues/2079)
+
+
+
 # [3.2.0](https://github.com/vuejs/vue-router/compare/v3.1.6...v3.2.0) (2020-05-19)
 
 
