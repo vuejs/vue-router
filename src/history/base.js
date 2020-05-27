@@ -15,8 +15,7 @@ import {
   createNavigationDuplicatedError,
   createNavigationCancelledError,
   createNavigationRedirectedError,
-  createNavigationAbortedError,
-  NavigationFailureType
+  createNavigationAbortedError
 } from './errors'
 
 export class History {
@@ -114,11 +113,10 @@ export class History {
   confirmTransition (route: Route, onComplete: Function, onAbort?: Function) {
     const current = this.current
     const abort = err => {
-      // after merging https://github.com/vuejs/vue-router/pull/2771 we
-      // When the user navigates through history through back/forward buttons
-      // we do not want to throw the error. We only throw it if directly calling
-      // push/replace. That's why it's not included in isError
-      if (!isRouterError(err, NavigationFailureType.duplicated) && isError(err)) {
+      // changed after adding errors with
+      // https://github.com/vuejs/vue-router/pull/3047 before that change,
+      // redirect and aborted navigation would produce an err == null
+      if (!isRouterError(err) && isError(err)) {
         if (this.errorCbs.length) {
           this.errorCbs.forEach(cb => {
             cb(err)
