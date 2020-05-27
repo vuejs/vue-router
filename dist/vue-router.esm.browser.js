@@ -1,5 +1,5 @@
 /*!
-  * vue-router v3.3.0
+  * vue-router v3.3.1
   * (c) 2020 Evan You
   * @license MIT
   */
@@ -2153,11 +2153,10 @@ class History {
   confirmTransition (route, onComplete, onAbort) {
     const current = this.current;
     const abort = err => {
-      // after merging https://github.com/vuejs/vue-router/pull/2771 we
-      // When the user navigates through history through back/forward buttons
-      // we do not want to throw the error. We only throw it if directly calling
-      // push/replace. That's why it's not included in isError
-      if (!isRouterError(err, NavigationFailureType.duplicated) && isError(err)) {
+      // changed after adding errors with
+      // https://github.com/vuejs/vue-router/pull/3047 before that change,
+      // redirect and aborted navigation would produce an err == null
+      if (!isRouterError(err) && isError(err)) {
         if (this.errorCbs.length) {
           this.errorCbs.forEach(cb => {
             cb(err);
@@ -2959,7 +2958,7 @@ function createHref (base, fullPath, mode) {
 }
 
 VueRouter.install = install;
-VueRouter.version = '3.3.0';
+VueRouter.version = '3.3.1';
 
 if (inBrowser && window.Vue) {
   window.Vue.use(VueRouter);
