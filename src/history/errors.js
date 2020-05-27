@@ -60,8 +60,8 @@ function stringifyRoute (to) {
   if (typeof to === 'string') return to
   if ('path' in to) return to.path
   const location = {}
-  for (const key of propertiesToLog) {
+  propertiesToLog.forEach(key => {
     if (key in to) location[key] = to[key]
-  }
+  })
   return JSON.stringify(location, null, 2)
 }
