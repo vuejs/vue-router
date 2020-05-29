@@ -165,10 +165,10 @@ sidebar: auto
 
 ### aria-current-value
 
-- type: `'page' | 'step' | 'location' | 'date' | 'time'`
-- default: `"page"`
+- 型: `'page' | 'step' | 'location' | 'date' | 'time'`
+- デフォルト: `"page"`
 
-  Configure the value of `aria-current` when the link is active with exact match. It must be one of the [allowed values for aria-current](https://www.w3.org/TR/wai-aria-1.2/#aria-current) in the ARIA spec. In most cases, the default of `page` should be the best fit.
+  完全一致によってリンクがアクティブになっているときに `aria-current` の値を設定します。ARIA spec において[aria-current で許可されている値](https://www.w3.org/TR/wai-aria-1.2/#aria-current)の1つでなければなりません。ほとんどの場合、デフォルト`page` が最適です。
 
 ## `<router-view>`
 
