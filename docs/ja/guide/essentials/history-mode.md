@@ -1,5 +1,7 @@
 # HTML5 History モード
 
+<div class="vueschool"><a href="https://vueschool.io/courses/vue-router-for-everyone?friend=vuejs" target="_blank" rel="sponsored noopener" title="Learn how to build powerful Single Page Applications with the Vue Router on Vue School">Watch a free video course about Vue Router on Vue School</a></div>
+
 `vue-router` のデフォルトは _hash モード_ です - 完全な URL を hash を使ってシミュレートし、 URL が変更された時にページのリロードが起きません。
 
 その hash を取り除くために、ページのリロード無しに URL 遷移を実現する `history.pushState` API を利用したルーターの **history モード** を使うことができます。

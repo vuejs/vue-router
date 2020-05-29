@@ -1,5 +1,7 @@
 # ナビゲーションガード
 
+<div class="vueschool"><a href="https://vueschool.io/courses/vue-router-for-everyone?friend=vuejs" target="_blank" rel="sponsored noopener" title="Learn how to build powerful Single Page Applications with the Vue Router on Vue School">Watch a free video course about Vue Router on Vue School</a></div>
+
 この名前が示すように、 `vue-router` によって提供されるナビゲーションガードは、リダイレクトもしくはキャンセルによって遷移をガードするために主に使用されます。ルートナビゲーション処理 (グローバル、ルート単位、コンポーネント内) をフックする多くの方法があります。
 
 **パラメータまたはクエリの変更は enter/leave ナビゲーションガードをトリガーしない** ということを覚えておいてください。それらの変更に対応するために [`$route` オブジェクトを監視する](../essentials/dynamic-matching.md#reacting-to-params-changes)、またはコンポーネント内ガード `beforeRouteUpdate` を使用するかの、どちらかができます。
