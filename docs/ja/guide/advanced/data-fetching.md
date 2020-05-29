@@ -17,7 +17,7 @@
 ``` html
 <template>
   <div class="post">
-    <div class="loading" v-if="loading">
+    <div v-if="loading" class="loading">
       Loading...
     </div>
 
