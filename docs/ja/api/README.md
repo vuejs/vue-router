@@ -16,17 +16,49 @@ sidebar: auto
 
 - HTML5 history モードで `base` オプションを使っている時に、 `to` プロパティの URL にそれを含める必要がありません。
 
-### 外側の要素へのアクティブクラスの適用
+### `v-slot` API (3.1.0+)
 
-アクティブクラスを `<a>` タグ自身よりも、外側の要素に対して適用したいことがあるでしょう。その場合、 `<router-link>` を使って外側の要素を描画して、その内側に生の `<a>` タグをラップすることができます。
+`router-link` exposes a low level customization through a [scoped slot](https://vuejs.org/v2/guide/components-slots.html#Scoped-Slots). This is a more advanced API that primarily targets library authors but can come in handy for developers as well, most of the time in a custom component like a _NavLink_ or other.
 
-``` html
-<router-link tag="li" to="/foo">
-  <a>/foo</a>
+**When using the `v-slot` API, it is required to pass one single child to `router-link`**. If you don't, `router-link` will wrap its children in a `span` element.
+
+```html
+<router-link
+  to="/about"
+  v-slot="{ href, route, navigate, isActive, isExactActive }"
+>
+  <NavLink :active="isActive" :href="href" @click="navigate"
+    >{{ route.fullPath }}</NavLink
+  >
 </router-link>
 ```
 
-この時、 `<a>` は実際のリンクになります (そして正しい `href` が得られます)。しかし、アクティブクラスは外側の `<li>` に適用されます。
+- `href`: resolved url. This would be the `href` attribute of an `a` element
+- `route`: resolved normalized location
+- `navigate`: function to trigger the navigation. **It will automatically prevent events when necessary**, the same way `router-link` does
+- `isActive`: `true` if the [active class](#active-class) should be applied. Allows to apply an arbitrary class
+- `isExactActive`: `true` if the [exact active class](#exact-active-class) should be applied. Allows to apply an arbitrary class
+
+#### Example: Applying Active Class to Outer Element
+
+Sometimes we may want the active class to be applied to an outer element rather than the `<a>` tag itself, in that case, you can wrap that element inside a `router-link` and use the `v-slot` properties to create your link:
+
+```html
+<router-link
+  to="/foo"
+  v-slot="{ href, route, navigate, isActive, isExactActive }"
+>
+  <li
+    :class="[isActive && 'router-link-active', isExactActive && 'router-link-exact-active']"
+  >
+    <a :href="href" @click="navigate">{{ route.fullPath }}</a>
+  </li>
+</router-link>
+```
+
+:::tip
+If you add a `target="_blank"` to your `a` element, you must omit the `@click="navigate"` handler.
+:::
 
 ## `<router-link>` Props
 
@@ -112,7 +144,7 @@ sidebar: auto
 
   ``` html
   <!-- このリンクは `/` だけにアクティブになります -->
-  <router-link to="/" exact>
+  <router-link to="/" exact></router-link>
   ```
 
   アクティブリンククラスをより説明している例としてこちらの [動作](https://jsfiddle.net/8xrk1n9f/) を確認してください。
@@ -164,8 +196,8 @@ name ではないプロパティも描画されるコンポーネントに渡さ
 
   `RouteConfig` の型宣言:
 
-  ``` js
-  declare type RouteConfig = {
+  ``` ts
+  interface RouteConfig = {
     path: string;
     component?: Component;
     name?: string; // 名前付きルート用
@@ -464,7 +496,8 @@ router.onError(callback)
   const router = new VueRouter({
     routes: [
       // 以下のオブジェクトがルートレコード
-      { path: '/foo', component: Foo,
+      { path: '/foo',
+        component: Foo,
         children: [
           // こちらもルートレコード
           { path: 'bar', component: Bar }
