@@ -39,7 +39,7 @@ router.beforeEach((to, from, next) => {
 ```js
 // BAD
 router.beforeEach((to, from, next) => {
-  if (!isAuthenticated) next('/login')
+  if (to.name !== 'Login' && !isAuthenticated) next({ name: 'Login' })
   // ユーザーが認証されていない場合、 `next` は2回呼ばれる
   next()
 })
@@ -48,7 +48,7 @@ router.beforeEach((to, from, next) => {
 ```js
 // GOOD
 router.beforeEach((to, from, next) => {
-  if (!isAuthenticated) next('/login')
+  if (to.name !== 'Login' && !isAuthenticated) next({ name: 'Login' })
   else next()
 })
 ```
