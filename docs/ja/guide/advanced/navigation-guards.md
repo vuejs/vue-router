@@ -140,7 +140,7 @@ beforeRouteLeave (to, from, next) {
 
 ## 完全なナビゲーション解決フロー
 1. ナビゲーションがトリガされる
-2. 非アクティブ化されたコンポーネントで leave ガードを呼ぶ
+2. 非アクティブ化されたコンポーネントで `beforeRouteLeave` ガードを呼ぶ
 3. グローバル `beforeEach` ガードを呼ぶ
 4. 再利用されるコンポーネントで `beforeRouteUpdate` ガードを呼ぶ (2.2 以降)
 5. ルート設定内の `beforeEnter` を呼ぶ
