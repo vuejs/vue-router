@@ -200,7 +200,7 @@ export class History {
       const queue = enterGuards.concat(this.router.resolveHooks)
       runQueue(queue, iterator, () => {
         if (this.pending !== route) {
-          return abort()
+          return abort(createNavigationCancelledError(current, route))
         }
         this.pending = null
         onComplete(route)

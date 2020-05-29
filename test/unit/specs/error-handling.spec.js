@@ -9,7 +9,7 @@ describe('error handling', () => {
     const router = new VueRouter()
     const err = new Error('foo')
     router.beforeEach(() => { throw err })
-    router.onError(() => {})
+    router.onError(() => { })
 
     const onReady = jasmine.createSpy('ready')
     const onError = jasmine.createSpy('error')
@@ -65,6 +65,26 @@ describe('error handling', () => {
     router.push('/')
   })
 
+  it('NavigationCancelled error for nested async navigation', (done) => {
+    const component = {
+      template: `<img />`,
+      beforeRouteEnter (to, from, next) {
+        setTimeout(() => next(), 100)
+      }
+    }
+    const router = new VueRouter({
+      routes: [
+        { path: '/a', component }
+      ]
+    })
+
+    router.push('/a').catch(err => {
+      expect(err.type).toBe(NavigationFailureType.cancelled)
+      done()
+    })
+    router.push('/')
+  })
+
   it('NavigationRedirected error', done => {
     const router = new VueRouter()
 
@@ -105,7 +125,7 @@ describe('error handling', () => {
     })
 
     router.onError(spy1)
-    router.onReady(() => {}, spy2)
+    router.onReady(() => { }, spy2)
 
     router.push('/').catch(spy3).finally(() => {
       expect(spy1).toHaveBeenCalledWith(err)
