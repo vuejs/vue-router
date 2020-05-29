@@ -1,3 +1,13 @@
+## [3.3.2](https://github.com/vuejs/vue-router/compare/v3.3.1...v3.3.2) (2020-05-29)
+
+
+### Bug Fixes
+
+* **errors:** NavigationCanceled with async components ([#3211](https://github.com/vuejs/vue-router/issues/3211)) ([be39ca3](https://github.com/vuejs/vue-router/commit/be39ca3))
+* remove error.stack modification ([#3212](https://github.com/vuejs/vue-router/issues/3212)) ([a0075ed](https://github.com/vuejs/vue-router/commit/a0075ed))
+
+
+
 ## [3.3.1](https://github.com/vuejs/vue-router/compare/v3.3.0...v3.3.1) (2020-05-27)
 
 
