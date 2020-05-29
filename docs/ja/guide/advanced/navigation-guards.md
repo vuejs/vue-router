@@ -34,13 +34,13 @@ router.beforeEach((to, from, next) => {
 
   - **`next(error)`**: (2.4.0+) `next` に渡された引数が `Error` インスタンスである場合、ナビゲーションは中止され、エラーは `router.onError()` を介して登録されたコールバックに渡されます。
 
-  **Make sure that the `next` function is called exactly once in any given navigation guard. It can appear more than once, but only if the logical paths have no overlap, otherwise the hook will never be resolved or produce errors.** Here is an example of redirecting to user to `/login` if they are not authenticated:
+  **与えれれた任意のナビゲーションガードで、常に 1回だけ `next` 関数が呼び出されるようにしてください。それは複数回呼び出すことができますが、論理パスが重ならないときだけで、そうしないないとフックは決して解決されない、またはエラーが発生します。** 以下は、ユーザーが認証されていない場合、`/login` にリダレクトするための例です:
 
 ```js
 // BAD
 router.beforeEach((to, from, next) => {
   if (!isAuthenticated) next('/login')
-  // if the user is not authenticated, `next` is called twice
+  // ユーザーが認証されていない場合、 `next` は2回呼ばれる
   next()
 })
 ```
