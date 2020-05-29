@@ -16,11 +16,11 @@ sidebar: auto
 
 - HTML5 history モードで `base` オプションを使っている時に、 `to` プロパティの URL にそれを含める必要がありません。
 
-### `v-slot` API (3.1.0+)
+### `v-slot` API (3.1.0 以降)
 
-`router-link` exposes a low level customization through a [scoped slot](https://vuejs.org/v2/guide/components-slots.html#Scoped-Slots). This is a more advanced API that primarily targets library authors but can come in handy for developers as well, most of the time in a custom component like a _NavLink_ or other.
+`router-link` は[スコープ付きスロット](https://jp.vuejs.org/v2/guide/components-slots.html#%E3%82%B9%E3%82%B3%E3%83%BC%E3%83%97%E4%BB%98%E3%81%8D%E3%82%B9%E3%83%AD%E3%83%83%E3%83%88)を通して低レベルなカスタマイズを提供しています。これは、主にライブラリ作者をターゲットにした高度な API ですが、ほとんどの場合 _NavLink_ などのようなカスタムコンポーネントでも同様に開発者にとっても大変便利です。
 
-**When using the `v-slot` API, it is required to pass one single child to `router-link`**. If you don't, `router-link` will wrap its children in a `span` element.
+**`v-slot` API を使うとき、それは単一の子を `router-link` に通す必要がります。**そうしない場合は、 `router-linke` は `span` 要素で子をラップします。
 
 ```html
 <router-link
@@ -33,15 +33,15 @@ sidebar: auto
 </router-link>
 ```
 
-- `href`: resolved url. This would be the `href` attribute of an `a` element
-- `route`: resolved normalized location
-- `navigate`: function to trigger the navigation. **It will automatically prevent events when necessary**, the same way `router-link` does
-- `isActive`: `true` if the [active class](#active-class) should be applied. Allows to apply an arbitrary class
-- `isExactActive`: `true` if the [exact active class](#exact-active-class) should be applied. Allows to apply an arbitrary class
+- `href`: 解決された url。これは、`a` 要素の `href` 属性になります
+- `route`: 解決された正規化済みロケーション
+- `navigate`: ナビゲーションをトリガーするための関数。`router-link` と同じように、**必要なときに自動的にイベントが起こらないようにします。**
+- `isActive`: [アクティブクラス (active class)](#active-class) が適用されるとき、`true` になります。任意のクラスを適用できます。
+- `isExactActive`: `true` if the [正確なアクティブクラス (exact active class)](#exact-active-class) が適用されるとき、`true` になります。 任意のクラスを適用できます。
 
-#### Example: Applying Active Class to Outer Element
+#### 例: アクティブクラスを外部要素への適用
 
-Sometimes we may want the active class to be applied to an outer element rather than the `<a>` tag itself, in that case, you can wrap that element inside a `router-link` and use the `v-slot` properties to create your link:
+アクティブクラスを `<a>` タグ自身よりも、外側の要素に対して適用したいことがあるでしょう。その場合、`<router-link>` 内の要素を `v-slot` を使ってリンクを作成することでラップできます。
 
 ```html
 <router-link
@@ -57,7 +57,7 @@ Sometimes we may want the active class to be applied to an outer element rather 
 ```
 
 :::tip
-If you add a `target="_blank"` to your `a` element, you must omit the `@click="navigate"` handler.
+`target="_blank"` を `a` 要素に追加する場合、`@click="navigate"` ハンドラを省略しなければなりません。
 :::
 
 ## `<router-link>` Props
