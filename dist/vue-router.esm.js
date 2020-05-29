@@ -1,5 +1,5 @@
 /*!
-  * vue-router v3.3.1
+  * vue-router v3.3.2
   * (c) 2020 Evan You
   * @license MIT
   */
@@ -2063,9 +2063,6 @@ function createRouterError (from, to, type, message) {
   error.to = to;
   error.type = type;
 
-  var newStack = error.stack.split('\n');
-  newStack.splice(1, 2); // remove 2 last useless calls
-  error.stack = newStack.join('\n');
   return error
 }
 
@@ -2251,7 +2248,7 @@ History.prototype.confirmTransition = function confirmTransition (route, onCompl
     var queue = enterGuards.concat(this$1.router.resolveHooks);
     runQueue(queue, iterator, function () {
       if (this$1.pending !== route) {
-        return abort()
+        return abort(createNavigationCancelledError(current, route))
       }
       this$1.pending = null;
       onComplete(route);
@@ -2997,7 +2994,7 @@ function createHref (base, fullPath, mode) {
 }
 
 VueRouter.install = install;
-VueRouter.version = '3.3.1';
+VueRouter.version = '3.3.2';
 
 if (inBrowser && window.Vue) {
   window.Vue.use(VueRouter);
