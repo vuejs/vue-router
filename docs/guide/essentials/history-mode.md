@@ -97,7 +97,13 @@ For Node.js/Express, consider using [connect-history-api-fallback middleware](ht
 </configuration>
 ```
 
-#### Caddy
+#### Caddy v2
+
+```
+try_files {path} /
+```
+
+#### Caddy v1
 
 ```
 rewrite {
