@@ -48,9 +48,6 @@ function createRouterError (from, to, type, message) {
   error.to = to
   error.type = type
 
-  const newStack = error.stack.split('\n')
-  newStack.splice(1, 2) // remove 2 last useless calls
-  error.stack = newStack.join('\n')
   return error
 }
 
