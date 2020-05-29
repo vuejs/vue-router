@@ -32,6 +32,14 @@ Vue.use(VueRouter)
 
 グローバルな script タグを使っている場合は必要ありません。
 
+## Vue CLI
+
+If you have a project using [Vue CLI](https://cli.vuejs.org/) you can add Vue Router as a plugin. You can let the CLI generate the code above for you as well as two sample routes. **It will also overwrite your `App.vue`** so make sure to backup up the file before running the following command inside your project:
+
+```sh
+vue add router
+```
+
 ### 開発用ビルド
 
 もし最新の開発用ビルドを使用したい場合は、GitHub から直接クローンして `vue-router` をご自身でビルドしてください。
