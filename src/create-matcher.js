@@ -185,7 +185,16 @@ function matchRoute (
 
   for (let i = 1, len = m.length; i < len; ++i) {
     const key = regex.keys[i - 1]
-    const val = typeof m[i] === 'string' ? decodeURIComponent(m[i]) : m[i]
+    let val = m[i]
+    if (typeof m[i] === 'string') {
+      try {
+        val = decodeURIComponent(m[i])
+      } catch (error) {
+        if (error.toString() !== 'URIError: URI malformed') {
+          throw error
+        }
+      }
+    }
     if (key) {
       // Fix #1994: using * with props: true generates a param named 0
       params[key.name || 'pathMatch'] = val
