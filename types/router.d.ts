@@ -94,7 +94,6 @@ interface _RouteConfigBase {
   name?: string
   redirect?: RedirectOption
   alias?: string | string[]
-  children?: RouteConfig[]
   meta?: any
   beforeEnter?: NavigationGuard
   caseSensitive?: boolean
@@ -108,6 +107,7 @@ interface RouteConfigSingleView extends _RouteConfigBase {
 
 interface RouteConfigMultipleViews extends _RouteConfigBase {
   components?: Dictionary<Component>
+  children?: RouteConfig[]
   props?: Dictionary<boolean | Object | RoutePropsFunction>
 }
 
