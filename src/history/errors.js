@@ -10,7 +10,9 @@ export function createNavigationRedirectedError (from, to) {
     from,
     to,
     NavigationFailureType.redirected,
-    `Redirected from "${from.fullPath}" to "${stringifyRoute(to)}" via a navigation guard.`
+    `Redirected when going from "${from.fullPath}" to "${stringifyRoute(
+      to
+    )}" via a navigation guard.`
   )
 }
 
@@ -28,7 +30,9 @@ export function createNavigationCancelledError (from, to) {
     from,
     to,
     NavigationFailureType.cancelled,
-    `Navigation cancelled from "${from.fullPath}" to "${to.fullPath}" with a new navigation.`
+    `Navigation cancelled from "${from.fullPath}" to "${
+      to.fullPath
+    }" with a new navigation.`
   )
 }
 
@@ -37,7 +41,9 @@ export function createNavigationAbortedError (from, to) {
     from,
     to,
     NavigationFailureType.aborted,
-    `Navigation aborted from "${from.fullPath}" to "${to.fullPath}" via a navigation guard.`
+    `Navigation aborted from "${from.fullPath}" to "${
+      to.fullPath
+    }" via a navigation guard.`
   )
 }
 
