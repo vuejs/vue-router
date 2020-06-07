@@ -39,7 +39,7 @@ sidebar: auto
 - `isActive`: [アクティブクラス (active class)](#active-class) が適用されるとき、`true` になります。任意のクラスを適用できます。
 - `isExactActive`: `true` if the [正確なアクティブクラス (exact active class)](#exact-active-class) が適用されるとき、`true` になります。 任意のクラスを適用できます。
 
-#### 例: アクティブクラスを外部要素への適用
+#### 例: アクティブクラスを外部要素へ適用
 
 アクティブクラスを `<a>` タグ自身よりも、外側の要素に対して適用したいことがあるでしょう。その場合、`<router-link>` 内の要素を `v-slot` を使ってリンクを作成することでラップできます。
 
