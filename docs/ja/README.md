@@ -4,6 +4,8 @@
 TypeScriptユーザの場合、 `vue-router@3.0+` は `vue@2.5+` を必須とし、逆もまた同様です。
 :::
 
+<div class="vueschool"><a href="https://vueschool.io/courses/vue-router-for-everyone?friend=vuejs" target="_blank" rel="sponsored noopener" title="Learn how to build powerful Single Page Applications with the Vue Router on Vue School">Watch a free video course about Vue Router on Vue School</a></div>
+
 Vue Router は [Vue.js](http://vuejs.org) 公式ルータです。これは Vue.js のコアと深く深く統合されており、Vue.js でシングルページアプリケーションを構築します。機能は次の通りです:
 
 - ネストされたルート/ビューマッピング

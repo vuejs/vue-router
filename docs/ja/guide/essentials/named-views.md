@@ -1,5 +1,7 @@
 # 名前付きビュー
 
+<div class="vueschool"><a href="https://vueschool.io/courses/vue-router-for-everyone?friend=vuejs" target="_blank" rel="sponsored noopener" title="Learn how to build powerful Single Page Applications with the Vue Router on Vue School">Watch a free video course about Vue Router on Vue School</a></div>
+
 しばしば、ネストをさせずに同時に複数の view を表示する必要があるでしょう。例えば、`sidebar` view と `main` view を使ったレイアウトを作成する時です。そんな時に名前付きビューは便利です。あなたの view に 1 つのアウトレットを持つのではなく、複数のそれぞれが名前付きの view を持つことができます。名前を持たない `router-view` はその名前として `default` が付与されます。
 
 ``` html

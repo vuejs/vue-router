@@ -1,5 +1,7 @@
 # トランジション
 
+<div class="vueschool"><a href="https://vueschool.io/courses/vue-router-for-everyone?friend=vuejs" target="_blank" rel="sponsored noopener" title="Learn how to build powerful Single Page Applications with the Vue Router on Vue School">Watch a free video course about Vue Router on Vue School</a></div>
+
 基本的に `<router-view>` は動的コンポーネントなので、 `<transition>` コンポーネントを使うのと同じ方法でトランジションを適用することができます。
 
 ``` html

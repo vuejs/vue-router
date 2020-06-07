@@ -1,5 +1,7 @@
 # データ取得
 
+<div class="vueschool"><a href="https://vueschool.io/courses/vue-router-for-everyone?friend=vuejs" target="_blank" rel="sponsored noopener" title="Learn how to build powerful Single Page Applications with the Vue Router on Vue School">Watch a free video course about Vue Router on Vue School</a></div>
+
 ルートが有効化された時にサーバーからデータを取得する必要がしばしばあります。例えば、ユーザープロフィールを描画する前に、サーバーからユーザーデータを取得する必要があります。これを実現するためには 2 種類の方法があります。
 
 - **ナビゲーション後の取得**: ナビゲーションを先に実行し、その後次に入ってくるコンポーネントのライフサイクルフック内でデータを取得します。データ取得中にローディングを表示します。
@@ -17,7 +19,7 @@
 ``` html
 <template>
   <div class="post">
-    <div class="loading" v-if="loading">
+    <div v-if="loading" class="loading">
       Loading...
     </div>
 
