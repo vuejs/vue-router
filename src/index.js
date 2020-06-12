@@ -119,11 +119,12 @@ export default class VueRouter {
 
     if (history instanceof HTML5History || history instanceof HashHistory) {
       const handleInitialScroll = (route) => {
+        const from = history.current
         const expectScroll = this.options.scrollBehavior
         const supportsScroll = supportsPushState && expectScroll
 
         if (supportsScroll) {
-          handleScroll(this, route, route, false)
+          handleScroll(this, route, from, false)
         }
       }
       const setupListeners = (route) => {
