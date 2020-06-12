@@ -1,3 +1,19 @@
+## [3.3.3](https://github.com/vuejs/vue-router/compare/v3.3.2...v3.3.3) (2020-06-12)
+
+
+### Bug Fixes
+
+* **history:** initial redirect call onReady's onSuccess ([4d484bf](https://github.com/vuejs/vue-router/commit/4d484bf)), closes [#3225](https://github.com/vuejs/vue-router/issues/3225)
+* update ja docs ([#3214](https://github.com/vuejs/vue-router/issues/3214)) ([c05f741](https://github.com/vuejs/vue-router/commit/c05f741))
+
+
+### Features
+
+* better wording for navigation redirected failure ([1f3aea6](https://github.com/vuejs/vue-router/commit/1f3aea6))
+* **types:** RouterConfig for multiple components ([#3217](https://github.com/vuejs/vue-router/issues/3217)) ([#3218](https://github.com/vuejs/vue-router/issues/3218)) ([dab86c5](https://github.com/vuejs/vue-router/commit/dab86c5))
+
+
+
 ## [3.3.2](https://github.com/vuejs/vue-router/compare/v3.3.1...v3.3.2) (2020-05-29)
 
 
