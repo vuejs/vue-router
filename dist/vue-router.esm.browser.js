@@ -1,5 +1,5 @@
 /*!
-  * vue-router v3.3.2
+  * vue-router v3.3.3
   * (c) 2020 Evan You
   * @license MIT
   */
@@ -2000,7 +2000,9 @@ function createNavigationRedirectedError (from, to) {
     from,
     to,
     NavigationFailureType.redirected,
-    `Redirected from "${from.fullPath}" to "${stringifyRoute(to)}" via a navigation guard.`
+    `Redirected when going from "${from.fullPath}" to "${stringifyRoute(
+      to
+    )}" via a navigation guard.`
   )
 }
 
@@ -2018,7 +2020,9 @@ function createNavigationCancelledError (from, to) {
     from,
     to,
     NavigationFailureType.cancelled,
-    `Navigation cancelled from "${from.fullPath}" to "${to.fullPath}" with a new navigation.`
+    `Navigation cancelled from "${from.fullPath}" to "${
+      to.fullPath
+    }" with a new navigation.`
   )
 }
 
@@ -2027,7 +2031,9 @@ function createNavigationAbortedError (from, to) {
     from,
     to,
     NavigationFailureType.aborted,
-    `Navigation aborted from "${from.fullPath}" to "${to.fullPath}" via a navigation guard.`
+    `Navigation aborted from "${from.fullPath}" to "${
+      to.fullPath
+    }" via a navigation guard.`
   )
 }
 
@@ -2139,9 +2145,17 @@ class History {
         }
         if (err && !this.ready) {
           this.ready = true;
-          this.readyErrorCbs.forEach(cb => {
-            cb(err);
-          });
+          // Initial redirection should still trigger the onReady onSuccess
+          // https://github.com/vuejs/vue-router/issues/3225
+          if (!isRouterError(err, NavigationFailureType.redirected)) {
+            this.readyErrorCbs.forEach(cb => {
+              cb(err);
+            });
+          } else {
+            this.readyCbs.forEach(cb => {
+              cb(route);
+            });
+          }
         }
       }
     );
@@ -2955,7 +2969,7 @@ function createHref (base, fullPath, mode) {
 }
 
 VueRouter.install = install;
-VueRouter.version = '3.3.2';
+VueRouter.version = '3.3.3';
 
 if (inBrowser && window.Vue) {
   window.Vue.use(VueRouter);
