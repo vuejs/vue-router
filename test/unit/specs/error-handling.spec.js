@@ -150,4 +150,37 @@ describe('error handling', () => {
         done()
       })
   })
+
+  // https://github.com/vuejs/vue-router/issues/3225
+  it('should trigger onReady onSuccess when redirecting', done => {
+    const router = new VueRouter({
+      routes: [{ path: '/', component: {}}, { path: '/foo', component: {}}]
+    })
+
+    const onError = jasmine.createSpy('onError')
+    const onReadySuccess = jasmine.createSpy('onReadySuccess')
+    const onReadyFail = jasmine.createSpy('onReadyFail')
+    router.onError(onError)
+    router.onReady(onReadySuccess, onReadyFail)
+
+    router.beforeEach((to, from, next) => {
+      if (to.path === '/') next('/foo')
+      else next()
+    })
+
+    const pushCatch = jasmine.createSpy('pushCatch')
+
+    // initial navigation
+    router
+      .push('/')
+      .catch(pushCatch)
+      .finally(() => {
+        expect(onReadyFail).not.toHaveBeenCalled()
+        // in 3.2.0 it was called with undefined
+        // expect(pushCatch).not.toHaveBeenCalled()
+        expect(onError).not.toHaveBeenCalled()
+        expect(onReadySuccess).toHaveBeenCalled()
+        done()
+      })
+  })
 })
