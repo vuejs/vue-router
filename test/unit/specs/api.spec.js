@@ -116,6 +116,23 @@ describe('router.addRoutes', () => {
     expect(components.length).toBe(1)
     expect(components[0].name).toBe('A')
   })
+
+  it('allows navigating to the same as current location', () => {
+    const router = new Router({
+      routes: [
+        { path: '/', component: {}},
+        { path: '*', component: {}}
+      ]
+    })
+
+    router.push('/not-found')
+
+    expect(router.currentRoute.params).toEqual({ pathMatch: '/not-found' })
+    router.addRoutes([{ path: '/not-found', component: {}}])
+
+    // the navigation should have changed locations
+    expect(router.currentRoute.params).toEqual({})
+  })
 })
 
 describe('router.push/replace', () => {
