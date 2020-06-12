@@ -38,6 +38,8 @@ You can have multiple dynamic segments in the same route, and they will map to c
 
 In addition to `$route.params`, the `$route` object also exposes other useful information such as `$route.query` (if there is a query in the URL), `$route.hash`, etc. You can check out the full details in the [API Reference](../../api/#the-route-object).
 
+A param can be made optional by appending a `?`, e.g. `/user/:username?`. See [Advanced Matching Patterns](#advanced-matching-patterns) for more information on matching patterns.
+
 ## Reacting to Params Changes
 
 One thing to note when using routes with params is that when the user navigates from `/user/foo` to `/user/bar`, **the same component instance will be reused**. Since both routes render the same component, this is more efficient than destroying the old instance and then creating a new one. **However, this also means that the lifecycle hooks of the component will not be called**.
