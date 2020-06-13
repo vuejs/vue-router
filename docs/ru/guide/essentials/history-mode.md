@@ -52,9 +52,9 @@ const fs = require('fs')
 const httpPort = 80
 
 http.createServer((req, res) => {
-  fs.readFile('index.htm', 'utf-8', (err, content) => {
+  fs.readFile('index.html', 'utf-8', (err, content) => {
     if (err) {
-      console.log('Невозможно открыть файл "index.htm".')
+      console.log('Невозможно открыть файл "index.html".')
     }
 
     res.writeHead(200, {
