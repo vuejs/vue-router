@@ -1,5 +1,5 @@
 /*!
-  * vue-router v3.3.3
+  * vue-router v3.3.4
   * (c) 2020 Evan You
   * @license MIT
   */
@@ -2179,10 +2179,13 @@ class History {
       }
       onAbort && onAbort(err);
     };
+    const lastRouteIndex = route.matched.length - 1;
+    const lastCurrentIndex = current.matched.length - 1;
     if (
       isSameRoute(route, current) &&
       // in the case the route map has been dynamically appended to
-      route.matched.length === current.matched.length
+      lastRouteIndex === lastCurrentIndex &&
+      route.matched[lastRouteIndex] === current.matched[lastCurrentIndex]
     ) {
       this.ensureURL();
       return abort(createNavigationDuplicatedError(current, route))
@@ -2969,7 +2972,7 @@ function createHref (base, fullPath, mode) {
 }
 
 VueRouter.install = install;
-VueRouter.version = '3.3.3';
+VueRouter.version = '3.3.4';
 
 if (inBrowser && window.Vue) {
   window.Vue.use(VueRouter);
