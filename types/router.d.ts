@@ -92,6 +92,7 @@ export interface PathToRegexpOptions {
 interface _RouteConfigBase {
   path: string
   name?: string
+  children?: RouteConfig[]
   redirect?: RedirectOption
   alias?: string | string[]
   meta?: any
@@ -107,7 +108,6 @@ interface RouteConfigSingleView extends _RouteConfigBase {
 
 interface RouteConfigMultipleViews extends _RouteConfigBase {
   components?: Dictionary<Component>
-  children?: RouteConfig[]
   props?: Dictionary<boolean | Object | RoutePropsFunction>
 }
 

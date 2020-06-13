@@ -68,6 +68,16 @@ const router = new VueRouter({
   },
   routes: [
     {
+      path: '/foo',
+      component: Home,
+      children: [{ path: '', component: Home }]
+    },
+    {
+      path: '/foo',
+      components: { default: Home },
+      children: [{ path: '', component: Home }]
+    },
+    {
       path: '/',
       name: 'home',
       component: Home,
