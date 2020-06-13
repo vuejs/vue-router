@@ -1,3 +1,13 @@
+## [3.3.4](https://github.com/vuejs/vue-router/compare/v3.3.3...v3.3.4) (2020-06-13)
+
+
+### Bug Fixes
+
+* **matcher:** navigate to same as current location ([62598b9](https://github.com/vuejs/vue-router/commit/62598b9)), closes [#3216](https://github.com/vuejs/vue-router/issues/3216)
+* **types:** missing children ([c1df447](https://github.com/vuejs/vue-router/commit/c1df447)), closes [#3230](https://github.com/vuejs/vue-router/issues/3230)
+
+
+
 ## [3.3.3](https://github.com/vuejs/vue-router/compare/v3.3.2...v3.3.3) (2020-06-12)
 
 
