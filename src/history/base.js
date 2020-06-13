@@ -4,14 +4,20 @@ import { _Vue } from '../install'
 import type Router from '../index'
 import { inBrowser } from '../util/dom'
 import { runQueue } from '../util/async'
-import { warn, isError, isExtendedError } from '../util/warn'
+import { warn, isError, isRouterError } from '../util/warn'
 import { START, isSameRoute } from '../util/route'
 import {
   flatten,
   flatMapComponents,
   resolveAsyncComponents
 } from '../util/resolve-components'
-import { NavigationDuplicated } from './errors'
+import {
+  createNavigationDuplicatedError,
+  createNavigationCancelledError,
+  createNavigationRedirectedError,
+  createNavigationAbortedError,
+  NavigationFailureType
+} from './errors'
 
 export class History {
   router: Router
@@ -23,13 +29,16 @@ export class History {
   readyCbs: Array<Function>
   readyErrorCbs: Array<Function>
   errorCbs: Array<Function>
+  listeners: Array<Function>
+  cleanupListeners: Function
 
   // implemented by sub-classes
   +go: (n: number) => void
-  +push: (loc: RawLocation) => void
-  +replace: (loc: RawLocation) => void
+  +push: (loc: RawLocation, onComplete?: Function, onAbort?: Function) => void
+  +replace: (loc: RawLocation, onComplete?: Function, onAbort?: Function) => void
   +ensureURL: (push?: boolean) => void
   +getCurrentLocation: () => string
+  +setupListeners: Function
 
   constructor (router: Router, base: ?string) {
     this.router = router
@@ -41,6 +50,7 @@ export class History {
     this.readyCbs = []
     this.readyErrorCbs = []
     this.errorCbs = []
+    this.listeners = []
   }
 
   listen (cb: Function) {
@@ -71,9 +81,13 @@ export class History {
     this.confirmTransition(
       route,
       () => {
+        const prev = this.current
         this.updateRoute(route)
         onComplete && onComplete(route)
         this.ensureURL()
+        this.router.afterHooks.forEach(hook => {
+          hook && hook(route, prev)
+        })
 
         // fire ready cbs once
         if (!this.ready) {
@@ -89,9 +103,17 @@ export class History {
         }
         if (err && !this.ready) {
           this.ready = true
-          this.readyErrorCbs.forEach(cb => {
-            cb(err)
-          })
+          // Initial redirection should still trigger the onReady onSuccess
+          // https://github.com/vuejs/vue-router/issues/3225
+          if (!isRouterError(err, NavigationFailureType.redirected)) {
+            this.readyErrorCbs.forEach(cb => {
+              cb(err)
+            })
+          } else {
+            this.readyCbs.forEach(cb => {
+              cb(route)
+            })
+          }
         }
       }
     )
@@ -100,11 +122,10 @@ export class History {
   confirmTransition (route: Route, onComplete: Function, onAbort?: Function) {
     const current = this.current
     const abort = err => {
-      // after merging https://github.com/vuejs/vue-router/pull/2771 we
-      // When the user navigates through history through back/forward buttons
-      // we do not want to throw the error. We only throw it if directly calling
-      // push/replace. That's why it's not included in isError
-      if (!isExtendedError(NavigationDuplicated, err) && isError(err)) {
+      // changed after adding errors with
+      // https://github.com/vuejs/vue-router/pull/3047 before that change,
+      // redirect and aborted navigation would produce an err == null
+      if (!isRouterError(err) && isError(err)) {
         if (this.errorCbs.length) {
           this.errorCbs.forEach(cb => {
             cb(err)
@@ -116,13 +137,16 @@ export class History {
       }
       onAbort && onAbort(err)
     }
+    const lastRouteIndex = route.matched.length - 1
+    const lastCurrentIndex = current.matched.length - 1
     if (
       isSameRoute(route, current) &&
       // in the case the route map has been dynamically appended to
-      route.matched.length === current.matched.length
+      lastRouteIndex === lastCurrentIndex &&
+      route.matched[lastRouteIndex] === current.matched[lastCurrentIndex]
     ) {
       this.ensureURL()
-      return abort(new NavigationDuplicated(route))
+      return abort(createNavigationDuplicatedError(current, route))
     }
 
     const { updated, deactivated, activated } = resolveQueue(
@@ -146,12 +170,15 @@ export class History {
     this.pending = route
     const iterator = (hook: NavigationGuard, next) => {
       if (this.pending !== route) {
-        return abort()
+        return abort(createNavigationCancelledError(current, route))
       }
       try {
         hook(route, current, (to: any) => {
-          if (to === false || isError(to)) {
+          if (to === false) {
             // next(false) -> abort navigation, ensure current URL
+            this.ensureURL(true)
+            abort(createNavigationAbortedError(current, route))
+          } else if (isError(to)) {
             this.ensureURL(true)
             abort(to)
           } else if (
@@ -160,7 +187,7 @@ export class History {
               (typeof to.path === 'string' || typeof to.name === 'string'))
           ) {
             // next('/') or next({ path: '/' }) -> redirect
-            abort()
+            abort(createNavigationRedirectedError(current, route))
             if (typeof to === 'object' && to.replace) {
               this.replace(to)
             } else {
@@ -185,7 +212,7 @@ export class History {
       const queue = enterGuards.concat(this.router.resolveHooks)
       runQueue(queue, iterator, () => {
         if (this.pending !== route) {
-          return abort()
+          return abort(createNavigationCancelledError(current, route))
         }
         this.pending = null
         onComplete(route)
@@ -201,12 +228,19 @@ export class History {
   }
 
   updateRoute (route: Route) {
-    const prev = this.current
     this.current = route
     this.cb && this.cb(route)
-    this.router.afterHooks.forEach(hook => {
-      hook && hook(route, prev)
+  }
+
+  setupListeners () {
+    // Default implementation is empty
+  }
+
+  teardownListeners () {
+    this.listeners.forEach(cleanupListener => {
+      cleanupListener()
     })
+    this.listeners = []
   }
 }
 

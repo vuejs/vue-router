@@ -16,17 +16,49 @@ sidebar: auto
 
 - HTML5 history モードで `base` オプションを使っている時に、 `to` プロパティの URL にそれを含める必要がありません。
 
-### 外側の要素へのアクティブクラスの適用
+### `v-slot` API (3.1.0 以降)
 
-アクティブクラスを `<a>` タグ自身よりも、外側の要素に対して適用したいことがあるでしょう。その場合、 `<router-link>` を使って外側の要素を描画して、その内側に生の `<a>` タグをラップすることができます。
+`router-link` は[スコープ付きスロット](https://jp.vuejs.org/v2/guide/components-slots.html#%E3%82%B9%E3%82%B3%E3%83%BC%E3%83%97%E4%BB%98%E3%81%8D%E3%82%B9%E3%83%AD%E3%83%83%E3%83%88)を通して低レベルなカスタマイズを提供しています。これは、主にライブラリ作者をターゲットにした高度な API ですが、ほとんどの場合 _NavLink_ などのようなカスタムコンポーネントでも同様に開発者にとっても大変便利です。
 
-``` html
-<router-link tag="li" to="/foo">
-  <a>/foo</a>
+**`v-slot` API を使うとき、それは単一の子を `router-link` に通す必要がります。**そうしない場合は、 `router-linke` は `span` 要素で子をラップします。
+
+```html
+<router-link
+  to="/about"
+  v-slot="{ href, route, navigate, isActive, isExactActive }"
+>
+  <NavLink :active="isActive" :href="href" @click="navigate"
+    >{{ route.fullPath }}</NavLink
+  >
 </router-link>
 ```
 
-この時、 `<a>` は実際のリンクになります (そして正しい `href` が得られます)。しかし、アクティブクラスは外側の `<li>` に適用されます。
+- `href`: 解決された url。これは、`a` 要素の `href` 属性になります
+- `route`: 解決された正規化済みロケーション
+- `navigate`: ナビゲーションをトリガーするための関数。`router-link` と同じように、**必要なときに自動的にイベントが起こらないようにします。**
+- `isActive`: [アクティブクラス (active class)](#active-class) が適用されるとき、`true` になります。任意のクラスを適用できます。
+- `isExactActive`: `true` if the [正確なアクティブクラス (exact active class)](#exact-active-class) が適用されるとき、`true` になります。 任意のクラスを適用できます。
+
+#### 例: アクティブクラスを外部要素へ適用
+
+アクティブクラスを `<a>` タグ自身よりも、外側の要素に対して適用したいことがあるでしょう。その場合、`<router-link>` 内の要素を `v-slot` を使ってリンクを作成することでラップできます。
+
+```html
+<router-link
+  to="/foo"
+  v-slot="{ href, route, navigate, isActive, isExactActive }"
+>
+  <li
+    :class="[isActive && 'router-link-active', isExactActive && 'router-link-exact-active']"
+  >
+    <a :href="href" @click="navigate">{{ route.fullPath }}</a>
+  </li>
+</router-link>
+```
+
+:::tip
+`target="_blank"` を `a` 要素に追加する場合、`@click="navigate"` ハンドラを省略しなければなりません。
+:::
 
 ## `<router-link>` Props
 
@@ -112,7 +144,7 @@ sidebar: auto
 
   ``` html
   <!-- このリンクは `/` だけにアクティブになります -->
-  <router-link to="/" exact>
+  <router-link to="/" exact></router-link>
   ```
 
   アクティブリンククラスをより説明している例としてこちらの [動作](https://jsfiddle.net/8xrk1n9f/) を確認してください。
@@ -130,6 +162,13 @@ sidebar: auto
   - デフォルト: `"router-link-exact-active"`
 
   完全一致によってリンクがアクティブになっているときに適用されるアクティブな CSS クラスを設定します。デフォルト値は `linkExactActiveClass` ルーターコンストラクタのオプション経由でグローバルに設定することもできます。
+
+### aria-current-value
+
+- 型: `'page' | 'step' | 'location' | 'date' | 'time'`
+- デフォルト: `"page"`
+
+  完全一致によってリンクがアクティブになっているときに `aria-current` の値を設定します。ARIA spec において[aria-current で許可されている値](https://www.w3.org/TR/wai-aria-1.2/#aria-current)の1つでなければなりません。ほとんどの場合、デフォルト`page` が最適です。
 
 ## `<router-view>`
 
@@ -164,8 +203,8 @@ name ではないプロパティも描画されるコンポーネントに渡さ
 
   `RouteConfig` の型宣言:
 
-  ``` js
-  declare type RouteConfig = {
+  ``` ts
+  interface RouteConfig = {
     path: string;
     component?: Component;
     name?: string; // 名前付きルート用
@@ -313,7 +352,9 @@ router.afterEach((to, from) => {})
 
 ``` js
 router.push(location, onComplete?, onAbort?)
+router.push(location).then(onComplete).catch(onAbort)
 router.replace(location, onComplete?, onAbort?)
+router.replace(location).then(onComplete).catch(onAbort)
 router.go(n)
 router.back()
 router.forward()
@@ -462,7 +503,8 @@ router.onError(callback)
   const router = new VueRouter({
     routes: [
       // 以下のオブジェクトがルートレコード
-      { path: '/foo', component: Foo,
+      { path: '/foo',
+        component: Foo,
         children: [
           // こちらもルートレコード
           { path: 'bar', component: Bar }

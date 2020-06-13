@@ -57,6 +57,12 @@ module.exports = {
       .waitForElementVisible('#app', 1000)
       .assert.containsText('.view', 'unicode: ñ')
       .assert.containsText('#query-t', '%')
+
+      // Listener cleanup
+      .assert.containsText('#popstate-count', '1 popstate listeners')
+      .click('#unmount')
+      .assert.containsText('#popstate-count', '0 popstate listeners')
+
       .end()
   }
 }

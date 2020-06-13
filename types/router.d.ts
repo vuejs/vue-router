@@ -89,20 +89,29 @@ export interface PathToRegexpOptions {
   end?: boolean
 }
 
-export interface RouteConfig {
+interface _RouteConfigBase {
   path: string
   name?: string
-  component?: Component
-  components?: Dictionary<Component>
   redirect?: RedirectOption
   alias?: string | string[]
-  children?: RouteConfig[]
   meta?: any
   beforeEnter?: NavigationGuard
-  props?: boolean | Object | RoutePropsFunction
   caseSensitive?: boolean
   pathToRegexpOptions?: PathToRegexpOptions
 }
+
+interface RouteConfigSingleView extends _RouteConfigBase {
+  component?: Component
+  props?: boolean | Object | RoutePropsFunction
+}
+
+interface RouteConfigMultipleViews extends _RouteConfigBase {
+  components?: Dictionary<Component>
+  children?: RouteConfig[]
+  props?: Dictionary<boolean | Object | RoutePropsFunction>
+}
+
+export type RouteConfig = RouteConfigSingleView | RouteConfigMultipleViews
 
 export interface RouteRecord {
   path: string

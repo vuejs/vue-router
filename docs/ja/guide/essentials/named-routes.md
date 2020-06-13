@@ -1,5 +1,7 @@
 # 名前付きルート
 
+<div class="vueschool"><a href="https://vueschool.io/courses/vue-router-for-everyone?friend=vuejs" target="_blank" rel="sponsored noopener" title="Learn how to build powerful Single Page Applications with the Vue Router on Vue School">Watch a free video course about Vue Router on Vue School</a></div>
+
 しばしば、名前を使ってルートを特定できるとより便利です。特にルートにリンクするときやナビゲーションを実行するときなどです。Router インスタンスを作成するときに `routes` オプションの中でルートに名前を付けることができます。
 
 ``` js

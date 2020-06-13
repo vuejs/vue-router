@@ -1,5 +1,7 @@
 # 動的ルートマッチング
 
+<div class="vueschool"><a href="https://vueschool.io/courses/vue-router-for-everyone?friend=vuejs" target="_blank" rel="sponsored noopener" title="Learn how to build powerful Single Page Applications with the Vue Router on Vue School">Watch a free video course about Vue Router on Vue School</a></div>
+
 パターンを使って同じコンポーネントにルートをマップする必要がしばしばあるでしょう。例えば、 `User` コンポーネントは全てのユーザーに対して描画されるべきであるが、それぞれ異なるユーザー ID を持つ場合などです。`vue-router` ではパスの中の動的なセグメントを使用して実現できます。
 
 ``` js

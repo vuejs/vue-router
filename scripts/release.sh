@@ -1,5 +1,6 @@
 set -e
-echo "Enter release version: "
+echo "Current version:" $(grep version package.json | sed -E 's/^.*"(4[^"]+)".*$/\1/')
+echo "Enter release version e.g. 3.3.0: "
 read VERSION
 
 read -p "Releasing v$VERSION - are you sure? (y/n)" -n 1 -r
@@ -7,7 +8,6 @@ echo    # (optional) move to a new line
 if [[ $REPLY =~ ^[Yy]$ ]]
 then
   echo "Releasing v$VERSION ..."
-  npm test
 
   # commit
   VERSION=$VERSION npm run build

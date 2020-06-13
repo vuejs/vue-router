@@ -1,5 +1,7 @@
 # 遅延ローディングルート
 
+<div class="vueschool"><a href="https://vueschool.io/courses/vue-router-for-everyone?friend=vuejs" target="_blank" rel="sponsored noopener" title="Learn how to build powerful Single Page Applications with the Vue Router on Vue School">Watch a free video course about Vue Router on Vue School</a></div>
+
 バンドラーを使ってアプリケーションを構築している時、バンドルされる JavaScript が非常に大きいものになり得ます。結果的にページのロード時間に影響を与えてしまいます。もし各ルートコンポーネントごとに別々のチャンクにして、訪れたルートの時だけロードできればより効率的でしょう。
 
 Vue の [非同期コンポーネント機能](http://jp.vuejs.org/guide/components.html#非同期コンポーネント) と webpack の [コード分割機能](https://webpack.js.org/guides/code-splitting-async/) を組み合わせることでとても簡単に遅延ロードするルートコンポーネントができます。

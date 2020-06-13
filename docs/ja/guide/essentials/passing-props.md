@@ -1,5 +1,7 @@
 # ルートコンポーネントにプロパティを渡す
 
+<div class="vueschool"><a href="https://vueschool.io/courses/vue-router-for-everyone?friend=vuejs" target="_blank" rel="sponsored noopener" title="Learn how to build powerful Single Page Applications with the Vue Router on Vue School">Watch a free video course about Vue Router on Vue School</a></div>
+
 コンポーネントで `$route` を使うとコンポーネントとルートの間に密結合が生まれ、コンポーネントが特定のURLでしか使用できないなど柔軟性が制限されます。
 
 コンポーネントをルーターから分離するために `props` オプションを使います:

@@ -70,6 +70,11 @@ module.exports = {
       .assert.cssClassPresent('li:nth-child(8)', 'exact-active')
       .assert.attributeEquals('li:nth-child(8) a', 'class', '')
 
+      // Listener cleanup
+      .assert.containsText('#popstate-count', '1 popstate listeners')
+      .click('#unmount')
+      .assert.containsText('#popstate-count', '0 popstate listeners')
+
       .end()
   }
 }

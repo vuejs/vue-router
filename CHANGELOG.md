@@ -1,3 +1,66 @@
+## [3.3.3](https://github.com/vuejs/vue-router/compare/v3.3.2...v3.3.3) (2020-06-12)
+
+
+### Bug Fixes
+
+* **history:** initial redirect call onReady's onSuccess ([4d484bf](https://github.com/vuejs/vue-router/commit/4d484bf)), closes [#3225](https://github.com/vuejs/vue-router/issues/3225)
+* update ja docs ([#3214](https://github.com/vuejs/vue-router/issues/3214)) ([c05f741](https://github.com/vuejs/vue-router/commit/c05f741))
+
+
+### Features
+
+* better wording for navigation redirected failure ([1f3aea6](https://github.com/vuejs/vue-router/commit/1f3aea6))
+* **types:** RouterConfig for multiple components ([#3217](https://github.com/vuejs/vue-router/issues/3217)) ([#3218](https://github.com/vuejs/vue-router/issues/3218)) ([dab86c5](https://github.com/vuejs/vue-router/commit/dab86c5))
+
+
+
+## [3.3.2](https://github.com/vuejs/vue-router/compare/v3.3.1...v3.3.2) (2020-05-29)
+
+
+### Bug Fixes
+
+* **errors:** NavigationCanceled with async components ([#3211](https://github.com/vuejs/vue-router/issues/3211)) ([be39ca3](https://github.com/vuejs/vue-router/commit/be39ca3))
+* remove error.stack modification ([#3212](https://github.com/vuejs/vue-router/issues/3212)) ([a0075ed](https://github.com/vuejs/vue-router/commit/a0075ed))
+
+
+
+## [3.3.1](https://github.com/vuejs/vue-router/compare/v3.3.0...v3.3.1) (2020-05-27)
+
+
+### Bug Fixes
+
+* **errors:** avoid unnecessary log of errors ([2c77247](https://github.com/vuejs/vue-router/commit/2c77247))
+
+
+
+# [3.3.0](https://github.com/vuejs/vue-router/compare/v3.2.0...v3.3.0) (2020-05-27)
+
+
+### Features
+
+* **errors:** create router errors ([#3047](https://github.com/vuejs/vue-router/issues/3047)) ([4c727f9](https://github.com/vuejs/vue-router/commit/4c727f9))
+* **history:** Remove event listeners when all apps are destroyed. ([#3172](https://github.com/vuejs/vue-router/issues/3172)) ([4c81be8](https://github.com/vuejs/vue-router/commit/4c81be8)), closes [#3152](https://github.com/vuejs/vue-router/issues/3152) [#2341](https://github.com/vuejs/vue-router/issues/2341)
+* **url:** call afterEach hooks after url is ensured ([#2292](https://github.com/vuejs/vue-router/issues/2292)) ([1575a18](https://github.com/vuejs/vue-router/commit/1575a18)), closes [#2079](https://github.com/vuejs/vue-router/issues/2079)
+
+
+
+# [3.2.0](https://github.com/vuejs/vue-router/compare/v3.1.6...v3.2.0) (2020-05-19)
+
+
+### Bug Fixes
+
+* **html5:** make base case insensitive ([04a2143](https://github.com/vuejs/vue-router/commit/04a2143)), closes [#2154](https://github.com/vuejs/vue-router/issues/2154)
+* check for pushState being a function ([bc41f67](https://github.com/vuejs/vue-router/commit/bc41f67)), closes [#3154](https://github.com/vuejs/vue-router/issues/3154)
+
+
+### Features
+
+* **link:** add aria-current to active links (close [#2116](https://github.com/vuejs/vue-router/issues/2116)) ([#3073](https://github.com/vuejs/vue-router/issues/3073)) ([6ec0ee5](https://github.com/vuejs/vue-router/commit/6ec0ee5))
+* **scroll:** use manual scrollRestoration with scrollBehavior ([#1814](https://github.com/vuejs/vue-router/issues/1814)) ([1261363](https://github.com/vuejs/vue-router/commit/1261363))
+* **types:** NavigationGuardNext ([#2497](https://github.com/vuejs/vue-router/issues/2497)) ([d18c497](https://github.com/vuejs/vue-router/commit/d18c497))
+
+
+
 ## [3.1.6](https://github.com/vuejs/vue-router/compare/v3.1.5...v3.1.6) (2020-02-26)
 
 
