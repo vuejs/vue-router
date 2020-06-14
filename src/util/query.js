@@ -29,7 +29,7 @@ export function resolveQuery (
     parsedQuery = {}
   }
   for (const key in extraQuery) {
-    parsedQuery[key] = extraQuery[key]
+    parsedQuery[key] = extraQuery[key].toString()
   }
   return parsedQuery
 }

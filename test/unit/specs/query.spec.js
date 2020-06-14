@@ -19,6 +19,11 @@ describe('Query utils', () => {
         arr: ['1', null, '2']
       })
     })
+
+    it('should cast query props into string', () => {
+      const query = resolveQuery('foo=bar&foo=k', { baz: 1 })
+      expect(typeof query.baz).toBe('string')
+    })
   })
 
   describe('stringifyQuery', () => {
