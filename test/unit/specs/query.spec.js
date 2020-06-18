@@ -20,9 +20,14 @@ describe('Query utils', () => {
       })
     })
 
-    it('should cast query props into string', () => {
+    it('should cast query values into string', () => {
       const query = resolveQuery('foo=bar&foo=k', { baz: 1 })
-      expect(typeof query.baz).toBe('string')
+      expect(query.baz).toBe('1')
+    })
+    
+    it('should cast query array values into string', () => {
+      const query = resolveQuery('foo=bar&foo=k', { baz: [1, '2'] })
+      expect(query.baz).toEqual(['1', '2'])
     })
   })
 
