@@ -118,18 +118,18 @@ export default class VueRouter {
     const history = this.history
 
     if (history instanceof HTML5History || history instanceof HashHistory) {
-      const handleInitialScroll = (route) => {
+      const handleInitialScroll = (routeOrError) => {
         const from = history.current
         const expectScroll = this.options.scrollBehavior
         const supportsScroll = supportsPushState && expectScroll
 
-        if (supportsScroll) {
-          handleScroll(this, route, from, false)
+        if (supportsScroll && 'fullPath' in routeOrError) {
+          handleScroll(this, routeOrError, from, false)
         }
       }
-      const setupListeners = (route) => {
+      const setupListeners = (routeOrError) => {
         history.setupListeners()
-        handleInitialScroll(route)
+        handleInitialScroll(routeOrError)
       }
       history.transitionTo(history.getCurrentLocation(), setupListeners, setupListeners)
     }
