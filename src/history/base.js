@@ -187,7 +187,7 @@ export class History {
               (typeof to.path === 'string' || typeof to.name === 'string'))
           ) {
             // next('/') or next({ path: '/' }) -> redirect
-            abort(createNavigationRedirectedError(current, route))
+            // abort(createNavigationRedirectedError(current, route))
             if (typeof to === 'object' && to.replace) {
               this.replace(to)
             } else {
