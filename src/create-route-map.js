@@ -73,9 +73,7 @@ function addRouteRecord (
     if (route.component && route.component.toString) {
       assert(
         route.component.toString() !== '[object Promise]',
-        `route config "component" for path: ${String(
-          path || name
-        )} cannot be a promise. Use a function that returns a promise instead (e.g. \`() => import ('./components/About.vue')\`)`
+        `Component "${String(name)}" in record with path "${path}" is a Promise instead of a function that returns a Promise. Did you write "import('./MyPage.vue')" instead of "() => import('./MyPage.vue')"?`
       )
     }
   }

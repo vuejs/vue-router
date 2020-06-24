@@ -147,6 +147,15 @@ describe('Creating Route Map', function () {
     expect(console.warn.calls.argsFor(0)[0]).toEqual('[vue-router] Non-nested routes must include a leading slash character. Fix the following routes: \n- bar')
   })
 
+  it('in development, warn if a component is a promise', function () {
+    process.env.NODE_ENV = 'development'
+    expect(() => {
+      maps = createRouteMap([
+        { path: 'bar', name: 'bar', component: Promise.resolve(Bar) }
+      ])
+    }).toThrow(new Error(`[vue-router] Component "bar" in record with path "bar" is a Promise instead of a function that returns a Promise. Did you write "import('./MyPage.vue')" instead of "() => import('./MyPage.vue')"?`))
+  })
+
   it('in development, it does not log the missing leading slash when routes are valid', function () {
     process.env.NODE_ENV = 'development'
     maps = createRouteMap([
