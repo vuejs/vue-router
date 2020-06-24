@@ -21,6 +21,8 @@ import { isRouterError, NavigationFailureType } from './util/errors'
 export default class VueRouter {
   static install: () => void
   static version: string
+  static isRouterError: Function
+  static NavigationFailureType: any
 
   app: any
   apps: Array<any>
