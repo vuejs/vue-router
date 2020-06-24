@@ -19,11 +19,9 @@ import { NavigationFailureType, isNavigationFailure } from 'vue-router'
 
 // trying to access the admin page
 router.push('/admin').catch(failure => {
-  if (failure) {
-    if (isNavigationFailure(failure, NavigationFailureType.redirected)) {
-      // show a small notification to the user
-      showToast('Login in order to access the admin panel')
-    }
+  if (isNavigationFailure(failure, NavigationFailureType.redirected)) {
+    // show a small notification to the user
+    showToast('Login in order to access the admin panel')
   }
 })
 ```
@@ -43,7 +41,7 @@ If you omit the second parameter: `isNavigationFailure(failure)`, it will only c
 
 ## _Navigation Failures_'s properties
 
-Apart from exposing a `type` property, all navigation failures expose `to` and `from` properties to reflect the current location as well as the target location for the navigation that failed:
+All navigation failures expose `to` and `from` properties to reflect the current location as well as the target location for the navigation that failed:
 
 ```js
 // trying to access the admin page
