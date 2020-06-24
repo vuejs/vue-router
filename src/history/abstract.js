@@ -3,7 +3,7 @@
 import type Router from '../index'
 import { History } from './base'
 import { isRouterError } from '../util/warn'
-import { NavigationFailureType } from './errors'
+import { NavigationFailureType } from '../util/errors'
 
 export class AbstractHistory extends History {
   index: number
