@@ -4,7 +4,7 @@ import { _Vue } from '../install'
 import type Router from '../index'
 import { inBrowser } from '../util/dom'
 import { runQueue } from '../util/async'
-import { warn, isError, isRouterError } from '../util/warn'
+import { warn } from '../util/warn'
 import { START, isSameRoute } from '../util/route'
 import {
   flatten,
@@ -16,8 +16,10 @@ import {
   createNavigationCancelledError,
   createNavigationRedirectedError,
   createNavigationAbortedError,
+  isError,
+  isRouterError,
   NavigationFailureType
-} from './errors'
+} from '../util/errors'
 
 export class History {
   router: Router

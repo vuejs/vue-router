@@ -17,12 +17,15 @@ export function createNavigationRedirectedError (from, to) {
 }
 
 export function createNavigationDuplicatedError (from, to) {
-  return createRouterError(
+  const error = createRouterError(
     from,
     to,
     NavigationFailureType.duplicated,
     `Avoided redundant navigation to current location: "${from.fullPath}".`
   )
+  // backwards compatible with the first introduction of Errors
+  error.name = 'NavigationDuplicated'
+  return error
 }
 
 export function createNavigationCancelledError (from, to) {
