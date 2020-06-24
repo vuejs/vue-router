@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import VueRouter from '../../../src/index'
-import { NavigationFailureType } from '../../../src/history/errors'
+import { NavigationFailureType } from '../../../src/util/errors'
 
 Vue.use(VueRouter)
 
