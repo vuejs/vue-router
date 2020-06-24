@@ -10,21 +10,25 @@ When using a regular `router-link`, **none of these failures will log an error**
 
 ## Detecting Navigation Failures
 
-_Navigation Failures_ are `Error` instances with a few extra properties. Among them, you can find a `type` property. This will allow you to check the type of the navigation failure:
+_Navigation Failures_ are `Error` instances with a few extra properties. To check if an error comes from the Router, use the `isRouterError` function:
 
 ```js
-import { NavigationFailureType } from 'vue-router'
+import { NavigationFailureType, isRouterError } from 'vue-router'
 
-// trying to access an admin-only route
+// trying to access the admin page
 router.push('/admin').catch(failure => {
   if (failure) {
-    if (failure.type === NavigationFailureType.redirected) {
+    if (isRouterError(failure, NavigationFailureType.redirected)) {
       // show a small notification to the user
       showToast('Login in order to access the admin panel')
     }
   }
 })
 ```
+
+::: tip
+If you omit the second parameter: `isRouterError(failure)`, it will only check if the error comes from the Router.
+:::
 
 ## `NavigationFailureType`
 
@@ -40,10 +44,10 @@ router.push('/admin').catch(failure => {
 Apart from exposing a `type` property, all navigation failures expose `to` and `from` properties to reflect the current location as well as the target location for the navigation that failed:
 
 ```js
-// given we are at `/`
+// trying to access the admin page
 router.push('/admin').catch(failure => {
   if (failure) {
-    if (failure.type === NavigationFailureType.redirected) {
+    if (isRouterError(failure, NavigationFailureType.redirected)) {
       failure.to.path // '/admin'
       failure.from.path // '/'
     }

@@ -16,22 +16,24 @@ import { AbstractHistory } from './history/abstract'
 
 import type { Matcher } from './create-matcher'
 
-export default class VueRouter {
-  static install: () => void;
-  static version: string;
+import { isRouterError, NavigationFailureType } from './util/errors'
 
-  app: any;
-  apps: Array<any>;
-  ready: boolean;
-  readyCbs: Array<Function>;
-  options: RouterOptions;
-  mode: string;
-  history: HashHistory | HTML5History | AbstractHistory;
-  matcher: Matcher;
-  fallback: boolean;
-  beforeHooks: Array<?NavigationGuard>;
-  resolveHooks: Array<?NavigationGuard>;
-  afterHooks: Array<?AfterNavigationHook>;
+export default class VueRouter {
+  static install: () => void
+  static version: string
+
+  app: any
+  apps: Array<any>
+  ready: boolean
+  readyCbs: Array<Function>
+  options: RouterOptions
+  mode: string
+  history: HashHistory | HTML5History | AbstractHistory
+  matcher: Matcher
+  fallback: boolean
+  beforeHooks: Array<?NavigationGuard>
+  resolveHooks: Array<?NavigationGuard>
+  afterHooks: Array<?AfterNavigationHook>
 
   constructor (options: RouterOptions = {}) {
     this.app = null
@@ -43,7 +45,8 @@ export default class VueRouter {
     this.matcher = createMatcher(options.routes || [], this)
 
     let mode = options.mode || 'hash'
-    this.fallback = mode === 'history' && !supportsPushState && options.fallback !== false
+    this.fallback =
+      mode === 'history' && !supportsPushState && options.fallback !== false
     if (this.fallback) {
       mode = 'hash'
     }
@@ -69,11 +72,7 @@ export default class VueRouter {
     }
   }
 
-  match (
-    raw: RawLocation,
-    current?: Route,
-    redirectedFrom?: Location
-  ): Route {
+  match (raw: RawLocation, current?: Route, redirectedFrom?: Location): Route {
     return this.matcher.match(raw, current, redirectedFrom)
   }
 
@@ -82,11 +81,12 @@ export default class VueRouter {
   }
 
   init (app: any /* Vue component instance */) {
-    process.env.NODE_ENV !== 'production' && assert(
-      install.installed,
-      `not installed. Make sure to call \`Vue.use(VueRouter)\` ` +
-      `before creating root instance.`
-    )
+    process.env.NODE_ENV !== 'production' &&
+      assert(
+        install.installed,
+        `not installed. Make sure to call \`Vue.use(VueRouter)\` ` +
+          `before creating root instance.`
+      )
 
     this.apps.push(app)
 
@@ -131,11 +131,15 @@ export default class VueRouter {
         history.setupListeners()
         handleInitialScroll(routeOrError)
       }
-      history.transitionTo(history.getCurrentLocation(), setupListeners, setupListeners)
+      history.transitionTo(
+        history.getCurrentLocation(),
+        setupListeners,
+        setupListeners
+      )
     }
 
     history.listen(route => {
-      this.apps.forEach((app) => {
+      this.apps.forEach(app => {
         app._route = route
       })
     })
@@ -204,11 +208,14 @@ export default class VueRouter {
     if (!route) {
       return []
     }
-    return [].concat.apply([], route.matched.map(m => {
-      return Object.keys(m.components).map(key => {
-        return m.components[key]
+    return [].concat.apply(
+      [],
+      route.matched.map(m => {
+        return Object.keys(m.components).map(key => {
+          return m.components[key]
+        })
       })
-    }))
+    )
   }
 
   resolve (
@@ -224,12 +231,7 @@ export default class VueRouter {
     resolved: Route
   } {
     current = current || this.history.current
-    const location = normalizeLocation(
-      to,
-      current,
-      append,
-      this
-    )
+    const location = normalizeLocation(to, current, append, this)
     const route = this.match(location, current)
     const fullPath = route.redirectedFrom || route.fullPath
     const base = this.history.base
@@ -267,6 +269,8 @@ function createHref (base: string, fullPath: string, mode) {
 
 VueRouter.install = install
 VueRouter.version = '__VERSION__'
+VueRouter.isRouterError = isRouterError
+VueRouter.NavigationFailureType = NavigationFailureType
 
 if (inBrowser && window.Vue) {
   window.Vue.use(VueRouter)
