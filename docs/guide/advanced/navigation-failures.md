@@ -8,7 +8,11 @@ When using `router-link`, Vue Router internally calls `router.push` to trigger a
 - A navigation guard aborts the navigation by calling `next(false)`
 - A navigation guard throws an error or calls `next(new Error())`
 
-When using a regular `router-link`, **none of these failures will log an error**. However, if you are using `router.push` or `router.replace`, you might come across an _"Uncaught (in promise) Error"_ message followed by a more specific message in your console. This is part of the _Navigation Failures_ system in Vue Router and it is only available from version 3.2.0 onwards but existed for a long time before: through the two optional callbacks, `onComplete` and `onAbort` that can be passed to `router.push`. Since version 3.1.0, `router.push` and `router.replace` return a _Promise_ if no `onComplete`/`onAbort` callback is provided. This _Promise_ resolves instead of invoking `onComplete` and rejects instead of invoking `onAbort`.
+When using a regular `router-link`, **none of these failures will log an error**. However, if you are using `router.push` or `router.replace`, you might come across an _"Uncaught (in promise) Error"_ message followed by a more specific message in your console. Let's understand how to differentiate _Navigation Failures_.
+
+::: tip Background story
+ _Navigation Failures_ were exposed on version 3.2.0 but existed for a long time before: through the two optional callbacks of `router.push`, `onComplete` and `onAbort` that can be passed to `router.push`. Since version 3.1.0, `router.push` and `router.replace` return a _Promise_ if no `onComplete`/`onAbort` callback is provided. This _Promise_ resolves instead of invoking `onComplete` and rejects instead of invoking `onAbort`.
+ :::
 
 ## Detecting Navigation Failures
 
@@ -27,7 +31,7 @@ router.push('/admin').catch(failure => {
 ```
 
 ::: tip
-If you omit the second parameter: `isNavigationFailure(failure)`, it will only check if the error comes from the Router.
+If you omit the second parameter: `isNavigationFailure(failure)`, it will only check if the error is a _Navigation Failure_.
 :::
 
 ## `NavigationFailureType`
