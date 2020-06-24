@@ -61,6 +61,17 @@ export declare class VueRouter {
   }
 
   static install: PluginFunction<never>
+  static version: string
+
+  static isRouterError: (error: any, type?: NavigationFailureTypeE) => error is Error
+  static NavigationFailureType: NavigationFailureTypeE
+}
+
+export enum NavigationFailureTypeE {
+  redirected = 1,
+  aborted = 2,
+  cancelled = 3,
+  duplicated = 4
 }
 
 type Position = { x: number; y: number }
