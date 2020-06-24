@@ -1,5 +1,7 @@
 # Navigation Failures
 
+> New in 3.4.0
+
 When using `router-link`, Vue Router internally calls `router.push` to trigger a navigation. Depending on the current location and existing [Navigation Guards](./navigation-guards.md), this navigation might end up in a new page being shown, but there are a couple of situations where we will stay on the same page:
 
 - We are already on the page we are trying to go to
