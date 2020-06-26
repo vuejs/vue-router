@@ -75,6 +75,8 @@ export function isSameRoute (a: Route, b: ?Route): boolean {
     return a === b
   } else if (!b) {
     return false
+  } else if (!a) {
+    return false
   } else if (a.path && b.path) {
     return (
       a.path.replace(trailingSlashRE, '') === b.path.replace(trailingSlashRE, '') &&
