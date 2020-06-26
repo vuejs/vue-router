@@ -115,7 +115,7 @@ function isObjectEqual (a = {}, b = {}): boolean {
 }
 
 export function isIncludedRoute (current: Route, target: Route): boolean {
-  if(!current) {
+  if (!current) {
     return false
   }
   return (
