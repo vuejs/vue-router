@@ -115,7 +115,9 @@ function isObjectEqual (a = {}, b = {}): boolean {
 }
 
 export function isIncludedRoute (current: Route, target: Route): boolean {
-  if(!current) return false
+  if(!current) {
+    return false
+  }
   return (
     current.path.replace(trailingSlashRE, '/').indexOf(
       target.path.replace(trailingSlashRE, '/')
