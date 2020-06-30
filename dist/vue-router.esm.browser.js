@@ -2447,6 +2447,9 @@ class HTML5History extends History {
     }
 
     const router = this.router;
+    if (!router || !router.options) {
+      return
+    }
     const expectScroll = router.options.scrollBehavior;
     const supportsScroll = supportsPushState && expectScroll;
 
@@ -2482,20 +2485,28 @@ class HTML5History extends History {
 
   push (location, onComplete, onAbort) {
     const { current: fromRoute } = this;
-    this.transitionTo(location, route => {
-      pushState(cleanPath(this.base + route.fullPath));
-      handleScroll(this.router, route, fromRoute, false);
-      onComplete && onComplete(route);
-    }, onAbort);
+    this.transitionTo(
+      location,
+      route => {
+        pushState(cleanPath(this.base + route.fullPath));
+        handleScroll(this.router, route, fromRoute, false);
+        onComplete && onComplete(route);
+      },
+      onAbort
+    );
   }
 
   replace (location, onComplete, onAbort) {
     const { current: fromRoute } = this;
-    this.transitionTo(location, route => {
-      replaceState(cleanPath(this.base + route.fullPath));
-      handleScroll(this.router, route, fromRoute, false);
-      onComplete && onComplete(route);
-    }, onAbort);
+    this.transitionTo(
+      location,
+      route => {
+        replaceState(cleanPath(this.base + route.fullPath));
+        handleScroll(this.router, route, fromRoute, false);
+        onComplete && onComplete(route);
+      },
+      onAbort
+    );
   }
 
   ensureURL (push) {

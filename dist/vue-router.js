@@ -2463,6 +2463,9 @@
       }
 
       var router = this.router;
+      if (!router || !router.options) {
+        return
+      }
       var expectScroll = router.options.scrollBehavior;
       var supportsScroll = supportsPushState && expectScroll;
 
@@ -2501,11 +2504,15 @@
 
       var ref = this;
       var fromRoute = ref.current;
-      this.transitionTo(location, function (route) {
-        pushState(cleanPath(this$1.base + route.fullPath));
-        handleScroll(this$1.router, route, fromRoute, false);
-        onComplete && onComplete(route);
-      }, onAbort);
+      this.transitionTo(
+        location,
+        function (route) {
+          pushState(cleanPath(this$1.base + route.fullPath));
+          handleScroll(this$1.router, route, fromRoute, false);
+          onComplete && onComplete(route);
+        },
+        onAbort
+      );
     };
 
     HTML5History.prototype.replace = function replace (location, onComplete, onAbort) {
@@ -2513,11 +2520,15 @@
 
       var ref = this;
       var fromRoute = ref.current;
-      this.transitionTo(location, function (route) {
-        replaceState(cleanPath(this$1.base + route.fullPath));
-        handleScroll(this$1.router, route, fromRoute, false);
-        onComplete && onComplete(route);
-      }, onAbort);
+      this.transitionTo(
+        location,
+        function (route) {
+          replaceState(cleanPath(this$1.base + route.fullPath));
+          handleScroll(this$1.router, route, fromRoute, false);
+          onComplete && onComplete(route);
+        },
+        onAbort
+      );
     };
 
     HTML5History.prototype.ensureURL = function ensureURL (push) {
