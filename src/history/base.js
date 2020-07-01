@@ -77,46 +77,55 @@ export class History {
     onComplete?: Function,
     onAbort?: Function
   ) {
-    const route = this.router.match(location, this.current)
-    this.confirmTransition(
-      route,
-      () => {
-        const prev = this.current
-        this.updateRoute(route)
-        onComplete && onComplete(route)
-        this.ensureURL()
-        this.router.afterHooks.forEach(hook => {
-          hook && hook(route, prev)
-        })
-
-        // fire ready cbs once
-        if (!this.ready) {
-          this.ready = true
-          this.readyCbs.forEach(cb => {
-            cb(route)
+    try {
+      const route = this.router.match(location, this.current)
+      this.confirmTransition(
+        route,
+        () => {
+          const prev = this.current
+          this.updateRoute(route)
+          onComplete && onComplete(route)
+          this.ensureURL()
+          this.router.afterHooks.forEach(hook => {
+            hook && hook(route, prev)
           })
-        }
-      },
-      err => {
-        if (onAbort) {
-          onAbort(err)
-        }
-        if (err && !this.ready) {
-          this.ready = true
-          // Initial redirection should still trigger the onReady onSuccess
-          // https://github.com/vuejs/vue-router/issues/3225
-          if (!isRouterError(err, NavigationFailureType.redirected)) {
-            this.readyErrorCbs.forEach(cb => {
-              cb(err)
-            })
-          } else {
+
+          // fire ready cbs once
+          if (!this.ready) {
+            this.ready = true
             this.readyCbs.forEach(cb => {
               cb(route)
             })
           }
+        },
+        err => {
+          if (onAbort) {
+            onAbort(err)
+          }
+          if (err && !this.ready) {
+            this.ready = true
+            // Initial redirection should still trigger the onReady onSuccess
+            // https://github.com/vuejs/vue-router/issues/3225
+            if (!isRouterError(err, NavigationFailureType.redirected)) {
+              this.readyErrorCbs.forEach(cb => {
+                cb(err)
+              })
+            } else {
+              this.readyCbs.forEach(cb => {
+                cb(route)
+              })
+            }
+          }
         }
-      }
-    )
+      )
+    } catch (e) {
+      this.errorCbs.forEach(cb => {
+        cb(e)
+      })
+      // Exception should still be thrown
+      // https://github.com/vuejs/vue-router/issues/3201
+      throw e
+    }
   }
 
   confirmTransition (route: Route, onComplete: Function, onAbort?: Function) {

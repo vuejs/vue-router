@@ -183,4 +183,33 @@ describe('error handling', () => {
         done()
       })
   })
+
+  it('should trigger onError when an exception is thrown', done => {
+    const config = [{
+      path: '/oldpath/:part',
+      redirect: (to) => {
+        if (to.ooopsmistake.part) {
+          return `/newpath/${to.params.part}`
+        }
+        return '/newpath/'
+      }
+    }]
+
+    const router = new VueRouter({
+      routes: config
+    })
+
+    const onError = jasmine.createSpy('onError')
+    router.onError(onError)
+    const pushCatch = jasmine.createSpy('pushCatch')
+
+    router
+      .push('/oldpath/test')
+      .catch(pushCatch)
+      .finally(() => {
+        expect(pushCatch).toHaveBeenCalled()
+        expect(onError).toHaveBeenCalled()
+        done()
+      })
+  })
 })
