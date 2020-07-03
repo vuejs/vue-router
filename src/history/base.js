@@ -78,6 +78,7 @@ export class History {
     onAbort?: Function
   ) {
     let route
+    // catch redirect option https://github.com/vuejs/vue-router/issues/3201
     try {
       route = this.router.match(location, this.current)
     } catch (e) {
@@ -85,7 +86,6 @@ export class History {
         cb(e)
       })
       // Exception should still be thrown
-      // https://github.com/vuejs/vue-router/issues/3201
       throw e
     }
     this.confirmTransition(

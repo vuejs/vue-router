@@ -184,14 +184,12 @@ describe('error handling', () => {
       })
   })
 
-  it('should trigger onError when an exception is thrown', done => {
+  it('should trigger onError if error is thrown inside redirect option', done => {
+    const error = new Error('foo')
     const config = [{
       path: '/oldpath/:part',
       redirect: (to) => {
-        if (to.ooopsmistake.part) {
-          return `/newpath/${to.params.part}`
-        }
-        return '/newpath/'
+        throw error
       }
     }]
 
@@ -207,8 +205,8 @@ describe('error handling', () => {
       .push('/oldpath/test')
       .catch(pushCatch)
       .finally(() => {
-        expect(pushCatch).toHaveBeenCalled()
-        expect(onError).toHaveBeenCalled()
+        expect(pushCatch).toHaveBeenCalledWith(error)
+        expect(onError).toHaveBeenCalledWith(error)
         done()
       })
   })
