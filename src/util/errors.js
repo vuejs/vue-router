@@ -1,8 +1,8 @@
 export const NavigationFailureType = {
-  redirected: 1,
-  aborted: 2,
-  cancelled: 3,
-  duplicated: 4
+  redirected: 2,
+  aborted: 4,
+  cancelled: 8,
+  duplicated: 16
 }
 
 export function createNavigationRedirectedError (from, to) {
