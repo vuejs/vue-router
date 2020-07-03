@@ -77,8 +77,18 @@ export class History {
     onComplete?: Function,
     onAbort?: Function
   ) {
+    let route
     try {
-      const route = this.router.match(location, this.current)
+      route = this.router.match(location, this.current)
+    } catch (e) {
+      this.errorCbs.forEach(cb => {
+        cb(e)
+      })
+      // Exception should still be thrown
+      // https://github.com/vuejs/vue-router/issues/3201
+      throw e
+    }
+    if (route) {
       this.confirmTransition(
         route,
         () => {
@@ -118,13 +128,6 @@ export class History {
           }
         }
       )
-    } catch (e) {
-      this.errorCbs.forEach(cb => {
-        cb(e)
-      })
-      // Exception should still be thrown
-      // https://github.com/vuejs/vue-router/issues/3201
-      throw e
     }
   }
 
