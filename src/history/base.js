@@ -77,7 +77,17 @@ export class History {
     onComplete?: Function,
     onAbort?: Function
   ) {
-    const route = this.router.match(location, this.current)
+    let route
+    try {
+      route = this.router.match(location, this.current)
+    } catch (e) {
+      this.errorCbs.forEach(cb => {
+        cb(e)
+      })
+      // Exception should still be thrown
+      // https://github.com/vuejs/vue-router/issues/3201
+      throw e
+    }
     this.confirmTransition(
       route,
       () => {
