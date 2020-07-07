@@ -44,11 +44,10 @@ export class AbstractHistory extends History {
       return
     }
     const route = this.stack[targetIndex]
-    this.confirmTransition(
-      route,
+    this.transitionTo(
+      route.fullPath,
       () => {
         this.index = targetIndex
-        this.updateRoute(route)
       },
       err => {
         if (isRouterError(err, NavigationFailureType.duplicated)) {
