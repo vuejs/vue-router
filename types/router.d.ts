@@ -101,12 +101,12 @@ interface _RouteConfigBase {
   pathToRegexpOptions?: PathToRegexpOptions
 }
 
-interface RouteConfigSingleView extends _RouteConfigBase {
+export interface RouteConfigSingleView extends _RouteConfigBase {
   component?: Component
   props?: boolean | Object | RoutePropsFunction
 }
 
-interface RouteConfigMultipleViews extends _RouteConfigBase {
+export interface RouteConfigMultipleViews extends _RouteConfigBase {
   components?: Dictionary<Component>
   props?: Dictionary<boolean | Object | RoutePropsFunction>
 }
