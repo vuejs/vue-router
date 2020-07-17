@@ -95,7 +95,7 @@
     "vue-loader": "^15.2.1",
     "vue-template-compiler": "^2.5.16",
     "vuepress": "^0.14.11",
-    "vuepress-theme-vue": "^1.1.0",
+    "vuepress-theme-vue": "^1.1.1",
     "webpack": "^4.35.2",
     "webpack-dev-middleware": "^3.7.0",
     "yorkie": "^2.0.0"
