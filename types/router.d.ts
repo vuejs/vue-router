@@ -21,6 +21,7 @@ export declare class VueRouter {
   constructor(options?: RouterOptions)
 
   app: Vue
+  options: RouterOptions;
   mode: RouterMode
   currentRoute: Route
 
