@@ -97,7 +97,7 @@ export default {
     }
 
     const configProps = matched.props && matched.props[name]
-    // save route and configProps in cachce
+    // save route and configProps in cache
     if (configProps) {
       extend(cache[name], {
         route,
