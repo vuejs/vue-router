@@ -16,12 +16,12 @@ import { AbstractHistory } from './history/abstract'
 
 import type { Matcher } from './create-matcher'
 
-import { isRouterError, NavigationFailureType } from './util/errors'
+import { isNavigationFailure, NavigationFailureType } from './util/errors'
 
 export default class VueRouter {
   static install: () => void
   static version: string
-  static isRouterError: Function
+  static isNavigationFailure: Function
   static NavigationFailureType: any
 
   app: any
@@ -120,7 +120,7 @@ export default class VueRouter {
     const history = this.history
 
     if (history instanceof HTML5History || history instanceof HashHistory) {
-      const handleInitialScroll = (routeOrError) => {
+      const handleInitialScroll = routeOrError => {
         const from = history.current
         const expectScroll = this.options.scrollBehavior
         const supportsScroll = supportsPushState && expectScroll
@@ -129,7 +129,7 @@ export default class VueRouter {
           handleScroll(this, routeOrError, from, false)
         }
       }
-      const setupListeners = (routeOrError) => {
+      const setupListeners = routeOrError => {
         history.setupListeners()
         handleInitialScroll(routeOrError)
       }
@@ -271,7 +271,7 @@ function createHref (base: string, fullPath: string, mode) {
 
 VueRouter.install = install
 VueRouter.version = '__VERSION__'
-VueRouter.isRouterError = isRouterError
+VueRouter.isNavigationFailure = isNavigationFailure
 VueRouter.NavigationFailureType = NavigationFailureType
 
 if (inBrowser && window.Vue) {
