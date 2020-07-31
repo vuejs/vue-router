@@ -4,11 +4,11 @@
 
 When using `router-link`, Vue Router calls `router.push` to trigger a navigation. While the expected behavior for most links is to navigate a user to a new page, there are a few situations where users will remain on the same page:
 
-- We are already on the page we are trying to go to
+- Users are already on the page that they are trying to navigate to
 - A [navigation guard](./navigation-guards.md) aborts the navigation by calling `next(false)`
 - A [navigation guard](./navigation-guards.md) throws an error or calls `next(new Error())`
 
-When using a regular `router-link`, **none of these failures will log an error**. However, if you are using `router.push` or `router.replace`, you might come across an _"Uncaught (in promise) Error"_ message followed by a more specific message in your console. Let's understand how to differentiate _Navigation Failures_.
+When using a `router-link` component, **none of these failures will log an error**. However, if you are using `router.push` or `router.replace`, you might come across an _"Uncaught (in promise) Error"_ message followed by a more specific message in your console. Let's understand how to differentiate _Navigation Failures_.
 
 ::: tip Background story
  In v3.2.0, _Navigation Failures_ were exposed through the two optional callbacks of `router.push`: `onComplete` and `onAbort`. Since version 3.1.0, `router.push` and `router.replace` return a _Promise_ if no `onComplete`/`onAbort` callback is provided. This _Promise_ resolves instead of invoking `onComplete` and rejects instead of invoking `onAbort`.
