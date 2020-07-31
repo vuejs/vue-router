@@ -17,7 +17,7 @@ import {
   createNavigationRedirectedError,
   createNavigationAbortedError,
   isError,
-  isRouterError,
+  isNavigationFailure,
   NavigationFailureType
 } from '../util/errors'
 
@@ -37,7 +37,11 @@ export class History {
   // implemented by sub-classes
   +go: (n: number) => void
   +push: (loc: RawLocation, onComplete?: Function, onAbort?: Function) => void
-  +replace: (loc: RawLocation, onComplete?: Function, onAbort?: Function) => void
+  +replace: (
+    loc: RawLocation,
+    onComplete?: Function,
+    onAbort?: Function
+  ) => void
   +ensureURL: (push?: boolean) => void
   +getCurrentLocation: () => string
   +setupListeners: Function
@@ -117,7 +121,7 @@ export class History {
           this.ready = true
           // Initial redirection should still trigger the onReady onSuccess
           // https://github.com/vuejs/vue-router/issues/3225
-          if (!isRouterError(err, NavigationFailureType.redirected)) {
+          if (!isNavigationFailure(err, NavigationFailureType.redirected)) {
             this.readyErrorCbs.forEach(cb => {
               cb(err)
             })
@@ -137,7 +141,7 @@ export class History {
       // changed after adding errors with
       // https://github.com/vuejs/vue-router/pull/3047 before that change,
       // redirect and aborted navigation would produce an err == null
-      if (!isRouterError(err) && isError(err)) {
+      if (!isNavigationFailure(err) && isError(err)) {
         if (this.errorCbs.length) {
           this.errorCbs.forEach(cb => {
             cb(err)
