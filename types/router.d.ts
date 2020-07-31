@@ -63,7 +63,7 @@ export declare class VueRouter {
   static install: PluginFunction<never>
   static version: string
 
-  static isRouterError: (error: any, type?: NavigationFailureTypeE) => error is Error
+  static isNavigationFailure: (error: any, type?: NavigationFailureTypeE) => error is Error
   static NavigationFailureType: NavigationFailureTypeE
 }
 
