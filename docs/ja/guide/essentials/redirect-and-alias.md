@@ -1,5 +1,7 @@
 # リダイレクトとエイリアス
 
+<div class="vueschool"><a href="https://vueschool.io/courses/vue-router-for-everyone?friend=vuejs" target="_blank" rel="sponsored noopener" title="Learn how to build powerful Single Page Applications with the Vue Router on Vue School">Watch a free video course about Vue Router on Vue School</a></div>
+
 ### リダイレクト
 
 `routes` 設定でリダイレクトが可能です。`/a` から `/b` へリダイレクトする例:
@@ -35,7 +37,7 @@ const router = new VueRouter({
 })
 ```
 
-[ナビゲーションガード](../advanced/navigation-guards.md)はリダイレクトするルートに提供されず、ターゲット上のみに適用されるということに注意してください。例では、`beforeEnter` または `beforeLeave` ガードを `/a` ルートに追加しても効果がありません。
+[ナビゲーションガード](../advanced/navigation-guards.md)はリダイレクトするルートに提供されず、ターゲット上のみに適用されるということに注意してください。例では、`beforeEnter` ガードを `/a` ルートに追加しても効果がありません。
 
 その他の高度な使い方として、[例](https://github.com/vuejs/vue-router/blob/dev/examples/redirect/app.js) をご参照ください。
 

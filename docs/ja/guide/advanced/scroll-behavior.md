@@ -1,5 +1,7 @@
 # スクロールの振る舞い
 
+<div class="vueschool"><a href="https://vueschool.io/courses/vue-router-for-everyone?friend=vuejs" target="_blank" rel="sponsored noopener" title="Learn how to build powerful Single Page Applications with the Vue Router on Vue School">Watch a free video course about Vue Router on Vue School</a></div>
+
 クライアントサイドのルーティングを使っている時に、新しいルートに対してスクロールをトップへ移動させたいかもしれません、もしくは実際のページリロードがしているように history 要素のスクロールポジションを保持したいこともあるかもしれません。 `vue-router` ではこれらをさらによく実現できます。ルートナビゲーションにおけるスクロールの挙動を完全にカスタマイズすることができます。
 
 **注意: この機能は ブラウザが `history.pushState` をサポートしている場合のみ動作します。**

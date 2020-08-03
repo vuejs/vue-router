@@ -17,6 +17,8 @@ const router = new VueRouter({
   ]
 })
 
+window.router = router
+
 router.beforeEach((to, from, next) => {
   console.log('from', from.fullPath)
   console.log('going to', to.fullPath)

@@ -19,6 +19,15 @@ describe('Query utils', () => {
         arr: ['1', null, '2']
       })
     })
+
+    it('should cast query values into string', () => {
+      const query = resolveQuery('foo=bar&foo=k', { baz: 1 })
+      expect(query.baz).toBe('1')
+    })
+    it('should cast query array values into string', () => {
+      const query = resolveQuery('foo=bar&foo=k', { baz: [1, '2'] })
+      expect(query.baz).toEqual(['1', '2'])
+    })
   })
 
   describe('stringifyQuery', () => {

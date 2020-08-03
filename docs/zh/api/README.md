@@ -166,6 +166,13 @@ sidebar: auto
 
   配置当链接被精确匹配的时候应该激活的 class。注意默认值也是可以通过路由构造函数选项 `linkExactActiveClass` 进行全局配置的。
 
+### aria-current-value
+
+- 类型: `'page' | 'step' | 'location' | 'date' | 'time'`
+- 默认值: `"page"`
+
+  当链接根据精确匹配规则激活时配置的 `aria-current` 的值。这个值应该是 ARIA 规范中[允许的 aria-current 的值](https://www.w3.org/TR/wai-aria-1.2/#aria-current)。在绝大多数场景下，默认值 `page` 应该是最合适的。
+
 ## `<router-view>`
 
 `<router-view>` 组件是一个 functional 组件，渲染路径匹配到的视图组件。`<router-view>` 渲染的组件还可以内嵌自己的 `<router-view>`，根据嵌套路径，渲染嵌套组件。
@@ -287,6 +294,8 @@ sidebar: auto
 ### fallback
 
 - 类型: `boolean`
+
+- 默认值: `true`
 
   当浏览器不支持 `history.pushState` 控制路由是否应该回退到 `hash` 模式。默认值为 `true`。
 

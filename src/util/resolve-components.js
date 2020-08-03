@@ -1,7 +1,8 @@
 /* @flow */
 
 import { _Vue } from '../install'
-import { warn, isError } from './warn'
+import { warn } from './warn'
+import { isError } from '../util/errors'
 
 export function resolveAsyncComponents (matched: Array<RouteRecord>): Function {
   return (to, from, next) => {

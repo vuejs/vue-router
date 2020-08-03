@@ -19,6 +19,8 @@ const router = new VueRouter({
 
 ## 后端配置例子
 
+**注意**：下列示例假设你在根目录服务这个应用。如果想部署到一个子目录，你需要使用 [Vue CLI 的 `publicPath` 选项](https://cli.vuejs.org/zh/config/#publicpath) 和相关的 [router `base` property](https://router.vuejs.org/zh/api/#base)。你还需要把下列示例中的根目录调整成为子目录 (例如用 `RewriteBase /name-of-your-subfolder/` 替换掉 `RewriteBase /`)。
+
 #### Apache
 
 ```apache

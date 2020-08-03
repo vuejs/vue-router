@@ -4,7 +4,7 @@ import { _Vue } from '../install'
 import type Router from '../index'
 import { inBrowser } from '../util/dom'
 import { runQueue } from '../util/async'
-import { warn, isError, isRouterError } from '../util/warn'
+import { warn } from '../util/warn'
 import { START, isSameRoute, handleRouteEntered } from '../util/route'
 import {
   flatten,
@@ -16,8 +16,10 @@ import {
   createNavigationCancelledError,
   createNavigationRedirectedError,
   createNavigationAbortedError,
+  isError,
+  isNavigationFailure,
   NavigationFailureType
-} from './errors'
+} from '../util/errors'
 
 export class History {
   router: Router
@@ -34,8 +36,12 @@ export class History {
 
   // implemented by sub-classes
   +go: (n: number) => void
-  +push: (loc: RawLocation) => void
-  +replace: (loc: RawLocation) => void
+  +push: (loc: RawLocation, onComplete?: Function, onAbort?: Function) => void
+  +replace: (
+    loc: RawLocation,
+    onComplete?: Function,
+    onAbort?: Function
+  ) => void
   +ensureURL: (push?: boolean) => void
   +getCurrentLocation: () => string
   +setupListeners: Function
@@ -77,13 +83,27 @@ export class History {
     onComplete?: Function,
     onAbort?: Function
   ) {
-    const route = this.router.match(location, this.current)
+    let route
+    // catch redirect option https://github.com/vuejs/vue-router/issues/3201
+    try {
+      route = this.router.match(location, this.current)
+    } catch (e) {
+      this.errorCbs.forEach(cb => {
+        cb(e)
+      })
+      // Exception should still be thrown
+      throw e
+    }
     this.confirmTransition(
       route,
       () => {
+        const prev = this.current
         this.updateRoute(route)
         onComplete && onComplete(route)
         this.ensureURL()
+        this.router.afterHooks.forEach(hook => {
+          hook && hook(route, prev)
+        })
 
         // fire ready cbs once
         if (!this.ready) {
@@ -99,9 +119,17 @@ export class History {
         }
         if (err && !this.ready) {
           this.ready = true
-          this.readyErrorCbs.forEach(cb => {
-            cb(err)
-          })
+          // Initial redirection should still trigger the onReady onSuccess
+          // https://github.com/vuejs/vue-router/issues/3225
+          if (!isNavigationFailure(err, NavigationFailureType.redirected)) {
+            this.readyErrorCbs.forEach(cb => {
+              cb(err)
+            })
+          } else {
+            this.readyCbs.forEach(cb => {
+              cb(route)
+            })
+          }
         }
       }
     )
@@ -110,11 +138,10 @@ export class History {
   confirmTransition (route: Route, onComplete: Function, onAbort?: Function) {
     const current = this.current
     const abort = err => {
-      // after merging https://github.com/vuejs/vue-router/pull/2771 we
-      // When the user navigates through history through back/forward buttons
-      // we do not want to throw the error. We only throw it if directly calling
-      // push/replace. That's why it's not included in isError
-      if (!isRouterError(err, NavigationFailureType.duplicated) && isError(err)) {
+      // changed after adding errors with
+      // https://github.com/vuejs/vue-router/pull/3047 before that change,
+      // redirect and aborted navigation would produce an err == null
+      if (!isNavigationFailure(err) && isError(err)) {
         if (this.errorCbs.length) {
           this.errorCbs.forEach(cb => {
             cb(err)
@@ -126,10 +153,13 @@ export class History {
       }
       onAbort && onAbort(err)
     }
+    const lastRouteIndex = route.matched.length - 1
+    const lastCurrentIndex = current.matched.length - 1
     if (
       isSameRoute(route, current) &&
       // in the case the route map has been dynamically appended to
-      route.matched.length === current.matched.length
+      lastRouteIndex === lastCurrentIndex &&
+      route.matched[lastRouteIndex] === current.matched[lastCurrentIndex]
     ) {
       this.ensureURL()
       return abort(createNavigationDuplicatedError(current, route))
@@ -196,7 +226,7 @@ export class History {
       const queue = enterGuards.concat(this.router.resolveHooks)
       runQueue(queue, iterator, () => {
         if (this.pending !== route) {
-          return abort()
+          return abort(createNavigationCancelledError(current, route))
         }
         this.pending = null
         onComplete(route)
@@ -210,12 +240,8 @@ export class History {
   }
 
   updateRoute (route: Route) {
-    const prev = this.current
     this.current = route
     this.cb && this.cb(route)
-    this.router.afterHooks.forEach(hook => {
-      hook && hook(route, prev)
-    })
   }
 
   setupListeners () {

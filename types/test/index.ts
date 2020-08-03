@@ -8,6 +8,7 @@ Vue.use(VueRouter)
 const Home = { template: '<div>home</div>' }
 const Foo = { template: '<div>foo</div>' }
 const Bar = { template: '<div>bar</div>' }
+const Abc = { template: '<div>abc</div>' }
 const Async = () => Promise.resolve({ template: '<div>async</div>' })
 
 const Hook: ComponentOptions<Vue> = {
@@ -67,6 +68,16 @@ const router = new VueRouter({
   },
   routes: [
     {
+      path: '/foo',
+      component: Home,
+      children: [{ path: '', component: Home }]
+    },
+    {
+      path: '/foo',
+      components: { default: Home },
+      children: [{ path: '', component: Home }]
+    },
+    {
       path: '/',
       name: 'home',
       component: Home,
@@ -76,6 +87,7 @@ const router = new VueRouter({
           components: {
             default: Foo,
             bar: Bar,
+            abc: Abc,
             asyncComponent: Async
           },
           meta: { auth: true },
@@ -88,6 +100,7 @@ const router = new VueRouter({
           props: {
             default: true,
             bar: { id: 123 },
+            abc: route => route.params,
             asyncComponent: (route: Route) => route.params
           }
         },

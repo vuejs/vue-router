@@ -29,7 +29,8 @@ export function resolveQuery (
     parsedQuery = {}
   }
   for (const key in extraQuery) {
-    parsedQuery[key] = extraQuery[key]
+    const value = extraQuery[key]
+    parsedQuery[key] = Array.isArray(value) ? value.map(v => '' + v) : '' + value
   }
   return parsedQuery
 }

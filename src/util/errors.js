@@ -1,8 +1,8 @@
 export const NavigationFailureType = {
-  redirected: 1,
-  aborted: 2,
-  cancelled: 3,
-  duplicated: 4
+  redirected: 2,
+  aborted: 4,
+  cancelled: 8,
+  duplicated: 16
 }
 
 export function createNavigationRedirectedError (from, to) {
@@ -10,17 +10,22 @@ export function createNavigationRedirectedError (from, to) {
     from,
     to,
     NavigationFailureType.redirected,
-    `Redirected from "${from.fullPath}" to "${stringifyRoute(to)}" via a navigation guard.`
+    `Redirected when going from "${from.fullPath}" to "${stringifyRoute(
+      to
+    )}" via a navigation guard.`
   )
 }
 
 export function createNavigationDuplicatedError (from, to) {
-  return createRouterError(
+  const error = createRouterError(
     from,
     to,
     NavigationFailureType.duplicated,
     `Avoided redundant navigation to current location: "${from.fullPath}".`
   )
+  // backwards compatible with the first introduction of Errors
+  error.name = 'NavigationDuplicated'
+  return error
 }
 
 export function createNavigationCancelledError (from, to) {
@@ -28,7 +33,9 @@ export function createNavigationCancelledError (from, to) {
     from,
     to,
     NavigationFailureType.cancelled,
-    `Navigation cancelled from "${from.fullPath}" to "${to.fullPath}" with a new navigation.`
+    `Navigation cancelled from "${from.fullPath}" to "${
+      to.fullPath
+    }" with a new navigation.`
   )
 }
 
@@ -37,7 +44,9 @@ export function createNavigationAbortedError (from, to) {
     from,
     to,
     NavigationFailureType.aborted,
-    `Navigation aborted from "${from.fullPath}" to "${to.fullPath}" via a navigation guard.`
+    `Navigation aborted from "${from.fullPath}" to "${
+      to.fullPath
+    }" via a navigation guard.`
   )
 }
 
@@ -48,9 +57,6 @@ function createRouterError (from, to, type, message) {
   error.to = to
   error.type = type
 
-  const newStack = error.stack.split('\n')
-  newStack.splice(1, 2) // remove 2 last useless calls
-  error.stack = newStack.join('\n')
   return error
 }
 
@@ -60,8 +66,20 @@ function stringifyRoute (to) {
   if (typeof to === 'string') return to
   if ('path' in to) return to.path
   const location = {}
-  for (const key of propertiesToLog) {
+  propertiesToLog.forEach(key => {
     if (key in to) location[key] = to[key]
-  }
+  })
   return JSON.stringify(location, null, 2)
+}
+
+export function isError (err) {
+  return Object.prototype.toString.call(err).indexOf('Error') > -1
+}
+
+export function isNavigationFailure (err, errorType) {
+  return (
+    isError(err) &&
+    err._isRouter &&
+    (errorType == null || err.type === errorType)
+  )
 }

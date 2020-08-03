@@ -21,6 +21,7 @@ export declare class VueRouter {
   constructor(options?: RouterOptions)
 
   app: Vue
+  options: RouterOptions;
   mode: RouterMode
   currentRoute: Route
 
@@ -60,6 +61,17 @@ export declare class VueRouter {
   }
 
   static install: PluginFunction<never>
+  static version: string
+
+  static isNavigationFailure: (error: any, type?: NavigationFailureTypeE) => error is Error
+  static NavigationFailureType: NavigationFailureTypeE
+}
+
+export enum NavigationFailureTypeE {
+  redirected = 1,
+  aborted = 2,
+  cancelled = 3,
+  duplicated = 4
 }
 
 type Position = { x: number; y: number }
@@ -89,20 +101,29 @@ export interface PathToRegexpOptions {
   end?: boolean
 }
 
-export interface RouteConfig {
+interface _RouteConfigBase {
   path: string
   name?: string
-  component?: Component
-  components?: Dictionary<Component>
+  children?: RouteConfig[]
   redirect?: RedirectOption
   alias?: string | string[]
-  children?: RouteConfig[]
   meta?: any
   beforeEnter?: NavigationGuard
-  props?: boolean | Object | RoutePropsFunction
   caseSensitive?: boolean
   pathToRegexpOptions?: PathToRegexpOptions
 }
+
+interface RouteConfigSingleView extends _RouteConfigBase {
+  component?: Component
+  props?: boolean | Object | RoutePropsFunction
+}
+
+interface RouteConfigMultipleViews extends _RouteConfigBase {
+  components?: Dictionary<Component>
+  props?: Dictionary<boolean | Object | RoutePropsFunction>
+}
+
+export type RouteConfig = RouteConfigSingleView | RouteConfigMultipleViews
 
 export interface RouteRecord {
   path: string

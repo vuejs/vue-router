@@ -1,5 +1,7 @@
 # ルートメタフィールド
 
+<div class="vueschool"><a href="https://vueschool.io/courses/vue-router-for-everyone?friend=vuejs" target="_blank" rel="sponsored noopener" title="Learn how to build powerful Single Page Applications with the Vue Router on Vue School">Watch a free video course about Vue Router on Vue School</a></div>
+
 ルートの定義をする際に `meta` フィールドを含めることができます。
 
 ``` js
