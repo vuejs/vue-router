@@ -153,4 +153,4 @@ beforeRouteLeave (to, from , next) {
 9. 导航被确认。
 10. 调用全局的 `afterEach` 钩子。
 11. 触发 DOM 更新。
-12. 调用 `beforeRouteEnter` 守卫中传给 `next` 的回调函数，被激活的组件实例会作为回调函数的参数传入
+12. 调用 `beforeRouteEnter` 守卫中传给 `next` 的回调函数，创建好的组件实例会作为回调函数的参数传入。
