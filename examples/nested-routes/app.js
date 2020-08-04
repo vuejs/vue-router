@@ -41,7 +41,7 @@ const Quux = {
 }
 const Quuy = { template: '<div>quuy</div>' }
 const Zap = {
-  template: '<div><h3>zap</h3><pre>{{ $route.params.zapId }}</pre></div>'
+  template: '<div><h3>zap</h3><pre>{{ $route.params.zapId }}</pre> <span id="hasZapParam">{{ "zapId" in $route.params }}</span></div>'
 }
 
 const Fox = {
@@ -109,7 +109,7 @@ new Vue({
   template: `
     <div id="app">
       <h1>Nested Routes</h1>
-      <ul>
+      <ol>
         <li><router-link to="/parent">/parent</router-link></li>
         <li><router-link to="/parent/foo">/parent/foo</router-link></li>
         <li><router-link to="/parent/bar">/parent/bar</router-link></li>
@@ -122,7 +122,7 @@ new Vue({
         <li><router-link to="/parent/qux/1/quux">/parent/qux/1/quux</router-link></li>
         <li><router-link to="/parent/qux/2/quux">/parent/qux/2/quux</router-link></li>
         <li><router-link :to="{ name: 'fox', params: { param1: 1, param2: 2, paramOptional: 'optional' }}">/fox/:param1/:paramOptional?/:param2</router-link></li>
-      </ul>
+      </ol>
       <router-view class="view"></router-view>
     </div>
   `

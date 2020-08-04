@@ -4,7 +4,7 @@ import type VueRouter from './index'
 import { resolvePath } from './util/path'
 import { assert, warn } from './util/warn'
 import { createRoute } from './util/route'
-import { fillParams, parentHasOptionalParams } from './util/params'
+import { fillParams } from './util/params'
 import { createRouteMap } from './create-route-map'
 import { normalizeLocation } from './util/location'
 
@@ -37,18 +37,10 @@ export function createMatcher (
         warn(record, `Route with name '${name}' does not exist`)
       }
       if (!record) return _createRoute(null, location)
-      let paramNames = record.regex.keys
-        .filter(key => !key.optional)
-        .map(key => key.name)
+      const paramNames = record.regex.keys.map(key => key.name)
 
       if (typeof location.params !== 'object') {
         location.params = {}
-      }
-
-      if (record.parent && record.parent.regex && record.parent.regex.keys && parentHasOptionalParams(record.parent)) {
-        paramNames = paramNames.concat(record.parent.regex.keys
-          .filter(key => key.optional)
-          .map(key => key.name))
       }
 
       if (currentRoute && typeof currentRoute.params === 'object') {
@@ -192,7 +184,7 @@ function matchRoute (
   for (let i = 1, len = m.length; i < len; ++i) {
     const key = regex.keys[i - 1]
     const val = typeof m[i] === 'string' ? decodeURIComponent(m[i]) : m[i]
-    if (key) {
+    if (key && val != null) {
       // Fix #1994: using * with props: true generates a param named 0
       params[key.name || 'pathMatch'] = val
     }

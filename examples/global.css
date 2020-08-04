@@ -7,7 +7,7 @@ html, body {
   padding: 0 20px;
 }
 
-ul {
+ul, ol {
   line-height: 1.5em;
   padding-left: 1.5em;
 }

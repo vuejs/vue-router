@@ -55,6 +55,28 @@ module.exports = {
         'quyId'
       )
 
+      // initial navigation should not have optional params
+      .url('http://localhost:8080/nested-routes/parent/zap')
+      .assert.containsText('.view', 'Parent')
+      .assert.containsText('.view', 'zap')
+      .assert.containsText('#hasZapParam', 'false')
+      // go somewhere else
+      .click('li:nth-child(1) a')
+
+      .click('li:nth-child(7) a')
+      .assert.urlEquals('http://localhost:8080/nested-routes/parent/zap')
+      .assert.containsText('.view', 'Parent')
+      .assert.containsText('.view', 'zap')
+      .assert.containsText('#hasZapParam', 'false')
+      .assert.evaluate(
+        function () {
+          var zapId = document.querySelector('pre').textContent
+          return zapId === ''
+        },
+        null,
+        'optional zapId'
+      )
+
       .click('li:nth-child(8) a')
       .assert.urlEquals('http://localhost:8080/nested-routes/parent/zap/1')
       .assert.containsText('.view', 'Parent')
@@ -68,10 +90,8 @@ module.exports = {
         'zapId'
       )
 
-      .click('li:nth-child(7) a')
+      .back()
       .assert.urlEquals('http://localhost:8080/nested-routes/parent/zap')
-      .assert.containsText('.view', 'Parent')
-      .assert.containsText('.view', 'zap')
       .assert.evaluate(
         function () {
           var zapId = document.querySelector('pre').textContent
@@ -108,6 +128,7 @@ module.exports = {
       .assert.urlEquals('http://localhost:8080/nested-routes/parent/fox/1/optional/2/foxy')
       .assert.containsText('.optional-param-nested-child pre', 'optional')
 
+      // check initial visit
       .url('http://localhost:8080/nested-routes/parent/foo')
       .waitForElementVisible('#app', 1000)
       .assert.containsText('.view', 'Parent')
