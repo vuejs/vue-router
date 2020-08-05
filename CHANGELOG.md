@@ -1,3 +1,22 @@
+# [3.4.0](https://github.com/vuejs/vue-router/compare/v3.3.4...v3.4.0) (2020-08-05)
+
+
+### Bug Fixes
+
+* **query:** cast query values to strings (fix [#2131](https://github.com/vuejs/vue-router/issues/2131)) ([#3232](https://github.com/vuejs/vue-router/issues/3232)) ([f0d9c2d](https://github.com/vuejs/vue-router/commit/f0d9c2d))
+* **scroll:** run scrollBehavior on initial load (fix [#3196](https://github.com/vuejs/vue-router/issues/3196)) ([#3199](https://github.com/vuejs/vue-router/issues/3199)) ([84398ae](https://github.com/vuejs/vue-router/commit/84398ae))
+* **types:** add missing `options` property type ([#3248](https://github.com/vuejs/vue-router/issues/3248)) ([83920c9](https://github.com/vuejs/vue-router/commit/83920c9))
+
+
+### Features
+
+* add vetur tags and attributes ([bf1e1bd](https://github.com/vuejs/vue-router/commit/bf1e1bd))
+* **errors:** capture errors thrown in redirect callback in onError ([#3251](https://github.com/vuejs/vue-router/issues/3251)) ([40e4df7](https://github.com/vuejs/vue-router/commit/40e4df7)), closes [#3201](https://github.com/vuejs/vue-router/issues/3201) [#3201](https://github.com/vuejs/vue-router/issues/3201) [#3201](https://github.com/vuejs/vue-router/issues/3201)
+* **errors:** expose `isNavigationFailure` ([8d92dc0](https://github.com/vuejs/vue-router/commit/8d92dc0))
+* **errors:** NavigationDuplicated name for backwards compatibility ([b854a20](https://github.com/vuejs/vue-router/commit/b854a20))
+
+
+
 ## [3.3.4](https://github.com/vuejs/vue-router/compare/v3.3.3...v3.3.4) (2020-06-13)
 
 
