@@ -17,8 +17,14 @@
   "files": [
     "src",
     "dist/*.js",
-    "types/*.d.ts"
+    "types/*.d.ts",
+    "vetur/tags.json",
+    "vetur/attributes.json"
   ],
+  "vetur": {
+    "tags": "vetur/tags.json",
+    "attributes": "vetur/attributes.json"
+  },
   "keywords": [
     "vue",
     "router",
