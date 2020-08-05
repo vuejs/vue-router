@@ -1,131 +1,97 @@
 # [3.4.0](https://github.com/vuejs/vue-router/compare/v3.3.4...v3.4.0) (2020-08-05)
 
-
 ### Bug Fixes
 
-* **query:** cast query values to strings (fix [#2131](https://github.com/vuejs/vue-router/issues/2131)) ([#3232](https://github.com/vuejs/vue-router/issues/3232)) ([f0d9c2d](https://github.com/vuejs/vue-router/commit/f0d9c2d))
-* **scroll:** run scrollBehavior on initial load (fix [#3196](https://github.com/vuejs/vue-router/issues/3196)) ([#3199](https://github.com/vuejs/vue-router/issues/3199)) ([84398ae](https://github.com/vuejs/vue-router/commit/84398ae))
-* **types:** add missing `options` property type ([#3248](https://github.com/vuejs/vue-router/issues/3248)) ([83920c9](https://github.com/vuejs/vue-router/commit/83920c9))
-
+- **query:** cast query values to strings (fix [#2131](https://github.com/vuejs/vue-router/issues/2131)) ([#3232](https://github.com/vuejs/vue-router/issues/3232)) ([f0d9c2d](https://github.com/vuejs/vue-router/commit/f0d9c2d))
+- **scroll:** run scrollBehavior on initial load (fix [#3196](https://github.com/vuejs/vue-router/issues/3196)) ([#3199](https://github.com/vuejs/vue-router/issues/3199)) ([84398ae](https://github.com/vuejs/vue-router/commit/84398ae))
+- **types:** add missing `options` property type ([#3248](https://github.com/vuejs/vue-router/issues/3248)) ([83920c9](https://github.com/vuejs/vue-router/commit/83920c9))
 
 ### Features
 
-* add vetur tags and attributes ([bf1e1bd](https://github.com/vuejs/vue-router/commit/bf1e1bd))
-* **errors:** capture errors thrown in redirect callback in onError ([#3251](https://github.com/vuejs/vue-router/issues/3251)) ([40e4df7](https://github.com/vuejs/vue-router/commit/40e4df7)), closes [#3201](https://github.com/vuejs/vue-router/issues/3201) [#3201](https://github.com/vuejs/vue-router/issues/3201) [#3201](https://github.com/vuejs/vue-router/issues/3201)
-* **errors:** expose `isNavigationFailure` ([8d92dc0](https://github.com/vuejs/vue-router/commit/8d92dc0))
-* **errors:** NavigationDuplicated name for backwards compatibility ([b854a20](https://github.com/vuejs/vue-router/commit/b854a20))
-
-
+- add vetur tags and attributes ([bf1e1bd](https://github.com/vuejs/vue-router/commit/bf1e1bd))
+- **errors:** capture errors thrown in redirect callback in onError ([#3251](https://github.com/vuejs/vue-router/issues/3251)) ([40e4df7](https://github.com/vuejs/vue-router/commit/40e4df7)), closes [#3201](https://github.com/vuejs/vue-router/issues/3201) [#3201](https://github.com/vuejs/vue-router/issues/3201) [#3201](https://github.com/vuejs/vue-router/issues/3201)
+- **errors:** expose `isNavigationFailure` ([8d92dc0](https://github.com/vuejs/vue-router/commit/8d92dc0))
+- **errors:** NavigationDuplicated name for backwards compatibility ([b854a20](https://github.com/vuejs/vue-router/commit/b854a20))
 
 ## [3.3.4](https://github.com/vuejs/vue-router/compare/v3.3.3...v3.3.4) (2020-06-13)
 
-
 ### Bug Fixes
 
-* **matcher:** navigate to same as current location ([62598b9](https://github.com/vuejs/vue-router/commit/62598b9)), closes [#3216](https://github.com/vuejs/vue-router/issues/3216)
-* **types:** missing children ([c1df447](https://github.com/vuejs/vue-router/commit/c1df447)), closes [#3230](https://github.com/vuejs/vue-router/issues/3230)
-
-
+- **matcher:** navigate to same as current location ([62598b9](https://github.com/vuejs/vue-router/commit/62598b9)), closes [#3216](https://github.com/vuejs/vue-router/issues/3216)
+- **types:** missing children ([c1df447](https://github.com/vuejs/vue-router/commit/c1df447)), closes [#3230](https://github.com/vuejs/vue-router/issues/3230)
 
 ## [3.3.3](https://github.com/vuejs/vue-router/compare/v3.3.2...v3.3.3) (2020-06-12)
 
-
 ### Bug Fixes
 
-* **history:** initial redirect call onReady's onSuccess ([4d484bf](https://github.com/vuejs/vue-router/commit/4d484bf)), closes [#3225](https://github.com/vuejs/vue-router/issues/3225)
-* update ja docs ([#3214](https://github.com/vuejs/vue-router/issues/3214)) ([c05f741](https://github.com/vuejs/vue-router/commit/c05f741))
-
+- **history:** initial redirect call onReady's onSuccess ([4d484bf](https://github.com/vuejs/vue-router/commit/4d484bf)), closes [#3225](https://github.com/vuejs/vue-router/issues/3225)
+- update ja docs ([#3214](https://github.com/vuejs/vue-router/issues/3214)) ([c05f741](https://github.com/vuejs/vue-router/commit/c05f741))
 
 ### Features
 
-* better wording for navigation redirected failure ([1f3aea6](https://github.com/vuejs/vue-router/commit/1f3aea6))
-* **types:** RouterConfig for multiple components ([#3217](https://github.com/vuejs/vue-router/issues/3217)) ([#3218](https://github.com/vuejs/vue-router/issues/3218)) ([dab86c5](https://github.com/vuejs/vue-router/commit/dab86c5))
-
-
+- better wording for navigation redirected failure ([1f3aea6](https://github.com/vuejs/vue-router/commit/1f3aea6))
+- **types:** RouterConfig for multiple components ([#3217](https://github.com/vuejs/vue-router/issues/3217)) ([#3218](https://github.com/vuejs/vue-router/issues/3218)) ([dab86c5](https://github.com/vuejs/vue-router/commit/dab86c5))
 
 ## [3.3.2](https://github.com/vuejs/vue-router/compare/v3.3.1...v3.3.2) (2020-05-29)
 
-
 ### Bug Fixes
 
-* **errors:** NavigationCanceled with async components ([#3211](https://github.com/vuejs/vue-router/issues/3211)) ([be39ca3](https://github.com/vuejs/vue-router/commit/be39ca3))
-* remove error.stack modification ([#3212](https://github.com/vuejs/vue-router/issues/3212)) ([a0075ed](https://github.com/vuejs/vue-router/commit/a0075ed))
-
-
+- **errors:** NavigationCanceled with async components ([#3211](https://github.com/vuejs/vue-router/issues/3211)) ([be39ca3](https://github.com/vuejs/vue-router/commit/be39ca3))
+- remove error.stack modification ([#3212](https://github.com/vuejs/vue-router/issues/3212)) ([a0075ed](https://github.com/vuejs/vue-router/commit/a0075ed))
 
 ## [3.3.1](https://github.com/vuejs/vue-router/compare/v3.3.0...v3.3.1) (2020-05-27)
 
-
 ### Bug Fixes
 
-* **errors:** avoid unnecessary log of errors ([2c77247](https://github.com/vuejs/vue-router/commit/2c77247))
-
-
+- **errors:** avoid unnecessary log of errors ([2c77247](https://github.com/vuejs/vue-router/commit/2c77247))
 
 # [3.3.0](https://github.com/vuejs/vue-router/compare/v3.2.0...v3.3.0) (2020-05-27)
 
-
 ### Features
 
-* **errors:** create router errors ([#3047](https://github.com/vuejs/vue-router/issues/3047)) ([4c727f9](https://github.com/vuejs/vue-router/commit/4c727f9))
-* **history:** Remove event listeners when all apps are destroyed. ([#3172](https://github.com/vuejs/vue-router/issues/3172)) ([4c81be8](https://github.com/vuejs/vue-router/commit/4c81be8)), closes [#3152](https://github.com/vuejs/vue-router/issues/3152) [#2341](https://github.com/vuejs/vue-router/issues/2341)
-* **url:** call afterEach hooks after url is ensured ([#2292](https://github.com/vuejs/vue-router/issues/2292)) ([1575a18](https://github.com/vuejs/vue-router/commit/1575a18)), closes [#2079](https://github.com/vuejs/vue-router/issues/2079)
-
-
+- **errors:** create router errors ([#3047](https://github.com/vuejs/vue-router/issues/3047)) ([4c727f9](https://github.com/vuejs/vue-router/commit/4c727f9))
+- **history:** Remove event listeners when all apps are destroyed. ([#3172](https://github.com/vuejs/vue-router/issues/3172)) ([4c81be8](https://github.com/vuejs/vue-router/commit/4c81be8)), closes [#3152](https://github.com/vuejs/vue-router/issues/3152) [#2341](https://github.com/vuejs/vue-router/issues/2341)
+- **url:** call afterEach hooks after url is ensured ([#2292](https://github.com/vuejs/vue-router/issues/2292)) ([1575a18](https://github.com/vuejs/vue-router/commit/1575a18)), closes [#2079](https://github.com/vuejs/vue-router/issues/2079)
 
 # [3.2.0](https://github.com/vuejs/vue-router/compare/v3.1.6...v3.2.0) (2020-05-19)
 
-
 ### Bug Fixes
 
-* **html5:** make base case insensitive ([04a2143](https://github.com/vuejs/vue-router/commit/04a2143)), closes [#2154](https://github.com/vuejs/vue-router/issues/2154)
-* check for pushState being a function ([bc41f67](https://github.com/vuejs/vue-router/commit/bc41f67)), closes [#3154](https://github.com/vuejs/vue-router/issues/3154)
-
+- **html5:** make base case insensitive ([04a2143](https://github.com/vuejs/vue-router/commit/04a2143)), closes [#2154](https://github.com/vuejs/vue-router/issues/2154)
+- check for pushState being a function ([bc41f67](https://github.com/vuejs/vue-router/commit/bc41f67)), closes [#3154](https://github.com/vuejs/vue-router/issues/3154)
 
 ### Features
 
-* **link:** add aria-current to active links (close [#2116](https://github.com/vuejs/vue-router/issues/2116)) ([#3073](https://github.com/vuejs/vue-router/issues/3073)) ([6ec0ee5](https://github.com/vuejs/vue-router/commit/6ec0ee5))
-* **scroll:** use manual scrollRestoration with scrollBehavior ([#1814](https://github.com/vuejs/vue-router/issues/1814)) ([1261363](https://github.com/vuejs/vue-router/commit/1261363))
-* **types:** NavigationGuardNext ([#2497](https://github.com/vuejs/vue-router/issues/2497)) ([d18c497](https://github.com/vuejs/vue-router/commit/d18c497))
-
-
+- **link:** add aria-current to active links (close [#2116](https://github.com/vuejs/vue-router/issues/2116)) ([#3073](https://github.com/vuejs/vue-router/issues/3073)) ([6ec0ee5](https://github.com/vuejs/vue-router/commit/6ec0ee5))
+- **scroll:** use manual scrollRestoration with scrollBehavior ([#1814](https://github.com/vuejs/vue-router/issues/1814)) ([1261363](https://github.com/vuejs/vue-router/commit/1261363))
+- **types:** NavigationGuardNext ([#2497](https://github.com/vuejs/vue-router/issues/2497)) ([d18c497](https://github.com/vuejs/vue-router/commit/d18c497))
 
 ## [3.1.6](https://github.com/vuejs/vue-router/compare/v3.1.5...v3.1.6) (2020-02-26)
 
-
 ### Bug Fixes
 
-* preserve history state when reloading ([a4ec3e2](https://github.com/vuejs/vue-router/commit/a4ec3e2))
-* **ts:** add null to Route.name ([#3117](https://github.com/vuejs/vue-router/issues/3117)) ([8f831f2](https://github.com/vuejs/vue-router/commit/8f831f2))
-* correctly calculate `path` when `pathMatch` is empty string ([#3111](https://github.com/vuejs/vue-router/issues/3111)) ([38e6ccd](https://github.com/vuejs/vue-router/commit/38e6ccd)), closes [#3106](https://github.com/vuejs/vue-router/issues/3106)
-
-
+- preserve history state when reloading ([a4ec3e2](https://github.com/vuejs/vue-router/commit/a4ec3e2))
+- **ts:** add null to Route.name ([#3117](https://github.com/vuejs/vue-router/issues/3117)) ([8f831f2](https://github.com/vuejs/vue-router/commit/8f831f2))
+- correctly calculate `path` when `pathMatch` is empty string ([#3111](https://github.com/vuejs/vue-router/issues/3111)) ([38e6ccd](https://github.com/vuejs/vue-router/commit/38e6ccd)), closes [#3106](https://github.com/vuejs/vue-router/issues/3106)
 
 ## [3.1.5](https://github.com/vuejs/vue-router/compare/v3.1.4...v3.1.5) (2020-01-15)
 
-
 ### Bug Fixes
 
-* **view:** add passing props to inactive component ([#2773](https://github.com/vuejs/vue-router/issues/2773)) ([0fb1343](https://github.com/vuejs/vue-router/commit/0fb1343)), closes [#2301](https://github.com/vuejs/vue-router/issues/2301)
-* **view:** fix deeply nested keep-alive router-views displaying ([#2930](https://github.com/vuejs/vue-router/issues/2930)) ([0c2b1aa](https://github.com/vuejs/vue-router/commit/0c2b1aa)), closes [#2923](https://github.com/vuejs/vue-router/issues/2923)
-
-
+- **view:** add passing props to inactive component ([#2773](https://github.com/vuejs/vue-router/issues/2773)) ([0fb1343](https://github.com/vuejs/vue-router/commit/0fb1343)), closes [#2301](https://github.com/vuejs/vue-router/issues/2301)
+- **view:** fix deeply nested keep-alive router-views displaying ([#2930](https://github.com/vuejs/vue-router/issues/2930)) ([0c2b1aa](https://github.com/vuejs/vue-router/commit/0c2b1aa)), closes [#2923](https://github.com/vuejs/vue-router/issues/2923)
 
 ## [3.1.4](https://github.com/vuejs/vue-router/compare/v3.1.3...v3.1.4) (2020-01-14)
 
-
 ### Bug Fixes
 
-* suppress warning if `pathMatch` is empty ([#3081](https://github.com/vuejs/vue-router/issues/3081)) ([ddc6bc7](https://github.com/vuejs/vue-router/commit/ddc6bc7)), closes [#3072](https://github.com/vuejs/vue-router/issues/3072)
-* **link:** correctly warn wrong v-slot usage ([a150291](https://github.com/vuejs/vue-router/commit/a150291)), closes [#3091](https://github.com/vuejs/vue-router/issues/3091)
-* **location:** add a copy for params with named locations ([#2802](https://github.com/vuejs/vue-router/issues/2802)) ([2b39f5a](https://github.com/vuejs/vue-router/commit/2b39f5a)), closes [#2800](https://github.com/vuejs/vue-router/issues/2800) [#2938](https://github.com/vuejs/vue-router/issues/2938) [#2938](https://github.com/vuejs/vue-router/issues/2938)
-
+- suppress warning if `pathMatch` is empty ([#3081](https://github.com/vuejs/vue-router/issues/3081)) ([ddc6bc7](https://github.com/vuejs/vue-router/commit/ddc6bc7)), closes [#3072](https://github.com/vuejs/vue-router/issues/3072)
+- **link:** correctly warn wrong v-slot usage ([a150291](https://github.com/vuejs/vue-router/commit/a150291)), closes [#3091](https://github.com/vuejs/vue-router/issues/3091)
+- **location:** add a copy for params with named locations ([#2802](https://github.com/vuejs/vue-router/issues/2802)) ([2b39f5a](https://github.com/vuejs/vue-router/commit/2b39f5a)), closes [#2800](https://github.com/vuejs/vue-router/issues/2800) [#2938](https://github.com/vuejs/vue-router/issues/2938) [#2938](https://github.com/vuejs/vue-router/issues/2938)
 
 ### Features
 
-* **history:** preserve existing history.state ([c0d3376](https://github.com/vuejs/vue-router/commit/c0d3376)), closes [#3006](https://github.com/vuejs/vue-router/issues/3006)
-
-
+- **history:** preserve existing history.state ([c0d3376](https://github.com/vuejs/vue-router/commit/c0d3376)), closes [#3006](https://github.com/vuejs/vue-router/issues/3006)
 
 ## [3.1.3](https://github.com/vuejs/vue-router/compare/v3.1.2...v3.1.3) (2019-08-30)
 
