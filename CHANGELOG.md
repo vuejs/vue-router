@@ -1,3 +1,10 @@
+## [3.4.1](https://github.com/vuejs/vue-router/compare/v3.4.0...v3.4.1) (2020-08-06)
+
+### Bug Fixes
+
+- **query:** remove undefined values ([b952573](https://github.com/vuejs/vue-router/commit/b952573)), closes [#3276](https://github.com/vuejs/vue-router/issues/3276)
+- **router:** properly check null and undefined in isSameRoute ([d6546d9](https://github.com/vuejs/vue-router/commit/d6546d9))
+
 # [3.4.0](https://github.com/vuejs/vue-router/compare/v3.3.4...v3.4.0) (2020-08-05)
 
 ### Bug Fixes
