@@ -38,7 +38,7 @@ export function resolveQuery (
   return parsedQuery
 }
 
-const castQueryParamValue = value => (value == null ? value : '' + value)
+const castQueryParamValue = value => (value == null ? value : String(value))
 
 function parseQuery (query: string): Dictionary<string> {
   const res = {}
