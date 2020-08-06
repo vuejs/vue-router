@@ -1,5 +1,5 @@
 /*!
-  * vue-router v3.4.0
+  * vue-router v3.4.1
   * (c) 2020 Evan You
   * @license MIT
   */
@@ -180,9 +180,10 @@ const commaRE = /%2C/g;
 // fixed encodeURIComponent which is more conformant to RFC3986:
 // - escapes [!'()*]
 // - preserve commas
-const encode = str => encodeURIComponent(str)
-  .replace(encodeReserveRE, encodeReserveReplacer)
-  .replace(commaRE, ',');
+const encode = str =>
+  encodeURIComponent(str)
+    .replace(encodeReserveRE, encodeReserveReplacer)
+    .replace(commaRE, ',');
 
 const decode = decodeURIComponent;
 
@@ -201,10 +202,14 @@ function resolveQuery (
   }
   for (const key in extraQuery) {
     const value = extraQuery[key];
-    parsedQuery[key] = Array.isArray(value) ? value.map(v => '' + v) : '' + value;
+    parsedQuery[key] = Array.isArray(value)
+      ? value.map(castQueryParamValue)
+      : castQueryParamValue(value);
   }
   return parsedQuery
 }
+
+const castQueryParamValue = value => (value == null ? value : String(value));
 
 function parseQuery (query) {
   const res = {};
@@ -218,9 +223,7 @@ function parseQuery (query) {
   query.split('&').forEach(param => {
     const parts = param.replace(/\+/g, ' ').split('=');
     const key = decode(parts.shift());
-    const val = parts.length > 0
-      ? decode(parts.join('='))
-      : null;
+    const val = parts.length > 0 ? decode(parts.join('=')) : null;
 
     if (res[key] === undefined) {
       res[key] = val;
@@ -235,34 +238,39 @@ function parseQuery (query) {
 }
 
 function stringifyQuery (obj) {
-  const res = obj ? Object.keys(obj).map(key => {
-    const val = obj[key];
+  const res = obj
+    ? Object.keys(obj)
+      .map(key => {
+        const val = obj[key];
 
-    if (val === undefined) {
-      return ''
-    }
-
-    if (val === null) {
-      return encode(key)
-    }
-
-    if (Array.isArray(val)) {
-      const result = [];
-      val.forEach(val2 => {
-        if (val2 === undefined) {
-          return
+        if (val === undefined) {
+          return ''
         }
-        if (val2 === null) {
-          result.push(encode(key));
-        } else {
-          result.push(encode(key) + '=' + encode(val2));
-        }
-      });
-      return result.join('&')
-    }
 
-    return encode(key) + '=' + encode(val)
-  }).filter(x => x.length > 0).join('&') : null;
+        if (val === null) {
+          return encode(key)
+        }
+
+        if (Array.isArray(val)) {
+          const result = [];
+          val.forEach(val2 => {
+            if (val2 === undefined) {
+              return
+            }
+            if (val2 === null) {
+              result.push(encode(key));
+            } else {
+              result.push(encode(key) + '=' + encode(val2));
+            }
+          });
+          return result.join('&')
+        }
+
+        return encode(key) + '=' + encode(val)
+      })
+      .filter(x => x.length > 0)
+      .join('&')
+    : null;
   return res ? `?${res}` : ''
 }
 
@@ -369,6 +377,8 @@ function isObjectEqual (a = {}, b = {}) {
   return aKeys.every(key => {
     const aVal = a[key];
     const bVal = b[key];
+    // query values can be null and undefined
+    if (aVal == null || bVal == null) return aVal === bVal
     // check nested equality
     if (typeof aVal === 'object' && typeof bVal === 'object') {
       return isObjectEqual(aVal, bVal)
@@ -3000,7 +3010,7 @@ function createHref (base, fullPath, mode) {
 }
 
 VueRouter.install = install;
-VueRouter.version = '3.4.0';
+VueRouter.version = '3.4.1';
 VueRouter.isNavigationFailure = isNavigationFailure;
 VueRouter.NavigationFailureType = NavigationFailureType;
 

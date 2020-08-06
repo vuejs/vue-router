@@ -1,5 +1,5 @@
 /*!
-  * vue-router v3.4.0
+  * vue-router v3.4.1
   * (c) 2020 Evan You
   * @license MIT
   */
@@ -192,8 +192,8 @@
   // - escapes [!'()*]
   // - preserve commas
   var encode = function (str) { return encodeURIComponent(str)
-    .replace(encodeReserveRE, encodeReserveReplacer)
-    .replace(commaRE, ','); };
+      .replace(encodeReserveRE, encodeReserveReplacer)
+      .replace(commaRE, ','); };
 
   var decode = decodeURIComponent;
 
@@ -214,10 +214,14 @@
     }
     for (var key in extraQuery) {
       var value = extraQuery[key];
-      parsedQuery[key] = Array.isArray(value) ? value.map(function (v) { return '' + v; }) : '' + value;
+      parsedQuery[key] = Array.isArray(value)
+        ? value.map(castQueryParamValue)
+        : castQueryParamValue(value);
     }
     return parsedQuery
   }
+
+  var castQueryParamValue = function (value) { return (value == null ? value : String(value)); };
 
   function parseQuery (query) {
     var res = {};
@@ -231,9 +235,7 @@
     query.split('&').forEach(function (param) {
       var parts = param.replace(/\+/g, ' ').split('=');
       var key = decode(parts.shift());
-      var val = parts.length > 0
-        ? decode(parts.join('='))
-        : null;
+      var val = parts.length > 0 ? decode(parts.join('=')) : null;
 
       if (res[key] === undefined) {
         res[key] = val;
@@ -248,34 +250,39 @@
   }
 
   function stringifyQuery (obj) {
-    var res = obj ? Object.keys(obj).map(function (key) {
-      var val = obj[key];
+    var res = obj
+      ? Object.keys(obj)
+        .map(function (key) {
+          var val = obj[key];
 
-      if (val === undefined) {
-        return ''
-      }
-
-      if (val === null) {
-        return encode(key)
-      }
-
-      if (Array.isArray(val)) {
-        var result = [];
-        val.forEach(function (val2) {
-          if (val2 === undefined) {
-            return
+          if (val === undefined) {
+            return ''
           }
-          if (val2 === null) {
-            result.push(encode(key));
-          } else {
-            result.push(encode(key) + '=' + encode(val2));
-          }
-        });
-        return result.join('&')
-      }
 
-      return encode(key) + '=' + encode(val)
-    }).filter(function (x) { return x.length > 0; }).join('&') : null;
+          if (val === null) {
+            return encode(key)
+          }
+
+          if (Array.isArray(val)) {
+            var result = [];
+            val.forEach(function (val2) {
+              if (val2 === undefined) {
+                return
+              }
+              if (val2 === null) {
+                result.push(encode(key));
+              } else {
+                result.push(encode(key) + '=' + encode(val2));
+              }
+            });
+            return result.join('&')
+          }
+
+          return encode(key) + '=' + encode(val)
+        })
+        .filter(function (x) { return x.length > 0; })
+        .join('&')
+      : null;
     return res ? ("?" + res) : ''
   }
 
@@ -389,6 +396,8 @@
     return aKeys.every(function (key) {
       var aVal = a[key];
       var bVal = b[key];
+      // query values can be null and undefined
+      if (aVal == null || bVal == null) { return aVal === bVal }
       // check nested equality
       if (typeof aVal === 'object' && typeof bVal === 'object') {
         return isObjectEqual(aVal, bVal)
@@ -3039,7 +3048,7 @@
   }
 
   VueRouter.install = install;
-  VueRouter.version = '3.4.0';
+  VueRouter.version = '3.4.1';
   VueRouter.isNavigationFailure = isNavigationFailure;
   VueRouter.NavigationFailureType = NavigationFailureType;
 
