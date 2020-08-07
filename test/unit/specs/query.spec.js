@@ -25,6 +25,11 @@ describe('Query utils', () => {
       expect(query).toEqual({ a: undefined, b: null })
     })
 
+    it('should keep objects query values', () => {
+      const query = resolveQuery('', { a: { nested: 'o' }, b: [{ a: true }] })
+      expect(query).toEqual({ a: { nested: 'o' }, b: [{ a: true }] })
+    })
+
     it('should keep null query values in arrays', () => {
       const query = resolveQuery('', { baz: [null, '2'] })
       expect(query).toEqual({ baz: [null, '2'] })
