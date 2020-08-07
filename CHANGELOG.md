@@ -1,3 +1,10 @@
+## [3.4.2](https://github.com/vuejs/vue-router/compare/v3.4.1...v3.4.2) (2020-08-07)
+
+### Bug Fixes
+
+- **query:** leave object as is ([7b3328d](https://github.com/vuejs/vue-router/commit/7b3328d)), closes [#3282](https://github.com/vuejs/vue-router/issues/3282)
+- keep repeated params in query/hash relative locations ([4fbaa9f](https://github.com/vuejs/vue-router/commit/4fbaa9f))
+
 ## [3.4.1](https://github.com/vuejs/vue-router/compare/v3.4.0...v3.4.1) (2020-08-06)
 
 ### Bug Fixes
