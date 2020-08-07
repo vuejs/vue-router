@@ -1,5 +1,5 @@
 /*!
-  * vue-router v3.4.1
+  * vue-router v3.4.2
   * (c) 2020 Evan You
   * @license MIT
   */
@@ -209,7 +209,7 @@ function resolveQuery (
   return parsedQuery
 }
 
-const castQueryParamValue = value => (value == null ? value : String(value));
+const castQueryParamValue = value => (value == null || typeof value === 'object' ? value : String(value));
 
 function parseQuery (query) {
   const res = {};
@@ -965,7 +965,7 @@ function normalizeLocation (
   }
 
   // relative params
-  if (!next.path && next.params && current) {
+  if (!next.path && (next.params || next.query || next.hash) && current) {
     next = extend({}, next);
     next._normalized = true;
     const params = extend(extend({}, current.params), next.params);
@@ -3010,7 +3010,7 @@ function createHref (base, fullPath, mode) {
 }
 
 VueRouter.install = install;
-VueRouter.version = '3.4.1';
+VueRouter.version = '3.4.2';
 VueRouter.isNavigationFailure = isNavigationFailure;
 VueRouter.NavigationFailureType = NavigationFailureType;
 

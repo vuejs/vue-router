@@ -1,5 +1,5 @@
 /*!
-  * vue-router v3.4.1
+  * vue-router v3.4.2
   * (c) 2020 Evan You
   * @license MIT
   */
@@ -221,7 +221,7 @@
     return parsedQuery
   }
 
-  var castQueryParamValue = function (value) { return (value == null ? value : String(value)); };
+  var castQueryParamValue = function (value) { return (value == null || typeof value === 'object' ? value : String(value)); };
 
   function parseQuery (query) {
     var res = {};
@@ -984,7 +984,7 @@
     }
 
     // relative params
-    if (!next.path && next.params && current) {
+    if (!next.path && (next.params || next.query || next.hash) && current) {
       next = extend({}, next);
       next._normalized = true;
       var params$1 = extend(extend({}, current.params), next.params);
@@ -3048,7 +3048,7 @@
   }
 
   VueRouter.install = install;
-  VueRouter.version = '3.4.1';
+  VueRouter.version = '3.4.2';
   VueRouter.isNavigationFailure = isNavigationFailure;
   VueRouter.NavigationFailureType = NavigationFailureType;
 
