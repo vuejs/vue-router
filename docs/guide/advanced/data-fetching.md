@@ -55,8 +55,11 @@ export default {
     fetchData () {
       this.error = this.post = null
       this.loading = true
+      const fetchedId = this.$route.params.id
       // replace `getPost` with your data fetching util / API wrapper
-      getPost(this.$route.params.id, (err, post) => {
+      getPost(fetchedId, (err, post) => {
+        // make sure this request is the last one we did, discard otherwise
+        if (this.$route.params.id !== fetchedId) return
         this.loading = false
         if (err) {
           this.error = err.toString()
