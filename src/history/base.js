@@ -87,7 +87,7 @@ export class History {
   confirmTransition (route: Route, onComplete: Function, onAbort?: Function) {
     const current = this.current
     const abort = err => {
-      if (isError(err)) {
+      if (isError(err) || err === false) {
         if (this.errorCbs.length) {
           this.errorCbs.forEach(cb => { cb(err) })
         } else {
