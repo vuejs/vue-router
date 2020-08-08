@@ -20,7 +20,7 @@ sidebar: auto
 
 `router-link` は[スコープ付きスロット](https://jp.vuejs.org/v2/guide/components-slots.html#%E3%82%B9%E3%82%B3%E3%83%BC%E3%83%97%E4%BB%98%E3%81%8D%E3%82%B9%E3%83%AD%E3%83%83%E3%83%88)を通して低レベルなカスタマイズを提供しています。これは、主にライブラリ作者をターゲットにした高度な API ですが、ほとんどの場合 _NavLink_ などのようなカスタムコンポーネントでも同様に開発者にとっても大変便利です。
 
-**`v-slot` API を使うとき、それは単一の子を `router-link` に通す必要がります。**そうしない場合は、 `router-linke` は `span` 要素で子をラップします。
+**`v-slot` API を使うとき、それは単一の子を `router-link` に通す必要がります。** そうしない場合は、 `router-linke` は `span` 要素で子をラップします。
 
 ```html
 <router-link

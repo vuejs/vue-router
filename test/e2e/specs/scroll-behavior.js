@@ -119,6 +119,20 @@ module.exports = {
         null,
         'scroll to anchor that starts with number'
       )
+
+      .url('http://localhost:8080/scroll-behavior/bar#anchor')
+      .execute(function () {
+        location.reload(true)
+      })
+      .waitForElementVisible('#app', 1000)
+      .assert.evaluate(
+        function () {
+          return document.getElementById('anchor').getBoundingClientRect().top < 1
+        },
+        null,
+        'scroll to anchor on load'
+      )
+
       .end()
   }
 }

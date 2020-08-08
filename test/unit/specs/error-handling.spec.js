@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import VueRouter from '../../../src/index'
-import { NavigationFailureType } from '../../../src/history/errors'
+import { NavigationFailureType } from '../../../src/util/errors'
 
 Vue.use(VueRouter)
 
@@ -180,6 +180,33 @@ describe('error handling', () => {
         // expect(pushCatch).not.toHaveBeenCalled()
         expect(onError).not.toHaveBeenCalled()
         expect(onReadySuccess).toHaveBeenCalled()
+        done()
+      })
+  })
+
+  it('should trigger onError if error is thrown inside redirect option', done => {
+    const error = new Error('foo')
+    const config = [{
+      path: '/oldpath/:part',
+      redirect: (to) => {
+        throw error
+      }
+    }]
+
+    const router = new VueRouter({
+      routes: config
+    })
+
+    const onError = jasmine.createSpy('onError')
+    router.onError(onError)
+    const pushCatch = jasmine.createSpy('pushCatch')
+
+    router
+      .push('/oldpath/test')
+      .catch(pushCatch)
+      .finally(() => {
+        expect(pushCatch).toHaveBeenCalledWith(error)
+        expect(onError).toHaveBeenCalledWith(error)
         done()
       })
   })

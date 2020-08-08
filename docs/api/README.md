@@ -369,6 +369,8 @@ router.forward()
 
 Programmatically navigate to a new URL. See [Programmatic Navigation](../guide/essentials/navigation.md) for more details.
 
+These functions can only be called after installing the Router plugin and passing it to the root Vue instance as shown in the [Getting Started](../guide/README.md).
+
 ### router.getMatchedComponents
 
 Signature:

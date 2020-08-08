@@ -1,5 +1,5 @@
 /*!
-  * vue-router v3.3.3
+  * vue-router v3.4.2
   * (c) 2020 Evan You
   * @license MIT
   */
@@ -15,14 +15,6 @@ function warn (condition, message) {
   if ( !condition) {
     typeof console !== 'undefined' && console.warn(`[vue-router] ${message}`);
   }
-}
-
-function isError (err) {
-  return Object.prototype.toString.call(err).indexOf('Error') > -1
-}
-
-function isRouterError (err, errorType) {
-  return isError(err) && err._isRouter && (errorType == null || err.type === errorType)
 }
 
 function extend (a, b) {
@@ -128,7 +120,7 @@ var View = {
     };
 
     const configProps = matched.props && matched.props[name];
-    // save route and configProps in cachce
+    // save route and configProps in cache
     if (configProps) {
       extend(cache[name], {
         route,
@@ -188,9 +180,10 @@ const commaRE = /%2C/g;
 // fixed encodeURIComponent which is more conformant to RFC3986:
 // - escapes [!'()*]
 // - preserve commas
-const encode = str => encodeURIComponent(str)
-  .replace(encodeReserveRE, encodeReserveReplacer)
-  .replace(commaRE, ',');
+const encode = str =>
+  encodeURIComponent(str)
+    .replace(encodeReserveRE, encodeReserveReplacer)
+    .replace(commaRE, ',');
 
 const decode = decodeURIComponent;
 
@@ -208,10 +201,15 @@ function resolveQuery (
     parsedQuery = {};
   }
   for (const key in extraQuery) {
-    parsedQuery[key] = extraQuery[key];
+    const value = extraQuery[key];
+    parsedQuery[key] = Array.isArray(value)
+      ? value.map(castQueryParamValue)
+      : castQueryParamValue(value);
   }
   return parsedQuery
 }
+
+const castQueryParamValue = value => (value == null || typeof value === 'object' ? value : String(value));
 
 function parseQuery (query) {
   const res = {};
@@ -225,9 +223,7 @@ function parseQuery (query) {
   query.split('&').forEach(param => {
     const parts = param.replace(/\+/g, ' ').split('=');
     const key = decode(parts.shift());
-    const val = parts.length > 0
-      ? decode(parts.join('='))
-      : null;
+    const val = parts.length > 0 ? decode(parts.join('=')) : null;
 
     if (res[key] === undefined) {
       res[key] = val;
@@ -242,34 +238,39 @@ function parseQuery (query) {
 }
 
 function stringifyQuery (obj) {
-  const res = obj ? Object.keys(obj).map(key => {
-    const val = obj[key];
+  const res = obj
+    ? Object.keys(obj)
+      .map(key => {
+        const val = obj[key];
 
-    if (val === undefined) {
-      return ''
-    }
-
-    if (val === null) {
-      return encode(key)
-    }
-
-    if (Array.isArray(val)) {
-      const result = [];
-      val.forEach(val2 => {
-        if (val2 === undefined) {
-          return
+        if (val === undefined) {
+          return ''
         }
-        if (val2 === null) {
-          result.push(encode(key));
-        } else {
-          result.push(encode(key) + '=' + encode(val2));
-        }
-      });
-      return result.join('&')
-    }
 
-    return encode(key) + '=' + encode(val)
-  }).filter(x => x.length > 0).join('&') : null;
+        if (val === null) {
+          return encode(key)
+        }
+
+        if (Array.isArray(val)) {
+          const result = [];
+          val.forEach(val2 => {
+            if (val2 === undefined) {
+              return
+            }
+            if (val2 === null) {
+              result.push(encode(key));
+            } else {
+              result.push(encode(key) + '=' + encode(val2));
+            }
+          });
+          return result.join('&')
+        }
+
+        return encode(key) + '=' + encode(val)
+      })
+      .filter(x => x.length > 0)
+      .join('&')
+    : null;
   return res ? `?${res}` : ''
 }
 
@@ -376,6 +377,8 @@ function isObjectEqual (a = {}, b = {}) {
   return aKeys.every(key => {
     const aVal = a[key];
     const bVal = b[key];
+    // query values can be null and undefined
+    if (aVal == null || bVal == null) return aVal === bVal
     // check nested equality
     if (typeof aVal === 'object' && typeof bVal === 'object') {
       return isObjectEqual(aVal, bVal)
@@ -962,7 +965,7 @@ function normalizeLocation (
   }
 
   // relative params
-  if (!next.path && next.params && current) {
+  if (!next.path && (next.params || next.query || next.hash) && current) {
     next = extend({}, next);
     next._normalized = true;
     const params = extend(extend({}, current.params), next.params);
@@ -1882,6 +1885,92 @@ function runQueue (queue, fn, cb) {
   step(0);
 }
 
+const NavigationFailureType = {
+  redirected: 2,
+  aborted: 4,
+  cancelled: 8,
+  duplicated: 16
+};
+
+function createNavigationRedirectedError (from, to) {
+  return createRouterError(
+    from,
+    to,
+    NavigationFailureType.redirected,
+    `Redirected when going from "${from.fullPath}" to "${stringifyRoute(
+      to
+    )}" via a navigation guard.`
+  )
+}
+
+function createNavigationDuplicatedError (from, to) {
+  const error = createRouterError(
+    from,
+    to,
+    NavigationFailureType.duplicated,
+    `Avoided redundant navigation to current location: "${from.fullPath}".`
+  );
+  // backwards compatible with the first introduction of Errors
+  error.name = 'NavigationDuplicated';
+  return error
+}
+
+function createNavigationCancelledError (from, to) {
+  return createRouterError(
+    from,
+    to,
+    NavigationFailureType.cancelled,
+    `Navigation cancelled from "${from.fullPath}" to "${
+      to.fullPath
+    }" with a new navigation.`
+  )
+}
+
+function createNavigationAbortedError (from, to) {
+  return createRouterError(
+    from,
+    to,
+    NavigationFailureType.aborted,
+    `Navigation aborted from "${from.fullPath}" to "${
+      to.fullPath
+    }" via a navigation guard.`
+  )
+}
+
+function createRouterError (from, to, type, message) {
+  const error = new Error(message);
+  error._isRouter = true;
+  error.from = from;
+  error.to = to;
+  error.type = type;
+
+  return error
+}
+
+const propertiesToLog = ['params', 'query', 'hash'];
+
+function stringifyRoute (to) {
+  if (typeof to === 'string') return to
+  if ('path' in to) return to.path
+  const location = {};
+  propertiesToLog.forEach(key => {
+    if (key in to) location[key] = to[key];
+  });
+  return JSON.stringify(location, null, 2)
+}
+
+function isError (err) {
+  return Object.prototype.toString.call(err).indexOf('Error') > -1
+}
+
+function isNavigationFailure (err, errorType) {
+  return (
+    isError(err) &&
+    err._isRouter &&
+    (errorType == null || err.type === errorType)
+  )
+}
+
 /*  */
 
 function resolveAsyncComponents (matched) {
@@ -1988,77 +2077,6 @@ function once (fn) {
   }
 }
 
-const NavigationFailureType = {
-  redirected: 1,
-  aborted: 2,
-  cancelled: 3,
-  duplicated: 4
-};
-
-function createNavigationRedirectedError (from, to) {
-  return createRouterError(
-    from,
-    to,
-    NavigationFailureType.redirected,
-    `Redirected when going from "${from.fullPath}" to "${stringifyRoute(
-      to
-    )}" via a navigation guard.`
-  )
-}
-
-function createNavigationDuplicatedError (from, to) {
-  return createRouterError(
-    from,
-    to,
-    NavigationFailureType.duplicated,
-    `Avoided redundant navigation to current location: "${from.fullPath}".`
-  )
-}
-
-function createNavigationCancelledError (from, to) {
-  return createRouterError(
-    from,
-    to,
-    NavigationFailureType.cancelled,
-    `Navigation cancelled from "${from.fullPath}" to "${
-      to.fullPath
-    }" with a new navigation.`
-  )
-}
-
-function createNavigationAbortedError (from, to) {
-  return createRouterError(
-    from,
-    to,
-    NavigationFailureType.aborted,
-    `Navigation aborted from "${from.fullPath}" to "${
-      to.fullPath
-    }" via a navigation guard.`
-  )
-}
-
-function createRouterError (from, to, type, message) {
-  const error = new Error(message);
-  error._isRouter = true;
-  error.from = from;
-  error.to = to;
-  error.type = type;
-
-  return error
-}
-
-const propertiesToLog = ['params', 'query', 'hash'];
-
-function stringifyRoute (to) {
-  if (typeof to === 'string') return to
-  if ('path' in to) return to.path
-  const location = {};
-  propertiesToLog.forEach(key => {
-    if (key in to) location[key] = to[key];
-  });
-  return JSON.stringify(location, null, 2)
-}
-
 /*  */
 
 class History {
@@ -2119,7 +2137,17 @@ class History {
     onComplete,
     onAbort
   ) {
-    const route = this.router.match(location, this.current);
+    let route;
+    // catch redirect option https://github.com/vuejs/vue-router/issues/3201
+    try {
+      route = this.router.match(location, this.current);
+    } catch (e) {
+      this.errorCbs.forEach(cb => {
+        cb(e);
+      });
+      // Exception should still be thrown
+      throw e
+    }
     this.confirmTransition(
       route,
       () => {
@@ -2147,7 +2175,7 @@ class History {
           this.ready = true;
           // Initial redirection should still trigger the onReady onSuccess
           // https://github.com/vuejs/vue-router/issues/3225
-          if (!isRouterError(err, NavigationFailureType.redirected)) {
+          if (!isNavigationFailure(err, NavigationFailureType.redirected)) {
             this.readyErrorCbs.forEach(cb => {
               cb(err);
             });
@@ -2167,7 +2195,7 @@ class History {
       // changed after adding errors with
       // https://github.com/vuejs/vue-router/pull/3047 before that change,
       // redirect and aborted navigation would produce an err == null
-      if (!isRouterError(err) && isError(err)) {
+      if (!isNavigationFailure(err) && isError(err)) {
         if (this.errorCbs.length) {
           this.errorCbs.forEach(cb => {
             cb(err);
@@ -2179,10 +2207,13 @@ class History {
       }
       onAbort && onAbort(err);
     };
+    const lastRouteIndex = route.matched.length - 1;
+    const lastCurrentIndex = current.matched.length - 1;
     if (
       isSameRoute(route, current) &&
       // in the case the route map has been dynamically appended to
-      route.matched.length === current.matched.length
+      lastRouteIndex === lastCurrentIndex &&
+      route.matched[lastRouteIndex] === current.matched[lastCurrentIndex]
     ) {
       this.ensureURL();
       return abort(createNavigationDuplicatedError(current, route))
@@ -2715,7 +2746,7 @@ class AbstractHistory extends History {
         this.updateRoute(route);
       },
       err => {
-        if (isRouterError(err, NavigationFailureType.duplicated)) {
+        if (isNavigationFailure(err, NavigationFailureType.duplicated)) {
           this.index = targetIndex;
         }
       }
@@ -2734,9 +2765,9 @@ class AbstractHistory extends History {
 
 /*  */
 
-
-
 class VueRouter {
+  
+  
   
   
 
@@ -2763,7 +2794,8 @@ class VueRouter {
     this.matcher = createMatcher(options.routes || [], this);
 
     let mode = options.mode || 'hash';
-    this.fallback = mode === 'history' && !supportsPushState && options.fallback !== false;
+    this.fallback =
+      mode === 'history' && !supportsPushState && options.fallback !== false;
     if (this.fallback) {
       mode = 'hash';
     }
@@ -2789,11 +2821,7 @@ class VueRouter {
     }
   }
 
-  match (
-    raw,
-    current,
-    redirectedFrom
-  ) {
+  match (raw, current, redirectedFrom) {
     return this.matcher.match(raw, current, redirectedFrom)
   }
 
@@ -2802,11 +2830,12 @@ class VueRouter {
   }
 
   init (app /* Vue component instance */) {
-     assert(
-      install.installed,
-      `not installed. Make sure to call \`Vue.use(VueRouter)\` ` +
-      `before creating root instance.`
-    );
+    
+      assert(
+        install.installed,
+        `not installed. Make sure to call \`Vue.use(VueRouter)\` ` +
+          `before creating root instance.`
+      );
 
     this.apps.push(app);
 
@@ -2838,14 +2867,28 @@ class VueRouter {
     const history = this.history;
 
     if (history instanceof HTML5History || history instanceof HashHistory) {
-      const setupListeners = () => {
-        history.setupListeners();
+      const handleInitialScroll = routeOrError => {
+        const from = history.current;
+        const expectScroll = this.options.scrollBehavior;
+        const supportsScroll = supportsPushState && expectScroll;
+
+        if (supportsScroll && 'fullPath' in routeOrError) {
+          handleScroll(this, routeOrError, from, false);
+        }
       };
-      history.transitionTo(history.getCurrentLocation(), setupListeners, setupListeners);
+      const setupListeners = routeOrError => {
+        history.setupListeners();
+        handleInitialScroll(routeOrError);
+      };
+      history.transitionTo(
+        history.getCurrentLocation(),
+        setupListeners,
+        setupListeners
+      );
     }
 
     history.listen(route => {
-      this.apps.forEach((app) => {
+      this.apps.forEach(app => {
         app._route = route;
       });
     });
@@ -2914,11 +2957,14 @@ class VueRouter {
     if (!route) {
       return []
     }
-    return [].concat.apply([], route.matched.map(m => {
-      return Object.keys(m.components).map(key => {
-        return m.components[key]
+    return [].concat.apply(
+      [],
+      route.matched.map(m => {
+        return Object.keys(m.components).map(key => {
+          return m.components[key]
+        })
       })
-    }))
+    )
   }
 
   resolve (
@@ -2927,12 +2973,7 @@ class VueRouter {
     append
   ) {
     current = current || this.history.current;
-    const location = normalizeLocation(
-      to,
-      current,
-      append,
-      this
-    );
+    const location = normalizeLocation(to, current, append, this);
     const route = this.match(location, current);
     const fullPath = route.redirectedFrom || route.fullPath;
     const base = this.history.base;
@@ -2969,7 +3010,9 @@ function createHref (base, fullPath, mode) {
 }
 
 VueRouter.install = install;
-VueRouter.version = '3.3.3';
+VueRouter.version = '3.4.2';
+VueRouter.isNavigationFailure = isNavigationFailure;
+VueRouter.NavigationFailureType = NavigationFailureType;
 
 if (inBrowser && window.Vue) {
   window.Vue.use(VueRouter);

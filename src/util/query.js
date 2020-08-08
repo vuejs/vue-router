@@ -9,9 +9,10 @@ const commaRE = /%2C/g
 // fixed encodeURIComponent which is more conformant to RFC3986:
 // - escapes [!'()*]
 // - preserve commas
-const encode = str => encodeURIComponent(str)
-  .replace(encodeReserveRE, encodeReserveReplacer)
-  .replace(commaRE, ',')
+const encode = str =>
+  encodeURIComponent(str)
+    .replace(encodeReserveRE, encodeReserveReplacer)
+    .replace(commaRE, ',')
 
 const decode = decodeURIComponent
 
@@ -29,10 +30,15 @@ export function resolveQuery (
     parsedQuery = {}
   }
   for (const key in extraQuery) {
-    parsedQuery[key] = extraQuery[key]
+    const value = extraQuery[key]
+    parsedQuery[key] = Array.isArray(value)
+      ? value.map(castQueryParamValue)
+      : castQueryParamValue(value)
   }
   return parsedQuery
 }
+
+const castQueryParamValue = value => (value == null || typeof value === 'object' ? value : String(value))
 
 function parseQuery (query: string): Dictionary<string> {
   const res = {}
@@ -46,9 +52,7 @@ function parseQuery (query: string): Dictionary<string> {
   query.split('&').forEach(param => {
     const parts = param.replace(/\+/g, ' ').split('=')
     const key = decode(parts.shift())
-    const val = parts.length > 0
-      ? decode(parts.join('='))
-      : null
+    const val = parts.length > 0 ? decode(parts.join('=')) : null
 
     if (res[key] === undefined) {
       res[key] = val
@@ -63,33 +67,38 @@ function parseQuery (query: string): Dictionary<string> {
 }
 
 export function stringifyQuery (obj: Dictionary<string>): string {
-  const res = obj ? Object.keys(obj).map(key => {
-    const val = obj[key]
+  const res = obj
+    ? Object.keys(obj)
+      .map(key => {
+        const val = obj[key]
 
-    if (val === undefined) {
-      return ''
-    }
-
-    if (val === null) {
-      return encode(key)
-    }
-
-    if (Array.isArray(val)) {
-      const result = []
-      val.forEach(val2 => {
-        if (val2 === undefined) {
-          return
+        if (val === undefined) {
+          return ''
         }
-        if (val2 === null) {
-          result.push(encode(key))
-        } else {
-          result.push(encode(key) + '=' + encode(val2))
+
+        if (val === null) {
+          return encode(key)
         }
+
+        if (Array.isArray(val)) {
+          const result = []
+          val.forEach(val2 => {
+            if (val2 === undefined) {
+              return
+            }
+            if (val2 === null) {
+              result.push(encode(key))
+            } else {
+              result.push(encode(key) + '=' + encode(val2))
+            }
+          })
+          return result.join('&')
+        }
+
+        return encode(key) + '=' + encode(val)
       })
-      return result.join('&')
-    }
-
-    return encode(key) + '=' + encode(val)
-  }).filter(x => x.length > 0).join('&') : null
+      .filter(x => x.length > 0)
+      .join('&')
+    : null
   return res ? `?${res}` : ''
 }

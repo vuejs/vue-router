@@ -27,7 +27,7 @@ export function normalizeLocation (
   }
 
   // relative params
-  if (!next.path && next.params && current) {
+  if (!next.path && (next.params || next.query || next.hash) && current) {
     next = extend({}, next)
     next._normalized = true
     const params: any = extend(extend({}, current.params), next.params)

@@ -4,7 +4,7 @@ import { _Vue } from '../install'
 import type Router from '../index'
 import { inBrowser } from '../util/dom'
 import { runQueue } from '../util/async'
-import { warn, isError, isRouterError } from '../util/warn'
+import { warn } from '../util/warn'
 import { START, isSameRoute } from '../util/route'
 import {
   flatten,
@@ -16,8 +16,10 @@ import {
   createNavigationCancelledError,
   createNavigationRedirectedError,
   createNavigationAbortedError,
+  isError,
+  isNavigationFailure,
   NavigationFailureType
-} from './errors'
+} from '../util/errors'
 
 export class History {
   router: Router
@@ -35,7 +37,11 @@ export class History {
   // implemented by sub-classes
   +go: (n: number) => void
   +push: (loc: RawLocation, onComplete?: Function, onAbort?: Function) => void
-  +replace: (loc: RawLocation, onComplete?: Function, onAbort?: Function) => void
+  +replace: (
+    loc: RawLocation,
+    onComplete?: Function,
+    onAbort?: Function
+  ) => void
   +ensureURL: (push?: boolean) => void
   +getCurrentLocation: () => string
   +setupListeners: Function
@@ -77,7 +83,17 @@ export class History {
     onComplete?: Function,
     onAbort?: Function
   ) {
-    const route = this.router.match(location, this.current)
+    let route
+    // catch redirect option https://github.com/vuejs/vue-router/issues/3201
+    try {
+      route = this.router.match(location, this.current)
+    } catch (e) {
+      this.errorCbs.forEach(cb => {
+        cb(e)
+      })
+      // Exception should still be thrown
+      throw e
+    }
     this.confirmTransition(
       route,
       () => {
@@ -105,7 +121,7 @@ export class History {
           this.ready = true
           // Initial redirection should still trigger the onReady onSuccess
           // https://github.com/vuejs/vue-router/issues/3225
-          if (!isRouterError(err, NavigationFailureType.redirected)) {
+          if (!isNavigationFailure(err, NavigationFailureType.redirected)) {
             this.readyErrorCbs.forEach(cb => {
               cb(err)
             })
@@ -125,7 +141,7 @@ export class History {
       // changed after adding errors with
       // https://github.com/vuejs/vue-router/pull/3047 before that change,
       // redirect and aborted navigation would produce an err == null
-      if (!isRouterError(err) && isError(err)) {
+      if (!isNavigationFailure(err) && isError(err)) {
         if (this.errorCbs.length) {
           this.errorCbs.forEach(cb => {
             cb(err)

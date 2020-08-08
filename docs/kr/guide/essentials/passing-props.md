@@ -4,7 +4,7 @@
 
 컴포넌트와 라우터 속성을 분리하려면 다음과 같이 하십시오.
 
-** $route에 의존성 추가**
+**$route에 의존성 추가**
 
 ``` js
 const User = {
@@ -17,7 +17,7 @@ const router = new VueRouter({
 })
 ```
 
-** 속성에 의존성 해제**
+**속성에 의존성 해제**
 
 ``` js
 const User = {

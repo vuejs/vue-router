@@ -104,6 +104,8 @@ function isObjectEqual (a = {}, b = {}): boolean {
   return aKeys.every(key => {
     const aVal = a[key]
     const bVal = b[key]
+    // query values can be null and undefined
+    if (aVal == null || bVal == null) return aVal === bVal
     // check nested equality
     if (typeof aVal === 'object' && typeof bVal === 'object') {
       return isObjectEqual(aVal, bVal)

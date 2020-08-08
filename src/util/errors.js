@@ -1,8 +1,8 @@
 export const NavigationFailureType = {
-  redirected: 1,
-  aborted: 2,
-  cancelled: 3,
-  duplicated: 4
+  redirected: 2,
+  aborted: 4,
+  cancelled: 8,
+  duplicated: 16
 }
 
 export function createNavigationRedirectedError (from, to) {
@@ -17,12 +17,15 @@ export function createNavigationRedirectedError (from, to) {
 }
 
 export function createNavigationDuplicatedError (from, to) {
-  return createRouterError(
+  const error = createRouterError(
     from,
     to,
     NavigationFailureType.duplicated,
     `Avoided redundant navigation to current location: "${from.fullPath}".`
   )
+  // backwards compatible with the first introduction of Errors
+  error.name = 'NavigationDuplicated'
+  return error
 }
 
 export function createNavigationCancelledError (from, to) {
@@ -67,4 +70,16 @@ function stringifyRoute (to) {
     if (key in to) location[key] = to[key]
   })
   return JSON.stringify(location, null, 2)
+}
+
+export function isError (err) {
+  return Object.prototype.toString.call(err).indexOf('Error') > -1
+}
+
+export function isNavigationFailure (err, errorType) {
+  return (
+    isError(err) &&
+    err._isRouter &&
+    (errorType == null || err.type === errorType)
+  )
 }
