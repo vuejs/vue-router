@@ -156,6 +156,18 @@ beforeRouteLeave (to, from, next) {
 }
 ```
 
+If you are using mixins that add in-component navigation guards, make sure to add the mixin **after installing the router plugin**:
+
+```js
+Vue.use(Router)
+
+Vue.mixin({
+  beforeRouteUpdate(to, from ,next) {
+    // ...
+  }
+})
+```
+
 ## The Full Navigation Resolution Flow
 
 1. Navigation triggered.
