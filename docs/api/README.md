@@ -438,6 +438,18 @@ Register a callback which will be called when an error is caught during a route 
 
 - An error occurred when trying to resolve an async component that is required to render a route.
 
+### router.onAbort
+
+Signature:
+
+```js
+router.onAbort(callback)
+```
+
+Register a callback which will be called when an a route navigation return false (`next(false)`).
+
+Note: this is only supported in 3.4.2+ and < 4.0 versions.
+
 ## The Route Object
 
 A **route object** represents the state of the current active route. It contains parsed information of the current URL and the **route records** matched by the URL.

@@ -46,6 +46,7 @@ export declare class VueRouter {
   getMatchedComponents(to?: RawLocation | Route): Component[]
   onReady(cb: Function, errorCb?: ErrorHandler): void
   onError(cb: ErrorHandler): void
+  onAbort(cb: ErrorHandler): void
   addRoutes(routes: RouteConfig[]): void
   resolve(
     to: RawLocation,

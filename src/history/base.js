@@ -31,6 +31,7 @@ export class History {
   readyCbs: Array<Function>
   readyErrorCbs: Array<Function>
   errorCbs: Array<Function>
+  abortCbs: Array<Function>
   listeners: Array<Function>
   cleanupListeners: Function
 
@@ -56,6 +57,7 @@ export class History {
     this.readyCbs = []
     this.readyErrorCbs = []
     this.errorCbs = []
+    this.abortCbs = []
     this.listeners = []
   }
 
@@ -76,6 +78,10 @@ export class History {
 
   onError (errorCb: Function) {
     this.errorCbs.push(errorCb)
+  }
+
+  onAbort (abortCb: Function) {
+    this.abortCbs.push(abortCb)
   }
 
   transitionTo (
@@ -141,15 +147,27 @@ export class History {
       // changed after adding errors with
       // https://github.com/vuejs/vue-router/pull/3047 before that change,
       // redirect and aborted navigation would produce an err == null
-      if (!isNavigationFailure(err) && isError(err)) {
-        if (this.errorCbs.length) {
-          this.errorCbs.forEach(cb => {
-            cb(err)
-          })
-        } else {
-          warn(false, 'uncaught error during route navigation:')
-          console.error(err)
-        }
+      if (!isNavigationFailure(err)) {
+		if(isError(err)) {
+			if (this.errorCbs.length) {
+			  this.errorCbs.forEach(cb => {
+				cb(err)
+			  })
+			} else {
+			  warn(false, 'uncaught error during route navigation:')
+			  console.error(err)
+			}
+		}
+		else if(err === false) {
+			if (this.abortCbs.length) {
+			  this.abortCbs.forEach(cb => {
+				cb(err)
+			  })
+			} else {
+			  warn(false, 'uncaught error during route navigation:')
+			  console.error(err)
+			}
+		}
       }
       onAbort && onAbort(err)
     }
