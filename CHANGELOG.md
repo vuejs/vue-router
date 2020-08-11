@@ -1,3 +1,7 @@
+## [3.4.3](https://github.com/vuejs/vue-router/compare/v3.4.2...v3.4.3) (2020-08-11)
+
+- Revert 4fbaa9f7880276e661227442ef5923131a589210: "fix: keep repeated params in query/hash relative locations" Closes #3289
+
 ## [3.4.2](https://github.com/vuejs/vue-router/compare/v3.4.1...v3.4.2) (2020-08-07)
 
 ### Bug Fixes
