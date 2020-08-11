@@ -1,5 +1,5 @@
 /*!
-  * vue-router v3.4.2
+  * vue-router v3.4.3
   * (c) 2020 Evan You
   * @license MIT
   */
@@ -984,7 +984,7 @@
     }
 
     // relative params
-    if (!next.path && (next.params || next.query || next.hash) && current) {
+    if (!next.path && next.params && current) {
       next = extend({}, next);
       next._normalized = true;
       var params$1 = extend(extend({}, current.params), next.params);
@@ -3048,7 +3048,7 @@
   }
 
   VueRouter.install = install;
-  VueRouter.version = '3.4.2';
+  VueRouter.version = '3.4.3';
   VueRouter.isNavigationFailure = isNavigationFailure;
   VueRouter.NavigationFailureType = NavigationFailureType;
 
