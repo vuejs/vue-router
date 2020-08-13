@@ -1,3 +1,4 @@
+// When changing thing, also edit router.d.ts
 export const NavigationFailureType = {
   redirected: 2,
   aborted: 4,
