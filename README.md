@@ -19,7 +19,7 @@ Get started with the [documentation](http://router.vuejs.org), or play with the 
 
 ### Development Setup
 
-``` bash
+```bash
 # install deps
 npm install
 
@@ -61,7 +61,7 @@ Please make sure to read the [Contributing Guide](https://github.com/vuejs/vue/b
 
 ## Changelog
 
-Details changes for each release are documented in the [release notes](https://github.com/vuejs/vue-router/releases).
+Details changes for each release are documented in the [`CHANGELOG.md file`](https://github.com/vuejs/vue-router/blob/dev/CHANGELOG.md).
 
 ## Stay In Touch
 
