@@ -252,11 +252,18 @@ export class History {
     // Default implementation is empty
   }
 
-  teardownListeners () {
+  teardown () {
+    // clean up event listeners
+    // https://github.com/vuejs/vue-router/issues/2341
     this.listeners.forEach(cleanupListener => {
       cleanupListener()
     })
     this.listeners = []
+
+    // reset current history route
+    // https://github.com/vuejs/vue-router/issues/3294
+    this.current = START
+    this.pending = null
   }
 }
 
