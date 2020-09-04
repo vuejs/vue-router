@@ -67,14 +67,16 @@ export declare class VueRouter {
     error: any,
     type?: number
   ) => error is NavigationFailure
-  static NavigationFailureType: NavigationFailureType
+  static NavigationFailureType: {
+    [k in keyof typeof NavigationFailureType]: NavigationFailureType
+  }
 }
 
 export enum NavigationFailureType {
-  redirected= 2,
-  aborted= 4,
-  cancelled= 8,
-  duplicated= 16
+  redirected = 2,
+  aborted = 4,
+  cancelled = 8,
+  duplicated = 16
 }
 
 export interface NavigationFailure extends Error {

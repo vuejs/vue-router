@@ -18,7 +18,7 @@ const Abc = { template: '<div>abc</div>' }
 const Async = () => Promise.resolve({ template: '<div>async</div>' })
 
 let err: any
-if (VueRouter.isNavigationFailure(err, NavigationFailureType.aborted)) {
+if (VueRouter.isNavigationFailure(err, VueRouter.NavigationFailureType.aborted)) {
   err.from.fullPath.split('/')
 }
 

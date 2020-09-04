@@ -57,6 +57,8 @@ describe('error handling', () => {
     router.push('/foo')
     router.push('/foo').catch(err => {
       expect(err.type).toBe(NavigationFailureType.duplicated)
+      expect(VueRouter.isNavigationFailure(err)).toBe(true)
+      expect(VueRouter.isNavigationFailure(err, NavigationFailureType.duplicated)).toBe(true)
       done()
     })
   })
