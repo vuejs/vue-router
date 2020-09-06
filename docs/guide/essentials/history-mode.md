@@ -124,7 +124,9 @@ Add this to your `firebase.json`:
 }
 ```
 
-## Caveat
+## Caveats
+
+### Reporting 404 errors
 
 There is a caveat to this: Your server will no longer report 404 errors as all not-found paths now serve up your `index.html` file. To get around the issue, you should implement a catch-all route within your Vue app to show a 404 page:
 
@@ -138,3 +140,22 @@ const router = new VueRouter({
 ```
 
 Alternatively, if you are using a Node.js server, you can implement the fallback by using the router on the server side to match the incoming URL and respond with 404 if no route is matched. Check out the [Vue server side rendering documentation](https://ssr.vuejs.org/en/) for more information.
+
+### Navigation Guards
+
+An issue may be caused if the user manually enters another URL pointing to our single page client side app. The browser navigation creates a new context for Vue Router, which means it is not possible any more for it to send the user back using `next(false)` inside Global Before Guards (`router.beforeEach()`). Doing so can result in an empty view (blank page), since the navigation being aborted is an initial navigation to (re)load our SPA. This could also be an issue when using hash mode, if the user navigates to an invalid URL that does not start with `#`, but for most practical cases Global Before Guards work as expected when navigating between URLs starting with `#`, even if done by manipulating the URL in the browser's address bar.
+
+As a workaround one can use Global After Hooks (`router.afterEach()`) to store the target route on each sucessful navigation in a cookie or sessionStorage, and instead of using `next(false)` provide the last valid stored route to `next`. Indeed it is not the same as calling `next(false)` as in this case a navigation happens, but one can examine `from` to decide when it is appropriate to call `next(false)` and when it is adequate to use an alternative.
+
+``` js
+router.beforeEach((to, from, next) => {
+  if ( shouldAbort ) {
+    if ( from.matched.length ) next(false)
+    else next({ path: sessionStorage.getItem('last_route') || '/' })
+  }
+  else next()
+})
+router.afterEach((to, from) => {
+  sessionStorage.setItem( 'last_route', to.fullPath )
+})
+```
