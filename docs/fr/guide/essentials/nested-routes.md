@@ -57,13 +57,13 @@ const router = new VueRouter({
       children: [
         {
           // `UserProfile` va être rendu à l'intérieur du `<router-view>` de `User`
-          // quand `/utilisateur/:id/profil` concorde
+          // quand `/utilisateur/:id/profile` concorde
           path: 'profile',
           component: UserProfile
         },
         {
           // `UserPosts` va être rendu à l'intérieur du `<router-view>` de `User`
-          // quand `/utilisateur/:id/billets` concorde
+          // quand `/utilisateur/:id/posts` concorde
           path: 'posts',
           component: UserPosts
         }
@@ -87,7 +87,7 @@ const router = new VueRouter({
       children: [
         // `UserProfile` va être rendu à l'intérieur du `<router-view>` de `User`
         // quand `/utilisateur/:id` concorde
-        { path: '', component: UserHome },
+        { path: '', component: UserProfile },
 
         // ...autres sous routes
       ]
