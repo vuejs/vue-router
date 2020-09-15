@@ -53,7 +53,7 @@ module.exports = ctx => ({
       }
     ]
   ],
-  theme: '@vuepress/vue',
+  // theme: '@vuepress/vue',
   plugins: [
     [
       '@vuepress/pwa',
@@ -70,6 +70,10 @@ module.exports = ctx => ({
           indexName: 'vue-router'
         }
       : null,
+    carbonAds: {
+      serve: 'CEBICK3I',
+      placement: 'routervuejsorg'
+    },
     repo: 'vuejs/vue-router',
     docsDir: 'docs',
     smoothScroll: true,
