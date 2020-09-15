@@ -9,8 +9,8 @@ module.exports = {
     browser
       .url('http://localhost:8080/basic/')
       .waitForElementVisible('#app', 1000)
-      .assert.count('li', 9)
-      .assert.count('li a', 9)
+      .assert.count('li', 10)
+      .assert.count('li a', 10)
       // assert correct href with base
       .assert.attributeContains('li:nth-child(1) a', 'href', '/basic/')
       .assert.attributeContains('li:nth-child(2) a', 'href', '/basic/foo')
@@ -20,6 +20,7 @@ module.exports = {
       .assert.attributeContains('li:nth-child(6) a', 'href', '/basic/%C3%A9?t=%25%C3%B1')
       .assert.attributeContains('li:nth-child(7) a', 'href', '/basic/%C3%A9#%25%C3%B1')
       .assert.attributeContains('li:nth-child(8) a', 'href', '/basic/foo')
+      .assert.attributeContains('li:nth-child(10) a', 'href', '/basic/query/A%25')
       .assert.containsText('.view', 'home')
 
       .click('li:nth-child(2) a')
@@ -69,6 +70,15 @@ module.exports = {
       .assert.cssClassPresent('li:nth-child(8)', 'active')
       .assert.cssClassPresent('li:nth-child(8)', 'exact-active')
       .assert.attributeEquals('li:nth-child(8) a', 'class', '')
+
+      // encoded percentage as path param
+      // https://github.com/vuejs/vue-router/issues/2725
+      .url('http://localhost:8080/basic/query/A%25')
+      .waitForElementVisible('#app', 1000)
+      .assert.containsText('.view', 'query: A%')
+      .click('li:nth-child(10) a')
+      .assert.urlEquals('http://localhost:8080/basic/query/A%25')
+      .assert.containsText('.view', 'query: A%')
 
       // Listener cleanup
       .assert.containsText('#popstate-count', '1 popstate listeners')
