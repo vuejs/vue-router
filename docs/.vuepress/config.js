@@ -71,7 +71,8 @@ module.exports = ctx => ({
         }
       : null,
     carbonAds: {
-      serve: 'CEBICK3I',
+      carbon: 'CEBICK3I',
+      custom: 'CEBICK3M',
       placement: 'routervuejsorg'
     },
     repo: 'vuejs/vue-router',

@@ -6,7 +6,7 @@
 export default {
   name: 'CarbonAds',
   props: {
-    serve: {
+    code: {
       type: String,
       required: true
     },
@@ -19,7 +19,7 @@ export default {
   mounted() {
     const s = document.createElement('script')
     s.id = '_carbonads_js'
-    s.src = `//cdn.carbonads.com/carbon.js?serve=${this.serve}&placement=${this.placement}`
+    s.src = `//cdn.carbonads.com/carbon.js?serve=${this.code}&placement=${this.placement}`
     this.$el.appendChild(s)
   }
 }
