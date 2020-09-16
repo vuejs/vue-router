@@ -20,7 +20,7 @@ module.exports = {
       .assert.attributeContains('li:nth-child(6) a', 'href', '/basic/%C3%A9?t=%25%C3%B1')
       .assert.attributeContains('li:nth-child(7) a', 'href', '/basic/%C3%A9#%25%C3%B1')
       .assert.attributeContains('li:nth-child(8) a', 'href', '/basic/foo')
-      .assert.attributeContains('li:nth-child(10) a', 'href', '/basic/query/A%25')
+      .assert.attributeContains('li:nth-child(10) a', 'href', '/basic/query/A%')
       .assert.containsText('.view', 'home')
 
       .click('li:nth-child(2) a')
@@ -75,10 +75,10 @@ module.exports = {
       // https://github.com/vuejs/vue-router/issues/2725
       .url('http://localhost:8080/basic/query/A%25')
       .waitForElementVisible('#app', 1000)
-      .assert.containsText('.view', 'query: A%')
+      .assert.containsText('.view', 'query: "A%"')
       .click('li:nth-child(10) a')
       .assert.urlEquals('http://localhost:8080/basic/query/A%25')
-      .assert.containsText('.view', 'query: A%')
+      .assert.containsText('.view', 'query: "A%"')
 
       // Listener cleanup
       .assert.containsText('#popstate-count', '1 popstate listeners')
