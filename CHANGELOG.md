@@ -1,3 +1,16 @@
+## [3.4.4](https://github.com/vuejs/vue-router/compare/v3.4.3...v3.4.4) (2020-09-24)
+
+### Bug Fixes
+
+- **abstract:** call afterHooks with go ([4da7021](https://github.com/vuejs/vue-router/commit/4da7021)), closes [#3250](https://github.com/vuejs/vue-router/issues/3250)
+- **history:** mark redundant navigation as pending ([893d86b](https://github.com/vuejs/vue-router/commit/893d86b)), closes [#3133](https://github.com/vuejs/vue-router/issues/3133)
+- **types:** add missing NavigationFailure types ([fda7067](https://github.com/vuejs/vue-router/commit/fda7067)), closes [#3293](https://github.com/vuejs/vue-router/issues/3293)
+- **types:** fix VueRouter.NavigationFailureType ([ecc8e27](https://github.com/vuejs/vue-router/commit/ecc8e27))
+
+### Features
+
+- **history:** Reset history.current when all apps are destroyed ([#3298](https://github.com/vuejs/vue-router/issues/3298)) ([c69ff7b](https://github.com/vuejs/vue-router/commit/c69ff7b))
+
 ## [3.4.3](https://github.com/vuejs/vue-router/compare/v3.4.2...v3.4.3) (2020-08-11)
 
 - Revert 4fbaa9f7880276e661227442ef5923131a589210: "fix: keep repeated params in query/hash relative locations" Closes #3289
