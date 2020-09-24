@@ -137,6 +137,7 @@ export class History {
 
   confirmTransition (route: Route, onComplete: Function, onAbort?: Function) {
     const current = this.current
+    this.pending = route
     const abort = err => {
       // changed after adding errors with
       // https://github.com/vuejs/vue-router/pull/3047 before that change,
@@ -183,7 +184,6 @@ export class History {
       resolveAsyncComponents(activated)
     )
 
-    this.pending = route
     const iterator = (hook: NavigationGuard, next) => {
       if (this.pending !== route) {
         return abort(createNavigationCancelledError(current, route))

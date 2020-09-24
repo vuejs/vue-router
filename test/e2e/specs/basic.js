@@ -9,8 +9,8 @@ module.exports = {
     browser
       .url('http://localhost:8080/basic/')
       .waitForElementVisible('#app', 1000)
-      .assert.count('li', 9)
-      .assert.count('li a', 9)
+      .assert.count('li', 11)
+      .assert.count('li a', 11)
       // assert correct href with base
       .assert.attributeContains('li:nth-child(1) a', 'href', '/basic/')
       .assert.attributeContains('li:nth-child(2) a', 'href', '/basic/foo')
@@ -76,5 +76,19 @@ module.exports = {
       .assert.containsText('#popstate-count', '0 popstate listeners')
 
       .end()
+  },
+
+  'cancelling ongoing navigations': function (browser) {
+    browser
+      .url('http://localhost:8080/basic/?delay=200')
+      .waitForElementVisible('#app', 1000)
+      .assert.containsText('.view', 'home')
+      // go to foo with a delay
+      .click('li:nth-child(11) a')
+      .click('li:nth-child(10) a')
+      .waitFor(300)
+      // we should stay at /basic after the delay
+      .assert.urlEquals('http://localhost:8080/basic/?delay=200')
+      .assert.containsText('.view', 'home')
   }
 }
