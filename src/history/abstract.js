@@ -46,8 +46,12 @@ export class AbstractHistory extends History {
     this.confirmTransition(
       route,
       () => {
+        const prev = this.current
         this.index = targetIndex
         this.updateRoute(route)
+        this.router.afterHooks.forEach(hook => {
+          hook && hook(route, prev)
+        })
       },
       err => {
         if (isNavigationFailure(err, NavigationFailureType.duplicated)) {
