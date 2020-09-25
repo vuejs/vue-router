@@ -4,7 +4,7 @@
 
 해시를 제거하기 위해 라우터의 **history 모드** 를 사용할 수 있습니다. `history.pushState` API를 활용하여 페이지를 다시 로드하지 않고도 URL 탐색을 할 수 있습니다.
 
-``` js
+```js
 const router = new VueRouter({
   mode: 'history',
   routes: [...]
@@ -43,27 +43,28 @@ location / {
 #### Native Node.js
 
 ```js
-const http = require("http")
-const fs = require("fs")
+const http = require('http')
+const fs = require('fs')
 const httpPort = 80
 
-http.createServer((req, res) => {
-  fs.readFile("index.htm", "utf-8", (err, content) => {
-    if (err) {
-      console.log('We cannot open "index.htm" file.')
-    }
+http
+  .createServer((req, res) => {
+    fs.readFile('index.html', 'utf-8', (err, content) => {
+      if (err) {
+        console.log('We cannot open "index.html" file.')
+      }
 
-    res.writeHead(200, {
-      "Content-Type": "text/html; charset=utf-8"
+      res.writeHead(200, {
+        'Content-Type': 'text/html; charset=utf-8'
+      })
+
+      res.end(content)
     })
-
-    res.end(content)
   })
-}).listen(httpPort, () => {
-  console.log("Server listening on: http://localhost:%s", httpPort)
-})
+  .listen(httpPort, () => {
+    console.log('Server listening on: http://localhost:%s', httpPort)
+  })
 ```
-
 
 #### Express와 Node.js
 
@@ -87,10 +88,10 @@ Node.js/Express의 경우 [connect-history-api-fallback 미들웨어](https://gi
        </rule>
      </rules>
    </rewrite>
-     <httpErrors>     
-         <remove statusCode="404" subStatusCode="-1" />                
+     <httpErrors>
+         <remove statusCode="404" subStatusCode="-1" />
          <remove statusCode="500" subStatusCode="-1" />
-         <error statusCode="404" path="/survey/notfound" responseMode="ExecuteURL" />                
+         <error statusCode="404" path="/survey/notfound" responseMode="ExecuteURL" />
          <error statusCode="500" path="/survey/error" responseMode="ExecuteURL" />
      </httpErrors>
      <modules runAllManagedModulesForAllRequests="true"/>
@@ -98,18 +99,14 @@ Node.js/Express의 경우 [connect-history-api-fallback 미들웨어](https://gi
 </configuration>
 ```
 
-
 ## 주의 사항
 
 주의 사항이 있습니다. 여러분의 서버는 404 에러를 보고하지 않을 것입니다. 왜냐하면 모든 발견되지 않은 경로가 이제 `index.html` 파일을 제공하기 때문입니다. 이 문제를 해결하려면 Vue 앱에서 catch-all 라우트를 구현하여 404 페이지를 표시해야합니다.
 
-
-``` js
+```js
 const router = new VueRouter({
   mode: 'history',
-  routes: [
-    { path: '*', component: NotFoundComponent }
-  ]
+  routes: [{ path: '*', component: NotFoundComponent }]
 })
 ```
 
