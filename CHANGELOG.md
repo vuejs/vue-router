@@ -1,3 +1,9 @@
+## [3.4.5](https://github.com/vuejs/vue-router/compare/v3.4.4...v3.4.5) (2020-09-26)
+
+### Bug Fixes
+
+- **history:** do not call onReady on initial redirection ([a1a290e](https://github.com/vuejs/vue-router/commit/a1a290e)), closes [#3331](https://github.com/vuejs/vue-router/issues/3331)
+
 ## [3.4.4](https://github.com/vuejs/vue-router/compare/v3.4.3...v3.4.4) (2020-09-24)
 
 ### Bug Fixes
