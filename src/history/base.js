@@ -94,10 +94,10 @@ export class History {
       // Exception should still be thrown
       throw e
     }
+    const prev = this.current
     this.confirmTransition(
       route,
       () => {
-        const prev = this.current
         this.updateRoute(route)
         onComplete && onComplete(route)
         this.ensureURL()
@@ -118,16 +118,14 @@ export class History {
           onAbort(err)
         }
         if (err && !this.ready) {
-          this.ready = true
-          // Initial redirection should still trigger the onReady onSuccess
+          // Initial redirection should not mark the history as ready yet
+          // because it's triggered by the redirection instead
           // https://github.com/vuejs/vue-router/issues/3225
-          if (!isNavigationFailure(err, NavigationFailureType.redirected)) {
+          // https://github.com/vuejs/vue-router/issues/3331
+          if (!isNavigationFailure(err, NavigationFailureType.redirected) || prev !== START) {
+            this.ready = true
             this.readyErrorCbs.forEach(cb => {
               cb(err)
-            })
-          } else {
-            this.readyCbs.forEach(cb => {
-              cb(route)
             })
           }
         }
