@@ -1,5 +1,5 @@
 /*!
-  * vue-router v3.4.4
+  * vue-router v3.4.5
   * (c) 2020 Evan You
   * @license MIT
   */
@@ -2149,10 +2149,10 @@ class History {
       // Exception should still be thrown
       throw e
     }
+    const prev = this.current;
     this.confirmTransition(
       route,
       () => {
-        const prev = this.current;
         this.updateRoute(route);
         onComplete && onComplete(route);
         this.ensureURL();
@@ -2173,16 +2173,14 @@ class History {
           onAbort(err);
         }
         if (err && !this.ready) {
-          this.ready = true;
-          // Initial redirection should still trigger the onReady onSuccess
+          // Initial redirection should not mark the history as ready yet
+          // because it's triggered by the redirection instead
           // https://github.com/vuejs/vue-router/issues/3225
-          if (!isNavigationFailure(err, NavigationFailureType.redirected)) {
+          // https://github.com/vuejs/vue-router/issues/3331
+          if (!isNavigationFailure(err, NavigationFailureType.redirected) || prev !== START) {
+            this.ready = true;
             this.readyErrorCbs.forEach(cb => {
               cb(err);
-            });
-          } else {
-            this.readyCbs.forEach(cb => {
-              cb(route);
             });
           }
         }
@@ -3018,7 +3016,7 @@ function createHref (base, fullPath, mode) {
 }
 
 VueRouter.install = install;
-VueRouter.version = '3.4.4';
+VueRouter.version = '3.4.5';
 VueRouter.isNavigationFailure = isNavigationFailure;
 VueRouter.NavigationFailureType = NavigationFailureType;
 
