@@ -37,9 +37,7 @@ export function createMatcher (
         warn(record, `Route with name '${name}' does not exist`)
       }
       if (!record) return _createRoute(null, location)
-      const paramNames = record.regex.keys
-        .filter(key => !key.optional)
-        .map(key => key.name)
+      const paramNames = record.regex.keys.map(key => key.name)
 
       if (typeof location.params !== 'object') {
         location.params = {}
@@ -186,7 +184,7 @@ function matchRoute (
   for (let i = 1, len = m.length; i < len; ++i) {
     const key = regex.keys[i - 1]
     const val = typeof m[i] === 'string' ? decodeURIComponent(m[i]) : m[i]
-    if (key) {
+    if (key && val != null) {
       // Fix #1994: using * with props: true generates a param named 0
       params[key.name || 'pathMatch'] = val
     }
