@@ -175,7 +175,7 @@ function matchRoute (
   path: string,
   params: Object
 ): boolean {
-  const m = path.match(regex)
+  const m = decodeURI(path).match(regex)
 
   if (!m) {
     return false

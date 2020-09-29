@@ -75,7 +75,7 @@ const vueInstance = new Vue({
           </li>
         </router-link>
         <li><router-link to="/foo" replace>/foo (replace)</router-link></li>
-        <li><router-link to="/query/A%">/query/A%</router-link></li>
+        <li><router-link to="/query/A%25">/query/A%</router-link></li>
       </ul>
       <button id="navigate-btn" @click="navigateAndIncrement">On Success</button>
       <pre id="counter">{{ n }}</pre>
