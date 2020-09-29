@@ -11,7 +11,7 @@ const ID = 'bsa-cpc-script'
 export default {
   name: 'BuySellAds',
   props: {
-    serve: {
+    code: {
       type: String,
       required: true
     },
@@ -24,7 +24,7 @@ export default {
   methods: {
     load() {
       if (typeof _bsa !== 'undefined' && _bsa) {
-        _bsa.init('default', this.serve, `placement:${this.placement}`, {
+        _bsa.init('default', this.code, `placement:${this.placement}`, {
           target: '.bsa-cpc',
           align: 'horizontal',
           disable_css: 'true'

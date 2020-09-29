@@ -1,5 +1,5 @@
 /*!
-  * vue-router v3.4.3
+  * vue-router v3.4.5
   * (c) 2020 Evan You
   * @license MIT
   */
@@ -1885,6 +1885,7 @@ function runQueue (queue, fn, cb) {
   step(0);
 }
 
+// When changing thing, also edit router.d.ts
 const NavigationFailureType = {
   redirected: 2,
   aborted: 4,
@@ -2148,10 +2149,10 @@ class History {
       // Exception should still be thrown
       throw e
     }
+    const prev = this.current;
     this.confirmTransition(
       route,
       () => {
-        const prev = this.current;
         this.updateRoute(route);
         onComplete && onComplete(route);
         this.ensureURL();
@@ -2172,16 +2173,14 @@ class History {
           onAbort(err);
         }
         if (err && !this.ready) {
-          this.ready = true;
-          // Initial redirection should still trigger the onReady onSuccess
+          // Initial redirection should not mark the history as ready yet
+          // because it's triggered by the redirection instead
           // https://github.com/vuejs/vue-router/issues/3225
-          if (!isNavigationFailure(err, NavigationFailureType.redirected)) {
+          // https://github.com/vuejs/vue-router/issues/3331
+          if (!isNavigationFailure(err, NavigationFailureType.redirected) || prev !== START) {
+            this.ready = true;
             this.readyErrorCbs.forEach(cb => {
               cb(err);
-            });
-          } else {
-            this.readyCbs.forEach(cb => {
-              cb(route);
             });
           }
         }
@@ -2191,6 +2190,7 @@ class History {
 
   confirmTransition (route, onComplete, onAbort) {
     const current = this.current;
+    this.pending = route;
     const abort = err => {
       // changed after adding errors with
       // https://github.com/vuejs/vue-router/pull/3047 before that change,
@@ -2237,7 +2237,6 @@ class History {
       resolveAsyncComponents(activated)
     );
 
-    this.pending = route;
     const iterator = (hook, next) => {
       if (this.pending !== route) {
         return abort(createNavigationCancelledError(current, route))
@@ -2306,11 +2305,18 @@ class History {
     // Default implementation is empty
   }
 
-  teardownListeners () {
+  teardown () {
+    // clean up event listeners
+    // https://github.com/vuejs/vue-router/issues/2341
     this.listeners.forEach(cleanupListener => {
       cleanupListener();
     });
     this.listeners = [];
+
+    // reset current history route
+    // https://github.com/vuejs/vue-router/issues/3294
+    this.current = START;
+    this.pending = null;
   }
 }
 
@@ -2742,8 +2748,12 @@ class AbstractHistory extends History {
     this.confirmTransition(
       route,
       () => {
+        const prev = this.current;
         this.index = targetIndex;
         this.updateRoute(route);
+        this.router.afterHooks.forEach(hook => {
+          hook && hook(route, prev);
+        });
       },
       err => {
         if (isNavigationFailure(err, NavigationFailureType.duplicated)) {
@@ -2849,11 +2859,7 @@ class VueRouter {
       // we do not release the router so it can be reused
       if (this.app === app) this.app = this.apps[0] || null;
 
-      if (!this.app) {
-        // clean up event listeners
-        // https://github.com/vuejs/vue-router/issues/2341
-        this.history.teardownListeners();
-      }
+      if (!this.app) this.history.teardown();
     });
 
     // main app previously initialized
@@ -3010,7 +3016,7 @@ function createHref (base, fullPath, mode) {
 }
 
 VueRouter.install = install;
-VueRouter.version = '3.4.3';
+VueRouter.version = '3.4.5';
 VueRouter.isNavigationFailure = isNavigationFailure;
 VueRouter.NavigationFailureType = NavigationFailureType;
 

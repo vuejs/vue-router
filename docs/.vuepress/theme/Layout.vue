@@ -4,7 +4,7 @@
       <CarbonAds
         v-if="$site.themeConfig.carbonAds"
         :key="$page.path"
-        :serve="$site.themeConfig.carbonAds.serve"
+        :code="$site.themeConfig.carbonAds.carbon"
         :placement="$site.themeConfig.carbonAds.placement"
       />
     </template>
@@ -12,7 +12,7 @@
       <BuySellAds
         v-if="$site.themeConfig.carbonAds"
         :key="$page.path"
-        :serve="$site.themeConfig.carbonAds.serve"
+        :code="$site.themeConfig.carbonAds.custom"
         :placement="$site.themeConfig.carbonAds.placement"
       />
     </template>

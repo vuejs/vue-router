@@ -50,6 +50,16 @@ const router = new VueRouter({
   ]
 })
 
+router.beforeEach((to, from, next) => {
+  if (to.query.delay) {
+    setTimeout(() => {
+      next()
+    }, Number(to.query.delay))
+  } else {
+    next()
+  }
+})
+
 // 4. Create and mount root instance.
 // Make sure to inject the router.
 // Route components will be rendered inside <router-view>.
@@ -76,6 +86,8 @@ const vueInstance = new Vue({
         </router-link>
         <li><router-link to="/foo" replace>/foo (replace)</router-link></li>
         <li><router-link to="/query/A%25">/query/A%</router-link></li>
+        <li><router-link to="/?delay=200">/ (delay of 500ms)</router-link></li>
+        <li><router-link to="/foo?delay=200">/foo (delay of 500ms)</router-link></li>
       </ul>
       <button id="navigate-btn" @click="navigateAndIncrement">On Success</button>
       <pre id="counter">{{ n }}</pre>
