@@ -175,7 +175,7 @@ function matchRoute (
   path: string,
   params: Object
 ): boolean {
-  const m = path.match(regex)
+  const m = decodeURI(path).match(regex)
 
   if (!m) {
     return false
@@ -185,10 +185,9 @@ function matchRoute (
 
   for (let i = 1, len = m.length; i < len; ++i) {
     const key = regex.keys[i - 1]
-    const val = typeof m[i] === 'string' ? decodeURIComponent(m[i]) : m[i]
     if (key) {
       // Fix #1994: using * with props: true generates a param named 0
-      params[key.name || 'pathMatch'] = val
+      params[key.name || 'pathMatch'] = m[i]
     }
   }
 
