@@ -68,7 +68,7 @@ const vueInstance = new Vue({
         <li><router-link to="/é/ñ">/é/ñ</router-link></li>
         <li><router-link to="/é/ñ?t=%25ñ">/é/ñ?t=%ñ</router-link></li>
         <li><router-link to="/é/ñ#é">/é/ñ#é</router-link></li>
-        <li><router-link to="/query/A%25">/query/A%</router-link></li>  
+        <li><router-link to="/query/A%25">/query/A%</router-link></li>
       </ul>
       <pre id="query-t">{{ $route.query.t }}</pre>
       <pre id="hash">{{ $route.hash }}</pre>
