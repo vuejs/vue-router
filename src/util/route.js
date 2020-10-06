@@ -132,3 +132,18 @@ function queryIncludes (current: Dictionary<string>, target: Dictionary<string>)
   }
   return true
 }
+
+export function handleRouteEntered (route: Route) {
+  for (let i = 0; i < route.matched.length; i++) {
+    const record = route.matched[i]
+    for (const name in record.instances) {
+      const instance = record.instances[name]
+      const cbs = record.enteredCbs[name]
+      if (!instance || !cbs) continue
+      delete record.enteredCbs[name]
+      for (let i = 0; i < cbs.length; i++) {
+        if (!instance._isBeingDestroyed) cbs[i](instance)
+      }
+    }
+  }
+}

@@ -68,6 +68,7 @@ declare type RouteRecord = {
   regex: RouteRegExp;
   components: Dictionary<any>;
   instances: Dictionary<any>;
+  enteredCbs: Dictionary<Array<Function>>;
   name: ?string;
   parent: ?RouteRecord;
   redirect: ?RedirectOption;
