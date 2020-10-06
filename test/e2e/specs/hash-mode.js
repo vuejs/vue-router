@@ -9,8 +9,8 @@ module.exports = {
     browser
       .url('http://localhost:8080/hash-mode/')
       .waitForElementVisible('#app', 1000)
-      .assert.count('li', 9)
-      .assert.count('li a', 8)
+      .assert.count('li', 12)
+      .assert.count('li a', 11)
       .assert.attributeContains('li:nth-child(1) a', 'href', '/hash-mode/#/')
       .assert.attributeContains('li:nth-child(2) a', 'href', '/hash-mode/#/foo')
       .assert.attributeContains('li:nth-child(3) a', 'href', '/hash-mode/#/bar')

@@ -180,7 +180,7 @@ function matchRoute (
     m = decodeURI(path).match(regex)
   } catch (err) {
     if (process.env.NODE_ENV !== 'production') {
-      warn(`Error decoding "${path}". Leaving it intact.`)
+      warn(false, `Error decoding "${path}". Leaving it intact.`)
     }
   }
 
