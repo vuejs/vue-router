@@ -14,7 +14,16 @@ const encode = str =>
     .replace(encodeReserveRE, encodeReserveReplacer)
     .replace(commaRE, ',')
 
-const decode = decodeURIComponent
+export function decode (str) {
+  try {
+    return decodeURIComponent(str)
+  } catch (err) {
+    if (process.env.NODE_ENV !== 'production') {
+      warn(`Error decoding "${str}". Leaving it intact.`)
+    }
+  }
+  return str
+}
 
 export function resolveQuery (
   query: ?string,
