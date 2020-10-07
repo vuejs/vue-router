@@ -1,3 +1,11 @@
+## [3.4.6](https://github.com/vuejs/vue-router/compare/v3.4.5...v3.4.6) (2020-10-07)
+
+### Bug Fixes
+
+- **encoding:** try catch decodes ([607ce2d](https://github.com/vuejs/vue-router/commit/607ce2d))
+- **ssr:** memory leak in poll method ([#2875](https://github.com/vuejs/vue-router/issues/2875)) ([7693eb5](https://github.com/vuejs/vue-router/commit/7693eb5))
+- remove duplicated decodeURIComponent ([#3323](https://github.com/vuejs/vue-router/issues/3323)) ([560d11d](https://github.com/vuejs/vue-router/commit/560d11d))
+
 ## [3.4.5](https://github.com/vuejs/vue-router/compare/v3.4.4...v3.4.5) (2020-09-26)
 
 ### Bug Fixes
