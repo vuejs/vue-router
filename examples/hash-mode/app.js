@@ -45,8 +45,8 @@ const router = new VueRouter({
     { path: '/', component: Home }, // all paths are defined without the hash.
     { path: '/foo', component: Foo },
     { path: '/bar', component: Bar },
-    { path: '/é', component: Unicode },
-    { path: '/é/:unicode', component: Unicode },
+    { path: encodeURI('/é'), component: Unicode },
+    { path: encodeURI('/é/:unicode'), component: Unicode },
     { path: '/query/:q', component: Query, name: 'param' }
   ]
 })
@@ -64,10 +64,10 @@ const vueInstance = new Vue({
         <li><router-link to="/foo">/foo</router-link></li>
         <li><router-link to="/bar">/bar</router-link></li>
         <router-link tag="li" to="/bar">/bar</router-link>
-        <li><router-link to="/é">/é</router-link></li>
-        <li><router-link to="/é/ñ">/é/ñ</router-link></li>
-        <li><router-link to="/é/ñ?t=%25ñ">/é/ñ?t=%ñ</router-link></li>
-        <li><router-link to="/é/ñ#é">/é/ñ#é</router-link></li>
+        <li><router-link :to="encodeURI('/é')">/é</router-link></li>
+        <li><router-link :to="encodeURI('/é/ñ')">/é/ñ</router-link></li>
+        <li><router-link :to="encodeURI('/é/ñ?t=%ñ')">/é/ñ?t=%ñ</router-link></li>
+        <li><router-link :to="encodeURI('/é/ñ#é')">/é/ñ#é</router-link></li>
         <li><router-link to="/query/A%25">/query/A%</router-link></li>
         <li><router-link :to="{ name: 'param', params: { q: 'A%' }}">/query/A% (object)</router-link></li>
         <li><router-link to="/query/A%2FE">/query/A%2FE</router-link></li>
