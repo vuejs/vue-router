@@ -96,13 +96,15 @@ export function isSameRoute (a: Route, b: ?Route): boolean {
 function isObjectEqual (a = {}, b = {}): boolean {
   // handle null value #1566
   if (!a || !b) return a === b
-  const aKeys = Object.keys(a)
-  const bKeys = Object.keys(b)
+  const aKeys = Object.keys(a).sort()
+  const bKeys = Object.keys(b).sort()
   if (aKeys.length !== bKeys.length) {
     return false
   }
-  return aKeys.every(key => {
+  return aKeys.every((key, i) => {
     const aVal = a[key]
+    const bKey = bKeys[i]
+    if (bKey !== key) return false
     const bVal = b[key]
     // query values can be null and undefined
     if (aVal == null || bVal == null) return aVal === bVal
