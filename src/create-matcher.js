@@ -175,14 +175,15 @@ function matchRoute (
   path: string,
   params: Object
 ): boolean {
-  let m
   try {
-    m = decodeURI(path).match(regex)
+    path = decodeURI(path)
   } catch (err) {
     if (process.env.NODE_ENV !== 'production') {
       warn(false, `Error decoding "${path}". Leaving it intact.`)
     }
   }
+
+  const m = path.match(regex)
 
   if (!m) {
     return false
