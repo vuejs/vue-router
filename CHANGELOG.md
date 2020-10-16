@@ -1,3 +1,10 @@
+## [3.4.7](https://github.com/vuejs/vue-router/compare/v3.4.6...v3.4.7) (2020-10-16)
+
+### Bug Fixes
+
+- **matcher:** should try catch decode only ([1f32f03](https://github.com/vuejs/vue-router/commit/1f32f03))
+- **query:** check existing keys ([4b926e3](https://github.com/vuejs/vue-router/commit/4b926e3)), closes [#3341](https://github.com/vuejs/vue-router/issues/3341)
+
 ## [3.4.6](https://github.com/vuejs/vue-router/compare/v3.4.5...v3.4.6) (2020-10-07)
 
 ### Bug Fixes
