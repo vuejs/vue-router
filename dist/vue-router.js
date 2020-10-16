@@ -1,5 +1,5 @@
 /*!
-  * vue-router v3.4.6
+  * vue-router v3.4.7
   * (c) 2020 Evan You
   * @license MIT
   */
@@ -245,13 +245,15 @@
 
     // handle null value #1566
     if (!a || !b) { return a === b }
-    var aKeys = Object.keys(a);
-    var bKeys = Object.keys(b);
+    var aKeys = Object.keys(a).sort();
+    var bKeys = Object.keys(b).sort();
     if (aKeys.length !== bKeys.length) {
       return false
     }
-    return aKeys.every(function (key) {
+    return aKeys.every(function (key, i) {
       var aVal = a[key];
+      var bKey = bKeys[i];
+      if (bKey !== key) { return false }
       var bVal = b[key];
       // query values can be null and undefined
       if (aVal == null || bVal == null) { return aVal === bVal }
@@ -1674,14 +1676,15 @@
     path,
     params
   ) {
-    var m;
     try {
-      m = decodeURI(path).match(regex);
+      path = decodeURI(path);
     } catch (err) {
       {
         warn(false, ("Error decoding \"" + path + "\". Leaving it intact."));
       }
     }
+
+    var m = path.match(regex);
 
     if (!m) {
       return false
@@ -3048,7 +3051,7 @@
   }
 
   VueRouter.install = install;
-  VueRouter.version = '3.4.6';
+  VueRouter.version = '3.4.7';
   VueRouter.isNavigationFailure = isNavigationFailure;
   VueRouter.NavigationFailureType = NavigationFailureType;
 

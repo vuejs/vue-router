@@ -1,5 +1,5 @@
 /*!
-  * vue-router v3.4.6
+  * vue-router v3.4.7
   * (c) 2020 Evan You
   * @license MIT
   */
@@ -231,13 +231,15 @@ function isSameRoute (a, b) {
 function isObjectEqual (a = {}, b = {}) {
   // handle null value #1566
   if (!a || !b) return a === b
-  const aKeys = Object.keys(a);
-  const bKeys = Object.keys(b);
+  const aKeys = Object.keys(a).sort();
+  const bKeys = Object.keys(b).sort();
   if (aKeys.length !== bKeys.length) {
     return false
   }
-  return aKeys.every(key => {
+  return aKeys.every((key, i) => {
     const aVal = a[key];
+    const bKey = bKeys[i];
+    if (bKey !== key) return false
     const bVal = b[key];
     // query values can be null and undefined
     if (aVal == null || bVal == null) return aVal === bVal
@@ -1647,14 +1649,15 @@ function matchRoute (
   path,
   params
 ) {
-  let m;
   try {
-    m = decodeURI(path).match(regex);
+    path = decodeURI(path);
   } catch (err) {
     {
       warn(false, `Error decoding "${path}". Leaving it intact.`);
     }
   }
+
+  const m = path.match(regex);
 
   if (!m) {
     return false
@@ -3010,7 +3013,7 @@ function createHref (base, fullPath, mode) {
 }
 
 VueRouter.install = install;
-VueRouter.version = '3.4.6';
+VueRouter.version = '3.4.7';
 VueRouter.isNavigationFailure = isNavigationFailure;
 VueRouter.NavigationFailureType = NavigationFailureType;
 
