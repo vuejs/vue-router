@@ -101,6 +101,7 @@
     "typescript": "^3.5.2",
     "vue": "^2.6.12",
     "vue-loader": "^15.9.3",
+    "vue-server-renderer": "^2.6.12",
     "vue-template-compiler": "^2.6.12",
     "vuepress": "^1.5.3",
     "vuepress-theme-vue": "^1.1.1",
