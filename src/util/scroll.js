@@ -165,7 +165,8 @@ function scrollToPosition (shouldScroll, position) {
       window.scrollTo({
         left: position.x,
         top: position.y,
-        behavior: shouldScroll.behaviour || 'auto'
+        // $flow-disable-line
+        behavior: shouldScroll.behavior
       })
     } else {
       window.scrollTo(position.x, position.y)

@@ -86,7 +86,7 @@ export interface NavigationFailure extends Error {
 }
 
 type Position = { x: number; y: number }
-type PositionResult = Position | { selector: string; offset?: Position } | void
+type PositionResult = Position | { selector: string; offset?: Position, behavior?: ScrollBehavior } | void
 
 export interface RouterOptions {
   routes?: RouteConfig[]
