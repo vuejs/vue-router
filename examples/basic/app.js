@@ -35,6 +35,7 @@ const Home = { template: '<div>home</div>' }
 const Foo = { template: '<div>foo</div>' }
 const Bar = { template: '<div>bar</div>' }
 const Unicode = { template: '<div>unicode</div>' }
+const Query = { template: '<div>query: "{{ $route.params.q }}"</div>' }
 
 // 3. Create the router
 const router = new VueRouter({
@@ -44,8 +45,19 @@ const router = new VueRouter({
     { path: '/', component: Home },
     { path: '/foo', component: Foo },
     { path: '/bar', component: Bar },
-    { path: '/é', component: Unicode }
+    { path: '/é', component: Unicode },
+    { path: '/query/:q', component: Query }
   ]
+})
+
+router.beforeEach((to, from, next) => {
+  if (to.query.delay) {
+    setTimeout(() => {
+      next()
+    }, Number(to.query.delay))
+  } else {
+    next()
+  }
 })
 
 // 4. Create and mount root instance.
@@ -73,6 +85,9 @@ const vueInstance = new Vue({
           </li>
         </router-link>
         <li><router-link to="/foo" replace>/foo (replace)</router-link></li>
+        <li><router-link to="/query/A%25">/query/A%</router-link></li>
+        <li><router-link to="/?delay=200">/ (delay of 500ms)</router-link></li>
+        <li><router-link to="/foo?delay=200">/foo (delay of 500ms)</router-link></li>
       </ul>
       <button id="navigate-btn" @click="navigateAndIncrement">On Success</button>
       <pre id="counter">{{ n }}</pre>

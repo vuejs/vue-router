@@ -1,5 +1,5 @@
 /*!
-  * vue-router v3.4.2
+  * vue-router v3.4.7
   * (c) 2020 Evan You
   * @license MIT
   */
@@ -24,153 +24,6 @@ function extend (a, b) {
   return a
 }
 
-var View = {
-  name: 'RouterView',
-  functional: true,
-  props: {
-    name: {
-      type: String,
-      default: 'default'
-    }
-  },
-  render (_, { props, children, parent, data }) {
-    // used by devtools to display a router-view badge
-    data.routerView = true;
-
-    // directly use parent context's createElement() function
-    // so that components rendered by router-view can resolve named slots
-    const h = parent.$createElement;
-    const name = props.name;
-    const route = parent.$route;
-    const cache = parent._routerViewCache || (parent._routerViewCache = {});
-
-    // determine current view depth, also check to see if the tree
-    // has been toggled inactive but kept-alive.
-    let depth = 0;
-    let inactive = false;
-    while (parent && parent._routerRoot !== parent) {
-      const vnodeData = parent.$vnode ? parent.$vnode.data : {};
-      if (vnodeData.routerView) {
-        depth++;
-      }
-      if (vnodeData.keepAlive && parent._directInactive && parent._inactive) {
-        inactive = true;
-      }
-      parent = parent.$parent;
-    }
-    data.routerViewDepth = depth;
-
-    // render previous view if the tree is inactive and kept-alive
-    if (inactive) {
-      const cachedData = cache[name];
-      const cachedComponent = cachedData && cachedData.component;
-      if (cachedComponent) {
-        // #2301
-        // pass props
-        if (cachedData.configProps) {
-          fillPropsinData(cachedComponent, data, cachedData.route, cachedData.configProps);
-        }
-        return h(cachedComponent, data, children)
-      } else {
-        // render previous empty view
-        return h()
-      }
-    }
-
-    const matched = route.matched[depth];
-    const component = matched && matched.components[name];
-
-    // render empty node if no matched route or no config component
-    if (!matched || !component) {
-      cache[name] = null;
-      return h()
-    }
-
-    // cache component
-    cache[name] = { component };
-
-    // attach instance registration hook
-    // this will be called in the instance's injected lifecycle hooks
-    data.registerRouteInstance = (vm, val) => {
-      // val could be undefined for unregistration
-      const current = matched.instances[name];
-      if (
-        (val && current !== vm) ||
-        (!val && current === vm)
-      ) {
-        matched.instances[name] = val;
-      }
-    }
-
-    // also register instance in prepatch hook
-    // in case the same component instance is reused across different routes
-    ;(data.hook || (data.hook = {})).prepatch = (_, vnode) => {
-      matched.instances[name] = vnode.componentInstance;
-    };
-
-    // register instance in init hook
-    // in case kept-alive component be actived when routes changed
-    data.hook.init = (vnode) => {
-      if (vnode.data.keepAlive &&
-        vnode.componentInstance &&
-        vnode.componentInstance !== matched.instances[name]
-      ) {
-        matched.instances[name] = vnode.componentInstance;
-      }
-    };
-
-    const configProps = matched.props && matched.props[name];
-    // save route and configProps in cache
-    if (configProps) {
-      extend(cache[name], {
-        route,
-        configProps
-      });
-      fillPropsinData(component, data, route, configProps);
-    }
-
-    return h(component, data, children)
-  }
-};
-
-function fillPropsinData (component, data, route, configProps) {
-  // resolve props
-  let propsToPass = data.props = resolveProps(route, configProps);
-  if (propsToPass) {
-    // clone to prevent mutation
-    propsToPass = data.props = extend({}, propsToPass);
-    // pass non-declared props as attrs
-    const attrs = data.attrs = data.attrs || {};
-    for (const key in propsToPass) {
-      if (!component.props || !(key in component.props)) {
-        attrs[key] = propsToPass[key];
-        delete propsToPass[key];
-      }
-    }
-  }
-}
-
-function resolveProps (route, config) {
-  switch (typeof config) {
-    case 'undefined':
-      return
-    case 'object':
-      return config
-    case 'function':
-      return config(route)
-    case 'boolean':
-      return config ? route.params : undefined
-    default:
-      {
-        warn(
-          false,
-          `props in "${route.path}" is a ${typeof config}, ` +
-          `expecting an object, function or boolean.`
-        );
-      }
-  }
-}
-
 /*  */
 
 const encodeReserveRE = /[!'()*]/g;
@@ -185,7 +38,16 @@ const encode = str =>
     .replace(encodeReserveRE, encodeReserveReplacer)
     .replace(commaRE, ',');
 
-const decode = decodeURIComponent;
+function decode (str) {
+  try {
+    return decodeURIComponent(str)
+  } catch (err) {
+    {
+      warn(false, `Error decoding "${str}". Leaving it intact.`);
+    }
+  }
+  return str
+}
 
 function resolveQuery (
   query,
@@ -369,13 +231,15 @@ function isSameRoute (a, b) {
 function isObjectEqual (a = {}, b = {}) {
   // handle null value #1566
   if (!a || !b) return a === b
-  const aKeys = Object.keys(a);
-  const bKeys = Object.keys(b);
+  const aKeys = Object.keys(a).sort();
+  const bKeys = Object.keys(b).sort();
   if (aKeys.length !== bKeys.length) {
     return false
   }
-  return aKeys.every(key => {
+  return aKeys.every((key, i) => {
     const aVal = a[key];
+    const bKey = bKeys[i];
+    if (bKey !== key) return false
     const bVal = b[key];
     // query values can be null and undefined
     if (aVal == null || bVal == null) return aVal === bVal
@@ -404,6 +268,173 @@ function queryIncludes (current, target) {
     }
   }
   return true
+}
+
+function handleRouteEntered (route) {
+  for (let i = 0; i < route.matched.length; i++) {
+    const record = route.matched[i];
+    for (const name in record.instances) {
+      const instance = record.instances[name];
+      const cbs = record.enteredCbs[name];
+      if (!instance || !cbs) continue
+      delete record.enteredCbs[name];
+      for (let i = 0; i < cbs.length; i++) {
+        if (!instance._isBeingDestroyed) cbs[i](instance);
+      }
+    }
+  }
+}
+
+var View = {
+  name: 'RouterView',
+  functional: true,
+  props: {
+    name: {
+      type: String,
+      default: 'default'
+    }
+  },
+  render (_, { props, children, parent, data }) {
+    // used by devtools to display a router-view badge
+    data.routerView = true;
+
+    // directly use parent context's createElement() function
+    // so that components rendered by router-view can resolve named slots
+    const h = parent.$createElement;
+    const name = props.name;
+    const route = parent.$route;
+    const cache = parent._routerViewCache || (parent._routerViewCache = {});
+
+    // determine current view depth, also check to see if the tree
+    // has been toggled inactive but kept-alive.
+    let depth = 0;
+    let inactive = false;
+    while (parent && parent._routerRoot !== parent) {
+      const vnodeData = parent.$vnode ? parent.$vnode.data : {};
+      if (vnodeData.routerView) {
+        depth++;
+      }
+      if (vnodeData.keepAlive && parent._directInactive && parent._inactive) {
+        inactive = true;
+      }
+      parent = parent.$parent;
+    }
+    data.routerViewDepth = depth;
+
+    // render previous view if the tree is inactive and kept-alive
+    if (inactive) {
+      const cachedData = cache[name];
+      const cachedComponent = cachedData && cachedData.component;
+      if (cachedComponent) {
+        // #2301
+        // pass props
+        if (cachedData.configProps) {
+          fillPropsinData(cachedComponent, data, cachedData.route, cachedData.configProps);
+        }
+        return h(cachedComponent, data, children)
+      } else {
+        // render previous empty view
+        return h()
+      }
+    }
+
+    const matched = route.matched[depth];
+    const component = matched && matched.components[name];
+
+    // render empty node if no matched route or no config component
+    if (!matched || !component) {
+      cache[name] = null;
+      return h()
+    }
+
+    // cache component
+    cache[name] = { component };
+
+    // attach instance registration hook
+    // this will be called in the instance's injected lifecycle hooks
+    data.registerRouteInstance = (vm, val) => {
+      // val could be undefined for unregistration
+      const current = matched.instances[name];
+      if (
+        (val && current !== vm) ||
+        (!val && current === vm)
+      ) {
+        matched.instances[name] = val;
+      }
+    }
+
+    // also register instance in prepatch hook
+    // in case the same component instance is reused across different routes
+    ;(data.hook || (data.hook = {})).prepatch = (_, vnode) => {
+      matched.instances[name] = vnode.componentInstance;
+    };
+
+    // register instance in init hook
+    // in case kept-alive component be actived when routes changed
+    data.hook.init = (vnode) => {
+      if (vnode.data.keepAlive &&
+        vnode.componentInstance &&
+        vnode.componentInstance !== matched.instances[name]
+      ) {
+        matched.instances[name] = vnode.componentInstance;
+      }
+
+      // if the route transition has already been confirmed then we weren't
+      // able to call the cbs during confirmation as the component was not
+      // registered yet, so we call it here.
+      handleRouteEntered(route);
+    };
+
+    const configProps = matched.props && matched.props[name];
+    // save route and configProps in cache
+    if (configProps) {
+      extend(cache[name], {
+        route,
+        configProps
+      });
+      fillPropsinData(component, data, route, configProps);
+    }
+
+    return h(component, data, children)
+  }
+};
+
+function fillPropsinData (component, data, route, configProps) {
+  // resolve props
+  let propsToPass = data.props = resolveProps(route, configProps);
+  if (propsToPass) {
+    // clone to prevent mutation
+    propsToPass = data.props = extend({}, propsToPass);
+    // pass non-declared props as attrs
+    const attrs = data.attrs = data.attrs || {};
+    for (const key in propsToPass) {
+      if (!component.props || !(key in component.props)) {
+        attrs[key] = propsToPass[key];
+        delete propsToPass[key];
+      }
+    }
+  }
+}
+
+function resolveProps (route, config) {
+  switch (typeof config) {
+    case 'undefined':
+      return
+    case 'object':
+      return config
+    case 'function':
+      return config(route)
+    case 'boolean':
+      return config ? route.params : undefined
+    default:
+      {
+        warn(
+          false,
+          `props in "${route.path}" is a ${typeof config}, ` +
+          `expecting an object, function or boolean.`
+        );
+      }
+  }
 }
 
 /*  */
@@ -965,7 +996,7 @@ function normalizeLocation (
   }
 
   // relative params
-  if (!next.path && (next.params || next.query || next.hash) && current) {
+  if (!next.path && next.params && current) {
     next = extend({}, next);
     next._normalized = true;
     const params = extend(extend({}, current.params), next.params);
@@ -1332,6 +1363,7 @@ function addRouteRecord (
     regex: compileRouteRegex(normalizedPath, pathToRegexpOptions),
     components: route.components || { default: route.component },
     instances: {},
+    enteredCbs: {},
     name,
     parent,
     matchAs,
@@ -1617,6 +1649,14 @@ function matchRoute (
   path,
   params
 ) {
+  try {
+    path = decodeURI(path);
+  } catch (err) {
+    {
+      warn(false, `Error decoding "${path}". Leaving it intact.`);
+    }
+  }
+
   const m = path.match(regex);
 
   if (!m) {
@@ -1627,10 +1667,9 @@ function matchRoute (
 
   for (let i = 1, len = m.length; i < len; ++i) {
     const key = regex.keys[i - 1];
-    const val = typeof m[i] === 'string' ? decodeURIComponent(m[i]) : m[i];
     if (key) {
       // Fix #1994: using * with props: true generates a param named 0
-      params[key.name || 'pathMatch'] = val;
+      params[key.name || 'pathMatch'] = m[i];
     }
   }
 
@@ -1885,6 +1924,7 @@ function runQueue (queue, fn, cb) {
   step(0);
 }
 
+// When changing thing, also edit router.d.ts
 const NavigationFailureType = {
   redirected: 2,
   aborted: 4,
@@ -2148,10 +2188,10 @@ class History {
       // Exception should still be thrown
       throw e
     }
+    const prev = this.current;
     this.confirmTransition(
       route,
       () => {
-        const prev = this.current;
         this.updateRoute(route);
         onComplete && onComplete(route);
         this.ensureURL();
@@ -2172,16 +2212,14 @@ class History {
           onAbort(err);
         }
         if (err && !this.ready) {
-          this.ready = true;
-          // Initial redirection should still trigger the onReady onSuccess
+          // Initial redirection should not mark the history as ready yet
+          // because it's triggered by the redirection instead
           // https://github.com/vuejs/vue-router/issues/3225
-          if (!isNavigationFailure(err, NavigationFailureType.redirected)) {
+          // https://github.com/vuejs/vue-router/issues/3331
+          if (!isNavigationFailure(err, NavigationFailureType.redirected) || prev !== START) {
+            this.ready = true;
             this.readyErrorCbs.forEach(cb => {
               cb(err);
-            });
-          } else {
-            this.readyCbs.forEach(cb => {
-              cb(route);
             });
           }
         }
@@ -2191,6 +2229,7 @@ class History {
 
   confirmTransition (route, onComplete, onAbort) {
     const current = this.current;
+    this.pending = route;
     const abort = err => {
       // changed after adding errors with
       // https://github.com/vuejs/vue-router/pull/3047 before that change,
@@ -2237,7 +2276,6 @@ class History {
       resolveAsyncComponents(activated)
     );
 
-    this.pending = route;
     const iterator = (hook, next) => {
       if (this.pending !== route) {
         return abort(createNavigationCancelledError(current, route))
@@ -2274,11 +2312,9 @@ class History {
     };
 
     runQueue(queue, iterator, () => {
-      const postEnterCbs = [];
-      const isValid = () => this.current === route;
       // wait until async components are resolved before
       // extracting in-component enter guards
-      const enterGuards = extractEnterGuards(activated, postEnterCbs, isValid);
+      const enterGuards = extractEnterGuards(activated);
       const queue = enterGuards.concat(this.router.resolveHooks);
       runQueue(queue, iterator, () => {
         if (this.pending !== route) {
@@ -2288,9 +2324,7 @@ class History {
         onComplete(route);
         if (this.router.app) {
           this.router.app.$nextTick(() => {
-            postEnterCbs.forEach(cb => {
-              cb();
-            });
+            handleRouteEntered(route);
           });
         }
       });
@@ -2306,11 +2340,18 @@ class History {
     // Default implementation is empty
   }
 
-  teardownListeners () {
+  teardown () {
+    // clean up event listeners
+    // https://github.com/vuejs/vue-router/issues/2341
     this.listeners.forEach(cleanupListener => {
       cleanupListener();
     });
     this.listeners = [];
+
+    // reset current history route
+    // https://github.com/vuejs/vue-router/issues/3294
+    this.current = START;
+    this.pending = null;
   }
 }
 
@@ -2397,15 +2438,13 @@ function bindGuard (guard, instance) {
 }
 
 function extractEnterGuards (
-  activated,
-  cbs,
-  isValid
+  activated
 ) {
   return extractGuards(
     activated,
     'beforeRouteEnter',
     (guard, _, match, key) => {
-      return bindEnterGuard(guard, match, key, cbs, isValid)
+      return bindEnterGuard(guard, match, key)
     }
   )
 }
@@ -2413,42 +2452,18 @@ function extractEnterGuards (
 function bindEnterGuard (
   guard,
   match,
-  key,
-  cbs,
-  isValid
+  key
 ) {
   return function routeEnterGuard (to, from, next) {
     return guard(to, from, cb => {
       if (typeof cb === 'function') {
-        cbs.push(() => {
-          // #750
-          // if a router-view is wrapped with an out-in transition,
-          // the instance may not have been registered at this time.
-          // we will need to poll for registration until current route
-          // is no longer valid.
-          poll(cb, match.instances, key, isValid);
-        });
+        if (!match.enteredCbs[key]) {
+          match.enteredCbs[key] = [];
+        }
+        match.enteredCbs[key].push(cb);
       }
       next(cb);
     })
-  }
-}
-
-function poll (
-  cb, // somehow flow cannot infer this is a function
-  instances,
-  key,
-  isValid
-) {
-  if (
-    instances[key] &&
-    !instances[key]._isBeingDestroyed // do not reuse being destroyed instance
-  ) {
-    cb(instances[key]);
-  } else if (isValid()) {
-    setTimeout(() => {
-      poll(cb, instances, key, isValid);
-    }, 16);
   }
 }
 
@@ -2533,7 +2548,7 @@ class HTML5History extends History {
 }
 
 function getLocation (base) {
-  let path = decodeURI(window.location.pathname);
+  let path = window.location.pathname;
   if (base && path.toLowerCase().indexOf(base.toLowerCase()) === 0) {
     path = path.slice(base.length);
   }
@@ -2659,18 +2674,6 @@ function getHash () {
   if (index < 0) return ''
 
   href = href.slice(index + 1);
-  // decode the hash but not the search or hash
-  // as search(query) is already decoded
-  // https://github.com/vuejs/vue-router/issues/2708
-  const searchIndex = href.indexOf('?');
-  if (searchIndex < 0) {
-    const hashIndex = href.indexOf('#');
-    if (hashIndex > -1) {
-      href = decodeURI(href.slice(0, hashIndex)) + href.slice(hashIndex);
-    } else href = decodeURI(href);
-  } else {
-    href = decodeURI(href.slice(0, searchIndex)) + href.slice(searchIndex);
-  }
 
   return href
 }
@@ -2742,8 +2745,12 @@ class AbstractHistory extends History {
     this.confirmTransition(
       route,
       () => {
+        const prev = this.current;
         this.index = targetIndex;
         this.updateRoute(route);
+        this.router.afterHooks.forEach(hook => {
+          hook && hook(route, prev);
+        });
       },
       err => {
         if (isNavigationFailure(err, NavigationFailureType.duplicated)) {
@@ -2849,11 +2856,7 @@ class VueRouter {
       // we do not release the router so it can be reused
       if (this.app === app) this.app = this.apps[0] || null;
 
-      if (!this.app) {
-        // clean up event listeners
-        // https://github.com/vuejs/vue-router/issues/2341
-        this.history.teardownListeners();
-      }
+      if (!this.app) this.history.teardown();
     });
 
     // main app previously initialized
@@ -3010,7 +3013,7 @@ function createHref (base, fullPath, mode) {
 }
 
 VueRouter.install = install;
-VueRouter.version = '3.4.2';
+VueRouter.version = '3.4.7';
 VueRouter.isNavigationFailure = isNavigationFailure;
 VueRouter.NavigationFailureType = NavigationFailureType;
 

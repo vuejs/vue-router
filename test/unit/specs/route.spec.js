@@ -9,7 +9,7 @@ describe('Route utils', () => {
         query: { foo: 'bar', arr: [1, 2] }
       }
       const b = {
-        path: '/a/',  // Allow trailing slash
+        path: '/a/', // Allow trailing slash
         hash: '#hi',
         query: { arr: ['1', '2'], foo: 'bar' }
       }
@@ -65,6 +65,31 @@ describe('Route utils', () => {
       expect(() => isSameRoute(a, c)).not.toThrow()
       expect(isSameRoute(a, b)).toBe(true)
       expect(isSameRoute(a, c)).toBe(false)
+    })
+
+    it('queries with undefined values', () => {
+      const a = {
+        path: '/abc',
+        query: { a: 'x' }
+      }
+      const b = {
+        path: '/abc',
+        query: { id: undefined }
+      }
+      const c = {
+        path: '/abc',
+        query: {}
+      }
+      expect(() => isSameRoute(a, b)).not.toThrow()
+      expect(() => isSameRoute(a, c)).not.toThrow()
+      expect(() => isSameRoute(b, c)).not.toThrow()
+      expect(isSameRoute(a, b)).toBe(false)
+      expect(isSameRoute(a, c)).toBe(false)
+      // NOTE: in reality this should be true but because we check queries as
+      // objects, they are different objects. We should check queries as their
+      // string representation instead
+      expect(isSameRoute(b, c)).toBe(false)
+      expect(isSameRoute(c, b)).toBe(false)
     })
   })
 

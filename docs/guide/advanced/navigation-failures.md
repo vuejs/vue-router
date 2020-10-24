@@ -11,15 +11,16 @@ When using `router-link`, Vue Router calls `router.push` to trigger a navigation
 When using a `router-link` component, **none of these failures will log an error**. However, if you are using `router.push` or `router.replace`, you might come across an _"Uncaught (in promise) Error"_ message followed by a more specific message in your console. Let's understand how to differentiate _Navigation Failures_.
 
 ::: tip Background story
- In v3.2.0, _Navigation Failures_ were exposed through the two optional callbacks of `router.push`: `onComplete` and `onAbort`. Since version 3.1.0, `router.push` and `router.replace` return a _Promise_ if no `onComplete`/`onAbort` callback is provided. This _Promise_ resolves instead of invoking `onComplete` and rejects instead of invoking `onAbort`.
- :::
+In v3.2.0, _Navigation Failures_ were exposed through the two optional callbacks of `router.push`: `onComplete` and `onAbort`. Since version 3.1.0, `router.push` and `router.replace` return a _Promise_ if no `onComplete`/`onAbort` callback is provided. This _Promise_ resolves instead of invoking `onComplete` and rejects instead of invoking `onAbort`.
+:::
 
 ## Detecting Navigation Failures
 
 _Navigation Failures_ are `Error` instances with a few extra properties. To check if an error comes from the Router, use the `isNavigationFailure` function:
 
 ```js
-import { NavigationFailureType, isNavigationFailure } from 'vue-router'
+import VueRouter from 'vue-router'
+const { isNavigationFailure, NavigationFailureType } = VueRouter
 
 // trying to access the admin page
 router.push('/admin').catch(failure => {

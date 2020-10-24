@@ -5,7 +5,7 @@ import type Router from '../index'
 import { inBrowser } from '../util/dom'
 import { runQueue } from '../util/async'
 import { warn } from '../util/warn'
-import { START, isSameRoute } from '../util/route'
+import { START, isSameRoute, handleRouteEntered } from '../util/route'
 import {
   flatten,
   flatMapComponents,
@@ -94,10 +94,10 @@ export class History {
       // Exception should still be thrown
       throw e
     }
+    const prev = this.current
     this.confirmTransition(
       route,
       () => {
-        const prev = this.current
         this.updateRoute(route)
         onComplete && onComplete(route)
         this.ensureURL()
@@ -118,16 +118,14 @@ export class History {
           onAbort(err)
         }
         if (err && !this.ready) {
-          this.ready = true
-          // Initial redirection should still trigger the onReady onSuccess
+          // Initial redirection should not mark the history as ready yet
+          // because it's triggered by the redirection instead
           // https://github.com/vuejs/vue-router/issues/3225
-          if (!isNavigationFailure(err, NavigationFailureType.redirected)) {
+          // https://github.com/vuejs/vue-router/issues/3331
+          if (!isNavigationFailure(err, NavigationFailureType.redirected) || prev !== START) {
+            this.ready = true
             this.readyErrorCbs.forEach(cb => {
               cb(err)
-            })
-          } else {
-            this.readyCbs.forEach(cb => {
-              cb(route)
             })
           }
         }
@@ -137,6 +135,7 @@ export class History {
 
   confirmTransition (route: Route, onComplete: Function, onAbort?: Function) {
     const current = this.current
+    this.pending = route
     const abort = err => {
       // changed after adding errors with
       // https://github.com/vuejs/vue-router/pull/3047 before that change,
@@ -183,7 +182,6 @@ export class History {
       resolveAsyncComponents(activated)
     )
 
-    this.pending = route
     const iterator = (hook: NavigationGuard, next) => {
       if (this.pending !== route) {
         return abort(createNavigationCancelledError(current, route))
@@ -220,11 +218,9 @@ export class History {
     }
 
     runQueue(queue, iterator, () => {
-      const postEnterCbs = []
-      const isValid = () => this.current === route
       // wait until async components are resolved before
       // extracting in-component enter guards
-      const enterGuards = extractEnterGuards(activated, postEnterCbs, isValid)
+      const enterGuards = extractEnterGuards(activated)
       const queue = enterGuards.concat(this.router.resolveHooks)
       runQueue(queue, iterator, () => {
         if (this.pending !== route) {
@@ -234,9 +230,7 @@ export class History {
         onComplete(route)
         if (this.router.app) {
           this.router.app.$nextTick(() => {
-            postEnterCbs.forEach(cb => {
-              cb()
-            })
+            handleRouteEntered(route)
           })
         }
       })
@@ -252,11 +246,18 @@ export class History {
     // Default implementation is empty
   }
 
-  teardownListeners () {
+  teardown () {
+    // clean up event listeners
+    // https://github.com/vuejs/vue-router/issues/2341
     this.listeners.forEach(cleanupListener => {
       cleanupListener()
     })
     this.listeners = []
+
+    // reset current history route
+    // https://github.com/vuejs/vue-router/issues/3294
+    this.current = START
+    this.pending = null
   }
 }
 
@@ -347,15 +348,13 @@ function bindGuard (guard: NavigationGuard, instance: ?_Vue): ?NavigationGuard {
 }
 
 function extractEnterGuards (
-  activated: Array<RouteRecord>,
-  cbs: Array<Function>,
-  isValid: () => boolean
+  activated: Array<RouteRecord>
 ): Array<?Function> {
   return extractGuards(
     activated,
     'beforeRouteEnter',
     (guard, _, match, key) => {
-      return bindEnterGuard(guard, match, key, cbs, isValid)
+      return bindEnterGuard(guard, match, key)
     }
   )
 }
@@ -363,41 +362,17 @@ function extractEnterGuards (
 function bindEnterGuard (
   guard: NavigationGuard,
   match: RouteRecord,
-  key: string,
-  cbs: Array<Function>,
-  isValid: () => boolean
+  key: string
 ): NavigationGuard {
   return function routeEnterGuard (to, from, next) {
     return guard(to, from, cb => {
       if (typeof cb === 'function') {
-        cbs.push(() => {
-          // #750
-          // if a router-view is wrapped with an out-in transition,
-          // the instance may not have been registered at this time.
-          // we will need to poll for registration until current route
-          // is no longer valid.
-          poll(cb, match.instances, key, isValid)
-        })
+        if (!match.enteredCbs[key]) {
+          match.enteredCbs[key] = []
+        }
+        match.enteredCbs[key].push(cb)
       }
       next(cb)
     })
-  }
-}
-
-function poll (
-  cb: any, // somehow flow cannot infer this is a function
-  instances: Object,
-  key: string,
-  isValid: () => boolean
-) {
-  if (
-    instances[key] &&
-    !instances[key]._isBeingDestroyed // do not reuse being destroyed instance
-  ) {
-    cb(instances[key])
-  } else if (isValid()) {
-    setTimeout(() => {
-      poll(cb, instances, key, isValid)
-    }, 16)
   }
 }

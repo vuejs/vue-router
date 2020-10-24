@@ -57,6 +57,10 @@ describe('error handling', () => {
     router.push('/foo')
     router.push('/foo').catch(err => {
       expect(err.type).toBe(NavigationFailureType.duplicated)
+      expect(VueRouter.isNavigationFailure(err)).toBe(true)
+      expect(
+        VueRouter.isNavigationFailure(err, NavigationFailureType.duplicated)
+      ).toBe(true)
       done()
     })
   })
@@ -154,7 +158,10 @@ describe('error handling', () => {
   // https://github.com/vuejs/vue-router/issues/3225
   it('should trigger onReady onSuccess when redirecting', done => {
     const router = new VueRouter({
-      routes: [{ path: '/', component: {}}, { path: '/foo', component: {}}]
+      routes: [
+        { path: '/', component: {}},
+        { path: '/foo', component: {}}
+      ]
     })
 
     const onError = jasmine.createSpy('onError')
@@ -175,6 +182,7 @@ describe('error handling', () => {
       .push('/')
       .catch(pushCatch)
       .finally(() => {
+        expect(router.currentRoute.path).toBe('/foo')
         expect(onReadyFail).not.toHaveBeenCalled()
         // in 3.2.0 it was called with undefined
         // expect(pushCatch).not.toHaveBeenCalled()
@@ -186,12 +194,14 @@ describe('error handling', () => {
 
   it('should trigger onError if error is thrown inside redirect option', done => {
     const error = new Error('foo')
-    const config = [{
-      path: '/oldpath/:part',
-      redirect: (to) => {
-        throw error
+    const config = [
+      {
+        path: '/oldpath/:part',
+        redirect: to => {
+          throw error
+        }
       }
-    }]
+    ]
 
     const router = new VueRouter({
       routes: config

@@ -1,3 +1,41 @@
+## [3.4.7](https://github.com/vuejs/vue-router/compare/v3.4.6...v3.4.7) (2020-10-16)
+
+### Bug Fixes
+
+- **matcher:** should try catch decode only ([1f32f03](https://github.com/vuejs/vue-router/commit/1f32f03))
+- **query:** check existing keys ([4b926e3](https://github.com/vuejs/vue-router/commit/4b926e3)), closes [#3341](https://github.com/vuejs/vue-router/issues/3341)
+
+## [3.4.6](https://github.com/vuejs/vue-router/compare/v3.4.5...v3.4.6) (2020-10-07)
+
+### Bug Fixes
+
+- **encoding:** try catch decodes ([607ce2d](https://github.com/vuejs/vue-router/commit/607ce2d))
+- **ssr:** memory leak in poll method ([#2875](https://github.com/vuejs/vue-router/issues/2875)) ([7693eb5](https://github.com/vuejs/vue-router/commit/7693eb5))
+- remove duplicated decodeURIComponent ([#3323](https://github.com/vuejs/vue-router/issues/3323)) ([560d11d](https://github.com/vuejs/vue-router/commit/560d11d))
+
+## [3.4.5](https://github.com/vuejs/vue-router/compare/v3.4.4...v3.4.5) (2020-09-26)
+
+### Bug Fixes
+
+- **history:** do not call onReady on initial redirection ([a1a290e](https://github.com/vuejs/vue-router/commit/a1a290e)), closes [#3331](https://github.com/vuejs/vue-router/issues/3331)
+
+## [3.4.4](https://github.com/vuejs/vue-router/compare/v3.4.3...v3.4.4) (2020-09-24)
+
+### Bug Fixes
+
+- **abstract:** call afterHooks with go ([4da7021](https://github.com/vuejs/vue-router/commit/4da7021)), closes [#3250](https://github.com/vuejs/vue-router/issues/3250)
+- **history:** mark redundant navigation as pending ([893d86b](https://github.com/vuejs/vue-router/commit/893d86b)), closes [#3133](https://github.com/vuejs/vue-router/issues/3133)
+- **types:** add missing NavigationFailure types ([fda7067](https://github.com/vuejs/vue-router/commit/fda7067)), closes [#3293](https://github.com/vuejs/vue-router/issues/3293)
+- **types:** fix VueRouter.NavigationFailureType ([ecc8e27](https://github.com/vuejs/vue-router/commit/ecc8e27))
+
+### Features
+
+- **history:** Reset history.current when all apps are destroyed ([#3298](https://github.com/vuejs/vue-router/issues/3298)) ([c69ff7b](https://github.com/vuejs/vue-router/commit/c69ff7b))
+
+## [3.4.3](https://github.com/vuejs/vue-router/compare/v3.4.2...v3.4.3) (2020-08-11)
+
+- Revert 4fbaa9f7880276e661227442ef5923131a589210: "fix: keep repeated params in query/hash relative locations" Closes #3289
+
 ## [3.4.2](https://github.com/vuejs/vue-router/compare/v3.4.1...v3.4.2) (2020-08-07)
 
 ### Bug Fixes

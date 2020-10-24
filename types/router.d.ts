@@ -21,7 +21,7 @@ export declare class VueRouter {
   constructor(options?: RouterOptions)
 
   app: Vue
-  options: RouterOptions;
+  options: RouterOptions
   mode: RouterMode
   currentRoute: Route
 
@@ -63,19 +63,30 @@ export declare class VueRouter {
   static install: PluginFunction<never>
   static version: string
 
-  static isNavigationFailure: (error: any, type?: NavigationFailureTypeE) => error is Error
-  static NavigationFailureType: NavigationFailureTypeE
+  static isNavigationFailure: (
+    error: any,
+    type?: number
+  ) => error is NavigationFailure
+  static NavigationFailureType: {
+    [k in keyof typeof NavigationFailureType]: NavigationFailureType
+  }
 }
 
-export enum NavigationFailureTypeE {
-  redirected = 1,
-  aborted = 2,
-  cancelled = 3,
-  duplicated = 4
+export enum NavigationFailureType {
+  redirected = 2,
+  aborted = 4,
+  cancelled = 8,
+  duplicated = 16
+}
+
+export interface NavigationFailure extends Error {
+  to: Route
+  from: Route
+  type: number
 }
 
 type Position = { x: number; y: number }
-type PositionResult = Position | { selector: string; offset?: Position } | void
+type PositionResult = Position | { selector: string; offset?: Position, behavior?: ScrollBehavior } | void
 
 export interface RouterOptions {
   routes?: RouteConfig[]

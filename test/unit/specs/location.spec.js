@@ -7,12 +7,10 @@ describe('Location utils', () => {
       expect(loc._normalized).toBe(true)
       expect(loc.path).toBe('/abc')
       expect(loc.hash).toBe('#hello')
-      expect(JSON.stringify(loc.query)).toBe(
-        JSON.stringify({
-          foo: 'bar',
-          baz: 'qux'
-        })
-      )
+      expect(JSON.stringify(loc.query)).toBe(JSON.stringify({
+        foo: 'bar',
+        baz: 'qux'
+      }))
     })
 
     it('empty string', function () {
@@ -38,31 +36,23 @@ describe('Location utils', () => {
       expect(loc._normalized).toBe(true)
       expect(loc.path).toBe('/root/abc')
       expect(loc.hash).toBe('#hello')
-      expect(JSON.stringify(loc.query)).toBe(
-        JSON.stringify({
-          foo: 'bar',
-          baz: 'qux'
-        })
-      )
+      expect(JSON.stringify(loc.query)).toBe(JSON.stringify({
+        foo: 'bar',
+        baz: 'qux'
+      }))
     })
 
     it('relative append', () => {
-      const loc = normalizeLocation(
-        'abc?foo=bar&baz=qux#hello',
-        {
-          path: '/root/next'
-        },
-        true
-      )
+      const loc = normalizeLocation('abc?foo=bar&baz=qux#hello', {
+        path: '/root/next'
+      }, true)
       expect(loc._normalized).toBe(true)
       expect(loc.path).toBe('/root/next/abc')
       expect(loc.hash).toBe('#hello')
-      expect(JSON.stringify(loc.query)).toBe(
-        JSON.stringify({
-          foo: 'bar',
-          baz: 'qux'
-        })
-      )
+      expect(JSON.stringify(loc.query)).toBe(JSON.stringify({
+        foo: 'bar',
+        baz: 'qux'
+      }))
     })
 
     it('relative query & hash', () => {
@@ -72,81 +62,38 @@ describe('Location utils', () => {
       expect(loc._normalized).toBe(true)
       expect(loc.path).toBe('/root/next')
       expect(loc.hash).toBe('#hello')
-      expect(JSON.stringify(loc.query)).toBe(
-        JSON.stringify({
-          foo: 'bar',
-          baz: 'qux'
-        })
-      )
+      expect(JSON.stringify(loc.query)).toBe(JSON.stringify({
+        foo: 'bar',
+        baz: 'qux'
+      }))
     })
 
     it('relative params (named)', () => {
-      const loc = normalizeLocation(
-        { params: { lang: 'fr' }},
-        {
-          name: 'hello',
-          params: { lang: 'en', id: 'foo' }
-        }
-      )
+      const loc = normalizeLocation({ params: { lang: 'fr' }}, {
+        name: 'hello',
+        params: { lang: 'en', id: 'foo' }
+      })
       expect(loc._normalized).toBe(true)
       expect(loc.name).toBe('hello')
       expect(loc.params).toEqual({ lang: 'fr', id: 'foo' })
     })
 
     it('relative params (non-named)', () => {
-      const loc = normalizeLocation(
-        { params: { lang: 'fr' }},
-        {
-          path: '/en/foo',
-          params: { lang: 'en', id: 'foo' },
-          matched: [{ path: '/:lang(en|fr)/:id' }]
-        }
-      )
+      const loc = normalizeLocation({ params: { lang: 'fr' }}, {
+        path: '/en/foo',
+        params: { lang: 'en', id: 'foo' },
+        matched: [{ path: '/:lang(en|fr)/:id' }]
+      })
       expect(loc._normalized).toBe(true)
       expect(loc.path).toBe('/fr/foo')
     })
 
-    it('relative query named', () => {
-      const loc = normalizeLocation(
-        { query: { lang: 'fr' }},
-        {
-          name: 'hello',
-          hash: '#foo',
-          params: { id: 'foo' }
-        }
-      )
-      expect(loc._normalized).toBe(true)
-      expect(loc.name).toBe('hello')
-      expect(loc.params).toEqual({ id: 'foo' })
-      expect(loc.query).toEqual({ lang: 'fr' })
-      expect(loc.hash).toBe(undefined)
-    })
-
-    it('relative hash named', () => {
-      const loc = normalizeLocation(
-        { hash: '#foo' },
-        {
-          name: 'hello',
-          query: { lang: 'fr' },
-          params: { id: 'foo' }
-        }
-      )
-      expect(loc._normalized).toBe(true)
-      expect(loc.name).toBe('hello')
-      expect(loc.params).toEqual({ id: 'foo' })
-      expect(loc.query).toBe(undefined)
-      expect(loc.hash).toBe('#foo')
-    })
-
     it('custom regex can be case insensitive', () => {
-      const loc = normalizeLocation(
-        { params: { lang: 'FR' }},
-        {
-          path: '/en/foo',
-          params: { lang: 'en', id: 'foo' },
-          matched: [{ path: '/:lang(en|fr)/:id' }]
-        }
-      )
+      const loc = normalizeLocation({ params: { lang: 'FR' }}, {
+        path: '/en/foo',
+        params: { lang: 'en', id: 'foo' },
+        matched: [{ path: '/:lang(en|fr)/:id' }]
+      })
       expect(loc._normalized).toBe(true)
       expect(loc.path).toBe('/FR/foo')
     })
@@ -154,10 +101,7 @@ describe('Location utils', () => {
     it('relative append', () => {
       const loc = normalizeLocation({ path: 'a' }, { path: '/b' }, true)
       expect(loc.path).toBe('/b/a')
-      const loc2 = normalizeLocation(
-        { path: 'a', append: true },
-        { path: '/b' }
-      )
+      const loc2 = normalizeLocation({ path: 'a', append: true }, { path: '/b' })
       expect(loc2.path).toBe('/b/a')
     })
 
@@ -170,12 +114,10 @@ describe('Location utils', () => {
       expect(loc._normalized).toBe(true)
       expect(loc.path).toBe('/abc')
       expect(loc.hash).toBe('#lol')
-      expect(JSON.stringify(loc.query)).toBe(
-        JSON.stringify({
-          foo: 'bar',
-          baz: 'qux'
-        })
-      )
+      expect(JSON.stringify(loc.query)).toBe(JSON.stringify({
+        foo: 'bar',
+        baz: 'qux'
+      }))
     })
 
     it('skip normalized', () => {

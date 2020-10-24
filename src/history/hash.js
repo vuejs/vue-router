@@ -124,18 +124,6 @@ export function getHash (): string {
   if (index < 0) return ''
 
   href = href.slice(index + 1)
-  // decode the hash but not the search or hash
-  // as search(query) is already decoded
-  // https://github.com/vuejs/vue-router/issues/2708
-  const searchIndex = href.indexOf('?')
-  if (searchIndex < 0) {
-    const hashIndex = href.indexOf('#')
-    if (hashIndex > -1) {
-      href = decodeURI(href.slice(0, hashIndex)) + href.slice(hashIndex)
-    } else href = decodeURI(href)
-  } else {
-    href = decodeURI(href.slice(0, searchIndex)) + href.slice(searchIndex)
-  }
 
   return href
 }

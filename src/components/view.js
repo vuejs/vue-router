@@ -1,5 +1,6 @@
 import { warn } from '../util/warn'
 import { extend } from '../util/misc'
+import { handleRouteEntered } from '../util/route'
 
 export default {
   name: 'RouterView',
@@ -94,6 +95,11 @@ export default {
       ) {
         matched.instances[name] = vnode.componentInstance
       }
+
+      // if the route transition has already been confirmed then we weren't
+      // able to call the cbs during confirmation as the component was not
+      // registered yet, so we call it here.
+      handleRouteEntered(route)
     }
 
     const configProps = matched.props && matched.props[name]

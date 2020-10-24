@@ -9,14 +9,15 @@ module.exports = {
     browser
       .url('http://localhost:8080/hash-mode/')
       .waitForElementVisible('#app', 1000)
-      .assert.count('li', 8)
-      .assert.count('li a', 7)
+      .assert.count('li', 12)
+      .assert.count('li a', 11)
       .assert.attributeContains('li:nth-child(1) a', 'href', '/hash-mode/#/')
       .assert.attributeContains('li:nth-child(2) a', 'href', '/hash-mode/#/foo')
       .assert.attributeContains('li:nth-child(3) a', 'href', '/hash-mode/#/bar')
       .assert.attributeContains('li:nth-child(5) a', 'href', '/hash-mode/#/%C3%A9')
       .assert.attributeContains('li:nth-child(6) a', 'href', '/hash-mode/#/%C3%A9/%C3%B1')
       .assert.attributeContains('li:nth-child(7) a', 'href', '/hash-mode/#/%C3%A9/%C3%B1?t=%25%C3%B1')
+      .assert.attributeContains('li:nth-child(9) a', 'href', '/hash-mode/#/query/A%')
       .assert.containsText('.view', 'home')
 
       .click('li:nth-child(2) a')
@@ -57,6 +58,15 @@ module.exports = {
       .waitForElementVisible('#app', 1000)
       .assert.containsText('.view', 'unicode: ñ')
       .assert.containsText('#query-t', '%')
+
+      // percentage as path param
+      // https://github.com/vuejs/vue-router/issues/2725
+      .url('http://localhost:8080/hash-mode/#/query/A%25')
+      .waitForElementVisible('#app', 1000)
+      .assert.containsText('.view', 'query: "A%"')
+      .click('li:nth-child(9) a')
+      .assert.urlEquals('http://localhost:8080/hash-mode/#/query/A%25')
+      .assert.containsText('.view', 'query: "A%"')
 
       // Listener cleanup
       .assert.containsText('#popstate-count', '1 popstate listeners')

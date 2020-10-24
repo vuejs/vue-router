@@ -1,7 +1,13 @@
 import Vue, { ComponentOptions, AsyncComponent } from 'vue'
 
 import VueRouter from '../index'
-import { Route, RouteRecord, RedirectOption } from '../index'
+import {
+  Route,
+  RouteRecord,
+  RedirectOption,
+  NavigationFailure,
+  NavigationFailureType
+} from '../index'
 
 Vue.use(VueRouter)
 
@@ -10,6 +16,14 @@ const Foo = { template: '<div>foo</div>' }
 const Bar = { template: '<div>bar</div>' }
 const Abc = { template: '<div>abc</div>' }
 const Async = () => Promise.resolve({ template: '<div>async</div>' })
+
+let err: any
+if (VueRouter.isNavigationFailure(err, VueRouter.NavigationFailureType.aborted)) {
+  err.from.fullPath.split('/')
+}
+
+let navigationFailure = new Error() as NavigationFailure
+navigationFailure.to.fullPath.split('/')
 
 const Hook: ComponentOptions<Vue> = {
   template: '<div>hook</div>',
@@ -181,8 +195,16 @@ router.push({
 })
 router.replace({ name: 'home' })
 
-router.push('/', () => {}, () => {})
-router.replace('/foo', () => {}, () => {})
+router.push(
+  '/',
+  () => {},
+  () => {}
+)
+router.replace(
+  '/foo',
+  () => {},
+  () => {}
+)
 
 // promises
 
@@ -204,7 +226,8 @@ router.forward()
 const Components: (
   | ComponentOptions<Vue>
   | typeof Vue
-  | AsyncComponent)[] = router.getMatchedComponents()
+  | AsyncComponent
+)[] = router.getMatchedComponents()
 
 const vm = new Vue({
   router,
