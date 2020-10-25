@@ -19,8 +19,8 @@
 _Сбой навигации_ будет экземпляром `Error` с парой дополнительных свойств. Проверить произошла ли ошибка в маршрутизаторе можно с помощью функции `isNavigationFailure`:
 
 ```js
-import VueRouter from 'vue-router'
-const { isNavigationFailure, NavigationFailureType } = VueRouter
+import router from 'vue-router'
+const { isNavigationFailure, NavigationFailureType } = router
 
 // попытка перехода к странице администрирования
 router
