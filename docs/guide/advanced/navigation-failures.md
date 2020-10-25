@@ -19,8 +19,8 @@ In v3.2.0, _Navigation Failures_ were exposed through the two optional callbacks
 _Navigation Failures_ are `Error` instances with a few extra properties. To check if an error comes from the Router, use the `isNavigationFailure` function:
 
 ```js
-import VueRouter from 'vue-router'
-const { isNavigationFailure, NavigationFailureType } = VueRouter
+import router from 'vue-router'
+const { isNavigationFailure, NavigationFailureType } = router
 
 // trying to access the admin page
 router.push('/admin').catch(failure => {
