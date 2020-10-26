@@ -1,3 +1,9 @@
+## [3.4.8](https://github.com/vuejs/vue-router/compare/v3.4.7...v3.4.8) (2020-10-26)
+
+### Features
+
+- **scroll:** add behavior support on scrollBehavior ([#3351](https://github.com/vuejs/vue-router/issues/3351)) ([4e0b3e0](https://github.com/vuejs/vue-router/commit/4e0b3e0))
+
 ## [3.4.7](https://github.com/vuejs/vue-router/compare/v3.4.6...v3.4.7) (2020-10-16)
 
 ### Bug Fixes
