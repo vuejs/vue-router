@@ -80,3 +80,18 @@ scrollBehavior (to, from, savedPosition) {
 ```
 
 It's possible to hook this up with events from a page-level transition component to make the scroll behavior play nicely with your page transitions, but due to the possible variance and complexity in use cases, we simply provide this primitive to enable specific userland implementations.
+
+## Smooth Scrolling
+
+You can enable native smooth scrolling for [browsers supporting it](https://developer.mozilla.org/en-US/docs/Web/API/ScrollToOptions/behavior) by simply adding the `behavior` option to the object returned inside `scrollBehavior`:
+
+```js
+scrollBehavior (to, from, savedPosition) {
+  if (to.hash) {
+    return {
+      selector: to.hash
+      behavior: 'smooth',
+    }
+  }
+}
+```
