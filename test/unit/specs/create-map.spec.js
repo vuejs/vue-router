@@ -81,6 +81,15 @@ describe('Creating Route Map', function () {
     )
   })
 
+  it('warns about unencoded entities', function () {
+    process.env.NODE_ENV = 'development'
+    maps = createRouteMap([{ path: '/é', component: Home }])
+    expect(console.warn).toHaveBeenCalledTimes(1)
+    expect(console.warn.calls.argsFor(0)[0]).toMatch(
+      'vue-router] Route with path "/é"'
+    )
+  })
+
   it('in development, throws if path is missing', function () {
     process.env.NODE_ENV = 'development'
     expect(() => {
