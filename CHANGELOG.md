@@ -1,3 +1,9 @@
+## [3.4.9](https://github.com/vuejs/vue-router/compare/v3.4.8...v3.4.9) (2020-11-05)
+
+### Bug Fixes
+
+- **encoding:** decode params ([#3350](https://github.com/vuejs/vue-router/issues/3350)) ([63c749c](https://github.com/vuejs/vue-router/commit/63c749c))
+
 ## [3.4.8](https://github.com/vuejs/vue-router/compare/v3.4.7...v3.4.8) (2020-10-26)
 
 ### Features
