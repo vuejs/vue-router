@@ -47,7 +47,6 @@ export default {
   .carbon-ads {
     z-index: 1;
     position: relative;
-    padding: 0;
     top: 87px;
     right: 12px;
     float: right;
