@@ -99,7 +99,6 @@ module.exports = ctx => ({
         ],
         sidebar: [
           '/installation.md',
-          '/',
           {
             title: 'Essentials',
             collapsable: false,
