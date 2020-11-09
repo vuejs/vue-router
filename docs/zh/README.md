@@ -1,8 +1,10 @@
-# 介绍
-
-:::tip 版本说明
-对于 TypeScript 用户来说，`vue-router@3.0+` 依赖 `vue@2.5+`，反之亦然。
-:::
+---
+home: true
+heroImage: /logo.png
+actionText: Get Started →
+actionLink: /installation.html
+footer: MIT Licensed | Copyright © 2014-present Evan You, Eduardo San Martin Morote
+---
 
 <div class="vueschool"><a href="https://vueschool.io/courses/vue-router-for-everyone?friend=vuejs" target="_blank" rel="sponsored noopener" title="Learn how to build powerful Single Page Applications with the Vue Router on Vue School">观看 Vue School 的关于 Vue Router 的免费视频课程 (英文)</a></div>
 
@@ -18,3 +20,5 @@ Vue Router 是 [Vue.js](http://cn.vuejs.org) 官方的路由管理器。它和 V
 - 自定义的滚动条行为
 
 现在开始[起步](./guide/)或尝试一下我们的[示例](https://github.com/vuejs/vue-router/tree/dev/examples)吧 (查看仓库的 [`README.md`](https://github.com/vuejs/vue-router/) 来运行它们)。
+
+<HomeSponsors />

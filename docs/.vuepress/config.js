@@ -149,7 +149,6 @@ module.exports = ctx => ({
         ],
         sidebar: [
           '/zh/installation.md',
-          '/zh/',
           {
             title: '基础',
             collapsable: false,
@@ -199,7 +198,6 @@ module.exports = ctx => ({
         ],
         sidebar: [
           '/ja/installation.md',
-          '/ja/',
           {
             title: '基本的な使い方',
             collapsable: false,
@@ -249,7 +247,6 @@ module.exports = ctx => ({
         ],
         sidebar: [
           '/ru/installation.md',
-          '/ru/',
           {
             title: 'Основы',
             collapsable: false,
@@ -300,7 +297,6 @@ module.exports = ctx => ({
         ],
         sidebar: [
           '/kr/installation.md',
-          '/kr/',
           {
             title: '기본 사용법',
             collapsable: false,
@@ -350,7 +346,6 @@ module.exports = ctx => ({
         ],
         sidebar: [
           '/fr/installation.md',
-          '/fr/',
           {
             title: 'Essentiels',
             collapsable: false,

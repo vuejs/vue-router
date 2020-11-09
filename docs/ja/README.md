@@ -1,8 +1,10 @@
-# 紹介
-
-:::tip VERSION NOTE
-TypeScriptユーザの場合、 `vue-router@3.0+` は `vue@2.5+` を必須とし、逆もまた同様です。
-:::
+---
+home: true
+heroImage: /logo.png
+actionText: Get Started →
+actionLink: /installation.html
+footer: MIT Licensed | Copyright © 2014-present Evan You, Eduardo San Martin Morote
+---
 
 <div class="vueschool"><a href="https://vueschool.io/courses/vue-router-for-everyone?friend=vuejs" target="_blank" rel="sponsored noopener" title="Learn how to build powerful Single Page Applications with the Vue Router on Vue School">Watch a free video course about Vue Router on Vue School</a></div>
 
@@ -18,3 +20,5 @@ Vue Router は [Vue.js](http://vuejs.org) 公式ルータです。これは Vue.
 - カスタマイズ可能なスクロール動作
 
 [はじめに](./guide/) または [例](https://github.com/vuejs/vue-router/tree/dev/examples) から試してください。 ([`README.md`](https://github.com/vuejs/vue-router/)を参照してください。).
+
+<HomeSponsors />
