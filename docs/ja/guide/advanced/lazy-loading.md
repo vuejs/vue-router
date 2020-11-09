@@ -8,13 +8,16 @@ Vue の [非同期コンポーネント機能](http://jp.vuejs.org/guide/compone
 
 最初に、非同期コンポーネントは Promise (コンポーネント自身解決する必要がある) を返すファクトリ関数として定義できます:
 
-``` js
-const Foo = () => Promise.resolve({ /* component definition */ })
+```js
+const Foo = () =>
+  Promise.resolve({
+    /* component definition */
+  })
 ```
 
 次に、webpack 2 において [動的 import](https://github.com/tc39/proposal-dynamic-import) 構文を使用して、コード分割ポイントを示すことができます:
 
-``` js
+```js
 import('./Foo.vue') // returns a Promise
 ```
 
@@ -22,15 +25,15 @@ import('./Foo.vue') // returns a Promise
 
 2 つを組み合わせることで、これは、webpack によって自動的にコード分割される非同期コンポーネントを定義する方法です:
 
-``` js
+```js
 const Foo = () => import('./Foo.vue')
 ```
 
 ## 同じチャンク内でのコンポーネントグループ化
 
-しばしば同じ非同期のチャンクに、そのルート配下のネストされた全てのコンポーネントをグループ化したいと思うかもしれません。それを実現するためには、 特別なコメント構文 (webpack > 2.4 必須)を使用してチャンクの名前を提供する [名前付きチャンク](https://webpack.js.org/guides/code-splitting-async/#chunk-names) を使う必要があります。
+しばしば同じ非同期のチャンクに、そのルート配下のネストされた全てのコンポーネントをグループ化したいと思うかもしれません。それを実現するためには、 特別なコメント構文 (webpack > 2.4 必須)を使用してチャンクの名前を提供する [名前付きチャンク](https://webpack.js.org/api/module-methods/#magic-comments) を使う必要があります。
 
-``` js
+```js
 const Foo = () => import(/* webpackChunkName: "group-foo" */ './Foo.vue')
 const Bar = () => import(/* webpackChunkName: "group-foo" */ './Bar.vue')
 const Baz = () => import(/* webpackChunkName: "group-foo" */ './Baz.vue')

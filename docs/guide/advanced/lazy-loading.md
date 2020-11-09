@@ -8,13 +8,16 @@ Combining Vue's [async component feature](https://vuejs.org/guide/components.htm
 
 First, an async component can be defined as a factory function that returns a Promise (which should resolve to the component itself):
 
-``` js
-const Foo = () => Promise.resolve({ /* component definition */ })
+```js
+const Foo = () =>
+  Promise.resolve({
+    /* component definition */
+  })
 ```
 
 Second, in webpack 2, we can use the [dynamic import](https://github.com/tc39/proposal-dynamic-import) syntax to indicate a code-split point:
 
-``` js
+```js
 import('./Foo.vue') // returns a Promise
 ```
 
@@ -24,25 +27,23 @@ if you are using Babel, you will need to add the [syntax-dynamic-import](https:/
 
 Combining the two, this is how to define an async component that will be automatically code-split by webpack:
 
-``` js
+```js
 const Foo = () => import('./Foo.vue')
 ```
 
 Nothing needs to change in the route config, just use `Foo` as usual:
 
-``` js
+```js
 const router = new VueRouter({
-  routes: [
-    { path: '/foo', component: Foo }
-  ]
+  routes: [{ path: '/foo', component: Foo }]
 })
 ```
 
 ## Grouping Components in the Same Chunk
 
-Sometimes we may want to group all the components nested under the same route into the same async chunk. To achieve that we need to use [named chunks](https://webpack.js.org/guides/code-splitting-async/#chunk-names) by providing a chunk name using a special comment syntax (requires webpack > 2.4):
+Sometimes we may want to group all the components nested under the same route into the same async chunk. To achieve that we need to use [named chunks](https://webpack.js.org/api/module-methods/#magic-comments) by providing a chunk name using a special comment syntax (requires webpack > 2.4):
 
-``` js
+```js
 const Foo = () => import(/* webpackChunkName: "group-foo" */ './Foo.vue')
 const Bar = () => import(/* webpackChunkName: "group-foo" */ './Bar.vue')
 const Baz = () => import(/* webpackChunkName: "group-foo" */ './Baz.vue')

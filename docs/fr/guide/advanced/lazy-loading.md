@@ -6,13 +6,16 @@ En combinant la [fonctionnalité de composant asynchrone](https://fr.vuejs.org/v
 
 Premièrement, un composant asynchrone peut définir une fonction fabrique qui retourne une Promesse (qui devrait résoudre le composant lui-même) :
 
-``` js
-const Foo = () => Promise.resolve({ /* définition du composant */ })
+```js
+const Foo = () =>
+  Promise.resolve({
+    /* définition du composant */
+  })
 ```
 
 Deuxièmement, avec webpack 2, nous pouvons utiliser la syntaxe d'[import dynamique](https://github.com/tc39/proposal-dynamic-import) pour indiquer un point de scission de code :
 
-``` js
+```js
 import('./Foo.vue') // returns a Promise
 ```
 
@@ -22,25 +25,23 @@ si vous utilisez Babel, vous aurez besoin d'ajouter le plugin [syntax-dynamic-im
 
 En combinant les deux, on définit un composant asynchrone qui sera automatiquement scindé par webpack :
 
-``` js
+```js
 const Foo = () => import('./Foo.vue')
 ```
 
 Rien n'a besoin d'être modifié dans la configuration de la route, utilisez `Foo` comme d'habitude.
 
-``` js
+```js
 const router = new VueRouter({
-  routes: [
-    { path: '/foo', component: Foo }
-  ]
+  routes: [{ path: '/foo', component: Foo }]
 })
 ```
 
 ## Grouper des composants dans le même fragment
 
-Parfois on aimerait grouper tous les composants imbriqués sous la même route, dans un seul et même fragment asynchrone. Pour arriver à cela, nous avons besoin d'utiliser les [fragments nommés](https://webpack.js.org/guides/code-splitting-async/#chunk-names) en donnant un nom au fragment en utilisant une syntaxe de commentaire spéciale (requires webpack > 2.4) :
+Parfois on aimerait grouper tous les composants imbriqués sous la même route, dans un seul et même fragment asynchrone. Pour arriver à cela, nous avons besoin d'utiliser les [fragments nommés](https://webpack.js.org/api/module-methods/#magic-comments) en donnant un nom au fragment en utilisant une syntaxe de commentaire spéciale (requires webpack > 2.4) :
 
-``` js
+```js
 const Foo = () => import(/* webpackChunkName: "group-foo" */ './Foo.vue')
 const Bar = () => import(/* webpackChunkName: "group-foo" */ './Bar.vue')
 const Baz = () => import(/* webpackChunkName: "group-foo" */ './Baz.vue')
