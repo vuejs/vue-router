@@ -47,8 +47,6 @@
 <script>
 import sponsors from './sponsors.json'
 
-console.log({ sponsors })
-
 export default {
   name: 'HomeSponsors',
 
