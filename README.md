@@ -2,18 +2,33 @@
 
 > This is vue-router 3.0 which works only with Vue 2.0. For the 1.x router see the [1.0 branch](https://github.com/vuejs/vue-router/tree/1.0).
 
-### Introduction
+<h2 align="center">Supporting Vue Router</h2>
 
-`vue-router` is the official router for [Vue.js](http://vuejs.org). It deeply integrates with Vue.js core to make building Single Page Applications with Vue.js a breeze. Features include:
+Vue Router is part of the Vue Ecosystem and is an MIT-licensed open source project with its ongoing development made possible entirely by the support of Sponsors. If you would like to become a sponsor, please consider:
 
-- Nested route/view mapping
-- Modular, component-based router configuration
-- Route params, query, wildcards
-- View transition effects powered by Vue.js' transition system
-- Fine-grained navigation control
-- Links with automatic active CSS classes
-- HTML5 history mode or hash mode, with auto-fallback in IE9
-- Customizable Scroll Behavior
+- [Become a Sponsor on GitHub](https://github.com/sponsors/posva)
+- [One-time donation via PayPal](https://paypal.me/posva)
+
+<!-- <h3 align="center">Special Sponsors</h3> -->
+<!--special start-->
+
+<h4 align="center">Silver Sponsors</h4>
+
+<p align="center">
+
+<a href="https://www.vuemastery.com" target="_blank" rel="noopener noreferrer"><img src="https://www.vuemastery.com/images/vuemastery.svg" height="48px" alt="Vue Mastery"></a>
+
+<a href="https://vuetifyjs.com" target="_blank" rel="noopener noreferrer"><img src="https://cdn.vuetifyjs.com/docs/images/logos/vuetify-logo-light-text.svg" alt="Vuetify" height="48px"></a>
+
+</p>
+
+<h4 align="center">Bronze Sponsors</h4>
+
+<p align="center">
+  <a href="https://storyblok.com" target="_blank" rel="noopener noreferrer"><img src="https://a.storyblok.com/f/51376/3856x824/fea44d52a9/colored-full.png" alt="Storyblok height="32px"></a>
+</p>
+
+---
 
 Get started with the [documentation](http://router.vuejs.org), or play with the [examples](https://github.com/vuejs/vue-router/tree/dev/examples) (see how to run them below).
 
