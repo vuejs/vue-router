@@ -274,7 +274,7 @@ function normalizeBase (base: ?string): string {
     }
   }
   // make sure there's the starting slash
-  if (base.charAt(0) !== '/') {
+  if (base.charAt(0) !== '/' && !base.startsWith('http')) {
     base = '/' + base
   }
   // remove trailing slash

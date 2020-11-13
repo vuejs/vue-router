@@ -73,5 +73,15 @@ describe('Path utils', () => {
       const path = cleanPath('//a//b//d/')
       expect(path).toBe('/a/b/d/')
     })
+
+    it('should not replace slashes after https', () => {
+      const path = cleanPath('https://somedomain.com//some//path/')
+      expect(path).toBe('https://somedomain.com/some/path/')
+    })
+
+    it('should not replace slashes after http', () => {
+      const path = cleanPath('http://somedomain.com//some//path/')
+      expect(path).toBe('http://somedomain.com/some/path/')
+    })
   })
 })

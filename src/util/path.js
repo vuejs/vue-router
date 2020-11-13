@@ -70,5 +70,11 @@ export function parsePath (path: string): {
 }
 
 export function cleanPath (path: string): string {
-  return path.replace(/\/\//g, '/')
+  let protocol = ''
+  let p = path
+  if (p.startsWith('https://') || p.startsWith('http://')) {
+    protocol = p.startsWith('https://') ? 'https://' : 'http://'
+    p = p.replace(protocol, '')
+  }
+  return protocol + p.replace(/\/\//g, '/')
 }
