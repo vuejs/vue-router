@@ -34,7 +34,7 @@ export default {
 
   width: 125px;
   position: fixed;
-  z-index: 19;
+  z-index: 1;
   bottom: 22px;
   right: 14px;
   padding: 10px;
@@ -45,7 +45,6 @@ export default {
 
 @media screen and (max-width: 1300px) {
   .carbon-ads {
-    z-index: 1;
     position: relative;
     top: 87px;
     right: 12px;
