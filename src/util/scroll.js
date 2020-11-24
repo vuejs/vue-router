@@ -10,7 +10,9 @@ const positionStore = Object.create(null)
 export function setupScroll () {
   // Prevent browser scroll behavior on History popstate
   if ('scrollRestoration' in window.history) {
-    window.history.scrollRestoration = 'manual'
+      try {
+        window.history.scrollRestoration = 'manual';
+      } catch () {
   }
   // Fix for #1585 for Firefox
   // Fix for #2195 Add optional third attribute to workaround a bug in safari https://bugs.webkit.org/show_bug.cgi?id=182678
