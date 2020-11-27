@@ -89,7 +89,7 @@ You can enable native smooth scrolling for [browsers supporting it](https://deve
 scrollBehavior (to, from, savedPosition) {
   if (to.hash) {
     return {
-      selector: to.hash
+      selector: to.hash,
       behavior: 'smooth',
     }
   }
