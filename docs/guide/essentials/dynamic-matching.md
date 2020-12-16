@@ -29,6 +29,19 @@ const User = {
 
 You can check out a live example [here](https://jsfiddle.net/yyx990803/4xfa2f19/).
 
+
+You can make a parameter optional by adding `?` to the end of the parameter.
+
+```js
+const router = new VueRouter({
+  routes: [
+    // 
+    { path: '/user/:id?', component: Users }
+  ]
+})
+```
+
+
 You can have multiple dynamic segments in the same route, and they will map to corresponding fields on `$route.params`. Examples:
 
 | pattern                       | matched path        | \$route.params                         |
