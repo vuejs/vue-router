@@ -173,7 +173,8 @@ module.exports = ctx => ({
               '/zh/guide/advanced/transitions.md',
               '/zh/guide/advanced/data-fetching.md',
               '/zh/guide/advanced/scroll-behavior.md',
-              '/zh/guide/advanced/lazy-loading.md'
+              '/zh/guide/advanced/lazy-loading.md',
+              '/zh/guide/advanced/navigation-failures.md'
             ]
           }
         ]
