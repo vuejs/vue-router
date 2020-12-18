@@ -212,3 +212,78 @@ function normalizePath (
   if (parent == null) return path
   return cleanPath(`${parent.path}/${path}`)
 }
+
+export function removeRoutesFromMap (
+  routes: Array<RouteConfig>,
+  pathList: Array<string>,
+  pathMap: Dictionary<RouteRecord>,
+  nameMap: Dictionary<RouteRecord>
+) {
+  routes.forEach(route => {
+    removeRouteRecord(pathList, pathMap, nameMap, route)
+  })
+
+  // ensure wildcard routes are always at the end
+  for (let i = 0, l = pathList.length; i < l; i++) {
+    if (pathList[i] === '*') {
+      pathList.push(pathList.splice(i, 1)[0])
+      l--
+      i--
+    }
+  }
+}
+
+function removeRouteRecord (
+  pathList: Array<string>,
+  pathMap: Dictionary<RouteRecord>,
+  nameMap: Dictionary<RouteRecord>,
+  route: RouteConfig,
+  parent?: RouteRecord,
+  matchAs?: string
+) {
+  const { path, name } = route
+  const pathToRegexpOptions: PathToRegexpOptions = route.pathToRegexpOptions || {}
+  const normalizedPath = normalizePath(
+    path,
+    parent,
+    pathToRegexpOptions.strict
+  )
+
+  if (route.children) {
+    route.children.forEach(child => {
+      const childMatchAs = matchAs
+        ? cleanPath(`${matchAs}/${child.path}`)
+        : undefined
+      removeRouteRecord(pathList, pathMap, nameMap, child, { path: normalizedPath }, childMatchAs)
+    })
+  }
+
+  if (route.alias !== undefined) {
+    const aliases = Array.isArray(route.alias)
+      ? route.alias
+      : [route.alias]
+
+    aliases.forEach(alias => {
+      const aliasRoute = {
+        path: alias,
+        children: route.children
+      }
+      removeRouteRecord(
+        pathList,
+        pathMap,
+        nameMap,
+        aliasRoute,
+        parent,
+        normalizedPath || '/' // matchAs
+      )
+    })
+  }
+  const index = pathList.indexOf(normalizedPath)
+  if (index > -1) {
+    pathList.splice(index, 1)
+    delete pathMap[normalizedPath]
+    if (name) {
+      delete nameMap[name]
+    }
+  }
+}

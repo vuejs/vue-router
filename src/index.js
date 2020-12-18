@@ -250,6 +250,12 @@ export default class VueRouter {
       this.history.transitionTo(this.history.getCurrentLocation())
     }
   }
+  removeRoutes (routes: Array<RouteConfig>) {
+    this.matcher.removeRoutes(routes)
+    if (this.history.current !== START) {
+      this.history.transitionTo(this.history.getCurrentLocation())
+    }
+  }
 }
 
 function registerHook (list: Array<any>, fn: Function): Function {
