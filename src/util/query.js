@@ -58,10 +58,16 @@ function parseQuery (query: string): Dictionary<string> {
     return res
   }
 
+  const illegalNames = Object.getOwnPropertyNames(Object.getPrototypeOf(res))
+
   query.split('&').forEach(param => {
     const parts = param.replace(/\+/g, ' ').split('=')
     const key = decode(parts.shift())
     const val = parts.length > 0 ? decode(parts.join('=')) : null
+
+    if (illegalNames.includes(key)) {
+      return
+    }
 
     if (res[key] === undefined) {
       res[key] = val
