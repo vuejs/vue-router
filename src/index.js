@@ -244,6 +244,13 @@ export default class VueRouter {
     }
   }
 
+  addRoute (parentOrRoute: string | RouteConfig, route?: RouteConfig) {
+    this.matcher.addRoute(parentOrRoute, route)
+    if (this.history.current !== START) {
+      this.history.transitionTo(this.history.getCurrentLocation())
+    }
+  }
+
   addRoutes (routes: Array<RouteConfig>) {
     this.matcher.addRoutes(routes)
     if (this.history.current !== START) {

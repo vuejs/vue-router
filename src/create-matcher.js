@@ -12,6 +12,7 @@ import { decode } from './util/query'
 export type Matcher = {
   match: (raw: RawLocation, current?: Route, redirectedFrom?: Location) => Route;
   addRoutes: (routes: Array<RouteConfig>) => void;
+  addRoute: (parentNameOrRoute: string | RouteConfig, route?: RouteConfig) => void;
 };
 
 export function createMatcher (
@@ -22,6 +23,12 @@ export function createMatcher (
 
   function addRoutes (routes) {
     createRouteMap(routes, pathList, pathMap, nameMap)
+  }
+
+  function addRoute (parentOrRoute, route) {
+    const parent = (typeof parentOrRoute !== 'object') ? nameMap[parentOrRoute] : undefined
+    // $flow-disable-line
+    createRouteMap([route || parentOrRoute], pathList, pathMap, nameMap, parent)
   }
 
   function match (
@@ -167,6 +174,7 @@ export function createMatcher (
 
   return {
     match,
+    addRoute,
     addRoutes
   }
 }

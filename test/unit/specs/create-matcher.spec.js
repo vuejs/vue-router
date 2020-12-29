@@ -22,6 +22,38 @@ describe('Creating Matcher', function () {
     process.env.NODE_ENV = 'production'
   })
 
+  it('can add nested routes', function () {
+    const component = { name: 'fake' }
+    const matcher = createMatcher([
+      {
+        path: '/p',
+        name: 'parent',
+        children: [
+          { path: 'a', name: 'a', component },
+          {
+            path: 'c',
+            name: 'child',
+            component,
+            children: [{ path: 'n', name: 'nested', component }]
+          }
+        ]
+      },
+      {
+        // easier to debug tests
+        path: '*', name: 'not-found', component
+      }
+    ])
+
+    matcher.addRoute({ path: '/b', name: 'b', component })
+    matcher.addRoute('parent', { path: 'b', name: 'p-b', component })
+    matcher.addRoute('child', { path: 'b', name: 'p-c-b', component })
+
+    expect(matcher.match('/b').name).toBe('b')
+    expect(matcher.match('/p/b').name).toBe('p-b')
+    expect(matcher.match('/p/c/b').name).toBe('p-c-b')
+    expect(matcher.match('/p/c/n').name).toBe('nested')
+  })
+
   it('in development, has logged a warning if a named route does not exist', function () {
     process.env.NODE_ENV = 'development'
     const { name, matched } = match({ name: 'bar' }, routes[0])

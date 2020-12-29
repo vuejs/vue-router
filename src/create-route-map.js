@@ -8,7 +8,8 @@ export function createRouteMap (
   routes: Array<RouteConfig>,
   oldPathList?: Array<string>,
   oldPathMap?: Dictionary<RouteRecord>,
-  oldNameMap?: Dictionary<RouteRecord>
+  oldNameMap?: Dictionary<RouteRecord>,
+  parentRoute?: RouteRecord
 ): {
   pathList: Array<string>,
   pathMap: Dictionary<RouteRecord>,
@@ -22,7 +23,7 @@ export function createRouteMap (
   const nameMap: Dictionary<RouteRecord> = oldNameMap || Object.create(null)
 
   routes.forEach(route => {
-    addRouteRecord(pathList, pathMap, nameMap, route)
+    addRouteRecord(pathList, pathMap, nameMap, route, parentRoute)
   })
 
   // ensure wildcard routes are always at the end
