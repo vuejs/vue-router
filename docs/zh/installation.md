@@ -32,6 +32,14 @@ Vue.use(VueRouter)
 
 如果使用全局的 script 标签，则无须如此 (手动安装)。
 
+## Vue CLI
+
+如果你有一个正在使用[Vue CLI](https://cli.vuejs.org/zh/)的项目，你可以添加Vue Router作为项目插件。你可以让CLI为你生成上面的代码以及两个示例路由。**它也会覆盖你的 `App.vue`** 。因此，请确保在项目中运行以下命令之前备份这个文件：
+
+```sh
+vue add router
+```
+
 ### 构建开发版
 
 如果你想使用最新的开发版，就得从 GitHub 上直接 clone，然后自己 build 一个 `vue-router`。
