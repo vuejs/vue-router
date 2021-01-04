@@ -47,6 +47,11 @@ export declare class VueRouter {
   onReady(cb: Function, errorCb?: ErrorHandler): void
   onError(cb: ErrorHandler): void
   addRoutes(routes: RouteConfig[]): void
+
+  addRoute(parent: string, route: RouteConfig): void
+  addRoute(route: RouteConfig): void
+  getRoutes(): RouteRecordPublic[]
+
   resolve(
     to: RawLocation,
     current?: Route,
@@ -157,6 +162,26 @@ export interface RouteRecord {
     | RoutePropsFunction
     | Dictionary<boolean | Object | RoutePropsFunction>
 }
+
+export interface RouteRecordPublic {
+  path: string
+  components: Dictionary<Component>
+  instances: Dictionary<Vue>
+  name?: string
+  redirect?: RedirectOption
+  meta: any
+  beforeEnter?: (
+    route: Route,
+    redirect: (location: RawLocation) => void,
+    next: () => void
+  ) => any
+  props:
+    | boolean
+    | Object
+    | RoutePropsFunction
+    | Dictionary<boolean | Object | RoutePropsFunction>
+}
+
 
 export interface Location {
   name?: string

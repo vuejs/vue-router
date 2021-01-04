@@ -10,6 +10,7 @@ export {
   RouterOptions,
   RouteConfig,
   RouteRecord,
+  RouteRecordPublic,
   Location,
   Route,
   NavigationGuard,
