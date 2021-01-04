@@ -65,6 +65,7 @@ declare type RouteConfig = {
 
 declare type RouteRecord = {
   path: string;
+  alias: Array<string>;
   regex: RouteRegExp;
   components: Dictionary<any>;
   instances: Dictionary<any>;

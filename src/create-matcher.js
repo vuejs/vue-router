@@ -13,6 +13,7 @@ export type Matcher = {
   match: (raw: RawLocation, current?: Route, redirectedFrom?: Location) => Route;
   addRoutes: (routes: Array<RouteConfig>) => void;
   addRoute: (parentNameOrRoute: string | RouteConfig, route?: RouteConfig) => void;
+  getRoutes: () => Array<RouteRecord>;
 };
 
 export function createMatcher (
@@ -29,6 +30,22 @@ export function createMatcher (
     const parent = (typeof parentOrRoute !== 'object') ? nameMap[parentOrRoute] : undefined
     // $flow-disable-line
     createRouteMap([route || parentOrRoute], pathList, pathMap, nameMap, parent)
+
+    // add aliases of parent
+    if (parent) {
+      createRouteMap(
+        // $flow-disable-line route is defined if parent is
+        parent.alias.map(alias => ({ path: alias, children: [route] })),
+        pathList,
+        pathMap,
+        nameMap,
+        parent
+      )
+    }
+  }
+
+  function getRoutes () {
+    return pathList.map(path => pathMap[path])
   }
 
   function match (
@@ -175,6 +192,7 @@ export function createMatcher (
   return {
     match,
     addRoute,
+    getRoutes,
     addRoutes
   }
 }

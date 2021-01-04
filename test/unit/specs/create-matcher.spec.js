@@ -54,6 +54,25 @@ describe('Creating Matcher', function () {
     expect(matcher.match('/p/c/n').name).toBe('nested')
   })
 
+  it('can get all routes', function () {
+    const component = { name: 'fake' }
+    const matcher = createMatcher([])
+
+    expect(matcher.getRoutes()).toEqual([])
+
+    matcher.addRoute({ path: '/b', name: 'b', component })
+    expect(matcher.getRoutes().length).toBe(1)
+
+    matcher.addRoute({ path: '/c', name: 'c', alias: ['/a', '/d'], component })
+    expect(matcher.getRoutes().length).toBe(4)
+
+    matcher.addRoute('b', { path: 'd', component })
+    expect(matcher.getRoutes().length).toBe(5)
+
+    matcher.addRoute('c', { path: 'd', component })
+    expect(matcher.getRoutes().length).toBe(8)
+  })
+
   it('in development, has logged a warning if a named route does not exist', function () {
     process.env.NODE_ENV = 'development'
     const { name, matched } = match({ name: 'bar' }, routes[0])
