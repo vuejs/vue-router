@@ -2,7 +2,7 @@
 
 import { install } from './install'
 import { START } from './util/route'
-import { assert } from './util/warn'
+import { assert, warn } from './util/warn'
 import { inBrowser } from './util/dom'
 import { cleanPath } from './util/path'
 import { createMatcher } from './create-matcher'
@@ -256,6 +256,9 @@ export default class VueRouter {
   }
 
   addRoutes (routes: Array<RouteConfig>) {
+    if (process.env.NODE_ENV !== 'production') {
+      warn(false, 'router.addRoutes() is deprecated and has been removed in Vue Router 4. Use router.addRoute() instead.')
+    }
     this.matcher.addRoutes(routes)
     if (this.history.current !== START) {
       this.history.transitionTo(this.history.getCurrentLocation())
