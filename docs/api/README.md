@@ -319,6 +319,26 @@ Since it's just a component, it works with `<transition>` and `<keep-alive>`. Wh
 
   The current route represented as a [Route Object](#the-route-object).
 
+### router.START_LOCATION
+
+- type: `Route`
+
+  Initial route location represented as a [Route Object](#the-route-object) where the router starts at. Can be used in navigation guards to differentiate the initial navigation.
+
+  ```js
+  import Router from 'vue-router'
+
+  const router = new Router({
+    // ...
+  })
+
+  router.beforeEach((to, from) => {
+    if (from === START_LOCATION) {
+      // initial navigation
+    }
+  })
+  ```
+
 ## Router Instance Methods
 
 ### router.beforeEach

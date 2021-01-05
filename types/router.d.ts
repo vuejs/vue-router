@@ -75,6 +75,8 @@ export declare class VueRouter {
   static NavigationFailureType: {
     [k in keyof typeof NavigationFailureType]: NavigationFailureType
   }
+
+  static START_LOCATION: Route
 }
 
 export enum NavigationFailureType {

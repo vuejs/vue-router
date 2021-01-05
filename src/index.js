@@ -280,6 +280,7 @@ VueRouter.install = install
 VueRouter.version = '__VERSION__'
 VueRouter.isNavigationFailure = isNavigationFailure
 VueRouter.NavigationFailureType = NavigationFailureType
+VueRouter.START_LOCATION = START
 
 if (inBrowser && window.Vue) {
   window.Vue.use(VueRouter)
