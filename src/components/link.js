@@ -12,6 +12,8 @@ const eventTypes: Array<Function> = [String, Array]
 const noop = () => {}
 
 let warnedCustomSlot
+let warnedTagProp
+let warnedEventProp
 
 export default {
   name: 'RouterLink',
@@ -125,6 +127,23 @@ export default {
           )
         }
         return scopedSlot.length === 0 ? h() : h('span', {}, scopedSlot)
+      }
+    }
+
+    if (process.env.NODE_ENV !== 'production') {
+      if (this.tag && !warnedTagProp) {
+        warn(
+          false,
+          `<router-link>'s tag prop is deprecated and has been removed in Vue Router 4. Use the v-slot API to remove this warning: https://next.router.vuejs.org/guide/migration/#removal-of-event-and-tag-props-in-router-link.`
+        )
+        warnedTagProp = true
+      }
+      if (this.event && !warnedEventProp) {
+        warn(
+          false,
+          `<router-link>'s event prop is deprecated and has been removed in Vue Router 4. Use the v-slot API to remove this warning: https://next.router.vuejs.org/guide/migration/#removal-of-event-and-tag-props-in-router-link.`
+        )
+        warnedEventProp = true
       }
     }
 
