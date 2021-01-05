@@ -79,7 +79,7 @@ const vueInstance = new Vue({
         <li><router-link :to="encodeURI('/é')">/é</router-link></li>
         <li><router-link :to="encodeURI('/é?t=%ñ')">/é?t=%ñ</router-link></li>
         <li><router-link :to="encodeURI('/é#%ñ')">/é#%25ñ</router-link></li>
-        <router-link to="/foo" v-slot="props">
+        <router-link to="/foo" v-slot="props" custom>
           <li :class="[props.isActive && 'active', props.isExactActive && 'exact-active']">
             <a :href="props.href" @click="props.navigate">{{ props.route.path }} (with v-slot).</a>
           </li>

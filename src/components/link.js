@@ -11,6 +11,8 @@ const eventTypes: Array<Function> = [String, Array]
 
 const noop = () => {}
 
+let warnedCustomSlot
+
 export default {
   name: 'RouterLink',
   props: {
@@ -22,6 +24,7 @@ export default {
       type: String,
       default: 'a'
     },
+    custom: Boolean,
     exact: Boolean,
     append: Boolean,
     replace: Boolean,
@@ -106,13 +109,17 @@ export default {
       })
 
     if (scopedSlot) {
+      if (process.env.NODE_ENV !== 'production' && !this.custom) {
+        !warnedCustomSlot && warn(false, 'In Vue Router 4, the v-slot API will by default wrap its content with an <a> element. Use the custom prop to remove this warning:\n<router-link v-slot="{ navigate, href }" custom></router-link>\n')
+        warnedCustomSlot = true
+      }
       if (scopedSlot.length === 1) {
         return scopedSlot[0]
       } else if (scopedSlot.length > 1 || !scopedSlot.length) {
         if (process.env.NODE_ENV !== 'production') {
           warn(
             false,
-            `RouterLink with to="${
+            `<router-link> with to="${
               this.to
             }" is trying to use a scoped slot but it didn't provide exactly one child. Wrapping the content with a span element.`
           )
