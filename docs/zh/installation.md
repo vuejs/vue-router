@@ -34,7 +34,7 @@ Vue.use(VueRouter)
 
 ## Vue CLI
 
-如果你有一个正在使用[Vue CLI](https://cli.vuejs.org/zh/)的项目，你可以添加Vue Router作为项目插件。你可以让CLI为你生成上面的代码以及两个示例路由。**它也会覆盖你的 `App.vue`** 。因此，请确保在项目中运行以下命令之前备份这个文件：
+如果你有一个正在使用 [Vue CLI](https://cli.vuejs.org/zh/) 的项目，你可以以项目插件的形式添加 Vue Router。CLI 可以生成上述代码及两个示例路由。**它也会覆盖你的 `App.vue`** ，因此请确保在项目中运行以下命令之前备份这个文件：
 
 ```sh
 vue add router
