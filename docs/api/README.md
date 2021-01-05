@@ -420,6 +420,8 @@ Reverse URL resolving. Given location in form same as used in `<router-link/>`.
 
 ### router.addRoutes
 
+_DEPRECATED_: use [`route.addRoute()`](#router-addroute) instead.
+
 Signature:
 
 ```js
@@ -427,6 +429,36 @@ router.addRoutes(routes: Array<RouteConfig>)
 ```
 
 Dynamically add more routes to the router. The argument must be an Array using the same route config format with the `routes` constructor option.
+
+### router.addRoute
+
+Add a new route to the router. If the route has a `name` and there is already an existing one with the same one, it overwrites it.
+
+Signature:
+
+```ts
+addRoute(route: RouteConfig): () => void
+```
+
+### router.addRoute
+
+Add a new route record as the child of an existing route. If the route has a `name` and there is already an existing one with the same one, it overwrites it.
+
+Signature:
+
+```ts
+addRoute(parentName: string, route: RouteConfig): () => void
+```
+
+### router.getRoutes
+
+Get the list of all the active route records. **Note only documented properties are considered Public API**, avoid using any other propery e.g. `regex` as it doesn't exist on Vue Router 4.
+
+Signature:
+
+```ts
+getRoutes(): RouteRecord[]
+```
 
 ### router.onReady
 
