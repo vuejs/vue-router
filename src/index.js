@@ -23,6 +23,7 @@ export default class VueRouter {
   static version: string
   static isNavigationFailure: Function
   static NavigationFailureType: any
+  static START_LOCATION: Route
 
   app: any
   apps: Array<any>
