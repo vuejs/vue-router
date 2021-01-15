@@ -31,7 +31,7 @@ Vue Router is part of the Vue Ecosystem and is an MIT-licensed open source proje
 </p>
 
 <p align="center">
-  <a href="https://nuxtjs.org" target="_blank" rel="noopener noreferrer"><img src="https://nuxtjs.org/logos/nuxt-square-white.svg" alt="Storyblok" height="32px"></a>
+  <a href="https://nuxtjs.org" target="_blank" rel="noopener noreferrer"><img src="https://nuxtjs.org/logos/nuxtjs-typo-white.svg" alt="Storyblok" height="32px"></a>
 </p>
 
 ---
