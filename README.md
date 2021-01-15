@@ -27,9 +27,13 @@ Vue Router is part of the Vue Ecosystem and is an MIT-licensed open source proje
 <h4 align="center">Bronze Sponsors</h4>
 
 <p align="center">
-  <a href="https://storyblok.com" target="_blank" rel="noopener noreferrer"><img src="https://a.storyblok.com/f/51376/3856x824/fea44d52a9/colored-full.png" alt="Storyblok" height="32px"></a>
+  <a href="https://storyblok.com" target="_blank" rel="noopener noreferrer">
+    <img src="https://a.storyblok.com/f/51376/3856x824/fea44d52a9/colored-full.png" alt="Storyblok" height="32px">
+  </a>
 
-  <a href="https://nuxtjs.org" target="_blank" rel="noopener noreferrer"><img src="https://nuxtjs.org/logos/nuxtjs-typo-white.svg" alt="Storyblok" height="32px"></a>
+  <a href="https://nuxtjs.org" target="_blank" rel="noopener noreferrer">
+    <img src="https://nuxtjs.org/logos/nuxtjs-typo-white.svg" alt="Storyblok" height="32px">
+  </a>
 </p>
 
 ---
