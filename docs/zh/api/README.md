@@ -323,9 +323,9 @@ sidebar: auto
 
 ### router.START_LOCATION
 
-- 类型: `Route`
+- 类型：`Route`
 
-  初始路由地址，表示路由开始的[路由信息对象](#路由对象)。可用在导航守卫以区分初始导航。
+  以[路由对象](#路由对象)的格式展示初始路由地址，即路由开始的地方。可用在导航守卫中以区分初始导航。
 
   ```js
   import Router from 'vue-router'
@@ -422,7 +422,7 @@ const resolved: {
 
 ### router.addRoutes
 
-*废弃*: 使用 [`route.addRoute()`](#router-addroute) 代替。
+*已废弃*：使用 [`route.addRoute()`](#router-addroute) 代替。
 
 函数签名：
 
@@ -454,7 +454,7 @@ addRoute(parentName: string, route: RouteConfig): () => void
 
 ### router.getRoutes
 
-获取所有激活的路由记录列表。**注意只有记录的属性才被视为公共 API**，避免使用任何其他属性，例如 `regex`，因为它在 Vue Router 4 中不存在。
+获取所有活跃的路由记录列表。**注意只有文档中记录下来的 property 才被视为公共 API**，避免使用任何其它 property，例如 `regex`，因为它在 Vue Router 4 中不存在。
 
 函数签名:
 
