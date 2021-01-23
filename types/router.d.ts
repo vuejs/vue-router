@@ -208,5 +208,4 @@ export interface Route {
   meta?: RouteMeta
 }
 
-export interface RouteMeta {
-}
+export interface RouteMeta extends Record<string | number | symbol, any> {}
