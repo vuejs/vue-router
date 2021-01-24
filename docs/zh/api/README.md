@@ -321,6 +321,26 @@ sidebar: auto
 
   当前路由对应的[路由信息对象](#路由对象)。
 
+### router.START_LOCATION
+
+- 类型：`Route`
+
+  以[路由对象](#路由对象)的格式展示初始路由地址，即路由开始的地方。可用在导航守卫中以区分初始导航。
+
+  ```js
+  import Router from 'vue-router'
+
+  const router = new Router({
+    // ...
+  })
+
+  router.beforeEach((to, from) => {
+    if (from === START_LOCATION) {
+      // 初始导航
+    }
+  })
+  ```
+
 ## Router 实例方法
 
 ### router.beforeEach
@@ -371,6 +391,8 @@ router.forward()
 
 动态的导航到一个新 URL。参考[编程式导航](../guide/essentials/navigation.md)。
 
+这些函数仅在安装路由插件并将其传递给 Vue 根实例后调用，如[起步](../guide/README.md)所示。
+
 ### router.getMatchedComponents
 
 函数签名：
@@ -400,6 +422,8 @@ const resolved: {
 
 ### router.addRoutes
 
+*已废弃*：使用 [`route.addRoute()`](#router-addroute) 代替。
+
 函数签名：
 
 ```js
@@ -407,6 +431,36 @@ router.addRoutes(routes: Array<RouteConfig>)
 ```
 
 动态添加更多的路由规则。参数必须是一个符合 `routes` 选项要求的数组。
+
+### router.addRoute
+
+添加一条新路由规则。如果该路由规则有 `name`，并且已经存在一个与之相同的名字，则会覆盖它。
+
+函数签名:
+
+```ts
+addRoute(route: RouteConfig): () => void
+```
+
+### router.addRoute
+
+添加一条新的路由规则记录作为现有路由的子路由。如果该路由规则有 `name`，并且已经存在一个与之相同的名字，则会覆盖它。
+
+函数签名:
+
+```ts
+addRoute(parentName: string, route: RouteConfig): () => void
+```
+
+### router.getRoutes
+
+获取所有活跃的路由记录列表。**注意只有文档中记录下来的 property 才被视为公共 API**，避免使用任何其它 property，例如 `regex`，因为它在 Vue Router 4 中不存在。
+
+函数签名:
+
+```ts
+getRoutes(): RouteRecord[]
+```
 
 ### router.onReady
 
