@@ -1,4 +1,4 @@
-import { isSameRoute, isIncludedRoute } from '../../../src/util/route'
+import { isSameRoute, isIncludedRoute, createPlainRoute } from '../../../src/util/route'
 
 describe('Route utils', () => {
   describe('isSameRoute', () => {
@@ -148,6 +148,23 @@ describe('Route utils', () => {
       const f = { path: '/users/hello-world' }
       expect(isIncludedRoute(d, e)).toBe(true)
       expect(isIncludedRoute(d, f)).toBe(false)
+    })
+  })
+
+  describe('createPlainRoute', () => {
+    it('path', () => {
+      const a = { path: '/a?arr=1&foo=bar&arr=2#hi' }
+      const b = { path: '/a?arr=1&arr=2&foo=bar#hi' }
+      const route = {
+        path: '/a',
+        hash: '#hi',
+        query: { foo: 'bar', arr: [1, 2] }
+      }
+      const aRoute = createPlainRoute(a)
+      const bRoute = createPlainRoute(b)
+      expect(isSameRoute(aRoute, route)).toBe(true)
+      expect(isSameRoute(aRoute, route)).toBe(true)
+      expect(isSameRoute(aRoute, bRoute)).toBe(true)
     })
   })
 })

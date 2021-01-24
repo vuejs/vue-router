@@ -3,7 +3,7 @@
 import type Router from '../index'
 import { History } from './base'
 import { cleanPath } from '../util/path'
-import { START } from '../util/route'
+import { START, isSameRoute, createPlainRoute } from '../util/route'
 import { setupScroll, handleScroll } from '../util/scroll'
 import { pushState, replaceState, supportsPushState } from '../util/push-state'
 
@@ -74,7 +74,9 @@ export class HTML5History extends History {
   }
 
   ensureURL (push?: boolean) {
-    if (getLocation(this.base) !== this.current.fullPath) {
+    const location = getLocation(this.base)
+    const plainRoute = createPlainRoute(location)
+    if (!isSameRoute(plainRoute, this.current)) {
       const current = cleanPath(this.base + this.current.fullPath)
       push ? pushState(current) : replaceState(current)
     }

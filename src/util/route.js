@@ -2,6 +2,7 @@
 
 import type VueRouter from '../index'
 import { stringifyQuery } from './query'
+import { normalizeLocation } from './location'
 
 const trailingSlashRE = /\/?$/
 
@@ -148,4 +149,9 @@ export function handleRouteEntered (route: Route) {
       }
     }
   }
+}
+/** just create a route without any added process */
+export function createPlainRoute (url: string): Route {
+  const location = normalizeLocation(url)
+  return createRoute(null, location)
 }
