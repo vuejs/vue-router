@@ -108,6 +108,10 @@ new Vue({
         <li><router-link :to="{ name: 'redirect-gallery' }">/redirect-gallery named (redirect to /gallery)</router-link></li>
         <li><router-link to="/redirect-image">/redirect-image (redirect to /gallery/image1)</router-link></li>
         <li><router-link :to="{ name: 'redirect-image' }" >/redirect-image named (redirect to /gallery/image1)</router-link></li>
+
+        <li><router-link to="/users?one" exact-path>/users?one</router-link></li>
+        <li><router-link to="/users?two" exact-path>/users?two</router-link></li>
+        <li><router-link to="/users/nested?two" exact-path>/users/nested?two</router-link></li>
       </ul>
       <router-view class="view"></router-view>
     </div>

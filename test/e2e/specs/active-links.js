@@ -10,7 +10,7 @@ module.exports = {
     browser
       .url('http://localhost:8080/active-links/')
       .waitForElementVisible('#app', 1000)
-      .assert.count('li a', 19)
+      .assert.count('li a', 22)
       // assert correct href with base
       .assert.attributeContains('li:nth-child(1) a', 'href', '/active-links/')
       .assert.attributeContains('li:nth-child(2) a', 'href', '/active-links/')
@@ -56,6 +56,11 @@ module.exports = {
     assertActiveLinks(17, [1, 12, 13, 15], null, [15])
     assertActiveLinks(18, [1, 12, 13, 15], null, [15])
     assertActiveLinks(19, [1, 12, 13, 15], null, [15])
+
+    // exact-path
+    assertActiveLinks(20, [20, 21], null, [20, 21])
+    assertActiveLinks(21, [20, 21], null, [20, 21])
+    assertActiveLinks(22, [22], null, [22])
 
     browser.end()
 
