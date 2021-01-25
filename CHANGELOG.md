@@ -1,3 +1,16 @@
+# [3.5.0](https://github.com/vuejs/vue-router/compare/v3.4.9...v3.5.0) (2021-01-25)
+
+### Features
+
+- **link:** exact-path prop ([825328e](https://github.com/vuejs/vue-router/commit/825328e)), closes [#2040](https://github.com/vuejs/vue-router/issues/2040)
+- **warn:** warn deprecated addRoutes ([2e41445](https://github.com/vuejs/vue-router/commit/2e41445))
+- expose START_LOCATION ([53b68dd](https://github.com/vuejs/vue-router/commit/53b68dd)), closes [#2718](https://github.com/vuejs/vue-router/issues/2718)
+- **link:** deprecate v-slot without custom prop ([ceeda4c](https://github.com/vuejs/vue-router/commit/ceeda4c))
+- **link:** warn deprecated props ([d2cb951](https://github.com/vuejs/vue-router/commit/d2cb951))
+- **router:** add getRoutes ([6bc30aa](https://github.com/vuejs/vue-router/commit/6bc30aa))
+- **types:** add types for getRoutes addRoute ([fb9bb60](https://github.com/vuejs/vue-router/commit/fb9bb60))
+- addRoute as nested route ([ca80c44](https://github.com/vuejs/vue-router/commit/ca80c44)), closes [#1156](https://github.com/vuejs/vue-router/issues/1156)
+
 ## [3.4.9](https://github.com/vuejs/vue-router/compare/v3.4.8...v3.4.9) (2020-11-05)
 
 ### Bug Fixes
