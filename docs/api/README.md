@@ -424,13 +424,15 @@ _DEPRECATED_: use [`route.addRoute()`](#router-addroute) instead.
 
 Signature:
 
-```js
+```ts
 router.addRoutes(routes: Array<RouteConfig>)
 ```
 
 Dynamically add more routes to the router. The argument must be an Array using the same route config format with the `routes` constructor option.
 
 ### router.addRoute
+
+> New in 3.5.0
 
 Add a new route to the router. If the route has a `name` and there is already an existing one with the same one, it overwrites it.
 
@@ -442,6 +444,8 @@ addRoute(route: RouteConfig): () => void
 
 ### router.addRoute
 
+> New in 3.5.0
+
 Add a new route record as the child of an existing route. If the route has a `name` and there is already an existing one with the same one, it overwrites it.
 
 Signature:
@@ -451,6 +455,8 @@ addRoute(parentName: string, route: RouteConfig): () => void
 ```
 
 ### router.getRoutes
+
+> New in 3.5.0
 
 Get the list of all the active route records. **Note only documented properties are considered Public API**, avoid using any other propery e.g. `regex` as it doesn't exist on Vue Router 4.
 
