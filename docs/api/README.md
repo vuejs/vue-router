@@ -149,6 +149,27 @@ If you add a `target="_blank"` to your `a` element, you must omit the `@click="n
 
   Check out more examples explaining active link class [live](https://jsfiddle.net/8xrk1n9f/).
 
+### exact-path
+
+> New in 3.5.0
+
+- type: `boolean`
+- default: `false`
+
+  Allows matching only using the `path` section of the url, effectively ignoring the `query` and the `hash` sections.
+
+  ```html
+  <!-- this link will also be active at `/search?page=2` or `/search#filters` -->
+  <router-link to="/search" exact-path> </router-link>
+  ```
+
+### exact-path-active-class
+
+- type: `string`
+- default: `"router-link-exact-path-active"`
+
+  Configure the active CSS class applied when the link is active with exact path match. Note the default value can also be configured globally via the `linkExactPathActiveClass` router constructor option.
+
 ### event
 
 - type: `string | Array<string>`
