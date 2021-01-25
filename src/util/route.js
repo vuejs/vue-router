@@ -76,12 +76,9 @@ export function isSameRoute (a: Route, b: ?Route, onlyPath: ?boolean): boolean {
   } else if (!b) {
     return false
   } else if (a.path && b.path) {
-    const isSamePath = a.path.replace(trailingSlashRE, '') === b.path.replace(trailingSlashRE, '')
-    return onlyPath ? isSamePath : (
-      isSamePath &&
+    return a.path.replace(trailingSlashRE, '') === b.path.replace(trailingSlashRE, '') && (onlyPath ||
       a.hash === b.hash &&
-      isObjectEqual(a.query, b.query)
-    )
+      isObjectEqual(a.query, b.query))
   } else if (a.name && b.name) {
     return (
       a.name === b.name &&
