@@ -1,3 +1,9 @@
+## [3.5.1](https://github.com/vuejs/vue-router/compare/v3.5.0...v3.5.1) (2021-01-26)
+
+### Bug Fixes
+
+- **warn:** only warn if "tag" or "event" is used ([#3458](https://github.com/vuejs/vue-router/issues/3458)) ([b7a31b9](https://github.com/vuejs/vue-router/commit/b7a31b9)), closes [#3457](https://github.com/vuejs/vue-router/issues/3457)
+
 # [3.5.0](https://github.com/vuejs/vue-router/compare/v3.4.9...v3.5.0) (2021-01-25)
 
 ### Features
