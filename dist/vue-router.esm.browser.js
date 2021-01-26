@@ -1,5 +1,5 @@
 /*!
-  * vue-router v3.5.0
+  * vue-router v3.5.1
   * (c) 2021 Evan You
   * @license MIT
   */
@@ -1166,14 +1166,14 @@ var Link = {
     }
 
     {
-      if (this.tag && !warnedTagProp) {
+      if ('tag' in this.$options.propsData && !warnedTagProp) {
         warn(
           false,
           `<router-link>'s tag prop is deprecated and has been removed in Vue Router 4. Use the v-slot API to remove this warning: https://next.router.vuejs.org/guide/migration/#removal-of-event-and-tag-props-in-router-link.`
         );
         warnedTagProp = true;
       }
-      if (this.event && !warnedEventProp) {
+      if ('event' in this.$options.propsData && !warnedEventProp) {
         warn(
           false,
           `<router-link>'s event prop is deprecated and has been removed in Vue Router 4. Use the v-slot API to remove this warning: https://next.router.vuejs.org/guide/migration/#removal-of-event-and-tag-props-in-router-link.`
@@ -3095,7 +3095,7 @@ function createHref (base, fullPath, mode) {
 }
 
 VueRouter.install = install;
-VueRouter.version = '3.5.0';
+VueRouter.version = '3.5.1';
 VueRouter.isNavigationFailure = isNavigationFailure;
 VueRouter.NavigationFailureType = NavigationFailureType;
 VueRouter.START_LOCATION = START;
