@@ -221,7 +221,7 @@ Le composant `<router-view>` est un composant fonctionnel qui fait le rendu du c
 
   Signature :
 
-  ```
+  ```ts
   type PositionDescriptor =
     { x: number, y: number } |
     { selector: string } |
