@@ -289,11 +289,11 @@ Since it's just a component, it works with `<transition>` and `<keep-alive>`. Wh
 
   Signature:
 
-  ```
+  ```ts
   type PositionDescriptor =
     { x: number, y: number } |
     { selector: string } |
-    ?{}
+    void
 
   type scrollBehaviorHandler = (
     to: Route,

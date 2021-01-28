@@ -270,11 +270,11 @@ sidebar: auto
 
   签名:
 
-  ```
+  ```ts
   type PositionDescriptor =
     { x: number, y: number } |
     { selector: string } |
-    ?{}
+    void
 
   type scrollBehaviorHandler = (
     to: Route,

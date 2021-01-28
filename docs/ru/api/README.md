@@ -268,11 +268,11 @@ sidebar: auto
 
   Сигнатура:
 
-  ```
+  ```ts
   type PositionDescriptor =
     { x: number, y: number } |
     { selector: string } |
-    ?{}
+    void
 
   type scrollBehaviorHandler = (
     to: Route,

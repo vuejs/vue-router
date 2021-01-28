@@ -268,11 +268,11 @@ name ではないプロパティも描画されるコンポーネントに渡さ
 
   シグネチャ:
 
-  ```
+  ```ts
   type PositionDescriptor =
     { x: number, y: number } |
     { selector: string } |
-    ?{}
+    void
 
   type scrollBehaviorHandler = (
     to: Route,
