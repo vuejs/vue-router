@@ -274,7 +274,7 @@ sidebar: auto
   type PositionDescriptor =
     { x: number, y: number } |
     { selector: string } |
-    ?{}
+    void
 
   type scrollBehaviorHandler = (
     to: Route,

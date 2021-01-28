@@ -225,7 +225,7 @@ Le composant `<router-view>` est un composant fonctionnel qui fait le rendu du c
   type PositionDescriptor =
     { x: number, y: number } |
     { selector: string } |
-    ?{}
+    void
 
   type scrollBehaviorHandler = (
     to: Route,
