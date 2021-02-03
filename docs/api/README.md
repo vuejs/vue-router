@@ -23,6 +23,7 @@ sidebar: auto
 ```html
 <router-link
   to="/about"
+  custom
   v-slot="{ href, route, navigate, isActive, isExactActive }"
 >
   <NavLink :active="isActive" :href="href" @click="navigate"
@@ -45,6 +46,7 @@ Sometimes we may want the active class to be applied to an outer element rather 
 <router-link
   to="/foo"
   v-slot="{ href, route, navigate, isActive, isExactActive }"
+  custom
 >
   <li
     :class="[isActive && 'router-link-active', isExactActive && 'router-link-exact-active']"
