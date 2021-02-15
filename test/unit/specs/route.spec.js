@@ -13,7 +13,13 @@ describe('Route utils', () => {
         hash: '#hi',
         query: { arr: ['1', '2'], foo: 'bar' }
       }
-      expect(isSameRoute(a, b)).toBe(true)
+      const c = {
+        path: '/a/', // Allow trailing slash
+        hash: '#hi',
+        query: { foo: 'bar', arr: [1, 2] }
+      }
+      expect(isSameRoute(a, b)).toBe(false)
+      expect(isSameRoute(a, c)).toBe(true)
     })
 
     it('name', () => {
@@ -28,7 +34,13 @@ describe('Route utils', () => {
         hash: '#hi',
         query: { arr: ['1', '2'], foo: 'bar' }
       }
-      expect(isSameRoute(a, b)).toBe(true)
+      const c = {
+        name: 'a',
+        hash: '#hi',
+        query: { foo: 'bar', arr: [1, 2] }
+      }
+      expect(isSameRoute(a, b)).toBe(false)
+      expect(isSameRoute(a, c)).toBe(true)
     })
 
     it('nested query', () => {
@@ -44,7 +56,12 @@ describe('Route utils', () => {
         path: '/abc',
         query: { arr: [1, 2], foo: { bar: 'not bar' }}
       }
-      expect(isSameRoute(a, b)).toBe(true)
+      const d = {
+        path: '/abc',
+        query: { foo: { bar: 'bar' }, arr: [1, 2] }
+      }
+      expect(isSameRoute(a, b)).toBe(false)
+      expect(isSameRoute(a, d)).toBe(true)
       expect(isSameRoute(a, c)).toBe(false)
     })
 
@@ -155,6 +172,7 @@ describe('Route utils', () => {
     it('path', () => {
       const a = { path: '/a?arr=1&foo=bar&arr=2#hi' }
       const b = { path: '/a?arr=1&arr=2&foo=bar#hi' }
+      const c = { path: '/a?foo=bar&arr=1&arr=2#hi' }
       const route = {
         path: '/a',
         hash: '#hi',
@@ -162,9 +180,11 @@ describe('Route utils', () => {
       }
       const aRoute = createPlainRoute(a)
       const bRoute = createPlainRoute(b)
-      expect(isSameRoute(aRoute, route)).toBe(true)
-      expect(isSameRoute(aRoute, route)).toBe(true)
-      expect(isSameRoute(aRoute, bRoute)).toBe(true)
+      const cRoute = createPlainRoute(c)
+      expect(isSameRoute(aRoute, route)).toBe(false)
+      expect(isSameRoute(bRoute, route)).toBe(false)
+      expect(isSameRoute(bRoute, route)).toBe(false)
+      expect(isSameRoute(cRoute, route)).toBe(true)
     })
   })
 })
