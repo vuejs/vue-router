@@ -1,4 +1,11 @@
 {
+  "gold": [
+    {
+      "href": "https://passionatepeople.io/",
+      "alt": "Passionate People",
+      "imgSrc": "https://img2.storyblok.com/0x200/filters::format(webp)/f/86387/x/4cf6a70a8c/logo-white-text.svg"
+    }
+  ],
   "silver": [
     {
       "href": "https://www.vuemastery.com/",
@@ -6,9 +13,21 @@
       "imgSrc": "https://www.vuemastery.com/images/vuemastery.svg"
     },
     {
-      "imgSrc": "https://cdn.vuetifyjs.com/docs/images/logos/vuetify-logo-light-text.svg",
       "href": "https://www.vuetifyjs.com/",
+      "imgSrc": "https://cdn.vuetifyjs.com/docs/images/logos/vuetify-logo-light-text.svg",
       "alt": "Vuetify"
+    }
+  ],
+  "bronze": [
+    {
+      "href": "https://storyblok.com",
+      "imgSrc": "https://a.storyblok.com/f/51376/3856x824/fea44d52a9/colored-full.png",
+      "alt": "Storyblok"
+    },
+    {
+      "href": "https://nuxtjs.org",
+      "imgSrc": "https://nuxtjs.org/logos/nuxtjs-typo-white.svg",
+      "alt": "NuxtJS"
     }
   ]
 }
