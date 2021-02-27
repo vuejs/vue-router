@@ -12,6 +12,14 @@ Vue Router is part of the Vue Ecosystem and is an MIT-licensed open source proje
 <!-- <h3 align="center">Special Sponsors</h3> -->
 <!--special start-->
 
+<h4 align="center">Gold Sponsors</h4>
+
+<p align="center">
+  <a href="https://passionatepeople.io/" target="_blank" rel="noopener noreferrer">
+    <img src="https://img2.storyblok.com/0x200/filters::format(webp)/f/86387/x/4cf6a70a8c/logo-white-text.svg" height="64px" alt="Passionate People">
+  </a>
+</p>
+
 <h4 align="center">Silver Sponsors</h4>
 
 <p align="center">
@@ -21,6 +29,10 @@ Vue Router is part of the Vue Ecosystem and is an MIT-licensed open source proje
 
   <a href="https://vuetifyjs.com" target="_blank" rel="noopener noreferrer">
     <img src="https://cdn.vuetifyjs.com/docs/images/logos/vuetify-logo-light-text.svg" alt="Vuetify" height="48px">
+  </a>
+
+  <a href="https://www.codestream.com/?utm_source=github&utm_campaign=vuerouter&utm_medium=banner" target="_blank" rel="noopener noreferrer">
+    <img src="https://alt-images.codestream.com/codestream_logo_vuerouter.png" alt="CodeStream" height="48px">
   </a>
 </p>
 
