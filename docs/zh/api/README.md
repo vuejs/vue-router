@@ -422,7 +422,7 @@ const resolved: {
 
 ### router.addRoutes
 
-*已废弃*：使用 [`route.addRoute()`](#router-addroute) 代替。
+*已废弃*：使用 [`router.addRoute()`](#router-addroute) 代替。
 
 函数签名：
 

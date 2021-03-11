@@ -443,7 +443,7 @@ Reverse URL resolving. Given location in form same as used in `<router-link/>`.
 
 ### router.addRoutes
 
-_DEPRECATED_: use [`route.addRoute()`](#router-addroute) instead.
+_DEPRECATED_: use [`router.addRoute()`](#router-addroute) instead.
 
 Signature:
 
