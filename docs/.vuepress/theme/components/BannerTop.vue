@@ -1,10 +1,10 @@
 <template>
   <a id="vs" href="https://vueschool.io/free-weekend?friend=vuerouter" target="_blank" rel="noreferrer">
     <div class="vs-iso">
-      <img src="/images/vueschool/vs-iso.svg">
+      <img src="/images/vueschool/vs-iso.svg" alt="Vue School Logo">
     </div>
     <div class="vs-logo">
-      <img src="/images/vueschool/vs-logo.svg">
+      <img src="/images/vueschool/vs-logo.svg" alt="Vue School Logo">
     </div>
     <div class="vs-core">
       <div class="vs-slogan">
@@ -36,7 +36,7 @@ $topBannerHeightMobile ?= 3.125rem
 $navbarHeight ?= 3.6rem
 $contentClass = '.theme-default-content'
 
-@import url('http://fonts.googleapis.com/css?family=Roboto')
+@import url('https://fonts.googleapis.com/css?family=Roboto')
 
 // Banner
 #vs
