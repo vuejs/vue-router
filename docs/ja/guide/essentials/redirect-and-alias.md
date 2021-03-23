@@ -1,38 +1,37 @@
 # リダイレクトとエイリアス
 
-<div class="vueschool"><a href="https://vueschool.io/courses/vue-router-for-everyone?friend=vuejs" target="_blank" rel="sponsored noopener" title="Learn how to build powerful Single Page Applications with the Vue Router on Vue School">Watch a free video course about Vue Router on Vue School</a></div>
+<div class="vueschool"><a href="https://vueschool.io/courses/vue-router-for-everyone?friend=vuerouter" target="_blank" rel="sponsored noopener" title="Learn how to build powerful Single Page Applications with the Vue Router on Vue School">Watch a free video course about Vue Router on Vue School</a></div>
 
 ### リダイレクト
 
 `routes` 設定でリダイレクトが可能です。`/a` から `/b` へリダイレクトする例:
 
-``` js
+```js
 const router = new VueRouter({
-  routes: [
-    { path: '/a', redirect: '/b' }
-  ]
+  routes: [{ path: '/a', redirect: '/b' }]
 })
 ```
 
 名前付きルートに対してリダイレクトすることもできます。
 
-``` js
+```js
 const router = new VueRouter({
-  routes: [
-    { path: '/a', redirect: { name: 'foo' }}
-  ]
+  routes: [{ path: '/a', redirect: { name: 'foo' } }]
 })
 ```
 
 また、function を使った動的なリダイレクトもできます。
 
-``` js
+```js
 const router = new VueRouter({
   routes: [
-    { path: '/a', redirect: to => {
-      // この function は対象のルートを引数として受け取ります
-      // ここではリダイレクト先の path もしくは location を返します
-    }}
+    {
+      path: '/a',
+      redirect: to => {
+        // この function は対象のルートを引数として受け取ります
+        // ここではリダイレクト先の path もしくは location を返します
+      }
+    }
   ]
 })
 ```
@@ -49,11 +48,9 @@ const router = new VueRouter({
 
 上記はルートの設定で以下のように表現されます。
 
-``` js
+```js
 const router = new VueRouter({
-  routes: [
-    { path: '/a', component: A, alias: '/b' }
-  ]
+  routes: [{ path: '/a', component: A, alias: '/b' }]
 })
 ```
 

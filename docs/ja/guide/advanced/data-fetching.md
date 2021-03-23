@@ -1,6 +1,6 @@
 # データ取得
 
-<div class="vueschool"><a href="https://vueschool.io/courses/vue-router-for-everyone?friend=vuejs" target="_blank" rel="sponsored noopener" title="Learn how to build powerful Single Page Applications with the Vue Router on Vue School">Watch a free video course about Vue Router on Vue School</a></div>
+<div class="vueschool"><a href="https://vueschool.io/courses/vue-router-for-everyone?friend=vuerouter" target="_blank" rel="sponsored noopener" title="Learn how to build powerful Single Page Applications with the Vue Router on Vue School">Watch a free video course about Vue Router on Vue School</a></div>
 
 ルートが有効化された時にサーバーからデータを取得する必要がしばしばあります。例えば、ユーザープロフィールを描画する前に、サーバーからユーザーデータを取得する必要があります。これを実現するためには 2 種類の方法があります。
 
@@ -16,7 +16,7 @@
 
 `$route.params.id` を元にポストのデータを取得する必要がある `Post` コンポーネントを想定してみましょう。
 
-``` html
+```html
 <template>
   <div class="post">
     <div v-if="loading" class="loading">
@@ -35,26 +35,26 @@
 </template>
 ```
 
-``` js
+```js
 export default {
-  data () {
+  data() {
     return {
       loading: false,
       post: null,
       error: null
     }
   },
-  created () {
+  created() {
     // view が作られた時にデータを取得し、
     // そのデータは既に監視されています
     this.fetchData()
   },
   watch: {
     // ルートが変更されたらこのメソッドを再び呼び出します
-    '$route': 'fetchData'
+    $route: 'fetchData'
   },
   methods: {
-    fetchData () {
+    fetchData() {
       this.error = this.post = null
       this.loading = true
       // `getPost` をあなたのデータ取得用 util や API ラッパーに置き換えてください
@@ -73,24 +73,24 @@ export default {
 
 ## ナビゲーション前の取得
 
-こちらのアプローチでは新しいルートへ実際にナビゲーションする前にデータを取得します。次に入ってくるコンポーネント内の  `beforeRouteEnter` ガードでデータ取得を実行できます。データ取得が完了したら `next` を呼ぶだけです。
+こちらのアプローチでは新しいルートへ実際にナビゲーションする前にデータを取得します。次に入ってくるコンポーネント内の `beforeRouteEnter` ガードでデータ取得を実行できます。データ取得が完了したら `next` を呼ぶだけです。
 
-``` js
+```js
 export default {
-  data () {
+  data() {
     return {
       post: null,
       error: null
     }
   },
-  beforeRouteEnter (route, redirect, next) {
+  beforeRouteEnter(route, redirect, next) {
     getPost(route.params.id, (err, post) => {
       next(vm => vm.setData(err, post))
     })
   },
   // コンポーネントが既に描画されている際のルート変更時は
   // ロジックが少し異なります
-  beforeRouteUpdate (to, from, next) {
+  beforeRouteUpdate(to, from, next) {
     this.post = null
     getPost(to.params.id, (err, post) => {
       this.setData(err, post)
@@ -98,7 +98,7 @@ export default {
     })
   },
   methods: {
-    setData (err, post) {
+    setData(err, post) {
       if (err) {
         this.error = err.toString()
       } else {

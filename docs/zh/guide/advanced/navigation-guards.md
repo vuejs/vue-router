@@ -8,13 +8,13 @@
 
 记住**参数或查询的改变并不会触发进入/离开的导航守卫**。你可以通过[观察 `$route` 对象](../essentials/dynamic-matching.md#响应路由参数的变化)来应对这些变化，或使用 `beforeRouteUpdate` 的组件内守卫。
 
-<div class="vueschool"><a href="https://vueschool.io/lessons/how-to-configure-an-authentication-middleware-route-guard-with-vue-router?friend=vuejs" target="_blank" rel="sponsored noopener" title="Learn how to create an authentication middleware with a global route guard on Vue School">观看 Vue School 的导航守卫如何工作的免费视频课程 (英文)</a></div>
+<div class="vueschool"><a href="https://vueschool.io/lessons/how-to-configure-an-authentication-middleware-route-guard-with-vue-router?friend=vuerouter" target="_blank" rel="sponsored noopener" title="Learn how to create an authentication middleware with a global route guard on Vue School">观看 Vue School 的导航守卫如何工作的免费视频课程 (英文)</a></div>
 
 ## 全局前置守卫
 
 你可以使用 `router.beforeEach` 注册一个全局前置守卫：
 
-``` js
+```js
 const router = new VueRouter({ ... })
 
 router.beforeEach((to, from, next) => {
@@ -69,7 +69,7 @@ router.beforeEach((to, from, next) => {
 
 你也可以注册全局后置钩子，然而和守卫不同的是，这些钩子不会接受 `next` 函数也不会改变导航本身：
 
-``` js
+```js
 router.afterEach((to, from) => {
   // ...
 })
@@ -79,7 +79,7 @@ router.afterEach((to, from) => {
 
 你可以在路由配置上直接定义 `beforeEnter` 守卫：
 
-``` js
+```js
 const router = new VueRouter({
   routes: [
     {
@@ -103,21 +103,21 @@ const router = new VueRouter({
 - `beforeRouteUpdate` (2.2 新增)
 - `beforeRouteLeave`
 
-``` js
+```js
 const Foo = {
   template: `...`,
-  beforeRouteEnter (to, from, next) {
+  beforeRouteEnter(to, from, next) {
     // 在渲染该组件的对应路由被 confirm 前调用
     // 不！能！获取组件实例 `this`
     // 因为当守卫执行前，组件实例还没被创建
   },
-  beforeRouteUpdate (to, from, next) {
-    // 在当前路由改变，但是该组件被复用时调用
+  beforeRouteUpdate(to, from, next) {
+    // 在当前路由改变，但是该组件被复用时调用
     // 举例来说，对于一个带有动态参数的路径 /foo/:id，在 /foo/1 和 /foo/2 之间跳转的时候，
     // 由于会渲染同样的 Foo 组件，因此组件实例会被复用。而这个钩子就会在这个情况下被调用。
     // 可以访问组件实例 `this`
   },
-  beforeRouteLeave (to, from, next) {
+  beforeRouteLeave(to, from, next) {
     // 导航离开该组件的对应路由时调用
     // 可以访问组件实例 `this`
   }
@@ -128,7 +128,7 @@ const Foo = {
 
 不过，你可以通过传一个回调给 `next`来访问组件实例。在导航被确认的时候执行回调，并且把组件实例作为回调方法的参数。
 
-``` js
+```js
 beforeRouteEnter (to, from, next) {
   next(vm => {
     // 通过 `vm` 访问组件实例

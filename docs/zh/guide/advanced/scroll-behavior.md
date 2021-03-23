@@ -1,6 +1,6 @@
 # 滚动行为
 
-<div class="vueschool"><a href="https://vueschool.io/lessons/how-to-control-the-scroll-behavior-of-vue-router?friend=vuejs" target="_blank" rel="sponsored noopener" title="Learn how to control the scroll behavior on Vue School">观看 Vue School 的如何控制滚动行为的免费视频课程 (英文)</a></div>
+<div class="vueschool"><a href="https://vueschool.io/lessons/how-to-control-the-scroll-behavior-of-vue-router?friend=vuerouter" target="_blank" rel="sponsored noopener" title="Learn how to control the scroll behavior on Vue School">观看 Vue School 的如何控制滚动行为的免费视频课程 (英文)</a></div>
 
 使用前端路由，当切换到新路由时，想要页面滚到顶部，或者是保持原先的滚动位置，就像重新加载页面那样。 `vue-router` 能做到，而且更好，它让你可以自定义路由切换时页面如何滚动。
 
@@ -8,7 +8,7 @@
 
 当创建一个 Router 实例，你可以提供一个 `scrollBehavior` 方法：
 
-``` js
+```js
 const router = new VueRouter({
   routes: [...],
   scrollBehavior (to, from, savedPosition) {
@@ -28,7 +28,7 @@ const router = new VueRouter({
 
 举例：
 
-``` js
+```js
 scrollBehavior (to, from, savedPosition) {
   return { x: 0, y: 0 }
 }
@@ -38,7 +38,7 @@ scrollBehavior (to, from, savedPosition) {
 
 返回 `savedPosition`，在按下 后退/前进 按钮时，就会像浏览器的原生表现那样：
 
-``` js
+```js
 scrollBehavior (to, from, savedPosition) {
   if (savedPosition) {
     return savedPosition
@@ -50,7 +50,7 @@ scrollBehavior (to, from, savedPosition) {
 
 如果你要模拟“滚动到锚点”的行为：
 
-``` js
+```js
 scrollBehavior (to, from, savedPosition) {
   if (to.hash) {
     return {
@@ -68,7 +68,7 @@ scrollBehavior (to, from, savedPosition) {
 
 你也可以返回一个 Promise 来得出预期的位置描述：
 
-``` js
+```js
 scrollBehavior (to, from, savedPosition) {
   return new Promise((resolve, reject) => {
     setTimeout(() => {

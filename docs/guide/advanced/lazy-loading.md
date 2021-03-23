@@ -1,6 +1,6 @@
 # Lazy Loading Routes
 
-<div class="vueschool"><a href="https://vueschool.io/lessons/how-to-lazy-load-routes-with-vue-router?friend=vuejs" target="_blank" rel="sponsored noopener" title="Learn how to increase performance by lazy loading routes on Vue School">Learn how to lazy load routes with a free lesson on Vue School</a></div>
+<div class="vueschool"><a href="https://vueschool.io/lessons/how-to-lazy-load-routes-with-vue-router?friend=vuerouter" target="_blank" rel="sponsored noopener" title="Learn how to increase performance by lazy loading routes on Vue School">Learn how to lazy load routes with a free lesson on Vue School</a></div>
 
 When building apps with a bundler, the JavaScript bundle can become quite large, and thus affect the page load time. It would be more efficient if we can split each route's components into a separate chunk, and only load them when the route is visited.
 

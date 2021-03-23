@@ -1,6 +1,6 @@
 # Scroll Behavior
 
-<div class="vueschool"><a href="https://vueschool.io/lessons/how-to-control-the-scroll-behavior-of-vue-router?friend=vuejs" target="_blank" rel="sponsored noopener" title="Learn how to control the scroll behavior on Vue School">Learn to control the scroll behavior with a free lesson on Vue School</a></div>
+<div class="vueschool"><a href="https://vueschool.io/lessons/how-to-control-the-scroll-behavior-of-vue-router?friend=vuerouter" target="_blank" rel="sponsored noopener" title="Learn how to control the scroll behavior on Vue School">Learn to control the scroll behavior with a free lesson on Vue School</a></div>
 
 When using client-side routing, we may want to scroll to top when navigating to a new route, or preserve the scrolling position of history entries just like real page reload does. `vue-router` allows you to achieve these and even better, allows you to completely customize the scroll behavior on route navigation.
 
@@ -8,7 +8,7 @@ When using client-side routing, we may want to scroll to top when navigating to 
 
 When creating the router instance, you can provide the `scrollBehavior` function:
 
-``` js
+```js
 const router = new VueRouter({
   routes: [...],
   scrollBehavior (to, from, savedPosition) {
@@ -28,7 +28,7 @@ If a falsy value or an empty object is returned, no scrolling will happen.
 
 For example:
 
-``` js
+```js
 scrollBehavior (to, from, savedPosition) {
   return { x: 0, y: 0 }
 }
@@ -38,7 +38,7 @@ This will simply make the page scroll to top for all route navigations.
 
 Returning the `savedPosition` will result in a native-like behavior when navigating with back/forward buttons:
 
-``` js
+```js
 scrollBehavior (to, from, savedPosition) {
   if (savedPosition) {
     return savedPosition
@@ -50,7 +50,7 @@ scrollBehavior (to, from, savedPosition) {
 
 If you want to simulate the "scroll to anchor" behavior:
 
-``` js
+```js
 scrollBehavior (to, from, savedPosition) {
   if (to.hash) {
     return {
@@ -69,7 +69,7 @@ We can also use [route meta fields](meta.md) to implement fine-grained scroll be
 
 You can also return a Promise that resolves to the desired position descriptor:
 
-``` js
+```js
 scrollBehavior (to, from, savedPosition) {
   return new Promise((resolve, reject) => {
     setTimeout(() => {

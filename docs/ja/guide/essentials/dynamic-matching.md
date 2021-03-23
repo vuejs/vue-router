@@ -1,10 +1,10 @@
 # 動的ルートマッチング
 
-<div class="vueschool"><a href="https://vueschool.io/courses/vue-router-for-everyone?friend=vuejs" target="_blank" rel="sponsored noopener" title="Learn how to build powerful Single Page Applications with the Vue Router on Vue School">Watch a free video course about Vue Router on Vue School</a></div>
+<div class="vueschool"><a href="https://vueschool.io/courses/vue-router-for-everyone?friend=vuerouter" target="_blank" rel="sponsored noopener" title="Learn how to build powerful Single Page Applications with the Vue Router on Vue School">Watch a free video course about Vue Router on Vue School</a></div>
 
 パターンを使って同じコンポーネントにルートをマップする必要がしばしばあるでしょう。例えば、 `User` コンポーネントは全てのユーザーに対して描画されるべきであるが、それぞれ異なるユーザー ID を持つ場合などです。`vue-router` ではパスの中の動的なセグメントを使用して実現できます。
 
-``` js
+```js
 const User = {
   template: '<div>User</div>'
 }
@@ -21,7 +21,7 @@ const router = new VueRouter({
 
 動的セグメントはコロン `:` を使って表されます。ルートがマッチした時、この動的セグメントの値は全てのコンポーネント内で `this.$route.params` として利用可能になります。したがって、現在の `User` のテンプレートを次のように更新することで現在のユーザー ID を表示することができます。
 
-``` js
+```js
 const User = {
   template: '<div>User {{ $route.params.id }}</div>'
 }
@@ -31,9 +31,9 @@ const User = {
 
 1 つのルートが複数の動的なセグメントを持つこともできます。そして、それらは `$route.params` の一致したフィールドとマップされます。例:
 
-| パターン | マッチしたパス | $route.params |
-|---------|------|--------|
-| /user/:username | /user/evan | `{ username: 'evan' }` |
+| パターン                      | マッチしたパス      | \$route.params                         |
+| ----------------------------- | ------------------- | -------------------------------------- |
+| /user/:username               | /user/evan          | `{ username: 'evan' }`                 |
 | /user/:username/post/:post_id | /user/evan/post/123 | `{ username: 'evan', post_id: '123' }` |
 
 `$route.params` に加えて、`$route` オブジェクトでは `$route.query` (もし URL 上にクエリがあるなら) や `$route.hash` など便利な情報も利用可能です。それらの詳細については [API リファレンス](../../api/#the-route-object) でご確認ください。
@@ -44,11 +44,11 @@ const User = {
 
 同じコンポーネントでパラメーター変更を検知するためには、 `$route` オブジェクトを watch するだけです。
 
-``` js
+```js
 const User = {
   template: '...',
   watch: {
-    $route (to, from) {
+    $route(to, from) {
       // ルートの変更の検知...
     }
   }
@@ -57,10 +57,10 @@ const User = {
 
 または、2.2 で導入された `beforeRouteUpdate` [ナビゲーションガード](../advanced/navigation-guards.html)を使用します:
 
-``` js
+```js
 const User = {
   template: '...',
-  beforeRouteUpdate (to, from, next) {
+  beforeRouteUpdate(to, from, next) {
     // ルート変更に反応する...
     // next() を呼び出すのを忘れないでください
   }
@@ -83,7 +83,7 @@ const User = {
 ```
 
 _アスタリスク_ ルートを使用するときは、_アスタリスク_ ルートが最後になるようにルートを正しく順序付けてください。
-`{ path: '*' }` ルートは、通常クライアントサイドの404ページで使われます。_History モード_ を使用する場合は、[正しいサーバの設定](./history-mode.md)も同様にしっかりしてください。
+`{ path: '*' }` ルートは、通常クライアントサイドの 404 ページで使われます。_History モード_ を使用する場合は、[正しいサーバの設定](./history-mode.md)も同様にしっかりしてください。
 
 _アスタリスク_ を使用するときは、 `pathMatch` と名付けられたパラメータは、自動的に `$route.params` に追加されます。_アスタリスク_ によってマッチされた url の残りを含みます:
 
@@ -102,4 +102,4 @@ this.$route.params.pathMatch // '/non-existing'
 
 ## マッチングの優先度
 
-しばしば同じURLで複数のルートがマッチすることがあります。そのようなケースではマッチングの優先度はルートの定義された順番によって決定されます。先に定義されたルートほど優先度が高くなります。
+しばしば同じ URL で複数のルートがマッチすることがあります。そのようなケースではマッチングの優先度はルートの定義された順番によって決定されます。先に定義されたルートほど優先度が高くなります。

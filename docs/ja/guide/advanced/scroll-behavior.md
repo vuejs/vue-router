@@ -1,6 +1,6 @@
 # スクロールの振る舞い
 
-<div class="vueschool"><a href="https://vueschool.io/courses/vue-router-for-everyone?friend=vuejs" target="_blank" rel="sponsored noopener" title="Learn how to build powerful Single Page Applications with the Vue Router on Vue School">Watch a free video course about Vue Router on Vue School</a></div>
+<div class="vueschool"><a href="https://vueschool.io/courses/vue-router-for-everyone?friend=vuerouter" target="_blank" rel="sponsored noopener" title="Learn how to build powerful Single Page Applications with the Vue Router on Vue School">Watch a free video course about Vue Router on Vue School</a></div>
 
 クライアントサイドのルーティングを使っている時に、新しいルートに対してスクロールをトップへ移動させたいかもしれません、もしくは実際のページリロードがしているように history 要素のスクロールポジションを保持したいこともあるかもしれません。 `vue-router` ではこれらをさらによく実現できます。ルートナビゲーションにおけるスクロールの挙動を完全にカスタマイズすることができます。
 
@@ -8,7 +8,7 @@
 
 ルーターインスタンスを作る時に、 `scrollBehavior` 関数を提供できます。
 
-``` js
+```js
 const router = new VueRouter({
   routes: [...],
   scrollBehavior (to, from, savedPosition) {
@@ -17,7 +17,7 @@ const router = new VueRouter({
 })
 ```
 
-`scrollBehavior` 関数は  `to` と `from` のルートオブジェクトを受け取ります。第 3 引数の `savedPosition` は `popstate` ナビゲーション (ブラウザの戻る/進むボタンがトリガーされた) 時のみ利用可能です。
+`scrollBehavior` 関数は `to` と `from` のルートオブジェクトを受け取ります。第 3 引数の `savedPosition` は `popstate` ナビゲーション (ブラウザの戻る/進むボタンがトリガーされた) 時のみ利用可能です。
 
 この関数はスクロールポジションオブジェクトを返すことができます。そのオブジェクトは以下のような形式です。
 
@@ -29,7 +29,7 @@ const router = new VueRouter({
 
 例:
 
-``` js
+```js
 scrollBehavior (to, from, savedPosition) {
   return { x: 0, y: 0 }
 }
@@ -39,7 +39,7 @@ scrollBehavior (to, from, savedPosition) {
 
 `savedPosition` を返すことは結果的に戻る/進むボタンを押してナビゲーションした時にネイティブのような挙動になります。
 
-``` js
+```js
 scrollBehavior (to, from, savedPosition) {
   if (savedPosition) {
     return savedPosition
@@ -51,7 +51,7 @@ scrollBehavior (to, from, savedPosition) {
 
 もし"アンカーへスクロール"の振る舞いをシミュレートしたい場合は以下のようにしてください。
 
-``` js
+```js
 scrollBehavior (to, from, savedPosition) {
   if (to.hash) {
     return {
@@ -70,7 +70,7 @@ scrollBehavior (to, from, savedPosition) {
 
 期待する位置記述子 (position descriptor) に解決されるプロミスを返すこともできます:
 
-``` js
+```js
 scrollBehavior (to, from, savedPosition) {
   return new Promise((resolve, reject) => {
     setTimeout(() => {

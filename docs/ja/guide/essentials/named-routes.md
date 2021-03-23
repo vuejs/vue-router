@@ -1,10 +1,10 @@
 # 名前付きルート
 
-<div class="vueschool"><a href="https://vueschool.io/courses/vue-router-for-everyone?friend=vuejs" target="_blank" rel="sponsored noopener" title="Learn how to build powerful Single Page Applications with the Vue Router on Vue School">Watch a free video course about Vue Router on Vue School</a></div>
+<div class="vueschool"><a href="https://vueschool.io/courses/vue-router-for-everyone?friend=vuerouter" target="_blank" rel="sponsored noopener" title="Learn how to build powerful Single Page Applications with the Vue Router on Vue School">Watch a free video course about Vue Router on Vue School</a></div>
 
 しばしば、名前を使ってルートを特定できるとより便利です。特にルートにリンクするときやナビゲーションを実行するときなどです。Router インスタンスを作成するときに `routes` オプションの中でルートに名前を付けることができます。
 
-``` js
+```js
 const router = new VueRouter({
   routes: [
     {
@@ -18,14 +18,14 @@ const router = new VueRouter({
 
 名前を付けたルートにリンクするには、 `router-link` コンポーネントの `to` プロパティにオブジェクトを渡します。
 
-``` html
+```html
 <router-link :to="{ name: 'user', params: { userId: 123 }}">User</router-link>
 ```
 
 これはプログラムで `router.push()` を呼び出すときに使われるオブジェクトと全く同じです。
 
-``` js
-router.push({ name: 'user', params: { userId: 123 }})
+```js
+router.push({ name: 'user', params: { userId: 123 } })
 ```
 
 どちらのケースもルーターは `/user/123` のパスにナビゲーションします。

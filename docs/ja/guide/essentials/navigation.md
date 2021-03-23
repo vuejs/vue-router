@@ -1,6 +1,6 @@
 # プログラムによるナビゲーション
 
-<div class="vueschool"><a href="https://vueschool.io/courses/vue-router-for-everyone?friend=vuejs" target="_blank" rel="sponsored noopener" title="Learn how to build powerful Single Page Applications with the Vue Router on Vue School">Watch a free video course about Vue Router on Vue School</a></div>
+<div class="vueschool"><a href="https://vueschool.io/courses/vue-router-for-everyone?friend=vuerouter" target="_blank" rel="sponsored noopener" title="Learn how to build powerful Single Page Applications with the Vue Router on Vue School">Watch a free video course about Vue Router on Vue School</a></div>
 
 宣言的なナビゲーションとしてアンカータグを作成する `<router-link>` がありますが、ルーターのインスタンスメソッドを使ったプログラムによる方法でもそれは可能です。
 
@@ -10,16 +10,15 @@
 
 異なる URL へ遷移するときに `router.push` が使えます。このメソッドは history スタックに新しいエントリを追加します。それによってユーザーがブラウザの戻るボタンをクリックした時に前の URL に戻れるようになります。
 
-
 このメソッドは `<router-link>` をクリックした時に内部的に呼ばれています。つまり `<router-link :to="...">` をクリックすることは `router.push(...)` を呼ぶことと等価です。
 
-| 宣言的 | プログラム的 |
-|-------------|--------------|
+| 宣言的                    | プログラム的       |
+| ------------------------- | ------------------ |
 | `<router-link :to="...">` | `router.push(...)` |
 
 引数は文字列のパス、もしくは、location を記述するオブジェクトが使えます。例:
 
-``` js
+```js
 // 文字列パス
 router.push('home')
 
@@ -53,10 +52,9 @@ router.push({ path: '/user', params: { userId } }) // -> /user
 
 これは `router.push` のように動作しますが、異なる点は新しい history エントリを追加しないで遷移することです。この名前から推定されるように、現在のエントリを置換します。
 
-| 宣言的 | プログラム的 |
-|-------------|--------------|
+| 宣言的                            | プログラム的          |
+| --------------------------------- | --------------------- |
 | `<router-link :to="..." replace>` | `router.replace(...)` |
-
 
 #### `router.go(n)`
 
@@ -64,7 +62,7 @@ router.push({ path: '/user', params: { userId } }) // -> /user
 
 例
 
-``` js
+```js
 // 1 つレコードを進める。history.forward() と同じ
 router.go(1)
 

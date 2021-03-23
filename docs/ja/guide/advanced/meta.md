@@ -1,10 +1,10 @@
 # ルートメタフィールド
 
-<div class="vueschool"><a href="https://vueschool.io/courses/vue-router-for-everyone?friend=vuejs" target="_blank" rel="sponsored noopener" title="Learn how to build powerful Single Page Applications with the Vue Router on Vue School">Watch a free video course about Vue Router on Vue School</a></div>
+<div class="vueschool"><a href="https://vueschool.io/courses/vue-router-for-everyone?friend=vuerouter" target="_blank" rel="sponsored noopener" title="Learn how to build powerful Single Page Applications with the Vue Router on Vue School">Watch a free video course about Vue Router on Vue School</a></div>
 
 ルートの定義をする際に `meta` フィールドを含めることができます。
 
-``` js
+```js
 const router = new VueRouter({
   routes: [
     {
@@ -33,7 +33,7 @@ const router = new VueRouter({
 
 メタフィールドをグローバルナビゲーションガードで確認するユースケースの例:
 
-``` js
+```js
 router.beforeEach((to, from, next) => {
   if (to.matched.some(record => record.meta.requiresAuth)) {
     // このルートはログインされているかどうか認証が必要です。
@@ -50,5 +50,4 @@ router.beforeEach((to, from, next) => {
     next() // next() を常に呼び出すようにしてください!
   }
 })
-
 ```

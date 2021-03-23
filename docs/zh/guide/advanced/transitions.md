@@ -1,10 +1,10 @@
 # 过渡动效
 
-<div class="vueschool"><a href="https://vueschool.io/lessons/how-to-create-route-transitions-with-vue-router?friend=vuejs" target="_blank" rel="sponsored noopener" title="Learn how to create route transitions on Vue School">观看 Vue School 的如何创建路由过渡动效的免费视频课程 (英文)</a></div>
+<div class="vueschool"><a href="https://vueschool.io/lessons/how-to-create-route-transitions-with-vue-router?friend=vuerouter" target="_blank" rel="sponsored noopener" title="Learn how to create route transitions on Vue School">观看 Vue School 的如何创建路由过渡动效的免费视频课程 (英文)</a></div>
 
 `<router-view>` 是基本的动态组件，所以我们可以用 `<transition>` 组件给它添加一些过渡效果：
 
-``` html
+```html
 <transition>
   <router-view></router-view>
 </transition>
@@ -16,7 +16,7 @@
 
 上面的用法会给所有路由设置一样的过渡效果，如果你想让每个路由组件有各自的过渡效果，可以在各路由组件内使用 `<transition>` 并设置不同的 name。
 
-``` js
+```js
 const Foo = {
   template: `
     <transition name="slide">
@@ -38,14 +38,14 @@ const Bar = {
 
 还可以基于当前路由与目标路由的变化关系，动态设置过渡效果：
 
-``` html
+```html
 <!-- 使用动态的 transition name -->
 <transition :name="transitionName">
   <router-view></router-view>
 </transition>
 ```
 
-``` js
+```js
 // 接着在父组件内
 // watch $route 决定使用哪种过渡
 watch: {

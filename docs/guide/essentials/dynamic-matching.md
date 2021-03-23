@@ -1,6 +1,6 @@
 # Dynamic Route Matching
 
-<div class="vueschool"><a href="https://vueschool.io/lessons/vue-router-dynamic-routes?friend=vuejs" target="_blank" rel="sponsored noopener" title="Learn how to match dynamic routes with Vue School">Learn how to match dynamic routes with a free lesson on Vue School</a></div>
+<div class="vueschool"><a href="https://vueschool.io/lessons/vue-router-dynamic-routes?friend=vuerouter" target="_blank" rel="sponsored noopener" title="Learn how to match dynamic routes with Vue School">Learn how to match dynamic routes with a free lesson on Vue School</a></div>
 
 Very often we will need to map routes with the given pattern to the same component. For example we may have a `User` component which should be rendered for all users but with different user IDs. In `vue-router` we can use a dynamic segment in the path to achieve that:
 
@@ -60,7 +60,7 @@ Or, use the `beforeRouteUpdate` [navigation guard](../advanced/navigation-guards
 ```js
 const User = {
   template: '...',
-  beforeRouteUpdate (to, from, next) {
+  beforeRouteUpdate(to, from, next) {
     // react to route changes...
     // don't forget to call next()
   }
