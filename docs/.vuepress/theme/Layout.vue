@@ -145,13 +145,13 @@ export default {
       this.isSidebarOpen = false
     })
 
-    this.showTopBanner = !localStorage.getItem('VS_BANNER_CLOSED')
+    this.showTopBanner = !localStorage.getItem('VS_OFFER_BANNER_CLOSED')
   },
 
   methods: {
     closeBannerTop () {
       this.showTopBanner = false
-      localStorage.setItem('VS_BANNER_CLOSED', 1)
+      localStorage.setItem('VS_OFFER_BANNER_CLOSED', 1)
     },
 
     toggleSidebar (to) {
