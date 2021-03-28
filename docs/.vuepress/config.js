@@ -29,6 +29,11 @@ module.exports = ctx => ({
       lang: 'fr',
       title: 'Vue Router',
       description: 'Routeur officiel pour Vue.Js'
+    },
+    '/es/': {
+      lang: 'es',
+      title: 'Vue Router',
+      description: 'El router oficial para Vue.Js'
     }
   },
   head: [
@@ -372,6 +377,56 @@ module.exports = ctx => ({
               '/fr/guide/advanced/data-fetching.md',
               '/fr/guide/advanced/scroll-behavior.md',
               '/fr/guide/advanced/lazy-loading.md'
+            ]
+          }
+        ]
+      },
+      '/es/': {
+        label: 'Español',
+        selectText: 'Lenguajes',
+        editLinkText: 'Edita esta pagina en GitHub',
+        nav: [
+          {
+            text: 'Guia',
+            link: '/es/guide/'
+          },
+          {
+            text: 'Referencia del API',
+            link: '/es/api/'
+          },
+          {
+            text: 'Release Notes',
+            link: 'https://github.com/vuejs/vue-router/releases'
+          }
+        ],
+        sidebar: [
+          '/es/installation.md',
+          {
+            title: 'Essentials',
+            collapsable: false,
+            children: [
+              '/es/guide/',
+              '/es/guide/essentials/dynamic-matching.md',
+              '/es/guide/essentials/nested-routes.md',
+              '/es/guide/essentials/navigation.md',
+              '/es/guide/essentials/named-routes.md',
+              '/es/guide/essentials/named-views.md',
+              '/es/guide/essentials/redirect-and-alias.md',
+              '/es/guide/essentials/passing-props.md',
+              '/es/guide/essentials/history-mode.md'
+            ]
+          },
+          {
+            title: 'Advanced',
+            collapsable: false,
+            children: [
+              '/es/guide/advanced/navigation-guards.md',
+              '/es/guide/advanced/meta.md',
+              '/es/guide/advanced/transitions.md',
+              '/es/guide/advanced/data-fetching.md',
+              '/es/guide/advanced/scroll-behavior.md',
+              '/es/guide/advanced/lazy-loading.md',
+              '/es/guide/advanced/navigation-failures.md'
             ]
           }
         ]
