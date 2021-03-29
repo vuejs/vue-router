@@ -1,5 +1,5 @@
 <template>
-  <a id="vs" href="https://vueschool.io/free-weekend?friend=vuerouter" target="_blank" rel="noreferrer">
+  <a id="vs" href="https://vueschool.io/the-vuejs-master-class/?friend=vuerouter#plans" target="_blank" rel="noreferrer">
     <div class="vs-iso">
       <img src="/images/vueschool/vs-iso.svg" alt="Vue School Logo">
     </div>
@@ -9,15 +9,15 @@
     <div class="vs-core">
       <div class="vs-slogan">
         <div class="vs-slogan-up">
-           VUE 3 MASTERCLASS - FREE WEEKEND
+           LEARN VUE AT VUE SCHOOL
         </div>
         <div class="vs-slogan-down">
-          Register at <strong>vueschool.io/free-weekend</strong>
+          Register today and get <strong>20% OFF</strong>
         </div>
       </div>
       <div class="vs-button">
         <div class="vs-button-inside">
-          <img src="/images/vueschool/free-access.svg" alt="Free Access">
+          <img src="/images/vueschool/learn-more.svg" alt="Learn More">
         </div>
       </div>
     </div>
@@ -29,6 +29,7 @@
     </div>
   </a>
 </template>
+
 
 <style lang="stylus">
 $topBannerHeight ?= 5rem
@@ -56,13 +57,13 @@ $contentClass = '.theme-default-content'
   right: 0
   top: 0
   z-index: 100
-  background-image: url(/images/vueschool/vs-banner-bg-mobile.svg)
+  background-image: url(/images/vueschool/vs-banner-bg-mobile-2.svg)
   height: $topBannerHeightMobile
   @media (min-width: 680px)
     height: $topBannerHeight
-    background-image: url(/images/vueschool/vs-banner-bg-tablet.svg)
+    background-image: url(/images/vueschool/vs-banner-bg-tablet-2.svg)
   @media (min-width: 900px)
-    background-image: url(/images/vueschool/vs-banner-bg-desktop.svg)
+    background-image: url(/images/vueschool/vs-banner-bg-desktop-2.svg)
   &:hover
     .vs-core
       .vs-button
@@ -107,10 +108,12 @@ $contentClass = '.theme-default-content'
       .vs-slogan-down
         color: #fff
         font-size: 12px
+        padding-top: 2px
         @media (min-width: 680px)
           font-size: 16px
         strong
-          color: #48a0ff
+          color: #fff
+          font-weight: bold
 
     .vs-button
       margin-left: 43px
@@ -125,10 +128,10 @@ $contentClass = '.theme-default-content'
         border-radius: 40px
         background: linear-gradient(#dc61da, #b349b0)
         transition: all .25s ease-in
-        padding: 17px 27px
+        padding: 12px 24px 8px
         line-height: 0
         @media (min-width: 680px)
-          padding: 13px 24px
+          padding: 12px 24px 8px
       &.vs-button-alt
         background: linear-gradient(to bottom, #ffcc38, #ffd13d)
         .vs-button-inside
