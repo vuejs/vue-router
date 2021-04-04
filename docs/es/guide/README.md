@@ -1,14 +1,12 @@
-# Getting Started
+# Empezando
 
-::: tip Note
-We will be using [ES2015](https://github.com/lukehoban/es6features) in the code samples in the guide.
+::: tip Nota
+Usaremos [ES2015](https://github.com/lukehoban/es6features) en los ejemplos de la guia.
 
-Also, all examples will be using the full version of Vue to make on-the-fly template compilation possible. See more details [here](https://vuejs.org/v2/guide/installation.html#Runtime-Compiler-vs-Runtime-only).
+Además, todos los ejemplos usarán la versión completa de Vue para que sea posible la compilación de las plantillas sobre la marcha. Ver más detalles [aquí](https://es.vuejs.org/v2/guide/installation.html#Runtime-Compilador-vs-Runtime).
 :::
 
-<div class="vueschool"><a href="https://vueschool.io/courses/vue-router-for-everyone?friend=vuerouter" target="_blank" rel="sponsored noopener" title="Learn how to build powerful Single Page Applications with the Vue Router on Vue School">Watch a free video course about Vue Router on Vue School</a></div>
-
-Creating a Single-page Application with Vue + Vue Router feels natural: with Vue.js, we are already composing our application with components. When adding Vue Router to the mix, all we need to do is map our components to the routes and let Vue Router know where to render them. Here's a basic example:
+Crear una aplicación de una sola página con Vue + Vue Router es simple: con Vue.js, ya estamos desarrollando nuestra aplicación con componentes. Cuando agregamos Vue Router a la mezcla, todo lo que necesitamos hacer es mapear nuestro componentes a las rutas y dejar que Vue Router sepa a donde renderizarlos. Este es un ejemplo básico:
 
 ## HTML
 
@@ -17,16 +15,16 @@ Creating a Single-page Application with Vue + Vue Router feels natural: with Vue
 <script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
 
 <div id="app">
-  <h1>Hello App!</h1>
+  <h1>Hola App!</h1>
   <p>
-    <!-- use router-link component for navigation. -->
-    <!-- specify the link by passing the `to` prop. -->
-    <!-- `<router-link>` will be rendered as an `<a>` tag by default -->
-    <router-link to="/foo">Go to Foo</router-link>
-    <router-link to="/bar">Go to Bar</router-link>
+    <!-- utilizar el componente router-link para navegación. -->
+    <!-- especificar el enlace agregando la propiedad `to`. -->
+    <!-- `<router-link>` será renderizado como un tag `<a>` por defecto -->
+    <router-link to="/foo">Ir a Foo</router-link>
+    <router-link to="/bar">Ir a Bar</router-link>
   </p>
-  <!-- route outlet -->
-  <!-- component matched by the route will render here -->
+  <!-- etiqueta para el componente router-view -->
+  <!-- el componente que coincida con la ruta se renderiza aquí -->
   <router-view></router-view>
 </div>
 ```
@@ -34,49 +32,49 @@ Creating a Single-page Application with Vue + Vue Router feels natural: with Vue
 ## JavaScript
 
 ```js
-// 0. If using a module system (e.g. via vue-cli), import Vue and VueRouter
-// and then call `Vue.use(VueRouter)`.
+// 0. Si estás usando un sistema de módulos (ej. vía vue-cli), importa Vue y VueRouter
+// y luego llama `Vue.use(VueRouter)`.
 
-// 1. Define route components.
-// These can be imported from other files
+// 1. Definir los componentes de la ruta.
+// Los componentes pueden ser importados desde otro archivos
 const Foo = { template: '<div>foo</div>' }
 const Bar = { template: '<div>bar</div>' }
 
-// 2. Define some routes
-// Each route should map to a component. The "component" can
-// either be an actual component constructor created via
-// `Vue.extend()`, or just a component options object.
-// We'll talk about nested routes later.
+// 2. Definir algunas rutas
+// Cada ruta debe mapear un componente. El "componente" puede
+// ser un constructor de componentes creado a través de
+// `Vue.extend()`, o solo un objeto de opciones de componente.
+// Hablaremos sobre las rutas anidadas más adelante.
 const routes = [
   { path: '/foo', component: Foo },
   { path: '/bar', component: Bar }
 ]
 
-// 3. Create the router instance and pass the `routes` option
-// You can pass in additional options here, but let's
-// keep it simple for now.
+// 3. Crear la instancia de router and pasar las opciones `routes`
+// Puedes pasar opciones adicionales, pero
+// mantengámoslo simple por ahora.
 const router = new VueRouter({
   routes // short for `routes: routes`
 })
 
-// 4. Create and mount the root instance.
-// Make sure to inject the router with the router option to make the
-// whole app router-aware.
+// 4. Crear y montar la instancia de raíz.
+// Asegúrese de inyectar el router con las opciones para hacer
+// toda la aplicación consciente del uso de router.
 const app = new Vue({
   router
 }).$mount('#app')
 
-// Now the app has started!
+// Ahora la aplicación ha iniciado!
 ```
 
-By injecting the router, we get access to it as `this.$router` as well as the current route as `this.$route` inside of any component:
+Al inyectar el router, obtenemos acceso a su instancia como `this.$router` y a la instancia de la ruta actual como `this.$route` dentro de cualquier componente:
 
 ```js
 // Home.vue
 export default {
   computed: {
     username() {
-      // We will see what `params` is shortly
+      // Veremos que es la propiedad `params` dentro de poco
       return this.$route.params.username
     }
   },
@@ -88,8 +86,8 @@ export default {
 }
 ```
 
-Throughout the docs, we will often use the `router` instance. Keep in mind that `this.$router` is exactly the same as using `router`. The reason we use `this.$router` is because we don't want to import the router in every single component that needs to manipulate routing.
+A lo largo de la documentación, usaremos a menudo la instancia de `router`. Ten en cuenta que `this.$router` es lo mismo que usar `router`. La razón por la que usamos `this.$router` es porque no queremos importar el router en cada componente que necesite manipular las rutas.
 
-You can also check out this example [live](https://jsfiddle.net/yyx990803/xgrjzsup/).
+También puedes ver este [ejemplo](https://jsfiddle.net/yyx990803/xgrjzsup/).
 
-Notice that a `<router-link>` automatically gets the `.router-link-active` class when its target route is matched. You can learn more about it in its [API reference](../api/#router-link).
+Observe que `<router-link>` automaticamente obtiene la clase `.router-link-active` cuando su ruta de destino coincide. Puedes obtener más información sobre `<router-link>` [acá](../api/#router-link).

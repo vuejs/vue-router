@@ -395,14 +395,14 @@ module.exports = ctx => ({
             link: '/es/api/'
           },
           {
-            text: 'Release Notes',
+            text: 'Notas de lanzamiento',
             link: 'https://github.com/vuejs/vue-router/releases'
           }
         ],
         sidebar: [
           '/es/installation.md',
           {
-            title: 'Essentials',
+            title: 'Conocimientos Esenciales',
             collapsable: false,
             children: [
               '/es/guide/',
@@ -417,7 +417,7 @@ module.exports = ctx => ({
             ]
           },
           {
-            title: 'Advanced',
+            title: 'Conocimientos Avanzados',
             collapsable: false,
             children: [
               '/es/guide/advanced/navigation-guards.md',
