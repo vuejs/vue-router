@@ -14,7 +14,10 @@ export class HashHistory extends History {
     if (fallback && checkFallback(this.base)) {
       return
     }
-    ensureSlash()
+    const hash = getHash()
+    if (!hasSlash(hash)) {
+      replaceHash('/' + hash)
+    }
   }
 
   // this is delayed until the app mounts
@@ -34,10 +37,12 @@ export class HashHistory extends History {
 
     const handleRoutingEvent = () => {
       const current = this.current
-      if (!ensureSlash()) {
+      const hash = getHash()
+      if (!hasSlash(hash)) {
+        window.location.replace(getUrl('/' + hash))
         return
       }
-      this.transitionTo(getHash(), route => {
+      this.transitionTo(hash, route => {
         if (supportsScroll) {
           handleScroll(this.router, route, current, true)
         }
@@ -106,13 +111,8 @@ function checkFallback (base) {
   }
 }
 
-function ensureSlash (): boolean {
-  const path = getHash()
-  if (path.charAt(0) === '/') {
-    return true
-  }
-  replaceHash('/' + path)
-  return false
+function hasSlash (hash): boolean {
+  return hash.charAt(0) === '/'
 }
 
 export function getHash (): string {
