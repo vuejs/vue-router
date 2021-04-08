@@ -6,17 +6,17 @@ actionLink: /es/installation.html
 footer: MIT Licensed | Copyright © 2014-present Evan You, Eduardo San Martin Morote
 ---
 
-Vue Router est le router officiel pour [Vue.js](http://vuejs.org). Il s'intègre aisément avec Vue.js pour faire des applications mono page avec Vue.js. Fonctionnalités incluses:
+Vue Router is the official router for [Vue.js](http://vuejs.org). Se integra profundamente con el núcleo de Vue.js para facilitar la creación de aplicaciones de una sola página con Vue.js. Las características incluyen:
 
-- Vues et routes imbriquées
-- Modulaire, configuration basée sur les composants
-- Paramètres de route, de requête
-- Effets de transition de vues basées sur le systeme de transition de Vue.js
-- Gestion fine de la navigation
-- Classes CSS pour liens actifs
-- Mode HTML5 de la gestion de l'historique ou mode par hash, avec solution de repli automatique pour IE9
-- Gestion du scroll
+- Ruta anidada/mapeo de vista
+- Modular, configuración de router basada en componentes
+- Parámetros de ruta, consultas, comodines
+- Efectos de transición en las vistas impulsado por el sistema de transiciones de Vue.js
+- Control de navegación detallado
+- Enlaces con clases CSS activas automáticas
+- Modo de historial HTML5 o modo hash, con recuperación automática en IE9
+- Comportamiento de scroll personalizable
 
-[Pour commencer](./guide/) ou jouer avec les [exemples](https://github.com/vuejs/vue-router/tree/dev/examples) (voir [`README.md`](https://github.com/vuejs/vue-router/) pour les faire fonctionner).
+[Empezando](./guide/es) o juega con los [ejemplos](https://github.com/vuejs/vue-router/tree/dev/examples) (ve [`README.md`](https://github.com/vuejs/vue-router/) para ejecutarlos).
 
 <HomeSponsors />
