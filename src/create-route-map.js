@@ -144,7 +144,9 @@ function addRouteRecord (
     })
   }
 
-  pathList.push(record.path)
+  if (!pathMap[record.path]) {
+    pathList.push(record.path)
+  }
   pathMap[record.path] = record
 
   if (route.alias !== undefined) {
