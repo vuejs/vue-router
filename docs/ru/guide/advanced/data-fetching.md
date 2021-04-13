@@ -81,14 +81,14 @@ export default {
       error: null
     }
   },
-  beforeRouteEnter (to, from, next) {
+  beforeRouteEnter(to, from, next) {
     getPost(to.params.id, (err, post) => {
       next(vm => vm.setData(err, post))
     })
   },
   // если путь изменяется, а компонент уже отображён,
   // то логика будет немного иной
-  beforeRouteUpdate (to, from, next) {
+  beforeRouteUpdate(to, from, next) {
     this.post = null
     getPost(to.params.id, (err, post) => {
       this.setData(err, post)
