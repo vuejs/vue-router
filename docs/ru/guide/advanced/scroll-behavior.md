@@ -9,7 +9,7 @@
 ```js
 const router = new VueRouter({
   routes: [...],
-  scrollBehavior (to, from, savedPosition) {
+  scrollBehavior(to, from, savedPosition) {
     // возвращаем требуемую позицию прокрутки
   }
 })
@@ -27,7 +27,7 @@ const router = new VueRouter({
 Например:
 
 ```js
-scrollBehavior (to, from, savedPosition) {
+scrollBehavior(to, from, savedPosition) {
   return { x: 0, y: 0 }
 }
 ```
@@ -37,7 +37,7 @@ scrollBehavior (to, from, savedPosition) {
 Возврат `savedPosition` позволяет эмулировать нативное поведение браузера при использовании кнопок назад/вперёд:
 
 ```js
-scrollBehavior (to, from, savedPosition) {
+scrollBehavior(to, from, savedPosition) {
   if (savedPosition) {
     return savedPosition
   } else {
@@ -49,7 +49,7 @@ scrollBehavior (to, from, savedPosition) {
 Эмулировать поведение "прокрутки к якорю" на странице можно так:
 
 ```js
-scrollBehavior (to, from, savedPosition) {
+scrollBehavior(to, from, savedPosition) {
   if (to.hash) {
     return {
       selector: to.hash
@@ -68,7 +68,7 @@ scrollBehavior (to, from, savedPosition) {
 Можно также вернуть Promise, который разрешится объектом с желаемой позицией прокрутки:
 
 ```js
-scrollBehavior (to, from, savedPosition) {
+scrollBehavior(to, from, savedPosition) {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
       resolve({ x: 0, y: 0 })
@@ -78,3 +78,18 @@ scrollBehavior (to, from, savedPosition) {
 ```
 
 Это можно связать с событиями компонента transition на уровне страницы, чтобы реализовать такое поведение прокрутки, которое сочетается с анимациями перехода между страницами, но из-за множества возможных вариантов и комплексности примеров, мы просто предоставляем этот простой пример, чтобы показать где можно разместить собственную реализацию.
+
+## Плавная прокрутка
+
+Можно включить нативную плавную прокрутку для [браузеров, которые поддерживают её](https://developer.mozilla.org/en-US/docs/Web/API/ScrollToOptions/behavior), просто добавив опцию `behavior` к объекту, возвращаемому из `scrollBehavior`:
+
+```js
+scrollBehavior(to, from, savedPosition) {
+  if (to.hash) {
+    return {
+      selector: to.hash,
+      behavior: 'smooth',
+    }
+  }
+}
+```

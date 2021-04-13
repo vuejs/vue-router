@@ -481,7 +481,7 @@ addRoute(parentName: string, route: RouteConfig): () => void
 
 > New in 3.5.0
 
-Get the list of all the active route records. **Note only documented properties are considered Public API**, avoid using any other propery e.g. `regex` as it doesn't exist on Vue Router 4.
+Get the list of all the active route records. **Note only documented properties are considered Public API**, avoid using any other property e.g. `regex` as it doesn't exist on Vue Router 4.
 
 Signature:
 

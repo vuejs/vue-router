@@ -53,7 +53,9 @@ const User = {
 ```js
 const router = new VueRouter({
   routes: [
-    { path: '/user/:id', component: User,
+    {
+      path: '/user/:id',
+      component: User,
       children: [
         {
           // при совпадении пути с шаблоном /user/:id/profile
@@ -83,11 +85,12 @@ const router = new VueRouter({
 const router = new VueRouter({
   routes: [
     {
-      path: '/user/:id', component: User,
+      path: '/user/:id',
+      component: User,
       children: [
         // при совпадении пути с шаблоном /user/:id
         // в <router-view> компонента User будет показан UserHome
-        { path: '', component: UserHome },
+        { path: '', component: UserHome }
 
         // ...остальные вложенные маршруты
       ]
