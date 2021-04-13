@@ -8,7 +8,8 @@ export function createRouteMap (
   routes: Array<RouteConfig>,
   oldPathList?: Array<string>,
   oldPathMap?: Dictionary<RouteRecord>,
-  oldNameMap?: Dictionary<RouteRecord>
+  oldNameMap?: Dictionary<RouteRecord>,
+  parentRoute?: RouteRecord
 ): {
   pathList: Array<string>,
   pathMap: Dictionary<RouteRecord>,
@@ -22,7 +23,7 @@ export function createRouteMap (
   const nameMap: Dictionary<RouteRecord> = oldNameMap || Object.create(null)
 
   routes.forEach(route => {
-    addRouteRecord(pathList, pathMap, nameMap, route)
+    addRouteRecord(pathList, pathMap, nameMap, route, parentRoute)
   })
 
   // ensure wildcard routes are always at the end
@@ -70,6 +71,14 @@ function addRouteRecord (
         path || name
       )} cannot be a ` + `string id. Use an actual component instead.`
     )
+
+    warn(
+      // eslint-disable-next-line no-control-regex
+      !/[^\u0000-\u007F]+/.test(path),
+      `Route with path "${path}" contains unencoded characters, make sure ` +
+        `your path is correctly encoded before passing it to the router. Use ` +
+        `encodeURI to encode static segments of your path.`
+    )
   }
 
   const pathToRegexpOptions: PathToRegexpOptions =
@@ -84,6 +93,11 @@ function addRouteRecord (
     path: normalizedPath,
     regex: compileRouteRegex(normalizedPath, pathToRegexpOptions),
     components: route.components || { default: route.component },
+    alias: route.alias
+      ? typeof route.alias === 'string'
+        ? [route.alias]
+        : route.alias
+      : [],
     instances: {},
     enteredCbs: {},
     name,

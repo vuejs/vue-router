@@ -11,6 +11,10 @@ const eventTypes: Array<Function> = [String, Array]
 
 const noop = () => {}
 
+let warnedCustomSlot
+let warnedTagProp
+let warnedEventProp
+
 export default {
   name: 'RouterLink',
   props: {
@@ -22,7 +26,9 @@ export default {
       type: String,
       default: 'a'
     },
+    custom: Boolean,
     exact: Boolean,
+    exactPath: Boolean,
     append: Boolean,
     replace: Boolean,
     activeClass: String,
@@ -66,8 +72,8 @@ export default {
       ? createRoute(null, normalizeLocation(route.redirectedFrom), null, router)
       : route
 
-    classes[exactActiveClass] = isSameRoute(current, compareTarget)
-    classes[activeClass] = this.exact
+    classes[exactActiveClass] = isSameRoute(current, compareTarget, this.exactPath)
+    classes[activeClass] = this.exact || this.exactPath
       ? classes[exactActiveClass]
       : isIncludedRoute(current, compareTarget)
 
@@ -106,18 +112,39 @@ export default {
       })
 
     if (scopedSlot) {
+      if (process.env.NODE_ENV !== 'production' && !this.custom) {
+        !warnedCustomSlot && warn(false, 'In Vue Router 4, the v-slot API will by default wrap its content with an <a> element. Use the custom prop to remove this warning:\n<router-link v-slot="{ navigate, href }" custom></router-link>\n')
+        warnedCustomSlot = true
+      }
       if (scopedSlot.length === 1) {
         return scopedSlot[0]
       } else if (scopedSlot.length > 1 || !scopedSlot.length) {
         if (process.env.NODE_ENV !== 'production') {
           warn(
             false,
-            `RouterLink with to="${
+            `<router-link> with to="${
               this.to
             }" is trying to use a scoped slot but it didn't provide exactly one child. Wrapping the content with a span element.`
           )
         }
         return scopedSlot.length === 0 ? h() : h('span', {}, scopedSlot)
+      }
+    }
+
+    if (process.env.NODE_ENV !== 'production') {
+      if ('tag' in this.$options.propsData && !warnedTagProp) {
+        warn(
+          false,
+          `<router-link>'s tag prop is deprecated and has been removed in Vue Router 4. Use the v-slot API to remove this warning: https://next.router.vuejs.org/guide/migration/#removal-of-event-and-tag-props-in-router-link.`
+        )
+        warnedTagProp = true
+      }
+      if ('event' in this.$options.propsData && !warnedEventProp) {
+        warn(
+          false,
+          `<router-link>'s event prop is deprecated and has been removed in Vue Router 4. Use the v-slot API to remove this warning: https://next.router.vuejs.org/guide/migration/#removal-of-event-and-tag-props-in-router-link.`
+        )
+        warnedEventProp = true
       }
     }
 

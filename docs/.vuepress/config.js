@@ -99,7 +99,6 @@ module.exports = ctx => ({
         ],
         sidebar: [
           '/installation.md',
-          '/',
           {
             title: 'Essentials',
             collapsable: false,
@@ -150,7 +149,6 @@ module.exports = ctx => ({
         ],
         sidebar: [
           '/zh/installation.md',
-          '/zh/',
           {
             title: '基础',
             collapsable: false,
@@ -175,7 +173,8 @@ module.exports = ctx => ({
               '/zh/guide/advanced/transitions.md',
               '/zh/guide/advanced/data-fetching.md',
               '/zh/guide/advanced/scroll-behavior.md',
-              '/zh/guide/advanced/lazy-loading.md'
+              '/zh/guide/advanced/lazy-loading.md',
+              '/zh/guide/advanced/navigation-failures.md'
             ]
           }
         ]
@@ -200,7 +199,6 @@ module.exports = ctx => ({
         ],
         sidebar: [
           '/ja/installation.md',
-          '/ja/',
           {
             title: '基本的な使い方',
             collapsable: false,
@@ -250,7 +248,6 @@ module.exports = ctx => ({
         ],
         sidebar: [
           '/ru/installation.md',
-          '/ru/',
           {
             title: 'Основы',
             collapsable: false,
@@ -301,7 +298,6 @@ module.exports = ctx => ({
         ],
         sidebar: [
           '/kr/installation.md',
-          '/kr/',
           {
             title: '기본 사용법',
             collapsable: false,
@@ -351,7 +347,6 @@ module.exports = ctx => ({
         ],
         sidebar: [
           '/fr/installation.md',
-          '/fr/',
           {
             title: 'Essentiels',
             collapsable: false,

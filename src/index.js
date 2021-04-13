@@ -2,7 +2,7 @@
 
 import { install } from './install'
 import { START } from './util/route'
-import { assert } from './util/warn'
+import { assert, warn } from './util/warn'
 import { inBrowser } from './util/dom'
 import { cleanPath } from './util/path'
 import { createMatcher } from './create-matcher'
@@ -23,6 +23,7 @@ export default class VueRouter {
   static version: string
   static isNavigationFailure: Function
   static NavigationFailureType: any
+  static START_LOCATION: Route
 
   app: any
   apps: Array<any>
@@ -244,7 +245,21 @@ export default class VueRouter {
     }
   }
 
+  getRoutes () {
+    return this.matcher.getRoutes()
+  }
+
+  addRoute (parentOrRoute: string | RouteConfig, route?: RouteConfig) {
+    this.matcher.addRoute(parentOrRoute, route)
+    if (this.history.current !== START) {
+      this.history.transitionTo(this.history.getCurrentLocation())
+    }
+  }
+
   addRoutes (routes: Array<RouteConfig>) {
+    if (process.env.NODE_ENV !== 'production') {
+      warn(false, 'router.addRoutes() is deprecated and has been removed in Vue Router 4. Use router.addRoute() instead.')
+    }
     this.matcher.addRoutes(routes)
     if (this.history.current !== START) {
       this.history.transitionTo(this.history.getCurrentLocation())
@@ -269,6 +284,7 @@ VueRouter.install = install
 VueRouter.version = '__VERSION__'
 VueRouter.isNavigationFailure = isNavigationFailure
 VueRouter.NavigationFailureType = NavigationFailureType
+VueRouter.START_LOCATION = START
 
 if (inBrowser && window.Vue) {
   window.Vue.use(VueRouter)

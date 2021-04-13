@@ -1,8 +1,8 @@
 const path = require('path')
 const buble = require('rollup-plugin-buble')
 const flow = require('rollup-plugin-flow-no-whitespace')
-const cjs = require('rollup-plugin-commonjs')
-const node = require('rollup-plugin-node-resolve')
+const cjs = require('@rollup/plugin-commonjs')
+const node = require('@rollup/plugin-node-resolve').nodeResolve
 const replace = require('rollup-plugin-replace')
 const version = process.env.VERSION || require('../package.json').version
 const banner =

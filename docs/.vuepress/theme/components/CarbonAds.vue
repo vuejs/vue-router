@@ -31,6 +31,26 @@ export default {
   padding: 1.5rem 1.5rem 0;
   margin-bottom: -0.5rem;
   font-size: 0.75rem;
+
+  width: 125px;
+  position: fixed;
+  z-index: 1;
+  bottom: 22px;
+  right: 14px;
+  padding: 10px;
+  /* background-color: #fff; */
+  /* border-radius: 3px; */
+  /* font-size: 13px; */
+}
+
+@media screen and (max-width: 1300px) {
+  .carbon-ads {
+    position: relative;
+    top: 87px;
+    right: 12px;
+    float: right;
+    padding: 0 0 20px 30px;
+  }
 }
 
 .carbon-ads a {

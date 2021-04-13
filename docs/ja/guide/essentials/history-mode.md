@@ -1,12 +1,12 @@
 # HTML5 History モード
 
-<div class="vueschool"><a href="https://vueschool.io/courses/vue-router-for-everyone?friend=vuejs" target="_blank" rel="sponsored noopener" title="Learn how to build powerful Single Page Applications with the Vue Router on Vue School">Watch a free video course about Vue Router on Vue School</a></div>
+<div class="vueschool"><a href="https://vueschool.io/courses/vue-router-for-everyone?friend=vuerouter" target="_blank" rel="sponsored noopener" title="Learn how to build powerful Single Page Applications with the Vue Router on Vue School">Watch a free video course about Vue Router on Vue School</a></div>
 
 `vue-router` のデフォルトは _hash モード_ です - 完全な URL を hash を使ってシミュレートし、 URL が変更された時にページのリロードが起きません。
 
 その hash を取り除くために、ページのリロード無しに URL 遷移を実現する `history.pushState` API を利用したルーターの **history モード** を使うことができます。
 
-``` js
+```js
 const router = new VueRouter({
   mode: 'history',
   routes: [...]
@@ -51,21 +51,23 @@ const http = require('http')
 const fs = require('fs')
 const httpPort = 80
 
-http.createServer((req, res) => {
-  fs.readFile('index.html', 'utf-8', (err, content) => {
-    if (err) {
-      console.log('We cannot open "index.html" file.')
-    }
+http
+  .createServer((req, res) => {
+    fs.readFile('index.html', 'utf-8', (err, content) => {
+      if (err) {
+        console.log('We cannot open "index.html" file.')
+      }
 
-    res.writeHead(200, {
-      'Content-Type': 'text/html; charset=utf-8'
+      res.writeHead(200, {
+        'Content-Type': 'text/html; charset=utf-8'
+      })
+
+      res.end(content)
     })
-
-    res.end(content)
   })
-}).listen(httpPort, () => {
-  console.log('Server listening on: http://localhost:%s', httpPort)
-})
+  .listen(httpPort, () => {
+    console.log('Server listening on: http://localhost:%s', httpPort)
+  })
 ```
 
 #### Node.js (Express)
@@ -77,7 +79,7 @@ Node.js/Express では [connect-history-api-fallback middleware](https://github.
 1. [IIS UrlRewrite](https://www.iis.net/downloads/microsoft/url-rewrite) をインストール
 2. 以下によるサイトのルートディレクトリに `web.config` ファイルを作成
 
-``` xml
+```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
   <system.webServer>
@@ -128,12 +130,10 @@ rewrite {
 
 この点に関して注意があります。全ての not-found パスが `index.html` を提供するため、もはや 404 エラーをサーバーがレポートしなくなります。回避策として、Vue アプリケーション内で 404 ページを表示するために catch-all ルートを実装すべきです。
 
-``` js
+```js
 const router = new VueRouter({
   mode: 'history',
-  routes: [
-    { path: '*', component: NotFoundComponent }
-  ]
+  routes: [{ path: '*', component: NotFoundComponent }]
 })
 ```
 

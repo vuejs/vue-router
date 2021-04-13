@@ -1,6 +1,6 @@
 # 动态路由匹配
 
-<div class="vueschool"><a href="https://vueschool.io/lessons/vue-router-dynamic-routes?friend=vuejs" target="_blank" rel="sponsored noopener" title="Learn how to match dynamic routes with Vue School">观看 Vue School 的如何匹配动态路由的免费视频课程 (英文)</a></div>
+<div class="vueschool"><a href="https://vueschool.io/lessons/vue-router-dynamic-routes?friend=vuerouter" target="_blank" rel="sponsored noopener" title="Learn how to match dynamic routes with Vue School">观看 Vue School 的如何匹配动态路由的免费视频课程 (英文)</a></div>
 
 我们经常需要把某种模式匹配到的所有路由，全都映射到同个组件。例如，我们有一个 `User` 组件，对于所有 ID 各不相同的用户，都要使用这个组件来渲染。那么，我们可以在 `vue-router` 的路由路径中使用“动态路径参数”(dynamic segment) 来达到这个效果：
 
@@ -32,7 +32,7 @@ const User = {
 
 你可以在一个路由中设置多段“路径参数”，对应的值都会设置到 `$route.params` 中。例如：
 
-| 模式 | 匹配路径 | $route.params |
+| 模式                          | 匹配路径            | \$route.params                         |
 | ----------------------------- | ------------------- | -------------------------------------- |
 | /user/:username               | /user/evan          | `{ username: 'evan' }`                 |
 | /user/:username/post/:post_id | /user/evan/post/123 | `{ username: 'evan', post_id: '123' }` |
@@ -61,7 +61,7 @@ const User = {
 ```js
 const User = {
   template: '...',
-  beforeRouteUpdate (to, from, next) {
+  beforeRouteUpdate(to, from, next) {
     // react to route changes...
     // don't forget to call next()
   }

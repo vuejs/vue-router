@@ -1,8 +1,8 @@
 # Route Meta Fields
 
-You can include a `meta` field when defining a route:
+Sometimes, you might want to attach arbitrary information to routes like transition names, who can access the route, etc. This can be achieved through the `meta` property which accepts an object of properties and can be accessed on the route location and navigation guards. You can define `meta` properties like this:
 
-``` js
+```js
 const router = new VueRouter({
   routes: [
     {
@@ -31,7 +31,7 @@ All route records matched by a route are exposed on the `$route` object (and als
 
 An example use case is checking for a meta field in the global navigation guard:
 
-``` js
+```js
 router.beforeEach((to, from, next) => {
   if (to.matched.some(record => record.meta.requiresAuth)) {
     // this route requires auth, check if logged in

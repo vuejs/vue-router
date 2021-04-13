@@ -102,7 +102,7 @@ const Foo = {
 }
 ```
 
-L'interception `beforeRouteEnter` **n'**a **PAS** accès à `this`, car l'interception est appelée avant que la navigation soit confirmée, et le nouveau composant entrant n'a même pas encore été créé.
+L'interception `beforeRouteEnter` **n'a PAS** accès à `this`, car l'interception est appelée avant que la navigation soit confirmée, et le nouveau composant entrant n'a même pas encore été créé.
 
 Cependant, vous pouvez accéder à l'instance en passant dans la fonction de rappel `next`. Cette fonction de rappel va être appelée quand la navigation sera confirmée, et l'instance du composant sera passée à la fonction de rappel en tant qu'argument :
 

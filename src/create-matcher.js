@@ -7,10 +7,13 @@ import { createRoute } from './util/route'
 import { fillParams } from './util/params'
 import { createRouteMap } from './create-route-map'
 import { normalizeLocation } from './util/location'
+import { decode } from './util/query'
 
 export type Matcher = {
   match: (raw: RawLocation, current?: Route, redirectedFrom?: Location) => Route;
   addRoutes: (routes: Array<RouteConfig>) => void;
+  addRoute: (parentNameOrRoute: string | RouteConfig, route?: RouteConfig) => void;
+  getRoutes: () => Array<RouteRecord>;
 };
 
 export function createMatcher (
@@ -21,6 +24,28 @@ export function createMatcher (
 
   function addRoutes (routes) {
     createRouteMap(routes, pathList, pathMap, nameMap)
+  }
+
+  function addRoute (parentOrRoute, route) {
+    const parent = (typeof parentOrRoute !== 'object') ? nameMap[parentOrRoute] : undefined
+    // $flow-disable-line
+    createRouteMap([route || parentOrRoute], pathList, pathMap, nameMap, parent)
+
+    // add aliases of parent
+    if (parent) {
+      createRouteMap(
+        // $flow-disable-line route is defined if parent is
+        parent.alias.map(alias => ({ path: alias, children: [route] })),
+        pathList,
+        pathMap,
+        nameMap,
+        parent
+      )
+    }
+  }
+
+  function getRoutes () {
+    return pathList.map(path => pathMap[path])
   }
 
   function match (
@@ -166,6 +191,8 @@ export function createMatcher (
 
   return {
     match,
+    addRoute,
+    getRoutes,
     addRoutes
   }
 }
@@ -175,14 +202,6 @@ function matchRoute (
   path: string,
   params: Object
 ): boolean {
-  try {
-    path = decodeURI(path)
-  } catch (err) {
-    if (process.env.NODE_ENV !== 'production') {
-      warn(false, `Error decoding "${path}". Leaving it intact.`)
-    }
-  }
-
   const m = path.match(regex)
 
   if (!m) {
@@ -195,7 +214,7 @@ function matchRoute (
     const key = regex.keys[i - 1]
     if (key) {
       // Fix #1994: using * with props: true generates a param named 0
-      params[key.name || 'pathMatch'] = m[i]
+      params[key.name || 'pathMatch'] = typeof m[i] === 'string' ? decode(m[i]) : m[i]
     }
   }
 

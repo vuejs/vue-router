@@ -1,0 +1,44 @@
+{
+  "gold": [
+    {
+      "href": "https://passionatepeople.io/",
+      "alt": "Passionate People",
+      "imgSrcLight": "https://img2.storyblok.com/672x0/filters::format(webp)/f/86387/x/21aa32ed18/logo-normal.svg",
+      "imgSrcDark": "https://img2.storyblok.com/0x200/filters::format(webp)/f/86387/x/4cf6a70a8c/logo-white-text.svg"
+    }
+  ],
+  "silver": [
+    {
+      "href": "https://www.vuemastery.com/",
+      "alt": "VueMastery",
+      "imgSrcLight": "https://www.vuemastery.com/images/vuemastery.svg",
+      "imgSrcDark": "https://www.vuemastery.com/images/vuemastery.svg"
+    },
+    {
+      "href": "https://www.vuetifyjs.com/",
+      "imgSrcLight": "https://cdn.vuetifyjs.com/docs/images/logos/vuetify-logo-light-text.svg",
+      "imgSrcDark": "https://cdn.vuetifyjs.com/docs/images/logos/vuetify-logo-light-text.svg",
+      "alt": "Vuetify"
+    },
+    {
+      "href": "https://www.codestream.com/?utm_source=github&utm_campaign=vuerouter&utm_medium=banner",
+      "alt": "CodeStream",
+      "imgSrcLight": "https://alt-images.codestream.com/codestream_logo_vuerouter.png",
+      "imgSrcDark": "https://alt-images.codestream.com/codestream_logo_vuerouter.png"
+    }
+  ],
+  "bronze": [
+    {
+      "href": "https://storyblok.com",
+      "imgSrcLight": "https://a.storyblok.com/f/51376/3856x824/fea44d52a9/colored-full.png",
+      "imgSrcDark": "https://a.storyblok.com/f/51376/3856x824/fea44d52a9/colored-full.png",
+      "alt": "Storyblok"
+    },
+    {
+      "href": "https://nuxtjs.org",
+      "imgSrcLight": "https://nuxtjs.org/logos/nuxtjs-typo.svg",
+      "imgSrcDark": "https://nuxtjs.org/logos/nuxtjs-typo-white.svg",
+      "alt": "NuxtJS"
+    }
+  ]
+}

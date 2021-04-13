@@ -1,6 +1,6 @@
 # ナビゲーションガード
 
-<div class="vueschool"><a href="https://vueschool.io/courses/vue-router-for-everyone?friend=vuejs" target="_blank" rel="sponsored noopener" title="Learn how to build powerful Single Page Applications with the Vue Router on Vue School">Watch a free video course about Vue Router on Vue School</a></div>
+<div class="vueschool"><a href="https://vueschool.io/courses/vue-router-for-everyone?friend=vuerouter" target="_blank" rel="sponsored noopener" title="Learn how to build powerful Single Page Applications with the Vue Router on Vue School">Watch a free video course about Vue Router on Vue School</a></div>
 
 この名前が示すように、 `vue-router` によって提供されるナビゲーションガードは、リダイレクトもしくはキャンセルによって遷移をガードするために主に使用されます。ルートナビゲーション処理 (グローバル、ルート単位、コンポーネント内) をフックする多くの方法があります。
 
@@ -10,7 +10,7 @@
 
 `router.beforeEach` を使ってグローバル before ガードを登録できます。
 
-``` js
+```js
 const router = new VueRouter({ ... })
 
 router.beforeEach((to, from, next) => {
@@ -22,21 +22,21 @@ router.beforeEach((to, from, next) => {
 
 全てのガード関数は 3 つの引数を受け取ります。
 
-  - **`to: Route`**: 次にナビゲーションされる対象の [ルートオブジェクト](../../api/#ルートオブジェクト)。
-  
-  - **`from: Route`**: ナビゲーションされる前の現在のルートです。
-  
-  - **`next: Function`**: フックを **解決** するためにこの関数を呼ぶ必要があります。この振る舞いは `next` に渡される引数に依存します:
+- **`to: Route`**: 次にナビゲーションされる対象の [ルートオブジェクト](../../api/#ルートオブジェクト)。
 
-  - **`next()`**: パイプラインの次のフックに移動します。もしフックが残っていない場合は、このナビゲーションは **確立** されます。
+- **`from: Route`**: ナビゲーションされる前の現在のルートです。
 
-  - **`next(false)`**: 現在のナビゲーションを中止します。もしブラウザのURLが変化した場合は（ユーザーが手動で変更した場合でも、戻るボタンの場合でも）、 `from` ルートのURLにリセットされます。
+- **`next: Function`**: フックを **解決** するためにこの関数を呼ぶ必要があります。この振る舞いは `next` に渡される引数に依存します:
 
-  - **`next('/')` または `next({ path: '/' })`**: 異なる場所へリダイレクトします。現在のナビゲーションは中止され、あたらしいナビゲーションが始まります。任意のロケーションオブジェクトを `next` に渡すことができます。この `next` には、`replace: true`、 `name: 'home'` のようなオプション、そして [`router-link`、`to` プロパティ](../../api/#router-link)または [`router.push`](../../api/#ルーターインスタンスプロパティ)で使用される任意のオプションを指定することができます。
+- **`next()`**: パイプラインの次のフックに移動します。もしフックが残っていない場合は、このナビゲーションは **確立** されます。
 
-  - **`next(error)`**: (2.4.0+) `next` に渡された引数が `Error` インスタンスである場合、ナビゲーションは中止され、エラーは `router.onError()` を介して登録されたコールバックに渡されます。
+- **`next(false)`**: 現在のナビゲーションを中止します。もしブラウザの URL が変化した場合は（ユーザーが手動で変更した場合でも、戻るボタンの場合でも）、 `from` ルートの URL にリセットされます。
 
-  **与えられたナビゲーションガードを通過する任意のパスにおいて、常に 1 回だけ `next` 関数が呼び出されるようにしてください。それは 1 回以上出現することがありますが、論理パスが重ならないときだけで、そうしないないとフックは決して解決されない、またはエラーが発生します。** 以下は、ユーザーが認証されていない場合、`/login` にリダレクトするための例です:
+- **`next('/')` または `next({ path: '/' })`**: 異なる場所へリダイレクトします。現在のナビゲーションは中止され、あたらしいナビゲーションが始まります。任意のロケーションオブジェクトを `next` に渡すことができます。この `next` には、`replace: true`、 `name: 'home'` のようなオプション、そして [`router-link`、`to` プロパティ](../../api/#router-link)または [`router.push`](../../api/#ルーターインスタンスプロパティ)で使用される任意のオプションを指定することができます。
+
+- **`next(error)`**: (2.4.0+) `next` に渡された引数が `Error` インスタンスである場合、ナビゲーションは中止され、エラーは `router.onError()` を介して登録されたコールバックに渡されます。
+
+**与えられたナビゲーションガードを通過する任意のパスにおいて、常に 1 回だけ `next` 関数が呼び出されるようにしてください。それは 1 回以上出現することがありますが、論理パスが重ならないときだけで、そうしないないとフックは決して解決されない、またはエラーが発生します。** 以下は、ユーザーが認証されていない場合、`/login` にリダレクトするための例です:
 
 ```js
 // BAD
@@ -65,7 +65,7 @@ router.beforeEach((to, from, next) => {
 
 グローバル after フックを登録することもできます。しかしながら、ガードとは異なり、これらのフックは `next` 関数を受け取らず、ナビゲーションに影響しません。
 
-``` js
+```js
 router.afterEach((to, from) => {
   // ...
 })
@@ -75,7 +75,7 @@ router.afterEach((to, from) => {
 
 直接ルート設定オブジェクトの `beforeEnter` ガードを定義することができます。
 
-``` js
+```js
 const router = new VueRouter({
   routes: [
     {
@@ -99,22 +99,22 @@ const router = new VueRouter({
 - `beforeRouteUpdate` (2.2 で追加)
 - `beforeRouteLeave`
 
-``` js
+```js
 const Foo = {
   template: `...`,
-  beforeRouteEnter (to, from, next) {
+  beforeRouteEnter(to, from, next) {
     // このコンポーネントを描画するルートが確立する前に呼ばれます。
     // `this` でのこのコンポーネントへのアクセスはできません。
     // なぜならばこのガードが呼び出される時にまだ作られていないからです!
   },
-  beforeRouteUpdate (to, from, next) {
+  beforeRouteUpdate(to, from, next) {
     // このコンポーネントを描画するルートが変更されたときに呼び出されますが、
     // このコンポーネントは新しいルートで再利用されます。
     // たとえば、動的な引数 `/foo/:id` を持つルートの場合、`/foo/1` と `/foo/2` の間を移動すると、
     // 同じ `Foo` コンポーネントインスタンスが再利用され、そのときにこのフックが呼び出されます。
     // `this` でコンポーネントインスタンスにアクセスできます。
   },
-  beforeRouteLeave (to, from, next) {
+  beforeRouteLeave(to, from, next) {
     // このコンポーネントを描画するルートが間もなく
     // ナビゲーションから離れていく時に呼ばれます。
     // `this` でのコンポーネントインスタンスへのアクセスができます。
@@ -126,7 +126,7 @@ const Foo = {
 
 しかしながら、 `next` にコールバックを渡すことでインスタンスにアクセスすることができます。このコールバックはナビゲーションが確立した時に呼ばれ、コンポーネントインスタンスはそのコールバックの引数として渡されます。
 
-``` js
+```js
 beforeRouteEnter (to, from, next) {
   next(vm => {
     // `vm` を通じてコンポーネントインスタンスにアクセス
@@ -134,7 +134,7 @@ beforeRouteEnter (to, from, next) {
 }
 ```
 
-コールバックを `next` に渡すことをサポートするのは、`beforeRouteEnter` ガードだけであるということに注意してください。`beforeRouteUpdate` と `beforeRouteLeave` の場合、 `this` は既に利用可能です。したがって、コールバックを渡す必要はないので、*サポートされません*:
+コールバックを `next` に渡すことをサポートするのは、`beforeRouteEnter` ガードだけであるということに注意してください。`beforeRouteUpdate` と `beforeRouteLeave` の場合、 `this` は既に利用可能です。したがって、コールバックを渡す必要はないので、_サポートされません_:
 
 ```js
 beforeRouteUpdate (to, from, next) {
@@ -158,6 +158,7 @@ beforeRouteLeave (to, from, next) {
 ```
 
 ## 完全なナビゲーション解決フロー
+
 1. ナビゲーションがトリガされる
 2. 非アクティブ化されたコンポーネントで `beforeRouteLeave` ガードを呼ぶ
 3. グローバル `beforeEach` ガードを呼ぶ

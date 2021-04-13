@@ -43,7 +43,7 @@ Pour d'autres utilisations avancées, jetez un œil à cet [exemple](https://git
 
 Une redirection signifie que si l'utilisateur visite `/a`, l'URL va être remplacé par `/b` et concordé avec `/b`. Mais qu'est-ce qu'un alias ?
 
-** Un alias de `/a` en tant que `/b` signifie que lorsque l'utilisateur va visiter `/b`, l'URL va rester `/b`, mais la concordance va se faire comme si l'utilisateur visitait `/a`.**
+**Un alias de `/a` en tant que `/b` signifie que lorsque l'utilisateur va visiter `/b`, l'URL va rester `/b`, mais la concordance va se faire comme si l'utilisateur visitait `/a`.**
 
 La phase du dessus peut être exprimée dans la configuration de la route de la manière suivante :
 

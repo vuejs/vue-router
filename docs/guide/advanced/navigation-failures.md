@@ -46,7 +46,7 @@ If you omit the second parameter: `isNavigationFailure(failure)`, it will only c
 
 ## _Navigation Failures_'s properties
 
-All navigation failures expose `to` and `from` properties to reflect the current location as well as the target location for the navigation that failed:
+All navigation failures expose `to` and `from` properties to reflect the target and current location respectively for the navigation that failed:
 
 ```js
 // trying to access the admin page

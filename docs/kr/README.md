@@ -1,8 +1,10 @@
-# 소개
-
-:::tip 버전 정보
-TypeScript 사용자는 `vue-router@3.0+`와 `vue@2.5+`를 사용하세요.
-:::
+---
+home: true
+heroImage: /logo.png
+actionText: Get Started →
+actionLink: /kr/installation.html
+footer: MIT Licensed | Copyright © 2014-present Evan You, Eduardo San Martin Morote
+---
 
 Vue 라우터는 [Vue.js](http://vuejs.org)의 공식 라우터입니다.
 Vue.js를 사용한 싱글 페이지 앱을 쉽게 만들 수 있도록 Vue.js의 코어와 긴밀히 통합되어 있습니다.
@@ -19,3 +21,5 @@ Vue.js를 사용한 싱글 페이지 앱을 쉽게 만들 수 있도록 Vue.js�
 - 사용자 정의 가능한 스크롤 동작
 
 [시작하기](./guide/) 또는 [예제](https://github.com/vuejs/vue-router/tree/dev/examples)를 참고하세요. ([`README.md`](https://github.com/vuejs/vue-router/)에서 사용법을 확인할 수 있습니다).
+
+<HomeSponsors />

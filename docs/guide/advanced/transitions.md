@@ -1,10 +1,10 @@
 # Transitions
 
-<div class="vueschool"><a href="https://vueschool.io/lessons/how-to-create-route-transitions-with-vue-router?friend=vuejs" target="_blank" rel="sponsored noopener" title="Learn how to create route transitions on Vue School">Learn how to create route transitions with a free lesson on Vue School</a></div>
+<div class="vueschool"><a href="https://vueschool.io/lessons/how-to-create-route-transitions-with-vue-router?friend=vuerouter" target="_blank" rel="sponsored noopener" title="Learn how to create route transitions on Vue School">Learn how to create route transitions with a free lesson on Vue School</a></div>
 
 Since the `<router-view>` is essentially a dynamic component, we can apply transition effects to it the same way using the `<transition>` component:
 
-``` html
+```html
 <transition>
   <router-view></router-view>
 </transition>
@@ -16,7 +16,7 @@ Since the `<router-view>` is essentially a dynamic component, we can apply trans
 
 The above usage will apply the same transition for all routes. If you want each route's component to have different transitions, you can instead use `<transition>` with different names inside each route component:
 
-``` js
+```js
 const Foo = {
   template: `
     <transition name="slide">
@@ -38,14 +38,14 @@ const Bar = {
 
 It is also possible to determine the transition to use dynamically based on the relationship between the target route and current route:
 
-``` html
+```html
 <!-- use a dynamic transition name -->
 <transition :name="transitionName">
   <router-view></router-view>
 </transition>
 ```
 
-``` js
+```js
 // then, in the parent component,
 // watch the `$route` to determine the transition to use
 watch: {

@@ -1,27 +1,25 @@
 # ルートコンポーネントにプロパティを渡す
 
-<div class="vueschool"><a href="https://vueschool.io/courses/vue-router-for-everyone?friend=vuejs" target="_blank" rel="sponsored noopener" title="Learn how to build powerful Single Page Applications with the Vue Router on Vue School">Watch a free video course about Vue Router on Vue School</a></div>
+<div class="vueschool"><a href="https://vueschool.io/courses/vue-router-for-everyone?friend=vuerouter" target="_blank" rel="sponsored noopener" title="Learn how to build powerful Single Page Applications with the Vue Router on Vue School">Watch a free video course about Vue Router on Vue School</a></div>
 
-コンポーネントで `$route` を使うとコンポーネントとルートの間に密結合が生まれ、コンポーネントが特定のURLでしか使用できないなど柔軟性が制限されます。
+コンポーネントで `$route` を使うとコンポーネントとルートの間に密結合が生まれ、コンポーネントが特定の URL でしか使用できないなど柔軟性が制限されます。
 
 コンポーネントをルーターから分離するために `props` オプションを使います:
 
 **`$route` に結合**
 
-``` js
+```js
 const User = {
   template: '<div>User {{ $route.params.id }}</div>'
 }
 const router = new VueRouter({
-  routes: [
-    { path: '/user/:id', component: User }
-  ]
+  routes: [{ path: '/user/:id', component: User }]
 })
 ```
 
 **`props` による分離**
 
-``` js
+```js
 const User = {
   props: ['id'],
   template: '<div>User {{ id }}</div>'
@@ -50,10 +48,14 @@ const router = new VueRouter({
 
 `props` がオブジェクトの場合、これはコンポーネントプロパティとしてそのまま設定されます。プロパティが静的なときに便利です。
 
-``` js
+```js
 const router = new VueRouter({
   routes: [
-    { path: '/promotion/from-newsletter', component: Promotion, props: { newsletterPopup: false } }
+    {
+      path: '/promotion/from-newsletter',
+      component: Promotion,
+      props: { newsletterPopup: false }
+    }
   ]
 })
 ```
@@ -62,10 +64,14 @@ const router = new VueRouter({
 
 プロパティを返す関数を作成することができます。これにより、パラメータを他のタイプにキャストし、静的な値をルートベースの値などと組み合わせることができます。
 
-``` js
+```js
 const router = new VueRouter({
   routes: [
-    { path: '/search', component: SearchUser, props: (route) => ({ query: route.query.q }) }
+    {
+      path: '/search',
+      component: SearchUser,
+      props: route => ({ query: route.query.q })
+    }
   ]
 })
 ```

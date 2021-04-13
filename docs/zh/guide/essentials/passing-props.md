@@ -1,6 +1,6 @@
 # 路由组件传参
 
-<div class="vueschool"><a href="https://vueschool.io/lessons/how-to-pass-vue-router-params-as-props-to-components?friend=vuejs" target="_blank" rel="sponsored noopener" title="Learn how to pass props to route components with Vue School">观看 Vue School 的如何向路由组件传递 prop 的免费视频课程 (英文)</a></div>
+<div class="vueschool"><a href="https://vueschool.io/lessons/how-to-pass-vue-router-params-as-props-to-components?friend=vuerouter" target="_blank" rel="sponsored noopener" title="Learn how to pass props to route components with Vue School">观看 Vue School 的如何向路由组件传递 prop 的免费视频课程 (英文)</a></div>
 
 在组件中使用 `$route` 会使之与其对应路由形成高度耦合，从而使组件只能在某些特定的 URL 上使用，限制了其灵活性。
 
@@ -8,20 +8,18 @@
 
 **取代与 `$route` 的耦合**
 
-``` js
+```js
 const User = {
   template: '<div>User {{ $route.params.id }}</div>'
 }
 const router = new VueRouter({
-  routes: [
-    { path: '/user/:id', component: User }
-  ]
+  routes: [{ path: '/user/:id', component: User }]
 })
 ```
 
 **通过 `props` 解耦**
 
-``` js
+```js
 const User = {
   props: ['id'],
   template: '<div>User {{ id }}</div>'
@@ -50,10 +48,14 @@ const router = new VueRouter({
 
 如果 `props` 是一个对象，它会被按原样设置为组件属性。当 `props` 是静态的时候有用。
 
-``` js
+```js
 const router = new VueRouter({
   routes: [
-    { path: '/promotion/from-newsletter', component: Promotion, props: { newsletterPopup: false } }
+    {
+      path: '/promotion/from-newsletter',
+      component: Promotion,
+      props: { newsletterPopup: false }
+    }
   ]
 })
 ```
@@ -62,10 +64,14 @@ const router = new VueRouter({
 
 你可以创建一个函数返回 `props`。这样你便可以将参数转换成另一种类型，将静态值与基于路由的值结合等等。
 
-``` js
+```js
 const router = new VueRouter({
   routes: [
-    { path: '/search', component: SearchUser, props: (route) => ({ query: route.query.q }) }
+    {
+      path: '/search',
+      component: SearchUser,
+      props: route => ({ query: route.query.q })
+    }
   ]
 })
 ```

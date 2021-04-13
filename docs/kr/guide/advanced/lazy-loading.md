@@ -6,39 +6,40 @@ Vue의 [비동기 컴포넌트](http://vuejs.org/guide/components.html#Async-Com
 
 첫째, 비동기 컴포넌트는 Promise를 반환하는 팩토리 함수로 정의할 수 있습니다 (컴포넌트가 resolve 되어야함).
 
-``` js
-const Foo = () => Promise.resolve({ /* 컴포넌트 정의 */ })
+```js
+const Foo = () =>
+  Promise.resolve({
+    /* 컴포넌트 정의 */
+  })
 ```
 
 둘째, Webpack 2에서 [dynamic import](https://github.com/tc39/proposal-dynamic-import)를 사용하여 코드 분할 포인트를 지정할 수 있습니다.
 
-``` js
+```js
 import('./Foo.vue') // returns a Promise
- ```
+```
 
- > 참고: Babel을 사용하고 있는 경우 올바른 구문 분석을 위해 [syntax-dynamic-import](http://babeljs.io/docs/plugins/syntax-dynamic-import/) 플러그인을 추가해야합니다.
+> 참고: Babel을 사용하고 있는 경우 올바른 구문 분석을 위해 [syntax-dynamic-import](http://babeljs.io/docs/plugins/syntax-dynamic-import/) 플러그인을 추가해야합니다.
 
- 이 두 가지를 결합하여 Webpack에 의해 자동으로 코드 분할될 비동기 컴포넌트를 정의하는 방법입니다.
+이 두 가지를 결합하여 Webpack에 의해 자동으로 코드 분할될 비동기 컴포넌트를 정의하는 방법입니다.
 
- ``` js
- const Foo = () => import('./Foo.vue')
+```js
+const Foo = () => import('./Foo.vue')
 ```
 
 라우트 설정에서 아무것도 바꿀 필요가 없습니다. `Foo`만 사용하면 됩니다.
 
-``` js
+```js
 const router = new VueRouter({
-  routes: [
-    { path: '/foo', component: Foo }
-  ]
+  routes: [{ path: '/foo', component: Foo }]
 })
 ```
 
 ### 같은 묶음으로 컴포넌트 그룹화하기
 
-때로는 동일한 라우트 아래에 중첩된 모든 컴포넌트를 동일한 비동기 묶음으로 그룹화 할 수 있습니다. 이를 위해 특수 주석 문법을 사용하는 이름(Webpack 2.4 이상 지원)을 제공하여 [이름을 가진 묶음](https://webpack.js.org/guides/code-splitting-async/#chunk-names)을 사용해야합니다.
+때로는 동일한 라우트 아래에 중첩된 모든 컴포넌트를 동일한 비동기 묶음으로 그룹화 할 수 있습니다. 이를 위해 특수 주석 문법을 사용하는 이름(Webpack 2.4 이상 지원)을 제공하여 [이름을 가진 묶음](https://webpack.js.org/api/module-methods/#magic-comments)을 사용해야합니다.
 
-``` js
+```js
 const Foo = () => import(/* webpackChunkName: "group-foo" */ './Foo.vue')
 const Bar = () => import(/* webpackChunkName: "group-foo" */ './Bar.vue')
 const Baz = () => import(/* webpackChunkName: "group-foo" */ './Baz.vue')

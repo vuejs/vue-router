@@ -1,9 +1,9 @@
 <template>
   <ParentLayout>
-    <template #sidebar-top>
+    <template #page-top>
       <CarbonAds
         v-if="$site.themeConfig.carbonAds"
-        :key="$page.path"
+        :key="'ca:' + $page.path"
         :code="$site.themeConfig.carbonAds.carbon"
         :placement="$site.themeConfig.carbonAds.placement"
       />
@@ -11,7 +11,7 @@
     <template #page-bottom>
       <BuySellAds
         v-if="$site.themeConfig.carbonAds"
-        :key="$page.path"
+        :key="'bsa:' + $page.path"
         :code="$site.themeConfig.carbonAds.custom"
         :placement="$site.themeConfig.carbonAds.placement"
       />
@@ -34,3 +34,22 @@ export default {
   }
 }
 </script>
+
+<style>
+@media screen and (max-width: 1300px) {
+  .content__default::before {
+    content: '';
+    /* background-color: red; */
+    position: relative;
+    display: block;
+    /* top: 87px; */
+    /* right: -12px; */
+    float: right;
+    height: 221px;
+    /* width: 0; */
+    padding: 0 0 20px 30px;
+    margin-top: 20px;
+    margin-right: -24px;
+  }
+}
+</style>

@@ -45,7 +45,7 @@ const router = new VueRouter({
     { path: '/', component: Home },
     { path: '/foo', component: Foo },
     { path: '/bar', component: Bar },
-    { path: '/é', component: Unicode },
+    { path: encodeURI('/é'), component: Unicode },
     { path: '/query/:q', component: Query }
   ]
 })
@@ -76,10 +76,10 @@ const vueInstance = new Vue({
         <router-link tag="li" to="/bar" :event="['mousedown', 'touchstart']">
           <a>/bar</a>
         </router-link>
-        <li><router-link to="/é">/é</router-link></li>
-        <li><router-link to="/é?t=%25ñ">/é?t=%ñ</router-link></li>
-        <li><router-link to="/é#%25ñ">/é#%25ñ</router-link></li>
-        <router-link to="/foo" v-slot="props">
+        <li><router-link :to="encodeURI('/é')">/é</router-link></li>
+        <li><router-link :to="encodeURI('/é?t=%ñ')">/é?t=%ñ</router-link></li>
+        <li><router-link :to="encodeURI('/é#%ñ')">/é#%25ñ</router-link></li>
+        <router-link to="/foo" v-slot="props" custom>
           <li :class="[props.isActive && 'active', props.isExactActive && 'exact-active']">
             <a :href="props.href" @click="props.navigate">{{ props.route.path }} (with v-slot).</a>
           </li>

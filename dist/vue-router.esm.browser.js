@@ -1,6 +1,6 @@
 /*!
-  * vue-router v3.4.7
-  * (c) 2020 Evan You
+  * vue-router v3.5.1
+  * (c) 2021 Evan You
   * @license MIT
   */
 /*  */
@@ -205,23 +205,23 @@ function getFullPath (
   return (path || '/') + stringify(query) + hash
 }
 
-function isSameRoute (a, b) {
+function isSameRoute (a, b, onlyPath) {
   if (b === START) {
     return a === b
   } else if (!b) {
     return false
   } else if (a.path && b.path) {
-    return (
-      a.path.replace(trailingSlashRE, '') === b.path.replace(trailingSlashRE, '') &&
+    return a.path.replace(trailingSlashRE, '') === b.path.replace(trailingSlashRE, '') && (onlyPath ||
       a.hash === b.hash &&
-      isObjectEqual(a.query, b.query)
-    )
+      isObjectEqual(a.query, b.query))
   } else if (a.name && b.name) {
     return (
       a.name === b.name &&
-      a.hash === b.hash &&
+      (onlyPath || (
+        a.hash === b.hash &&
       isObjectEqual(a.query, b.query) &&
-      isObjectEqual(a.params, b.params)
+      isObjectEqual(a.params, b.params))
+      )
     )
   } else {
     return false
@@ -1045,6 +1045,10 @@ const eventTypes = [String, Array];
 
 const noop = () => {};
 
+let warnedCustomSlot;
+let warnedTagProp;
+let warnedEventProp;
+
 var Link = {
   name: 'RouterLink',
   props: {
@@ -1056,7 +1060,9 @@ var Link = {
       type: String,
       default: 'a'
     },
+    custom: Boolean,
     exact: Boolean,
+    exactPath: Boolean,
     append: Boolean,
     replace: Boolean,
     activeClass: String,
@@ -1100,8 +1106,8 @@ var Link = {
       ? createRoute(null, normalizeLocation(route.redirectedFrom), null, router)
       : route;
 
-    classes[exactActiveClass] = isSameRoute(current, compareTarget);
-    classes[activeClass] = this.exact
+    classes[exactActiveClass] = isSameRoute(current, compareTarget, this.exactPath);
+    classes[activeClass] = this.exact || this.exactPath
       ? classes[exactActiveClass]
       : isIncludedRoute(current, compareTarget);
 
@@ -1140,18 +1146,39 @@ var Link = {
       });
 
     if (scopedSlot) {
+      if ( !this.custom) {
+        !warnedCustomSlot && warn(false, 'In Vue Router 4, the v-slot API will by default wrap its content with an <a> element. Use the custom prop to remove this warning:\n<router-link v-slot="{ navigate, href }" custom></router-link>\n');
+        warnedCustomSlot = true;
+      }
       if (scopedSlot.length === 1) {
         return scopedSlot[0]
       } else if (scopedSlot.length > 1 || !scopedSlot.length) {
         {
           warn(
             false,
-            `RouterLink with to="${
+            `<router-link> with to="${
               this.to
             }" is trying to use a scoped slot but it didn't provide exactly one child. Wrapping the content with a span element.`
           );
         }
         return scopedSlot.length === 0 ? h() : h('span', {}, scopedSlot)
+      }
+    }
+
+    {
+      if ('tag' in this.$options.propsData && !warnedTagProp) {
+        warn(
+          false,
+          `<router-link>'s tag prop is deprecated and has been removed in Vue Router 4. Use the v-slot API to remove this warning: https://next.router.vuejs.org/guide/migration/#removal-of-event-and-tag-props-in-router-link.`
+        );
+        warnedTagProp = true;
+      }
+      if ('event' in this.$options.propsData && !warnedEventProp) {
+        warn(
+          false,
+          `<router-link>'s event prop is deprecated and has been removed in Vue Router 4. Use the v-slot API to remove this warning: https://next.router.vuejs.org/guide/migration/#removal-of-event-and-tag-props-in-router-link.`
+        );
+        warnedEventProp = true;
       }
     }
 
@@ -1290,7 +1317,8 @@ function createRouteMap (
   routes,
   oldPathList,
   oldPathMap,
-  oldNameMap
+  oldNameMap,
+  parentRoute
 ) {
   // the path list is used to control path matching priority
   const pathList = oldPathList || [];
@@ -1300,7 +1328,7 @@ function createRouteMap (
   const nameMap = oldNameMap || Object.create(null);
 
   routes.forEach(route => {
-    addRouteRecord(pathList, pathMap, nameMap, route);
+    addRouteRecord(pathList, pathMap, nameMap, route, parentRoute);
   });
 
   // ensure wildcard routes are always at the end
@@ -1348,6 +1376,14 @@ function addRouteRecord (
         path || name
       )} cannot be a ` + `string id. Use an actual component instead.`
     );
+
+    warn(
+      // eslint-disable-next-line no-control-regex
+      !/[^\u0000-\u007F]+/.test(path),
+      `Route with path "${path}" contains unencoded characters, make sure ` +
+        `your path is correctly encoded before passing it to the router. Use ` +
+        `encodeURI to encode static segments of your path.`
+    );
   }
 
   const pathToRegexpOptions =
@@ -1362,6 +1398,11 @@ function addRouteRecord (
     path: normalizedPath,
     regex: compileRouteRegex(normalizedPath, pathToRegexpOptions),
     components: route.components || { default: route.component },
+    alias: route.alias
+      ? typeof route.alias === 'string'
+        ? [route.alias]
+        : route.alias
+      : [],
     instances: {},
     enteredCbs: {},
     name,
@@ -1495,6 +1536,28 @@ function createMatcher (
 
   function addRoutes (routes) {
     createRouteMap(routes, pathList, pathMap, nameMap);
+  }
+
+  function addRoute (parentOrRoute, route) {
+    const parent = (typeof parentOrRoute !== 'object') ? nameMap[parentOrRoute] : undefined;
+    // $flow-disable-line
+    createRouteMap([route || parentOrRoute], pathList, pathMap, nameMap, parent);
+
+    // add aliases of parent
+    if (parent) {
+      createRouteMap(
+        // $flow-disable-line route is defined if parent is
+        parent.alias.map(alias => ({ path: alias, children: [route] })),
+        pathList,
+        pathMap,
+        nameMap,
+        parent
+      );
+    }
+  }
+
+  function getRoutes () {
+    return pathList.map(path => pathMap[path])
   }
 
   function match (
@@ -1640,6 +1703,8 @@ function createMatcher (
 
   return {
     match,
+    addRoute,
+    getRoutes,
     addRoutes
   }
 }
@@ -1649,14 +1714,6 @@ function matchRoute (
   path,
   params
 ) {
-  try {
-    path = decodeURI(path);
-  } catch (err) {
-    {
-      warn(false, `Error decoding "${path}". Leaving it intact.`);
-    }
-  }
-
   const m = path.match(regex);
 
   if (!m) {
@@ -1669,7 +1726,7 @@ function matchRoute (
     const key = regex.keys[i - 1];
     if (key) {
       // Fix #1994: using * with props: true generates a param named 0
-      params[key.name || 'pathMatch'] = m[i];
+      params[key.name || 'pathMatch'] = typeof m[i] === 'string' ? decode(m[i]) : m[i];
     }
   }
 
@@ -1859,7 +1916,17 @@ function scrollToPosition (shouldScroll, position) {
   }
 
   if (position) {
-    window.scrollTo(position.x, position.y);
+    // $flow-disable-line
+    if ('scrollBehavior' in document.documentElement.style) {
+      window.scrollTo({
+        left: position.x,
+        top: position.y,
+        // $flow-disable-line
+        behavior: shouldScroll.behavior
+      });
+    } else {
+      window.scrollTo(position.x, position.y);
+    }
   }
 }
 
@@ -2777,6 +2844,7 @@ class VueRouter {
   
   
   
+  
 
   
   
@@ -2991,7 +3059,21 @@ class VueRouter {
     }
   }
 
+  getRoutes () {
+    return this.matcher.getRoutes()
+  }
+
+  addRoute (parentOrRoute, route) {
+    this.matcher.addRoute(parentOrRoute, route);
+    if (this.history.current !== START) {
+      this.history.transitionTo(this.history.getCurrentLocation());
+    }
+  }
+
   addRoutes (routes) {
+    {
+      warn(false, 'router.addRoutes() is deprecated and has been removed in Vue Router 4. Use router.addRoute() instead.');
+    }
     this.matcher.addRoutes(routes);
     if (this.history.current !== START) {
       this.history.transitionTo(this.history.getCurrentLocation());
@@ -3013,9 +3095,10 @@ function createHref (base, fullPath, mode) {
 }
 
 VueRouter.install = install;
-VueRouter.version = '3.4.7';
+VueRouter.version = '3.5.1';
 VueRouter.isNavigationFailure = isNavigationFailure;
 VueRouter.NavigationFailureType = NavigationFailureType;
+VueRouter.START_LOCATION = START;
 
 if (inBrowser && window.Vue) {
   window.Vue.use(VueRouter);

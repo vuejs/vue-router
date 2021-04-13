@@ -1,18 +1,18 @@
 # はじめに
 
 ::: tip Note
- ガイド内のコードのサンプルは [ES2015](https://github.com/lukehoban/es6features) を使っています。
+ガイド内のコードのサンプルは [ES2015](https://github.com/lukehoban/es6features) を使っています。
 
 すべての example では、vue の完全バージョンを使用してテンプレートを解析可能にしています。詳細は[こちら](https://jp.vuejs.org/v2/guide/installation.html#ランタイム-コンパイラとランタイム限定の違い)を参照してください。
 :::
 
-<div class="vueschool"><a href="https://vueschool.io/courses/vue-router-for-everyone?friend=vuejs" target="_blank" rel="sponsored noopener" title="Learn how to build powerful Single Page Applications with the Vue Router on Vue School">Watch a free video course about Vue Router on Vue School</a></div>
+<div class="vueschool"><a href="https://vueschool.io/courses/vue-router-for-everyone?friend=vuerouter" target="_blank" rel="sponsored noopener" title="Learn how to build powerful Single Page Applications with the Vue Router on Vue School">Watch a free video course about Vue Router on Vue School</a></div>
 
 Vue.js と vue-router を使ったシングルページアプリケーションの構築は驚くほど簡単です。Vue.js のコンポーネントを使ってアプリケーションを既に構成しています。vue-router を混ぜ込むには、コンポーネントとルートをマッピングさせて vue-router にどこで描画するかを知らせるだけです。以下が基本的な例です。
 
 ## HTML
 
-``` html
+```html
 <script src="https://unpkg.com/vue/dist/vue.js"></script>
 <script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
 
@@ -33,7 +33,7 @@ Vue.js と vue-router を使ったシングルページアプリケーション�
 
 ## JavaScript
 
-``` js
+```js
 // 0. モジュールシステムを使っている場合 (例: vue-cli 経由で)、Vue と VueRouter をインポートし、`Vue.use(VueRouter)` を呼び出します。
 
 // 1. ルートコンポーネントを定義します
@@ -74,7 +74,7 @@ const app = new Vue({
 // Home.vue
 export default {
   computed: {
-    username () {
+    username() {
       // `params` が表示される
       return this.$route.params.username
     }
