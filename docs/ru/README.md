@@ -1,7 +1,7 @@
 ---
 home: true
 heroImage: /logo.png
-actionText: Get Started →
+actionText: Начать знакомство →
 actionLink: /ru/installation.html
 footer: MIT Licensed | Copyright © 2014-present Evan You, Eduardo San Martin Morote
 ---
