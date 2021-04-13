@@ -58,7 +58,7 @@ const User = {
 ```js
 const User = {
   template: '...',
-  beforeRouteUpdate (to, from, next) {
+  beforeRouteUpdate(to, from, next) {
     // обрабатываем изменение параметров маршрута...
     // не забываем вызвать next()
   }
