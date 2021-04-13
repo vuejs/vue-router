@@ -571,6 +571,12 @@ The route object can be found in multiple places:
 
     An object that contains key/value pairs of the query string. For example, for a path `/foo?user=1`, we get `$route.query.user == 1`. If there is no query the value will be an empty object.
 
+- **\$route.meta**
+
+  - type: `Object`
+
+    An object that contains key/value pairs of the route meta object. If there are no meta properties the value will be an empty object.
+
 - **\$route.hash**
 
   - type: `string`
