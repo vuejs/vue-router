@@ -93,6 +93,12 @@ module.exports = ctx => ({
             link: '/api/'
           },
           {
+            text: 'v3.x',
+            items: [
+              { text: 'v4.x', link: 'https://next.router.vuejs.org' }
+            ]
+          },
+          {
             text: 'Release Notes',
             link: 'https://github.com/vuejs/vue-router/releases'
           }
@@ -141,6 +147,12 @@ module.exports = ctx => ({
           {
             text: 'API 参考',
             link: '/zh/api/'
+          },
+          {
+            text: 'v3.x',
+            items: [
+              { text: 'v4.x', link: 'https://next.router.vuejs.org/zh/' }
+            ]
           },
           {
             text: '更新记录',
@@ -193,6 +205,12 @@ module.exports = ctx => ({
             link: '/ja/api/'
           },
           {
+            text: 'v3.x',
+            items: [
+              { text: 'v4.x', link: 'https://next.router.vuejs.org' }
+            ]
+          },
+          {
             text: 'リリースノート',
             link: 'https://github.com/vuejs/vue-router/releases'
           }
@@ -240,6 +258,12 @@ module.exports = ctx => ({
           {
             text: 'Справочник API',
             link: '/ru/api/'
+          },
+          {
+            text: 'v3.x',
+            items: [
+              { text: 'v4.x', link: 'https://next.router.vuejs.org' }
+            ]
           },
           {
             text: 'История изменений',
@@ -292,6 +316,12 @@ module.exports = ctx => ({
             link: '/kr/api/'
           },
           {
+            text: 'v3.x',
+            items: [
+              { text: 'v4.x', link: 'https://next.router.vuejs.org' }
+            ]
+          },
+          {
             text: '릴리즈 노트',
             link: 'https://github.com/vuejs/vue-router/releases'
           }
@@ -339,6 +369,12 @@ module.exports = ctx => ({
           {
             text: 'API',
             link: '/fr/api/'
+          },
+          {
+            text: 'v3.x',
+            items: [
+              { text: 'v4.x', link: 'https://next.router.vuejs.org' }
+            ]
           },
           {
             text: 'Notes de version',
