@@ -17,13 +17,14 @@ sidebar: auto
 
 ### `v-slot` API (3.1.0 新增)
 
-`router-link` 通过一个[作用域插槽](https://cn.vuejs.org/v2/guide/components-slots.html#作用域插槽)暴露底层的定制能力。这是一个更高阶的 API，主要面向库作者，但也可以为开发者提供便利，多数情况用在一个类似 _NavLink_ 这样的组件里。
+`router-link` 通过一个[作用域插槽](https://cn.vuejs.org/v2/guide/components-slots.html#作用域插槽)暴露底层的定制能力。这是一个更高阶的 API，主要面向库作者，但也可以为开发者提供便利，多数情况用在一个类似 _NavLink_ 这样的自定义组件里。
 
 **在使用 `v-slot` API 时，需要向 `router-link` 传入一个单独的子元素**。否则 `router-link` 将会把子元素包裹在一个 `span` 元素内。
 
 ```html
 <router-link
   to="/about"
+  custom
   v-slot="{ href, route, navigate, isActive, isExactActive }"
 >
   <NavLink :active="isActive" :href="href" @click="navigate"
@@ -46,6 +47,7 @@ sidebar: auto
 <router-link
   to="/foo"
   v-slot="{ href, route, navigate, isActive, isExactActive }"
+  custom
 >
   <li
     :class="[isActive && 'router-link-active', isExactActive && 'router-link-exact-active']"
