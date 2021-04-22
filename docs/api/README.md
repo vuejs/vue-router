@@ -356,7 +356,7 @@ Since it's just a component, it works with `<transition>` and `<keep-alive>`. Wh
   })
 
   router.beforeEach((to, from) => {
-    if (from === START_LOCATION) {
+    if (from === router.START_LOCATION) {
       // initial navigation
     }
   })
