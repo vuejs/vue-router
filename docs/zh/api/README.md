@@ -337,7 +337,7 @@ sidebar: auto
   })
 
   router.beforeEach((to, from) => {
-    if (from === START_LOCATION) {
+    if (from === Router.START_LOCATION) {
       // 初始导航
     }
   })
