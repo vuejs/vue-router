@@ -349,14 +349,14 @@ Since it's just a component, it works with `<transition>` and `<keep-alive>`. Wh
   Initial route location represented as a [Route Object](#the-route-object) where the router starts at. Can be used in navigation guards to differentiate the initial navigation.
 
   ```js
-  import Router from 'vue-router'
+  import VueRouter from 'vue-router'
 
-  const router = new Router({
+  const router = new VueRouter({
     // ...
   })
 
   router.beforeEach((to, from) => {
-    if (from === START_LOCATION) {
+    if (from === VueRouter.START_LOCATION) {
       // initial navigation
     }
   })

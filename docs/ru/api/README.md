@@ -349,14 +349,14 @@ sidebar: auto
   Первоначальная навигация будет [объектом Route](#объект-route) с которого запускается маршрутизатор. Можно использовать в навигационных хуках для определения стартовой навигации.
 
   ```js
-  import Router from 'vue-router'
+  import VueRouter from 'vue-router'
 
-  const router = new Router({
+  const router = new VueRouter({
     // ...
   })
 
   router.beforeEach((to, from) => {
-    if (from === START_LOCATION) {
+    if (from === VueRouter.START_LOCATION) {
       // первоначальная навигация
     }
   })

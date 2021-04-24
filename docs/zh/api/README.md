@@ -330,14 +330,14 @@ sidebar: auto
   以[路由对象](#路由对象)的格式展示初始路由地址，即路由开始的地方。可用在导航守卫中以区分初始导航。
 
   ```js
-  import Router from 'vue-router'
+  import VueRouter from 'vue-router'
 
-  const router = new Router({
+  const router = new VueRouter({
     // ...
   })
 
   router.beforeEach((to, from) => {
-    if (from === START_LOCATION) {
+    if (from === VueRouter.START_LOCATION) {
       // 初始导航
     }
   })
