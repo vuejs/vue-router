@@ -1,5 +1,9 @@
 # HTML5 History Mode
 
+::: warning
+For single page apps only, multipage apps may require more sophisticated server configuration.
+:::
+
 The default mode for `vue-router` is _hash mode_ - it uses the URL hash to simulate a full URL so that the page won't be reloaded when the URL changes.
 
 To get rid of the hash, we can use the router's **history mode**, which leverages the `history.pushState` API to achieve URL navigation without a page reload:
