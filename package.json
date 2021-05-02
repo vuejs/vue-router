@@ -59,6 +59,8 @@
     ]
   },
   "devDependencies": {
+    "@rollup/plugin-commonjs": "^17.0.0",
+    "@rollup/plugin-node-resolve": "^11.0.0",
     "@vuepress/plugin-pwa": "^1.5.3",
     "@vuepress/theme-vue": "^1.5.3",
     "axios": "^0.19.0",
@@ -91,9 +93,7 @@
     "path-to-regexp": "^1.8.0",
     "rollup": "^2.34.1",
     "rollup-plugin-buble": "^0.19.8",
-    "@rollup/plugin-commonjs": "^17.0.0",
     "rollup-plugin-flow-no-whitespace": "^1.0.0",
-    "@rollup/plugin-node-resolve": "^11.0.0",
     "rollup-plugin-replace": "^2.0.0",
     "rollup-watch": "^4.0.0",
     "selenium-server": "^3.141.59",
