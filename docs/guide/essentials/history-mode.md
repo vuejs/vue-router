@@ -135,10 +135,7 @@ const router = new VueRouter({
     { 
       path: '/:catchAll(.*)', 
       component: NotFoundComponent,
-      name: 'NotFound',
-      meta:{
-        requireAuth: false
-      }
+      name: 'NotFound'
     }
   ]
 })
