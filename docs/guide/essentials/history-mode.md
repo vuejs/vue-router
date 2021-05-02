@@ -132,7 +132,11 @@ There is a caveat to this: Your server will no longer report 404 errors as all n
 const router = new VueRouter({
   mode: 'history',
   routes: [
-    { path: '*', component: NotFoundComponent }
+    { 
+      path: '/:catchAll(.*)', 
+      component: NotFoundComponent,
+      name: 'NotFound'
+    }
   ]
 })
 ```
