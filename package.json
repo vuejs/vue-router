@@ -46,7 +46,8 @@
     "docs": "vuepress dev docs",
     "docs:build": "vuepress build docs",
     "changelog": "conventional-changelog -p angular -r 2 -i CHANGELOG.md -s",
-    "release": "bash scripts/release.sh"
+    "release": "bash scripts/release.sh",
+    "commit": "git-cz"
   },
   "gitHooks": {
     "pre-commit": "lint-staged",
