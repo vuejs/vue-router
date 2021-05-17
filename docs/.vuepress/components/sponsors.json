@@ -5,6 +5,12 @@
       "alt": "Passionate People",
       "imgSrcLight": "https://img2.storyblok.com/672x0/filters::format(webp)/f/86387/x/21aa32ed18/logo-normal.svg",
       "imgSrcDark": "https://img2.storyblok.com/0x200/filters::format(webp)/f/86387/x/4cf6a70a8c/logo-white-text.svg"
+    },
+    {
+      "href": "https://vuejobs.com/?utm_source=vuerouter&utm_campaign=sponsor",
+      "alt": "VueJobs",
+      "imgSrcLight": "/sponsors/vuejobs.png",
+      "imgSrcDark": "/sponsors/vuejobs.png"
     }
   ],
   "silver": [
