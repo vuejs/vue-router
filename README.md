@@ -20,7 +20,7 @@ Vue Router is part of the Vue Ecosystem and is an MIT-licensed open source proje
   </a>
 
   <a href="https://vuejobs.com/?utm_source=vuerouter&utm_campaign=sponsor" target="_blank" rel="noopener noreferrer">
-    <img src="docs/public/sponsors/vuejobs.png" height="72px" alt="VueJobs">
+    <img src="docs/.vuepress/public/sponsors/vuejobs.png" height="72px" alt="VueJobs">
   </a>
 </p>
 
