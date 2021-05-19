@@ -229,6 +229,8 @@ const Components: (
   | AsyncComponent
 )[] = router.getMatchedComponents()
 
+const match: Route = router.match('/more');
+
 const vm = new Vue({
   router,
   template: `
