@@ -43,6 +43,7 @@ export declare class VueRouter {
   go(n: number): void
   back(): void
   forward(): void
+  match (raw: RawLocation, current?: Route, redirectedFrom?: Location): Route
   getMatchedComponents(to?: RawLocation | Route): Component[]
   onReady(cb: Function, errorCb?: ErrorHandler): void
   onError(cb: ErrorHandler): void
