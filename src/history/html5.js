@@ -87,9 +87,7 @@ export class HTML5History extends History {
 
 export function getLocation (base: string): string {
   let path = window.location.pathname
-  // If path starts with base, take that part out.
-  // Note that for path="/app", if base="/a" it shouldn't break the path into "/a/pp"
-  // See https://github.com/vuejs/vue-router/issues/3555
+  // base="/a" shouldn't turn path="/app" into "/a/pp" https://github.com/vuejs/vue-router/issues/3555
   if (base && ((path.toLowerCase() === base.toLowerCase()) ||
     (path.toLowerCase().indexOf(cleanPath(base.toLowerCase() + '/')) === 0))) {
     path = path.slice(base.length)
