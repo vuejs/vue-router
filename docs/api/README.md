@@ -188,7 +188,7 @@ If you add a `target="_blank"` to your `a` element, you must omit the `@click="n
 
 ### aria-current-value
 
-- type: `'page' | 'step' | 'location' | 'date' | 'time'`
+- type: `'page' | 'step' | 'location' | 'date' | 'time' | 'true' | 'false'`
 - default: `"page"`
 
   Configure the value of `aria-current` when the link is active with exact match. It must be one of the [allowed values for aria-current](https://www.w3.org/TR/wai-aria-1.2/#aria-current) in the ARIA spec. In most cases, the default of `page` should be the best fit.

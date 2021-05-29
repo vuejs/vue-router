@@ -170,7 +170,7 @@ sidebar: auto
 
 ### aria-current-value
 
-- 类型: `'page' | 'step' | 'location' | 'date' | 'time'`
+- 类型: `'page' | 'step' | 'location' | 'date' | 'time' | 'true' | 'false'`
 - 默认值: `"page"`
 
   当链接根据精确匹配规则激活时配置的 `aria-current` 的值。这个值应该是 ARIA 规范中[允许的 aria-current 的值](https://www.w3.org/TR/wai-aria-1.2/#aria-current)。在绝大多数场景下，默认值 `page` 应该是最合适的。
