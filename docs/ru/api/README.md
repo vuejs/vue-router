@@ -188,7 +188,7 @@ sidebar: auto
 
 ### aria-current-value
 
-- тип: `'page' | 'step' | 'location' | 'date' | 'time'`
+- тип: `'page' | 'step' | 'location' | 'date' | 'time' | 'true' | 'false'`
 - по умолчанию: `"page"`
 
   Настройка значения `aria-current` когда ссылка активна по точному (exact) совпадению. Это должно быть одно из [разрешённых значений для aria-current](https://www.w3.org/TR/wai-aria-1.2/#aria-current) спецификации ARIA. В большинстве случаев наиболее подходящим значением будет `page`.
