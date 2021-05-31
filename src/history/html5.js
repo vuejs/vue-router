@@ -89,7 +89,9 @@ export function getLocation (base: string): string {
   let path = window.location.pathname
   const pathLowerCase = path.toLowerCase()
   const baseLowerCase = base.toLowerCase()
-  // base="/a" shouldn't turn path="/app" into "/a/pp" https://github.com/vuejs/vue-router/issues/3555
+  // base="/a" shouldn't turn path="/app" into "/a/pp"
+  // https://github.com/vuejs/vue-router/issues/3555
+  // so we ensure the trailing slash in the base
   if (base && ((pathLowerCase === baseLowerCase) ||
     (pathLowerCase.indexOf(cleanPath(baseLowerCase + '/')) === 0))) {
     path = path.slice(base.length)
