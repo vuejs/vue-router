@@ -52,7 +52,6 @@
 import ParentLayout from '@parent-theme/layouts/Layout.vue'
 import CarbonAds from './components/CarbonAds.vue'
 import BuySellAds from './components/BuySellAds.vue'
-// import BannerTop from './components/BannerTop.vue'
 import sponsors from '../components/sponsors.json'
 
 export default {
