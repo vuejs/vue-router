@@ -27,9 +27,15 @@ export default {
 <style>
 #sponsors {
   text-align: center;
-  padding: 35px 40px 45px;
-  margin: 0 -2rem;
+  padding: 35px 30px 45px;
   background-color: #f6f6f6;
+}
+
+@media (min-width: 768px) {
+  #sponsors {
+    padding: 35px 40px 45px;
+    margin: 0 -2rem;
+  }
 }
 
 #sponsors h3 {
