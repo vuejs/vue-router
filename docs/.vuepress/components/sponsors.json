@@ -11,6 +11,12 @@
       "alt": "VueJobs",
       "imgSrcLight": "/sponsors/vuejobs.png",
       "imgSrcDark": "/sponsors/vuejobs.png"
+    },
+    {
+      "href": "https://www.vuetifyjs.com/",
+      "imgSrcLight": "/sponsors/vuetify-logo-light-text.svg",
+      "imgSrcDark": "/sponsors/vuetify-logo-dark-text.svg",
+      "alt": "Vuetify"
     }
   ],
   "silver": [
@@ -19,12 +25,6 @@
       "alt": "VueMastery",
       "imgSrcLight": "https://www.vuemastery.com/images/vuemastery.svg",
       "imgSrcDark": "https://www.vuemastery.com/images/vuemastery.svg"
-    },
-    {
-      "href": "https://www.vuetifyjs.com/",
-      "imgSrcLight": "https://cdn.vuetifyjs.com/docs/images/logos/vuetify-logo-light-text.svg",
-      "imgSrcDark": "https://cdn.vuetifyjs.com/docs/images/logos/vuetify-logo-light-text.svg",
-      "alt": "Vuetify"
     },
     {
       "href": "https://www.codestream.com/?utm_source=github&utm_campaign=vuerouter&utm_medium=banner",
