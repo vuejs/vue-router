@@ -241,7 +241,8 @@ module.exports = ctx => ({
               '/ja/guide/advanced/transitions.md',
               '/ja/guide/advanced/data-fetching.md',
               '/ja/guide/advanced/scroll-behavior.md',
-              '/ja/guide/advanced/lazy-loading.md'
+              '/ja/guide/advanced/lazy-loading.md',
+              '/ja/guide/advanced/navigation-failures.md'
             ]
           }
         ]
