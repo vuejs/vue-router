@@ -1,5 +1,5 @@
 /*!
-  * vue-router v3.5.1
+  * vue-router v3.5.2
   * (c) 2021 Evan You
   * @license MIT
   */
@@ -12,7 +12,7 @@ function assert (condition, message) {
 }
 
 function warn (condition, message) {
-  if ( !condition) {
+  if (!condition) {
     typeof console !== 'undefined' && console.warn(`[vue-router] ${message}`);
   }
 }
@@ -59,7 +59,7 @@ function resolveQuery (
   try {
     parsedQuery = parse(query || '');
   } catch (e) {
-     warn(false, e.message);
+    warn(false, e.message);
     parsedQuery = {};
   }
   for (const key in extraQuery) {
@@ -1146,7 +1146,7 @@ var Link = {
       });
 
     if (scopedSlot) {
-      if ( !this.custom) {
+      if (!this.custom) {
         !warnedCustomSlot && warn(false, 'In Vue Router 4, the v-slot API will by default wrap its content with an <a> element. Use the custom prop to remove this warning:\n<router-link v-slot="{ navigate, href }" custom></router-link>\n');
         warnedCustomSlot = true;
       }
@@ -1458,7 +1458,7 @@ function addRouteRecord (
     const aliases = Array.isArray(route.alias) ? route.alias : [route.alias];
     for (let i = 0; i < aliases.length; ++i) {
       const alias = aliases[i];
-      if ( alias === path) {
+      if (alias === path) {
         warn(
           false,
           `Found an alias with the same value as the path: "${path}". You have to remove that alias. It will be ignored in development.`
@@ -1485,7 +1485,7 @@ function addRouteRecord (
   if (name) {
     if (!nameMap[name]) {
       nameMap[name] = record;
-    } else if ( !matchAs) {
+    } else if (!matchAs) {
       warn(
         false,
         `Duplicate named routes definition: ` +
@@ -1544,7 +1544,7 @@ function createMatcher (
     createRouteMap([route || parentOrRoute], pathList, pathMap, nameMap, parent);
 
     // add aliases of parent
-    if (parent) {
+    if (parent && parent.alias.length) {
       createRouteMap(
         // $flow-disable-line route is defined if parent is
         parent.alias.map(alias => ({ path: alias, children: [route] })),
@@ -2113,7 +2113,7 @@ function resolveAsyncComponents (matched) {
 
         const reject = once(reason => {
           const msg = `Failed to resolve async component ${key}: ${reason}`;
-           warn(false, msg);
+          warn(false, msg);
           if (!error) {
             error = isError(reason)
               ? reason
@@ -2616,7 +2616,13 @@ class HTML5History extends History {
 
 function getLocation (base) {
   let path = window.location.pathname;
-  if (base && path.toLowerCase().indexOf(base.toLowerCase()) === 0) {
+  const pathLowerCase = path.toLowerCase();
+  const baseLowerCase = base.toLowerCase();
+  // base="/a" shouldn't turn path="/app" into "/a/pp"
+  // https://github.com/vuejs/vue-router/issues/3555
+  // so we ensure the trailing slash in the base
+  if (base && ((pathLowerCase === baseLowerCase) ||
+    (pathLowerCase.indexOf(cleanPath(baseLowerCase + '/')) === 0))) {
     path = path.slice(base.length);
   }
   return (path || '/') + window.location.search + window.location.hash
@@ -2905,8 +2911,7 @@ class VueRouter {
   }
 
   init (app /* Vue component instance */) {
-    
-      assert(
+    assert(
         install.installed,
         `not installed. Make sure to call \`Vue.use(VueRouter)\` ` +
           `before creating root instance.`
@@ -3095,7 +3100,7 @@ function createHref (base, fullPath, mode) {
 }
 
 VueRouter.install = install;
-VueRouter.version = '3.5.1';
+VueRouter.version = '3.5.2';
 VueRouter.isNavigationFailure = isNavigationFailure;
 VueRouter.NavigationFailureType = NavigationFailureType;
 VueRouter.START_LOCATION = START;
