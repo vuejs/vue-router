@@ -5,6 +5,7 @@ export default VueRouter
 
 export {
   RouterMode,
+  RouteMeta,
   RawLocation,
   RedirectOption,
   RouterOptions,

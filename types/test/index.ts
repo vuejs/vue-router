@@ -18,7 +18,9 @@ const Abc = { template: '<div>abc</div>' }
 const Async = () => Promise.resolve({ template: '<div>async</div>' })
 
 let err: any
-if (VueRouter.isNavigationFailure(err, VueRouter.NavigationFailureType.aborted)) {
+if (
+  VueRouter.isNavigationFailure(err, VueRouter.NavigationFailureType.aborted)
+) {
   err.from.fullPath.split('/')
 }
 
@@ -104,7 +106,7 @@ const router = new VueRouter({
             abc: Abc,
             asyncComponent: Async
           },
-          meta: { auth: true },
+          meta: { auth: true, nested: { foo: '' } },
           beforeEnter(to, from, next) {
             to.params
             from.params
@@ -229,7 +231,7 @@ const Components: (
   | AsyncComponent
 )[] = router.getMatchedComponents()
 
-const match: Route = router.match('/more');
+const match: Route = router.match('/more')
 
 const vm = new Vue({
   router,
