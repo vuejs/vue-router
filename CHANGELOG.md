@@ -1,3 +1,10 @@
+## [3.5.2](https://github.com/vuejs/vue-router/compare/v3.5.1...v3.5.2) (2021-06-21)
+
+### Bug Fixes
+
+- **history:** stricter check of base in HTML5 ([#3556](https://github.com/vuejs/vue-router/issues/3556)) ([11dd184](https://github.com/vuejs/vue-router/commit/11dd184dc6a872c6399977fa4b7c259225ce4834))
+- **types:** added missing router.match ([#3554](https://github.com/vuejs/vue-router/issues/3554)) ([394a3b6](https://github.com/vuejs/vue-router/commit/394a3b6cce5e395ae4ccf3e2efb0c115d492978c))
+
 ## [3.5.1](https://github.com/vuejs/vue-router/compare/v3.5.0...v3.5.1) (2021-01-26)
 
 ### Bug Fixes
