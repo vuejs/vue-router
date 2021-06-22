@@ -11,7 +11,7 @@ const router = new VueRouter({
 })
 ```
 
-当你使用 history 模式时，URL 就像正常的 url，例如 `http://yoursite.com/user/id`，也好看！
+当你使用 history 模式时，URL 就像正常的 url，例如 `http://oursite.com/user/id`，也好看！
 
 不过这种模式要玩好，还需要后台配置支持。因为我们的应用是个单页客户端应用，如果后台没有正确的配置，当用户在浏览器直接访问 `http://oursite.com/user/id` 就会返回 404，这就不好看了。
 
