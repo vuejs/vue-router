@@ -11,7 +11,7 @@
         <img src="/images/vueschool/vs-backpack.png" alt="Backpack">
       </div>
       <div class="vs-slogan">
-        Less than <span class="vs-slogan-light">48 hours</span> left for the Vue School offer
+        Extended! <span class="vs-slogan-light">Last few hours</span> for the Vue School offer
       </div>
       <div class="vs-button">
         GET ACCESS
@@ -66,7 +66,7 @@ $contentClass = '.theme-default-content'
       height: 26px
     @media (min-width: 680px)
       display: block
-      left: 40px
+      left: 20px
       height: 40px
       img
         height: 40px
@@ -90,7 +90,7 @@ $contentClass = '.theme-default-content'
     .vs-backpack
       margin-right: 6px
       @media (min-width: 680px)
-        margin-right: 14px
+        margin-right: 2px
       img
         height: 50px
         @media (min-width: 680px)
