@@ -3,10 +3,6 @@
     class="main-container"
     :class="{ 'has-top-banner': showTopBanner }"
   >
-    <BannerTop
-      v-if="showTopBanner"
-      @close="closeBannerTop"
-    />
     <ParentLayout>
       <template #page-top>
         <CarbonAds
@@ -59,8 +55,7 @@ export default {
   components: {
     ParentLayout,
     CarbonAds,
-    BuySellAds,
-    BannerTop: () => import('./components/BannerTop.vue')
+    BuySellAds
   },
   data () {
     return {
