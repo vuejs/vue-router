@@ -67,15 +67,6 @@ export default {
       sponsors,
       showTopBanner: false
     }
-  },
-  mounted () {
-    this.showTopBanner = !localStorage.getItem('VS_SUMMER_BANNER_CLOSED')
-  },
-  methods: {
-    closeBannerTop () {
-      this.showTopBanner = false
-      localStorage.setItem('VS_SUMMER_BANNER_CLOSED', 1)
-    }
   }
 }
 </script>
