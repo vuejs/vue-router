@@ -134,6 +134,18 @@ function isNumber (v: any): boolean {
   return typeof v === 'number'
 }
 
+function getOverflowedElement (overflowedElementSelector: any): any {
+  if (overflowedElementSelector) {
+    const overflowedElement = hashStartsWithNumberRE.test(overflowedElementSelector) // $flow-disable-line
+      ? document.getElementById(overflowedElementSelector.slice(1)) // $flow-disable-line
+      : document.querySelector(overflowedElementSelector)
+
+    return overflowedElement
+  }
+
+  return window
+}
+
 const hashStartsWithNumberRE = /^#\d/
 
 function scrollToPosition (shouldScroll, position) {
@@ -161,15 +173,18 @@ function scrollToPosition (shouldScroll, position) {
 
   if (position) {
     // $flow-disable-line
+
+    const overflowedElement = getOverflowedElement(shouldScroll.overflowedElementSelector)
+
     if ('scrollBehavior' in document.documentElement.style) {
-      window.scrollTo({
+      overflowedElement.scrollTo({
         left: position.x,
         top: position.y,
         // $flow-disable-line
         behavior: shouldScroll.behavior
       })
     } else {
-      window.scrollTo(position.x, position.y)
+      overflowedElement.scrollTo(position.x, position.y)
     }
   }
 }
