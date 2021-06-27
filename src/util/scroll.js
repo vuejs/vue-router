@@ -134,13 +134,13 @@ function isNumber (v: any): boolean {
   return typeof v === 'number'
 }
 
-function getOverflowedElement (overflowedElementSelector: any): any {
-  return hashStartsWithNumberRE.test(overflowedElementSelector) // $flow-disable-line
-    ? document.getElementById(overflowedElementSelector.slice(1)) // $flow-disable-line
-    : document.querySelector(overflowedElementSelector)
-}
-
 const hashStartsWithNumberRE = /^#\d/
+
+function getContainerElement (containerSelector: any): any {
+  return hashStartsWithNumberRE.test(containerSelector) // $flow-disable-line
+    ? document.getElementById(containerSelector.slice(1)) // $flow-disable-line
+    : document.querySelector(containerSelector)
+}
 
 function scrollToPosition (shouldScroll, position) {
   const isObject = typeof shouldScroll === 'object'
@@ -166,21 +166,21 @@ function scrollToPosition (shouldScroll, position) {
   }
 
   if (position) {
-    let overflowedElement = window
-    if (isObject && typeof shouldScroll.overflowedElementSelector === 'string') {
-      overflowedElement = getOverflowedElement(shouldScroll.overflowedElementSelector)
+    let containerElement = window
+    if (isObject && typeof shouldScroll.container === 'string') {
+      containerElement = getContainerElement(shouldScroll.container)
     }
 
     // $flow-disable-line
     if ('scrollBehavior' in document.documentElement.style) {
-      overflowedElement.scrollTo({
+      containerElement.scrollTo({
         left: position.x,
         top: position.y,
         // $flow-disable-line
         behavior: shouldScroll.behavior
       })
     } else {
-      overflowedElement.scrollTo(position.x, position.y)
+      containerElement.scrollTo(position.x, position.y)
     }
   }
 }
