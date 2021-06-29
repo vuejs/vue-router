@@ -55,8 +55,12 @@ export class HTML5History extends History {
     window.history.go(n)
   }
 
+  // 当发生路由切换 `/path/to/a` to `/path/to/b`
+  // 就会调用 push
   push (location: RawLocation, onComplete?: Function, onAbort?: Function) {
     const { current: fromRoute } = this
+    // 发生 transitionTo
+    // 在 transitionTo 完成后，会进行 pushState 和滚动
     this.transitionTo(location, route => {
       pushState(cleanPath(this.base + route.fullPath))
       handleScroll(this.router, route, fromRoute, false)

@@ -78,6 +78,7 @@ export class History {
     this.errorCbs.push(errorCb)
   }
 
+  // 做路由切换
   transitionTo (
     location: RawLocation,
     onComplete?: Function,
@@ -86,6 +87,7 @@ export class History {
     let route
     // catch redirect option https://github.com/vuejs/vue-router/issues/3201
     try {
+      // 先将 location 匹配出一个 route 对象
       route = this.router.match(location, this.current)
     } catch (e) {
       this.errorCbs.forEach(cb => {
@@ -95,9 +97,16 @@ export class History {
       throw e
     }
     const prev = this.current
+    // 匹配到后，确认这次路由切换
     this.confirmTransition(
       route,
       () => {
+        // 路由切换完成会依次执行：
+        // 1、更新路由
+        // 2、回调 onComplete（pushState & handleScroll）
+        // 3、确认URL（如果不一致的话）
+        // 4、afterEach
+        // 5、ready cb
         this.updateRoute(route)
         onComplete && onComplete(route)
         this.ensureURL()
@@ -164,11 +173,22 @@ export class History {
       return abort(createNavigationDuplicatedError(current, route))
     }
 
+    // 根据 current.matched 和 route.matched (next) 得到:
+    // updated 需要更新的组件
+    // deactivated 需要离开的组件
+    // activated 需要进入的组件
+    // matched 基于 formatMatch 产生，顺序为父组件 -> 子组件
     const { updated, deactivated, activated } = resolveQueue(
       this.current.matched,
       route.matched
     )
 
+    // 按顺序依次执行
+    // beforeRouteLeave
+    // beforeEach
+    // beforeRouteUpdate
+    // beforeEnter
+    // resolve async components
     const queue: Array<?NavigationGuard> = [].concat(
       // in-component leave guards
       extractLeaveGuards(deactivated),
@@ -182,11 +202,19 @@ export class History {
       resolveAsyncComponents(activated)
     )
 
+    // 执行 hook，hook 执行完毕执行 next
     const iterator = (hook: NavigationGuard, next) => {
       if (this.pending !== route) {
         return abort(createNavigationCancelledError(current, route))
       }
       try {
+        // eg: beforeRouteEnter(to, from, next)
+        // 某一个导航守卫执行完之后，需要做什么（调用 next），有四种用法：
+        // n1. next(false) 终止导航
+        // n2. next(new Error('error')) 抛出错误
+        // n3. next('/') or next({ path: '/' }) or next({ name: 'route-name' }) 重定向
+        // n4. next() 确认该路由，执行队列中下一个 hook
+        // 前三种都会 abort 不同的错误
         hook(route, current, (to: any) => {
           if (to === false) {
             // next(false) -> abort navigation, ensure current URL
@@ -217,18 +245,24 @@ export class History {
       }
     }
 
+    // 对 queue 里的每一个任务顺序执行 iterator
+    // 整个 queue 完整执行后，调用回调函数
     runQueue(queue, iterator, () => {
       // wait until async components are resolved before
       // extracting in-component enter guards
+      // enterGuards 是 [routeEnterGuard]
       const enterGuards = extractEnterGuards(activated)
+      // 依次执行: beforeRouteEnter、beforeResolve
       const queue = enterGuards.concat(this.router.resolveHooks)
       runQueue(queue, iterator, () => {
         if (this.pending !== route) {
           return abort(createNavigationCancelledError(current, route))
         }
         this.pending = null
+        // 执行 onComplete，afterEach
         onComplete(route)
         if (this.router.app) {
+          // DOM 更新后，执行 next 的回调 enteredCbs
           this.router.app.$nextTick(() => {
             handleRouteEntered(route)
           })
@@ -281,6 +315,8 @@ function normalizeBase (base: ?string): string {
   return base.replace(/\/$/, '')
 }
 
+// 计算离开、更新、进入的组件
+// 这里的 current 和 next 里面的组件都是有顺序的，父组件 -> 子组件
 function resolveQueue (
   current: Array<RouteRecord>,
   next: Array<RouteRecord>
@@ -309,36 +345,50 @@ function extractGuards (
   bind: Function,
   reverse?: boolean
 ): Array<?Function> {
+  // 对一组组件，提取它们的路由守卫
   const guards = flatMapComponents(records, (def, instance, match, key) => {
+    // def 组件，name 守卫名字，如 beforeRouteEnter
     const guard = extractGuard(def, name)
+    // 将路由守卫绑定到当前实例
+    // guard.apply(instance, arguments)，参考 bindGuard
     if (guard) {
       return Array.isArray(guard)
         ? guard.map(guard => bind(guard, instance, match, key))
         : bind(guard, instance, match, key)
     }
   })
+  // reverse 影响着这一组守卫的执行顺序
+  // guards 的执行顺序由一开始的 records: Array<RouteRecord> 决定
+  // 这个顺序由 formatMatch 决定，即 [ root, ..., parent, child, ... ]
+  // 一般来说，组件中守卫的执行顺序应该是父组件->子组件
+  // 但是 beforeRouteLeave 的时候 reverse 为 true，即子组件->父组件
   return flatten(reverse ? guards.reverse() : guards)
 }
 
+// 提取组件中定义的守卫
 function extractGuard (
-  def: Object | Function,
+  def: Object | Function, // component 可以是一个对象或者函数（懒加载）
   key: string
 ): NavigationGuard | Array<NavigationGuard> {
   if (typeof def !== 'function') {
     // extend now so that global mixins are applied.
+    // TODO extend 会发生什么
     def = _Vue.extend(def)
   }
   return def.options[key]
 }
 
+// 提取 deactivated 组件的 beforeRouteLeave
 function extractLeaveGuards (deactivated: Array<RouteRecord>): Array<?Function> {
   return extractGuards(deactivated, 'beforeRouteLeave', bindGuard, true)
 }
 
+// 提取 updated 组件的 beforeRouteUpdate
 function extractUpdateHooks (updated: Array<RouteRecord>): Array<?Function> {
   return extractGuards(updated, 'beforeRouteUpdate', bindGuard)
 }
 
+// 将守卫绑定在当前 vue 实例中
 function bindGuard (guard: NavigationGuard, instance: ?_Vue): ?NavigationGuard {
   if (instance) {
     return function boundRouteGuard () {
@@ -347,24 +397,34 @@ function bindGuard (guard: NavigationGuard, instance: ?_Vue): ?NavigationGuard {
   }
 }
 
+// 提取 activated 组件的 beforeRouteEnter
+// beforeRouteEnter 与另外两个组件内守卫不一样的是，不能获取到组件实例 this
 function extractEnterGuards (
   activated: Array<RouteRecord>
 ): Array<?Function> {
   return extractGuards(
     activated,
     'beforeRouteEnter',
+    // instance 使用占位符省略
     (guard, _, match, key) => {
+      // 这里并没有传入 instance
       return bindEnterGuard(guard, match, key)
     }
   )
 }
 
+// beforeRouteEnter 不能直接获取组件实例 this
+// 而是通过调用 next 传入回调函数，在回调函数中获取 this
 function bindEnterGuard (
   guard: NavigationGuard,
   match: RouteRecord,
   key: string
 ): NavigationGuard {
+  // 在 iterator 的 hook() 调用
   return function routeEnterGuard (to, from, next) {
+    // 这个 guard 才是我们自己写的
+    // beforeRouteEnter(to, from, next)
+    // n5. next(() => {}) 收集 next 的回调函数
     return guard(to, from, cb => {
       if (typeof cb === 'function') {
         if (!match.enteredCbs[key]) {

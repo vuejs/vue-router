@@ -5,6 +5,9 @@ import { saveScrollPosition } from './scroll'
 import { genStateKey, setStateKey, getStateKey } from './state-key'
 import { extend } from './misc'
 
+// History API 往浏览器里添加一条记录使用的是 history.pushState 方法，替换记录 history.replaceState
+
+// 检测原生 pushState 的兼容性
 export const supportsPushState =
   inBrowser &&
   (function () {
@@ -37,6 +40,7 @@ export function pushState (url?: string, replace?: boolean) {
       history.pushState({ key: setStateKey(genStateKey()) }, '', url)
     }
   } catch (e) {
+    // 回退到 window.location.replace/assign
     window.location[replace ? 'replace' : 'assign'](url)
   }
 }

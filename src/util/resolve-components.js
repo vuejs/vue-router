@@ -70,6 +70,7 @@ export function resolveAsyncComponents (matched: Array<RouteRecord>): Function {
   }
 }
 
+// 迭代一组组件的同时，执行 fn 的操作，并将结果扁平
 export function flatMapComponents (
   matched: Array<RouteRecord>,
   fn: Function
@@ -77,7 +78,7 @@ export function flatMapComponents (
   return flatten(matched.map(m => {
     return Object.keys(m.components).map(key => fn(
       m.components[key],
-      m.instances[key],
+      m.instances[key], // 注册的实例，router-view
       m, key
     ))
   }))
