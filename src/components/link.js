@@ -32,6 +32,7 @@ export default {
     append: Boolean,
     replace: Boolean,
     activeClass: String,
+    inactiveClass: String,
     exactActiveClass: String,
     ariaCurrentValue: {
       type: String,
@@ -54,6 +55,8 @@ export default {
     const classes = {}
     const globalActiveClass = router.options.linkActiveClass
     const globalExactActiveClass = router.options.linkExactActiveClass
+    const globalInactiveClass = router.options.linkInactiveClass
+
     // Support global empty active class
     const activeClassFallback =
       globalActiveClass == null ? 'router-link-active' : globalActiveClass
@@ -61,12 +64,16 @@ export default {
       globalExactActiveClass == null
         ? 'router-link-exact-active'
         : globalExactActiveClass
+    const inactiveClassFallback =
+      globalInactiveClass == null ? 'router-link-inactive' : globalInactiveClass
     const activeClass =
       this.activeClass == null ? activeClassFallback : this.activeClass
     const exactActiveClass =
       this.exactActiveClass == null
         ? exactActiveClassFallback
         : this.exactActiveClass
+    const inactiveClass =
+      this.inactiveClass == null ? inactiveClassFallback : this.inactiveClass
 
     const compareTarget = route.redirectedFrom
       ? createRoute(null, normalizeLocation(route.redirectedFrom), null, router)
@@ -76,6 +83,7 @@ export default {
     classes[activeClass] = this.exact || this.exactPath
       ? classes[exactActiveClass]
       : isIncludedRoute(current, compareTarget)
+    classes[inactiveClass] = !classes[activeClass]
 
     const ariaCurrentValue = classes[exactActiveClass] ? this.ariaCurrentValue : null
 
