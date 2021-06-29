@@ -164,6 +164,10 @@ export default class VueRouter {
     this.history.onError(errorCb)
   }
 
+  onAbort (abortCb: Function) {
+    this.history.onAbort(abortCb)
+  }
+
   push (location: RawLocation, onComplete?: Function, onAbort?: Function) {
     // $flow-disable-line
     if (!onComplete && !onAbort && typeof Promise !== 'undefined') {

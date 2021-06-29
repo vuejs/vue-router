@@ -30,7 +30,7 @@ Every guard function receives three arguments:
 
   - **`next()`**: move on to the next hook in the pipeline. If no hooks are left, the navigation is **confirmed**.
 
-  - **`next(false)`**: abort the current navigation. If the browser URL was changed (either manually by the user or via back button), it will be reset to that of the `from` route.
+  - **`next(false)`**: abort the current navigation. If the browser URL was changed (either manually by the user or via back button), it will be reset to that of the `from` route. (3.4.2+ and < 4.0) will be passed to callbacks registered via [`router.onAbort()`](../../api/#router-onabort).
 
   - **`next('/')` or `next({ path: '/' })`**: redirect to a different location. The current navigation will be aborted and a new one will be started. You can pass any location object to `next`, which allows you to specify options like `replace: true`, `name: 'home'` and any option used in [`router-link`'s `to` prop](../../api/#to) or [`router.push`](../../api/#router-push)
 
