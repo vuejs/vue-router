@@ -1,7 +1,7 @@
 /* @flow */
 
 import { inBrowser } from './dom'
-import { saveScrollPosition } from './scroll'
+import { saveScrollPosition, clearPositionStore } from './scroll'
 import { genStateKey, setStateKey, getStateKey } from './state-key'
 import { extend } from './misc'
 
@@ -28,6 +28,7 @@ export function pushState (url?: string, replace?: boolean) {
   // DOM Exception 18 where it limits to 100 pushState calls
   const history = window.history
   try {
+    clearPositionStore()
     if (replace) {
       // preserve existing history state as it could be overriden by the user
       const stateCopy = extend({}, history.state)

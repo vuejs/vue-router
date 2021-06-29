@@ -2,7 +2,7 @@
 
 import type Router from '../index'
 import { assert } from './warn'
-import { getStateKey, setStateKey } from './state-key'
+import { getStateKey, setStateKey, getCurrentStateKey } from './state-key'
 import { extend } from './misc'
 
 const positionStore = Object.create(null)
@@ -170,6 +170,15 @@ function scrollToPosition (shouldScroll, position) {
       })
     } else {
       window.scrollTo(position.x, position.y)
+    }
+  }
+}
+
+export function clearPositionStore () {
+  const key = getCurrentStateKey()
+  for (var i in positionStore) {
+    if (Number(i) > key) {
+      delete (positionStore[i])
     }
   }
 }
