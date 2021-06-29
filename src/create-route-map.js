@@ -60,7 +60,8 @@ function addRouteRecord (
   nameMap: Dictionary<RouteRecord>,
   route: RouteConfig,
   parent?: RouteRecord,
-  matchAs?: string
+  matchAs?: string,
+  isAnAlias?: boolean
 ) {
   const { path, name } = route
   if (process.env.NODE_ENV !== 'production') {
@@ -78,6 +79,12 @@ function addRouteRecord (
       `Route with path "${path}" contains unencoded characters, make sure ` +
         `your path is correctly encoded before passing it to the router. Use ` +
         `encodeURI to encode static segments of your path.`
+    )
+    warn(
+      route.component || route.components || route.redirect || route.beforeEnter || isAnAlias,
+      `route config "component" for path: ${String(path || name)} should be either a ` +
+      `component (or named component), redirection, navigation guard, or an alias ` +
+      `to another root.`
     )
   }
 
@@ -172,7 +179,8 @@ function addRouteRecord (
         nameMap,
         aliasRoute,
         parent,
-        record.path || '/' // matchAs
+        record.path || '/', // matchAs
+        true
       )
     }
   }
