@@ -70,6 +70,29 @@ http
 
 Node.js/Express의 경우 [connect-history-api-fallback 미들웨어](https://github.com/bripkens/connect-history-api-fallback)를 고려해보세요.
 
+##### 예
+```bash
+mkdir express-project
+cd express-project
+npm init
+npm install express connect-history-api-fallback
+touch app.js
+```
+
+```js
+// express-project/app.js
+
+const express = require('express')
+const history = require('connect-history-api-fallback')
+const app = express()
+const server = app
+    .use(history())
+    .use(express.static('dist'))
+    .listen(80, () => {
+        console.log('Node.js is listening to PORT:' + server.address().port)
+    })
+```
+
 #### Internet Information Services (IIS)
 
 ```
