@@ -19,11 +19,11 @@ Not to worry: To fix the issue, all you need to do is add a simple catch-all fal
 
 ## Example Server Configurations
 
-**Note**: The following examples assume you are serving your app from the root folder. If you deploy to a subfolder, you should use [the `publicPath` option of Vue CLI](https://cli.vuejs.org/config/#publicpath) and the related [`base` property of the router](https://router.vuejs.org/api/#base). You also need to adjust the examples below to use the subfolder instead of the root folder (e.g. replacing `RewriteBase /` with `RewriteBase /name-of-your-subfolder/`).
+**Note**: The following examples assume you are serving your app from the root folder. If you deploy to a subfolder, you should use [the `publicPath` option of Vue CLI](https://cli.vuejs.org/config/#publicpath) and the related [`base` property of the router](https://router.vuejs.org/api/#base). You also need to adjust the examples below to use the subfolder instead of the root folder (e.g. replacing `RewriteBase /` with `RewriteBase /name-of-your-subfolder`.
 
 #### Apache
 
-```apache
+```apacheconf
 <IfModule mod_rewrite.c>
   RewriteEngine On
   RewriteBase /
@@ -33,6 +33,8 @@ Not to worry: To fix the issue, all you need to do is add a simple catch-all fal
   RewriteRule . /index.html [L]
 </IfModule>
 ```
+
+If using subfolders, you'll need to adjust `RewriteBase` as per above along with `RewriteRule ^index\.html$ -[L]` to `RewriteRule ^name-of-your-subfolder/index\.html$ -[L]` and `RewriteRule . /index.html [L]` to `RewriteRule . /name-of-your-subfolder/index.html [L]`).
 
 Instead of `mod_rewrite`, you could also use [`FallbackResource`](https://httpd.apache.org/docs/2.2/mod/mod_dir.html#fallbackresource).
 
