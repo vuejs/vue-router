@@ -63,7 +63,7 @@ function parseQuery (query: string): Dictionary<string> {
     const key = decode(parts.shift())
     const val = parts.length > 0 ? decode(parts.join('=')) : null
 
-    if (res[key] === undefined) {
+    if (res.hasOwnProperty(key) === false) {
       res[key] = val
     } else if (Array.isArray(res[key])) {
       res[key].push(val)
