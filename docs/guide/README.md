@@ -1,5 +1,9 @@
 # Getting Started
 
+::: tip NOTE
+This is the docs for Vue Router 3, which works with Vue 2. If you're looking for docs for Vue Router 4, which works with Vue 3, [please check it out here](https://next.router.vuejs.org/).
+:::
+
 ::: tip Note
 We will be using [ES2015](https://github.com/lukehoban/es6features) in the code samples in the guide.
 
