@@ -1,6 +1,8 @@
 # Getting Started
 
 ::: tip Note
+You are reading the documentation of Vue Router 3 **for Vue 2**. If you are working with Vue 3, use the [Vue Router 4 documentation](https://next.router.vuejs.org) instead.
+
 We will be using [ES2015](https://github.com/lukehoban/es6features) in the code samples in the guide.
 
 Also, all examples will be using the full version of Vue to make on-the-fly template compilation possible. See more details [here](https://vuejs.org/v2/guide/installation.html#Runtime-Compiler-vs-Runtime-only).
