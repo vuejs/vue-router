@@ -146,7 +146,9 @@ export class History {
             cb(err)
           })
         } else {
-          warn(false, 'uncaught error during route navigation:')
+          if (process.env.NODE_ENV !== 'production') {
+            warn(false, 'uncaught error during route navigation:')
+          }
           console.error(err)
         }
       }
