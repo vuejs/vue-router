@@ -11,7 +11,10 @@
         <img src="/images/vueschool/vs-backpack.png" alt="Backpack">
       </div>
       <div class="vs-slogan">
-        Extended! <span class="vs-slogan-light">Last few hours</span> for the Vue School offer
+        3-months Vue School for only $49 <span style="text-decoration: line-through; opacity: 0.5;">$75</span>!
+        <span class="vs-slogan-light">
+          Limited Time Offer
+        </span>
       </div>
       <div class="vs-button">
         GET ACCESS
@@ -90,7 +93,9 @@ $contentClass = '.theme-default-content'
     .vs-backpack
       margin-right: 6px
       @media (min-width: 680px)
-        margin-right: 2px
+        display: none
+      @media (min-width: 900px)
+        display: inline-block
       img
         height: 50px
         @media (min-width: 680px)
@@ -101,12 +106,10 @@ $contentClass = '.theme-default-content'
       font-weight: bold
       font-size: 14px
       text-align: center
-      padding: 0 60px
       @media (min-width: 680px)
         padding: 0
         text-align: left
-        margin-right: 26px
-        margin-right: 0
+        margin-left: 12px
         font-size: 18px
       > .vs-slogan-light
         color: #ff5338
@@ -124,6 +127,7 @@ $contentClass = '.theme-default-content'
       background: #ff5338
       font-weight: bold
       @media (min-width: 680px)
+        margin-left: 18px
         display: inline-block
 
   .vs-close
