@@ -3,6 +3,10 @@
     class="main-container"
     :class="{ 'has-top-banner': showTopBanner }"
   >
+    <BannerTop
+      v-if="showTopBanner"
+      @close="closeBannerTop"
+    />
     <ParentLayout>
       <template #page-top>
         <CarbonAds
@@ -55,12 +59,22 @@ export default {
   components: {
     ParentLayout,
     CarbonAds,
-    BuySellAds
+    BuySellAds,
+    BannerTop: () => import('./components/BannerTop.vue')
   },
   data () {
     return {
       sponsors,
       showTopBanner: false
+    }
+  },
+  mounted () {
+    this.showTopBanner = !localStorage.getItem('VS_BTS_BANNER_CLOSED')
+  },
+  methods: {
+    closeBannerTop () {
+      this.showTopBanner = false
+      localStorage.setItem('VS_BTS_BANNER_CLOSED', 1)
     }
   }
 }
