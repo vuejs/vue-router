@@ -342,7 +342,7 @@ Since it's just a component, it works with `<transition>` and `<keep-alive>`. Wh
 
   The current route represented as a [Route Object](#the-route-object).
 
-### router.START_LOCATION
+### router.START_LOCATION (3.5.0+)
 
 - type: `Route`
 
