@@ -39,6 +39,9 @@ export default class VueRouter {
   afterHooks: Array<?AfterNavigationHook>
 
   constructor (options: RouterOptions = {}) {
+    if (process.env.NODE_ENV !== 'production') {
+      warn(this instanceof VueRouter, `Router must be called with the new operator.`)
+    }
     this.app = null
     this.apps = []
     this.options = options
