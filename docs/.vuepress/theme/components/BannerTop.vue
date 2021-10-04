@@ -1,5 +1,5 @@
 <template>
-  <a id="vs" href="https://vueschool.io/sales/summer-vue?friend=vuerouter" target="_blank" rel="noreferrer">
+  <a id="vs" href="https://vueschool.io/sales/back-to-school?friend=vuerouter" target="_blank" rel="noreferrer">
     <div class="vs-iso">
       <img src="/images/vueschool/vs-iso.svg" alt="Vue School Logo">
     </div>
@@ -11,10 +11,7 @@
         <img src="/images/vueschool/vs-backpack.png" alt="Backpack">
       </div>
       <div class="vs-slogan">
-        3-months Vue School for only $49 <span style="text-decoration: line-through; opacity: 0.5;">$75</span>!
-        <span class="vs-slogan-light">
-          Limited Time Offer
-        </span>
+        Less than <span class="vs-slogan-light">48 hours</span> left for the Vue School offer
       </div>
       <div class="vs-button">
         GET ACCESS
