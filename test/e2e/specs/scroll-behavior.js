@@ -94,14 +94,19 @@ module.exports = {
         'scroll to top on new entry'
       )
 
-      .click('li:nth-child(4) a')
-      .assert.evaluate(
-        function () {
-          return document.getElementById('anchor').getBoundingClientRect().top < 1
-        },
-        null,
-        'scroll to anchor'
-      )
+      .perform(() => {
+        for (let i = 0; i < 2; i++) {
+          browser
+            .click('li:nth-child(4) a')
+            .assert.evaluate(
+              function () {
+                return document.getElementById('anchor').getBoundingClientRect().top < 1
+              },
+              null,
+              (i === 0) ? 'scroll to anchor' : 'scroll to same anchor again'
+            )
+        }
+      })
 
       .click('li:nth-child(5) a')
       .assert.evaluate(
