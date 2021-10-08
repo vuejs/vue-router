@@ -162,7 +162,9 @@ export class History {
       route.matched[lastRouteIndex] === current.matched[lastCurrentIndex]
     ) {
       this.ensureURL()
-      handleScroll(this.router, current, route, false)
+      if (route.hash) {
+        handleScroll(this.router, current, route, false)
+      }
       return abort(createNavigationDuplicatedError(current, route))
     }
 
