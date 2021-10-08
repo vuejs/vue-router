@@ -20,6 +20,7 @@ import {
   isNavigationFailure,
   NavigationFailureType
 } from '../util/errors'
+import { handleScroll } from '../util/scroll'
 
 export class History {
   router: Router
@@ -163,6 +164,9 @@ export class History {
       route.matched[lastRouteIndex] === current.matched[lastCurrentIndex]
     ) {
       this.ensureURL()
+      if (route.hash) {
+        handleScroll(this.router, current, route, false)
+      }
       return abort(createNavigationDuplicatedError(current, route))
     }
 
