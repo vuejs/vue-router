@@ -1,5 +1,5 @@
 /*!
-  * vue-router v3.5.2
+  * vue-router v3.5.3
   * (c) 2021 Evan You
   * @license MIT
   */
@@ -524,7 +524,7 @@
   }
 
   function cleanPath (path) {
-    return path.replace(/\/\//g, '/')
+    return path.replace(/\/+/g, '/')
   }
 
   var isarray = Array.isArray || function (arr) {
@@ -2316,7 +2316,9 @@
             cb(err);
           });
         } else {
-          warn(false, 'uncaught error during route navigation:');
+          {
+            warn(false, 'uncaught error during route navigation:');
+          }
           console.error(err);
         }
       }
@@ -2331,6 +2333,9 @@
       route.matched[lastRouteIndex] === current.matched[lastCurrentIndex]
     ) {
       this.ensureURL();
+      if (route.hash) {
+        handleScroll(this.router, current, route, false);
+      }
       return abort(createNavigationDuplicatedError(current, route))
     }
 
@@ -2894,6 +2899,9 @@
   var VueRouter = function VueRouter (options) {
     if ( options === void 0 ) options = {};
 
+    {
+      warn(this instanceof VueRouter, "Router must be called with the new operator.");
+    }
     this.app = null;
     this.apps = [];
     this.options = options;
@@ -3137,7 +3145,7 @@
   }
 
   VueRouter.install = install;
-  VueRouter.version = '3.5.2';
+  VueRouter.version = '3.5.3';
   VueRouter.isNavigationFailure = isNavigationFailure;
   VueRouter.NavigationFailureType = NavigationFailureType;
   VueRouter.START_LOCATION = START;
