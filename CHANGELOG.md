@@ -1,3 +1,14 @@
+## [3.5.3](https://github.com/vuejs/vue-router/compare/v3.5.2...v3.5.3) (2021-10-26)
+
+### Bug Fixes
+
+- clean more than two consecutive slashes ([#3652](https://github.com/vuejs/vue-router/issues/3652)) ([3e3a07e](https://github.com/vuejs/vue-router/commit/3e3a07ee6e7defd6cae75bddcede5a28b0092709))
+- **scrollBehavior:** trigger scroll behavior if same route with hash ([#3592](https://github.com/vuejs/vue-router/issues/3592)) ([57d8042](https://github.com/vuejs/vue-router/commit/57d8042c8b99f92bfe35493b8ae9bba827864bf0))
+
+### Features
+
+- add constructor hint ([#3626](https://github.com/vuejs/vue-router/issues/3626)) ([28b769b](https://github.com/vuejs/vue-router/commit/28b769b2a07e3bf984c0ec20d6d797291a480e81))
+
 ## [3.5.2](https://github.com/vuejs/vue-router/compare/v3.5.1...v3.5.2) (2021-06-21)
 
 ### Bug Fixes
