@@ -149,5 +149,13 @@ describe('Route utils', () => {
       expect(isIncludedRoute(d, e)).toBe(true)
       expect(isIncludedRoute(d, f)).toBe(false)
     })
+
+    it('ignore case', () => {
+      const a = { path: '/about' }
+      const b = { path: '/ABOUT' }
+      expect(isIncludedRoute(a, b)).toBe(false)
+      expect(isIncludedRoute(a, b, false)).toBe(false)
+      expect(isIncludedRoute(a, b, true)).toBe(true)
+    })
   })
 })

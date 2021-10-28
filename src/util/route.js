@@ -116,11 +116,15 @@ function isObjectEqual (a = {}, b = {}): boolean {
   })
 }
 
-export function isIncludedRoute (current: Route, target: Route): boolean {
-  return (
-    current.path.replace(trailingSlashRE, '/').indexOf(
-      target.path.replace(trailingSlashRE, '/')
-    ) === 0 &&
+export function isIncludedRoute (current: Route, target: Route, ignoreCase: boolean = false): boolean {
+  let currentPath = current.path.replace(trailingSlashRE, '/')
+  let targetPath = target.path.replace(trailingSlashRE, '/')
+  if (ignoreCase) {
+    currentPath = currentPath.toLowerCase()
+    targetPath = targetPath.toLowerCase()
+  }
+  const index = currentPath.indexOf(targetPath)
+  return (index === 0 &&
     (!target.hash || current.hash === target.hash) &&
     queryIncludes(current.query, target.query)
   )

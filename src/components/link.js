@@ -72,10 +72,11 @@ export default {
       ? createRoute(null, normalizeLocation(route.redirectedFrom), null, router)
       : route
 
+    const ignoreCase = current.matched[0].regex.ignoreCase
     classes[exactActiveClass] = isSameRoute(current, compareTarget, this.exactPath)
     classes[activeClass] = this.exact || this.exactPath
       ? classes[exactActiveClass]
-      : isIncludedRoute(current, compareTarget)
+      : isIncludedRoute(current, compareTarget, ignoreCase)
 
     const ariaCurrentValue = classes[exactActiveClass] ? this.ariaCurrentValue : null
 
