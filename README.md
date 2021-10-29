@@ -28,14 +28,12 @@ Vue Router is part of the Vue Ecosystem and is an MIT-licensed open source proje
         <img src="https://posva-sponsors.pages.dev/logos/vuetify-logo-light-text.svg" height="72px" alt="Vuetify" />
       </picture>
     </a>
-
     <a href="https://vuejobs.com/?utm_source=vuerouter&utm_campaign=sponsor" target="_blank" rel="noopener noreferrer">
       <picture>
         <source srcset="https://posva-sponsors.pages.dev/logos/vuejobs.svg" media="(prefers-color-scheme: dark)" height="72px" alt="VueJobs" />
         <img src="https://posva-sponsors.pages.dev/logos/vuejobs.svg" height="72px" alt="VueJobs" />
       </picture>
     </a>
-
   </p>
 
 <h4 align="center">Silver Sponsors</h4>
@@ -46,14 +44,12 @@ Vue Router is part of the Vue Ecosystem and is an MIT-licensed open source proje
         <img src="https://posva-sponsors.pages.dev/logos/vuemastery-light.svg" height="42px" alt="VueMastery" />
       </picture>
     </a>
-
     <a href="https://birdeatsbug.com/?utm_source=vuerouter&utm_medium=sponsor&utm_campaign=silver" target="_blank" rel="noopener noreferrer">
       <picture>
         <source srcset="https://posva-sponsors.pages.dev/logos/birdeatsbug-light.svg" media="(prefers-color-scheme: dark)" height="42px" alt="Bird Eats Bug" />
         <img src="https://posva-sponsors.pages.dev/logos/birdeatsbug-dark.svg" height="42px" alt="Bird Eats Bug" />
       </picture>
     </a>
-
   </p>
 
 <h4 align="center">Bronze Sponsors</h4>
@@ -64,14 +60,12 @@ Vue Router is part of the Vue Ecosystem and is an MIT-licensed open source proje
         <img src="https://posva-sponsors.pages.dev/logos/storyblok.png" height="26px" alt="Storyblok" />
       </picture>
     </a>
-
     <a href="https://nuxtjs.org" target="_blank" rel="noopener noreferrer">
       <picture>
         <source srcset="https://posva-sponsors.pages.dev/logos/nuxt-dark.svg" media="(prefers-color-scheme: dark)" height="26px" alt="NuxtJS" />
         <img src="https://posva-sponsors.pages.dev/logos/nuxt-light.svg" height="26px" alt="NuxtJS" />
       </picture>
     </a>
-
   </p>
 <!--sponsors end-->
 
