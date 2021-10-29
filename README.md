@@ -9,65 +9,71 @@ Vue Router is part of the Vue Ecosystem and is an MIT-licensed open source proje
 - [Become a Sponsor on GitHub](https://github.com/sponsors/posva)
 - [One-time donation via PayPal](https://paypal.me/posva)
 
-<!-- <h3 align="center">Special Sponsors</h3> -->
-<!--special start-->
-
+<!--sponsors start-->
 <h3 align="center">Platinum Sponsors</h3>
-
-<p align="center">
-
-  <a href="https://www.finclip.com/#/home?from=vue" target="_blank" rel="noopener noreferrer">
-    <picture>
-      <source srcset="docs/.vuepress/public/sponsors/fincliplogo_white.svg" media="(prefers-color-scheme: dark)" height="96px" alt="Finogeeks" />
-      <img src="docs/.vuepress/public/sponsors/fincliplogo_black_svg.svg" height="96px" alt="Finogeeks" />
-    </picture>
-  </a>
-
-</p>
+  <p align="center">
+    <a href="https://www.finclip.com/#/home?from=vue" target="_blank" rel="noopener noreferrer">
+      <picture>
+        <source srcset="https://posva-sponsors.pages.dev/logos/fincliplogo_white_svg.svg" media="(prefers-color-scheme: dark)" height="96px" alt="Finogeeks" />
+        <img src="https://posva-sponsors.pages.dev/logos/fincliplogo_black_svg.svg" height="96px" alt="Finogeeks" />
+      </picture>
+    </a>
+  </p>
 
 <h4 align="center">Gold Sponsors</h4>
+  <p align="center">
+    <a href="https://www.vuetifyjs.com/" target="_blank" rel="noopener noreferrer">
+      <picture>
+        <source srcset="https://posva-sponsors.pages.dev/logos/vuetify-logo-dark-text.svg" media="(prefers-color-scheme: dark)" height="72px" alt="Vuetify" />
+        <img src="https://posva-sponsors.pages.dev/logos/vuetify-logo-light-text.svg" height="72px" alt="Vuetify" />
+      </picture>
+    </a>
 
-<p align="center">
+    <a href="https://vuejobs.com/?utm_source=vuerouter&utm_campaign=sponsor" target="_blank" rel="noopener noreferrer">
+      <picture>
+        <source srcset="https://posva-sponsors.pages.dev/logos/vuejobs.svg" media="(prefers-color-scheme: dark)" height="72px" alt="VueJobs" />
+        <img src="https://posva-sponsors.pages.dev/logos/vuejobs.svg" height="72px" alt="VueJobs" />
+      </picture>
+    </a>
 
-  <a href="https://passionatepeople.io" target="_blank" rel="noopener noreferrer">
-    <picture>
-      <source srcset="docs/.vuepress/public/sponsors/passionate-people-dark.png" media="(prefers-color-scheme: dark)" height="72px" alt="Passionate People" />
-      <img src="docs/.vuepress/public/sponsors/passionate-people-light.png" height="72px" alt="Passionate People" />
-    </picture>
-  </a>
-
-  <a href="https://vuetifyjs.com" target="_blank" rel="noopener noreferrer">
-    <img src="https://cdn.vuetifyjs.com/docs/images/logos/vuetify-logo-light-text.svg" alt="Vuetify" height="72px">
-  </a>
-
-  <a href="https://vuejobs.com/?utm_source=vuerouter&utm_campaign=sponsor" target="_blank" rel="noopener noreferrer">
-    <img src="docs/.vuepress/public/sponsors/vuejobs.png" height="72px" alt="VueJobs">
-  </a>
-</p>
+  </p>
 
 <h4 align="center">Silver Sponsors</h4>
+  <p align="center">
+    <a href="https://www.vuemastery.com/" target="_blank" rel="noopener noreferrer">
+      <picture>
+        <source srcset="https://posva-sponsors.pages.dev/logos/vuemastery-dark.png" media="(prefers-color-scheme: dark)" height="42px" alt="VueMastery" />
+        <img src="https://posva-sponsors.pages.dev/logos/vuemastery-light.svg" height="42px" alt="VueMastery" />
+      </picture>
+    </a>
 
-<p align="center">
-  <a href="https://www.vuemastery.com" target="_blank" rel="noopener noreferrer">
-    <img src="https://www.vuemastery.com/images/vuemastery.svg" height="42px" alt="Vue Mastery">
-  </a>
+    <a href="https://birdeatsbug.com/?utm_source=vuerouter&utm_medium=sponsor&utm_campaign=silver" target="_blank" rel="noopener noreferrer">
+      <picture>
+        <source srcset="https://posva-sponsors.pages.dev/logos/birdeatsbug-light.svg" media="(prefers-color-scheme: dark)" height="42px" alt="Bird Eats Bug" />
+        <img src="https://posva-sponsors.pages.dev/logos/birdeatsbug-dark.svg" height="42px" alt="Bird Eats Bug" />
+      </picture>
+    </a>
 
-  <a href="https://birdeatsbug.com/?utm_source=vuerouter&utm_medium=sponsor&utm_campaign=silver" target="_blank" rel="noopener noreferrer">
-    <img src="https://static.birdeatsbug.com/general/bird-logotype-150x27.svg" alt="Bird Eats bug" height="42px">
-  </a>
-</p>
+  </p>
 
 <h4 align="center">Bronze Sponsors</h4>
+  <p align="center">
+    <a href="https://storyblok.com" target="_blank" rel="noopener noreferrer">
+      <picture>
+        <source srcset="https://posva-sponsors.pages.dev/logos/storyblok.png" media="(prefers-color-scheme: dark)" height="26px" alt="Storyblok" />
+        <img src="https://posva-sponsors.pages.dev/logos/storyblok.png" height="26px" alt="Storyblok" />
+      </picture>
+    </a>
 
-<p align="center">
-  <a href="https://storyblok.com" target="_blank" rel="noopener noreferrer">
-    <img src="https://a.storyblok.com/f/51376/3856x824/fea44d52a9/colored-full.png" alt="Storyblok" height="32px">
-  </a>
+    <a href="https://nuxtjs.org" target="_blank" rel="noopener noreferrer">
+      <picture>
+        <source srcset="https://posva-sponsors.pages.dev/logos/nuxt-dark.svg" media="(prefers-color-scheme: dark)" height="26px" alt="NuxtJS" />
+        <img src="https://posva-sponsors.pages.dev/logos/nuxt-light.svg" height="26px" alt="NuxtJS" />
+      </picture>
+    </a>
 
-  <a href="https://nuxtjs.org" target="_blank" rel="noopener noreferrer">
-    <img src="https://nuxtjs.org/design-kit/colored-white-text.svg" alt="NuxtJS" height="26px">
-  </a>
-</p>
+  </p>
+<!--sponsors end-->
 
 ---
 
