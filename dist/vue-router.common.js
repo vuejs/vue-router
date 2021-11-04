@@ -295,7 +295,7 @@ function handleRouteEntered (route) {
   }
 }
 
-var View = {
+var RouterView = {
   name: 'RouterView',
   functional: true,
   props: {
@@ -1064,7 +1064,7 @@ var warnedCustomSlot;
 var warnedTagProp;
 var warnedEventProp;
 
-var Link = {
+var RouterLink = {
   name: 'RouterLink',
   props: {
     to: {
@@ -1317,8 +1317,8 @@ function install (Vue) {
     get: function get () { return this._routerRoot._route }
   });
 
-  Vue.component('RouterView', View);
-  Vue.component('RouterLink', Link);
+  Vue.component('RouterView', RouterView);
+  Vue.component('RouterLink', RouterLink);
 
   var strats = Vue.config.optionMergeStrategies;
   // use the same hook merging strategy for route hooks
@@ -3141,6 +3141,8 @@ function createHref (base, fullPath, mode) {
   return base ? cleanPath(base + '/' + path) : path
 }
 
+VueRouter.RouterView = RouterView;
+VueRouter.RouterLink = RouterLink;
 VueRouter.install = install;
 VueRouter.version = '3.5.3';
 VueRouter.isNavigationFailure = isNavigationFailure;

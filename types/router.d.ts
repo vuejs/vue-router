@@ -17,6 +17,11 @@ export type NavigationGuard<V extends Vue = Vue> = (
   next: NavigationGuardNext<V>
 ) => any
 
+export function isNavigationFailure(
+  error: any,
+  type?: number
+): error is NavigationFailure
+
 export declare class VueRouter {
   constructor(options?: RouterOptions)
 
@@ -69,16 +74,38 @@ export declare class VueRouter {
   static install: PluginFunction<never>
   static version: string
 
-  static isNavigationFailure: (
-    error: any,
-    type?: number
-  ) => error is NavigationFailure
+  static isNavigationFailure: typeof isNavigationFailure
+
   static NavigationFailureType: {
     [k in keyof typeof NavigationFailureType]: NavigationFailureType
   }
 
+  /**
+   * Initial route location where the router is. Can be used in navigation guards
+   * to differentiate the initial navigation.
+   */
   static START_LOCATION: Route
 }
+
+/**
+ * Initial route location where the router is. Can be used in navigation guards
+ * to differentiate the initial navigation.
+ *
+ * @example
+ * ```js
+ * import VueRouter, { START_LOCATION } from 'vue-router'
+ * const router = new VueRouter({
+ *   // ...
+ * })
+ * 
+ * router.beforeEach((to, from) => {
+ *   if (from === START_LOCATION) {
+ *     // initial navigation
+ *   }
+ * })
+ * ```
+ */
+export declare const START_LOCATION: Route
 
 export enum NavigationFailureType {
   redirected = 2,
