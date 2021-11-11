@@ -1,47 +1,43 @@
 <template>
-  <a id="vs" href="https://vueschool.io/sales/back-to-school?friend=vuerouter" target="_blank" rel="noreferrer">
-    <div class="vs-iso">
-      <img src="/images/vueschool/vs-iso.svg" alt="Vue School Logo">
-    </div>
-    <div class="vs-logo">
-      <img src="/images/vueschool/vs-logo.svg" alt="Vue School Logo">
-    </div>
+  <a id="vs" href="https://vueschool.io/sales/blackfriday?friend=vuerouter" target="_blank" rel="noreferrer">
     <div class="vs-core">
-      <div class="vs-backpack">
-        <img src="/images/vueschool/vs-backpack.png" alt="Backpack">
+      <div class="vs-logo">
+        <img src="/images/vueschool/vueschool_blackfriday_logo.svg">
       </div>
       <div class="vs-slogan">
-        Less than <span class="vs-slogan-light">48 hours</span> left for the Vue School offer
+        <div class="vs-slogan-subtitle">
+          Access to all Vue Courses at Vue School
+        </div>
+        <div class="vs-slogan-title">
+          Black Friday <strong>40% OFF</strong>
+        </div>
       </div>
       <div class="vs-button">
-        GET ACCESS
+        Get Discount
       </div>
     </div>
-    <div
-      id="vs-close"
-      class="vs-close"
-      @click.stop.prevent="$emit('close')">
-      <img src="/images/vueschool/close.svg" alt="Close">
+    <div id="vs-close" class="vs-close" @click.stop.prevent="$emit('close')">
+      <img src="/images/vueschool/vueschool_close.svg" alt="Close">
     </div>
   </a>
 </template>
 
 <style lang="stylus">
 $topBannerHeight ?= 5rem
-$topBannerHeightMobile ?= 3.125rem
+$topBannerHeightMobile ?= 5rem
 $navbarHeight ?= 3.6rem
 $contentClass = '.theme-default-content'
 
-@import url('https://fonts.googleapis.com/css?family=Roboto')
+@import url('https://fonts.googleapis.com/css?family=Archivo:400,600')
 
 // Banner
 #vs
   align-items: center
-  background-color: #202A5A
+  background-color: #000c19
   box-sizing: border-box
   color: #fff
   display: none
-  font-family 'Roboto', Oxygen, Fira Sans, Helvetica Neue, sans-serif
+  font-family 'Inter', Roboto, Oxygen, Fira Sans, Helvetica Neue, sans-serif
   justify-content: center
   position: fixed
   padding: 0 10px
@@ -49,92 +45,69 @@ $contentClass = '.theme-default-content'
   right: 0
   top: 0
   z-index: 100
+  line-height: 1
   height: $topBannerHeightMobile
   @media (min-width: 680px)
     height: $topBannerHeight
+    justify-content: center
+    background-image: url(/images/vueschool/vueschool_blackfriday_background_tablet.svg)
+  @media (min-width: 900px)
+    background-image: url(/images/vueschool/vueschool_blackfriday_background_desktop.svg)
+
   &:hover
     .vs-core
       .vs-button
-        background: #f22606
-
-  .vs-iso
-    position: absolute
-    left: 20px
-    height: 26px
-    display: none
-    img
-      height: 26px
-    @media (min-width: 680px)
-      display: block
-      left: 20px
-      height: 40px
-      img
-        height: 40px
-    @media (min-width: 900px)
-      display: none
-
-  .vs-logo
-    position: absolute
-    display: none
-    left: 40px
-    @media (min-width: 900px)
-      display: block
+        background: linear-gradient(261deg, #e61463 100%, #db5248 3%)
 
   .vs-core
     display: flex
     align-items: center
-    margin-right: 20px
-    @media (min-width: 680px)
-      margin-right: 0
-
-    .vs-backpack
-      margin-right: 6px
-      @media (min-width: 680px)
-        display: none
-      @media (min-width: 900px)
-        display: inline-block
-      img
-        height: 50px
-        @media (min-width: 680px)
-          height: 74px
 
     .vs-slogan
+      font-family: Archivo
       color: #FFF
-      font-weight: bold
-      font-size: 14px
-      text-align: center
+      margin-left: 8px
       @media (min-width: 680px)
-        padding: 0
-        text-align: left
-        margin-left: 12px
-        font-size: 18px
-      > .vs-slogan-light
-        color: #ff5338
-        text-align: left
-        @media (min-width: 900px)
-          text-align: center
-          display: inline
+        margin-left: 24px
+      .vs-slogan-subtitle
+        font-size: 12px
+        @media (min-width: 680px)
+          font-size: 14px
+      .vs-slogan-title
+        margin-top: 6px
+        font-size: 16px
+        font-weight: 600
+        @media (min-width: 680px)
+          font-size: 18px
+        strong
+          color: #ffae29
+          font-weight: 600
 
     .vs-button
-      margin-left: 13px
       color: #FFF
-      padding: 13px 24px
-      border-radius: 40px
-      display: none
-      background: #ff5338
-      font-weight: bold
+      padding: 7px 10px
+      border-radius: 4px
+      background: linear-gradient(to left, #e61b60, #dd4a4c)
+      font-weight: 600
+      font-family: 'Archivo', sans-serif
+      white-space: nowrap
+      margin-right: 22px
+      margin-left: 16px
       @media (min-width: 680px)
-        margin-left: 18px
-        display: inline-block
+        margin-right: 0
+        padding: 8px 24px
+        margin-left: 32px
+      @media (min-width: 680px)
+        margin-left: 69px
 
   .vs-close
-    right: 10px
-    position: absolute
-    padding: 10px
-    @media (min-width: 680px)
-      right: 20px
-    &:hover
-      color: #56D8FF
+      right: 6px
+      position: absolute
+      @media (min-width: 680px)
+        padding: 10px
+        right: 20px
+      &:hover
+        color: #56D8FF
 
 /************************************/
 
