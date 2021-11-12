@@ -1,5 +1,6 @@
 <template>
   <a id="vs" href="https://vueschool.io/sales/blackfriday?friend=vuerouter" target="_blank" rel="noreferrer">
+    <BannerCoins />
     <div class="vs-core">
       <div class="vs-logo">
         <img src="/images/vueschool/vueschool_blackfriday_logo.svg">
@@ -21,6 +22,16 @@
     </div>
   </a>
 </template>
+
+<script>
+import BannerCoins from './BannerCoins.vue'
+
+export default {
+  components: {
+    BannerCoins
+  }
+}
+</script>
 
 <style lang="stylus">
 $topBannerHeight ?= 5rem
@@ -50,9 +61,6 @@ $contentClass = '.theme-default-content'
   @media (min-width: 680px)
     height: $topBannerHeight
     justify-content: center
-    background-image: url(/images/vueschool/vueschool_blackfriday_background_tablet.svg)
-  @media (min-width: 900px)
-    background-image: url(/images/vueschool/vueschool_blackfriday_background_desktop.svg)
 
   &:hover
     .vs-core

@@ -72,7 +72,7 @@ export default {
     ParentLayout,
     CarbonAds,
     BuySellAds,
-    BannerTop: () => import('./components/BannerTop.vue')
+    BannerTop: () => import('./components/VueSchool/BannerTop.vue')
   },
   data() {
     return {
