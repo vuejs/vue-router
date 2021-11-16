@@ -66,7 +66,8 @@ module.exports = ctx => ({
   themeConfig: {
     algolia: ctx.isProd
       ? {
-          apiKey: 'f854bb46d3de7eeb921a3b9173bd0d4c',
+          appId: 'LI3RW4C4QI',
+          apiKey: '08e7ef7cd3969442874f0dee9dec34be',
           indexName: 'vue-router'
         }
       : null,
@@ -94,9 +95,7 @@ module.exports = ctx => ({
           },
           {
             text: 'v3.x',
-            items: [
-              { text: 'v4.x', link: 'https://next.router.vuejs.org' }
-            ]
+            items: [{ text: 'v4.x', link: 'https://next.router.vuejs.org' }]
           },
           {
             text: 'Release Notes',
@@ -150,9 +149,7 @@ module.exports = ctx => ({
           },
           {
             text: 'v3.x',
-            items: [
-              { text: 'v4.x', link: 'https://next.router.vuejs.org/zh/' }
-            ]
+            items: [{ text: 'v4.x', link: 'https://next.router.vuejs.org/zh/' }]
           },
           {
             text: '更新记录',
@@ -206,9 +203,7 @@ module.exports = ctx => ({
           },
           {
             text: 'v3.x',
-            items: [
-              { text: 'v4.x', link: 'https://next.router.vuejs.org' }
-            ]
+            items: [{ text: 'v4.x', link: 'https://next.router.vuejs.org' }]
           },
           {
             text: 'リリースノート',
@@ -262,9 +257,7 @@ module.exports = ctx => ({
           },
           {
             text: 'v3.x',
-            items: [
-              { text: 'v4.x', link: 'https://next.router.vuejs.org' }
-            ]
+            items: [{ text: 'v4.x', link: 'https://next.router.vuejs.org' }]
           },
           {
             text: 'История изменений',
@@ -318,9 +311,7 @@ module.exports = ctx => ({
           },
           {
             text: 'v3.x',
-            items: [
-              { text: 'v4.x', link: 'https://next.router.vuejs.org' }
-            ]
+            items: [{ text: 'v4.x', link: 'https://next.router.vuejs.org' }]
           },
           {
             text: '릴리즈 노트',
@@ -373,9 +364,7 @@ module.exports = ctx => ({
           },
           {
             text: 'v3.x',
-            items: [
-              { text: 'v4.x', link: 'https://next.router.vuejs.org' }
-            ]
+            items: [{ text: 'v4.x', link: 'https://next.router.vuejs.org' }]
           },
           {
             text: 'Notes de version',
