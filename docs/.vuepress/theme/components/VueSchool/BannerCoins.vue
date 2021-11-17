@@ -92,9 +92,7 @@ export default {
   .vs-blackfriday-coin {
     display: inline-block;
     position: absolute;
-    transition-property: transform;
-    transition-timing-function: cubic-bezier(.17, .84, .44,1);
-    transition-duration: 75ms;
+    transition: transform 1000ms linear;
     transform: translateX(0);
   }
 
