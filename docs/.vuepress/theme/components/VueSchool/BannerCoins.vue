@@ -68,7 +68,7 @@ export default {
 
 @media (min-width: 768px) {
   .vs-blackfriday-coins {
-    background-image: url(/images/vueschool/vueschool_blackfriday_background_tablet.svg);
+    background-image: url(/images/vueschool/vueschool_blackfriday_background_tablet_2.svg);
     background-position: center;
     background-size: cover;
   }
@@ -99,7 +99,7 @@ export default {
   .vs-blackfriday-coin.js {
     width: 43px;
     top: 32px;
-    left: calc(50% - 341px);
+    left: calc(50% - 420px);
   }
 
   .vs-blackfriday-coin.ts {
@@ -125,7 +125,7 @@ export default {
   .vs-blackfriday-coin.nuxt {
     top: 10px;
     width: 48px;
-    left: calc(50% - 474px);
+    left: calc(50% - 484px);
   }
 }
 </style>
