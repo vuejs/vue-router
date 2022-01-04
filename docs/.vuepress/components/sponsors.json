@@ -1,57 +1,38 @@
 {
-  "platinum": [
-    {
-      "href": "https://www.finclip.com/#/home?from=vue",
-      "alt": "Finogeeks",
-      "imgSrcLight": "/sponsors/fincliplogo_black_svg.svg",
-      "imgSrcDark": "/sponsors/fincliplogo_white_svg.svg"
-    }
-  ],
+  "platinum": [],
   "gold": [
-    {
-      "href": "https://passionatepeople.io/",
-      "alt": "Passionate People",
-      "imgSrcLight": "/sponsors/passionate-people-light.png",
-      "imgSrcDark": "/sponsors/passionate-people-dark.png"
-    },
     {
       "href": "https://vuejobs.com/?utm_source=vuerouter&utm_campaign=sponsor",
       "alt": "VueJobs",
-      "imgSrcLight": "/sponsors/vuejobs.png",
-      "imgSrcDark": "/sponsors/vuejobs.png"
-    },
-    {
-      "href": "https://www.vuetifyjs.com/",
-      "imgSrcLight": "/sponsors/vuetify-logo-light-text.svg",
-      "imgSrcDark": "/sponsors/vuetify-logo-dark-text.svg",
-      "alt": "Vuetify"
+      "imgSrcLight": "https://posva-sponsors.pages.dev/logos/vuejobs.svg",
+      "imgSrcDark": "https://posva-sponsors.pages.dev/logos/vuejobs.svg"
     }
   ],
   "silver": [
     {
       "href": "https://www.vuemastery.com/",
       "alt": "VueMastery",
-      "imgSrcLight": "https://www.vuemastery.com/images/vuemastery.svg",
-      "imgSrcDark": "https://www.vuemastery.com/images/vuemastery.svg"
+      "imgSrcLight": "https://posva-sponsors.pages.dev/logos/vuemastery-light.svg",
+      "imgSrcDark": "https://posva-sponsors.pages.dev/logos/vuemastery-dark.png"
     },
     {
       "href": "https://birdeatsbug.com/?utm_source=vuerouter&utm_medium=sponsor&utm_campaign=silver",
       "alt": "Bird Eats Bug",
-      "imgSrcLight": "https://static.birdeatsbug.com/general/bird-logotype-150x27.svg",
-      "imgSrcDark": "https://static.birdeatsbug.com/general/bird-logotype-150x27.svg"
+      "imgSrcLight": "https://posva-sponsors.pages.dev/logos/birdeatsbug-dark.svg",
+      "imgSrcDark": "https://posva-sponsors.pages.dev/logos/birdeatsbug-light.svg"
     }
   ],
   "bronze": [
     {
       "href": "https://storyblok.com",
-      "imgSrcLight": "https://a.storyblok.com/f/51376/3856x824/fea44d52a9/colored-full.png",
-      "imgSrcDark": "https://a.storyblok.com/f/51376/3856x824/fea44d52a9/colored-full.png",
+      "imgSrcLight": "https://posva-sponsors.pages.dev/logos/storyblok.png",
+      "imgSrcDark": "https://posva-sponsors.pages.dev/logos/storyblok.png",
       "alt": "Storyblok"
     },
     {
       "href": "https://nuxtjs.org",
-      "imgSrcLight": "https://nuxtjs.org/logos/nuxtjs-typo.svg",
-      "imgSrcDark": "https://nuxtjs.org/logos/nuxtjs-typo-white.svg",
+      "imgSrcLight": "https://posva-sponsors.pages.dev/logos/nuxt-light.svg",
+      "imgSrcDark": "https://posva-sponsors.pages.dev/logos/nuxt-dark.svg",
       "alt": "NuxtJS"
     }
   ]
