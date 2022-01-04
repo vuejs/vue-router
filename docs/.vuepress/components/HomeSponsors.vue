@@ -8,8 +8,7 @@
       <a
         class="become-sponsor button white"
         href="https://github.com/sponsors/posva"
-        >Become a Sponsor!</a
-      >
+      >Become a Sponsor!</a>
     </div>
   </div>
 </template>
@@ -62,11 +61,13 @@ export default {
   opacity: 1;
 }
 
-#sponsors .become-sponsor {
+#sponsors .become-sponsor,
+.become-sponsor {
   margin-top: 40px;
   font-size: 0.9em;
   font-weight: 700;
   width: auto;
+  text-align: center;
   background-color: transparent;
   padding: 0.75em 2em;
   border-radius: 2em;
@@ -75,8 +76,16 @@ export default {
   border: 1px solid #4fc08d;
 }
 
-#sponsors .become-sponsor:hover {
+#sponsors .become-sponsor:hover,
+.become-sponsor:hover {
   background-color: #4fc08d;
   color: white;
+}
+
+.sponsors-top .become-sponsor.become-sponsor {
+  font-size: 0.75em;
+  padding: 0.2em;
+  width: auto;
+  max-width: 150px;
 }
 </style>
