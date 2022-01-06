@@ -97,6 +97,21 @@ For Node.js/Express, consider using [connect-history-api-fallback middleware](ht
 </configuration>
 ```
 
+#### Azure Static Web Apps
+1. Create the file staticwebapp.config.json in your public folder with the following:
+
+```
+{
+    "navigationFallback": {
+        "rewrite": "/index.html",
+        "exclude": [
+            "/img/*.{png,jpg,gif,webp}",
+            "/css/*"
+        ]
+    }
+} 
+```
+
 #### Caddy v2
 
 ```
