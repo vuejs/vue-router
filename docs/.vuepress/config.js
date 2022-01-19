@@ -34,6 +34,10 @@ module.exports = ctx => ({
   head: [
     ['link', { rel: 'icon', href: `/logo.png` }],
     [
+      'meta',
+      { name: 'wwads-cn-verify', content: '7e7757b1e12abcb736ab9a754ffb617a' }
+    ],
+    [
       'link',
       { rel: 'apple-touch-icon', href: `/icons/apple-touch-icon-152x152.png` }
     ],
