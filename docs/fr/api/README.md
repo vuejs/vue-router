@@ -34,9 +34,9 @@ sidebar: auto
 </router-link>
 ```
 
-- `href`: URL résolue. Ce serait l'attribut `href`  d'une balise `a`
+- `href`: URL résolue. Ce serait l'attribut `href` d'une balise `a`
 - `route`: localisation normalisée et résolue
-- `navigate`: function pour lancer la navigation. **En cas de nécessité il va automatiquement empêcher les événements**, de la même façon que `router-link`
+- `navigate`: fonction pour lancer la navigation. **En cas de nécessité il va automatiquement empêcher les événements**, de la même façon que `router-link`
 - `isActive`: `true` si [active class](#active-class) devrait être appliqué. Permet d'appliquer une classe arbitraire
 - `isExactActive`: `true` si [exact active class](#exact-active-class) devrait être appliqué. Permet d'appliquer une classe arbitraire
 
