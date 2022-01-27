@@ -14,7 +14,31 @@ sidebar: auto
 
 - Dans le mode historique HTML5, `router-link` interceptera l'évènement du clic, comme ça le navigateur n'essaiera pas de rafraichir la page.
 
-- En utilisant l'option `base` dans le mode historique HTML5, vous n'avez pas besoin
+- En utilisant l'option `base` dans le mode historique HTML5, vous n'avez pas besoin de l'inclure dans la prop `to`
+
+### `v-slot` API (3.1.0+)
+
+`router-link` est fortement personnalisable via une [slot avec portée](https://fr.vuejs.org/v2/guide/components-slots.html#Slots-avec-portee). C'est une API qui cible principalement les créateurs de bibliothèque, mais elle peut aussi servir pour les développeurs, le plus souvent dans des composants personnalisés tel qu'un _NavLink_ et autre.
+
+**Lors de l'utilisation `v-slot` API, il faut obligatoirement passer un composant enfant unique au `router-link`**. Si vous ne le faites pas, `router-link` va entourer ses enfants avec une balise `span`.
+
+```html
+<router-link
+  to="/about"
+  custom
+  v-slot="{ href, route, navigate, isActive, isExactActive }"
+>
+  <NavLink :active="isActive" :href="href" @click="navigate"
+    >{{ route.fullPath }}</NavLink
+  >
+</router-link>
+```
+
+- `href`: URL résolue. Ce serait l'attribut `href` d'une balise `a`
+- `route`: localisation normalisée et résolue
+- `navigate`: fonction pour lancer la navigation. **En cas de nécessité il va automatiquement empêcher les événements**, de la même façon que `router-link`
+- `isActive`: `true` si [active class](#active-class) devrait être appliqué. Permet d'appliquer une classe arbitraire
+- `isExactActive`: `true` si [exact active class](#exact-active-class) devrait être appliqué. Permet d'appliquer une classe arbitraire
 
 ### Appliquer la classe active à l'élément extérieur
 
