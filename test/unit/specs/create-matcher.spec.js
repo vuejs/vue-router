@@ -151,4 +151,26 @@ describe('Creating Matcher', function () {
     expect(pathForErrorRoute).toEqual('/error/')
     expect(pathForNotFoundRoute).toEqual('/')
   })
+
+  it('respect creation ordering', function () {
+    const matcher = createMatcher([
+      {
+        path: '/p/staticbefore',
+        name: 'staticbefore',
+        component: { name: 'staticbefore' }
+      },
+      {
+        path: '/p/:id',
+        name: 'dynamic',
+        component: { name: 'dynamic' }
+      },
+      {
+        path: '/p/staticafter',
+        name: 'staticafter',
+        component: { name: 'staticafter' }
+      }
+    ])
+    expect(matcher.match('/p/staticbefore').name).toBe('staticbefore')
+    expect(matcher.match('/p/staticafter').name).toBe('dynamic')
+  })
 })
