@@ -7,7 +7,7 @@ import { createRoute } from './util/route'
 import { fillParams } from './util/params'
 import { createRouteMap } from './create-route-map'
 import { normalizeLocation } from './util/location'
-import { decode } from './util/query'
+// import { decode } from './util/query'
 
 export type Matcher = {
   match: (raw: RawLocation, current?: Route, redirectedFrom?: Location) => Route;
@@ -22,14 +22,18 @@ export function createMatcher (
 ): Matcher {
   const { pathList, pathMap, nameMap } = createRouteMap(routes)
 
+  const _optimizedMatcher = optimizedMatcher(routes)
+
   function addRoutes (routes) {
     createRouteMap(routes, pathList, pathMap, nameMap)
+    _optimizedMatcher.addRoutes(routes)
   }
 
   function addRoute (parentOrRoute, route) {
     const parent = (typeof parentOrRoute !== 'object') ? nameMap[parentOrRoute] : undefined
     // $flow-disable-line
     createRouteMap([route || parentOrRoute], pathList, pathMap, nameMap, parent)
+    _optimizedMatcher.addRoute(parent, route || parentOrRoute)
 
     // add aliases of parent
     if (parent && parent.alias.length) {
@@ -81,13 +85,9 @@ export function createMatcher (
       location.path = fillParams(record.path, location.params, `named route "${name}"`)
       return _createRoute(record, location, redirectedFrom)
     } else if (location.path) {
-      location.params = {}
-      for (let i = 0; i < pathList.length; i++) {
-        const path = pathList[i]
-        const record = pathMap[path]
-        if (matchRoute(record.regex, location.path, location.params)) {
-          return _createRoute(record, location, redirectedFrom)
-        }
+      const record = _optimizedMatcher.match(location)
+      if (record) {
+        return _createRoute(record, location, redirectedFrom)
       }
     }
     // no match
@@ -197,30 +197,71 @@ export function createMatcher (
   }
 }
 
-function matchRoute (
-  regex: RouteRegExp,
-  path: string,
-  params: Object
-): boolean {
-  const m = path.match(regex)
+// function matchRoute (
+//   regex: RouteRegExp,
+//   path: string,
+//   params: Object
+// ): boolean {
+//   const m = path.match(regex)
 
-  if (!m) {
-    return false
-  } else if (!params) {
-    return true
-  }
+//   if (!m) {
+//     return false
+//   } else if (!params) {
+//     return true
+//   }
 
-  for (let i = 1, len = m.length; i < len; ++i) {
-    const key = regex.keys[i - 1]
-    if (key) {
-      // Fix #1994: using * with props: true generates a param named 0
-      params[key.name || 'pathMatch'] = typeof m[i] === 'string' ? decode(m[i]) : m[i]
-    }
-  }
+//   for (let i = 1, len = m.length; i < len; ++i) {
+//     const key = regex.keys[i - 1]
+//     if (key) {
+//       // Fix #1994: using * with props: true generates a param named 0
+//       params[key.name || 'pathMatch'] = typeof m[i] === 'string' ? decode(m[i]) : m[i]
+//     }
+//   }
 
-  return true
-}
+//   return true
+// }
 
 function resolveRecordPath (path: string, record: RouteRecord): string {
   return resolvePath(path, record.parent ? record.parent.path : '/', true)
+}
+
+// function isStaticPath (path) {
+//   // Dynamic paths have /:placeholder or anonymous placeholder /(.+) or wildcard *.
+//   return !/[:(*]/.exec(path)
+// }
+
+function optimizedMatcher (routes: Array<RouteConfig>): Matcher {
+  // staticMap keys are always full paths.
+  const staticMap = {}
+  // dynamicMap keys are prefixes. e.g. /, /onelevel/, /onelevel/twolevel/
+  // const dynamicMap = {}
+  // const staticLevels = 0
+
+  routes.forEach(route => {
+    staticMap[route.path] = route
+  })
+
+  function addRoutes (routes) {
+    routes.forEach(route => addRoute(null, route))
+  }
+
+  function addRoute (parent, route) {
+    console.log('OPT ADDROUTE', parent, route)
+    let path = route.path
+    if (parent) {
+      path = `${parent.path}/${route.path}`
+    }
+    staticMap[path] = route
+  }
+
+  function match (location) {
+    console.log('STATICMAP', location, staticMap)
+    return staticMap[location.path]
+  }
+
+  return {
+    addRoutes,
+    addRoute,
+    match
+  }
 }
