@@ -5,6 +5,10 @@ import { NavigationFailureType } from '../../../src/util/errors'
 Vue.use(VueRouter)
 
 describe('error handling', () => {
+  beforeEach(function () {
+    process.env.NODE_ENV = 'development'
+  })
+
   it('onReady errors', done => {
     const router = new VueRouter()
     const err = new Error('foo')
