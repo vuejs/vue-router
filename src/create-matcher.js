@@ -22,18 +22,18 @@ export function createMatcher (
 ): Matcher {
   const { pathList, pathMap, nameMap } = createRouteMap(routes)
 
-  var _optimizedMatcher = optimizedMatcher(pathMap)
+  var _optimizedMatcher = optimizedMatcher(pathList, pathMap)
 
   function addRoutes (routes) {
     createRouteMap(routes, pathList, pathMap, nameMap)
-    _optimizedMatcher = optimizedMatcher(pathMap)
+    _optimizedMatcher = optimizedMatcher(pathList, pathMap)
   }
 
   function addRoute (parentOrRoute, route) {
     const parent = (typeof parentOrRoute !== 'object') ? nameMap[parentOrRoute] : undefined
     // $flow-disable-line
     createRouteMap([route || parentOrRoute], pathList, pathMap, nameMap, parent)
-    _optimizedMatcher = optimizedMatcher(pathMap)
+    _optimizedMatcher = optimizedMatcher(pathList, pathMap)
 
     // add aliases of parent
     if (parent && parent.alias.length) {
@@ -86,7 +86,7 @@ export function createMatcher (
       return _createRoute(record, location, redirectedFrom)
     } else if (location.path) {
       location.params = {}
-      const record = _optimizedMatcher.match(location)
+      const record = _optimizedMatcher(location)
       if (record) {
         return _createRoute(record, location, redirectedFrom)
       }
@@ -230,52 +230,36 @@ function isStaticPath (path) {
   return !/[:(*]/.exec(path)
 }
 
-function optimizedMatcher (pathMap: Dictionary<RouteRecord>): Matcher {
-  // staticMap keys are always full paths.
+function optimizedMatcher (
+  pathList: Array<string>,
+  pathMap: Dictionary<RouteRecord>
+) {
   const staticMap = {}
-
   const dynamics = []
 
-  addRoutes(Object.values(pathMap))
-
-  function addRoutes (routes) {
-    routes.forEach(route => addRoute(null, route))
-  }
-
-  function addRoute (parentPath, route) {
-    let path = route.path
-    if (parentPath) {
-      path = `${parentPath}/${route.path}`
-    }
+  pathList.forEach((path, index) => {
+    const route = pathMap[path]
     if (isStaticPath(path)) {
-      staticMap[path] = route
+      staticMap[path] = { index, route }
     } else {
-      dynamics.push(route)
+      dynamics.push({ index, route })
     }
-
-    if (route.children) {
-      route.children.forEach(child => {
-        addRoute(path, child)
-      })
-    }
-  }
+  })
 
   function match (location) {
-    const record = staticMap[location.path.replace(/\/$/, '')]
-    if (!record) {
-      for (var i = 0; i < dynamics.length; i++) {
-        const dynamicRoute = dynamics[i]
-        if (matchRoute(dynamicRoute.regex, location.path, location.params)) {
-          return dynamicRoute
-        }
+    const staticRecord = staticMap[location.path.replace(/\/$/, '')]
+
+    for (var i = 0; i < dynamics.length; i++) {
+      const { index, route } = dynamics[i]
+      if (staticRecord && index >= staticRecord.index) {
+        break
+      }
+      if (matchRoute(route.regex, location.path, location.params)) {
+        return route
       }
     }
-    return record
+    return staticRecord && staticRecord.route
   }
 
-  return {
-    addRoutes,
-    addRoute,
-    match
-  }
+  return match
 }

@@ -152,7 +152,7 @@ describe('Creating Matcher', function () {
     expect(pathForNotFoundRoute).toEqual('/')
   })
 
-  it('respect creation ordering', function () {
+  it('respect ordering', function () {
     const matcher = createMatcher([
       {
         path: '/p/staticbefore',
