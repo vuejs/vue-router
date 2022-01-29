@@ -7,7 +7,7 @@ import { createRoute } from './util/route'
 import { fillParams } from './util/params'
 import { createRouteMap } from './create-route-map'
 import { normalizeLocation } from './util/location'
-// import { decode } from './util/query'
+import { decode } from './util/query'
 
 export type Matcher = {
   match: (raw: RawLocation, current?: Route, redirectedFrom?: Location) => Route;
@@ -22,18 +22,18 @@ export function createMatcher (
 ): Matcher {
   const { pathList, pathMap, nameMap } = createRouteMap(routes)
 
-  const _optimizedMatcher = optimizedMatcher(routes)
+  var _optimizedMatcher = optimizedMatcher(pathMap)
 
   function addRoutes (routes) {
     createRouteMap(routes, pathList, pathMap, nameMap)
-    _optimizedMatcher.addRoutes(routes)
+    _optimizedMatcher = optimizedMatcher(pathMap)
   }
 
   function addRoute (parentOrRoute, route) {
     const parent = (typeof parentOrRoute !== 'object') ? nameMap[parentOrRoute] : undefined
     // $flow-disable-line
     createRouteMap([route || parentOrRoute], pathList, pathMap, nameMap, parent)
-    _optimizedMatcher.addRoute(parent && parent.path, route || parentOrRoute)
+    _optimizedMatcher = optimizedMatcher(pathMap)
 
     // add aliases of parent
     if (parent && parent.alias.length) {
@@ -198,47 +198,45 @@ export function createMatcher (
   }
 }
 
-// function matchRoute (
-//   regex: RouteRegExp,
-//   path: string,
-//   params: Object
-// ): boolean {
-//   const m = path.match(regex)
+function matchRoute (
+  regex: RouteRegExp,
+  path: string,
+  params: Object
+): boolean {
+  const m = path.match(regex)
+  if (!m) {
+    return false
+  } else if (!params) {
+    return true
+  }
 
-//   if (!m) {
-//     return false
-//   } else if (!params) {
-//     return true
-//   }
+  for (let i = 1, len = m.length; i < len; ++i) {
+    const key = regex.keys[i - 1]
+    if (key) {
+      // Fix #1994: using * with props: true generates a param named 0
+      params[key.name || 'pathMatch'] = typeof m[i] === 'string' ? decode(m[i]) : m[i]
+    }
+  }
 
-//   for (let i = 1, len = m.length; i < len; ++i) {
-//     const key = regex.keys[i - 1]
-//     if (key) {
-//       // Fix #1994: using * with props: true generates a param named 0
-//       params[key.name || 'pathMatch'] = typeof m[i] === 'string' ? decode(m[i]) : m[i]
-//     }
-//   }
-
-//   return true
-// }
+  return true
+}
 
 function resolveRecordPath (path: string, record: RouteRecord): string {
   return resolvePath(path, record.parent ? record.parent.path : '/', true)
 }
 
-// function isStaticPath (path) {
-//   // Dynamic paths have /:placeholder or anonymous placeholder /(.+) or wildcard *.
-//   return !/[:(*]/.exec(path)
-// }
+function isStaticPath (path) {
+  // Dynamic paths have /:placeholder or anonymous placeholder /(.+) or wildcard *.
+  return !/[:(*]/.exec(path)
+}
 
-function optimizedMatcher (routes: Array<RouteConfig>): Matcher {
+function optimizedMatcher (pathMap: Dictionary<RouteRecord>): Matcher {
   // staticMap keys are always full paths.
   const staticMap = {}
-  // dynamicMap keys are prefixes. e.g. /, /onelevel/, /onelevel/twolevel/
-  // const dynamicMap = {}
-  // const staticLevels = 0
 
-  addRoutes(routes)
+  const dynamics = []
+
+  addRoutes(Object.values(pathMap))
 
   function addRoutes (routes) {
     routes.forEach(route => addRoute(null, route))
@@ -249,7 +247,11 @@ function optimizedMatcher (routes: Array<RouteConfig>): Matcher {
     if (parentPath) {
       path = `${parentPath}/${route.path}`
     }
-    staticMap[path] = route
+    if (isStaticPath(path)) {
+      staticMap[path] = route
+    } else {
+      dynamics.push(route)
+    }
 
     if (route.children) {
       route.children.forEach(child => {
@@ -259,8 +261,25 @@ function optimizedMatcher (routes: Array<RouteConfig>): Matcher {
   }
 
   function match (location) {
-    const record = staticMap[location.path] || staticMap['*']
-    location.params['pathMatch'] = location.path
+    let record = staticMap[location.path]
+    let key
+    if (!record) {
+      for (var i = 0; i < dynamics.length; i++) {
+        const dynamicRoute = dynamics[i]
+        if (matchRoute(dynamicRoute.regex, location.path, location.params)) {
+          return dynamicRoute
+        }
+      }
+
+      if (staticMap['*']) {
+        record = staticMap['*']
+        key = 'pathMatch'
+      } else {
+        key = location.path
+      }
+    }
+
+    location.params[key] = location.path
     return record
   }
 
