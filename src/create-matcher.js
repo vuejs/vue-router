@@ -33,7 +33,7 @@ export function createMatcher (
     const parent = (typeof parentOrRoute !== 'object') ? nameMap[parentOrRoute] : undefined
     // $flow-disable-line
     createRouteMap([route || parentOrRoute], pathList, pathMap, nameMap, parent)
-    _optimizedMatcher.addRoute(parent, route || parentOrRoute)
+    _optimizedMatcher.addRoute(parent && parent.path, route || parentOrRoute)
 
     // add aliases of parent
     if (parent && parent.alias.length) {
@@ -85,6 +85,7 @@ export function createMatcher (
       location.path = fillParams(record.path, location.params, `named route "${name}"`)
       return _createRoute(record, location, redirectedFrom)
     } else if (location.path) {
+      location.params = {}
       const record = _optimizedMatcher.match(location)
       if (record) {
         return _createRoute(record, location, redirectedFrom)
@@ -237,26 +238,30 @@ function optimizedMatcher (routes: Array<RouteConfig>): Matcher {
   // const dynamicMap = {}
   // const staticLevels = 0
 
-  routes.forEach(route => {
-    staticMap[route.path] = route
-  })
+  addRoutes(routes)
 
   function addRoutes (routes) {
     routes.forEach(route => addRoute(null, route))
   }
 
-  function addRoute (parent, route) {
-    console.log('OPT ADDROUTE', parent, route)
+  function addRoute (parentPath, route) {
     let path = route.path
-    if (parent) {
-      path = `${parent.path}/${route.path}`
+    if (parentPath) {
+      path = `${parentPath}/${route.path}`
     }
     staticMap[path] = route
+
+    if (route.children) {
+      route.children.forEach(child => {
+        addRoute(path, child)
+      })
+    }
   }
 
   function match (location) {
-    console.log('STATICMAP', location, staticMap)
-    return staticMap[location.path]
+    const record = staticMap[location.path] || staticMap['*']
+    location.params['pathMatch'] = location.path
+    return record
   }
 
   return {
