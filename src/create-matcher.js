@@ -262,7 +262,6 @@ function optimizedMatcher (pathMap: Dictionary<RouteRecord>): Matcher {
 
   function match (location) {
     const record = staticMap[location.path.replace(/\/$/, '')]
-    let key
     if (!record) {
       for (var i = 0; i < dynamics.length; i++) {
         const dynamicRoute = dynamics[i]
@@ -270,10 +269,7 @@ function optimizedMatcher (pathMap: Dictionary<RouteRecord>): Matcher {
           return dynamicRoute
         }
       }
-      key = location.path
     }
-
-    location.params[key] = location.path
     return record
   }
 
