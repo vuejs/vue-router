@@ -260,7 +260,7 @@ function optimizedMatcher (
     if (isStatic(route)) {
       staticMap[normalizedPath] = { index, route }
     } else {
-      const firstLevel = firstLevelStatic(normalizedPath.toLowerCase())
+      const firstLevel = firstLevelStatic(path.toLowerCase())
       if (firstLevel) {
         if (!firstLevelStaticMap[firstLevel]) {
           firstLevelStaticMap[firstLevel] = []
@@ -273,18 +273,11 @@ function optimizedMatcher (
   })
 
   function match (path, params) {
-    const cleanPath = path.replace(/\/$/, '')
-    let record = staticMap[cleanPath.toLowerCase()]
-
-    if (!record) {
-      const staticRecordInsensitive = staticMap[cleanPath.toLowerCase()]
-      if (staticRecordInsensitive && staticRecordInsensitive.route.regex.ignoreCase) {
-        record = staticRecordInsensitive
-      }
-    }
+    const cleanPath = path.replace(/\/$/, '').toLowerCase()
+    let record = staticMap[cleanPath]
 
     const firstLevel = firstLevelStatic(path)
-    const firstLevelRoutes = firstLevelStaticMap[firstLevel && firstLevel.toLowerCase()] || []
+    const firstLevelRoutes = firstLevelStaticMap[firstLevel] || []
 
     for (let i = 0; i < firstLevelRoutes.length; i++) {
       const { index, route } = firstLevelRoutes[i]
