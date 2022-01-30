@@ -92,6 +92,7 @@ function addRouteRecord (
   const record: RouteRecord = {
     path: normalizedPath,
     regex: compileRouteRegex(normalizedPath, pathToRegexpOptions),
+    pathToRegexpOptions,
     components: route.components || { default: route.component },
     alias: route.alias
       ? typeof route.alias === 'string'

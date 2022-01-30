@@ -174,7 +174,7 @@ describe('Creating Matcher', function () {
     expect(matcher.match('/p/staticafter').name).toBe('dynamic')
   })
 
-  it('static can be sensitive', function () {
+  it('static can use sensitive flag', function () {
     const matcher = createMatcher([
       {
         path: '/p/sensitive',
@@ -196,5 +196,53 @@ describe('Creating Matcher', function () {
 
     expect(matcher.match('/p/SENSITIVE').name).toBe('not-found')
     expect(matcher.match('/p/INSENSITIVE').name).toBe('insensitive')
+  })
+
+  it('static can use strict flag', function () {
+    const matcher = createMatcher([
+      {
+        path: '/p/strict',
+        name: 'strict',
+        pathToRegexpOptions: {
+          strict: true
+        },
+        component: { name: 'strict' }
+      },
+      {
+        path: '/p/unstrict',
+        name: 'unstrict',
+        component: { name: 'unstrict' }
+      },
+      {
+        path: '*', name: 'not-found', component: { name: 'not-found ' }
+      }
+    ])
+
+    expect(matcher.match('/p/strict/').name).toBe('not-found')
+    expect(matcher.match('/p/unstrict/').name).toBe('unstrict')
+  })
+
+  it('static can use end flag', function () {
+    const matcher = createMatcher([
+      {
+        path: '/p/end',
+        name: 'end',
+        component: { name: 'end' }
+      },
+      {
+        path: '/p/not-end',
+        name: 'not-end',
+        pathToRegexpOptions: {
+          end: false
+        },
+        component: { name: 'not-end' }
+      },
+      {
+        path: '*', name: 'not-found', component: { name: 'not-found ' }
+      }
+    ])
+
+    expect(matcher.match('/p/end/foo').name).toBe('not-found')
+    expect(matcher.match('/p/not-end/foo').name).toBe('not-end')
   })
 })

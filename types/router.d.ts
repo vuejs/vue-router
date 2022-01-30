@@ -147,6 +147,7 @@ export type RouteConfig = RouteConfigSingleView | RouteConfigMultipleViews
 export interface RouteRecord {
   path: string
   regex: RegExp
+  pathToRegexpOptions: PathToRegexpOptions
   components: Dictionary<Component>
   instances: Dictionary<Vue>
   name?: string

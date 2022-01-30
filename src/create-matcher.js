@@ -225,9 +225,13 @@ function resolveRecordPath (path: string, record: RouteRecord): string {
   return resolvePath(path, record.parent ? record.parent.path : '/', true)
 }
 
-function isStaticPath (path) {
-  // Dynamic paths have /:placeholder or anonymous placeholder /(.+) or wildcard *.
-  return !/[:(*]/.exec(path)
+function isStatic (route) {
+  return (
+    // Custom regex options are dynamic.
+    Object.keys(route.pathToRegexpOptions).length === 0 &&
+    // Dynamic paths have /:placeholder or anonymous placeholder /(.+) or wildcard *.
+    !/[:(*]/.exec(route.path)
+  )
 }
 
 function optimizedMatcher (
@@ -239,7 +243,7 @@ function optimizedMatcher (
 
   pathList.forEach((path, index) => {
     const route = pathMap[path]
-    if (isStaticPath(path)) {
+    if (isStatic(route)) {
       staticMap[path] = { index, route }
       if (route.regex.ignoreCase) {
         staticMap[path.toLowerCase()] = { index, route }
