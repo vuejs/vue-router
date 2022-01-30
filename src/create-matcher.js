@@ -22,7 +22,7 @@ export function createMatcher (
 ): Matcher {
   const { pathList, pathMap, nameMap } = createRouteMap(routes)
 
-  var _optimizedMatcher = optimizedMatcher(pathList, pathMap)
+  let _optimizedMatcher = optimizedMatcher(pathList, pathMap)
 
   function addRoutes (routes) {
     createRouteMap(routes, pathList, pathMap, nameMap)
@@ -235,46 +235,78 @@ function isStatic (route) {
   )
 }
 
+function firstLevelStatic (path) {
+  // firstLevel = ['/p/', '/p', '/' index: 0, input: '/p/b/c', groups: undefined]
+  const firstLevel = /^(\/[^:(*/]+)(\/|$)/.exec(path)
+  return firstLevel && firstLevel[1]
+}
+
 function optimizedMatcher (
   pathList: Array<string>,
   pathMap: Dictionary<RouteRecord>
 ) {
+  // Lookup table
+  // e.g. Route /p/b is mapped as {"/p/b": route}
   const staticMap = {}
-  const dynamics = []
+  // Buckets with the first level static path.
+  // e.g. Route /p/b/:id is mapped as {"/p": [route]}
+  const firstLevelStaticMap = {}
+  // Array of everything else.
+  const dynamic = []
 
   pathList.forEach((path, index) => {
     const route = pathMap[path]
+    const normalizedPath = route.regex.ignoreCase ? path.toLowerCase() : path
     if (isStatic(route)) {
-      staticMap[path] = { index, route }
-      if (route.regex.ignoreCase) {
-        staticMap[path.toLowerCase()] = { index, route }
-      }
+      staticMap[normalizedPath] = { index, route }
     } else {
-      dynamics.push({ index, route })
+      const firstLevel = firstLevelStatic(normalizedPath.toLowerCase())
+      if (firstLevel) {
+        if (!firstLevelStaticMap[firstLevel]) {
+          firstLevelStaticMap[firstLevel] = []
+        }
+        firstLevelStaticMap[firstLevel].push({ index, route })
+      } else {
+        dynamic.push({ index, route })
+      }
     }
   })
 
   function match (path, params) {
     const cleanPath = path.replace(/\/$/, '')
-    let staticRecord = staticMap[cleanPath]
+    let record = staticMap[cleanPath.toLowerCase()]
 
-    if (!staticRecord) {
+    if (!record) {
       const staticRecordInsensitive = staticMap[cleanPath.toLowerCase()]
       if (staticRecordInsensitive && staticRecordInsensitive.route.regex.ignoreCase) {
-        staticRecord = staticRecordInsensitive
+        record = staticRecordInsensitive
       }
     }
 
-    for (var i = 0; i < dynamics.length; i++) {
-      const { index, route } = dynamics[i]
-      if (staticRecord && index >= staticRecord.index) {
+    const firstLevel = firstLevelStatic(path)
+    const firstLevelRoutes = firstLevelStaticMap[firstLevel && firstLevel.toLowerCase()] || []
+
+    for (let i = 0; i < firstLevelRoutes.length; i++) {
+      const { index, route } = firstLevelRoutes[i]
+      if (record && index >= record.index) {
         break
       }
       if (matchRoute(route.regex, path, params)) {
-        return route
+        record = firstLevelRoutes[i]
+        break
       }
     }
-    return staticRecord && staticRecord.route
+
+    for (let j = 0; j < dynamic.length; j++) {
+      const { index, route } = dynamic[j]
+      if (record && index >= record.index) {
+        break
+      }
+      if (matchRoute(route.regex, path, params)) {
+        record = dynamic[j]
+      }
+    }
+    return record && record.route
   }
 
   return match

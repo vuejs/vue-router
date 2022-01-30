@@ -174,6 +174,50 @@ describe('Creating Matcher', function () {
     expect(matcher.match('/p/staticafter').name).toBe('dynamic')
   })
 
+  it('respect ordering for full dynamic', function () {
+    const matcher = createMatcher([
+      {
+        path: '/before/static',
+        name: 'staticbefore',
+        component: { name: 'staticbefore' }
+      },
+      {
+        path: '/:foo/static',
+        name: 'dynamic',
+        component: { name: 'dynamic' }
+      },
+      {
+        path: '/after/static',
+        name: 'staticafter',
+        component: { name: 'staticafter' }
+      }
+    ])
+    expect(matcher.match('/before/static').name).toBe('staticbefore')
+    expect(matcher.match('/after/static').name).toBe('dynamic')
+  })
+
+  it('respect ordering between full dynamic and first level static', function () {
+    const matcher = createMatcher([
+      {
+        path: '/before/:foo',
+        name: 'staticbefore',
+        component: { name: 'staticbefore' }
+      },
+      {
+        path: '/:foo/static',
+        name: 'dynamic',
+        component: { name: 'dynamic' }
+      },
+      {
+        path: '/after/:foo',
+        name: 'staticafter',
+        component: { name: 'staticafter' }
+      }
+    ])
+    expect(matcher.match('/before/static').name).toBe('staticbefore')
+    expect(matcher.match('/after/static').name).toBe('dynamic')
+  })
+
   it('static can use sensitive flag', function () {
     const matcher = createMatcher([
       {
@@ -244,5 +288,26 @@ describe('Creating Matcher', function () {
 
     expect(matcher.match('/p/end/foo').name).toBe('not-found')
     expect(matcher.match('/p/not-end/foo').name).toBe('not-end')
+  })
+
+  it('first level dynamic must work', function () {
+    const matcher = createMatcher([
+      {
+        path: '/:foo/b',
+        name: 'b',
+        component: { name: 'b' }
+      },
+      {
+        path: '/p/c',
+        name: 'c',
+        component: { name: 'c' }
+      },
+      {
+        path: '*', name: 'not-found', component: { name: 'not-found ' }
+      }
+    ])
+
+    expect(matcher.match('/p/b').name).toBe('b')
+    expect(matcher.match('/p/c').name).toBe('c')
   })
 })
