@@ -21,8 +21,8 @@ The `scrollBehavior` function receives the `to` and `from` route objects. The th
 
 The function can return a scroll position object. The object could be in the form of:
 
-- `{ x: number, y: number }`
-- `{ selector: string, offset? : { x: number, y: number }}` (offset only supported in 2.6.0+)
+- `{ left: number, top: number }`
+- `{ selector: string, offset? : { left: number, top: number }}` (offset only supported in 2.6.0+)
 
 If a falsy value or an empty object is returned, no scrolling will happen.
 
@@ -30,7 +30,7 @@ For example:
 
 ```js
 scrollBehavior (to, from, savedPosition) {
-  return { x: 0, y: 0 }
+  return { left: 0, top: 0 }
 }
 ```
 
@@ -43,7 +43,7 @@ scrollBehavior (to, from, savedPosition) {
   if (savedPosition) {
     return savedPosition
   } else {
-    return { x: 0, y: 0 }
+    return { left: 0, top: 0 }
   }
 }
 ```
@@ -55,7 +55,7 @@ scrollBehavior (to, from, savedPosition) {
   if (to.hash) {
     return {
       selector: to.hash
-      // , offset: { x: 0, y: 10 }
+      // , offset: { left: 0, top: 10 }
     }
   }
 }
@@ -73,7 +73,7 @@ You can also return a Promise that resolves to the desired position descriptor:
 scrollBehavior (to, from, savedPosition) {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
-      resolve({ x: 0, y: 0 })
+      resolve({ left: 0, top: 0 })
     }, 500)
   })
 }
