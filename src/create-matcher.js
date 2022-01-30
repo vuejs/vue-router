@@ -86,7 +86,7 @@ export function createMatcher (
       return _createRoute(record, location, redirectedFrom)
     } else if (location.path) {
       location.params = {}
-      const record = _optimizedMatcher(location)
+      const record = _optimizedMatcher(location.path, location.params)
       if (record) {
         return _createRoute(record, location, redirectedFrom)
       }
@@ -254,8 +254,8 @@ function optimizedMatcher (
     }
   })
 
-  function match (location) {
-    const cleanPath = location.path.replace(/\/$/, '')
+  function match (path, params) {
+    const cleanPath = path.replace(/\/$/, '')
     let staticRecord = staticMap[cleanPath]
 
     if (!staticRecord) {
@@ -270,7 +270,7 @@ function optimizedMatcher (
       if (staticRecord && index >= staticRecord.index) {
         break
       }
-      if (matchRoute(route.regex, location.path, location.params)) {
+      if (matchRoute(route.regex, path, params)) {
         return route
       }
     }
