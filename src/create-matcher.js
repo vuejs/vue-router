@@ -256,7 +256,14 @@ function optimizedMatcher (
 
   function match (path, params) {
     const cleanPath = path.replace(/\/$/, '')
-    const staticRecord = staticMap[cleanPath]
+    let staticRecord = staticMap[cleanPath]
+
+    if (!staticRecord) {
+      const staticRecordInsensitive = staticMap[cleanPath.toLowerCase()]
+      if (staticRecordInsensitive && staticRecordInsensitive.route.regex.ignoreCase) {
+        staticRecord = staticRecordInsensitive
+      }
+    }
 
     for (var i = 0; i < dynamics.length; i++) {
       const { index, route } = dynamics[i]
