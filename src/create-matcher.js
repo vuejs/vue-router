@@ -204,6 +204,7 @@ function matchRoute (
   params: Object
 ): boolean {
   const m = path.match(regex)
+
   if (!m) {
     return false
   } else if (!params) {
