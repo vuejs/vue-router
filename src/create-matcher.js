@@ -241,13 +241,24 @@ function optimizedMatcher (
     const route = pathMap[path]
     if (isStaticPath(path)) {
       staticMap[path] = { index, route }
+      if (route.regex.ignoreCase) {
+        staticMap[path.toLowerCase()] = { index, route }
+      }
     } else {
       dynamics.push({ index, route })
     }
   })
 
   function match (location) {
-    const staticRecord = staticMap[location.path.replace(/\/$/, '')]
+    const cleanPath = location.path.replace(/\/$/, '')
+    let staticRecord = staticMap[cleanPath]
+
+    if (!staticRecord) {
+      const staticRecordInsensitive = staticMap[cleanPath.toLowerCase()]
+      if (staticRecordInsensitive && staticRecordInsensitive.route.regex.ignoreCase) {
+        staticRecord = staticRecordInsensitive
+      }
+    }
 
     for (var i = 0; i < dynamics.length; i++) {
       const { index, route } = dynamics[i]

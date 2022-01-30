@@ -173,4 +173,28 @@ describe('Creating Matcher', function () {
     expect(matcher.match('/p/staticbefore').name).toBe('staticbefore')
     expect(matcher.match('/p/staticafter').name).toBe('dynamic')
   })
+
+  it('static can be sensitive', function () {
+    const matcher = createMatcher([
+      {
+        path: '/p/sensitive',
+        name: 'sensitive',
+        pathToRegexpOptions: {
+          sensitive: true
+        },
+        component: { name: 'sensitive' }
+      },
+      {
+        path: '/p/insensitive',
+        name: 'insensitive',
+        component: { name: 'insensitive' }
+      },
+      {
+        path: '*', name: 'not-found', component: { name: 'not-found ' }
+      }
+    ])
+
+    expect(matcher.match('/p/SENSITIVE').name).toBe('not-found')
+    expect(matcher.match('/p/INSENSITIVE').name).toBe('insensitive')
+  })
 })
