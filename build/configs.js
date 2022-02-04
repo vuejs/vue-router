@@ -45,13 +45,27 @@ module.exports = [
     format: 'es',
     env: 'production',
     transpile: false
+  },
+  {
+    input: resolve('src/components/link.js'),
+    file: resolve('dist/link.js'),
+    name: 'RouterLink',
+    format: 'umd',
+    env: 'development'
+  },
+  {
+    input: resolve('src/components/link.js'),
+    file: resolve('dist/link.min.js'),
+    name: 'RouterLink',
+    format: 'umd',
+    env: 'production'
   }
 ].map(genConfig)
 
 function genConfig (opts) {
   const config = {
     input: {
-      input: resolve('src/index.js'),
+      input: opts.input || resolve('src/index.js'),
       plugins: [
         flow(),
         node(),
@@ -65,7 +79,7 @@ function genConfig (opts) {
       file: opts.file,
       format: opts.format,
       banner,
-      name: 'VueRouter'
+      name: opts.name || 'VueRouter'
     }
   }
 
