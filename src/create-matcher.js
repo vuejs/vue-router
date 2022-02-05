@@ -82,6 +82,12 @@ export function createMatcher (
       return _createRoute(record, location, redirectedFrom)
     } else if (location.path) {
       location.params = {}
+      const staticRecord = pathMap[location.path]
+      if (staticRecord) {
+        if (matchRoute(staticRecord.regex, location.path, location.params)) {
+          return _createRoute(staticRecord, location, redirectedFrom)
+        }
+      }
       for (let i = 0; i < pathList.length; i++) {
         const path = pathList[i]
         const record = pathMap[path]
