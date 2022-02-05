@@ -61,9 +61,7 @@ describe('Creating Route Map', function () {
       '',
       '/foo',
       '/bar/',
-      '/bar',
       '/bar-redirect/',
-      '/bar-redirect',
       '*'
     ])
   })

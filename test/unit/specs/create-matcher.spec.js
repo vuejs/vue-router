@@ -61,15 +61,15 @@ describe('Creating Matcher', function () {
         path: '/p',
         name: 'parent',
         children: [
-          { path: '', name: 'parent.defaultchild', component },
-          { path: 'a', name: 'parent.achild', component }
+          { path: '', name: 'parent.default', component },
+          { path: 'a', name: 'parent.a', component }
         ]
       },
       { path: '*', name: 'not-found', component }
     ])
-    expect(matcher.match('/p').name).toBe('parent')
-    expect(matcher.match('/p/').name).toBe('parent.defaultchild')
-    expect(matcher.match('/p/a').name).toBe('parent.achild')
+    expect(matcher.match('/p').name).toBe('parent.default')
+    expect(matcher.match('/p/').name).toBe('parent.default')
+    expect(matcher.match('/p/a').name).toBe('parent.a')
   })
 
   it('can get all routes', function () {
