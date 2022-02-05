@@ -144,13 +144,12 @@ function addRouteRecord (
     })
   }
 
-  if (!pathMap[record.path]) {
-    if (!Object.values(pathMap).some(_record => {
-      return _record.path !== '*' && record.path.match(_record.regex)
-    })) {
-      pathList.push(record.path)
-      pathMap[record.path] = record
-    }
+  if (
+    !pathMap[record.path] &&
+    !Object.values(pathMap).some(r => r.path.indexOf('*') === -1 && record.path.match(r.regex))
+  ) {
+    pathList.push(record.path)
+    pathMap[record.path] = record
   }
 
   if (route.alias !== undefined) {
