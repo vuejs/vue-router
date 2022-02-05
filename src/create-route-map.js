@@ -144,10 +144,10 @@ function addRouteRecord (
     })
   }
 
-  if (
-    !pathMap[record.path] &&
-    !Object.values(pathMap).some(r => r.path.indexOf('*') === -1 && record.path.match(r.regex))
-  ) {
+  if (!pathMap[record.path] && !pathList.some(pathItem => {
+    const r = pathMap[pathItem]
+    return r.path.indexOf('*') === -1 && record.path.match(r.regex)
+  })) {
     pathList.push(record.path)
     pathMap[record.path] = record
   }
