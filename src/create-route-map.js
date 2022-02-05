@@ -145,8 +145,12 @@ function addRouteRecord (
   }
 
   if (!pathMap[record.path]) {
-    pathList.push(record.path)
-    pathMap[record.path] = record
+    if (!Object.values(pathMap).some(_record => {
+      return _record.path !== '*' && record.path.match(_record.regex)
+    })) {
+      pathList.push(record.path)
+      pathMap[record.path] = record
+    }
   }
 
   if (route.alias !== undefined) {

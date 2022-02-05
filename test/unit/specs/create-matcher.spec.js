@@ -54,6 +54,24 @@ describe('Creating Matcher', function () {
     expect(matcher.match('/p/c/n').name).toBe('nested')
   })
 
+  it('match default child', function () {
+    const component = { name: 'fake' }
+    const matcher = createMatcher([
+      {
+        path: '/p',
+        name: 'parent',
+        children: [
+          { path: '', name: 'parent.defaultchild', component },
+          { path: 'a', name: 'parent.achild', component }
+        ]
+      },
+      { path: '*', name: 'not-found', component }
+    ])
+    expect(matcher.match('/p').name).toBe('parent')
+    expect(matcher.match('/p/').name).toBe('parent.defaultchild')
+    expect(matcher.match('/p/a').name).toBe('parent.achild')
+  })
+
   it('can get all routes', function () {
     const component = { name: 'fake' }
     const matcher = createMatcher([])
