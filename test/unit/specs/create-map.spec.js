@@ -19,6 +19,7 @@ const routes = [
     children: [
       {
         path: '',
+        pathToRegexpOptions: { strict: true },
         component: Baz,
         name: 'bar.baz'
       }
@@ -61,6 +62,7 @@ describe('Creating Route Map', function () {
       '',
       '/foo',
       '/bar/',
+      '/bar',
       '/bar-redirect/',
       '*'
     ])
