@@ -14,8 +14,8 @@ Pour naviguer vers un URL différent, utilisez `router.push`. Cette méthode ajo
 
 Cette méthode est appelée en interne quand vous cliquez sur `<router-link>`, donc cliquer sur `<router-link :to="...">` est équivalent à appeler `router.push(...)`.
 
-| Déclarative | Programmatique |
-|-------------|--------------|
+| Déclarative               | Programmatique     |
+| ------------------------- | ------------------ |
 | `<router-link :to="...">` | `router.push(...)` |
 
 L'argument peut être une chaine de caractère représentant un chemin, ou un objet de description de destination. Des exemples :
@@ -54,8 +54,8 @@ Dans la version 2.2.0+, vous pouvez optionnellement fournir les fonctions de rap
 
 Il agit comme `router.push`. La seule différence est que la navigation se fait sans ajouter de nouvelle entrée dans la pile de l'historique. Comme son nom l'indique, il remplace l'entrée courante.
 
-| Déclarative | Programmatique |
-|-------------|--------------|
+| Déclarative                       | Programmatique        |
+| --------------------------------- | --------------------- |
 | `<router-link :to="..." replace>` | `router.replace(...)` |
 
 
