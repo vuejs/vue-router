@@ -29,9 +29,9 @@ Vous pouvez regarder un exemple en ligne [ici](https://jsfiddle.net/yyx990803/4x
 
 Vous pouvez avoir plusieurs segments dynamiques pour une même route, et ils seront associés aux champs associés dans `$route.params`. Des exemples :
 
-| motif | chemin concordant | $route.params |
-|---------|------|--------|
-| /utilisateur/:username | /utilisateur/evan | `{ username: 'evan' }` |
+| motif                                  | chemin concordant            | $route.params                        |
+| -------------------------------------- | ---------------------------- | ------------------------------------ |
+| /utilisateur/:username                 | /utilisateur/evan            | `{ username: 'evan' }`               |
 | /utilisateur/:username/billet/:post_id | /utilisateur/evan/billet/123 | `{ username: 'evan', post_id: 123 }` |
 
 En plus de `$route.params`, l'objet `$route` expose également d'autres informations utiles comme la `$route.query` (s'il y a une requête dans l'URL), `$route.hash`, etc. Vous pouvez accéder à tous les détails de cela dans la [référence de l'API](../../api/#the-route-object).
