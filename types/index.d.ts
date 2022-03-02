@@ -1,5 +1,5 @@
 import './vue'
-import { VueRouter } from './router'
+import { VueRouter } from './VueRouter'
 
 export default VueRouter
 
@@ -18,4 +18,6 @@ export {
   NavigationGuardNext,
   NavigationFailureType,
   NavigationFailure
-} from './router'
+} from './Route'
+export type { RouterLink } from './RouterLink'
+export type { RouterView } from './RouterView'

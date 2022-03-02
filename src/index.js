@@ -1,5 +1,7 @@
 /* @flow */
 
+import RouterView from './components/view'
+import RouterLink from './components/link'
 import { install } from './install'
 import { START } from './util/route'
 import { assert, warn } from './util/warn'
@@ -24,6 +26,8 @@ export default class VueRouter {
   static isNavigationFailure: Function
   static NavigationFailureType: any
   static START_LOCATION: Route
+  static RouterView: any
+  static RouterLink: any
 
   app: any
   apps: Array<any>
@@ -283,6 +287,8 @@ function createHref (base: string, fullPath: string, mode) {
   return base ? cleanPath(base + '/' + path) : path
 }
 
+VueRouter.RouterView = RouterView
+VueRouter.RouterLink = RouterLink
 VueRouter.install = install
 VueRouter.version = '__VERSION__'
 VueRouter.isNavigationFailure = isNavigationFailure

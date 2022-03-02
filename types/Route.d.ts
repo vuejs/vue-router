@@ -1,4 +1,4 @@
-import Vue, { ComponentOptions, PluginFunction, AsyncComponent } from 'vue'
+import Vue, { AsyncComponent, ComponentOptions } from 'vue'
 
 type Component = ComponentOptions<Vue> | typeof Vue | AsyncComponent
 type Dictionary<T> = { [key: string]: T }
@@ -17,69 +17,6 @@ export type NavigationGuard<V extends Vue = Vue> = (
   next: NavigationGuardNext<V>
 ) => any
 
-export declare class VueRouter {
-  constructor(options?: RouterOptions)
-
-  app: Vue
-  options: RouterOptions
-  mode: RouterMode
-  currentRoute: Route
-
-  beforeEach(guard: NavigationGuard): Function
-  beforeResolve(guard: NavigationGuard): Function
-  afterEach(hook: (to: Route, from: Route) => any): Function
-  push(location: RawLocation): Promise<Route>
-  replace(location: RawLocation): Promise<Route>
-  push(
-    location: RawLocation,
-    onComplete?: Function,
-    onAbort?: ErrorHandler
-  ): void
-  replace(
-    location: RawLocation,
-    onComplete?: Function,
-    onAbort?: ErrorHandler
-  ): void
-  go(n: number): void
-  back(): void
-  forward(): void
-  match (raw: RawLocation, current?: Route, redirectedFrom?: Location): Route
-  getMatchedComponents(to?: RawLocation | Route): Component[]
-  onReady(cb: Function, errorCb?: ErrorHandler): void
-  onError(cb: ErrorHandler): void
-  addRoutes(routes: RouteConfig[]): void
-
-  addRoute(parent: string, route: RouteConfig): void
-  addRoute(route: RouteConfig): void
-  getRoutes(): RouteRecordPublic[]
-
-  resolve(
-    to: RawLocation,
-    current?: Route,
-    append?: boolean
-  ): {
-    location: Location
-    route: Route
-    href: string
-    // backwards compat
-    normalizedTo: Location
-    resolved: Route
-  }
-
-  static install: PluginFunction<never>
-  static version: string
-
-  static isNavigationFailure: (
-    error: any,
-    type?: number
-  ) => error is NavigationFailure
-  static NavigationFailureType: {
-    [k in keyof typeof NavigationFailureType]: NavigationFailureType
-  }
-
-  static START_LOCATION: Route
-}
-
 export enum NavigationFailureType {
   redirected = 2,
   aborted = 4,
@@ -94,7 +31,10 @@ export interface NavigationFailure extends Error {
 }
 
 type Position = { x: number; y: number }
-type PositionResult = Position | { selector: string; offset?: Position, behavior?: ScrollBehavior } | void
+type PositionResult =
+  | Position
+  | { selector: string; offset?: Position; behavior?: ScrollBehavior }
+  | void
 
 export interface RouterOptions {
   routes?: RouteConfig[]
@@ -184,7 +124,6 @@ export interface RouteRecordPublic {
     | RoutePropsFunction
     | Dictionary<boolean | Object | RoutePropsFunction>
 }
-
 
 export interface Location {
   name?: string
