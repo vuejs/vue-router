@@ -1,38 +1,32 @@
 <template>
-  <a id="vs" href="https://vueschool.io/sales/blackfriday?friend=vuerouter" target="_blank" rel="noreferrer">
-    <BannerCoins />
+  <a
+    id="vs"
+    href="https://vueschool.io/free-weekend?friend=vuerouter"
+    target="_blank"
+    rel="noreferrer"
+  >
+    <div class="vs-logo">
+      <img src="/images/vueschool/vs-iso.svg" class="logo-small">
+      <img src="/images/vueschool/vs-logo.svg" class="logo-big">
+    </div>
     <div class="vs-core">
-      <div class="vs-logo">
-        <img src="/images/vueschool/vueschool_blackfriday_logo.svg">
-      </div>
       <div class="vs-slogan">
         <div class="vs-slogan-subtitle">
-          Access to all Vue Courses at Vue School
+          VUE 3 MASTERCLASS - FREE WEEKEND
         </div>
         <div class="vs-slogan-title">
-          Cyber Monday <strong>35% OFF</strong> - Closes Soon
+          Register at <strong>vueschool.io/free-weekend</strong>
         </div>
       </div>
       <div class="vs-button">
-        Get Discount
+        Free Access
       </div>
-      <img class="vs-tag" src="/images/vueschool/extended.svg" alt="Extended">
     </div>
     <div id="vs-close" class="vs-close" @click.stop.prevent="$emit('close')">
-      <img src="/images/vueschool/vueschool_close.svg" alt="Close">
+      <img src="/images/vueschool/vs-close.svg" alt="Close">
     </div>
   </a>
 </template>
-
-<script>
-import BannerCoins from './BannerCoins.vue'
-
-export default {
-  components: {
-    BannerCoins
-  }
-}
-</script>
 
 <style lang="stylus">
 $topBannerHeight ?= 5rem
@@ -59,11 +53,10 @@ $contentClass = '.theme-default-content'
   z-index: 100
   line-height: 1
   height: $topBannerHeightMobile
-  background-image: url(/images/vueschool/vueschool_banner_mobile.png)
+  background-image: url(/images/vueschool/vs-fw-bg.svg)
   background-size: cover
   background-repeat: no-repeat
   @media (min-width: 680px)
-    background-image: none
     height: $topBannerHeight
     justify-content: center
 
@@ -71,54 +64,81 @@ $contentClass = '.theme-default-content'
     .vs-core
       .vs-button
         background: linear-gradient(261deg, #e61463 100%, #db5248 3%)
+        border-color: #e61463
+
+  .vs-logo {
+    position: absolute
+    left: 20px
+    top: 20px
+
+    .logo-small {
+      display: none
+      @media (min-width: 680px) {
+        display: inline-block
+      }
+      @media (min-width: 1024px) {
+        display: none
+      }
+    }
+
+    .logo-big {
+      display: none
+      @media (min-width: 1024px) {
+        display: inline-block
+      }
+    }
+  }
 
   .vs-core
-    display: none
-    @media (min-width: 680px)
-      display: flex
-      align-items: center
+    display: flex
+    align-items: center
 
     .vs-slogan
       font-family: Archivo
       color: #FFF
       margin-left: 8px
+      text-align: center
       @media (min-width: 680px)
         margin-left: 24px
       .vs-slogan-subtitle
-        font-size: 12px
+        font-size: 14px
+        color: #47b785
+        font-weight: bold
         @media (min-width: 680px)
-          font-size: 14px
+          font-size: 19px
       .vs-slogan-title
         margin-top: 6px
         font-size: 16px
-        font-weight: 600
+        font-weight: 400
         @media (min-width: 680px)
           font-size: 18px
         strong
-          color: #ffae29
-          font-weight: 600
+          color: #48a0ff
+          font-weight: 400
 
     .vs-button
-      color: #FFF
+      color: #fff
       padding: 7px 10px
-      border-radius: 4px
-      background: linear-gradient(to left, #e61b60, #dd4a4c)
       font-weight: 600
-      font-family: 'Archivo', sans-serif
       white-space: nowrap
-      margin-right: 22px
+      margin-right: 18px
       margin-left: 16px
+      font-family: 'Archivo', sans-serif
+      object-fit: contain
+      border-radius: 30px
+      border-style: solid
+      border-width: 2px
+      background-image: linear-gradient(255deg, #d457d0 98%, #ed81eb 2%), linear-gradient(to bottom, #b349b0, #db61d9)
+      text-transform: uppercase
+      border-color: #B349B0
+      display: none
       @media (min-width: 680px)
+        display: inline-block
         margin-right: 0
         padding: 8px 24px
         margin-left: 22px
       @media (min-width: 1024px)
         margin-left: 69px
-
-    .vs-tag
-      margin-left: 10px
-      @media (min-width: 1024px)
-        margin-left: 30px
 
   .vs-close
       right: 6px
