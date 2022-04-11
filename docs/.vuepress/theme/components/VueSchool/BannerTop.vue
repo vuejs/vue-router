@@ -64,6 +64,12 @@
   top: 20px;
 }
 
+#vs .vs-logo .logo-small {
+  width: 30px;
+  margin-left: -5px;
+  margin-top: 5px;
+}
+
 #vs .vs-logo .logo-big {
   display: none;
 }
