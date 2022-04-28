@@ -12,10 +12,10 @@
     <div class="vs-core">
       <div class="vs-slogan">
         <div class="vs-slogan-title">
-          Get up to <strong>40% off</strong> your Vue School Subscription
+          Extended for <strong>48 hours!</strong>
         </div>
         <div class="vs-slogan-subtitle">
-          Time Limited Offer
+          Get up to 40% off your Vue School Subscription
         </div>
       </div>
       <div class="vs-button">
