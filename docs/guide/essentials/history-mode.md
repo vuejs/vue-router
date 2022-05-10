@@ -129,6 +129,15 @@ Add this to your `firebase.json`:
   }
 }
 ```
+#### AspNetCore
+1. Install-Package [VueRouterHistory](https://www.nuget.org/packages/VueRouterHistory/)
+```
+Install-Package VueRouterHistory -Version 1.0.2
+```
+2. Regist
+```
+app.UseVueRouterHistory();
+```
 
 ## Caveat
 
