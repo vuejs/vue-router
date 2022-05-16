@@ -1,3 +1,12 @@
+## [3.5.4](https://github.com/vuejs/vue-router/compare/v3.5.3...v3.5.4) (2022-05-16)
+
+
+### Bug Fixes
+
+* remove whitespace between mulitple slashes ([86d7f1f](https://github.com/vuejs/vue-router/commit/86d7f1fdaa36432f6564309925690ec20bb2981e)), closes [#3743](https://github.com/vuejs/vue-router/issues/3743)
+
+
+
 ## [3.5.3](https://github.com/vuejs/vue-router/compare/v3.5.2...v3.5.3) (2021-10-26)
 
 ### Bug Fixes
