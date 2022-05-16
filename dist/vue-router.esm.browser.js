@@ -1,6 +1,6 @@
 /*!
-  * vue-router v3.5.3
-  * (c) 2021 Evan You
+  * vue-router v3.5.4
+  * (c) 2022 Evan You
   * @license MIT
   */
 /*  */
@@ -505,7 +505,7 @@ function parsePath (path) {
 }
 
 function cleanPath (path) {
-  return path.replace(/\/+/g, '/')
+  return path.replace(/\/(?:\s*\/)+/g, '/')
 }
 
 var isarray = Array.isArray || function (arr) {
@@ -1434,7 +1434,7 @@ function addRouteRecord (
           `Named Route '${route.name}' has a default child route. ` +
             `When navigating to this named route (:to="{name: '${
               route.name
-            }'"), ` +
+            }'}"), ` +
             `the default child route will not be rendered. Remove the name from ` +
             `this route and use the name of the default child route for named ` +
             `links instead.`
@@ -3108,7 +3108,7 @@ function createHref (base, fullPath, mode) {
 }
 
 VueRouter.install = install;
-VueRouter.version = '3.5.3';
+VueRouter.version = '3.5.4';
 VueRouter.isNavigationFailure = isNavigationFailure;
 VueRouter.NavigationFailureType = NavigationFailureType;
 VueRouter.START_LOCATION = START;
