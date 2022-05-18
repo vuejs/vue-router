@@ -25,5 +25,5 @@ then
   # publish
   git push origin refs/tags/v$VERSION
   git push
-  npm publish --tag v3
+  npm publish --tag legacy
 fi
