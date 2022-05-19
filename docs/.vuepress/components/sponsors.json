@@ -1,12 +1,5 @@
 {
-  "platinum": [
-    {
-      "href": "https://www.finclip.com/#/home?from=vue",
-      "alt": "Finogeeks",
-      "imgSrcLight": "https://posva-sponsors.pages.dev/logos/fincliplogo_black_svg.svg",
-      "imgSrcDark": "https://posva-sponsors.pages.dev/logos/fincliplogo_white_svg.svg"
-    }
-  ],
+  "platinum": [],
   "gold": [
     {
       "href": "https://vuejobs.com/?utm_source=vuerouter&utm_campaign=sponsor",
@@ -27,12 +20,6 @@
       "imgSrcLight": "https://posva-sponsors.pages.dev/logos/prefectlogo-light.svg",
       "imgSrcDark": "https://posva-sponsors.pages.dev/logos/prefectlogo-dark.svg",
       "alt": "Prefect"
-    },
-    {
-      "href": "https://birdeatsbug.com/?utm_source=vuerouter&utm_medium=sponsor&utm_campaign=silver",
-      "alt": "Bird Eats Bug",
-      "imgSrcLight": "https://posva-sponsors.pages.dev/logos/birdeatsbug-dark.svg",
-      "imgSrcDark": "https://posva-sponsors.pages.dev/logos/birdeatsbug-light.svg"
     }
   ],
   "bronze": [
