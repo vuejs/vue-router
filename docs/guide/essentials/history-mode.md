@@ -24,6 +24,9 @@ Not to worry: To fix the issue, all you need to do is add a simple catch-all fal
 #### Apache
 
 ```apache
+<IfModule mod_negotiation.c>
+  Options -MultiViews
+</IfModule>
 <IfModule mod_rewrite.c>
   RewriteEngine On
   RewriteBase /
