@@ -1233,7 +1233,7 @@
 
 "@vue/composition-api@^1.7.0":
   version "1.7.0"
-  resolved "https://npm.homepartners.com/@vue%2fcomposition-api/-/composition-api-1.7.0.tgz#26fae79e5023fc6c9dfd99ca5d3d357e1c5b9c60"
+  resolved "https://registry.yarnpkg.com/@vue%2fcomposition-api/-/composition-api-1.7.0.tgz#26fae79e5023fc6c9dfd99ca5d3d357e1c5b9c60"
   integrity sha512-hxOgLYR+wjuPX9bkP2pAPlqUs98XxBoa9DSLyp1z6+YR92wC42PZcZKs4d+VRtcv4udOv041Kss+F6ap5nj8YA==
 
 "@vuepress/core@1.8.2":
