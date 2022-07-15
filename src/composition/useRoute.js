@@ -1,13 +1,13 @@
 import { getCurrentInstance, computed } from '@vue/composition-api'
 
 export const useRoute = () => {
-  const instance = getCurrentInstance()
-  const route = computed(() => instance.$route)
+  const { proxy } = getCurrentInstance()
+  const route = computed(() => proxy.$route)
   return route
 }
 
 export const useRouter = () => {
-  const instance = getCurrentInstance()
-  const router = computed(() => instance.$router)
+  const { proxy } = getCurrentInstance()
+  const router = computed(() => proxy.$router)
   return router
 }
