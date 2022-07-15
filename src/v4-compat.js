@@ -1,0 +1,6 @@
+export { default as VueRouter } from './index'
+export { default as RouterLink } from './components/link'
+export { default as RouterView } from './components/view'
+export { useRoute, useRouter } from './composable'
+export { NavigationFailureType, isNavigationFailure } from './util/errors'
+export { START as START_LOCATION } from './util/route'

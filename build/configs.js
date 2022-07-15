@@ -1,3 +1,4 @@
+// @ts-check
 const path = require('path')
 const buble = require('rollup-plugin-buble')
 const flow = require('rollup-plugin-flow-no-whitespace')
@@ -12,9 +13,23 @@ const banner =
   * @license MIT
   */`
 
+/**
+ * @param {string} _path
+ */
 const resolve = _path => path.resolve(__dirname, '../', _path)
 
-module.exports = [
+/**
+ * @typedef {object} OutputOption - the option for build output
+ * @property {string} file
+ * @property {'umd' | 'cjs' | 'es'} format
+ * @property {'development' |'production'} [env]
+ * @property {boolean} [transpile=true]
+ */
+
+/**
+ * @type {Array<OutputOption>}
+ */
+const outputOptions = [
   // browser dev
   {
     file: resolve('dist/vue-router.js'),
@@ -46,8 +61,15 @@ module.exports = [
     env: 'production',
     transpile: false
   }
-].map(genConfig)
+]
 
+module.exports = outputOptions.map(genConfig)
+
+/**
+ *
+ * @param {OutputOption} opts
+ * @returns
+ */
 function genConfig (opts) {
   const config = {
     input: {

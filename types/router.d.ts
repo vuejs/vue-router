@@ -82,8 +82,17 @@ export declare class VueRouter {
 
 export enum NavigationFailureType {
   redirected = 2,
+  /**
+   * An aborted navigation is a navigation that failed because a navigation guard returned `false` or called `next(false)`
+   */
   aborted = 4,
+  /**
+   * A cancelled navigation is a navigation that failed because a more recent navigation finished started (not necessarily finished).
+   */
   cancelled = 8,
+  /**
+   * A duplicated navigation is a navigation that failed because it was initiated while already being at the exact same location.
+   */
   duplicated = 16
 }
 

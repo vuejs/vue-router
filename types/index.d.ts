@@ -3,7 +3,7 @@ import { VueRouter } from './router'
 
 export default VueRouter
 
-export {
+export type {
   RouterMode,
   RouteMeta,
   RawLocation,
