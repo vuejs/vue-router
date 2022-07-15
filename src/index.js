@@ -13,11 +13,11 @@ import { handleScroll } from './util/scroll'
 import { HashHistory } from './history/hash'
 import { HTML5History } from './history/html5'
 import { AbstractHistory } from './history/abstract'
-
 import type { Matcher } from './create-matcher'
 
 import { isNavigationFailure, NavigationFailureType } from './util/errors'
 
+export * from './composition/useRoute'
 export default class VueRouter {
   static install: () => void
   static version: string

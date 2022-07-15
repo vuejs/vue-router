@@ -62,6 +62,7 @@
   "devDependencies": {
     "@rollup/plugin-commonjs": "^17.0.0",
     "@rollup/plugin-node-resolve": "^11.0.0",
+    "@vue/composition-api": "^1.7.0",
     "@vuepress/plugin-pwa": "^1.5.3",
     "@vuepress/theme-vue": "^1.5.3",
     "axios": "^0.21.1",
