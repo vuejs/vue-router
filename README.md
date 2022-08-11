@@ -1,6 +1,8 @@
 # vue-router [![Build Status](https://img.shields.io/circleci/project/github/vuejs/vue-router/dev.svg)](https://circleci.com/gh/vuejs/vue-router)
 
-> This is vue-router 3.0 which works only with Vue 2.0. For the 1.x router see the [1.0 branch](https://github.com/vuejs/vue-router/tree/1.0).
+> This is vue-router 3.0 which works only with Vue 2.0.
+> - For the 1.x router see the [1.0 branch](https://github.com/vuejs/vue-router/tree/1.0).
+> - For Vue Router 4 (for Vue 3) see [vuejs/router](https://github.com/vuejs/router).
 
 <h2 align="center">Supporting Vue Router</h2>
 
