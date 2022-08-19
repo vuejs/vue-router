@@ -1,8 +1,30 @@
-import Vue, { defineComponent, watch, ref, onUnmounted } from 'vue'
+import Vue, { defineComponent, watch, ref } from 'vue'
 import VueRouter from 'vue-router'
 import { useRoute, useRouter } from 'vue-router/composables'
+import { onBeforeRouteLeave, onBeforeRouteUpdate } from '../../src/composables'
 
 Vue.use(VueRouter)
+
+const Foo = defineComponent({
+  setup () {
+    const route = useRoute()
+    onBeforeRouteUpdate((to, from, next) => {
+      console.log('Foo updating')
+      next()
+    })
+    onBeforeRouteLeave((to, from, next) => {
+      console.log('Foo leaving')
+      next()
+    })
+    return { route }
+  },
+  template: `
+<div>
+  <h3>Foo</h3>
+  {{ route.fullPath }}
+</div>
+  `
+})
 
 const Home = defineComponent({
   setup () {
@@ -12,17 +34,20 @@ const Home = defineComponent({
     // should be /
     const startRoute = route.fullPath
 
-    console.log('got to Home', startRoute)
+    onBeforeRouteUpdate((to, from, next) => {
+      console.log('Home updating')
+      next()
+    })
+
+    onBeforeRouteLeave((to, from, next) => {
+      console.log('Home leaving')
+      next()
+    })
 
     const watchCount = ref(0)
 
     watch(() => route.query.n, () => {
-      console.log('watched')
       watchCount.value++
-    })
-
-    onUnmounted(() => {
-      console.log('unmounted')
     })
 
     function navigate () {
@@ -37,8 +62,11 @@ const Home = defineComponent({
   <p id='watch-count'>{{ watchCount }}</p>
   <p id="fullpath">{{ route.fullPath }}</p>
   <button id="nav" @click="navigate">Navigate</button>
+  <hr>
+  <Foo />
 </div>
-  `
+  `,
+  components: { Foo }
 })
 
 const About = defineComponent({
