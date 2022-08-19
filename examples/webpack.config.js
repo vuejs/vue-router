@@ -50,7 +50,7 @@ module.exports = {
     alias: {
       vue: 'vue/dist/vue.esm.js',
       'vue-router': path.join(__dirname, '..', 'src'),
-      'vue-router/composables': path.join(__dirname, '..', 'src/composables.js')
+      'vue-router/composables': path.join(__dirname, '..', 'src/composables')
     }
   },
 

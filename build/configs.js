@@ -5,8 +5,7 @@ const cjs = require('@rollup/plugin-commonjs')
 const node = require('@rollup/plugin-node-resolve').nodeResolve
 const replace = require('rollup-plugin-replace')
 const version = process.env.VERSION || require('../package.json').version
-const banner =
-`/*!
+const banner = `/*!
   * vue-router v${version}
   * (c) ${new Date().getFullYear()} Evan You
   * @license MIT
@@ -31,27 +30,40 @@ module.exports = [
     format: 'cjs'
   },
   {
+    input: resolve('src/entries/esm.js'),
     file: resolve('dist/vue-router.esm.js'),
     format: 'es'
   },
   {
+    input: resolve('src/entries/esm.js'),
     file: resolve('dist/vue-router.esm.browser.js'),
     format: 'es',
     env: 'development',
     transpile: false
   },
   {
+    input: resolve('src/entries/esm.js'),
     file: resolve('dist/vue-router.esm.browser.min.js'),
     format: 'es',
     env: 'production',
     transpile: false
+  },
+  {
+    input: resolve('src/composables/index.js'),
+    file: resolve('./dist/composables.mjs'),
+    format: 'es'
+  },
+  {
+    input: resolve('src/composables/index.js'),
+    file: resolve('./dist/composables.js'),
+    format: 'cjs'
   }
 ].map(genConfig)
 
 function genConfig (opts) {
   const config = {
     input: {
-      input: resolve('src/index.js'),
+      input: opts.input || resolve('src/index.js'),
       plugins: [
         flow(),
         node(),
@@ -59,7 +71,8 @@ function genConfig (opts) {
         replace({
           __VERSION__: version
         })
-      ]
+      ],
+      external: ['vue']
     },
     output: {
       file: opts.file,
@@ -70,9 +83,11 @@ function genConfig (opts) {
   }
 
   if (opts.env) {
-    config.input.plugins.unshift(replace({
-      'process.env.NODE_ENV': JSON.stringify(opts.env)
-    }))
+    config.input.plugins.unshift(
+      replace({
+        'process.env.NODE_ENV': JSON.stringify(opts.env)
+      })
+    )
   }
 
   if (opts.transpile !== false) {
