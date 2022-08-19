@@ -21,6 +21,23 @@
     "vetur/tags.json",
     "vetur/attributes.json"
   ],
+  "exports": {
+    ".": {
+      "import": {
+        "node": "./dist/vue-router.mjs",
+        "default": "./dist/vue-router.esm.js"
+      },
+      "require": "./dist/vue-router.common.js",
+      "types": "./types/index.d.ts"
+    },
+    "./composables": {
+      "import": "./dist/composables.mjs",
+      "require": "./dist/composables.js"
+    },
+    "./dist/*": "./dist/*",
+    "./types/*": "./types/*",
+    "./package.json": "./package.json"
+  },
   "vetur": {
     "tags": "vetur/tags.json",
     "attributes": "vetur/attributes.json"
