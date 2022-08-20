@@ -32,7 +32,8 @@
     },
     "./composables": {
       "import": "./dist/composables.mjs",
-      "require": "./dist/composables.js"
+      "require": "./dist/composables.js",
+      "types": "./types/composables.d.ts"
     },
     "./dist/*": "./dist/*",
     "./types/*": "./types/*",

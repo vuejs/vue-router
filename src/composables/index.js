@@ -112,3 +112,9 @@ function throwNoCurrentInstance (method) {
     `[vue-router]: Missing current instance. ${method}() must be called inside <script setup> or setup().`
   )
 }
+
+export { default as default } from '../index'
+export { default as RouterLink } from '../components/link'
+export { default as RouterView } from '../components/view'
+export { NavigationFailureType, isNavigationFailure } from '../util/errors'
+export { START as START_LOCATION } from '../util/route'
