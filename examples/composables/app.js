@@ -1,7 +1,12 @@
 import Vue, { defineComponent, watch, ref } from 'vue'
 import VueRouter from 'vue-router'
-import { useRoute, useRouter } from 'vue-router/composables'
-import { onBeforeRouteLeave, onBeforeRouteUpdate } from '../../src/composables'
+import {
+  useRoute,
+  useRouter,
+  onBeforeRouteLeave,
+  onBeforeRouteUpdate,
+  useLink
+} from 'vue-router/composables'
 
 Vue.use(VueRouter)
 
@@ -16,6 +21,7 @@ const Foo = defineComponent({
       console.log('Foo leaving')
       next()
     })
+
     return { route }
   },
   template: `
@@ -46,9 +52,12 @@ const Home = defineComponent({
 
     const watchCount = ref(0)
 
-    watch(() => route.query.n, () => {
-      watchCount.value++
-    })
+    watch(
+      () => route.query.n,
+      () => {
+        watchCount.value++
+      }
+    )
 
     function navigate () {
       router.push({ query: { n: 1 + (Number(route.query.n) || 0) }})
@@ -82,11 +91,31 @@ const About = defineComponent({
   `
 })
 
+const Nested = defineComponent({
+  template: `<RouterView />`
+})
+
+const NestedEmpty = defineComponent({
+  template: `<div>NestedEmpty</div>`
+})
+
+const NestedA = defineComponent({
+  template: `<div>NestedA</div>`
+})
+
 const router = new VueRouter({
   mode: 'history',
   base: __dirname,
   routes: [
     { path: '/', component: Home },
+    {
+      path: '/nested',
+      component: Nested,
+      children: [
+        { path: '', component: NestedEmpty },
+        { path: 'a', component: NestedA }
+      ]
+    },
     { path: '/about', component: About }
   ]
 })
@@ -98,9 +127,20 @@ new Vue({
       <h1>Basic</h1>
       <ul>
         <li><router-link to="/">/</router-link></li>
-        <li><router-link to="/about">/foo</router-link></li>
+        <li><router-link to="/about">/about</router-link></li>
+        <li><router-link to="/nested">/nested</router-link></li>
+        <li><router-link to="/nested/a">/nested/a</router-link></li>
       </ul>
       <router-view class="view"></router-view>
+
+      <pre id="nested-active" @click="navigate">{{ href }}: {{ isActive }}, {{ isExactActive }}</pre>
     </div>
-  `
+  `,
+  setup () {
+    const { href, isActive, isExactActive, navigate, route } = useLink({
+      to: '/nested'
+    })
+
+    return { href, isActive, navigate, route, isExactActive }
+  }
 }).$mount('#app')
