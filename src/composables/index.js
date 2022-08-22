@@ -52,7 +52,7 @@ function useFilteredGuard (guard, fn) {
   const router = useRouter()
 
   let target = i.proxy
-  // find the nearest routerview to know the depth
+  // find the nearest RouterView to know the depth
   while (
     target &&
     target.$vnode &&
