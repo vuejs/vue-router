@@ -1,14 +1,9 @@
 import Vue, { ComponentOptions, PluginFunction, AsyncComponent, VNode } from 'vue'
 
-type Component = ComponentOptions<Vue> | typeof Vue | AsyncComponent | {}
+type Component = ComponentOptions<Vue> | typeof Vue | AsyncComponent
 type Dictionary<T> = { [key: string]: T }
 type ErrorHandler = (err: Error) => void
 
-/**
- * * `"hash"`: uses the URL hash for routing. Works in all Vue-supported browsers, including those that do not support HTML5 History API.
- * * `"history"`: requires HTML5 History API and server config. See HTML5 History Mode.
- * * `"abstract"`: works in all JavaScript environments, e.g. server-side with Node.js. **The router will automatically be forced into this mode if no browser API is present.**
- */
 export type RouterMode = 'hash' | 'history' | 'abstract'
 export type RawLocation = string | Location
 export type RedirectOption = RawLocation | ((to: Route) => RawLocation)
@@ -34,14 +29,7 @@ export declare class VueRouter {
    */
   options: RouterOptions
   /**
-   * Configure the router mode.
-   * 
-   * default: `"hash"` (in browser) | `"abstract"` (in Node.js)
-   * 
-   * available values: `"hash" | "history" | "abstract"`
-   * * `"hash"`: uses the URL hash for routing. Works in all Vue-supported browsers, including those that do not support HTML5 History API.
-   * * `"history"`: requires HTML5 History API and server config. See HTML5 History Mode.
-   * * `"abstract"`: works in all JavaScript environments, e.g. server-side with Node.js. **The router will automatically be forced into this mode if no browser API is present.**
+   * Configured mode when creating the Router instance.
    */
   mode: RouterMode
   /**
@@ -102,7 +90,7 @@ export declare class VueRouter {
   push(to: RawLocation): Promise<Route>
   /**
    * Programmatically navigate to a new URL by pushing an entry in the history stack.
-   * 
+   *
    * @param to Route location to navigate to
    * @param onComplete Navigation success callback
    * @param onAbort Navigation aborted callback
@@ -122,7 +110,7 @@ export declare class VueRouter {
   /**
    * Programmatically navigate to a new URL by replacing the current entry in
    * the history stack.
-   * 
+   *
    * @param to Route location to navigate to
    * @param onComplete Navigation success callback
    * @param onAbort Navigation aborted callback
@@ -154,7 +142,7 @@ export declare class VueRouter {
   getMatchedComponents(to?: RawLocation | Route): Component[]
   /**
    * This method queues a callback to be called when the router has completed the initial navigation, which means it has resolved all async enter hooks and async components that are associated with the initial route.
-   * 
+   *
    * This is useful in server-side rendering to ensure consistent output on both the server and the client.
    * @param cb onReady callback.
    * @param errorCb errorCb will be called when the initial route resolution runs into an error (e.g. failed to resolve an async component).
@@ -187,12 +175,12 @@ export declare class VueRouter {
    */
   addRoute(route: RouteConfig): void
   /**
-   * Get the list of all the active route records. 
+   * Get the list of all the active route records.
    */
   getRoutes(): RouteRecordPublic[]
 
   /**
-   * 
+   *
    * @param to Route location
    * @param current current is the current Route by default (most of the time you don't need to change this)
    * @param append allows you to append the path to the `current` route (as with `router-link`)
@@ -230,7 +218,7 @@ export declare class VueRouter {
 
 /**
  * Enumeration with all possible types for navigation failures.
- * 
+ *
  * Can be passed to {@link isNavigationFailure} to check for specific failures.
  */
 export enum NavigationFailureType {
@@ -289,13 +277,13 @@ export interface RouterOptions {
   routes?: RouteConfig[]
   /**
    * Configure the router mode.
-   * 
+   *
    * default: `"hash"` (in browser) | `"abstract"` (in Node.js)
-   * 
+   *
    * available values: `"hash" | "history" | "abstract"`
-   * * `"hash"`: uses the URL hash for routing. Works in all Vue-supported browsers, including those that do not support HTML5 History API.
-   * * `"history"`: requires HTML5 History API and server config. See HTML5 History Mode.
-   * * `"abstract"`: works in all JavaScript environments, e.g. server-side with Node.js. **The router will automatically be forced into this mode if no browser API is present.**
+   * - `"hash"`: uses the URL hash for routing. Works in all Vue-supported browsers, including those that do not support HTML5 History API.
+   * - `"history"`: requires HTML5 History API and server config. See HTML5 History Mode.
+   * - `"abstract"`: works in all JavaScript environments, e.g. server-side with Node.js. **The router will automatically be forced into this mode if no browser API is present.**
    */
   mode?: RouterMode
   fallback?: boolean
@@ -318,7 +306,7 @@ export interface RouterOptions {
   stringifyQuery?: (query: Object) => string
   /**
    * Function to control scrolling when navigating between pages. Can return a Promise to delay scrolling.
-   * 
+   *
    * For more details see {@link Scroll Behavior}.
    */
   scrollBehavior?: (
