@@ -20,28 +20,3 @@ export declare function onBeforeRouteUpdate(updateGuard: NavigationGuard): void
  * @param leaveGuard NavigationGuard
  */
 export declare function onBeforeRouteLeave(leaveGuard: NavigationGuard): void
-
-export {
-  type RouterMode,
-  type RouteMeta,
-  type RawLocation,
-  type RedirectOption,
-  type RouterOptions,
-  type RouteConfig,
-  type RouteRecord,
-  type RouteRecordPublic,
-  type Location,
-  type Route,
-  type NavigationGuard,
-  type NavigationGuardNext,
-  type NavigationFailure,
-  NavigationFailureType,
-  isNavigationFailure,
-  START_LOCATION,
-  type RouterViewProps,
-  RouterView,
-  type RouterLinkProps,
-  type RouterLinkSlotArgument,
-  RouterLink,
-  VueRouter as default,
-} from './router'
