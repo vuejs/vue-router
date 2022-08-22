@@ -414,13 +414,13 @@ export interface RouteMeta extends Record<string | number | symbol, any> {}
 
 export interface RouterLinkProps {
   /**
-   * Denotes the target route of the link. When clicked, the value of the `to` prop will be passed to `router.push()`
-   * internally, so the value can be either a string or a location descriptor object.
+   * Denotes the target route of the link. When clicked, the value of the `to` prop will be passed to
+   * `router.push()` internally, so the value can be either a string or a location descriptor object.
    */
   to: string | Location
   /**
    * Setting `replace` prop will call `router.replace()` instead of `router.push()` when clicked, so the navigation will
-   * not leave a history record.
+   * not create a new history record.
    *
    * @default false
    */
