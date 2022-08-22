@@ -21,3 +21,5 @@ export type {
   NavigationFailureType,
   NavigationFailure
 } from './router'
+
+import './composables'
