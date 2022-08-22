@@ -1,7 +1,9 @@
 import './vue'
-import { VueRouter } from './router'
+import { VueRouter, RouterLink, RouterView } from './router'
 
 export default VueRouter
+// TODO: does this really work with the new keyword?
+export { RouterView, RouterLink }
 
 export type {
   RouterMode,
