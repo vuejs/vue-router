@@ -17,6 +17,7 @@
   "files": [
     "src",
     "dist/*.js",
+    "dist/*.mjs",
     "types/*.d.ts",
     "vetur/tags.json",
     "vetur/attributes.json"
