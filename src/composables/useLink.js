@@ -94,11 +94,11 @@ export function useLink (props) {
   )
 
   const navigate = e => {
-    const route = resolvedRoute.value.route
+    const href = resolvedRoute.value.route
     if (guardEvent(e)) {
       return props.replace
-        ? router.replace(route.value)
-        : router.push(route.value)
+        ? router.replace(href)
+        : router.push(href)
     }
     return Promise.resolve()
   }
