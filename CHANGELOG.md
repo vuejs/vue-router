@@ -15,7 +15,7 @@ Since these composables **require Vue 2.7**, they are only exposed under `vue-ro
 - **types:** expose RouterLink and RouterView in d.ts ([cad978a](https://github.com/vuejs/vue-router/commit/cad978a832174aac59cad86fe780f8a64a9754d7))
 - add RouterLink and RouterView to esm ([4511f39](https://github.com/vuejs/vue-router/commit/4511f393334247c9702ed378220bf925cdc09add))
 - add vue 2.7 types ([cba9650](https://github.com/vuejs/vue-router/commit/cba9650e5cbf958c1db9cd259a2e7bfbc28bddbe))
-- onBeforeRouteUpdatee onBeforeRouteLeave ([9861c55](https://github.com/vuejs/vue-router/commit/9861c553627f5f34a07ad3ac28e2ed02aab99d47))
+- onBeforeRouteUpdate onBeforeRouteLeave ([9861c55](https://github.com/vuejs/vue-router/commit/9861c553627f5f34a07ad3ac28e2ed02aab99d47))
 - useRoute and useRouter ([ea35594](https://github.com/vuejs/vue-router/commit/ea355943e097914ae55fa54ccb7df929c901e80d))
 
 ## [3.5.4](https://github.com/vuejs/vue-router/compare/v3.5.3...v3.5.4) (2022-05-16)
