@@ -1,5 +1,5 @@
 /*!
-  * vue-router v3.5.4
+  * vue-router v3.6.0
   * (c) 2022 Evan You
   * @license MIT
   */
@@ -1972,25 +1972,6 @@ function replaceState (url) {
   pushState(url, true);
 }
 
-/*  */
-
-function runQueue (queue, fn, cb) {
-  const step = index => {
-    if (index >= queue.length) {
-      cb();
-    } else {
-      if (queue[index]) {
-        fn(queue[index], () => {
-          step(index + 1);
-        });
-      } else {
-        step(index + 1);
-      }
-    }
-  };
-  step(0);
-}
-
 // When changing thing, also edit router.d.ts
 const NavigationFailureType = {
   redirected: 2,
@@ -2076,6 +2057,25 @@ function isNavigationFailure (err, errorType) {
     err._isRouter &&
     (errorType == null || err.type === errorType)
   )
+}
+
+/*  */
+
+function runQueue (queue, fn, cb) {
+  const step = index => {
+    if (index >= queue.length) {
+      cb();
+    } else {
+      if (queue[index]) {
+        fn(queue[index], () => {
+          step(index + 1);
+        });
+      } else {
+        step(index + 1);
+      }
+    }
+  };
+  step(0);
 }
 
 /*  */
@@ -2850,6 +2850,8 @@ class AbstractHistory extends History {
 
 /*  */
 
+
+
 class VueRouter {
   
   
@@ -3107,14 +3109,17 @@ function createHref (base, fullPath, mode) {
   return base ? cleanPath(base + '/' + path) : path
 }
 
-VueRouter.install = install;
-VueRouter.version = '3.5.4';
-VueRouter.isNavigationFailure = isNavigationFailure;
-VueRouter.NavigationFailureType = NavigationFailureType;
-VueRouter.START_LOCATION = START;
-
 if (inBrowser && window.Vue) {
   window.Vue.use(VueRouter);
 }
 
-export default VueRouter;
+// We cannot remove this as it would be a breaking change
+VueRouter.install = install;
+VueRouter.version = '3.6.0';
+VueRouter.isNavigationFailure = isNavigationFailure;
+VueRouter.NavigationFailureType = NavigationFailureType;
+VueRouter.START_LOCATION = START;
+
+const version = '3.6.0';
+
+export { NavigationFailureType, Link as RouterLink, View as RouterView, START as START_LOCATION, VueRouter as default, isNavigationFailure, version };
