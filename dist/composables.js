@@ -1,5 +1,5 @@
 /*!
-  * vue-router v3.6.2
+  * vue-router v3.6.3
   * (c) 2022 Evan You
   * @license MIT
   */
