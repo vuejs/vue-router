@@ -1,6 +1,15 @@
-import Vue, { ComponentOptions, PluginFunction, AsyncComponent, VNode } from 'vue'
+import Vue, {
+  PluginFunction,
+  AsyncComponent,
+  VNode,
+  Component as _Component
+} from 'vue'
 
-type Component = ComponentOptions<Vue> | typeof Vue | AsyncComponent
+type Component =
+  | {}
+  | _Component<any, any, any, any, any>
+  | AsyncComponent<any, any, any, any>
+
 type Dictionary<T> = { [key: string]: T }
 type ErrorHandler = (err: Error) => void
 
