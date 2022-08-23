@@ -1,8 +1,8 @@
 import './vue'
-import { VueRouter, RouterLink, RouterView, START_LOCATION } from './router'
+import { VueRouter, RouterLink, RouterView, START_LOCATION, NavigationFailureType, isNavigationFailure } from './router'
 
 export default VueRouter
-export { RouterView, RouterLink, START_LOCATION }
+export { RouterView, RouterLink, START_LOCATION, NavigationFailureType, isNavigationFailure }
 
 export type {
   RouterMode,
@@ -17,7 +17,6 @@ export type {
   Route,
   NavigationGuard,
   NavigationGuardNext,
-  NavigationFailureType,
   NavigationFailure
 } from './router'
 
