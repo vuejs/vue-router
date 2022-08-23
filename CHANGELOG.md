@@ -1,3 +1,11 @@
+## [3.6.3](https://github.com/vuejs/vue-router/compare/v3.6.2...v3.6.3) (2022-08-23)
+
+### Bug Fixes
+
+- **build:** export all named exports esm build ([a6647c8](https://github.com/vuejs/vue-router/commit/a6647c8c3d7022f1b702935461c7d234b052ca06))
+- **types:** allow jsx components ([0cb86b3](https://github.com/vuejs/vue-router/commit/0cb86b3865b713201f9db49c7a8d23e9a2876f29)), closes [#3776](https://github.com/vuejs/vue-router/issues/3776)
+- **types:** missing NavigationFailureType and isNavigationFailure ([#3777](https://github.com/vuejs/vue-router/issues/3777)) ([9d001dd](https://github.com/vuejs/vue-router/commit/9d001dd0bebdea1e1a8ec2f0c77113b6a2e2b6a3))
+
 ## [3.6.2](https://github.com/vuejs/vue-router/compare/v3.6.1...v3.6.2) (2022-08-23)
 
 ### Bug Fixes
