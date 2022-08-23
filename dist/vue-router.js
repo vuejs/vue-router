@@ -1,5 +1,5 @@
 /*!
-  * vue-router v3.6.0
+  * vue-router v3.6.1
   * (c) 2022 Evan You
   * @license MIT
   */
@@ -3148,16 +3148,16 @@
     return base ? cleanPath(base + '/' + path) : path
   }
 
-  if (inBrowser && window.Vue) {
-    window.Vue.use(VueRouter);
-  }
-
   // We cannot remove this as it would be a breaking change
   VueRouter.install = install;
-  VueRouter.version = '3.6.0';
+  VueRouter.version = '3.6.1';
   VueRouter.isNavigationFailure = isNavigationFailure;
   VueRouter.NavigationFailureType = NavigationFailureType;
   VueRouter.START_LOCATION = START;
+
+  if (inBrowser && window.Vue) {
+    window.Vue.use(VueRouter);
+  }
 
   return VueRouter$1;
 
