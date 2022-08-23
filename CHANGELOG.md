@@ -1,3 +1,9 @@
+## [3.6.1](https://github.com/vuejs/vue-router/compare/v3.6.0...v3.6.1) (2022-08-23)
+
+### Bug Fixes
+
+- **build:** ensure install fn before Vue.use ([0126bcb](https://github.com/vuejs/vue-router/commit/0126bcbfb0e3cb824bfce05090ca018faf02ce5e)), closes [#3772](https://github.com/vuejs/vue-router/issues/3772)
+
 # [3.6.0](https://github.com/vuejs/vue-router/compare/v3.5.4...v3.6.0) (2022-08-22)
 
 This release of Vue Router introduces composables from Vue Router 4:
