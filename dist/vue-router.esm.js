@@ -3154,4 +3154,6 @@ if (inBrowser && window.Vue) {
   window.Vue.use(VueRouter);
 }
 
-export { VueRouter$1 as default };
+var version = '3.6.2';
+
+export { NavigationFailureType, Link as RouterLink, View as RouterView, START as START_LOCATION, VueRouter$1 as default, isNavigationFailure, version };
