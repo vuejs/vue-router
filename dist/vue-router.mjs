@@ -3,8 +3,6 @@
   * (c) 2022 Evan You
   * @license MIT
   */
-'use strict';
-
 /*  */
 
 function assert (condition, message) {
@@ -3156,4 +3154,6 @@ if (inBrowser && window.Vue) {
   window.Vue.use(VueRouter);
 }
 
-module.exports = VueRouter$1;
+var version = '3.6.2';
+
+export { NavigationFailureType, Link as RouterLink, View as RouterView, START as START_LOCATION, VueRouter$1 as default, isNavigationFailure, version };
