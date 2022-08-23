@@ -30,8 +30,13 @@ module.exports = [
     format: 'cjs'
   },
   {
-    input: resolve('src/entries/esm.js'),
+    input: resolve('src/index.js'),
     file: resolve('dist/vue-router.esm.js'),
+    format: 'es'
+  },
+  {
+    input: resolve('src/entries/esm.js'),
+    file: resolve('dist/vue-router.mjs'),
     format: 'es'
   },
   {
