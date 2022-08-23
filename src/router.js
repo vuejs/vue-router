@@ -282,13 +282,13 @@ function createHref (base: string, fullPath: string, mode) {
   return base ? cleanPath(base + '/' + path) : path
 }
 
-if (inBrowser && window.Vue) {
-  window.Vue.use(VueRouter)
-}
-
 // We cannot remove this as it would be a breaking change
 VueRouter.install = install
 VueRouter.version = '__VERSION__'
 VueRouter.isNavigationFailure = isNavigationFailure
 VueRouter.NavigationFailureType = NavigationFailureType
 VueRouter.START_LOCATION = START
+
+if (inBrowser && window.Vue) {
+  window.Vue.use(VueRouter)
+}
