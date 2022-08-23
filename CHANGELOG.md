@@ -1,3 +1,10 @@
+## [3.6.2](https://github.com/vuejs/vue-router/compare/v3.6.1...v3.6.2) (2022-08-23)
+
+### Bug Fixes
+
+- **build:** add mjs build ([b4c3940](https://github.com/vuejs/vue-router/commit/b4c39404eff7ae2f657c405d7b0f939ce20cfdec))
+- **types:** missing start location ([1356acb](https://github.com/vuejs/vue-router/commit/1356acb983c5eccb00c5c0ec3f406218ae49a8c1))
+
 ## [3.6.1](https://github.com/vuejs/vue-router/compare/v3.6.0...v3.6.1) (2022-08-23)
 
 ### Bug Fixes
