@@ -1,4 +1,4 @@
-import Vue, { ComponentOptions, AsyncComponent } from 'vue'
+import Vue, { ComponentOptions, AsyncComponent, Component } from 'vue'
 
 import VueRouter from '../index'
 import {
@@ -54,6 +54,11 @@ const Hook: ComponentOptions<Vue> = {
   }
 }
 
+const JSXComponent = () => {
+  $props: {
+  }
+}
+
 const router = new VueRouter({
   mode: 'history',
   base: '/',
@@ -104,7 +109,8 @@ const router = new VueRouter({
             default: Foo,
             bar: Bar,
             abc: Abc,
-            asyncComponent: Async
+            asyncComponent: Async,
+            JSXComponent
           },
           meta: { auth: true, nested: { foo: '' } },
           beforeEnter(to, from, next) {
@@ -154,7 +160,7 @@ const matched: RouteRecord[] = route.matched
 matched.forEach(m => {
   const path: string = m.path
   const components: {
-    [key: string]: ComponentOptions<Vue> | typeof Vue | AsyncComponent
+    [key: string]: Component | AsyncComponent | {}
   } = m.components
   const instances: { [key: string]: Vue } = m.instances
   const name: string | undefined | null = m.name
@@ -226,9 +232,9 @@ router.back()
 router.forward()
 
 const Components: (
-  | ComponentOptions<Vue>
-  | typeof Vue
+  | Component
   | AsyncComponent
+  | {}
 )[] = router.getMatchedComponents()
 
 const match: Route = router.match('/more')
