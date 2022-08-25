@@ -55,12 +55,12 @@ module.exports = [
   },
   {
     input: resolve('src/composables/index.js'),
-    file: resolve('./dist/composables.mjs'),
+    file: resolve('./composables.mjs'),
     format: 'es'
   },
   {
     input: resolve('src/composables/index.js'),
-    file: resolve('./dist/composables.js'),
+    file: resolve('./composables.js'),
     format: 'cjs'
   }
 ].map(genConfig)

@@ -19,6 +19,8 @@
     "dist/*.js",
     "dist/*.mjs",
     "types/*.d.ts",
+    "composables.mjs",
+    "composables.js",
     "composables.d.ts",
     "vetur/tags.json",
     "vetur/attributes.json"
@@ -33,9 +35,9 @@
       "types": "./types/index.d.ts"
     },
     "./composables": {
-      "import": "./dist/composables.mjs",
-      "require": "./dist/composables.js",
-      "types": "./types/composables.d.ts"
+      "import": "./composables.mjs",
+      "require": "./composables.js",
+      "types": "./composables.d.ts"
     },
     "./dist/*": "./dist/*",
     "./types/*": "./types/*",
