@@ -1,3 +1,11 @@
+## [3.6.4](https://github.com/vuejs/vue-router/compare/v3.6.3...v3.6.4) (2022-08-25)
+
+This release fixes some compatibility issues of the new `vue-router/composables` with webpack 4.
+
+### Features
+
+- **types:** add composables.d.ts in root ([#3784](https://github.com/vuejs/vue-router/issues/3784)) ([0cf54de](https://github.com/vuejs/vue-router/commit/0cf54de782a0b05692bbe78a7181495b6a35b8d9))
+
 ## [3.6.3](https://github.com/vuejs/vue-router/compare/v3.6.2...v3.6.3) (2022-08-23)
 
 ### Bug Fixes
