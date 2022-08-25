@@ -19,6 +19,7 @@
     "dist/*.js",
     "dist/*.mjs",
     "types/*.d.ts",
+    "composables.d.ts",
     "vetur/tags.json",
     "vetur/attributes.json"
   ],
