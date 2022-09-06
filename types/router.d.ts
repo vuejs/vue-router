@@ -7,7 +7,7 @@ import Vue, {
 
 type Component =
   | {}
-  | _Component<any, any, any, any, any>
+  | _Component<any, any, any, any>
   | AsyncComponent<any, any, any, any>
 
 type Dictionary<T> = { [key: string]: T }
