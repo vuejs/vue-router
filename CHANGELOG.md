@@ -1,3 +1,9 @@
+## [3.6.5](https://github.com/vuejs/vue-router/compare/v3.6.4...v3.6.5) (2022-09-06)
+
+### Bug Fixes
+
+- **types:** Component with 4 generics for Vue 2.6 ([d6064df](https://github.com/vuejs/vue-router/commit/d6064df1112497dac98e4302d81607efdb1a58c6)), closes [#3786](https://github.com/vuejs/vue-router/issues/3786)
+
 ## [3.6.4](https://github.com/vuejs/vue-router/compare/v3.6.3...v3.6.4) (2022-08-25)
 
 This release fixes some compatibility issues of the new `vue-router/composables` with webpack 4.
