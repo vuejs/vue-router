@@ -453,17 +453,6 @@ router.addRoutes(routes: Array<RouteConfig>)
 
 Dynamically add more routes to the router. The argument must be an Array using the same route config format with the `routes` constructor option.
 
-### router.addRoute
-
-> New in 3.5.0
-
-Add a new route to the router. If the route has a `name` and there is already an existing one with the same one, it overwrites it.
-
-Signature:
-
-```ts
-addRoute(route: RouteConfig): () => void
-```
 
 ### router.addRoute
 
