@@ -9,8 +9,8 @@ Vue.js와 vue-router로 단일 페이지 애플리케이션을 만드는 것은 
 ### HTML
 
 ``` html
-<script src="https://unpkg.com/vue/dist/vue.js"></script>
-<script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
+<script src="https://unpkg.com/vue@2/dist/vue.js"></script>
+<script src="https://unpkg.com/vue-router@3/dist/vue-router.js"></script>
 
 <div id="app">
   <h1>Hello App!</h1>
