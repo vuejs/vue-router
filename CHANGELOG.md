@@ -38,7 +38,7 @@ This release fixes some compatibility issues of the new `vue-router/composables`
 This release of Vue Router introduces composables from Vue Router 4:
 
 ```js
-import { useRoute, useRouter, useLink, onBeforeRouteUpdate onBeforeRouteLeave } from 'vue-router/composables'
+import { useRoute, useRouter, useLink, onBeforeRouteUpdate, onBeforeRouteLeave } from 'vue-router/composables'
 ```
 
 Since these composables **require Vue 2.7**, they are only exposed under `vue-router/composables` submodule, so it shouldn't affect you if you stay on Vue 2.6 (Note there are no new features or fixes besides the composables in this release). Refer to [the Vue Router 4 API documentation](https://router.vuejs.org/api/#onbeforerouteleave) for details on the composables.
