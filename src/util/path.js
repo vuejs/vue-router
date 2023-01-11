@@ -69,6 +69,17 @@ export function parsePath (path: string): {
   }
 }
 
-export function cleanPath (path: string): string {
-  return path.replace(/\/(?:\s*\/)+/g, '/')
+export function cleanPath (path: string, base: ?string): string {
+  let prefix = ''
+  if (base) {
+    // allow base to specify an origin
+    const match = base.match(/^((?:[^\/]+:)?\/\/)/)
+    if (match) {
+      prefix = match[0]
+      path = base.slice(prefix.length) + path
+    } else {
+      path = base + path
+    }
+  }
+  return prefix + path.replace(/\/(?:\s*\/)+/g, '/')
 }
