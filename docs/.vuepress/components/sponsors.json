@@ -1,13 +1,6 @@
 {
   "platinum": [],
-  "gold": [
-    {
-      "href": "https://vuejobs.com/?utm_source=vuerouter&utm_campaign=sponsor",
-      "alt": "VueJobs",
-      "imgSrcLight": "https://posva-sponsors.pages.dev/logos/vuejobs.svg",
-      "imgSrcDark": "https://posva-sponsors.pages.dev/logos/vuejobs.svg"
-    }
-  ],
+  "gold": [],
   "silver": [
     {
       "href": "https://www.vuemastery.com/",
@@ -31,7 +24,7 @@
     },
     {
       "alt": "Antony Konstantinidis",
-      "href": "www.vuejs.de",
+      "href": "https://www.vuejs.de",
       "imgSrcDark": "https://avatars.githubusercontent.com/u/4183726?u=6b50a8ea16de29d2982f43c5640b1db9299ebcd1&v=4",
       "imgSrcLight": "https://avatars.githubusercontent.com/u/4183726?u=6b50a8ea16de29d2982f43c5640b1db9299ebcd1&v=4"
     },
@@ -45,7 +38,7 @@
       "href": "https://nuxtjs.org",
       "imgSrcLight": "https://posva-sponsors.pages.dev/logos/nuxt-light.svg",
       "imgSrcDark": "https://posva-sponsors.pages.dev/logos/nuxt-dark.svg",
-      "alt": "NuxtJS"
+      "alt": "Nuxt Labs"
     }
   ]
 }
