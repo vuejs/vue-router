@@ -22,14 +22,18 @@ export function createMatcher (
 ): Matcher {
   const { pathList, pathMap, nameMap } = createRouteMap(routes)
 
+  let _optimizedMatcher = optimizedMatcher(pathList, pathMap)
+
   function addRoutes (routes) {
     createRouteMap(routes, pathList, pathMap, nameMap)
+    _optimizedMatcher = optimizedMatcher(pathList, pathMap)
   }
 
   function addRoute (parentOrRoute, route) {
     const parent = (typeof parentOrRoute !== 'object') ? nameMap[parentOrRoute] : undefined
     // $flow-disable-line
     createRouteMap([route || parentOrRoute], pathList, pathMap, nameMap, parent)
+    _optimizedMatcher = optimizedMatcher(pathList, pathMap)
 
     // add aliases of parent
     if (parent && parent.alias.length) {
@@ -82,12 +86,9 @@ export function createMatcher (
       return _createRoute(record, location, redirectedFrom)
     } else if (location.path) {
       location.params = {}
-      for (let i = 0; i < pathList.length; i++) {
-        const path = pathList[i]
-        const record = pathMap[path]
-        if (matchRoute(record.regex, location.path, location.params)) {
-          return _createRoute(record, location, redirectedFrom)
-        }
+      const record = _optimizedMatcher(location.path, location.params)
+      if (record) {
+        return _createRoute(record, location, redirectedFrom)
       }
     }
     // no match
@@ -223,4 +224,83 @@ function matchRoute (
 
 function resolveRecordPath (path: string, record: RouteRecord): string {
   return resolvePath(path, record.parent ? record.parent.path : '/', true)
+}
+
+function isStatic (route) {
+  return (
+    // Custom regex options are dynamic.
+    Object.keys(route.pathToRegexpOptions).length === 0 &&
+    // Dynamic paths have /:placeholder or anonymous placeholder /(.+) or wildcard *.
+    !/[:(*]/.exec(route.path)
+  )
+}
+
+function firstLevelStatic (path) {
+  // firstLevel = ['/p/', '/p', '/' index: 0, input: '/p/b/c', groups: undefined]
+  const firstLevel = /^(\/[^:(*/]+)(\/|$)/.exec(path)
+  return firstLevel && firstLevel[1]
+}
+
+function optimizedMatcher (
+  pathList: Array<string>,
+  pathMap: Dictionary<RouteRecord>
+) {
+  // Lookup table
+  // e.g. Route /p/b is mapped as {"/p/b": route}
+  const staticMap = {}
+  // Buckets with the first level static path.
+  // e.g. Route /p/b/:id is mapped as {"/p": [route]}
+  const firstLevelStaticMap = {}
+  // Array of everything else.
+  const dynamic = []
+
+  pathList.forEach((path, index) => {
+    const route = pathMap[path]
+    const normalizedPath = route.regex.ignoreCase ? path.toLowerCase() : path
+    if (isStatic(route)) {
+      staticMap[normalizedPath] = { index, route }
+    } else {
+      const firstLevel = firstLevelStatic(path.toLowerCase())
+      if (firstLevel) {
+        if (!firstLevelStaticMap[firstLevel]) {
+          firstLevelStaticMap[firstLevel] = []
+        }
+        firstLevelStaticMap[firstLevel].push({ index, route })
+      } else {
+        dynamic.push({ index, route })
+      }
+    }
+  })
+
+  function match (path, params) {
+    const cleanPath = path.replace(/\/$/, '').toLowerCase()
+    let record = staticMap[cleanPath]
+
+    const firstLevel = firstLevelStatic(path)
+    const firstLevelRoutes = firstLevelStaticMap[firstLevel] || []
+
+    for (let i = 0; i < firstLevelRoutes.length; i++) {
+      const { index, route } = firstLevelRoutes[i]
+      if (record && index >= record.index) {
+        break
+      }
+      if (matchRoute(route.regex, path, params)) {
+        record = firstLevelRoutes[i]
+        break
+      }
+    }
+
+    for (let j = 0; j < dynamic.length; j++) {
+      const { index, route } = dynamic[j]
+      if (record && index >= record.index) {
+        break
+      }
+      if (matchRoute(route.regex, path, params)) {
+        record = dynamic[j]
+      }
+    }
+    return record && record.route
+  }
+
+  return match
 }
