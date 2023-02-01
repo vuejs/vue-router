@@ -54,7 +54,7 @@ export function createMatcher (
     redirectedFrom?: Location
   ): Route {
     const location = normalizeLocation(raw, currentRoute, false, router)
-    const { name } = location
+    const { name, path } = location
 
     if (name) {
       const record = nameMap[name]
@@ -80,12 +80,17 @@ export function createMatcher (
 
       location.path = fillParams(record.path, location.params, `named route "${name}"`)
       return _createRoute(record, location, redirectedFrom)
-    } else if (location.path) {
+    } else if (path) {
       location.params = {}
+      const staticRecord = pathMap[path]
+      if (staticRecord) {
+        if (matchRoute(staticRecord.regex, path, location.params)) {
+          return _createRoute(staticRecord, location, redirectedFrom)
+        }
+      }
       for (let i = 0; i < pathList.length; i++) {
-        const path = pathList[i]
-        const record = pathMap[path]
-        if (matchRoute(record.regex, location.path, location.params)) {
+        const record = pathMap[pathList[i]]
+        if (matchRoute(record.regex, path, location.params)) {
           return _createRoute(record, location, redirectedFrom)
         }
       }

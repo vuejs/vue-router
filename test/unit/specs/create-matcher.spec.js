@@ -54,6 +54,24 @@ describe('Creating Matcher', function () {
     expect(matcher.match('/p/c/n').name).toBe('nested')
   })
 
+  it('match default child', function () {
+    const component = { name: 'fake' }
+    const matcher = createMatcher([
+      {
+        path: '/p',
+        name: 'parent',
+        children: [
+          { path: '', name: 'parent.default', component },
+          { path: 'a', name: 'parent.a', component }
+        ]
+      },
+      { path: '*', name: 'not-found', component }
+    ])
+    expect(matcher.match('/p').name).toBe('parent.default')
+    expect(matcher.match('/p/').name).toBe('parent.default')
+    expect(matcher.match('/p/a').name).toBe('parent.a')
+  })
+
   it('can get all routes', function () {
     const component = { name: 'fake' }
     const matcher = createMatcher([])
@@ -150,5 +168,164 @@ describe('Creating Matcher', function () {
     expect(console.warn).not.toHaveBeenCalled()
     expect(pathForErrorRoute).toEqual('/error/')
     expect(pathForNotFoundRoute).toEqual('/')
+  })
+
+  it('respect ordering', function () {
+    const matcher = createMatcher([
+      {
+        path: '/p/staticbefore',
+        name: 'staticbefore',
+        component: { name: 'staticbefore' }
+      },
+      {
+        path: '/p/:id',
+        name: 'dynamic',
+        component: { name: 'dynamic' }
+      },
+      {
+        path: '/p/staticafter',
+        name: 'staticafter',
+        component: { name: 'staticafter' }
+      }
+    ])
+    expect(matcher.match('/p/staticbefore').name).toBe('staticbefore')
+    expect(matcher.match('/p/staticafter').name).toBe('dynamic')
+  })
+
+  it('respect ordering for full dynamic', function () {
+    const matcher = createMatcher([
+      {
+        path: '/before/static',
+        name: 'staticbefore',
+        component: { name: 'staticbefore' }
+      },
+      {
+        path: '/:foo/static',
+        name: 'dynamic',
+        component: { name: 'dynamic' }
+      },
+      {
+        path: '/after/static',
+        name: 'staticafter',
+        component: { name: 'staticafter' }
+      }
+    ])
+    expect(matcher.match('/before/static').name).toBe('staticbefore')
+    expect(matcher.match('/after/static').name).toBe('dynamic')
+  })
+
+  it('respect ordering between full dynamic and first level static', function () {
+    const matcher = createMatcher([
+      {
+        path: '/before/:foo',
+        name: 'staticbefore',
+        component: { name: 'staticbefore' }
+      },
+      {
+        path: '/:foo/static',
+        name: 'dynamic',
+        component: { name: 'dynamic' }
+      },
+      {
+        path: '/after/:foo',
+        name: 'staticafter',
+        component: { name: 'staticafter' }
+      }
+    ])
+    expect(matcher.match('/before/static').name).toBe('staticbefore')
+    expect(matcher.match('/after/static').name).toBe('dynamic')
+  })
+
+  it('static can use sensitive flag', function () {
+    const matcher = createMatcher([
+      {
+        path: '/p/sensitive',
+        name: 'sensitive',
+        pathToRegexpOptions: {
+          sensitive: true
+        },
+        component: { name: 'sensitive' }
+      },
+      {
+        path: '/p/insensitive',
+        name: 'insensitive',
+        component: { name: 'insensitive' }
+      },
+      {
+        path: '*', name: 'not-found', component: { name: 'not-found ' }
+      }
+    ])
+
+    expect(matcher.match('/p/SENSITIVE').name).toBe('not-found')
+    expect(matcher.match('/p/INSENSITIVE').name).toBe('insensitive')
+  })
+
+  it('static can use strict flag', function () {
+    const matcher = createMatcher([
+      {
+        path: '/p/strict',
+        name: 'strict',
+        pathToRegexpOptions: {
+          strict: true
+        },
+        component: { name: 'strict' }
+      },
+      {
+        path: '/p/unstrict',
+        name: 'unstrict',
+        component: { name: 'unstrict' }
+      },
+      {
+        path: '*', name: 'not-found', component: { name: 'not-found ' }
+      }
+    ])
+
+    expect(matcher.match('/p/strict/').name).toBe('not-found')
+    expect(matcher.match('/p/unstrict/').name).toBe('unstrict')
+  })
+
+  it('static can use end flag', function () {
+    const matcher = createMatcher([
+      {
+        path: '/p/end',
+        name: 'end',
+        component: { name: 'end' }
+      },
+      {
+        path: '/p/not-end',
+        name: 'not-end',
+        pathToRegexpOptions: {
+          end: false
+        },
+        component: { name: 'not-end' }
+      },
+      {
+        path: '*', name: 'not-found', component: { name: 'not-found ' }
+      }
+    ])
+
+    expect(matcher.match('/p/end/foo').name).toBe('not-found')
+    expect(matcher.match('/p/not-end/foo').name).toBe('not-end')
+  })
+
+  it('first level dynamic must work', function () {
+    const matcher = createMatcher([
+      {
+        path: '/:foo/b',
+        name: 'b',
+        component: { name: 'b' }
+      },
+      {
+        path: '/p/c',
+        name: 'c',
+        component: { name: 'c' }
+      },
+      {
+        path: '*', name: 'not-found', component: { name: 'not-found ' }
+      }
+    ])
+
+    expect(matcher.match('/p/b').name).toBe('b')
+    expect(matcher.match('/p/c').name).toBe('c')
   })
 })
