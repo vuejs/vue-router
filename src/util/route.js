@@ -150,7 +150,7 @@ export function handleRouteEntered (route: Route) {
   }
 }
 
-export function getTargetRouterViewDepth (target) {
+export function getTargetRouterViewDepth (target: any) {
   return target && target.$vnode && target.$vnode.data ? target.$vnode.data.routerViewDepth
     : null
 }
