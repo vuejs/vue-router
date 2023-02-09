@@ -149,3 +149,8 @@ export function handleRouteEntered (route: Route) {
     }
   }
 }
+
+export function getTargetRouterViewDepth (target) {
+  return target && target.$vnode && target.$vnode.data ? target.$vnode.data.routerViewDepth
+    : null
+}
