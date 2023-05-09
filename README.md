@@ -77,19 +77,19 @@ Get started with the [documentation](http://v3.router.vuejs.org), or play with t
 
 ```bash
 # install deps
-yarn
+npm install
 
 # build dist files
-yarn build
+npm run build
 
 # serve examples at localhost:8080
-yarn dev
+npm run dev
 
 # lint & run all tests
-yarn test
+npm test
 
 # serve docs at localhost:8080
-yarn docs
+npm run docs
 ```
 
 ## Releasing
