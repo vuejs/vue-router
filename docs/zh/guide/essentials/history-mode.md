@@ -75,6 +75,29 @@ http.createServer((req, res) => {
 
 对于 Node.js/Express，请考虑使用 [connect-history-api-fallback 中间件](https://github.com/bripkens/connect-history-api-fallback)。
 
+##### 例子
+```bash
+mkdir express-project
+cd express-project
+npm init
+npm install express connect-history-api-fallback
+touch app.js
+```
+
+```js
+// express-project/app.js
+
+const express = require('express')
+const history = require('connect-history-api-fallback')
+const app = express()
+const server = app
+    .use(history())
+    .use(express.static('dist'))
+    .listen(80, () => {
+        console.log('Node.js is listening to PORT:' + server.address().port)
+    })
+```
+
 #### Internet Information Services (IIS)
 
 1. 安装 [IIS UrlRewrite](https://www.iis.net/downloads/microsoft/url-rewrite)
