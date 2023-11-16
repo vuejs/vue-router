@@ -34,6 +34,12 @@ export function onBeforeRouteLeave (guard) {
   return useFilteredGuard(guard, isLeaveNavigation)
 }
 
+function registerGuard (router, guard, fn, depth) {
+  return router.beforeEach((to, from, next) => {
+    return fn(to, from, depth) ? guard(to, from, next) : next()
+  })
+}
+
 const noop = () => {}
 function useFilteredGuard (guard, fn) {
   const instance = getCurrentInstance()
@@ -56,17 +62,11 @@ function useFilteredGuard (guard, fn) {
       : null
 
   if (depth != null) {
-    const registerGuard = () => {
-      return router.beforeEach((to, from, next) => {
-        return fn(to, from, depth) ? guard(to, from, next) : next()
-      })
-    }
-
-    let removeGuard = registerGuard()
+    let removeGuard = registerGuard(router, guard, fn, depth)
     onUnmounted(removeGuard)
 
     onActivated(() => {
-      removeGuard = removeGuard || registerGuard()
+      removeGuard = removeGuard || registerGuard(router, guard, fn, depth)
     })
     onDeactivated(() => {
       removeGuard()
