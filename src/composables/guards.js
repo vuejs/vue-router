@@ -1,4 +1,4 @@
-import { getCurrentInstance, onUnmounted } from 'vue'
+import { getCurrentInstance, onUnmounted, onActivated, onDeactivated } from 'vue'
 import { throwNoCurrentInstance } from './utils'
 import { useRouter } from './globals'
 
@@ -56,11 +56,23 @@ function useFilteredGuard (guard, fn) {
       : null
 
   if (depth != null) {
-    const removeGuard = router.beforeEach((to, from, next) => {
-      return fn(to, from, depth) ? guard(to, from, next) : next()
+    const registerGuard = () => {
+      return router.beforeEach((to, from, next) => {
+        return fn(to, from, depth) ? guard(to, from, next) : next()
+      })
+    }
+
+    let removeGuard = registerGuard()
+    onUnmounted(removeGuard)
+
+    onActivated(() => {
+      removeGuard = removeGuard || registerGuard()
+    })
+    onDeactivated(() => {
+      removeGuard()
+      removeGuard = null // reset removeGuard
     })
 
-    onUnmounted(removeGuard)
     return removeGuard
   }
 
