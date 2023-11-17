@@ -35,9 +35,9 @@ export function onBeforeRouteLeave (guard) {
 }
 
 function registerGuard (router, guard, fn, depth) {
-  return router.beforeEach((to, from, next) => {
-    return fn(to, from, depth) ? guard(to, from, next) : next()
-  })
+  return router.beforeEach((to, from, next) =>
+    fn(to, from, depth) ? guard(to, from, next) : next()
+  )
 }
 
 const noop = () => {}
@@ -70,7 +70,7 @@ function useFilteredGuard (guard, fn) {
     })
     onDeactivated(() => {
       removeGuard()
-      removeGuard = null // reset removeGuard
+      removeGuard = null
     })
 
     return removeGuard
