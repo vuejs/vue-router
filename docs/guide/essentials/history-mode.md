@@ -133,6 +133,31 @@ Add this to your `firebase.json`:
 }
 ```
 
+#### ASP.NET Core MVC
+
+Add this to your `Startup.cs`:
+
+```csharp
+public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+{
+    ...
+    app.Use(async (context, next) =>
+    {
+        await next();
+
+        var path = context.Request.Path.Value;
+
+        if (context.Response.StatusCode == (int)HttpStatusCode.NotFound && !Path.HasExtension(path) && !path.StartsWith("/api"))
+        {
+            context.Request.Path = "/Home";
+            context.Response.StatusCode = (int)HttpStatusCode.OK;
+            await next();
+        }
+    });
+    ...
+}
+```
+
 ## Caveat
 
 There is a caveat to this: Your server will no longer report 404 errors as all not-found paths now serve up your `index.html` file. To get around the issue, you should implement a catch-all route within your Vue app to show a 404 page:
