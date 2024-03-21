@@ -2,6 +2,7 @@
 
 import type VueRouter from '../index'
 import { stringifyQuery } from './query'
+import { normalizeLocation } from './location'
 
 const trailingSlashRE = /\/?$/
 
@@ -96,8 +97,8 @@ export function isSameRoute (a: Route, b: ?Route, onlyPath: ?boolean): boolean {
 function isObjectEqual (a = {}, b = {}): boolean {
   // handle null value #1566
   if (!a || !b) return a === b
-  const aKeys = Object.keys(a).sort()
-  const bKeys = Object.keys(b).sort()
+  const aKeys = Object.keys(a)
+  const bKeys = Object.keys(b)
   if (aKeys.length !== bKeys.length) {
     return false
   }
@@ -148,4 +149,9 @@ export function handleRouteEntered (route: Route) {
       }
     }
   }
+}
+/** just create a route without any added process */
+export function createPlainRoute (url: string): Route {
+  const location = normalizeLocation(url)
+  return createRoute(null, location)
 }
