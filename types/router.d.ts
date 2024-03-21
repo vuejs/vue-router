@@ -354,12 +354,13 @@ interface RouteConfigMultipleViews extends _RouteConfigBase {
 }
 
 export type RouteConfig = RouteConfigSingleView | RouteConfigMultipleViews
+export type VueInstance = Dictionary<Vue>
 
 export interface RouteRecord {
   path: string
   regex: RegExp
   components: Dictionary<Component>
-  instances: Dictionary<Vue>
+  instances: VueInstance
   name?: string
   parent?: RouteRecord
   redirect?: RedirectOption
@@ -380,7 +381,7 @@ export interface RouteRecord {
 export interface RouteRecordPublic {
   path: string
   components: Dictionary<Component>
-  instances: Dictionary<Vue>
+  instances: VueInstance
   name?: string
   redirect?: RedirectOption
   meta: any
