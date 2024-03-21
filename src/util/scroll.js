@@ -4,6 +4,7 @@ import type Router from '../index'
 import { assert } from './warn'
 import { getStateKey, setStateKey } from './state-key'
 import { extend } from './misc'
+import { cleanPath } from './path'
 
 const positionStore = Object.create(null)
 
@@ -22,7 +23,8 @@ export function setupScroll () {
   // preserve existing history state as it could be overriden by the user
   const stateCopy = extend({}, window.history.state)
   stateCopy.key = getStateKey()
-  window.history.replaceState(stateCopy, '', absolutePath)
+  // Fix for #2593 clean path to avoid crashing entire app on paths with leading double-slash (http://example.com//foo/bar)
+  window.history.replaceState(stateCopy, '', cleanPath(absolutePath))
   window.addEventListener('popstate', handlePopState)
   return () => {
     window.removeEventListener('popstate', handlePopState)
