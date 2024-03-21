@@ -66,6 +66,12 @@ export class HTML5History extends History {
 
   replace (location: RawLocation, onComplete?: Function, onAbort?: Function) {
     const { current: fromRoute } = this
+    if (typeof location === 'string') {
+      location = { path: location }
+    }
+    if (typeof location === 'object') {
+      (location: Object).replace = true
+    }
     this.transitionTo(location, route => {
       replaceState(cleanPath(this.base + route.fullPath))
       handleScroll(this.router, route, fromRoute, false)
