@@ -10,6 +10,7 @@ import { pushState, replaceState, supportsPushState } from '../util/push-state'
 export class HashHistory extends History {
   constructor (router: Router, base: ?string, fallback: boolean) {
     super(router, base)
+    this.base = normalizeHashBase(this.base, !base)
     // check history fallback deeplinking
     if (fallback && checkFallback(this.base)) {
       return
@@ -133,6 +134,17 @@ function getUrl (path) {
   const i = href.indexOf('#')
   const base = i >= 0 ? href.slice(0, i) : href
   return `${base}#${path}`
+}
+
+function normalizeHashBase (base: string, replace: ?boolean): string {
+  if (!base) return ''
+  if (replace) {
+    const hasOrigin = !!base.match(/^[^\/]+:\/\/[^\/]+/)
+    base = window.location.href
+    // XXX: keep origin for possible cross-origin cases
+    if (!hasOrigin) base = base.replace(/^[^\/]+:\/\/[^\/]+/, '')
+  }
+  return base.replace(/#.*$/, '')
 }
 
 function pushHash (path) {
