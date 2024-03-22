@@ -129,7 +129,7 @@
     "vuepress": "^1.5.3",
     "vuepress-theme-vue": "^1.1.1",
     "webpack": "^4.35.2",
-    "webpack-dev-middleware": "^3.7.0",
+    "webpack-dev-middleware": "^5.3.4",
     "yorkie": "^2.0.0"
   },
   "bugs": {
