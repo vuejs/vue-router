@@ -4,7 +4,7 @@
 
 When using client-side routing, we may want to scroll to top when navigating to a new route, or preserve the scrolling position of history entries just like real page reload does. `vue-router` allows you to achieve these and even better, allows you to completely customize the scroll behavior on route navigation.
 
-**Note: this feature only works if the browser supports `history.pushState`.**
+**Note: this feature only works if the browser supports `history.pushState` and the router uses [HTML5 history mode](../essentials/history-mode.md).**
 
 When creating the router instance, you can provide the `scrollBehavior` function:
 
