@@ -66,3 +66,5 @@ const app = new Vue({
 이 [예제](http://jsfiddle.net/yyx990803/xgrjzsup/)를 확인하십시오.
 
 `<router-link>`는 가리키는 라우트가 일치 할 때 자동으로 `.router-link-active` 클래스를 얻습니다. API 레퍼런스에서 더 많은 것을 배울 수 있습니다.
+
+> 이 문서는 버전 2.6에 맞게 마지막으로 업데이트되었습니다.
