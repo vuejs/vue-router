@@ -84,7 +84,7 @@ declare type Location = {
   name?: string;
   path?: string;
   hash?: string;
-  query?: Dictionary<string>;
+  query?: Dictionary<string | null | Array<string | null>>;
   params?: Dictionary<string>;
   append?: boolean;
   replace?: boolean;
@@ -96,7 +96,7 @@ declare type Route = {
   path: string;
   name: ?string;
   hash: string;
-  query: Dictionary<string>;
+  query: Dictionary<string | null | Array<string | null>>;
   params: Dictionary<string>;
   fullPath: string;
   matched: Array<RouteRecord>;
