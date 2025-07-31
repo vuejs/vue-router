@@ -193,14 +193,23 @@ router.push({
     foo: 'foo'
   },
   query: {
-    bar: 'bar',
-    empty: null,
-    removed: undefined,
-    withEmpty: ['1', null],
-    foo: ['foo1', 'foo2']
+    bar: 'bar',                    
+    empty: null,                   
+    removed: undefined,            
+    withEmpty: ['1', null],       
+    foo: ['foo1', 'foo2'],      
+    queryWithoutValue: null,
+    mixedArray: [null, 'value']
   },
   hash: 'hash'
 })
+
+const routeQuery: Route['query'] = {
+  stringValue: 'test',             
+  nullValue: null,                 
+  arrayValue: ['test', null],      
+  emptyValue: null                 
+}
 router.replace({ name: 'home' })
 
 router.push(

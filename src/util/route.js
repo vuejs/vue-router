@@ -94,26 +94,24 @@ export function isSameRoute (a: Route, b: ?Route, onlyPath: ?boolean): boolean {
 }
 
 function isObjectEqual (a = {}, b = {}): boolean {
-  // handle null value #1566
   if (!a || !b) return a === b
-  const aKeys = Object.keys(a).sort()
-  const bKeys = Object.keys(b).sort()
-  if (aKeys.length !== bKeys.length) {
-    return false
+  if (Array.isArray(a) && Array.isArray(b)) {
+    return a.length === b.length && a.every((v, i) => String(v) === String(b[i]))
   }
-  return aKeys.every((key, i) => {
-    const aVal = a[key]
-    const bKey = bKeys[i]
-    if (bKey !== key) return false
-    const bVal = b[key]
-    // query values can be null and undefined
-    if (aVal == null || bVal == null) return aVal === bVal
-    // check nested equality
-    if (typeof aVal === 'object' && typeof bVal === 'object') {
+  if (a instanceof Object && b instanceof Object) {
+    const aKeys = Object.keys(a).sort()
+    const bKeys = Object.keys(b).sort()
+    if (aKeys.length !== bKeys.length) return false
+    return aKeys.every((key, i) => {
+      const aVal = a[key]
+      const bKey = bKeys[i]
+      if (bKey !== key) return false
+      const bVal = b[key]
+      if (aVal == null || bVal == null) return aVal === bVal
       return isObjectEqual(aVal, bVal)
-    }
-    return String(aVal) === String(bVal)
-  })
+    })
+  }
+  return String(a) === String(b)
 }
 
 export function isIncludedRoute (current: Route, target: Route): boolean {
@@ -126,11 +124,9 @@ export function isIncludedRoute (current: Route, target: Route): boolean {
   )
 }
 
-function queryIncludes (current: Dictionary<string>, target: Dictionary<string>): boolean {
+function queryIncludes (current: QueryDictionary, target: QueryDictionary): boolean {
   for (const key in target) {
-    if (!(key in current)) {
-      return false
-    }
+    if (!(key in current)) return false
   }
   return true
 }
