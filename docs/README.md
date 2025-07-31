@@ -6,6 +6,10 @@ actionLink: /installation.html
 footer: MIT Licensed | Copyright © 2014-present Evan You, Eduardo San Martin Morote
 ---
 
+::: tip VERSION NOTE
+This documentation is up to date with Vue Router v2.6
+:::
+
 Vue Router is the official router for [Vue.js](http://vuejs.org). It deeply integrates with Vue.js core to make building Single Page Applications with Vue.js a breeze. Features include:
 
 - Nested route/view mapping

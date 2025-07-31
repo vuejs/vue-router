@@ -8,6 +8,10 @@ footer: MIT Licensed | Copyright © 2014-present Evan You, Eduardo San Martin Mo
 
 <div class="vueschool"><a href="https://vueschool.io/courses/vue-router-for-everyone?friend=vuerouter" target="_blank" rel="sponsored noopener" title="Learn how to build powerful Single Page Applications with the Vue Router on Vue School">Watch a free video course about Vue Router on Vue School</a></div>
 
+::: tip バージョン情報
+このドキュメントは Vue Router v2.4 に対応しています
+:::
+
 Vue Router は [Vue.js](http://vuejs.org) 公式ルータです。これは Vue.js のコアと深く深く統合されており、Vue.js でシングルページアプリケーションを構築します。機能は次の通りです:
 
 - ネストされたルート/ビューマッピング
