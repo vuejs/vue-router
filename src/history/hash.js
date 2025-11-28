@@ -3,6 +3,7 @@
 import type Router from '../index'
 import { History } from './base'
 import { cleanPath } from '../util/path'
+import { isSameRoute, createPlainRoute } from '../util/route'
 import { getLocation } from './html5'
 import { setupScroll, handleScroll } from '../util/scroll'
 import { pushState, replaceState, supportsPushState } from '../util/push-state'
@@ -87,8 +88,10 @@ export class HashHistory extends History {
   }
 
   ensureURL (push?: boolean) {
-    const current = this.current.fullPath
-    if (getHash() !== current) {
+    const location = getHash()
+    const plainRoute = createPlainRoute(location)
+    if (!isSameRoute(plainRoute, this.current)) {
+      const current = this.current.fullPath
       push ? pushHash(current) : replaceHash(current)
     }
   }
