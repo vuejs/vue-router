@@ -44,6 +44,34 @@ location / {
 
 Für Node.js/Express benutz du am besten [connect-history-api-fallback middleware](https://github.com/bripkens/connect-history-api-fallback).
 
+#### Golang (gorilla/mux)
+
+```go
+package main
+import (
+	"net/http"
+	"os"
+	"github.com/gorilla/mux"
+)
+var httpPort = "80"
+var indexFile = "index.html"
+var folder = "./"
+
+func serverHandler(w http.ResponseWriter, r *http.Request) {
+	if _, err := os.Stat(folder + r.URL.Path); err != nil {
+		http.ServeFile(w, r, folder+"/index.html")
+		return
+	}
+	http.ServeFile(w, r, folder+r.URL.Path)
+}
+func main() {
+	r := mux.NewRouter()
+	r.NotFoundHandler = r.NewRoute().HandlerFunc(serverHandler).GetHandler()
+	http.Handle("/", r)
+	http.ListenAndServe(":"+httpPort, nil)
+}
+```
+
 ## Warnung
 
 Es gibt einen kleinen Nachteil: Der Server wird  keine 404-Fehler mehr melden, da alle nicht gefundenen Pfade zur `index.html` führen. Um das zu beheben, solltest du eine Sammel-Route in der Vue-App für die 404-Seite definieren.

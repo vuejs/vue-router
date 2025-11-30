@@ -75,6 +75,32 @@ http.createServer((req, res) => {
 
 对于 Node.js/Express，请考虑使用 [connect-history-api-fallback 中间件](https://github.com/bripkens/connect-history-api-fallback)。
 
+#### Golang 的 (gorilla/mux)
+
+```go
+package main
+import (
+	"net/http"
+	"os"
+	"github.com/gorilla/mux"
+)
+var httpPort = "80"
+var indexFile = "index.html"
+func serverHandler(w http.ResponseWriter, r *http.Request) {
+	if _, err := os.Stat(indexFile); err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	http.ServeFile(w, r, indexFile)
+}
+func main() {
+	r := mux.NewRouter()
+	r.NotFoundHandler = r.NewRoute().HandlerFunc(serverHandler).GetHandler()
+	http.Handle("/", r)
+	http.ListenAndServe(":"+httpPort, nil)
+}
+```
+
 #### Internet Information Services (IIS)
 
 1. 安装 [IIS UrlRewrite](https://www.iis.net/downloads/microsoft/url-rewrite)

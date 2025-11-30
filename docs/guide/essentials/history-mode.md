@@ -75,6 +75,33 @@ http.createServer((req, res) => {
 
 For Node.js/Express, consider using [connect-history-api-fallback middleware](https://github.com/bripkens/connect-history-api-fallback).
 
+
+#### Golang with (gorilla/mux)
+
+```go
+package main
+import (
+	"net/http"
+	"os"
+	"github.com/gorilla/mux"
+)
+var httpPort = "80"
+var indexFile = "index.html"
+func serverHandler(w http.ResponseWriter, r *http.Request) {
+	if _, err := os.Stat(indexFile); err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	http.ServeFile(w, r, indexFile)
+}
+func main() {
+	r := mux.NewRouter()
+	r.NotFoundHandler = r.NewRoute().HandlerFunc(serverHandler).GetHandler()
+	http.Handle("/", r)
+	http.ListenAndServe(":"+httpPort, nil)
+}
+```
+
 #### Internet Information Services (IIS)
 
 1. Install [IIS UrlRewrite](https://www.iis.net/downloads/microsoft/url-rewrite)
