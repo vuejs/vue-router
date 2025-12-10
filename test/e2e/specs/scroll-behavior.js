@@ -9,6 +9,7 @@ module.exports = {
     const TIMEOUT = 2000
 
     browser
+
       .url('http://localhost:8080/scroll-behavior/')
       .waitForElementVisible('#app', 1000)
       .assert.count('li a', 6)
@@ -137,6 +138,15 @@ module.exports = {
         null,
         'scroll to anchor on load'
       )
+
+      // #2593 no crash on malformed URL
+      .url('http://localhost:8080//scroll-behavior')
+      .execute(function () {
+        location.reload(true)
+      })
+      .waitForElementVisible('#app', 1000)
+      .assert.count('li a', 6)
+      .assert.containsText('.view', 'home')
 
       .end()
   }
