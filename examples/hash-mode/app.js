@@ -40,7 +40,7 @@ const Query = { template: '<div>query: "{{ $route.params.q }}"</div>' }
 // 3. Create the router
 const router = new VueRouter({
   mode: 'hash',
-  base: __dirname,
+  base: require('path').join(__dirname, '/'),
   routes: [
     { path: '/', component: Home }, // all paths are defined without the hash.
     { path: '/foo', component: Foo },

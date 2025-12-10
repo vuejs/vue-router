@@ -272,19 +272,27 @@ function normalizeBase (base: ?string): string {
     if (inBrowser) {
       // respect <base> tag
       const baseEl = document.querySelector('base')
-      base = (baseEl && baseEl.getAttribute('href')) || '/'
-      // strip full URL origin
-      base = base.replace(/^https?:\/\/[^\/]+/, '')
+      base = (baseEl && baseEl.getAttribute('href') && typeof baseEl.href === 'string') ? baseEl.href : ''
+      if (base) {
+        const href = window.location.href
+        const locationOrigin = href.replace(/^([^\/]+:\/\/[^\/]*)?.*$/, '$1')
+        const baseOrigin = base.replace(/^([^\/]+:\/\/[^\/]*)?.*$/, '$1')
+        if (locationOrigin === baseOrigin) {
+          base = base.slice(baseOrigin.length)
+        } else {
+          // XXX: hash and history modes do not support cross-origin
+          base = locationOrigin
+        }
+      }
     } else {
-      base = '/'
+      base = ''
     }
   }
   // make sure there's the starting slash
-  if (base.charAt(0) !== '/') {
+  if (base && base.charAt(0) !== '/' && !base.match(/^[^\/]+:\/\//)) {
     base = '/' + base
   }
-  // remove trailing slash
-  return base.replace(/\/$/, '')
+  return base
 }
 
 function resolveQueue (

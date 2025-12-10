@@ -279,7 +279,9 @@ function registerHook (list: Array<any>, fn: Function): Function {
 
 function createHref (base: string, fullPath: string, mode) {
   var path = mode === 'hash' ? '#' + fullPath : fullPath
-  return base ? cleanPath(base + '/' + path) : path
+  // '/main.html#/foo' should not be converted to '/main.html/#/foo'
+  if (base && mode !== 'hash') base = base.replace(/\/?$/, '/')
+  return base ? cleanPath(path, base) : path
 }
 
 // We cannot remove this as it would be a breaking change
