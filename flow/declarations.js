@@ -1,3 +1,5 @@
+/* @flow */
+
 declare var document: Document;
 
 declare class RouteRegExp extends RegExp {
@@ -18,6 +20,8 @@ declare module 'path-to-regexp' {
 }
 
 declare type Dictionary<T> = { [key: string]: T }
+declare type QueryValue = string | null | Array<string | null>
+declare type QueryDictionary = { [key: string]: QueryValue }
 
 declare type NavigationGuard = (
   to: Route,
@@ -84,7 +88,7 @@ declare type Location = {
   name?: string;
   path?: string;
   hash?: string;
-  query?: Dictionary<string>;
+  query?: QueryDictionary;
   params?: Dictionary<string>;
   append?: boolean;
   replace?: boolean;
@@ -96,7 +100,7 @@ declare type Route = {
   path: string;
   name: ?string;
   hash: string;
-  query: Dictionary<string>;
+  query: QueryDictionary;
   params: Dictionary<string>;
   fullPath: string;
   matched: Array<RouteRecord>;

@@ -49,9 +49,9 @@ export function normalizeLocation (
     ? resolvePath(parsedPath.path, basePath, append || next.append)
     : basePath
 
-  const query = resolveQuery(
+  const query: QueryDictionary = resolveQuery(
     parsedPath.query,
-    next.query,
+    next.query || {},
     router && router.options.parseQuery
   )
 

@@ -27,9 +27,9 @@ export function decode (str: string) {
 
 export function resolveQuery (
   query: ?string,
-  extraQuery: Dictionary<string> = {},
+  extraQuery: QueryDictionary = {},
   _parseQuery: ?Function
-): Dictionary<string> {
+): QueryDictionary {
   const parse = _parseQuery || parseQuery
   let parsedQuery
   try {
@@ -49,7 +49,7 @@ export function resolveQuery (
 
 const castQueryParamValue = value => (value == null || typeof value === 'object' ? value : String(value))
 
-function parseQuery (query: string): Dictionary<string> {
+function parseQuery (query: string): QueryDictionary {
   const res = {}
 
   query = query.trim().replace(/^(\?|#|&)/, '')
@@ -75,7 +75,7 @@ function parseQuery (query: string): Dictionary<string> {
   return res
 }
 
-export function stringifyQuery (obj: Dictionary<string>): string {
+export function stringifyQuery (obj: QueryDictionary): string {
   const res = obj
     ? Object.keys(obj)
       .map(key => {
