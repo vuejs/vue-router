@@ -1,5 +1,5 @@
 import { getCurrentInstance, onUnmounted } from 'vue'
-import { throwNoCurrentInstance } from './utils'
+import { throwNoCurrentInstance, getTargetRouterViewDepth } from './utils'
 import { useRouter } from './globals'
 
 export function onBeforeRouteUpdate (guard) {
@@ -42,19 +42,12 @@ function useFilteredGuard (guard, fn) {
   let target = instance.proxy
   // find the nearest RouterView to know the depth
   while (
-    target &&
-    target.$vnode &&
-    target.$vnode.data &&
-    target.$vnode.data.routerViewDepth == null
+    getTargetRouterViewDepth(target)
   ) {
     target = target.$parent
   }
 
-  const depth =
-    target && target.$vnode && target.$vnode.data
-      ? target.$vnode.data.routerViewDepth
-      : null
-
+  const depth = getTargetRouterViewDepth(target)
   if (depth != null) {
     const removeGuard = router.beforeEach((to, from, next) => {
       return fn(to, from, depth) ? guard(to, from, next) : next()
