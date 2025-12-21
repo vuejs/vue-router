@@ -97,6 +97,12 @@ describe('Creating Route Map', function () {
     }).toThrowError(/"path" is required/)
   })
 
+  it('in development, throws if component is null or undefined', function () {
+    process.env.NODE_ENV = 'development'
+    maps = createRouteMap([{ path: '/' }])
+    expect(console.warn).toHaveBeenCalled()
+  })
+
   it('in production, it has not logged this warning', function () {
     maps = createRouteMap(routes)
     expect(console.warn).not.toHaveBeenCalled()
