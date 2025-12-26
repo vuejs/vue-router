@@ -8,6 +8,10 @@ footer: MIT Licensed | Copyright © 2014-present Evan You, Eduardo San Martin Mo
 
 <div class="vueschool"><a href="https://vueschool.io/courses/vue-router-for-everyone?friend=vuerouter" target="_blank" rel="sponsored noopener" title="Learn how to build powerful Single Page Applications with the Vue Router on Vue School">观看 Vue School 的关于 Vue Router 的免费视频课程 (英文)</a></div>
 
+::: tip 版本说明
+此文档更新至 Vue Router v2.3
+:::
+
 Vue Router 是 [Vue.js](http://cn.vuejs.org) 官方的路由管理器。它和 Vue.js 的核心深度集成，让构建单页面应用变得易如反掌。包含的功能有：
 
 - 嵌套的路由/视图表

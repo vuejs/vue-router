@@ -6,6 +6,10 @@ actionLink: /fr/installation.html
 footer: MIT Licensed | Copyright © 2014-present Evan You, Eduardo San Martin Morote
 ---
 
+::: tip NOTE DE VERSION
+Cette documentation est à jour avec Vue Router v2.5
+:::
+
 Vue Router est le router officiel pour [Vue.js](http://vuejs.org). Il s'intègre aisément avec Vue.js pour faire des applications mono page avec Vue.js. Fonctionnalités incluses:
 
 - Vues et routes imbriquées

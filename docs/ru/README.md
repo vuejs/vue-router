@@ -6,6 +6,10 @@ actionLink: /ru/installation.html
 footer: MIT Licensed | Copyright © 2014-present Evan You, Eduardo San Martin Morote
 ---
 
+::: tip ИНФОРМАЦИЯ О ВЕРСИИ
+Эта документация обновлена для Vue Router v2.1
+:::
+
 Vue Router — официальная библиотека маршрутизации для [Vue.js](https://ru.vuejs.org/). Она глубоко интегрируется с Vue.js и позволяет легко создавать SPA-приложения. Включает следующие возможности:
 
 - Вложенные маршруты/представления

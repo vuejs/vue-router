@@ -6,6 +6,10 @@ actionLink: /kr/installation.html
 footer: MIT Licensed | Copyright © 2014-present Evan You, Eduardo San Martin Morote
 ---
 
+::: tip 버전 정보
+이 문서는 Vue Router v2.0까지 반영되어 있습니다
+:::
+
 Vue 라우터는 [Vue.js](http://vuejs.org)의 공식 라우터입니다.
 Vue.js를 사용한 싱글 페이지 앱을 쉽게 만들 수 있도록 Vue.js의 코어와 긴밀히 통합되어 있습니다.
 

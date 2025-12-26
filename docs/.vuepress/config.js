@@ -85,8 +85,9 @@ module.exports = ctx => ({
     smoothScroll: true,
     locales: {
       '/': {
-        label: 'English',
+        label: 'English (Up to v2.6)',
         selectText: 'Languages',
+        version: '2.6',
         editLinkText: 'Edit this page on GitHub',
         nav: [
           {
@@ -139,8 +140,9 @@ module.exports = ctx => ({
         ]
       },
       '/zh/': {
-        label: '简体中文',
+        label: '简体中文 (Up to v2.3)',
         selectText: '选择语言',
+        version: '2.3',
         editLinkText: '在 GitHub 上编辑此页',
         nav: [
           {
@@ -193,8 +195,9 @@ module.exports = ctx => ({
         ]
       },
       '/ja/': {
-        label: '日本語',
+        label: '日本語 (Up to v2.4)',
         selectText: '言語',
+        version: '2.4',
         editLinkText: 'GitHub 上でこのページを編集する',
         nav: [
           {
@@ -247,8 +250,9 @@ module.exports = ctx => ({
         ]
       },
       '/ru/': {
-        label: 'Русский',
+        label: 'Русский (Up to v2.1)',
         selectText: 'Переводы',
+        version: '2.1',
         editLinkText: 'Изменить эту страницу на GitHub',
         nav: [
           {
@@ -301,8 +305,9 @@ module.exports = ctx => ({
         ]
       },
       '/kr/': {
-        label: '한국어',
+        label: '한국어 (Up to v2.0)',
         selectText: '언어',
+        version: '2.0',
         editLinkText: 'GitHub에서 이 문서를 수정하세요',
         nav: [
           {
@@ -354,8 +359,9 @@ module.exports = ctx => ({
         ]
       },
       '/fr/': {
-        label: 'Français',
+        label: 'Français (Up to v2.5)',
         selectText: 'Langues',
+        version: '2.5',
         editLinkText: 'Editer cette page sur Github',
         nav: [
           {
