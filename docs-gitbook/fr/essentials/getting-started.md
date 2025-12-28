@@ -90,3 +90,5 @@ Dans les documentations, nous allons souvent utiliser l'instance `router`. Garde
 Vous pouvez aussi regarder cet [exemple](https://jsfiddle.net/yyx990803/xgrjzsup/).
 
 Notez qu'un `<router-link>` obtiendra automatiquement la classe `.router-link-active` lorsque sa route cible correspond à la route actuelle. Vous pouvez en apprendre plus à propos de cela dans sa [documentation d'API](../api/router-link.md).
+
+> Cette documentation a été mise à jour pour la dernière fois pour la version 2.6.

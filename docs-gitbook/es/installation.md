@@ -42,3 +42,5 @@ cd node_modules/vue-router
 npm install
 npm run build
 ```
+
+> Esta documentación fue actualizada por última vez para la versión 2.6.

@@ -3,32 +3,32 @@ module.exports = ctx => ({
     '/': {
       lang: 'en-US',
       title: 'Vue Router',
-      description: 'The official router for Vue.js.'
+      description: 'The official router for Vue.js. (Up to v2.6)'
     },
     '/zh/': {
       lang: 'zh-CN',
       title: 'Vue Router',
-      description: 'Vue.js 官方的路由管理器。'
+      description: 'Vue.js 官方的路由管理器。 (Up to v2.6)'
     },
     '/ja/': {
       lang: 'ja',
       title: 'Vue Router',
-      description: 'Vue.js の公式ルータ'
+      description: 'Vue.js の公式ルータ (Up to v2.6)'
     },
     '/ru/': {
       lang: 'ru',
       title: 'Vue Router',
-      description: 'Официальный маршрутизатор для Vue.js.'
+      description: 'Официальный маршрутизатор для Vue.js. (Up to v2.6)'
     },
     '/kr/': {
       lang: 'kr',
       title: 'Vue Router',
-      description: 'Vue.js 공식 라우터'
+      description: 'Vue.js 공식 라우터 (Up to v2.6)'
     },
     '/fr/': {
       lang: 'fr',
       title: 'Vue Router',
-      description: 'Routeur officiel pour Vue.Js'
+      description: 'Routeur officiel pour Vue.Js (Up to v2.6)'
     }
   },
   head: [
