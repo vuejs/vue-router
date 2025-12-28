@@ -64,6 +64,7 @@ export function normalizeLocation (
     _normalized: true,
     path,
     query,
-    hash
+    hash,
+    replace: !!next.replace
   }
 }
