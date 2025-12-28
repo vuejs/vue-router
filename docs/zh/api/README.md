@@ -436,6 +436,8 @@ router.addRoutes(routes: Array<RouteConfig>)
 
 ### router.addRoute
 
+> 3.5.0新增
+
 添加一条新路由规则。如果该路由规则有 `name`，并且已经存在一个与之相同的名字，则会覆盖它。
 
 函数签名:
@@ -445,6 +447,8 @@ addRoute(route: RouteConfig): () => void
 ```
 
 ### router.addRoute
+
+> 3.5.0新增
 
 添加一条新的路由规则记录作为现有路由的子路由。如果该路由规则有 `name`，并且已经存在一个与之相同的名字，则会覆盖它。
 
