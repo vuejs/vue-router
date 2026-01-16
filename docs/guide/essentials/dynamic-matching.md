@@ -35,8 +35,25 @@ You can have multiple dynamic segments in the same route, and they will map to c
 | ----------------------------- | ------------------- | -------------------------------------- |
 | /user/:username               | /user/evan          | `{ username: 'evan' }`                 |
 | /user/:username/post/:post_id | /user/evan/post/123 | `{ username: 'evan', post_id: '123' }` |
+| /user/:username/post/:post_id?| /user/evan/post     | `{ username: 'evan' }`                 |
 
 In addition to `$route.params`, the `$route` object also exposes other useful information such as `$route.query` (if there is a query in the URL), `$route.hash`, etc. You can check out the full details in the [API Reference](../../api/#the-route-object).
+
+## Optional Param
+
+often we will need to map the same route with and without param to the same component. For example, we may have a `User` component which should be rendered for all users or a specific ID. In `vue-router` we can use a dynamic segment in the path to achieve that:
+```js
+const User = {
+  template: '<div>User</div>'
+}
+
+const router = new VueRouter({
+  routes: [
+    // dynamic segments start with a colon
+    { path: '/user/:id?', component: User }
+  ]
+})
+```
 
 ## Reacting to Params Changes
 
