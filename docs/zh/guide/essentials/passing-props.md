@@ -6,7 +6,7 @@
 
 使用 `props` 将组件和路由解耦：
 
-**取代与 `$route` 的耦合**
+**不应该耦合到 `$route` **
 
 ```js
 const User = {
