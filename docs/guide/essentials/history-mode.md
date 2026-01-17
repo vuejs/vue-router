@@ -119,7 +119,7 @@ rewrite {
 
 Add this to your `firebase.json`:
 
-```
+```json
 {
   "hosting": {
     "public": "dist",
@@ -132,6 +132,22 @@ Add this to your `firebase.json`:
   }
 }
 ```
+
+#### Google AppEngine
+
+Try the following handlers in your `app.yaml`:
+
+```yaml
+  - url: /(.*\.(js|css|png|jpg|json|ico|svg))$
+    static_files: dist/\1
+    upload: dist/.*\.(js|css|png|jpg|json|ico|svg)$
+
+    # catch all handler to index.html
+  - url: /.*
+    static_files: dist/index.html
+    upload: dist/index.html
+```
+
 
 ## Caveat
 
