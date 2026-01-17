@@ -136,6 +136,12 @@ function isNumber (v: any): boolean {
 
 const hashStartsWithNumberRE = /^#\d/
 
+function getContainerElement (containerSelector: any): any {
+  return hashStartsWithNumberRE.test(containerSelector) // $flow-disable-line
+    ? document.getElementById(containerSelector.slice(1)) // $flow-disable-line
+    : document.querySelector(containerSelector)
+}
+
 function scrollToPosition (shouldScroll, position) {
   const isObject = typeof shouldScroll === 'object'
   if (isObject && typeof shouldScroll.selector === 'string') {
@@ -160,16 +166,21 @@ function scrollToPosition (shouldScroll, position) {
   }
 
   if (position) {
+    let containerElement = window
+    if (isObject && typeof shouldScroll.container === 'string') {
+      containerElement = getContainerElement(shouldScroll.container)
+    }
+
     // $flow-disable-line
     if ('scrollBehavior' in document.documentElement.style) {
-      window.scrollTo({
+      containerElement.scrollTo({
         left: position.x,
         top: position.y,
         // $flow-disable-line
         behavior: shouldScroll.behavior
       })
     } else {
-      window.scrollTo(position.x, position.y)
+      containerElement.scrollTo(position.x, position.y)
     }
   }
 }
