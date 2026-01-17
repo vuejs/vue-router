@@ -133,6 +133,20 @@ Add this to your `firebase.json`:
 }
 ```
 
+#### Vercel
+
+Add this to your `vercel.json` (or see other options in the [Vercel SPA Fallback Routing docs](https://vercel.com/docs/configuration#routes/advanced/spa-fallback)):
+
+```
+{
+  "version": 2,
+  "routes": [
+    { "handle": "filesystem" },
+    { "src": "/.*", "dest": "/index.html" }
+  ]
+}
+```
+
 ## Caveat
 
 There is a caveat to this: Your server will no longer report 404 errors as all not-found paths now serve up your `index.html` file. To get around the issue, you should implement a catch-all route within your Vue app to show a 404 page:
