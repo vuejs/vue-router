@@ -133,6 +133,16 @@ Add this to your `firebase.json`:
 }
 ```
 
+#### Lighttpd
+
+Make sure `"mod_rewrite"` is included in `server.modules` and add this to your `lighttpd.conf`:
+
+```
+url.rewrite-if-not-file = (
+  "^/(.*)" => "/index.html"
+)
+```
+
 ## Caveat
 
 There is a caveat to this: Your server will no longer report 404 errors as all not-found paths now serve up your `index.html` file. To get around the issue, you should implement a catch-all route within your Vue app to show a 404 page:
