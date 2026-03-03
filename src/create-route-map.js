@@ -88,6 +88,23 @@ function addRouteRecord (
   if (typeof route.caseSensitive === 'boolean') {
     pathToRegexpOptions.sensitive = route.caseSensitive
   }
+  // =============================================================
+
+  if (process.env.NODE_ENV !== 'production') {
+    if (
+      route.component === null ||
+     (route.components != null &&
+        Object.keys(route.components).some(
+          key => route.components != null && route.components[key] === null
+        ))
+    ) {
+      warn(
+        false,
+        `Route with path "${route.path}" has a null component.`
+      )
+    }
+  }
+  // ====================================================
 
   const record: RouteRecord = {
     path: normalizedPath,
