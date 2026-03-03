@@ -84,6 +84,19 @@ describe('Creating Matcher', function () {
     )
   })
 
+  it('in development, warns if a route component is null', function () {
+    process.env.NODE_ENV = 'development'
+
+    createMatcher([
+      { path: '/null-test', component: null }
+    ])
+
+    expect(console.warn).toHaveBeenCalled()
+    expect(console.warn.calls.argsFor(0)[0]).toMatch(
+      'Route with path "/null-test" has a null component'
+    )
+  })
+
   it('in production, it has not logged this warning', function () {
     match({ name: 'foo' }, routes[0])
     expect(console.warn).not.toHaveBeenCalled()
@@ -152,3 +165,4 @@ describe('Creating Matcher', function () {
     expect(pathForNotFoundRoute).toEqual('/')
   })
 })
+
