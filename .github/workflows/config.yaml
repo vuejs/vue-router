@@ -1,0 +1,81 @@
+version: 2
+
+defaults: &defaults
+  working_directory: ~/project/vue-router
+  docker:
+    - image: circleci/node:lts-browsers
+
+jobs:
+  install:
+    <<: *defaults
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - v1-vue-router-{{ .Branch }}-{{ checksum "yarn.lock" }}
+            - v1-vue-router-{{ .Branch }}-
+            - v1-vue-router-
+      - run: yarn install
+      - save_cache:
+          key: v1-vue-router-{{ .Branch }}-{{ checksum "yarn.lock" }}
+          paths:
+            - node_modules/
+      - persist_to_workspace:
+          root: ~/project
+          paths:
+            - vue-router
+
+  lint-flow-types:
+    <<: *defaults
+    steps:
+      - attach_workspace:
+          at: ~/project
+      - run: yarn run lint
+      - run: yarn run flow
+      - run: yarn run test:types
+
+  test-unit:
+    <<: *defaults
+    steps:
+      - attach_workspace:
+          at: ~/project
+      - run: yarn run test:unit
+      # add codecov once it is actually ran
+      # - run:
+      #    name: report coverage stats for non-PRs
+      #    command: |
+      #      if [[ -z $CI_PULL_REQUEST ]]; then
+      #        ./node_modules/.bin/codecov
+      #      fi
+
+  test-e2e:
+    <<: *defaults
+    steps:
+      - attach_workspace:
+          at: ~/project
+      - run: yarn run test:e2e
+
+  test-e2e-bs-ie9:
+    <<: *defaults
+    steps:
+      - attach_workspace:
+          at: ~/project
+      - run: yarn run test:e2e:ie9
+
+workflows:
+  version: 2
+  install-and-parallel-test:
+    jobs:
+      - install
+      - test-unit:
+          requires:
+            - install
+      - lint-flow-types:
+          requires:
+            - install
+      - test-e2e:
+          requires:
+            - install
+      - test-e2e-bs-ie9:
+          requires:
+            - install
