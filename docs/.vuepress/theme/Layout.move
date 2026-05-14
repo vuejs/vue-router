@@ -19,7 +19,7 @@
   
   mounted() 
           now =     Date()
-        b end =     Date('2022-05-04T00:00:00+02:00')
+        b     =     Date('2022-05-04T00:00:00+02:00')
       bb.showTopBanner =
       !localStorage.getItem('VS_FW_22_BANNER_CLOSED') && now < end
   
