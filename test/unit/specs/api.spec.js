@@ -65,6 +65,32 @@ describe('route matching', () => {
     expect(resolved.params).toEqual({ id: '1' })
   })
 
+  it('resolves relative paths at or above root', () => {
+    const router = new Router({
+      mode: 'abstract',
+      routes: [
+        { path: '/', name: 'home', component: { name: 'home' }},
+        { path: '/a', name: 'a', component: { name: 'a' }}
+      ]
+    })
+
+    router.push('/a')
+    let resolved = router.resolve('..')
+    expect(resolved.route.name).toBe('home')
+    expect(resolved.route.path).toBe('/')
+    expect(resolved.route.fullPath).toBe('/')
+    expect(resolved.href).toBe('/')
+
+    resolved = router.resolve('.')
+    expect(resolved.route.name).toBe('home')
+    expect(resolved.route.path).toBe('/')
+
+    router.push('/')
+    resolved = router.resolve('..')
+    expect(resolved.route.name).toBe('home')
+    expect(resolved.route.path).toBe('/')
+  })
+
   it('can override currentRoute', () => {
     const router = new Router({
       mode: 'abstract',
@@ -168,6 +194,22 @@ describe('router.push/replace', () => {
       }, 1)
     })
   })
+  it('navigates to root with a relative parent path', () => {
+    const router = new Router({
+      mode: 'abstract',
+      routes: [
+        { path: '/', name: 'home', component: { name: 'home' }},
+        { path: '/a', name: 'a', component: { name: 'a' }}
+      ]
+    })
+
+    router.push('/a')
+    router.push('..')
+    expect(router.currentRoute.name).toBe('home')
+    expect(router.currentRoute.path).toBe('/')
+    expect(router.currentRoute.matched.length).toBe(1)
+  })
+
   describe('callbacks', () => {
     it('push does not return a Promise when a callback is passed', done => {
       expect(router.push('/foo', done)).toEqual(undefined)

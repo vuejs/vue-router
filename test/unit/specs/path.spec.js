@@ -36,6 +36,12 @@ describe('Path utils', () => {
       const path = resolvePath('#hi', '/a/b')
       expect(path).toBe('/a/b#hi')
     })
+
+    it('relative parent at or beyond root stays at root', () => {
+      expect(resolvePath('..', '/')).toBe('/')
+      expect(resolvePath('..', '/a')).toBe('/')
+      expect(resolvePath('../..', '/a/b')).toBe('/')
+    })
   })
 
   describe('parsePath', () => {

@@ -29,6 +29,19 @@ describe('Location utils', () => {
       expect(JSON.stringify(loc.query)).toBe(JSON.stringify({}))
     })
 
+    it('relative parent at or above root', () => {
+      expect(normalizeLocation('..', { path: '/' }).path).toBe('/')
+      expect(normalizeLocation('..', { path: '/abc' }).path).toBe('/')
+      expect(normalizeLocation('../..', { path: '/abc/def' }).path).toBe('/')
+      expect(normalizeLocation('.', { path: '/abc' }).path).toBe('/')
+      expect(normalizeLocation('..?foo=bar#hi', { path: '/abc' })).toEqual({
+        _normalized: true,
+        path: '/',
+        query: { foo: 'bar' },
+        hash: '#hi'
+      })
+    })
+
     it('relative', () => {
       const loc = normalizeLocation('abc?foo=bar&baz=qux#hello', {
         path: '/root/next'

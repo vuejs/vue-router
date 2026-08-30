@@ -39,7 +39,7 @@ export function resolvePath (
     stack.unshift('')
   }
 
-  return stack.join('/')
+  return stack.join('/') || '/'
 }
 
 export function parsePath (path: string): {
